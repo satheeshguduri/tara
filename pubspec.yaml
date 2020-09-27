@@ -1,0 +1,130 @@
+name: tara_app
+description: Tara app for consumer,agents and merchants
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  #Form validator
+  wc_form_validators: 0.1.1
+
+  logging: 0.11.3+2
+  after_layout: ^1.0.7+2
+
+  #Firbase libraries for analytics,crash reporting, messaging and core
+  firebase_analytics: 5.0.11
+  firebase_crashlytics: 0.1.3+3
+  firebase_messaging: 6.0.13
+  firebase_core: 0.4.4+3
+  firebase_remote_config: 0.3.1+1
+
+  # Google Fonts
+  google_fonts: 1.0.0
+
+  #to display a toast
+  toast: 0.1.5
+
+  # MobX is a library for reactively managing the state of your applications. Use the power of
+  # observables, actions, and reactions to supercharge your Dart and Flutter apps.
+  mobx: 1.1.1
+  flutter_mobx: 1.1.0
+
+  #An image carousel slider
+  carousel_slider: 2.0.0
+
+  #To add the flavours for both android and iOS
+  flutter_flavorizr: 1.0.7
+
+  # The following adds the shared pref as a dependency in your application
+  shared_preferences: 0.5.10
+
+  # This package provides internationalization and localization facilities, including message
+  # translation, plurals and genders, date/number formatting and parsing, and bidirectional text.
+  intl: ^0.16.1
+
+  #Provider Package for sharing the data across the app - advanced implementation for inherited widget
+  provider: 4.0.5
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the Cupertino Icons class for iOS style icons.
+  cupertino_icons: 0.1.3
+
+  #helper to achieve the local key value based storage
+  localstorage: 3.0.2+5
+
+  #Json annotation can be used for json serializer
+  json_annotation: 3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  #build runner used to auto generate the source
+  build_runner:
+
+  #To generate the serializable object for a data model
+  json_serializable:
+
+  #MobX store code auto generation library
+  mobx_codegen:
+
+dependency_overrides:
+  analyzer: '0.39.14'
+# Run this script to generate the app icon: flutter pub run flutter_launcher_icons:main
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_icon.png"
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+  fonts:
+    - family: Scto Grotesk A
+      fonts:
+        - asset: assets/fonts/Scto Grotesk A Medium.otf
+          weight: 500
+        - asset: assets/fonts/Scto Grotesk A Regular.otf
+        - asset: assets/fonts/Scto Grotesk A Bold.otf
+          weight: 700
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/.15498.otf
+          weight: 700
+        - asset: assets/fonts/.15510.otf
+        - asset: assets/fonts/.15508.otf
+          weight: 500
+    - family: .AppleSystemUIFont
+      fonts:
+        - asset: assets/fonts/SFNS.ttf
