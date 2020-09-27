@@ -4,13 +4,20 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfebde36-ab0d-47d3-bcd2-e1385610a792" name="Default Changelist" comment="" />
+    <list default="true" id="cfebde36-ab0d-47d3-bcd2-e1385610a792" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/.last_build_id" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/.last_build_id" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tara_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/tara_app.iml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="JellyBean" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -36,6 +43,9 @@
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/common/constants" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -66,22 +76,50 @@
       <option name="project" value="LOCAL" />
       <updated>1601230930087</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="cleaning the project">
+      <created>1601235520975</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1601235520975</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Base version of the Tara App.">
+      <created>1601235649071</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1601235649071</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="removed the apple codec emoji file." />
-    <option name="LAST_COMMIT_MESSAGE" value="removed the apple codec emoji file." />
+    <MESSAGE value="cleaning the project" />
+    <MESSAGE value="Base version of the Tara App." />
+    <option name="LAST_COMMIT_MESSAGE" value="Base version of the Tara App." />
   </component>
   <component name="WindowStateProjectService">
+    <state x="340" y="99" key="#Menus_and_Toolbars" timestamp="1601236253289">
+      <screen x="0" y="23" width="1680" height="983" />
+    </state>
+    <state x="340" y="99" key="#Menus_and_Toolbars/0.23.1680.983@0.23.1680.983" timestamp="1601236253289" />
+    <state x="340" y="99" key="#Project_Structure" timestamp="1601236214505">
+      <screen x="0" y="23" width="1680" height="983" />
+    </state>
+    <state x="340" y="99" key="#Project_Structure/0.23.1680.983@0.23.1680.983" timestamp="1601236214505" />
+    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601236067940">
+      <screen x="0" y="23" width="1680" height="983" />
+    </state>
+    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.983@0.23.1680.983" timestamp="1601236067940" />
     <state x="488" y="303" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601031154051">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
     <state x="488" y="303" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.983@0.23.1680.983" timestamp="1601031154051" />
-    <state x="394" y="23" key="CommitChangelistDialog2" timestamp="1601235519981">
+    <state x="394" y="23" key="CommitChangelistDialog2" timestamp="1601235648499">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state x="394" y="23" key="CommitChangelistDialog2/0.23.1680.983@0.23.1680.983" timestamp="1601235519981" />
+    <state x="394" y="23" key="CommitChangelistDialog2/0.23.1680.983@0.23.1680.983" timestamp="1601235648499" />
     <state width="1628" height="161" key="GridCell.Tab.0.bottom" timestamp="1601232207908">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
@@ -102,14 +140,14 @@
       <screen x="0" y="23" width="1680" height="983" />
     </state>
     <state x="526" y="63" key="RollbackChangesDialog/0.23.1680.983@0.23.1680.983" timestamp="1601232100209" />
-    <state x="191" y="109" key="SettingsEditor" timestamp="1601220988973">
+    <state x="191" y="109" key="SettingsEditor" timestamp="1601236090005">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state x="191" y="109" key="SettingsEditor/0.23.1680.983@0.23.1680.983" timestamp="1601220988973" />
-    <state x="340" y="186" key="Vcs.Push.Dialog.v2" timestamp="1601235522816">
+    <state x="191" y="109" key="SettingsEditor/0.23.1680.983@0.23.1680.983" timestamp="1601236090005" />
+    <state x="340" y="186" key="Vcs.Push.Dialog.v2" timestamp="1601235650723">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.23.1680.983@0.23.1680.983" timestamp="1601235522816" />
+    <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.23.1680.983@0.23.1680.983" timestamp="1601235650723" />
     <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1601232030393">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
