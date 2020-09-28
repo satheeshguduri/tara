@@ -83,7 +83,7 @@ class _TaraAppState extends BaseState<TaraApp> {
                   return supportedLocales.first;
                 },
                 home: TestWidget(),
-                title: getTranslation(Strings.APP_TITLE),
+                title: "Tara",//AppLocalizations.of(context).translate(Strings.APP_TITLE),//getTranslation(context,Strings.APP_TITLE),
                 theme: themeData
             )
     );
@@ -114,6 +114,7 @@ class TestWidget extends BaseStateLessWidget  {
                 textAlign: TextAlign.center,
               ),
               RoundedButton(),
+              CustomButton(title:'Test'),
               ImageButton(icon: Image.asset('assets/images/icon-2.png'),title: "Add Account",)
 
             ],
