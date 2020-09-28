@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
+import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 
 class AgenttHomeScreen extends StatefulWidget {
   AgenttHomeScreen({Key key, this.title}) : super(key: key);
@@ -102,7 +104,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
                                       height: 25,
                                       margin: EdgeInsets.only(top: 8),
                                       child: Image.asset(
-                                        "assets/images/icon-6.png",
+                                        Assets.ic_home,
                                         fit: BoxFit.none,
                                       ),
                                     ),
@@ -144,7 +146,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
                                       height: 25,
                                       margin: EdgeInsets.only(top: 8),
                                       child: Image.asset(
-                                        "assets/images/icon-10.png",
+                                        Assets.ic_chat,
                                         fit: BoxFit.none,
                                       ),
                                     ),
@@ -229,7 +231,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
                                       height: 25,
                                       margin: EdgeInsets.only(top: 8),
                                       child: Image.asset(
-                                        "assets/images/icon-25.png",
+                                        Assets.ic_settings,
                                         fit: BoxFit.none,
                                         color: AppColors.ternaryBackground,
                                       ),
@@ -296,7 +298,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
                             top: 13,
                             right: 10,
                             child: Image.asset(
-                              "assets/images/icon-13.png",
+                              Assets.ic_Scan,
                               fit: BoxFit.none,
                             ),
                           ),
@@ -326,8 +328,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
           ),
         ) ,
 
-      )
-      ,
+      ),
         body: Container(
       constraints: BoxConstraints.expand(),
       decoration: BoxDecoration(
@@ -337,6 +338,10 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Container(
+              height: 230,
+              child: HomeTopBar(),
+            ),
             Container(
                 margin: EdgeInsets.only(left: 16, right: 16,top: 64),
                 padding: EdgeInsets.all(16),
@@ -730,7 +735,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
 //                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   // Rectangle
-                                  Image.asset("assets/images/avatar-11.png",height: 32,width: 32,),
+                                  Image.asset(Assets.ic_person1,height: 32,width: 32,),
                                   Container(
                                     margin: EdgeInsets.only(left: 16),
                                     child:Column(
@@ -853,7 +858,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
 //                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Rectangle
-                            Image.asset("assets/images/avatar-11.png",height: 32,width: 32,),
+                            Image.asset(Assets.ic_person1,height: 32,width: 32,),
                             Container(
                               margin: EdgeInsets.only(left: 16),
                               child:Column(

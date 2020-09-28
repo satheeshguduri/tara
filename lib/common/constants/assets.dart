@@ -38,4 +38,11 @@ class Assets {
   static const PLN_ICON = "assets/images/ic_current_bill.png";
   static const BJPS_ICON = "assets/images/ic_bjps.png";
 
+  static const ic_person1 = "assets/images/avatar-11.png";
+  static const ic_home = "assets/images/icon-6.png";
+  static const ic_chat = "assets/images/icon-10.png";
+  static const ic_settings = "assets/images/icon-25.png";
+  static const ic_Scan = "assets/images/icon-13.png";
+
+
 }
