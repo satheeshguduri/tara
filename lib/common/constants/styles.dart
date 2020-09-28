@@ -77,8 +77,8 @@ class BaseStyles {
   static TextStyle transactionItemPersonNameTextStyle =  TextStyle(
   color: AppColors.primaryText,
   fontFamily: "",
-  fontWeight: FontWeight.w700,
-  fontSize: 16,
+  fontWeight: FontWeight.w600,
+  fontSize: 15,
   );
 
   static TextStyle transactionItemDateTextStyle =  TextStyle(
@@ -90,9 +90,16 @@ class BaseStyles {
   );
 
   static TextStyle transactionItemMoneyTextStyle =  TextStyle(
-  color: Color.fromARGB(255, 249, 80, 116),
+  color: Colors.grey[500],
   fontFamily: "Roboto",
-  fontWeight: FontWeight.w700,
+  fontWeight: FontWeight.w500,
   fontSize: 14,
+  );
+
+  static TextStyle homeScreenHeadersStyle =   TextStyle(
+  color: AppColors.primaryText,
+  fontFamily: "Roboto",
+  fontWeight: FontWeight.w600,
+  fontSize: 17,
   );
 }

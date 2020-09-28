@@ -32,10 +32,10 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
 
   final List<Widget> _children = [
     HomeCustomerWidget(),
-    RoundedButton(),
-    RoundedButton(),
-    RoundedButton(),
-    RoundedButton()
+    HomeCustomerWidget(),
+    HomeCustomerWidget(),
+    HomeCustomerWidget(),
+    HomeCustomerWidget(),
   ];
 
   @override

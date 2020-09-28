@@ -24,7 +24,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   var myAccountArray = ["tara wallet","Add Bank", "Add E-Money"];
   var transferToArray = ["Tara\nUsers","Bank\nAccount", "E-Money", "My\nAccount"];
   var paymentOptionsArray = ["Mobile","Internet", "PLN", "BPJS"];
-  var paymentOptionsIconsArray = [Assets.SEND_ICON,Assets.RECEIVE_ICON, Assets.ADD_BENEFICIARY_ICON, Assets.SEND_ICON];
+  var paymentOptionsIconsArray = [Assets.MOBILE_ICON,Assets.INTERNET_ICON, Assets.PLN_ICON, Assets.BJPS_ICON];
 
   @override
   BuildContext getContext() {
@@ -34,7 +34,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height,
+      constraints: BoxConstraints.expand(),
       child: Column(
         children: [
           Container(
@@ -42,15 +42,16 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
             child: HomeTopBar(),
           ),
           Expanded(
-            flex: 1,
             child: Container(
+              margin: EdgeInsets.only(bottom: 16),
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-//                    getMyAccountsWidget(),
+                    getMyAccountsWidget(),
                     getTransferToWidget(),
                     getPaymentWidget(),
-//                    getTransactionsWidget()
+                    getTransactionsWidget()
                   ],
                 ),
               ),
@@ -69,39 +70,43 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                margin: EdgeInsets.only(top: 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "My Accounts",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: AppColors.primaryText,
-                          fontFamily: "",
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "My Accounts",
+                  textAlign: TextAlign.left,
+                  style: BaseStyles.homeScreenHeadersStyle,
                 ),
               ),
-              Spacer(),
-              Text(
-                Strings.SEE_ALL,
-                textAlign: TextAlign.center,
-                style: BaseStyles.seeAllTextStyle,
-              )
+              Container(
+                margin: EdgeInsets.only(right: 16),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        Strings.SEE_ALL,
+                        textAlign: TextAlign.center,
+                        style: BaseStyles.seeAllTextStyle,
+                      ),
+                    ),
+                    Container(
+                      height: 2,
+                      decoration: BoxDecoration(
+                          gradient: Gradients.primaryGradient,
+                      ),
+                      child: Container(),
+                    )
+                  ],
+                )
+              ),
             ],
           ),
           Container(
-            height: 50,
+            margin: EdgeInsets.only(top: 16),
+            height: 40,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: myAccountArray.length,
@@ -118,63 +123,67 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   {
     if (accountName == "tara wallet")
     {
-      return Align(
-        alignment: Alignment.bottomLeft,
-        child: Container(
-          width: 103,
-          height: 40,
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 19, 53, 86),
-            borderRadius: Radii.k8pxRadius,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                height: 24,
-                margin: EdgeInsets.symmetric(horizontal: 14),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 46,
-                        height: 18,
-                        margin: EdgeInsets.only(left: 3),
-                        child: Image.asset(
-                          "assets/images/combined-shape-7.png",
-                          fit: BoxFit.none,
+      return Container(
+        padding: EdgeInsets.only(right:8),
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: Container(
+            width: 103,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 19, 53, 86),
+              borderRadius: Radii.k8pxRadius,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  height: 24,
+                  margin: EdgeInsets.symmetric(horizontal: 14),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: 46,
+                          height: 18,
+                          margin: EdgeInsets.only(left: 3),
+                          child: Image.asset(
+                            "assets/images/combined-shape-7.png",
+                            fit: BoxFit.none,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                    Spacer(),
-                    Text(
-                      "Wallet",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 18, 52, 86),
-                        fontFamily: "",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 8.89043,
-                        height: 1.33333,
+//                    Spacer(),
+                      Text(
+                        "Wallet",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Roboto",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 8.89043,
+                          height: 1.33333,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
     }
     else{
-      return Align(
-        alignment: Alignment.topRight,
+      return Container(
+        padding: EdgeInsets.only(left:8,right:8),
         child: Container(
-          width: 141,
-          height: 40,
+//          width: 141,
+          height: 30,
           decoration: BoxDecoration(
             border: Border.fromBorderSide(Borders.secondaryBorder),
             borderRadius: Radii.k8pxRadius,
@@ -190,9 +199,8 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   fit: BoxFit.none,
                 ),
               ),
-              Spacer(),
               Container(
-                margin: EdgeInsets.only(right: 12),
+                margin: EdgeInsets.only(right: 12,left: 4),
                 child: Text(
                   accountName,
                   textAlign: TextAlign.left,
@@ -228,12 +236,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                     child: Text(
                       "Transfer to",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontFamily: "",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
+                      style:BaseStyles.homeScreenHeadersStyle,
                     ),
                   ),
                 ],
@@ -298,7 +301,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   getPaymentWidget()
   {
     return Container(
-        height: 130,
+        height: 140,
         margin: EdgeInsets.only(left: 16, top: 24, right: 16),
         child: Column(
           children: [
@@ -312,19 +315,14 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                     child: Text(
                       "Payment",
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontFamily: "",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
+                      style:BaseStyles.homeScreenHeadersStyle ,
                     ),
                   ),
                 ],
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 8),
+              margin: EdgeInsets.only(top: 16),
               height: 100,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -341,51 +339,54 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   getTransactionsWidget()
   {
     return Container(
-        margin: EdgeInsets.only(left: 16, top: 24),
+        margin: EdgeInsets.only(left: 16, ),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  height: 30,
-                  margin: EdgeInsets.only(top: 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Transactions",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: AppColors.primaryText,
-                            fontFamily: "",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  Strings.SEE_ALL,
-                  textAlign: TextAlign.center,
-                  style: BaseStyles.seeAllTextStyle,
-                )
-              ],
+          Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "Transactions",
+                textAlign: TextAlign.left,
+                style: BaseStyles.homeScreenHeadersStyle,
+              ),
             ),
-            Expanded(
+            Container(
+                margin: EdgeInsets.only(right: 16),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Text(
+                        Strings.SEE_ALL,
+                        textAlign: TextAlign.center,
+                        style: BaseStyles.seeAllTextStyle,
+                      ),
+                    ),
+                    Container(
+                      height: 2,
+                      decoration: BoxDecoration(
+                          gradient: Gradients.primaryGradient,
+                      ),
+                      child: Container(),
+                    ),
+                  ],
+                )
+            ),
+          ],
+        ),
+            Container(
               child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  physics:NeverScrollableScrollPhysics(),
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return getTransactionsItemWidget();
-                  }),
+                primary: false,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 3,
+                itemBuilder: (context,index){
+                  return getTransactionsItemWidget();
+                },
+              ),
             )
           ],
         )
@@ -395,67 +396,78 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   getTransactionsItemWidget()
   {
     return Container(
-      height: 80,
-      margin: EdgeInsets.only(top: 13),
-      child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-        child: Row(
+      margin: EdgeInsets.only(left: 8, right: 8,top: 16),
+      padding: EdgeInsets.all(8),
+      height: 64,
+      decoration:
+      BoxDecoration(
+          borderRadius: BorderRadius.all(
+              Radius.circular(8)
+          ),
+          boxShadow: [BoxShadow(
+              color: const Color(0x1f000000),
+              offset: Offset(0,4),
+              blurRadius: 6,
+              spreadRadius: 0
+          ), BoxShadow(
+              color: const Color(0x14000000),
+              offset: Offset(0,0),
+              blurRadius: 2,
+              spreadRadius: 0
+          )] ,
+          color: AppColors.primaryBackground
+      ),
+      child:Center(
+        child:  Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: AppColors.accentElement,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  width: 33,
-                  height: 33,
-                  margin: EdgeInsets.only(right: 16),
-                  child: Image.asset(
-                    Assets.PERSON_ICON,
-                    fit: BoxFit.none,
-                  ),
-                ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            // Rectangle
+            Row(
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "TODAY • 12:33",
-                    textAlign: TextAlign.left,
-                    style: BaseStyles.transactionItemDateTextStyle,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 4),
-                    child: Text(
-                      "Andi Ruhiyat",
-                      textAlign: TextAlign.left,
-                      style: BaseStyles.transactionItemPersonNameTextStyle,
-                    ),
-                  ),
+                Image.asset("assets/images/avatar-11.png",height: 32,width: 32,),
+                Container(
+                  margin: EdgeInsets.only(left: 16),
+                  child:Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 4),
+                        child: Text(
+                          "TODAY • 12:33",
+                          textAlign: TextAlign.left,
+                          style: BaseStyles.transactionItemDateTextStyle,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 4),
+                        child: Text(
+                          "Andi Ruhiyat",
+                          textAlign: TextAlign.left,
+                          style: BaseStyles.transactionItemPersonNameTextStyle,
+                        ),
+                      ),
+                    ],
+                  ) ,
                 ),
               ],
             ),
-            Align(
-              alignment: Alignment.centerLeft,
+            Container(
+              alignment: Alignment.centerRight,
               child: Text(
                 "- Rp 300.000",
                 textAlign: TextAlign.right,
-                style: BaseStyles.transactionItemMoneyTextStyle,
+                style: TextStyle(
+                  color: Colors.grey[800],
+                  fontFamily: "Roboto",
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
               ),
-            ),
+            )
           ],
         ),
-      ),
+      )
+      ,
     );
   }
 }
