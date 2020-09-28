@@ -33,9 +33,9 @@ class Assets {
   static const RECEIVE_ICON = "assets/images/icon-22.png";
   static const ADD_BENEFICIARY_ICON = "assets/images/icon-14.png";
   static const SHOP_ICON = "assets/images/icon-35.png";
-  static const MOBILE_ICON = "assets/images/assets---icon---m---mobile-2.png";
-  static const INTERNET_ICON = "assets/images/assets---icon---m---mobile-4.png";
-  static const PLN_ICON = "assets/images/assets---icon---m---mobile-3.png";
-  static const BJPS_ICON = "assets/images/assets---icon---m---mobile.png";
+  static const MOBILE_ICON = "assets/images/ic_mobile.png";
+  static const INTERNET_ICON = "assets/images/ic_internet.png";
+  static const PLN_ICON = "assets/images/ic_current_bill.png";
+  static const BJPS_ICON = "assets/images/ic_bjps.png";
 
 }
