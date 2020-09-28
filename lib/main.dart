@@ -5,6 +5,7 @@
 *  Copyright © 2020 tara.id. All rights reserved.
 */
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -12,13 +13,14 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
+import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/widgets/custom_button.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
-import 'package:tara_app/screens/consumer/home_customer_screen.dart';
-import 'package:tara_app/utils/locale/app_localization.dart';
+import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/base/base_state_less_widget.dart';
+import 'utils/locale/app_localization.dart';
 import 'common/constants/app_theme.dart';
 
 void main() async{
@@ -44,14 +46,10 @@ class TaraApp extends StatefulWidget {
   _TaraAppState createState() => _TaraAppState();
 }
 
-class _TaraAppState extends State<TaraApp> {
+class _TaraAppState extends BaseState<TaraApp> {
 
   @override
   Widget build(BuildContext context) {
-//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-//        statusBarColor: AppColors.appBarColor,
-//        statusBarIconBrightness:Brightness.dark
-//    ));
     final analytics = FirebaseAnalytics();
     final observer = FirebaseAnalyticsObserver(analytics: analytics);
     // MultiProvider for top-level services
@@ -60,28 +58,44 @@ class _TaraAppState extends State<TaraApp> {
       providers: [
         Provider<FirebaseAnalytics>.value(value: analytics),
         Provider<FirebaseAnalyticsObserver>.value(value: observer),
-//        Provider<GlobalStore>(create: (context)=> GlobalStore())
       ],
       child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: [
-              const Locale('en', ''), // English, no country code
-              const Locale('id', ''), // Spanish, no country code
-          ],
-            home: HomeCustomerScreen(),
-            title: "Tara",
-            theme: themeData
-      ),
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                locale: Locale(window.locale.languageCode, ''),
+                supportedLocales: [
+                  const Locale('en', ''),
+                  const Locale('id', ''),
+                ],
+                localeResolutionCallback: (locale, supportedLocales) {
+                  for (var supportedLocaleLanguage in supportedLocales) {
+                    if (supportedLocaleLanguage.languageCode == locale.languageCode &&
+                        supportedLocaleLanguage.countryCode == locale.countryCode) {
+                      return supportedLocaleLanguage;
+                    }
+                  }
+                  // If device not support with locale to get language code then default get first on from the list
+                  return supportedLocales.first;
+                },
+                home: TestWidget(),
+                title: getTranslation(Strings.APP_TITLE),
+                theme: themeData
+            )
     );
+  }
+
+  @override
+  BuildContext getContext() {
+    return context;
   }
 }
 
-class TestWidget extends StatelessWidget {
+class TestWidget extends BaseStateLessWidget  {
   TestWidget({Key key}) : super(key: key);
 
   @override
@@ -92,10 +106,16 @@ class TestWidget extends StatelessWidget {
         margin: EdgeInsets.all(40),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("Demo of components"),
+              Text(window.locale.languageCode.toString()),
+              Text(
+                getTranslatedString(context,Strings.SEND),
+                textAlign: TextAlign.center,
+              ),
               RoundedButton(),
               ImageButton(icon: Image.asset('assets/images/icon-2.png'),title: "Add Account",)
+
             ],
           ),
         ),

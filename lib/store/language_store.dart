@@ -12,8 +12,8 @@ abstract class _LanguageStore with Store {
 
   // supported languages
   List<Language> supportedLanguages = [
-    Language(code: 'US', locale: 'en', language: 'English'),
-    Language(code: 'ID', locale: 'in', language: '--'),
+    Language(code: '', locale: 'en', language: ''),
+    Language(code: '', locale: 'id', language: ''),
   ];
 
   // constructor:---------------------------------------------------------------

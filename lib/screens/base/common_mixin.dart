@@ -9,8 +9,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
+import 'package:tara_app/utils/locale/app_localization.dart';
 import 'package:toast/toast.dart';
-
 ////CommonMixin
 /// @author Yakub Pasha.
 ///
@@ -19,6 +19,7 @@ import 'package:toast/toast.dart';
 mixin CommonMixin {
   BuildContext getContext();
 
+  String getTranslation(String key) => AppLocalizations.of(getContext()).translate(key);
   ///logs firebase event with [data] provided
   void logEvent({@required String eventName, Map<String, dynamic> params}) {
     Provider.of<FirebaseAnalytics>(getContext(), listen: false)

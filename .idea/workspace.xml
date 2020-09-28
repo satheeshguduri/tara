@@ -4,14 +4,19 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfebde36-ab0d-47d3-bcd2-e1385610a792" name="Default Changelist" comment="">
+    <list default="true" id="cfebde36-ab0d-47d3-bcd2-e1385610a792" name="Default Changelist" comment="Updated the dart basic project files">
+      <change afterPath="$PROJECT_DIR$/assets/lang/en.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/lang/id.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/common/constants/strings.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/base/base_state_less_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Flutter/.last_build_id" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/.last_build_id" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tara_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/tara_app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/base/common_mixin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/base/common_mixin.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/store/language_store.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/store/language_store.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/locale/app_localization.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/locale/app_localization.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +26,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Dart File" />
         <option value="stateful_widget" />
+        <option value="Dart File" />
       </list>
     </option>
   </component>
@@ -42,7 +47,7 @@
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/common/constants" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -51,11 +56,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets" />
       <recent name="$PROJECT_DIR$/lib/common/constants" />
       <recent name="$PROJECT_DIR$/lib/common/widgets" />
       <recent name="$PROJECT_DIR$/android/app" />
       <recent name="$PROJECT_DIR$/lib/screens/consumer" />
-      <recent name="$PROJECT_DIR$/lib/models" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -90,14 +95,22 @@
       <option name="project" value="LOCAL" />
       <updated>1601235649071</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Updated the dart basic project files">
+      <created>1601240992891</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1601240992891</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="removed the apple codec emoji file." />
     <MESSAGE value="cleaning the project" />
     <MESSAGE value="Base version of the Tara App." />
-    <option name="LAST_COMMIT_MESSAGE" value="Base version of the Tara App." />
+    <MESSAGE value="Updated the dart basic project files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the dart basic project files" />
   </component>
   <component name="WindowStateProjectService">
     <state x="340" y="99" key="#Menus_and_Toolbars" timestamp="1601236253289">
@@ -116,26 +129,34 @@
       <screen x="0" y="23" width="1680" height="983" />
     </state>
     <state x="488" y="303" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.983@0.23.1680.983" timestamp="1601031154051" />
-    <state x="394" y="23" key="CommitChangelistDialog2" timestamp="1601235648499">
+    <state x="394" y="23" key="CommitChangelistDialog2" timestamp="1601296055947">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state x="394" y="23" key="CommitChangelistDialog2/0.23.1680.983@0.23.1680.983" timestamp="1601235648499" />
-    <state width="1628" height="161" key="GridCell.Tab.0.bottom" timestamp="1601232207908">
+    <state x="394" y="23" key="CommitChangelistDialog2/0.23.1680.983@0.23.1680.983" timestamp="1601296055947" />
+    <state width="617" height="761" key="DebuggerActiveHint" timestamp="1601293987485">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state width="1628" height="161" key="GridCell.Tab.0.bottom/0.23.1680.983@0.23.1680.983" timestamp="1601232207908" />
-    <state width="1628" height="161" key="GridCell.Tab.0.center" timestamp="1601232207907">
+    <state width="617" height="761" key="DebuggerActiveHint/0.23.1680.983@0.23.1680.983" timestamp="1601293987485" />
+    <state x="168" y="110" key="DiffContextDialog" timestamp="1601296054738">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state width="1628" height="161" key="GridCell.Tab.0.center/0.23.1680.983@0.23.1680.983" timestamp="1601232207907" />
-    <state width="1628" height="161" key="GridCell.Tab.0.left" timestamp="1601232207907">
+    <state x="168" y="110" key="DiffContextDialog/0.23.1680.983@0.23.1680.983" timestamp="1601296054738" />
+    <state width="1628" height="-6" key="GridCell.Tab.0.bottom" timestamp="1601294058093">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state width="1628" height="161" key="GridCell.Tab.0.left/0.23.1680.983@0.23.1680.983" timestamp="1601232207907" />
-    <state width="1628" height="161" key="GridCell.Tab.0.right" timestamp="1601232207908">
+    <state width="1628" height="-6" key="GridCell.Tab.0.bottom/0.23.1680.983@0.23.1680.983" timestamp="1601294058093" />
+    <state width="1628" height="-6" key="GridCell.Tab.0.center" timestamp="1601294058092">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state width="1628" height="161" key="GridCell.Tab.0.right/0.23.1680.983@0.23.1680.983" timestamp="1601232207908" />
+    <state width="1628" height="-6" key="GridCell.Tab.0.center/0.23.1680.983@0.23.1680.983" timestamp="1601294058092" />
+    <state width="1628" height="-6" key="GridCell.Tab.0.left" timestamp="1601294058092">
+      <screen x="0" y="23" width="1680" height="983" />
+    </state>
+    <state width="1628" height="-6" key="GridCell.Tab.0.left/0.23.1680.983@0.23.1680.983" timestamp="1601294058092" />
+    <state width="1628" height="-6" key="GridCell.Tab.0.right" timestamp="1601294058092">
+      <screen x="0" y="23" width="1680" height="983" />
+    </state>
+    <state width="1628" height="-6" key="GridCell.Tab.0.right/0.23.1680.983@0.23.1680.983" timestamp="1601294058092" />
     <state x="526" y="63" key="RollbackChangesDialog" timestamp="1601232100209">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
@@ -144,10 +165,10 @@
       <screen x="0" y="23" width="1680" height="983" />
     </state>
     <state x="191" y="109" key="SettingsEditor/0.23.1680.983@0.23.1680.983" timestamp="1601236090005" />
-    <state x="340" y="186" key="Vcs.Push.Dialog.v2" timestamp="1601235650723">
+    <state x="340" y="186" key="Vcs.Push.Dialog.v2" timestamp="1601240994419">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.23.1680.983@0.23.1680.983" timestamp="1601235650723" />
+    <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.23.1680.983@0.23.1680.983" timestamp="1601240994419" />
     <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1601232030393">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
@@ -156,10 +177,10 @@
       <screen x="0" y="23" width="1680" height="983" />
     </state>
     <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1680.983@0.23.1680.983" timestamp="1601221399214" />
-    <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601231432407">
+    <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601294665674">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.983@0.23.1680.983" timestamp="1601231432407" />
+    <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.983@0.23.1680.983" timestamp="1601294665674" />
     <state x="426" y="190" width="827" height="648" key="find.popup" timestamp="1601226465188">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
@@ -172,9 +193,30 @@
       <screen x="0" y="23" width="1680" height="983" />
     </state>
     <state x="477" y="252" key="git4idea.merge.GitPullDialog/0.23.1680.983@0.23.1680.983" timestamp="1601231395814" />
-    <state x="484" y="23" width="838" height="983" key="search.everywhere.popup" timestamp="1601229900777">
+    <state x="484" y="23" width="838" height="983" key="search.everywhere.popup" timestamp="1601293847199">
       <screen x="0" y="23" width="1680" height="983" />
     </state>
-    <state x="484" y="23" width="838" height="983" key="search.everywhere.popup/0.23.1680.983@0.23.1680.983" timestamp="1601229900777" />
+    <state x="484" y="23" width="838" height="983" key="search.everywhere.popup/0.23.1680.983@0.23.1680.983" timestamp="1601293847199" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/utils/locale/app_localization.dart</url>
+          <line>44</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/utils/locale/app_localization.dart</url>
+          <line>36</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/utils/locale/app_localization.dart</url>
+          <line>35</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

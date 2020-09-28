@@ -1,6 +1,11 @@
+/*
+*  app_localization.dart
+*
+*  Created by Yakub Pasha.
+*  Copyright © 2020 Tara.id. All rights reserved.
+*/
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,13 +33,10 @@ class AppLocalizations {
     // Load the language JSON file from the "lang" folder
     String jsonString =
     await rootBundle.loadString('assets/lang/${locale.languageCode}.json');
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
-
-    localizedStrings = jsonMap.map((key, value) {
-      return MapEntry(
-          key, value.toString().replaceAll(r"\'", "'").replaceAll(r"\t", " "));
+    Map<String, dynamic> jsonLanguageMap = json.decode(jsonString);
+    localizedStrings = jsonLanguageMap.map((key, value) {
+      return MapEntry(key, value.toString());
     });
-
     return true;
   }
 
@@ -58,7 +60,7 @@ class _AppLocalizationsDelegate
   @override
   bool isSupported(Locale locale) {
     // Include all of your supported language codes here
-    return ['en', 'in'].contains(locale.languageCode);
+    return ['en', 'id'].contains(locale.languageCode);
   }
 
   @override
