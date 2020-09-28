@@ -12,7 +12,7 @@ mixin BaseWidgets {
   }
 
   Text getTabText(String text) {
-//    return Text(text, style: BaseStyles.navigationTextStyle);
+    return Text(text, style: BaseStyles.navigationTextStyle);
   }
 
   Divider getDivider() {

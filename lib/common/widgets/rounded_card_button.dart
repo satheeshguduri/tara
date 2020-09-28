@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tara_app/common/constants/colors.dart';
+import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/styles.dart';
 
-class RoundedButton extends StatefulWidget {
+class RoundedCardButton extends StatefulWidget {
   final String buttonText;
   final Color buttonColor;
   final Color textColor;
   final String image;
   final VoidCallback onPressed;
 
-  const RoundedButton({
+  const RoundedCardButton({
     Key key,
     this.buttonText,
     this.buttonColor,
@@ -18,10 +20,10 @@ class RoundedButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RoundedButtonState createState() => _RoundedButtonState();
+  _RoundedCardButtonState createState() => _RoundedCardButtonState();
 }
 
-class _RoundedButtonState extends State<RoundedButton> {
+class _RoundedCardButtonState extends State<RoundedCardButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -38,7 +40,10 @@ class _RoundedButtonState extends State<RoundedButton> {
               height: 56,
               margin: EdgeInsets.symmetric(horizontal: 7),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 19, 53, 86),
+                color: AppColors.primaryElement,
+                boxShadow: [
+                  Shadows.primaryShadow,
+                ],
                 borderRadius: BorderRadius.all(Radius.circular(28)),
               ),
               child: Container(

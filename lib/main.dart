@@ -20,6 +20,8 @@ import 'package:tara_app/common/widgets/custom_button.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/base/base_state_less_widget.dart';
+import 'package:tara_app/screens/consumer/home_customer_screen.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 import 'utils/locale/app_localization.dart';
 import 'common/constants/app_theme.dart';
 
@@ -82,7 +84,7 @@ class _TaraAppState extends BaseState<TaraApp> {
                   // If device not support with locale to get language code then default get first on from the list
                   return supportedLocales.first;
                 },
-                home: TestWidget(),
+                home: HomeCustomerScreen(),
                 title: "Tara",//AppLocalizations.of(context).translate(Strings.APP_TITLE),//getTranslation(context,Strings.APP_TITLE),
                 theme: themeData
             )

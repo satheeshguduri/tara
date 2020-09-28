@@ -14,6 +14,28 @@ class Assets {
   // login screen assets
   static const String background = "assets/images/container-16.png";
 
+  static const HOME_IN_ACTIVE = "assets/images/icon-56.png";
+  static const CHAT_IN_ACTIVE = "assets/images/icon-10.png";
+  static const SCAN_IN_ACTIVE = "assets/images/icon-13.png";
+  static const MY_ORDERS_IN_ACTIVE = "assets/images/icon-24.png";
+  static const ACCOUNTS_IN_ACTIVE = "assets/images/icon-58.png";
 
+  static const HOME_ACTIVE = "assets/images/icon-6.png";
+  static const CHAT_ACTIVE = "assets/images/icon-10.png";
+  static const SCAN_ACTIVE = "assets/images/icon-13.png";
+  static const MY_ORDERS_ACTIVE = "assets/images/icon-24.png";
+  static const ACCOUNTS_ACTIVE = "assets/images/icon-24.png";
+
+  static const SEARCH_ICON = "assets/images/icon-3.png";
+  static const NOTIFICATION_ICON = "assets/images/icon-7.png";
+  static const PERSON_ICON = "assets/images/avatar-2.png";
+  static const SEND_ICON = "assets/images/icon-9.png";
+  static const RECEIVE_ICON = "assets/images/icon-22.png";
+  static const ADD_BENEFICIARY_ICON = "assets/images/icon-14.png";
+  static const SHOP_ICON = "assets/images/icon-35.png";
+  static const MOBILE_ICON = "assets/images/assets---icon---m---mobile-2.png";
+  static const INTERNET_ICON = "assets/images/assets---icon---m---mobile-4.png";
+  static const PLN_ICON = "assets/images/assets---icon---m---mobile-3.png";
+  static const BJPS_ICON = "assets/images/assets---icon---m---mobile.png";
 
 }
