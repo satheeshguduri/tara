@@ -10,6 +10,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
+import 'package:tara_app/screens/Merchant/cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -65,47 +66,58 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   getMyAccountsWidget()
   {
     return Container(
-      height: 80,
+      height: 95,
       margin: EdgeInsets.only(left: 16, top: 16),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "My Accounts",
-                  textAlign: TextAlign.left,
-                  style: BaseStyles.homeScreenHeadersStyle,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 16),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        Strings.SEE_ALL,
-                        textAlign: TextAlign.center,
-                        style: BaseStyles.seeAllTextStyle,
-                      ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 7.5.toInt(),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "My Accounts",
+                      textAlign: TextAlign.left,
+                      style: BaseStyles.homeScreenHeadersStyle,
                     ),
-                    Container(
-                      height: 2,
-                      decoration: BoxDecoration(
-                          gradient: Gradients.primaryGradient,
-                      ),
-                      child: Container(),
-                    )
-                  ],
-                )
-              ),
-            ],
+                  ),
+                ),
+                Expanded(
+                  flex: 2.5.toInt(),
+                  child: Container(
+                      padding: EdgeInsets.only(top: 8,bottom: 8),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(right: 16),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                Strings.SEE_ALL,
+                                textAlign: TextAlign.center,
+                                style: BaseStyles.seeAllTextStyle,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height:2 ,
+                            margin: EdgeInsets.only(top: 4,left: 4,right: 16),
+                            decoration: BoxDecoration(
+                              gradient: Gradients.primaryGradient,
+                            ),
+                          ),
+                        ],
+                      )
+                  ),
+                ),
+              ],
+            ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 16),
+            margin: EdgeInsets.only(top: 8),
             height: 40,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -343,40 +355,52 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-          Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "Transactions",
-                textAlign: TextAlign.left,
-                style: BaseStyles.homeScreenHeadersStyle,
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 7.5.toInt(),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Transactions",
+                        textAlign: TextAlign.left,
+                        style: BaseStyles.homeScreenHeadersStyle,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2.5.toInt(),
+                    child: Container(
+                        padding: EdgeInsets.only(top: 8,bottom: 8),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 16),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  Strings.SEE_ALL,
+                                  textAlign: TextAlign.center,
+                                  style: BaseStyles.seeAllTextStyle,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height:2 ,
+                              margin: EdgeInsets.only(top: 4,left: 4,right: 16),
+                              decoration: BoxDecoration(
+                                gradient: Gradients.primaryGradient,
+                              ),
+                            ),
+                          ],
+                        )
+                    ),
+                  ),
+                ],
               ),
             ),
-            Container(
-                margin: EdgeInsets.only(right: 16),
-                child: Column(
-                  children: [
-                    Container(
-                      child: Text(
-                        Strings.SEE_ALL,
-                        textAlign: TextAlign.center,
-                        style: BaseStyles.seeAllTextStyle,
-                      ),
-                    ),
-                    Container(
-                      height: 2,
-                      decoration: BoxDecoration(
-                          gradient: Gradients.primaryGradient,
-                      ),
-                      child: Container(),
-                    ),
-                  ],
-                )
-            ),
-          ],
-        ),
             Container(
               child: ListView.builder(
                 primary: false,
@@ -466,8 +490,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
             )
           ],
         ),
-      )
-      ,
+      ),
     );
   }
 }

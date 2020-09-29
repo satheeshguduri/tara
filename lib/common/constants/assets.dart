@@ -50,6 +50,9 @@ class Assets {
   static const ic_settings = "assets/images/icon-25.png";
   static const ic_Scan = "assets/images/icon-13.png";
 
+  static const ic_contact = "assets/images/contact.png";
+  static const ic_location = "assets/images/icon-19.png";
+  static const tara_contacts = "assets/images/tara_contacts.png";
 
 
 

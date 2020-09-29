@@ -38,26 +38,37 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: TextFormField(
-        controller: textController,
-        focusNode: focusNode,
-        onFieldSubmitted: onFieldSubmitted,
-        onChanged: onChanged,
-        autofocus: autoFocus,
-        textInputAction: inputAction,
-        obscureText: this.isObscure,
-        maxLength: 25,
-        keyboardType: this.inputType,
-        style: Theme.of(context).textTheme.body1,
-        decoration: InputDecoration(
-            hintText: this.hint,
-            hintStyle:
-                Theme.of(context).textTheme.body1.copyWith(color: hintColor),
-            errorText: errorText,
-            counterText: '',
-            icon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
+    return Container(
+      height: 48,
+      child: Padding(
+        padding: padding,
+        child: TextFormField(
+          controller: textController,
+          focusNode: focusNode!=null?focusNode:null,
+          onFieldSubmitted: onFieldSubmitted!=null?onFieldSubmitted:null,
+          onChanged: onChanged!=null?onChanged:null,
+          autofocus: autoFocus!=null?autoFocus:null,
+          textInputAction: inputAction!=null?inputAction:null,
+          obscureText: this.isObscure!=null?this.isObscure:null,
+          maxLength: 25,
+          minLines: 1,
+          maxLines: 1,
+          keyboardType: this.inputType!=null?this.inputType:null,
+          style: Theme.of(context).textTheme.body1,
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(0.0),
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              hintText: this.hint!=null?this.hint:"",
+              hintStyle:
+              Theme.of(context).textTheme.body1.copyWith(color: hintColor),
+              errorText: errorText!=null?errorText:"",
+              counterText: '',
+              icon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
+        ),
       ),
     );
   }

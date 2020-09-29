@@ -26,7 +26,10 @@ class _RoundedButtonState extends State<RoundedButton> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-
+        if (widget.onPressed!=null)
+          {
+            widget.onPressed();
+          }
       },
       child: Container(
         width: 70,

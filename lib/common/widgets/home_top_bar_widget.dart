@@ -5,6 +5,8 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
+import 'package:tara_app/screens/Merchant/cash_deposit.dart';
+import 'package:tara_app/screens/Merchant/cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class HomeTopBar extends StatefulWidget {
@@ -60,7 +62,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                      flex: 3.2.toInt(), child:Align(
+                      flex: 4.toInt(), child:Align(
                         alignment: Alignment.centerLeft,
                         child: Row(
                           children: [
@@ -87,11 +89,11 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                         ),
                       )),
                       Expanded(
-                        flex: 6.8.toInt(),
+                        flex: 6.toInt(),
                         child: Row(
                           children: [
                             Container(
-                              width: 150,
+                              width: 130,
                               height: 38,
                               margin: EdgeInsets.only(top: 9, right: 8),
                               child: Column(
@@ -108,10 +110,11 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                                   Align(
                                     alignment: Alignment.topRight,
                                     child: Text(
-                                      "Kiran Kumar",
+                                      "Kiran Kumar Yasala",
                                       textAlign: TextAlign.right,
                                       style: BaseStyles.nameTextStyle,
                                       maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
@@ -204,7 +207,9 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
             RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
-            RoundedButton(buttonText: "Cash Deposit",image: Assets.ic_cash_deposit,),
+            RoundedButton(buttonText: "Cash Deposit",image: Assets.ic_cash_deposit,onPressed:(){
+              return cashDepositBottomSheet();
+            }),
             RoundedButton(buttonText: "Restock",image: Assets.ic_restock,),
           ],
         ),
@@ -232,8 +237,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
             RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
-            RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON,),
-            RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON,),
+            RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON),
+            RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON),
           ],
         ),
       );
@@ -282,4 +287,22 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
     );
   }
 
+  cashDepositBottomSheet() {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+              padding: EdgeInsets.all(10),
+              height: MediaQuery.of(context).size.width > 230 ? 500 : null,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(8),
+                      topLeft: Radius.circular(8))),
+              child: CashDepositWidget());
+        });
+  }
 }
