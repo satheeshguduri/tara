@@ -8,7 +8,9 @@ import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class HomeTopBar extends StatefulWidget {
-  HomeTopBar({Key key}) : super(key: key);
+
+  HomeTopBar({Key key, this.appName = ""}) : super(key: key);
+  String appName;
 
   @override
   _HomeTopBarState createState() => _HomeTopBarState();
@@ -60,14 +62,28 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                       Expanded(
                       flex: 3.2.toInt(), child:Align(
                         alignment: Alignment.centerLeft,
-                        child: Container(
-                          width: 62,
-                          height: 24,
-                          margin: EdgeInsets.only(left: 16,top: 8),
-                          child: Image.asset(
-                            "assets/images/combined-shape-5.png",
-                            fit: BoxFit.none,
+                        child: Row(
+                          children: [
+                            Container(
+                            width: 62,
+                            height: 24,
+                            margin: EdgeInsets.only(left: 16,top: 8),
+                            child: Image.asset(
+                              "assets/images/combined-shape-5.png",
+                              fit: BoxFit.none,
+                            ),
                           ),
+                            Text(
+                                widget.appName,
+                                style: const TextStyle(
+                                    color:  AppColors.fareColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "PlayfairDisplay",
+                                    fontStyle:  FontStyle.normal,
+                                    fontSize: 12.0
+                                )
+                            )
+                          ],
                         ),
                       )),
                       Expanded(
@@ -179,19 +195,50 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
 
   getTopOptions()
   {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 12),
-      padding: EdgeInsets.only(top: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
-          RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
-          RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON,),
-          RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON,),
-        ],
-      ),
-    );
+    if(widget.appName == "Merchant"){
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.only(top: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
+            RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
+            RoundedButton(buttonText: "Cash Deposit",image: Assets.ic_cash_deposit,),
+            RoundedButton(buttonText: "Restock",image: Assets.ic_restock,),
+          ],
+        ),
+      );
+    }else if(widget.appName == "Agent"){
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.only(top: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
+            RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
+            RoundedButton(buttonText: "Payment",image: Assets.ic_payment,),
+            RoundedButton(buttonText: "CMS Top-Up",image: Assets.ic_topup,),
+          ],
+        ),
+      );
+    }else{
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 12),
+        padding: EdgeInsets.only(top: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
+            RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
+            RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON,),
+            RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON,),
+          ],
+        ),
+      );
+    }
+
   }
 
   getSearchWidget() {

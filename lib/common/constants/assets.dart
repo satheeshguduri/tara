@@ -38,11 +38,19 @@ class Assets {
   static const PLN_ICON = "assets/images/ic_current_bill.png";
   static const BJPS_ICON = "assets/images/ic_bjps.png";
 
-  static const ic_person1 = "assets/images/avatar-11.png";
+  static const ic_cash_deposit = "assets/images/icon-52.png";
+  static const ic_send = "assets/images/icon-52.png";
+  static const ic_restock = "assets/images/icon-45.png";
+  static const ic_payment = "assets/images/icon-54.png";
+  static const ic_topup = "assets/images/icon-55.png";
+
+  static const ic_person1 = "assets/images/avatar-12.png";
   static const ic_home = "assets/images/icon-6.png";
   static const ic_chat = "assets/images/icon-10.png";
   static const ic_settings = "assets/images/icon-25.png";
   static const ic_Scan = "assets/images/icon-13.png";
+
+
 
 
 }

@@ -13,6 +13,7 @@ class Strings{
   static const ADD_BENEFICIARY = "Add\nBeneficiary";
   static const SHOP = "Shop";
   static const SEE_ALL = "SEE ALL";
+
 //
 //  static const SEND =  "send";
 //  static const APP_TITLE =  "app_title";

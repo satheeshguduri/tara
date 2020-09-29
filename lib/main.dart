@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:tara_app/common/widgets/custom_button.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/Agent/AgentHomeScreen.dart';
+import 'package:tara_app/screens/Merchant/MerchantHomeScreen.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';
 import 'common/constants/app_theme.dart';
@@ -74,7 +75,7 @@ class _TaraAppState extends State<TaraApp> {
               const Locale('en', ''), // English, no country code
               const Locale('id', ''), // Spanish, no country code
           ],
-            home: HomeCustomerScreen(),
+            home: MerchantHomeScreen(),
             title: "Tara",
             theme: themeData
       ),

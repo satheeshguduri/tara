@@ -5,20 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cfebde36-ab0d-47d3-bcd2-e1385610a792" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/Merchant/MerchantHomeScreen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/2.0x/icon-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/icon-10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/images/2.0x/icon-24.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/images/icon-24.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Flutter/.last_build_id" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/.last_build_id" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/constants/assets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/constants/assets.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/constants/colors.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/constants/colors.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/constants/strings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/constants/strings.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/widgets/home_top_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/widgets/home_top_bar_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/Agent/AgentHomeScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/Agent/AgentHomeScreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tara_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/tara_app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/widget_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/widget_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/consumer/home_customer_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/consumer/home_customer_screen.dart" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -39,8 +35,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
+            <state relative-caret-position="230">
+              <caret line="67" column="46" lean-forward="true" selection-start-line="67" selection-start-column="46" selection-end-line="67" selection-end-column="46" />
+              <folding>
+                <element signature="e#98#118#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -48,8 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/screens/consumer/home_customer_screen.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="47" column="20" selection-start-line="47" selection-start-column="20" selection-end-line="47" selection-end-column="20" />
+            <state relative-caret-position="215">
+              <caret line="37" column="13" lean-forward="true" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
               <folding>
                 <element signature="e#143#182#0" expanded="true" />
               </folding>
@@ -58,25 +57,57 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/screens/Agent/AgentHomeScreen.dart">
+        <entry file="file://$PROJECT_DIR$/lib/screens/consumer/home_customer_widget.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="345" column="38" selection-start-line="345" selection-start-column="38" selection-end-line="345" selection-end-column="38" />
+            <state relative-caret-position="97">
+              <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
               <folding>
-                <element signature="e#0#40#0" expanded="true" />
-                <element signature="e#6727#8750#0" />
-                <element signature="e#13513#14075#0" />
-                <element signature="e#14096#14491#0" />
+                <element signature="e#0#39#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/screens/Agent/AgentHomeScreen.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="278">
+              <caret line="340" column="53" selection-start-line="340" selection-start-column="53" selection-end-line="340" selection-end-column="53" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+                <element signature="e#1264#14054#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/screens/Merchant/MerchantHomeScreen.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="630" column="32" selection-start-line="630" selection-start-column="32" selection-end-line="630" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+                <element signature="e#1264#14054#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/common/widgets/home_top_bar_widget.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="183">
+              <caret line="207" column="75" lean-forward="true" selection-start-line="207" selection-start-column="75" selection-end-line="207" selection-end-column="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/common/constants/assets.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="45" selection-start-line="45" selection-end-line="45" />
+            <state relative-caret-position="274">
+              <caret line="44" column="23" selection-start-line="44" selection-start-column="15" selection-end-line="44" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -93,9 +124,12 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_children</find>
       <find>assets/images/avatar-11.png</find>
       <find>icon-10</find>
+      <find>_children</find>
+      <find>rounded</find>
+      <find>available</find>
+      <find>ink</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -108,11 +142,16 @@
         <option value="$PROJECT_DIR$/test/widget_test.dart" />
         <option value="$PROJECT_DIR$/lib/screens/Merchant/M_Home_Screen.dart" />
         <option value="$PROJECT_DIR$/lib/screens/Agent/M_Home_Screen.dart" />
-        <option value="$PROJECT_DIR$/lib/main.dart" />
-        <option value="$PROJECT_DIR$/lib/screens/consumer/home_customer_screen.dart" />
         <option value="$PROJECT_DIR$/pubspec.yaml" />
-        <option value="$PROJECT_DIR$/lib/common/constants/assets.dart" />
+        <option value="$PROJECT_DIR$/lib/screens/consumer/home_customer_screen.dart" />
+        <option value="$PROJECT_DIR$/lib/common/constants/colors.dart" />
+        <option value="$PROJECT_DIR$/lib/common/widgets/custom_button.dart" />
+        <option value="$PROJECT_DIR$/lib/common/constants/strings.dart" />
         <option value="$PROJECT_DIR$/lib/screens/Agent/AgentHomeScreen.dart" />
+        <option value="$PROJECT_DIR$/lib/common/constants/assets.dart" />
+        <option value="$PROJECT_DIR$/lib/common/widgets/home_top_bar_widget.dart" />
+        <option value="$PROJECT_DIR$/lib/main.dart" />
+        <option value="$PROJECT_DIR$/lib/screens/Merchant/MerchantHomeScreen.dart" />
       </list>
     </option>
   </component>
@@ -123,31 +162,20 @@
     <option name="height" value="702" />
   </component>
   <component name="ProjectId" id="1hxDxRA0q6P1yLzS28ad5nRQe8W" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="Tara_Git" type="b2602c69:ProjectViewProjectNode" />
               <item name="Tara_Git" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Tara_Git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Tara_Git" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Tara_Git" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Tara_Git" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Tara_Git" type="b2602c69:ProjectViewProjectNode" />
@@ -194,11 +222,20 @@
               <item name="screens" type="462c0819:PsiDirectoryNode" />
               <item name="consumer" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Tara_Git" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Tara_Git" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="Merchant" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -212,7 +249,7 @@
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/common/constants" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/Merchant" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -220,15 +257,15 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/assets/images" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/screens/Merchant" />
       <recent name="$PROJECT_DIR$/lib/common/constants" />
       <recent name="$PROJECT_DIR$/lib/common/widgets" />
       <recent name="$PROJECT_DIR$/android/app" />
       <recent name="$PROJECT_DIR$/lib/screens/consumer" />
-      <recent name="$PROJECT_DIR$/lib/models" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/images" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -282,7 +319,21 @@
       <option name="project" value="LOCAL" />
       <updated>1601312209963</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Comitted Missing Images.&#10;* Added Images in Constants-&gt;Assets Class.">
+      <created>1601316280656</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1601316280657</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Comitted Missing Images.&#10;* Added Images in Constants-&gt;Assets Class.">
+      <created>1601316298047</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1601316298048</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -299,14 +350,14 @@
       <window_info id="Favorites" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="0" weight="0.052892562" />
       <window_info anchor="bottom" id="Dart Analysis" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49917218" visible="true" weight="0.50163937" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49917218" visible="true" weight="0.04918033" />
       <window_info anchor="bottom" id="TODO" order="3" />
       <window_info anchor="bottom" id="Android Profiler" order="4" show_stripe_button="false" />
       <window_info anchor="bottom" id="Logcat" order="5" />
       <window_info anchor="bottom" id="Debug" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5008278" side_tool="true" weight="0.39016393" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.3295082" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.13606557" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49917218" weight="0.5081967" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
@@ -322,96 +373,48 @@
     <MESSAGE value="cleaning the project" />
     <MESSAGE value="Base version of the Tara App." />
     <MESSAGE value="Added Agent Home Screen and related Icons." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Agent Home Screen and related Icons." />
+    <MESSAGE value="Comitted Missing Images.&#10;* Added Images in Constants-&gt;Assets Class." />
+    <option name="LAST_COMMIT_MESSAGE" value="Comitted Missing Images.&#10;* Added Images in Constants-&gt;Assets Class." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="340" y="99" key="#Menus_and_Toolbars" timestamp="1601236253289">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="340" y="99" key="#Menus_and_Toolbars/0.23.1680.983@0.23.1680.983" timestamp="1601236253289" />
-    <state x="340" y="99" key="#Project_Structure" timestamp="1601236214505">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="340" y="99" key="#Project_Structure/0.23.1680.983@0.23.1680.983" timestamp="1601236214505" />
-    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601236067940">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.983@0.23.1680.983" timestamp="1601236067940" />
-    <state x="488" y="303" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601031154051">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="488" y="303" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.983@0.23.1680.983" timestamp="1601031154051" />
-    <state x="394" y="23" key="CommitChangelistDialog2" timestamp="1601235648499">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="394" y="23" key="CommitChangelistDialog2/0.23.1680.983@0.23.1680.983" timestamp="1601235648499" />
-    <state width="1628" height="161" key="GridCell.Tab.0.bottom" timestamp="1601232207908">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state width="1628" height="161" key="GridCell.Tab.0.bottom/0.23.1680.983@0.23.1680.983" timestamp="1601232207908" />
-    <state width="1628" height="161" key="GridCell.Tab.0.center" timestamp="1601232207907">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state width="1628" height="161" key="GridCell.Tab.0.center/0.23.1680.983@0.23.1680.983" timestamp="1601232207907" />
-    <state width="1628" height="161" key="GridCell.Tab.0.left" timestamp="1601232207907">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state width="1628" height="161" key="GridCell.Tab.0.left/0.23.1680.983@0.23.1680.983" timestamp="1601232207907" />
-    <state width="1628" height="161" key="GridCell.Tab.0.right" timestamp="1601232207908">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state width="1628" height="161" key="GridCell.Tab.0.right/0.23.1680.983@0.23.1680.983" timestamp="1601232207908" />
-    <state x="526" y="63" key="RollbackChangesDialog" timestamp="1601232100209">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="526" y="63" key="RollbackChangesDialog/0.23.1680.983@0.23.1680.983" timestamp="1601232100209" />
-    <state x="191" y="109" key="SettingsEditor" timestamp="1601236090005">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="191" y="109" key="SettingsEditor/0.23.1680.983@0.23.1680.983" timestamp="1601236090005" />
-    <state x="340" y="186" key="Vcs.Push.Dialog.v2" timestamp="1601235650723">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.23.1680.983@0.23.1680.983" timestamp="1601235650723" />
-    <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1601232030393">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.23.1680.983@0.23.1680.983" timestamp="1601232030393" />
-    <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1601221399214">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1680.983@0.23.1680.983" timestamp="1601221399214" />
-    <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601231432407">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.983@0.23.1680.983" timestamp="1601231432407" />
-    <state x="426" y="190" width="827" height="648" key="find.popup" timestamp="1601226465188">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="426" y="190" width="827" height="648" key="find.popup/0.23.1680.983@0.23.1680.983" timestamp="1601226465188" />
-    <state x="571" y="259" key="git4idea.merge.GitMergeDialog" timestamp="1601231508837">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="571" y="259" key="git4idea.merge.GitMergeDialog/0.23.1680.983@0.23.1680.983" timestamp="1601231508837" />
-    <state x="477" y="252" key="git4idea.merge.GitPullDialog" timestamp="1601231395814">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="477" y="252" key="git4idea.merge.GitPullDialog/0.23.1680.983@0.23.1680.983" timestamp="1601231395814" />
-    <state x="484" y="23" width="838" height="983" key="search.everywhere.popup" timestamp="1601229900777">
-      <screen x="0" y="23" width="1680" height="983" />
-    </state>
-    <state x="484" y="23" width="838" height="983" key="search.everywhere.popup/0.23.1680.983@0.23.1680.983" timestamp="1601229900777" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/screens/Agent/AgentHomeScreen.dart</url>
-          <line>385</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="340" y="99" key="#Menus_and_Toolbars" />
+    <state x="340" y="99" key="#Menus_and_Toolbars/0.23.1680.983@0.23.1680.983" />
+    <state x="340" y="99" key="#Project_Structure" />
+    <state x="340" y="99" key="#Project_Structure/0.23.1680.983@0.23.1680.983" />
+    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog" />
+    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.983@0.23.1680.983" />
+    <state x="488" y="303" key="#com.intellij.fileTypes.FileTypeChooser" />
+    <state x="488" y="303" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1680.983@0.23.1680.983" />
+    <state x="394" y="23" key="CommitChangelistDialog2" />
+    <state x="394" y="23" key="CommitChangelistDialog2/0.23.1680.983@0.23.1680.983" />
+    <state width="1628" height="161" key="GridCell.Tab.0.bottom" />
+    <state width="1628" height="161" key="GridCell.Tab.0.bottom/0.23.1680.983@0.23.1680.983" />
+    <state width="1628" height="161" key="GridCell.Tab.0.center" />
+    <state width="1628" height="161" key="GridCell.Tab.0.center/0.23.1680.983@0.23.1680.983" />
+    <state width="1628" height="161" key="GridCell.Tab.0.left" />
+    <state width="1628" height="161" key="GridCell.Tab.0.left/0.23.1680.983@0.23.1680.983" />
+    <state width="1628" height="161" key="GridCell.Tab.0.right" />
+    <state width="1628" height="161" key="GridCell.Tab.0.right/0.23.1680.983@0.23.1680.983" />
+    <state x="526" y="63" key="RollbackChangesDialog" />
+    <state x="526" y="63" key="RollbackChangesDialog/0.23.1680.983@0.23.1680.983" />
+    <state x="191" y="109" key="SettingsEditor" />
+    <state x="191" y="109" key="SettingsEditor/0.23.1680.983@0.23.1680.983" />
+    <state x="340" y="186" key="Vcs.Push.Dialog.v2" />
+    <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.23.1680.983@0.23.1680.983" />
+    <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" />
+    <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.23.1680.983@0.23.1680.983" />
+    <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.FileHistoryDialog" />
+    <state x="100" y="123" width="1480" height="783" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1680.983@0.23.1680.983" />
+    <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" />
+    <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.983@0.23.1680.983" />
+    <state x="426" y="190" width="827" height="648" key="find.popup" />
+    <state x="426" y="190" width="827" height="648" key="find.popup/0.23.1680.983@0.23.1680.983" />
+    <state x="571" y="259" key="git4idea.merge.GitMergeDialog" />
+    <state x="571" y="259" key="git4idea.merge.GitMergeDialog/0.23.1680.983@0.23.1680.983" />
+    <state x="477" y="252" key="git4idea.merge.GitPullDialog" />
+    <state x="477" y="252" key="git4idea.merge.GitPullDialog/0.23.1680.983@0.23.1680.983" />
+    <state x="484" y="23" width="838" height="983" key="search.everywhere.popup" />
+    <state x="484" y="23" width="838" height="983" key="search.everywhere.popup/0.23.1680.983@0.23.1680.983" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/.flutter-plugins">
@@ -437,13 +440,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/common/widgets/rounded_button_widget.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/widgets/textfield_widget.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="421">
@@ -457,20 +453,6 @@
           <folding>
             <element signature="e#0#2352#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/common/widgets/rounded_button.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="38" lean-forward="true" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$Flutter$/packages/flutter/lib/src/widgets/basic.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="1794" column="8" selection-start-line="1794" selection-start-column="8" selection-end-line="1794" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -496,17 +478,73 @@
     <entry file="file://$PROJECT_DIR$/assets/images/icon-36.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="111" selection-start-line="111" selection-end-line="117" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$Flutter$/packages/flutter/lib/src/material/icon_button.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="141" column="8" selection-start-line="141" selection-start-column="8" selection-end-line="141" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$Flutter$/packages/flutter/lib/src/widgets/basic.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="3234" column="2" selection-start-line="3234" selection-start-column="2" selection-end-line="3234" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$Flutter$/packages/flutter/lib/src/material/flat_button.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="120" column="22" selection-start-line="120" selection-start-column="4" selection-end-line="120" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/common/widgets/custom_button.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/common/widgets/base_button.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="10" column="15" selection-start-line="10" selection-start-column="15" selection-end-line="10" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/constants/colors.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        <state relative-caret-position="210">
+          <caret line="19" column="69" selection-start-line="19" selection-start-column="69" selection-end-line="19" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/common/widgets/rounded_button.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="31" column="17" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$Flutter$/packages/flutter/lib/src/widgets/container.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="265" column="19" lean-forward="true" selection-start-line="265" selection-start-column="19" selection-end-line="265" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/screens/consumer/home_customer_screen.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="47" column="20" selection-start-line="47" selection-start-column="20" selection-end-line="47" selection-end-column="20" />
+        <state relative-caret-position="215">
+          <caret line="37" column="13" lean-forward="true" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
           <folding>
             <element signature="e#143#182#0" expanded="true" />
           </folding>
@@ -515,45 +553,74 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/screens/consumer/home_customer_widget.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="39" column="20" lean-forward="true" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+        <state relative-caret-position="97">
+          <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
+    <entry file="file://$PROJECT_DIR$/lib/common/widgets/progress_indicator_widget.dart">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/common/widgets/rounded_button_widget.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="111" selection-start-line="111" selection-end-line="117" selection-end-column="34" />
+        <state relative-caret-position="174">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/main.dart">
+    <entry file="file://$PROJECT_DIR$/lib/common/constants/strings.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
+        <state relative-caret-position="225">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/screens/Agent/AgentHomeScreen.dart">
+    <entry file="file://$PROJECT_DIR$/lib/common/widgets/home_top_bar_widget.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="345" column="38" selection-start-line="345" selection-start-column="38" selection-end-line="345" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-            <element signature="e#6727#8750#0" />
-            <element signature="e#13513#14075#0" />
-            <element signature="e#14096#14491#0" />
-          </folding>
+        <state relative-caret-position="183">
+          <caret line="207" column="75" lean-forward="true" selection-start-line="207" selection-start-column="75" selection-end-line="207" selection-end-column="75" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/common/constants/assets.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        <state relative-caret-position="274">
+          <caret line="44" column="23" selection-start-line="44" selection-start-column="15" selection-end-line="44" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="67" column="46" lean-forward="true" selection-start-line="67" selection-start-column="46" selection-end-line="67" selection-end-column="46" />
+          <folding>
+            <element signature="e#98#118#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/Merchant/MerchantHomeScreen.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="630" column="32" selection-start-line="630" selection-start-column="32" selection-end-line="630" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+            <element signature="e#1264#14054#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/screens/Agent/AgentHomeScreen.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="340" column="53" selection-start-line="340" selection-start-column="53" selection-end-line="340" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+            <element signature="e#1264#14054#0" />
+          </folding>
         </state>
       </provider>
     </entry>
