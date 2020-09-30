@@ -6,8 +6,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
-import 'package:tara_app/screens/Merchant/cash_deposit.dart';
-import 'package:tara_app/screens/Merchant/cash_deposit_select_contact.dart';
+import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class HomeTopBar extends StatefulWidget {
