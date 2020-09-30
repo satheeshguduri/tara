@@ -91,6 +91,9 @@ dev_dependencies:
   #show list in section wise
   flutter_section_table_view: ^1.0.5
 
+  #show dotted lines border
+  dotted_border: ^1.0.6
+
 dependency_overrides:
   analyzer: '0.39.14'
 # Run this script to generate the app icon: flutter pub run flutter_launcher_icons:main

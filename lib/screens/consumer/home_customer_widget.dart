@@ -8,9 +8,8 @@ import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
-import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
-import 'package:tara_app/screens/Merchant/cash_deposit.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -39,7 +38,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
       child: Column(
         children: [
           Container(
-            height: 230,
+            height: 260,
             child: HomeTopBar(),
           ),
           Expanded(
@@ -67,7 +66,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   {
     return Container(
       height: 95,
-      margin: EdgeInsets.only(left: 16, top: 16),
+      margin: EdgeInsets.only(left: 16,),
       child: Column(
         children: [
           Container(
@@ -118,7 +117,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           ),
           Container(
             margin: EdgeInsets.only(top: 8),
-            height: 40,
+            height: 45,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: myAccountArray.length,
@@ -136,7 +135,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     if (accountName == "tara wallet")
     {
       return Container(
-        padding: EdgeInsets.only(right:8),
+        padding: EdgeInsets.only(right: 8,top: 4,bottom: 4),
         child: Align(
           alignment: Alignment.bottomLeft,
           child: Container(
@@ -192,39 +191,43 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     }
     else{
       return Container(
-        padding: EdgeInsets.only(left:8,right:8),
-        child: Container(
-//          width: 141,
-          height: 30,
-          decoration: BoxDecoration(
-            border: Border.fromBorderSide(Borders.secondaryBorder),
-            borderRadius: Radii.k8pxRadius,
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 25,
-                height: 25,
-                margin: EdgeInsets.only(left: 8),
-                child: Image.asset(
-                  "assets/images/icon-2.png",
-                  fit: BoxFit.none,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 12,left: 4),
-                child: Text(
-                  accountName,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: AppColors.primaryText,
-                    fontFamily: "",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
+        padding: EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
+        child: DottedBorder(
+          borderType: BorderType.RRect,
+          color: Colors.grey[400],
+            strokeWidth:1.5,
+          radius: Radius.circular(8),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            child: Container(
+              height: 30,
+              child: Row(
+                children: [
+                  Container(
+                    width: 25,
+                    height: 25,
+                    margin: EdgeInsets.only(left: 8),
+                    child: Image.asset(
+                      "assets/images/icon-2.png",
+                      fit: BoxFit.none,
+                    ),
                   ),
-                ),
+                  Container(
+                    margin: EdgeInsets.only(right: 12,left: 4),
+                    child: Text(
+                      accountName,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: AppColors.primaryText,
+                        fontFamily: "",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       );
@@ -235,7 +238,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   {
     return Container(
         height: 140,
-        margin: EdgeInsets.only(left: 16, top: 24, right: 16),
+        margin: EdgeInsets.only(left: 16, top: 16, right: 16),
         child: Column(
           children: [
             Container(
@@ -314,7 +317,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   {
     return Container(
         height: 140,
-        margin: EdgeInsets.only(left: 16, top: 24, right: 16),
+        margin: EdgeInsets.only(left: 16, top: 16, right: 16),
         child: Column(
           children: [
             Container(
@@ -353,7 +356,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     return Container(
         margin: EdgeInsets.only(left: 16, ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               child: Row(
@@ -403,6 +406,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
             ),
             Container(
               child: ListView.builder(
+                padding:EdgeInsets.zero,
                 primary: false,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -420,7 +424,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   getTransactionsItemWidget()
   {
     return Container(
-      margin: EdgeInsets.only(left: 8, right: 8,top: 16),
+      margin: EdgeInsets.only(right: 16,top: 8),
       padding: EdgeInsets.all(8),
       height: 64,
       decoration:

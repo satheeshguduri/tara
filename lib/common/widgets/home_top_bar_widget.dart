@@ -28,7 +28,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 230,
+      height: 260,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -37,7 +37,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             top: 0,
             right: 0,
             child: Container(
-              height: 160,
+              height: 190,
               decoration: BoxDecoration(
                 gradient: Gradients.primaryGradient,
                   borderRadius: new BorderRadius.only(
@@ -50,7 +50,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           ),
           Positioned(
             left: 0,
-            top: 0,
+            top: 35,
             right: 0,
             bottom: 0,
             child: Column(
@@ -90,96 +90,100 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                       )),
                       Expanded(
                         flex: 6.toInt(),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 130,
-                              height: 38,
-                              margin: EdgeInsets.only(top: 9, right: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                        child: Container(
+                          margin: EdgeInsets.only(right: 16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                width: 130,
+                                height: 38,
+                                margin: EdgeInsets.only(top: 9,),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text(
+                                        "Hello",
+                                        textAlign: TextAlign.right,
+                                        style: BaseStyles.navigationTextStyle,
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Text(
+                                        "Kiran Kumar Yasala",
+                                        textAlign: TextAlign.right,
+                                        style: BaseStyles.nameTextStyle,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
                                 children: [
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text(
-                                      "Hello",
-                                      textAlign: TextAlign.right,
-                                      style: BaseStyles.navigationTextStyle,
+                                  Container(
+                                    width: 29,
+                                    height: 29,
+                                    margin: EdgeInsets.only(right: 4),
+                                    child: Stack(
+                                      alignment: Alignment.centerRight,
+                                      children: [
+                                        Positioned(
+                                          right: 4,
+                                          child: Image.asset(
+                                            Assets.NOTIFICATION_ICON,
+                                            fit: BoxFit.none,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: Container(
+                                            width: 14,
+                                            height: 14,
+                                            decoration: BoxDecoration(
+                                              color: Color.fromARGB(255, 249, 80, 116),
+                                              borderRadius: BorderRadius.all(Radius.circular(7)),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(horizontal: 4),
+                                                  child: Text(
+                                                    "3",
+                                                    textAlign: TextAlign.center,
+                                                    style: BaseStyles.notificationBadgeTextStyle,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text(
-                                      "Kiran Kumar Yasala",
-                                      textAlign: TextAlign.right,
-                                      style: BaseStyles.nameTextStyle,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                    alignment: Alignment.centerRight,
+                                    child: Container(
+                                      width: 33,
+                                      height: 33,
+//                                    margin: EdgeInsets.only(right: 16),
+                                      child: Image.asset(
+                                        Assets.PERSON_ICON,
+                                        fit: BoxFit.none,
+                                      ),
                                     ),
                                   ),
                                 ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 29,
-                                  height: 29,
-                                  margin: EdgeInsets.only(right: 4),
-                                  child: Stack(
-                                    alignment: Alignment.centerRight,
-                                    children: [
-                                      Positioned(
-                                        right: 4,
-                                        child: Image.asset(
-                                          Assets.NOTIFICATION_ICON,
-                                          fit: BoxFit.none,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        child: Container(
-                                          width: 14,
-                                          height: 14,
-                                          decoration: BoxDecoration(
-                                            color: Color.fromARGB(255, 249, 80, 116),
-                                            borderRadius: BorderRadius.all(Radius.circular(7)),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.symmetric(horizontal: 4),
-                                                child: Text(
-                                                  "3",
-                                                  textAlign: TextAlign.center,
-                                                  style: BaseStyles.notificationBadgeTextStyle,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Container(
-                                    width: 33,
-                                    height: 33,
-                                    margin: EdgeInsets.only(right: 16),
-                                    child: Image.asset(
-                                      Assets.PERSON_ICON,
-                                      fit: BoxFit.none,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],

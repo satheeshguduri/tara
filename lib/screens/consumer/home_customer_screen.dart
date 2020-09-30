@@ -62,9 +62,20 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: getBottomNavigation(),
-      floatingActionButton: FloatingActionButton(child: getTabImage(Assets.SCAN_IN_ACTIVE), onPressed: () {}),
+      floatingActionButton: FloatingActionButton(
+        child: Container(
+          width: 60,
+          height: 60,
+          child: getTabImage(Assets.SCAN_IN_ACTIVE,),
+          decoration: BoxDecoration(
+            gradient: Gradients.primaryGradient,
+            shape: BoxShape.circle,
+          ),
+        ),
+        onPressed: () {},
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: SafeArea(child: getRootContainer()),
+      body: SafeArea(child: getRootContainer(),top: false,bottom: true,),
     );
   }
 
