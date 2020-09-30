@@ -43,7 +43,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(bottom: 16),
+//              margin: EdgeInsets.only(bottom: 16),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,7 +51,10 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                     getMyAccountsWidget(),
                     getTransferToWidget(),
                     getPaymentWidget(),
-                    getTransactionsWidget()
+                    getTransactionsWidget(),
+                    Container(
+                      height: 32,
+                    )
                   ],
                 ),
               ),
