@@ -63,7 +63,7 @@ class BaseStyles {
 
   static TextStyle transferToItemTextStyle =  TextStyle(
   color: AppColors.primaryText,
-  fontFamily: "Roboto",
+//  fontFamily: "",
   fontWeight: FontWeight.w600,
   fontSize: 13,
   );
@@ -96,7 +96,7 @@ class BaseStyles {
   static TextStyle bottomSheetTitleStyle = TextStyle(
   color: Color(0xff123456),
   fontWeight: FontWeight.w700,
-  fontFamily: "",
+//  fontFamily: "",
   fontStyle:  FontStyle.normal,
   fontSize: 20.0
   );
@@ -104,7 +104,7 @@ class BaseStyles {
   static TextStyle bottomSheetSubTitleStyle = TextStyle(
   color:  Color(0xff123456),
   fontWeight: FontWeight.w500,
-  fontFamily: "",
+//  fontFamily: "",
   fontStyle:  FontStyle.normal,
   fontSize: 12.0
   );
@@ -112,7 +112,7 @@ class BaseStyles {
   static TextStyle bottomSheetLocationStyle = TextStyle(
   color:  Color(0xff123456),
   fontWeight: FontWeight.w400,
-  fontFamily: "",
+//  fontFamily: "",
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
   );
@@ -120,7 +120,7 @@ class BaseStyles {
   static TextStyle bottomSheetLocationChangeTextStyle =  TextStyle(
       color:  Color(0xff123456),
       fontWeight: FontWeight.w700,
-      fontFamily: "",
+//      fontFamily: "",
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
@@ -128,7 +128,7 @@ class BaseStyles {
   static TextStyle additionContactTextTextStyle =  TextStyle(
   color:  const Color(0xff123456),
   fontWeight: FontWeight.w500,
-  fontFamily: "",
+//  fontFamily: "",
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
   );
@@ -136,7 +136,7 @@ class BaseStyles {
   static TextStyle textFormFieldHeaderTitleTextStyle =  TextStyle(
   color:  const Color(0xff123456),
   fontWeight: FontWeight.w500,
-  fontFamily: "",
+//  fontFamily: "",
   fontStyle:  FontStyle.normal,
   fontSize: 12.0
   );
@@ -144,7 +144,7 @@ class BaseStyles {
   static TextStyle requestNowTextStyle =  TextStyle(
   color:  const Color(0xff889aac),
   fontWeight: FontWeight.w700,
-  fontFamily: "",
+//  fontFamily: "",
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
   );
@@ -152,7 +152,7 @@ class BaseStyles {
   static TextStyle contactsHeaderTextStyle =  TextStyle(
   color:  Color(0xff123456),
   fontWeight: FontWeight.w600,
-      fontFamily: "SctoGroteskA",
+//      fontFamily: "",
   fontStyle:  FontStyle.normal,
   fontSize: 10.0
   );
@@ -160,7 +160,7 @@ class BaseStyles {
   static TextStyle contactsTextStyle =   TextStyle(
   color:  Color(0xffffffff),
   fontWeight: FontWeight.w700,
-  fontFamily: "SctoGroteskA",
+//  fontFamily: "",
   fontStyle:  FontStyle.normal,
   fontSize: 16.0
   );

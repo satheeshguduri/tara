@@ -37,11 +37,30 @@ class Strings{
   static const NO_PROGRESS_YET = "No in progress request yet";
   static const SEE_AVAIL_REQ = "Check Incoming tab on top to see all available request to pick up.";
 
+  static const MY_ACCOUNTS = "My Accounts";
+  static const WALLET = "Wallet";
+  static const TRANSFER_TO = "Transfer to";
+  static const TRANSACTIONS = "Transactions";
+  static const TARA_CONTACTS = "TARA CONTACTS";
+  static const ALL_CONTACTS = "ALL CONTACTS";
+  static const SEARCHED_CONTACTS = "SEARCHED CONTACTS";
+  static const SELECT_LOCATION = "Select location";
+  static const CHANGE = "CHANGE";
+  static const DEPOSIT_AMOUNT = "Deposit amount";
+  static const REMARKS_OPTIONAL = "Remarks (optional)";
+  static const CONTACT_NAME = "Contact name";
+  static const PHONE_NUMBER = "Phone number";
+  static const RP = "Rp";
+  static const LOCATION_REMARKS_HINT = "Enter your location remarks";
+  static const CONTACT_NAME_HINT = "Enter contact name";
+  static const PHONE_NUMBER_HINT = "Enter phone number";
+  static const REQUEST_NOW = "Request Now";
 
-//
+
 //  static const SEND =  "send";
 //  static const APP_TITLE =  "app_title";
 //  static const RECEIVE = "receive";
 //  static const ADD_BENEFICIARY = "add_beneficiary";
 //  static const SHOP = "shop";
+
 }

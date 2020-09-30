@@ -72,7 +72,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(top: 10),
             child: Text(
-                "Cash Deposit",
+                Strings.CASH_DEPOSIT,
                 style:BaseStyles.bottomSheetTitleStyle,
                textAlign: TextAlign.left,
             ),
@@ -87,7 +87,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                     Container(
                       margin: EdgeInsets.only(top: 16),
                       child: Text(
-                          "Select location",
+                          Strings.SELECT_LOCATION,
                           style: BaseStyles.bottomSheetSubTitleStyle
                       ),
                     ),
@@ -142,7 +142,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                                 child: Column(
                                   children: [
                                     Text(
-                                        "CHANGE",
+                                        Strings.CHANGE,
                                         style: BaseStyles.bottomSheetLocationChangeTextStyle,
                                         textAlign: TextAlign.center
                                     ),
@@ -161,11 +161,11 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                         ),
                       ),
                     ),
-                    textFormFieldContainer("Deposit amount","Rp",TextInputType.number,depositTextController),
-                    textFormFieldContainer("Remarks (optional)","Enter your location remarks",TextInputType.text,remarksTextController),
+                    textFormFieldContainer(Strings.DEPOSIT_AMOUNT,Strings.RP,TextInputType.number,depositTextController),
+                    textFormFieldContainer(Strings.REMARKS_OPTIONAL,Strings.LOCATION_REMARKS_HINT,TextInputType.text,remarksTextController),
                     addAdditionalContactSwitch(),
-                    isSwitched==true?textFormFieldContainer("Contact name","Enter contact name",TextInputType.text,contactNameTextController):Container(),
-                    isSwitched==true?textFormFieldContainer("Phone number","Enter phone number",TextInputType.phone,phoneNumberController):Container(),
+                    isSwitched==true?textFormFieldContainer(Strings.CONTACT_NAME,Strings.CONTACT_NAME_HINT,TextInputType.text,contactNameTextController):Container(),
+                    isSwitched==true?textFormFieldContainer(Strings.PHONE_NUMBER,Strings.PHONE_NUMBER_HINT,TextInputType.phone,phoneNumberController):Container(),
                     requestNowWidget()
                   ],
                 ),
@@ -288,7 +288,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
           ),
           alignment: Alignment.center,
           child: Text(
-            "Request Now",
+            Strings.REQUEST_NOW,
             textAlign: TextAlign.center,
             style: BaseStyles.requestNowTextStyle,
           ),

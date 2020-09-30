@@ -214,12 +214,12 @@ class _CashDepositSelectContactState
         headerInSection: (section) {
           if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
             if (arrTaraContactInfo.length > 0 && section == 0) {
-              return headerViewContainer("TARA CONTACTS");
+              return headerViewContainer(Strings.TARA_CONTACTS);
             } else {
-              return headerViewContainer("ALL CONTACTS");
+              return headerViewContainer(Strings.ALL_CONTACTS);
             }
           } else {
-            return headerViewContainer("SEARCHED CONTACTS");
+            return headerViewContainer(Strings.SEARCHED_CONTACTS);
           }
         },
       ),

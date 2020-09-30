@@ -81,7 +81,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "My Accounts",
+                      Strings.MY_ACCOUNTS,
                       textAlign: TextAlign.left,
                       style: BaseStyles.homeScreenHeadersStyle,
                     ),
@@ -173,7 +173,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                       ),
 //                    Spacer(),
                       Text(
-                        "Wallet",
+                        Strings.WALLET,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: Colors.white,
@@ -252,7 +252,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Transfer to",
+                      Strings.TRANSFER_TO,
                       textAlign: TextAlign.left,
                       style:BaseStyles.homeScreenHeadersStyle,
                     ),
@@ -331,7 +331,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "Payment",
+                      Strings.PAYMENT,
                       textAlign: TextAlign.left,
                       style:BaseStyles.homeScreenHeadersStyle ,
                     ),
@@ -370,7 +370,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Transactions",
+                        Strings.TRANSACTIONS,
                         textAlign: TextAlign.left,
                         style: BaseStyles.homeScreenHeadersStyle,
                       ),
