@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
-import 'package:tara_app/common/constants/borders.dart';
-import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
-import 'package:tara_app/common/constants/radii.dart';
-import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/textfield_widget.dart';
-import 'package:tara_app/screens/Merchant/cash_deposit_select_contact.dart';
+import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class CashDepositWidget extends StatefulWidget {
@@ -72,7 +68,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(top: 10),
             child: Text(
-                "Cash Deposit",
+                Strings.CASH_DEPOSIT,
                 style:BaseStyles.bottomSheetTitleStyle,
                textAlign: TextAlign.left,
             ),
@@ -87,7 +83,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                     Container(
                       margin: EdgeInsets.only(top: 16),
                       child: Text(
-                          "Select location",
+                          Strings.SELECT_LOCATION,
                           style: BaseStyles.bottomSheetSubTitleStyle
                       ),
                     ),
@@ -142,7 +138,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                                 child: Column(
                                   children: [
                                     Text(
-                                        "CHANGE",
+                                        Strings.CHANGE,
                                         style: BaseStyles.bottomSheetLocationChangeTextStyle,
                                         textAlign: TextAlign.center
                                     ),
@@ -161,11 +157,11 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                         ),
                       ),
                     ),
-                    textFormFieldContainer("Deposit amount","Rp",TextInputType.number,depositTextController),
-                    textFormFieldContainer("Remarks (optional)","Enter your location remarks",TextInputType.text,remarksTextController),
+                    textFormFieldContainer(Strings.DEPOSIT_AMOUNT,Strings.RP,TextInputType.number,depositTextController),
+                    textFormFieldContainer(Strings.REMARKS_OPTIONAL,Strings.LOCATION_REMARKS_HINT,TextInputType.text,remarksTextController),
                     addAdditionalContactSwitch(),
-                    isSwitched==true?textFormFieldContainer("Contact name","Enter contact name",TextInputType.text,contactNameTextController):Container(),
-                    isSwitched==true?textFormFieldContainer("Phone number","Enter phone number",TextInputType.phone,phoneNumberController):Container(),
+                    isSwitched==true?textFormFieldContainer(Strings.CONTACT_NAME,Strings.CONTACT_NAME_HINT,TextInputType.text,contactNameTextController):Container(),
+                    isSwitched==true?textFormFieldContainer(Strings.PHONE_NUMBER,Strings.PHONE_NUMBER_HINT,TextInputType.phone,phoneNumberController):Container(),
                     requestNowWidget()
                   ],
                 ),
@@ -288,7 +284,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
           ),
           alignment: Alignment.center,
           child: Text(
-            "Request Now",
+            Strings.REQUEST_NOW,
             textAlign: TextAlign.center,
             style: BaseStyles.requestNowTextStyle,
           ),
