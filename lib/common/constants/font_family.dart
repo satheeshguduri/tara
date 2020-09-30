@@ -7,7 +7,6 @@
 
 class FontFamily {
   FontFamily._();
-
   static String scto = "Scto Grotesk A";
   static String roboto = "Roboto";
 }

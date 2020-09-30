@@ -4,6 +4,7 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
+import 'package:tara_app/screens/base/base_state.dart';
 
 class AgenttHomeScreen extends StatefulWidget {
   AgenttHomeScreen({Key key, this.title}) : super(key: key);
@@ -13,7 +14,7 @@ class AgenttHomeScreen extends StatefulWidget {
   AgentHomeScreenState createState() => AgentHomeScreenState();
 }
 
-class AgentHomeScreenState extends State<AgenttHomeScreen> {
+class AgentHomeScreenState extends BaseState<AgenttHomeScreen> {
 
 
   BoxDecoration roundedBoxDecoration(){
@@ -36,299 +37,38 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
     );
   }
 
+  @override
+  BuildContext getContext() {
+    // TODO: implement getContext
+    return context;
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      bottomNavigationBar:SafeArea(
-        bottom: true,
-        child:Container(
-          height: 84,
-          color: Color.fromARGB(255, 255, 255, 255),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Positioned(
-                left: 0,
-                top: 28,
-                right: 0,
-                bottom: 0,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      right: 0,
-                      child: Container(
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryElement,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color.fromARGB(36, 0, 0, 0),
-                              offset: Offset(0, 2),
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                        child: Container(),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      child:
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              width: 76,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryElement,
-                              ),
-                              child:
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Container(
-                                      width: 25,
-                                      height: 25,
-                                      margin: EdgeInsets.only(top: 8),
-                                      child: Image.asset(
-                                        Assets.ic_home,
-                                        fit: BoxFit.none,
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 21, right: 21, bottom: 4),
-                                    child: Text(
-                                      "Home",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: AppColors.primaryText,
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              width: 76,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryElement,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Container(
-                                      width: 25,
-                                      height: 25,
-                                      margin: EdgeInsets.only(top: 8),
-                                      child: Image.asset(
-                                        Assets.ic_chat,
-                                        fit: BoxFit.none,
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 25, right: 25, bottom: 4),
-                                    child: Text(
-                                      "Chat",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: AppColors.secondaryText,
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              width: 76,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryElement,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Container(
-                                      width: 25,
-                                      height: 25,
-                                      margin: EdgeInsets.only(top: 8),
-                                      child: Image.asset(
-                                        "assets/images/icon-24.png",
-                                        fit: BoxFit.none,
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 12, right: 12, bottom: 4),
-                                    child: Text(
-                                      "Accounts",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: AppColors.secondaryText,
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Container(
-                              width: 76,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryElement,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Container(
-                                      width: 25,
-                                      height: 25,
-                                      margin: EdgeInsets.only(top: 8),
-                                      child: Image.asset(
-                                        Assets.ic_settings,
-                                        fit: BoxFit.none,
-                                        color: AppColors.ternaryBackground,
-                                      ),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 4),
-                                    child: Text(
-                                      "Settings",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: AppColors.secondaryText,
-                                        fontFamily: "Roboto",
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        height: 1.5,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+      bottomNavigationBar:getBottomNavigation(),
+        floatingActionButton: FloatingActionButton(
+            child: Container(
+              height: 56,
+              decoration: BoxDecoration(
+                gradient: Gradients.primaryGradient,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(36, 7, 202, 208),
+                    offset: Offset(0, 4),
+                    blurRadius: 4,
+                  ),
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(28)),
               ),
-              Positioned(
-                child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 56,
-                      width: 56,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            right: 0,
-                            child: Container(
-                              height: 56,
-                              decoration: BoxDecoration(
-                                gradient: Gradients.primaryGradient,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color.fromARGB(36, 7, 202, 208),
-                                    offset: Offset(0, 4),
-                                    blurRadius: 4,
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.all(Radius.circular(28)),
-                              ),
-                              child: Container(),
-                            ),
-                          ),
-                          Positioned(
-                            left: 10,
-                            top: 13,
-                            right: 10,
-                            child: Image.asset(
-                              Assets.ic_Scan,
-                              fit: BoxFit.none,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-//                  Spacer(),
-                    Container(
-                      padding: EdgeInsets.only(top: 6),
-                      margin: EdgeInsets.symmetric(horizontal: 14),
-                      child: Text(
-                        "Scan",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.primaryText,
-                          fontFamily: "Roboto",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ) ,
-
-      ),
+              child:getTabImage(Assets.ic_Scan),
+            ),
+            onPressed: () {}),
+        floatingActionButtonLocation:
+        FloatingActionButtonLocation.centerDocked,
         body: SafeArea(
+          top: false,
           child:Container(
               constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
@@ -348,7 +88,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
                           children: [
 
                             Container(
-                              margin: EdgeInsets.only(left: 16, right: 16,top: 64),
+                              margin: EdgeInsets.only(left: 16, right: 16,top: 16),
                               padding: EdgeInsets.all(16),
                               height: 152,
                               decoration: BoxDecoration(
@@ -624,7 +364,6 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
                                   if(index == 0){
                                     return Container(
                                         margin: EdgeInsets.only(left: 16, right: 16,top: 16),
-
                                         height: 184,
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
@@ -651,7 +390,7 @@ class AgentHomeScreenState extends State<AgenttHomeScreen> {
                                               children: [
                                                 // Rectangle
                                                 Container(
-                                                  width: 140,
+//                                                  width: 140,
                                                   height: 52,
                                                   margin: EdgeInsets.only(left: 16, right: 16,top: 16),
                                                   padding: EdgeInsets.only(left:16,right: 16,top: 8,bottom: 8),
