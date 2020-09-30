@@ -25,6 +25,17 @@ class Strings{
   static const OUT_GOING = "Outgoing";
   static const INCOMING = "Incoming";
   static const AVAIL_BALANCE = "Available Balance";
+  static const TODAY_COLLECTION = "Today's Collection";
+  static const TODAY_PAYOUT = "Today’s Payout";
+  static const REQUEST = "Request";
+  static const ACCEPT_REQUEST = "Accept Request";
+  static const COMPLETE = "Complete";
+  static const COMMISSION = "Commission";
+  static const REJECT = "Reject";
+  static const ACCEPT = "Accept";
+
+  static const NO_PROGRESS_YET = "No in progress request yet";
+  static const SEE_AVAIL_REQ = "Check Incoming tab on top to see all available request to pick up.";
 
 
 //

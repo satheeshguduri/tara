@@ -18,6 +18,15 @@ class AppColors {
   static const Color primaryText = Color.fromARGB(255, 19, 53, 86);
   static const Color secondaryText = Color.fromARGB(255, 136, 154, 172);
   static const Color accentText = Color.fromARGB(255, 176, 180, 194);
+
   static const Color fareColor = Color(0xff123456);
+  static const Color light_grey_blue = Color(0Xffb0b4c1);
+  static const Color battleship_grey = Color(0Xff697683);
+  static const Color pale_turquoise = Color(0Xffb2f7e2);
+  static const Color color_black_80_2 = Color(0Xff889aac);
+  static const Color box_shadow_color_1 = Color(0x1f000000);
+  static const Color box_shadow_color_2 = Color(0x14000000);
+  static const Color badge_color = Color(0xfff95074);
+
 
 }

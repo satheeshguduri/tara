@@ -4,6 +4,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/Merchant/cash_deposit.dart';
 import 'package:tara_app/screens/Merchant/cash_deposit_select_contact.dart';
@@ -144,8 +145,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                                         width: 14,
                                         height: 14,
                                         decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 249, 80, 116),
-                                          borderRadius: BorderRadius.all(Radius.circular(7)),
+                                          color: AppColors.badge_color,
+                                          borderRadius: Radii.border(7),
                                         ),
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,

@@ -6,6 +6,7 @@
 */
 
 import 'package:flutter/rendering.dart';
+import 'package:tara_app/common/constants/colors.dart';
 
 
 class Shadows {
@@ -19,4 +20,17 @@ class Shadows {
     offset: Offset(0, 4),
     blurRadius: 8,
   );
+
+  static const List<BoxShadow> shadows_list = [
+    BoxShadow(
+        color: AppColors.box_shadow_color_1,
+        offset: Offset(0, 4),
+        blurRadius: 6,
+        spreadRadius: 0),
+    BoxShadow(
+        color: AppColors.box_shadow_color_2,
+        offset: Offset(0, 0),
+        blurRadius: 2,
+        spreadRadius: 0)
+  ];
 }

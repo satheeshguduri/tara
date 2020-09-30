@@ -64,6 +64,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
     return Scaffold(
       bottomNavigationBar: getBottomNavigation(),
       floatingActionButton: FloatingActionButton(
+        elevation: 0, highlightElevation: 0,
         child: Container(
           width: 60,
           height: 60,
