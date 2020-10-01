@@ -56,6 +56,36 @@ class Strings{
   static const PHONE_NUMBER_HINT = "Enter phone number";
   static const REQUEST_NOW = "Request Now";
 
+  static const RECENTLY_ADDED = "Recently Added";
+  static const ALL_ACCOUNTS = "All Account";
+  static const CONTACT_LIST = "Contact List";
+  static const SEND_TO_NEW_ACCOUNT = "Send to New Account";
+  static const SEARCHED_ACCOUNTS = "Searched Accounts";
+
+  static const TRANSFER_TO_BANK_ACCOUNT = "Transfer to Bank Account";
+  static const SEARCH_CONTACT = "Search Contact";
+  static const SEARCH_CONTACT_OR_BANK = "Search contact or bank";
+  static const ADD_ADDITIONAL_CONTACT = "Add additional contact (optional)";
+  static const ADD_NEW_BANK_ACCOUNT = "Add new bank account";
+  static const BANK_NAME = "Bank Name";
+  static const BANK_ACCOUNT_NUMBER = "Bank Account Number";
+  static const BANK_HOLDER_NAME = "Bank Holder Name";
+
+  static const ENTER_BANK_NAME = "Enter bank name";
+  static const ENTER_BANK_ACCOUNT_NUMBER = "Enter Bank account number";
+  static const VERIFY = "VERIFY";
+  static const SAVE_TO_MY_CONTACT = "Save to my contact";
+  static const ENTER_MPIN = "Enter MPIN";
+  static const CONFIRM_TRANSFER = "Confirm Transfer";
+  static const MPIN_ACCOUNT_NUMBER = "**** ***** **12";
+  static const TRANSACTION_DETAIL = "Transaction Detail";
+  static const AMOUNT = "Amount";
+  static const TRANSFER_SUCCESS = "Transfer Success!";
+  static const TRANSFERRED_TO = "Transfered to";
+  static const FROM = "From";
+  static const DOWNLOAD = "Download";
+  static const SHARE = "Share";
+
 
 //  static const SEND =  "send";
 //  static const APP_TITLE =  "app_title";

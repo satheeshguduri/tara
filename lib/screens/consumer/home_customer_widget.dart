@@ -142,7 +142,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         child: Align(
           alignment: Alignment.bottomLeft,
           child: Container(
-            width: 103,
+            width: 110,
             height: 40,
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 19, 53, 86),
@@ -171,17 +171,10 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                           ),
                         ),
                       ),
-//                    Spacer(),
                       Text(
                         Strings.WALLET,
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "Roboto",
-                          fontWeight: FontWeight.w400,
-                          fontSize: 8.89043,
-                          height: 1.33333,
-                        ),
+                        style: BaseStyles.taraWalletTextStyle,
                       ),
                     ],
                   ),
@@ -220,12 +213,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                     child: Text(
                       accountName,
                       textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontFamily: "",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                      ),
+                      style: BaseStyles.myAccountItemTextStyle,
                     ),
                   ),
                 ],

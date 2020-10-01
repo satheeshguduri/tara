@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tara_app/common/constants/styles.dart';
 
-class TextFieldWidget extends StatelessWidget {
+class TextFieldWidget extends StatefulWidget {
   final IconData icon;
   final String hint;
   final String errorText;
@@ -37,24 +38,28 @@ class TextFieldWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _TextFieldWidgetState createState() => _TextFieldWidgetState();
+}
+class _TextFieldWidgetState extends State<TextFieldWidget> {
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 48,
       child: Padding(
-        padding: padding,
+        padding: widget.padding,
         child: TextFormField(
-          controller: textController,
-          focusNode: focusNode!=null?focusNode:null,
-          onFieldSubmitted: onFieldSubmitted!=null?onFieldSubmitted:null,
-          onChanged: onChanged!=null?onChanged:null,
-          autofocus: autoFocus!=null?autoFocus:null,
-          textInputAction: inputAction!=null?inputAction:null,
-          obscureText: this.isObscure!=null?this.isObscure:null,
-          maxLength: 25,
+          controller: widget.textController,
+          focusNode: widget.focusNode!=null?widget.focusNode:null,
+          onFieldSubmitted: widget.onFieldSubmitted!=null?widget.onFieldSubmitted:null,
+          onChanged: widget.onChanged!=null?widget.onChanged:null,
+          autofocus: widget.autoFocus!=null?widget.autoFocus:null,
+          textInputAction: widget.inputAction!=null?widget.inputAction:null,
+          obscureText: widget.isObscure!=null?widget.isObscure:null,
+          maxLength: getMaxLength(),
           minLines: 1,
           maxLines: 1,
-          keyboardType: this.inputType!=null?this.inputType:null,
-          style: Theme.of(context).textTheme.body1,
+          keyboardType: widget.inputType!=null?widget.inputType:null,
+          style: BaseStyles.bankNameTextStyle,
           decoration: InputDecoration(
               contentPadding: EdgeInsets.all(0.0),
               border: InputBorder.none,
@@ -62,15 +67,30 @@ class TextFieldWidget extends StatelessWidget {
               enabledBorder: InputBorder.none,
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
-              hintText: this.hint!=null?this.hint:"",
-              hintStyle:
-              Theme.of(context).textTheme.body1.copyWith(color: hintColor),
-              errorText: errorText!=null?errorText:"",
+              hintText: widget.hint!=null?widget.hint:"",
+              hintStyle: BaseStyles.bankNameTextStyle,
+              errorText: widget.errorText!=null?widget.errorText:"",
               counterText: '',
-              icon: this.isIcon ? Icon(this.icon, color: iconColor) : null),
+              icon: widget.isIcon ? Icon(widget.icon, color: widget.iconColor) : null),
         ),
       ),
     );
   }
 
+  getMaxLength()
+  {
+    if (widget.inputType!=null)
+    {
+      if (widget.inputType==TextInputType.number){
+        return 19;
+      }
+      else if (widget.inputType==TextInputType.phone){
+        return 10;
+      }
+      else{
+        return 25;
+      }
+    }
+    return 25;
+  }
 }

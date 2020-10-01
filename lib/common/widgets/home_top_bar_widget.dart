@@ -8,6 +8,10 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
+import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/consumer/enter_mpin.dart';
+import 'package:tara_app/screens/consumer/transaction_detail.dart';
 
 class HomeTopBar extends StatefulWidget {
 
@@ -235,10 +239,24 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
-            RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
-            RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON),
-            RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON),
+            RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BankTransferAccountsList()),
+              );
+            },),
+            RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TransactionDetail()),
+              );
+            },),
+            RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
+              addNewBankAccountBottomSheet(context);
+            },),
+            RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON,onPressed: (){
+              enterMPINBottomSheet(context);
+            },),
           ],
         ),
       );
@@ -305,4 +323,27 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               child: CashDepositWidget());
         });
   }
+
+  addNewBankAccountBottomSheet(context) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc) {
+          return AddNewBankAccount();
+        });
+  }
+
+  enterMPINBottomSheet(context) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc) {
+          return EnterMPIN();
+        });
+  }
+
 }

@@ -69,16 +69,17 @@ class BaseStyles {
   );
 
   static TextStyle transactionItemPersonNameTextStyle =  TextStyle(
-  color: AppColors.primaryText,
-  fontWeight: FontWeight.w600,
-  fontSize: 15,
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
   );
 
   static TextStyle transactionItemDateTextStyle =  TextStyle(
-  color: AppColors.secondaryText,
-  fontWeight: FontWeight.w500,
-  fontSize: 10,
-  letterSpacing: 1,
+      color:  Colors.black54,
+      fontWeight: FontWeight.w500,
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0
   );
 
   static TextStyle transactionItemMoneyTextStyle =  TextStyle(
@@ -161,6 +162,118 @@ class BaseStyles {
   color:  Color(0xffffffff),
   fontWeight: FontWeight.w700,
 //  fontFamily: "",
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0
+  );
+
+  static TextStyle taraWalletTextStyle =   TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.w400,
+  fontSize: 8.89043,
+  height: 1.33333,
+  );
+
+  static TextStyle myAccountItemTextStyle = TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static TextStyle bankAccountHeaderTitleStyle = const TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 24.0
+  );
+
+  static TextStyle backAccountHeaderTextStyle = const TextStyle(
+      color: AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+
+  static TextStyle topBarTextStyle = const TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 20.0
+  );
+
+  static const addNewBankAccount = const TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static const bankNameTextStyle = const TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+
+  static const saveToMyContactTextStyle =const TextStyle(
+  color:  Colors.black54,
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const accountNumberInMPINTextStyle = const TextStyle(
+  color:  Colors.white,
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 24.0
+  );
+
+  static const accountNameInMPINTextStyle = const TextStyle(
+  color:  Colors.white,
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const enterMPINTextStyle = const TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 12.0
+  );
+
+  static const MPINTextStyle = const TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 40.0
+  );
+
+  static const amountTextStyle =const TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0
+  );
+
+  static const transactionSuccessTextStyle = const TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 24.0
+  );
+
+  static const dateAndTimeTextStyle =  const TextStyle(
+  color:  AppColors.uncheck_color,
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const transaction_account_name_textStytle =   const TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w500,
   fontStyle:  FontStyle.normal,
   fontSize: 16.0
   );

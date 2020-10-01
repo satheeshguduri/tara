@@ -6,6 +6,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/textfield_widget.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class CashDepositWidget extends StatefulWidget {
   CashDepositWidget({Key key}) : super(key: key);
@@ -21,6 +22,8 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
   TextEditingController contactNameTextController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   bool isSwitched = false;
+  FocusNode depositTextFocusNode = new FocusNode();
+  FocusNode phoneNumberFocusNode = new FocusNode();
 
   @override
   BuildContext getContext() {
@@ -43,6 +46,30 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
         child: updateViews()
     );
 
+  }
+
+  @override
+  initState() {
+    super.initState();
+    addListenersToRequiredTextField();
+  }
+
+  addListenersToRequiredTextField() {
+    depositTextFocusNode.addListener(() {
+      bool hasFocus = depositTextFocusNode.hasFocus;
+      if (hasFocus)
+        Utils().showOverlay(context);
+      else
+        Utils().removeOverlay();
+    });
+
+    phoneNumberFocusNode.addListener(() {
+      bool hasFocus = phoneNumberFocusNode.hasFocus;
+      if (hasFocus)
+        Utils().showOverlay(context);
+      else
+        Utils().removeOverlay();
+    });
   }
 
   updateViews()
@@ -157,11 +184,11 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                         ),
                       ),
                     ),
-                    textFormFieldContainer(Strings.DEPOSIT_AMOUNT,Strings.RP,TextInputType.number,depositTextController),
-                    textFormFieldContainer(Strings.REMARKS_OPTIONAL,Strings.LOCATION_REMARKS_HINT,TextInputType.text,remarksTextController),
+                    textFormFieldContainer(Strings.DEPOSIT_AMOUNT,Strings.RP,TextInputType.number,depositTextController,depositTextFocusNode),
+                    textFormFieldContainer(Strings.REMARKS_OPTIONAL,Strings.LOCATION_REMARKS_HINT,TextInputType.text,remarksTextController,null),
                     addAdditionalContactSwitch(),
-                    isSwitched==true?textFormFieldContainer(Strings.CONTACT_NAME,Strings.CONTACT_NAME_HINT,TextInputType.text,contactNameTextController):Container(),
-                    isSwitched==true?textFormFieldContainer(Strings.PHONE_NUMBER,Strings.PHONE_NUMBER_HINT,TextInputType.phone,phoneNumberController):Container(),
+                    isSwitched==true?textFormFieldContainer(Strings.CONTACT_NAME,Strings.CONTACT_NAME_HINT,TextInputType.text,contactNameTextController,null):Container(),
+                    isSwitched==true?textFormFieldContainer(Strings.PHONE_NUMBER,Strings.PHONE_NUMBER_HINT,TextInputType.phone,phoneNumberController,phoneNumberFocusNode):Container(),
                     requestNowWidget()
                   ],
                 ),
@@ -171,7 +198,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
     );
   }
 
-  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController)
+  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
   {
     return Container(
       margin: textEditingController == contactNameTextController?EdgeInsets.only(top:0):EdgeInsets.only(top:8),
@@ -201,7 +228,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                 children: [
                   Expanded(
                     flex: textEditingController == contactNameTextController?8.toInt():1,
-                    child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,),
+                    child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,),
                   ),
                   textEditingController == contactNameTextController?Expanded(
                       flex: 2.toInt(),
@@ -243,7 +270,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
           Container(
             margin: EdgeInsets.only(top: 8,bottom: 8),
             child: Text(
-                "Add additional contact (optional)",
+                Strings.ADD_ADDITIONAL_CONTACT,
                 style: BaseStyles.additionContactTextTextStyle,
                 textAlign: TextAlign.left,
             ),

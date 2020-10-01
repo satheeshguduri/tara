@@ -146,7 +146,7 @@ class _CashDepositSelectContactState
             fillColor: Colors.white,
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent, width: 0.1)),
-            hintText: "Search Contact",
+            hintText: Strings.SEARCH_CONTACT,
             hintStyle: BaseStyles.hintTextStyle,
             focusedBorder: new UnderlineInputBorder(
                 borderSide: new BorderSide(color: Colors.transparent)),

@@ -55,5 +55,16 @@ class Assets {
   static const tara_contacts = "assets/images/tara_contacts.png";
 
 
+  static const ic_bca = "assets/images/ic_bca.png";
+  static const ic_bni = "assets/images/ic_bni.png";
+  static const ic_bri = "assets/images/ic_bri.png";
+  static const ic_btn = "assets/images/ic_btn.png";
+  static const ic_mandiri = "assets/images/ic_mandiri.png";
+  static const ic_maybank = "assets/images/ic_maybank.png";
+  static const ic_permata = "assets/images/ic_permata.png";
+  static const ic_mpin_card = "assets/images/rectangle-2-4.png";
+
+  static const ic_download = "assets/images/icon-20.png";
+  static const ic_share = "assets/images/icon.png";
 
 }
