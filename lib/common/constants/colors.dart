@@ -27,6 +27,9 @@ class AppColors {
   static const Color box_shadow_color_1 = Color(0x1f000000);
   static const Color box_shadow_color_2 = Color(0x14000000);
   static const Color badge_color = Color(0xfff95074);
+  static const Color background_color = Color(0xfff7f7fa);
+
+
 
   static const Color header_top_bar_color = Color(0xff123456);
   static const Color bottom_border_color = Color(0xffb2f7e2);

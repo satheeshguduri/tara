@@ -19,6 +19,7 @@ import 'package:tara_app/common/widgets/custom_button.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/Agent/agent_home_screen.dart';
 import 'package:tara_app/screens/Merchant/merchant_home_screen.dart';
+import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';

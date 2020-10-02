@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
+import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 
 class BankTransferAccountsList extends StatefulWidget {
   BankTransferAccountsList({Key key}) : super(key: key);
@@ -197,7 +198,13 @@ class _BankTransferAccountsListState
         (headerTitle==Strings.RECENTLY_ADDED || headerTitle==Strings.SEARCHED_ACCOUNTS)?contactListTitleWidget():Container(),
         (headerTitle==Strings.RECENTLY_ADDED || headerTitle==Strings.SEARCHED_ACCOUNTS)?Container(
           margin: EdgeInsets.only(bottom: 8),
-          child: DashedLineBorderButton(buttonText: Strings.SEND_TO_NEW_ACCOUNT,buttonColor: Color(0xfff7f7fa),),
+          child: DashedLineBorderButton(buttonText: Strings.SEND_TO_NEW_ACCOUNT,buttonColor: Color(0xfff7f7fa),
+          onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BankTransferNewContact()),
+            );
+          },),
         ):Container(),
         Container(
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 16),

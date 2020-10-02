@@ -53,6 +53,15 @@ class Assets {
   static const ic_contact = "assets/images/contact.png";
   static const ic_location = "assets/images/icon-19.png";
   static const tara_contacts = "assets/images/tara_contacts.png";
+  static const ic_dropdown = "assets/images/icon-43.png";
+
+
+  static const ic_bank1= "assets/images/bank-central-asia.png";
+  static const ic_bank2 = "assets/images/bank-mandiri.png";
+  static const ic_bank3 = "assets/images/bank-bri-logo.png";
+  static const ic_bank4 = "assets/images/group-2.png";
+
+
 
 
   static const ic_bca = "assets/images/ic_bca.png";

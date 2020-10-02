@@ -277,4 +277,10 @@ class BaseStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 16.0
   );
+  static const error_text_style =   const TextStyle(
+      color:  AppColors.badge_color,
+      fontWeight: FontWeight.w500,
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0
+  );
 }

@@ -37,6 +37,8 @@ class Strings{
   static const NO_PROGRESS_YET = "No in progress request yet";
   static const SEE_AVAIL_REQ = "Check Incoming tab on top to see all available request to pick up.";
 
+  static const error_verify_bank_account = "Can’t verify the account number, please check again";
+
   static const MY_ACCOUNTS = "My Accounts";
   static const WALLET = "Wallet";
   static const TRANSFER_TO = "Transfer to";
@@ -56,6 +58,25 @@ class Strings{
   static const PHONE_NUMBER_HINT = "Enter phone number";
   static const REQUEST_NOW = "Request Now";
 
+  static const RECEIPENT = "Receipent";
+  static const BANK_NAME = "Bank Name";
+  static const BANK_NAME_HINT = "Enter bank name";
+  static const BANK_ACC_NO = "Bank Account Number";
+  static const BANK_ACC_NO_HINT = "Enter bank account number";
+
+  static const TRANSFER_DETAILS = "Transfer Details";
+  static const TRANSFER_AMT = "Transfer Amount";
+  static const TRANSFER_AMT_HINT = "Rp 0";
+  static const TRANSACTION_TYPE = "Transaction Type";
+  static const TRANSACTION_TYPE_HINT = "Choose transaction type";
+  static const MESSAGE_OPT = "Message(Optional)";
+  static const MESSAGE_OPT_HINT = "Enter your message";
+
+  static const PAYMENT_SOURCE = "Payment Source";
+  static const CONTINUE = "Continue";
+
+
+
   static const RECENTLY_ADDED = "Recently Added";
   static const ALL_ACCOUNTS = "All Account";
   static const CONTACT_LIST = "Contact List";
@@ -67,7 +88,7 @@ class Strings{
   static const SEARCH_CONTACT_OR_BANK = "Search contact or bank";
   static const ADD_ADDITIONAL_CONTACT = "Add additional contact (optional)";
   static const ADD_NEW_BANK_ACCOUNT = "Add new bank account";
-  static const BANK_NAME = "Bank Name";
+//  static const BANK_NAME = "Bank Name";
   static const BANK_ACCOUNT_NUMBER = "Bank Account Number";
   static const BANK_HOLDER_NAME = "Bank Holder Name";
 
@@ -85,6 +106,20 @@ class Strings{
   static const FROM = "From";
   static const DOWNLOAD = "Download";
   static const SHARE = "Share";
+
+  static const SET_RECURRING = "Set as recurring";
+  static const FREQUENCY = "Frequency";
+  static const DAILY = "Daily";
+  static const MONTHLY = "Monthly";
+  static const YEARLY = "Yeary";
+
+
+  static const START_DATE = "Start Date";
+  static const END_DATE = "End Date";
+  static const START_MONTH = "Start Month";
+  static const END_MONTH = "End Month";
+  static const START_YEAR = "Start Year";
+  static const END_YEAR = "End Year";
 
 
 //  static const SEND =  "send";

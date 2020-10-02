@@ -75,6 +75,12 @@ dependencies:
   #Json annotation can be used for json serializer
   json_annotation: 3.0.1
 
+  # show overlay view
+  flutter_typeahead: ^1.8.8
+
+  #show otp text field
+  otp_text_field: ^1.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -94,8 +100,7 @@ dev_dependencies:
   #show dotted lines border
   dotted_border: ^1.0.6
 
-  #show otp text field
-  otp_text_field: ^1.0.1
+
 
 dependency_overrides:
   analyzer: '0.39.14'

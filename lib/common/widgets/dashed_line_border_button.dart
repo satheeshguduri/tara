@@ -27,7 +27,7 @@ class _DashedLineBorderButtonState extends State<DashedLineBorderButton> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-
+        widget.onPressed();
       },
       child: Container(
         height: 40,
