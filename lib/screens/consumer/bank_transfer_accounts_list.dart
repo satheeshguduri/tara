@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
-import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
@@ -20,12 +18,12 @@ class BankTransferAccountsList extends StatefulWidget {
 
 class _BankTransferAccountsListState
     extends BaseState<BankTransferAccountsList> {
-  TextEditingController _searchQuery = TextEditingController();
+  final TextEditingController _searchQuery = TextEditingController();
   String _searchText = "";
-  final key = new GlobalKey<ScaffoldState>();
-  List<BankAccountContactInfo> arrContactInfo = List();
-  List<BankAccountContactInfo> arrRecentlyAddedContactInfo = List();
-  List<BankAccountContactInfo> arrFilterContactInfo = List();
+  final key = GlobalKey<ScaffoldState>();
+  List<BankAccountContactInfo> arrContactInfo = [];
+  List<BankAccountContactInfo> arrRecentlyAddedContactInfo = [];
+  List<BankAccountContactInfo> arrFilterContactInfo = [];
   List<String> arrContactNames = [
     "Kiran Kumar Y",
     "George G",
@@ -43,7 +41,7 @@ class _BankTransferAccountsListState
 
   @override
   BuildContext getContext() {
-    return this.context;
+    return context;
   }
 
   @override
@@ -63,7 +61,7 @@ class _BankTransferAccountsListState
   }
 
   void loadData() {
-    arrContactInfo = List();
+    arrContactInfo = [];
     for (var i = 0; i < arrContactNames.length; i++) {
       var taraContact = BankAccountContactInfo();
       taraContact.name = arrContactNames[i];
@@ -81,11 +79,11 @@ class _BankTransferAccountsListState
     }
   }
 
-  _buildTaraAndAllContactsList() {
+  Widget _buildTaraAndAllContactsList() {
     return listViewContainer();
   }
 
-  Widget _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       centerTitle: false,
@@ -106,7 +104,7 @@ class _BankTransferAccountsListState
     );
   }
 
-  contactListTitleWidget()
+  Widget contactListTitleWidget()
   {
     return Container(
       margin: EdgeInsets.only(top: 16,left: 16,right: 16),
@@ -140,7 +138,7 @@ class _BankTransferAccountsListState
     );
   }
 
-  listViewContainer() {
+  Widget listViewContainer() {
     return Container(
       height: MediaQuery.of(context).size.height,
       child: SectionTableView(
@@ -164,7 +162,7 @@ class _BankTransferAccountsListState
 
         cellAtIndexPath: (section, row) {
           if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
-            if (arrRecentlyAddedContactInfo.length > 0 && section == 0) {
+            if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
               return getContactItemWidget(arrRecentlyAddedContactInfo[row]);
             } else {
               return getContactItemWidget(arrContactInfo[row]);
@@ -178,7 +176,7 @@ class _BankTransferAccountsListState
 
         headerInSection: (section) {
           if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
-            if (arrRecentlyAddedContactInfo.length > 0 && section == 0) {
+            if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
               return headerViewContainer(Strings.RECENTLY_ADDED);
             } else {
               return headerViewContainer(Strings.ALL_ACCOUNTS);
@@ -191,7 +189,7 @@ class _BankTransferAccountsListState
     );
   }
 
-  headerViewContainer(String headerTitle) {
+  Widget headerViewContainer(String headerTitle) {
     return Column(
       children: [
         (headerTitle==Strings.RECENTLY_ADDED || headerTitle==Strings.SEARCHED_ACCOUNTS)? getSearchBarWidget():Container(),
@@ -216,7 +214,7 @@ class _BankTransferAccountsListState
     );
   }
 
-  getSearchBarWidget()
+  Widget getSearchBarWidget()
   {
     return Column(
       children: [
@@ -229,7 +227,7 @@ class _BankTransferAccountsListState
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: new Border.all(color: Colors.grey, width: 1),
+            border: Border.all(color: Colors.grey, width: 1),
           ),
           child: TextField(
             controller: _searchQuery,
@@ -242,14 +240,14 @@ class _BankTransferAccountsListState
               if (_searchText != null &&
                   _searchText.toString().isNotEmpty &&
                   _searchText.toString().length > 2) {
-                arrFilterContactInfo = List();
-                if (arrContactInfo.length > 0) {
+                arrFilterContactInfo = [];
+                if (arrContactInfo.isNotEmpty) {
                   arrFilterContactInfo = arrContactInfo
                       .where((contact) => contact.name
                       .toLowerCase()
                       .contains(_searchText.toLowerCase()))
                       .toList();
-                  if (arrFilterContactInfo.length > 0) {
+                  if (arrFilterContactInfo.isNotEmpty) {
                     setState(() {});
                   }
                 }
@@ -263,7 +261,7 @@ class _BankTransferAccountsListState
                 }
               }
             },
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.search,
                 color: Colors.black54,
@@ -274,8 +272,8 @@ class _BankTransferAccountsListState
                   borderSide: BorderSide(color: Colors.transparent, width: 0.1)),
               hintText: Strings.SEARCH_CONTACT_OR_BANK,
               hintStyle: BaseStyles.hintTextStyle,
-              focusedBorder: new UnderlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.transparent)),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent)),
               suffixIcon: InkWell(
                 onTap: () => () {
                   setState(() {
@@ -286,8 +284,7 @@ class _BankTransferAccountsListState
                 },
                 child: Icon(Icons.clear,
                     color: (_searchText != null &&
-                        _searchText.toString().isNotEmpty &&
-                        _searchText.toString().length > 0)
+                        _searchText.toString().isNotEmpty)
                         ? Colors.black54
                         : Colors.transparent),
               ),
@@ -302,7 +299,7 @@ class _BankTransferAccountsListState
       ],
     );
   }
-  getContactItemWidget(BankAccountContactInfo contactInfo) {
+  Widget getContactItemWidget(BankAccountContactInfo contactInfo) {
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16, top: 8),
       padding: EdgeInsets.all(8),

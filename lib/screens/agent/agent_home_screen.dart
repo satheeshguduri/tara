@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
@@ -9,15 +8,15 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
-class AgenttHomeScreen extends StatefulWidget {
-  AgenttHomeScreen({Key key, this.title}) : super(key: key);
+class AgentHomeScreen extends StatefulWidget {
+  AgentHomeScreen({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
   AgentHomeScreenState createState() => AgentHomeScreenState();
 }
 
-class AgentHomeScreenState extends BaseState<AgenttHomeScreen> {
+class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
   int _currentIndex = 0;
   int selectedSegmentIndex = 0;
 
@@ -29,7 +28,7 @@ class AgentHomeScreenState extends BaseState<AgenttHomeScreen> {
   }
 
   @override
-  getBottomNavigation() {
+  BottomNavigationBar getBottomNavigation() {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
       onTap: (index) {
@@ -265,7 +264,7 @@ class AgentHomeScreenState extends BaseState<AgenttHomeScreen> {
                                   Switch(
                                       value: true,
                                       activeColor: Colors.greenAccent,
-                                      onChanged: (bool) {})
+                                      onChanged: (_) {})
                                 ],
                               )
                             ],
@@ -319,7 +318,7 @@ class AgentHomeScreenState extends BaseState<AgenttHomeScreen> {
                                               child: Text(
                                                   "1",
                                                   style: const TextStyle(
-                                                      color:  const Color(0xffffffff),
+                                                      color:  Color(0xffffffff),
                                                       fontWeight: FontWeight.w700,
                                                       fontStyle:  FontStyle.normal,
                                                       fontSize: 10.0

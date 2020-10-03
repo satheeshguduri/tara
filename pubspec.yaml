@@ -85,11 +85,15 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+
   #build runner used to auto generate the source
   build_runner:
 
   #To generate the serializable object for a data model
   json_serializable:
+
+  #code analysis lib
+  pedantic: 1.8.0
 
   #MobX store code auto generation library
   mobx_codegen:
@@ -113,6 +117,37 @@ flutter_icons:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flavorizr:
+  app:
+    android:
+      flavorDimensions: "flavor-type"
+    ios:
+
+  flavors:
+    consumer:
+      app:
+        name: "Tara Consumer"
+      android:
+        applicationId: "app.tara.consumer"
+      ios:
+        bundleId: "app.tara.consumer"
+
+    agent:
+      app:
+        name: "Tara Agent"
+      android:
+        applicationId: "app.tara.consumer"
+      ios:
+        bundleId: "app.tara.consumer"
+    merchant:
+      app:
+        name: "Tara Merchant"
+      android:
+        applicationId: "app.tara.merchant"
+      ios:
+        bundleId: "app.tara.merchant"
+
+
 # The following section is specific to Flutter.
 flutter:
 
@@ -132,6 +167,7 @@ flutter:
 #    - assets/images/avatar-11.png
   assets:
     - assets/images/
+    - assets/lang/
 
   fonts:
     - family: Scto Grotesk A

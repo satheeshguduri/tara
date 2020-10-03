@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main-agent.dart
+
+ASSET_PREFIX=agent
+BUNDLE_NAME=Tara Agent

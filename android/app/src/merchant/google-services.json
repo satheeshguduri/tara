@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "742776143796",
+    "firebase_url": "https://tara-4c07f.firebaseio.com",
+    "project_id": "tara-4c07f",
+    "storage_bucket": "tara-4c07f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742776143796:android:d61d38ccc0d63cfea73ce1",
+        "android_client_info": {
+          "package_name": "app.tara.agent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742776143796-23p3jltnvi0aj5bnvh5u7uau0j5tn5dm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZBx9_FPCmIKM5VXJHUXdYbLKofwZh1sU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742776143796-23p3jltnvi0aj5bnvh5u7uau0j5tn5dm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "742776143796-in1dj2qrgu0nursc32o4p54c2be6ccro.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.tara.consumer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742776143796:android:b99c9442f0eb8018a73ce1",
+        "android_client_info": {
+          "package_name": "app.tara.consumer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742776143796-23p3jltnvi0aj5bnvh5u7uau0j5tn5dm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZBx9_FPCmIKM5VXJHUXdYbLKofwZh1sU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742776143796-23p3jltnvi0aj5bnvh5u7uau0j5tn5dm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "742776143796-in1dj2qrgu0nursc32o4p54c2be6ccro.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.tara.consumer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742776143796:android:dac1acfe6a15464da73ce1",
+        "android_client_info": {
+          "package_name": "app.tara.merchant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742776143796-23p3jltnvi0aj5bnvh5u7uau0j5tn5dm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZBx9_FPCmIKM5VXJHUXdYbLKofwZh1sU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742776143796-23p3jltnvi0aj5bnvh5u7uau0j5tn5dm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "742776143796-in1dj2qrgu0nursc32o4p54c2be6ccro.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.tara.consumer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

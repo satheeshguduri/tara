@@ -24,9 +24,9 @@ mixin BaseWidgets {
 
   AppBar getEmptyAppBar() => null;
 
-//ToDo: Change all the refernce types and specify return type
+//ToDo: Change all the reference types and specify return type
   dynamic buildBottomSheet(BuildContext context, Widget widget) {
-    this.modelContext = context;
+    modelContext = context;
     return showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -35,7 +35,7 @@ mixin BaseWidgets {
   }
 
   dynamic buildBottomSheetWithInsets(BuildContext context, Widget widget) {
-    this.modelContext = context;
+    modelContext = context;
     return showModalBottomSheet(
         isScrollControlled: true,
         context: context,

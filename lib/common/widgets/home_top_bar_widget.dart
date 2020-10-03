@@ -14,9 +14,9 @@ import 'package:tara_app/screens/consumer/enter_mpin.dart';
 import 'package:tara_app/screens/consumer/transaction_detail.dart';
 
 class HomeTopBar extends StatefulWidget {
-
+  final String appName;
   HomeTopBar({Key key, this.appName = ""}) : super(key: key);
-  String appName;
+
 
   @override
   _HomeTopBarState createState() => _HomeTopBarState();
@@ -26,7 +26,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
 
   @override
   BuildContext getContext() {
-    return this.context;
+    return context;
   }
 
   @override
@@ -44,7 +44,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               height: 190,
               decoration: BoxDecoration(
                 gradient: Gradients.primaryGradient,
-                  borderRadius: new BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     bottomLeft: const Radius.circular(16.0),
                     bottomRight: const Radius.circular(16.0),
                   )
@@ -200,7 +200,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
     );
   }
 
-  getTopOptions()
+  Widget getTopOptions()
   {
     if(widget.appName == "Merchant"){
       return Container(
@@ -211,9 +211,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
             RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
-            RoundedButton(buttonText: Strings.CASH_DEPOSIT,image: Assets.ic_cash_deposit,onPressed:(){
-              return cashDepositBottomSheet();
-            }),
+            RoundedButton(buttonText: Strings.CASH_DEPOSIT,image: Assets.ic_cash_deposit,onPressed:cashDepositBottomSheet),
             RoundedButton(buttonText: Strings.RESTOCK,image: Assets.ic_restock,),
           ],
         ),
@@ -252,10 +250,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               );
             },),
             RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
-              addNewBankAccountBottomSheet(context);
+              addNewBankAccountBottomSheet(); //removed context here
             },),
             RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON,onPressed: (){
-              enterMPINBottomSheet(context);
+              enterMPINBottomSheet();
             },),
           ],
         ),
@@ -264,7 +262,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
 
   }
 
-  getSearchWidget() {
+  Widget getSearchWidget() {
     return InkWell(
       onTap: (){
 
@@ -305,7 +303,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
     );
   }
 
-  cashDepositBottomSheet() {
+   Future  cashDepositBottomSheet() {
     return showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
@@ -324,7 +322,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         });
   }
 
-  addNewBankAccountBottomSheet(context) {
+  void addNewBankAccountBottomSheet() {
     showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
@@ -334,9 +332,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           return AddNewBankAccount();
         });
   }
-
-  enterMPINBottomSheet(context) {
-    showModalBottomSheet(
+   void enterMPINBottomSheet() => showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
         backgroundColor: Colors.transparent,
@@ -344,6 +340,5 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         builder: (BuildContext bc) {
           return EnterMPIN();
         });
-  }
 
 }

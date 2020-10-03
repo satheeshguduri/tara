@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:dotted_border/dotted_border.dart';
 
 class DropDownList extends StatefulWidget {
   final List<BankInfo> banksList;
@@ -21,13 +18,13 @@ class DropDownList extends StatefulWidget {
 class _DropDownListState extends State<DropDownList> {
   @override
   Widget build(BuildContext context) {
-    return (widget.banksList!=null&&widget.banksList.length>0)? Card(
+    return (widget.banksList!=null&& widget.banksList.isNotEmpty)? Card(
       child: Container(
         color: Colors.transparent,
         height: (widget.banksList.length * 40).toDouble(),
         child:ListView.separated(
           padding: EdgeInsets.zero,
-          itemCount: (widget.banksList!=null&&widget.banksList.length>0)?widget.banksList.length:0,
+          itemCount: (widget.banksList!=null && widget.banksList.isNotEmpty)?widget.banksList.length:0,
           itemBuilder: (context, index) {
             return Container(
               height: 42,

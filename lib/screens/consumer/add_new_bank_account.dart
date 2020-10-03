@@ -5,7 +5,7 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/drop_down_list.dart';
-import 'package:tara_app/common/widgets/textfield_widget.dart';
+import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
@@ -25,10 +25,10 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
   bool isVerified = false;
   bool isToShowList = false;
   bool isToSaveContact = false;
-  FocusNode bankAccountNumberFocusNode = new FocusNode();
+  FocusNode bankAccountNumberFocusNode = FocusNode();
 
-  List<BankInfo> arrBankInfo = List();
-  List<BankInfo> arrFilterBankInfo = List();
+  List<BankInfo> arrBankInfo = [];
+  List<BankInfo> arrFilterBankInfo = [];
   List<String> arrBankNames = [
     "Bank BCA",
     "Bank BNI",
@@ -50,7 +50,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
 
   @override
   BuildContext getContext() {
-    return this.context;
+    return context;
   }
 
   @override
@@ -101,7 +101,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
                   ),
                 ),
                 textFormFieldContainer(Strings.BANK_NAME,Strings.ENTER_BANK_NAME,TextInputType.text,bankNameTextController,selectedBankFromList,null),
-                (isToShowList==true && arrFilterBankInfo.length > 0)?Container(
+                (isToShowList==true && arrFilterBankInfo.isNotEmpty)?Container(
                   margin: EdgeInsets.only(top: 1,bottom: 3),
                   child: DropDownList(banksList: arrFilterBankInfo,onPressed: (selectedBank){
                     selectedBankFromList = selectedBank;
@@ -164,18 +164,19 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
 
   }
 
-  addListenersToRequiredTextField() {
+  void addListenersToRequiredTextField() {
     bankAccountNumberFocusNode.addListener(() {
-      bool hasFocus = bankAccountNumberFocusNode.hasFocus;
-      if (hasFocus)
+      var hasFocus = bankAccountNumberFocusNode.hasFocus;
+      if (hasFocus) {
         Utils().showOverlay(context);
-      else
+      } else {
         Utils().removeOverlay();
+      }
     });
   }
 
   void loadData() {
-    arrBankInfo = List();
+    arrBankInfo = [];
 
     for (var i = 0; i < arrBankNames.length; i++) {
       var bank = BankInfo();
@@ -185,22 +186,21 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
     }
   }
 
-  onChanged(TextEditingController textEditingController)
-  {
+  void onChanged(TextEditingController textEditingController) {
     if (textEditingController==bankNameTextController)
     {
      var _searchText = textEditingController.text;
       if (_searchText != null &&
           _searchText.toString().isNotEmpty &&
           _searchText.toString().length > 2) {
-        arrFilterBankInfo = List();
-        if (arrBankInfo.length > 0) {
+        arrFilterBankInfo = [];
+        if (arrBankInfo.isNotEmpty) {
           arrFilterBankInfo = arrBankInfo
               .where((bank) => bank.bankName
               .toLowerCase()
               .contains(_searchText.toLowerCase()))
               .toList();
-          if (arrFilterBankInfo.length > 0) {
+          if (arrFilterBankInfo.isNotEmpty) {
             setState(() {
               isToShowList = true;
               selectedBankFromList = BankInfo();
@@ -220,7 +220,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
     }
   }
 
-  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,BankInfo bankInfo,FocusNode focusNode)
+  Widget textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,BankInfo bankInfo,FocusNode focusNode)
   {
     return Container(
         margin: EdgeInsets.only(top:8),
@@ -284,8 +284,8 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
                       child: textEditingController == bankAccountNumberTextController?
                       InkWell(onTap: (){
                         Utils().hideKeyBoard(context);
-                        if (bankNameTextController!=null && bankNameTextController.text.length>0 &&
-                            bankAccountNumberTextController!=null && bankAccountNumberTextController.text.length>0)
+                        if (bankNameTextController!=null && bankNameTextController.text.isNotEmpty &&
+                            bankAccountNumberTextController!=null && bankAccountNumberTextController.text.isNotEmpty)
                         {
                           setState(() {
                             isVerified = true;
@@ -320,7 +320,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
         )
     );
   }
-  addNewBankAccountWidget()
+  Widget addNewBankAccountWidget()
   {
     return InkWell(
       onTap: (){

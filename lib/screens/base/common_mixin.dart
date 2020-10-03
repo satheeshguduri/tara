@@ -19,7 +19,9 @@ import 'package:toast/toast.dart';
 mixin CommonMixin {
   BuildContext getContext();
 
- // String getTranslation(var context,String key) => AppLocalizations.of(context).translate(key);
+//  String getTranslation(var context,String key) => AppLocalizations.of(context).translate(key);
+  String getTranslation(String key) => AppLocalizations.of(getContext()).translate(key);
+
   ///logs firebase event with [data] provided
   void logEvent({@required String eventName, Map<String, dynamic> params}) {
     Provider.of<FirebaseAnalytics>(getContext(), listen: false)

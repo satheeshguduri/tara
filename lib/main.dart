@@ -17,16 +17,18 @@ import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'package:tara_app/common/widgets/custom_button.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
-import 'package:tara_app/screens/Agent/agent_home_screen.dart';
 import 'package:tara_app/screens/Merchant/merchant_home_screen.dart';
-import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
-import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
-import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';
+import 'common/widgets/custom_button.dart';
+import 'common/widgets/rounded_button.dart';
+import 'flavors.dart';
+import 'screens/agent/agent_home_screen.dart';
+import 'screens/consumer/home_customer_screen.dart';
 import 'common/constants/app_theme.dart';
 
 void main() async{
+
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) async {
@@ -70,19 +72,33 @@ class _TaraAppState extends State<TaraApp> {
       child: MaterialApp(
             debugShowCheckedModeBanner: false,
             localizationsDelegates: [
+              AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
+//            locale: Locale(window.),
             supportedLocales: [
               const Locale('en', ''), // English, no country code
               const Locale('id', ''), // Spanish, no country code
           ],
-            home: HomeCustomerScreen(),
+            home: getLandingScreen(),
             title: "Tara",
             theme: themeData
       ),
     );
+  }
+
+  Widget getLandingScreen(){
+        if(Flavor.CONSUMER == F.appFlavor){
+            return HomeCustomerScreen();
+        }else if(Flavor.MERCHANT == F.appFlavor){
+            return MerchantHomeScreen();
+        }else if(Flavor.AGENT == F.appFlavor){
+          return AgentHomeScreen();
+        }
+
+        return HomeCustomerScreen();
   }
 }
 

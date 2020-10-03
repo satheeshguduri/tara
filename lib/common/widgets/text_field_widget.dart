@@ -77,7 +77,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
     );
   }
 
-  getMaxLength()
+  int getMaxLength()
   {
     if (widget.inputType!=null)
     {

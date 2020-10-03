@@ -31,6 +31,27 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+
+    flavorDimensions "flavor-type"
+
+    productFlavors {
+        consumer {
+            dimension "flavor-type"
+            applicationId "app.tara.consumer"
+            resValue "string", "app_name", "Tara Consumer"
+        }
+        agent {
+            dimension "flavor-type"
+            applicationId "app.tara.agent"
+            resValue "string", "app_name", "Tara Agent"
+        }
+        merchant {
+            dimension "flavor-type"
+            applicationId "app.tara.merchant"
+            resValue "string", "app_name", "Tara Merchant"
+        }
+    }
+
     compileSdkVersion 28
 
     sourceSets {

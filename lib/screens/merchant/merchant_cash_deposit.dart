@@ -3,7 +3,7 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:tara_app/common/widgets/textfield_widget.dart';
+import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/utils/locale/utils.dart';

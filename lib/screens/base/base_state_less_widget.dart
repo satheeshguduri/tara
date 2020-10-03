@@ -14,6 +14,6 @@ abstract class BaseStateLessWidget extends StatelessWidget {
 
   BaseStateLessWidget({Key key}) : super(key: key);
 
-  String getTranslatedString(var context,String key) => AppLocalizations.of(context).translate(key);
+  String getTranslatedString(BuildContext context,String key) => AppLocalizations.of(context).translate(key);
 
 }

@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main-merchant.dart
+
+ASSET_PREFIX=merchant
+BUNDLE_NAME=Tara Merchant

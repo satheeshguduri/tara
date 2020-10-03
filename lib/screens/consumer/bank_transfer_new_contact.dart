@@ -7,7 +7,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
-import 'package:tara_app/common/widgets/textfield_widget.dart';
+import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 import 'Data.dart';

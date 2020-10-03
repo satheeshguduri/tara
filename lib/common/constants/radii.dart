@@ -11,7 +11,7 @@ import 'package:flutter/rendering.dart';
 class Radii {
   static const BorderRadiusGeometry k8pxRadius = BorderRadius.all(Radius.circular(8));
 
-  static border(double val){
+  static BorderRadius border(double val){
     return BorderRadius.all(Radius.circular(val));
   }
 }
