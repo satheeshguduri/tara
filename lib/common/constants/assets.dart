@@ -75,5 +75,6 @@ class Assets {
 
   static const ic_download = "assets/images/icon-20.png";
   static const ic_share = "assets/images/icon.png";
+  static const ic_plus = "assets/images/icon-2.png";
 
 }

@@ -244,16 +244,12 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               );
             },),
             RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TransactionDetail()),
-              );
+
             },),
             RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
-              addNewBankAccountBottomSheet(); //removed context here
             },),
             RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON,onPressed: (){
-              enterMPINBottomSheet();
+
             },),
           ],
         ),
@@ -321,24 +317,4 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               child: CashDepositWidget());
         });
   }
-
-  void addNewBankAccountBottomSheet() {
-    showModalBottomSheet(
-        isScrollControlled: true,
-        useRootNavigator: true,
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (BuildContext bc) {
-          return AddNewBankAccount();
-        });
-  }
-   void enterMPINBottomSheet() => showModalBottomSheet(
-        isScrollControlled: true,
-        useRootNavigator: true,
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (BuildContext bc) {
-          return EnterMPIN();
-        });
-
 }

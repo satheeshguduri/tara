@@ -9,7 +9,9 @@ import 'package:tara_app/common/widgets/card_view.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class EnterMPIN extends StatefulWidget {
-  EnterMPIN({Key key}) : super(key: key);
+  EnterMPIN({Key key, this.onConfirmTransfer}) : super(key: key);
+
+  Function onConfirmTransfer;
 
   @override
   _EnterMPINState createState() => _EnterMPINState();
@@ -110,7 +112,7 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
   {
     return InkWell(
       onTap: (){
-
+        widget.onConfirmTransfer();
       },
       child: Container(
         height: 48,

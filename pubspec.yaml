@@ -81,6 +81,12 @@ dependencies:
   #show otp text field
   otp_text_field: ^1.0.1
 
+  #show list in section wise
+  flutter_section_table_view: ^1.0.5
+
+  #show dotted lines border
+  dotted_border: ^1.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -98,11 +104,7 @@ dev_dependencies:
   #MobX store code auto generation library
   mobx_codegen:
 
-  #show list in section wise
-  flutter_section_table_view: ^1.0.5
 
-  #show dotted lines border
-  dotted_border: ^1.0.6
 
 
 

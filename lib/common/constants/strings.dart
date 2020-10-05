@@ -121,6 +121,8 @@ class Strings{
   static const START_YEAR = "Start Year";
   static const END_YEAR = "End Year";
 
+  static const SELECT_ACC = "Select Account";
+
 
 //  static const SEND =  "send";
 //  static const APP_TITLE =  "app_title";

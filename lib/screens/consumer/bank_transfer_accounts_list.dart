@@ -300,60 +300,69 @@ class _BankTransferAccountsListState
     );
   }
   Widget getContactItemWidget(BankAccountContactInfo contactInfo) {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16, top: 8),
-      padding: EdgeInsets.all(8),
-      height: 64,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-                color: const Color(0x1f000000),
-                offset: Offset(0, 4),
-                blurRadius: 6,
-                spreadRadius: 0),
-            BoxShadow(
-                color: const Color(0x14000000),
-                offset: Offset(0, 0),
-                blurRadius: 2,
-                spreadRadius: 0)
-          ],
-          color: AppColors.primaryBackground),
-      child: Center(
-        child: Row(
-          children: [
-            Image.asset(
-              "assets/images/avatar-11.png",
-              height: 32,
-              width: 32,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 4),
-                    child: Text(
-                      contactInfo.name,
-                      textAlign: TextAlign.left,
-                      style: BaseStyles.transactionItemPersonNameTextStyle,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 4),
-                    child: Text(
-                      contactInfo.accountNumber,
-                      textAlign: TextAlign.left,
-                      style: BaseStyles.transactionItemDateTextStyle,
-                    ),
-                  ),
-                ],
+    return InkWell(
+      child: Container(
+        margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+        padding: EdgeInsets.all(8),
+        height: 64,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0x1f000000),
+                  offset: Offset(0, 4),
+                  blurRadius: 6,
+                  spreadRadius: 0),
+              BoxShadow(
+                  color: const Color(0x14000000),
+                  offset: Offset(0, 0),
+                  blurRadius: 2,
+                  spreadRadius: 0)
+            ],
+            color: AppColors.primaryBackground),
+        child: Center(
+          child:
+          Row(
+            children: [
+              Image.asset(
+                "assets/images/avatar-11.png",
+                height: 32,
+                width: 32,
               ),
-            ),
-          ],
+              Container(
+                margin: EdgeInsets.only(left: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 4),
+                      child: Text(
+                        contactInfo.name,
+                        textAlign: TextAlign.left,
+                        style: BaseStyles.transactionItemPersonNameTextStyle,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 4),
+                      child: Text(
+                        contactInfo.accountNumber,
+                        textAlign: TextAlign.left,
+                        style: BaseStyles.transactionItemDateTextStyle,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BankTransferNewContact(contactInfo: contactInfo,)),
+        );
+      },
     );
   }
 }

@@ -9,12 +9,17 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
+import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/consumer/enter_mpin.dart';
+import 'package:tara_app/screens/consumer/transaction_detail.dart';
 
 import 'Data.dart';
 
 class BankTransferNewContact extends StatefulWidget {
-  BankTransferNewContact({Key key, this.title}) : super(key: key);
+  BankTransferNewContact({Key key, this.title, this.contactInfo}) : super(key: key);
   final String title;
+  BankAccountContactInfo contactInfo;
 
   @override
   _BankTransferNewContactState createState() => _BankTransferNewContactState();
@@ -42,9 +47,12 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   String frequencyType;
   String transType;
   PaymentSource source;
+  PaymentSource bankAccount;
+
   BankModel selectedbank;
   bool isToSaveContact = false;
   bool isBankAccVerFailed = false;
+  BankAccountContactInfo contactInfo;
 
   @override
   BuildContext getContext() {
@@ -56,6 +64,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    contactInfo = widget.contactInfo;
 
     BankList.init();
     for (var i = 0; i < bankList.length; i++) {
@@ -96,7 +105,98 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                           spreadRadius: 0)
                     ],
                   ),
-                  child: Column(
+                  child: contactInfo != null ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      Text(Strings.RECEIPENT,
+                      style: const TextStyle(
+                          color: AppColors.fareColor,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.0)),
+                        Row(
+                          children: [
+                            Image.asset(
+                              "assets/images/avatar-11.png",
+                              height: 32,
+                              width: 32,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 4),
+                                    child: Text(
+                                      contactInfo.name,
+                                      textAlign: TextAlign.left,
+                                      style: BaseStyles.transactionItemPersonNameTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 4),
+                                    child: Text(
+                                      contactInfo.accountNumber,
+                                      textAlign: TextAlign.left,
+                                      style: BaseStyles.transactionItemDateTextStyle,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 16, bottom: 4),
+                                child: Text(Strings.SELECT_ACC,
+                                    style: BaseStyles
+                                        .textFormFieldHeaderTitleTextStyle,
+                                    textAlign: TextAlign.left),
+                              ),
+                              _getDropDownList("bankAccount"),
+                            ]),
+                        InkWell(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 16,bottom: 8),
+                            height: 40,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: AppColors.light_grey_blue,
+                                  width: 1
+                              ),
+                                color: AppColors.primaryBackground,
+                                borderRadius: Radii.border(8)
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  Assets.ic_plus,
+                                  fit: BoxFit.none,
+                                ),
+                                Text(Strings.ADD_NEW_BANK_ACCOUNT,
+                                  style: const TextStyle(
+                                      color: AppColors.fareColor,
+                                      fontWeight: FontWeight.w700,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+
+                                )
+                              ],
+                            ),
+                          ),
+                          onTap: (){
+                            addNewBankAccountBottomSheet();
+                          },
+                        )
+
+
+                      ]) :
+                  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(Strings.RECEIPENT,
@@ -104,7 +204,9 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                                 color: AppColors.fareColor,
                                 fontWeight: FontWeight.w700,
                                 fontStyle: FontStyle.normal,
-                                fontSize: 16.0)),
+                                fontSize: 16.0),
+
+                        ),
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -135,7 +237,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                                         labelStyle: BaseStyles
                                             .textFormFieldHeaderTitleTextStyle,
 //                                  labelText: Strings.BANK_NAME,
-                                        hintText: Strings.BANK_NAME_HINT)),
+                                  hintText: Strings.BANK_NAME_HINT)
+                                ),
                                 suggestionsCallback: (pattern) {
                                   return BankList.getSuggestions(pattern);
                                 },
@@ -404,6 +507,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       return source;
     } else if (type == "frequency") {
       return frequencyType;
+    }else if (type == "bankAccount") {
+      return bankAccount;
     }
   }
 
@@ -414,8 +519,10 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       return Container();
     } else if (type == "frequency") {
       return Text(Strings.TRANSACTION_TYPE_HINT);
-      ;
+    } else if (type == "bankAccount") {
+      return Text(Strings.SELECT_ACC);
     }
+
   }
 
   _getDropdownItems(String type) {
@@ -426,7 +533,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
           value: value,
         );
       }).toList();
-    } else if (type == "paymentSource") {
+    } else if (type == "paymentSource" || type == "bankAccount" ) {
       return arrPaymentSource
           .map<DropdownMenuItem<PaymentSource>>((PaymentSource source) {
         return DropdownMenuItem(
@@ -488,7 +595,10 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
             transType = val;
           } else if (type == "frequency") {
             frequencyType = val;
-          } else {
+          }else if (type == "bankAccount") {
+            bankAccount = val;
+          }else
+         {
             source = val;
           }
         });
@@ -499,18 +609,21 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
 
   _getContinueWidget() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+
+        enterMPINBottomSheet();
+      },
       child: Container(
         height: 48,
         margin: EdgeInsets.only(bottom: 16, top: 24, left: 16, right: 16),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: const Color(0xffe9ecef)),
+            color: AppColors.bottom_border_color),
         alignment: Alignment.center,
         child: Text(
           Strings.CONTINUE,
           textAlign: TextAlign.center,
-          style: BaseStyles.requestNowTextStyle,
+          style: BaseStyles.addNewBankAccount,
         ),
       ),
     );
@@ -618,6 +731,29 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       ),
     ));
   }
+  void addNewBankAccountBottomSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc) {
+          return AddNewBankAccount();
+        });
+  }
+  void enterMPINBottomSheet() => showModalBottomSheet(
+      isScrollControlled: true,
+      useRootNavigator: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext bc) {
+        return EnterMPIN( onConfirmTransfer: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TransactionDetail()),
+          );
+        },);
+      });
 }
 
 class PaymentSource {
