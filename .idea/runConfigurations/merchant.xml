@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="merchant" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <option name="buildFlavor" value="merchant" />
+    <option name="filePath" value="$PROJECT_DIR$/lib/main-merchant.dart" />
+    <method v="2" />
+  </configuration>
+</component>
