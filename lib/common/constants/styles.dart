@@ -76,7 +76,7 @@ class BaseStyles {
   );
 
   static TextStyle transactionItemDateTextStyle =  TextStyle(
-      color:  Colors.black54,
+      color:  Color(0xffb0b4c1),
       fontWeight: FontWeight.w500,
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
@@ -282,5 +282,61 @@ class BaseStyles {
       fontWeight: FontWeight.w500,
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
+  );
+
+  static const chatItemHeaderTextStyle = TextStyle(
+  color:  const Color(0xffffffff),
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const chatItemSubTextStyle = TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const chatItemButtonTextStyle = TextStyle(
+  color: AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const chatItemResendOtpButtonTextStyle = TextStyle(
+      color: Color(0xff889aac),
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static const chatItemDepositSuccessTextStyle = TextStyle(
+      color: Color(0xff123456),
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static const chatItemDepositSuccessMoneyTextStyle = TextStyle(
+      color: Color(0xff123456),
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static const agentConfirmedTextStyle = TextStyle(
+  color:  const Color(0xff123456),
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 10.0
+  );
+
+  static const agentUIN_OTP_CODE_TextStyle = TextStyle(
+  color:  const Color(0xff123456),
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 20.0
   );
 }

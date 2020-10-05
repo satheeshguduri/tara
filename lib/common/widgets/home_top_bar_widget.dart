@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/enter_mpin.dart';
@@ -244,7 +245,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               );
             },),
             RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,onPressed: (){
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ConversationPage()),
+              );
             },),
             RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
             },),

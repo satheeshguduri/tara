@@ -123,6 +123,22 @@ class Strings{
 
   static const SELECT_ACC = "Select Account";
 
+  static const TARA_CASH_DEPOSIT = "Tara Cash Deposit";
+  static const AGENT_ARRIVED = "Agent has Arrived";
+  static const AGENT_ARRIVED_SUBTEXT = "Please input Agent’s UIN Code before handing your Cash.";
+  static const ASK_FOR_UIN_CODE = "Ask for UIN Code";
+  static const AGENT_ON_THE_WAY = "Agent On The Way";
+  static const AGENT_ON_THE_WAY_SUBTEXT = "Agent is on the way to your location.";
+  static const AGENT_CONFIRMED = "AGENT CONFIRMED";
+  static const VERIFYING_AGENT = "Verifying Agent";
+  static const VERIFYING_AGENT_SUBTEXT = "An OTP has been sent to you, please share it to the Agent.";
+  static const RESEND_OTP = "Resend OTP in 0:15";
+  static const YOUR_OTP_CODE = "YOUR OTP CODE";
+  static const AGENT_UIN_CODE = "AGENT'S UIN CODE";
+  static const CONFIRM_UIN_CODE = "Confirm UIN Code";
+  static const SHARE_TO_AGENT = "Share to Agent";
+  static const DEPOSIT_SUCCESS = "Deposit Success";
+  static const DEPOSIT_SUCCESS_SUBTEXT = "Rp 500.000 has been deposited to your Tara wallet.";
 
 //  static const SEND =  "send";
 //  static const APP_TITLE =  "app_title";
