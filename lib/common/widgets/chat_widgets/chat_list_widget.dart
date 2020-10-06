@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tara_app/common/widgets/chat_item_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
 
 
 class ChatListWidget extends StatelessWidget{
@@ -11,7 +11,7 @@ class ChatListWidget extends StatelessWidget{
         child: ListView.builder(
           padding: EdgeInsets.all(10.0),
           itemBuilder: (context, index) => ChatItemWidget(index),
-          itemCount: 8,
+          itemCount: 9,
           reverse: false,
           controller: listScrollController,
         ));

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tara_app/common/constants/colors.dart';
-import 'package:tara_app/common/widgets/agent_confirmed.dart';
-import 'package:tara_app/common/widgets/agent_uin_otp_code.dart';
-import 'package:tara_app/common/widgets/deposit_success.dart';
-import 'package:tara_app/common/widgets/on_the_way.dart';
+import 'package:tara_app/common/widgets/chat_widgets/agent_confirmed.dart';
+import 'package:tara_app/common/widgets/chat_widgets/agent_uin_otp_code.dart';
+import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/deposit_success.dart';
+import 'package:tara_app/common/widgets/chat_widgets/on_the_way.dart';
 
 // ignore: must_be_immutable
 class ChatItemWidget extends StatelessWidget{
@@ -182,6 +182,31 @@ class ChatItemWidget extends StatelessWidget{
         margin: EdgeInsets.only(bottom: 10.0),
       );
     }
+    else if (index==8)
+    {
+      return Container(
+        padding: EdgeInsets.only(left: 8,right: 8,bottom: 8),
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Container(
+                  child:  Container(
+                    child: DeclinePay(),),
+                  width: 230,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0)),
+                )
+              ],
+            ),
+          ],
+          crossAxisAlignment: CrossAxisAlignment.start,
+        ),
+        margin: EdgeInsets.only(bottom: 10.0),
+      );
+    }
+
     else{
       return Container();
     }

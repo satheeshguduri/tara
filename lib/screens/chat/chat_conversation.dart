@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:tara_app/common/widgets/chat_input_widget.dart';
-import 'package:tara_app/common/widgets/chat_list_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_input_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_list_widget.dart';
 
 class ConversationPage extends StatefulWidget {
   @override

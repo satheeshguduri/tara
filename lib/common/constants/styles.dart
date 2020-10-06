@@ -216,7 +216,7 @@ class BaseStyles {
   );
 
   static const saveToMyContactTextStyle =const TextStyle(
-  color:  Colors.black54,
+  color:  Color(0xff697683),
   fontWeight: FontWeight.w400,
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
@@ -313,28 +313,28 @@ class BaseStyles {
   );
 
   static const chatItemDepositSuccessTextStyle = TextStyle(
-      color: Color(0xff123456),
+      color: AppColors.header_top_bar_color,
       fontWeight: FontWeight.w400,
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
 
   static const chatItemDepositSuccessMoneyTextStyle = TextStyle(
-      color: Color(0xff123456),
+      color: AppColors.header_top_bar_color,
       fontWeight: FontWeight.w700,
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
 
   static const agentConfirmedTextStyle = TextStyle(
-  color:  const Color(0xff123456),
+  color:  AppColors.header_top_bar_color,
   fontWeight: FontWeight.w500,
   fontStyle:  FontStyle.normal,
   fontSize: 10.0
   );
 
   static const agentUIN_OTP_CODE_TextStyle = TextStyle(
-  color:  const Color(0xff123456),
+  color:  AppColors.header_top_bar_color,
   fontWeight: FontWeight.w700,
   fontStyle:  FontStyle.normal,
   fontSize: 20.0

@@ -139,6 +139,9 @@ class Strings{
   static const SHARE_TO_AGENT = "Share to Agent";
   static const DEPOSIT_SUCCESS = "Deposit Success";
   static const DEPOSIT_SUCCESS_SUBTEXT = "Rp 500.000 has been deposited to your Tara wallet.";
+  static const TANIA_REQUESTED = "TANIA REQUESTED";
+  static const DECLINE = "Decline";
+  static const Pay = "Pay";
 
 //  static const SEND =  "send";
 //  static const APP_TITLE =  "app_title";
