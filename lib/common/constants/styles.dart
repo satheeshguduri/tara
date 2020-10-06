@@ -339,4 +339,11 @@ class BaseStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 20.0
   );
+
+  static const cancel_request_text_style = TextStyle(
+      color:  const Color(0xfff95074),
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
 }

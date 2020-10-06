@@ -142,6 +142,17 @@ class Strings{
   static const TANIA_REQUESTED = "TANIA REQUESTED";
   static const DECLINE = "Decline";
   static const Pay = "Pay";
+  static const YOU_REQUESTED = "YOU REQUESTED";
+  static const YOU_TRANSFERED = "YOU TRANSFERED";
+  static const REQUEST_DECLINED = "REQUEST DECLINED";
+  static const PLN_PAYMENT_SUCCESS = "PLN Payment Success";
+  static const PRODUCT = "Product";
+  static const PLN_TOKEN = "PLN Token";
+  static const STROOM_TOKEN = "Stroom Token";
+  static const YOU_REQ_DEPOSITE = "YOU REQUEST DEPOSIT";
+  static const CANCEL_REQ = "Cancel Request";
+
+
 
 //  static const SEND =  "send";
 //  static const APP_TITLE =  "app_title";

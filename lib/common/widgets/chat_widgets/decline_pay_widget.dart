@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
@@ -10,10 +11,14 @@ import 'package:tara_app/common/constants/styles.dart';
 
 class DeclinePay extends StatefulWidget {
   final bool isAgentUINCode;
+  final bool isSender;
+  final bool isDeclined;
 
   const DeclinePay( {
     Key key,
     this.isAgentUINCode=false,
+    this.isSender = false,
+    this.isDeclined = false
   }) : super(key: key);
 
   @override
@@ -28,7 +33,7 @@ class _DeclinePayState extends State<DeclinePay> {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
-                color: const Color(0x1f000000),
+                color: widget.isDeclined ? Color(0x24000000) : Color(0x1f000000),
                 offset: Offset(0, 4),
                 blurRadius: 6,
                 spreadRadius: 0),
@@ -50,10 +55,10 @@ class _DeclinePayState extends State<DeclinePay> {
                   alignment: Alignment.centerLeft,
                   child: Container(
                     margin: EdgeInsets.only(right: 8,top: 12,bottom: 4,left: 16),
-                    child: Text(
-                      Strings.TANIA_REQUESTED,
+                    child: Text(  widget.isSender == false ?
+                      Strings.TANIA_REQUESTED : widget.isDeclined ? Strings.REQUEST_DECLINED : Strings.YOU_REQUESTED,
                       textAlign: TextAlign.left,
-                      style: BaseStyles.agentConfirmedTextStyle,
+                      style: widget.isDeclined ? BaseStyles.error_text_style : BaseStyles.agentConfirmedTextStyle,
                     ),
                   ),
                 ),
@@ -62,7 +67,7 @@ class _DeclinePayState extends State<DeclinePay> {
                 margin: EdgeInsets.only(left: 16,right: 8,bottom: 8),
                 child:Text(
                     "Rp 100.000",
-                    style: BaseStyles.agentUIN_OTP_CODE_TextStyle
+                    style: widget.isDeclined ? BaseStyles.requestNowTextStyle  : BaseStyles.agentUIN_OTP_CODE_TextStyle
                 ),
               ),
 
@@ -82,7 +87,7 @@ class _DeclinePayState extends State<DeclinePay> {
                     style: BaseStyles.saveToMyContactTextStyle
                 ),
               ),
-              Container(
+              widget.isSender == false ? Container(
                 margin: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
                 child: Row(
                   children: [
@@ -134,7 +139,7 @@ class _DeclinePayState extends State<DeclinePay> {
                     )
                   ],
                 ),
-              ),
+              ) : Container(),
               Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
@@ -173,7 +178,7 @@ class _DeclinePayState extends State<DeclinePay> {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Image.asset(
-                        "assets/images/icon-20.png",
+                        widget.isSender == false ? "assets/images/icon-20.png" : Assets.RECEIVE_ICON,
                         fit: BoxFit.fill,
                         color: AppColors.header_top_bar_color,
                         width: 24, height: 24,

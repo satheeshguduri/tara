@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tara_app/common/widgets/chat_widgets/agent_confirmed.dart';
 import 'package:tara_app/common/widgets/chat_widgets/agent_uin_otp_code.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_money_transfer_success.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_pln_payment_success.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_request_cash_deposit.dart';
 import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/deposit_success.dart';
 import 'package:tara_app/common/widgets/chat_widgets/on_the_way.dart';
@@ -206,7 +209,61 @@ class ChatItemWidget extends StatelessWidget{
         margin: EdgeInsets.only(bottom: 10.0),
       );
     }
-
+    else if (index==9)
+    {
+      return Container(
+        padding: EdgeInsets.only(left: 8,right: 8,bottom: 8),
+        child:Expanded(
+          child:Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                child:  Container(
+                  child: DeclinePay(isSender: true,),),
+                width: 230,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0)),
+              )
+            ],
+          ),
+        ),
+        margin: EdgeInsets.only(bottom: 10.0),
+      );
+    }
+    else if (index == 10){
+      return ChatMoneyTransferSuccess();
+    }
+    else if (index == 11)
+    {
+      return Container(
+        padding: EdgeInsets.only(left: 8,right: 8,bottom: 8),
+        child:Expanded(
+          child:Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                child:  Container(
+                  child: DeclinePay(isSender: true,isDeclined: true,),),
+                width: 230,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0)),
+              )
+            ],
+          ),
+        ),
+        margin: EdgeInsets.only(bottom: 10.0),
+      );
+    }else if (index == 12){
+      return ChatPLNPaymentSuccess();
+    }
+    else if (index == 13){
+      return ChatRequestCashDeposit();
+    }
+    else if (index == 14){
+      return ChatRequestCashDeposit(isConfirmed: true,);
+    }
     else{
       return Container();
     }

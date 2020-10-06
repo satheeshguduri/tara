@@ -31,11 +31,12 @@ class AppColors {
 
 
 
+
   static const Color header_top_bar_color = Color(0xff123456);
   static const Color bottom_border_color = Color(0xffb2f7e2);
   static const Color uncheck_color = Color(0xff889aac);
   static const DONE_KEYBOARD_BG_COLOR = Color(0xffececef);
-
+  static const light_grey_bg_color = Color(0xffe9ecef);
 
 
 }

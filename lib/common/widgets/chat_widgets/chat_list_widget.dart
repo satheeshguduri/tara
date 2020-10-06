@@ -11,7 +11,7 @@ class ChatListWidget extends StatelessWidget{
         child: ListView.builder(
           padding: EdgeInsets.all(10.0),
           itemBuilder: (context, index) => ChatItemWidget(index),
-          itemCount: 9,
+          itemCount: 20,
           reverse: false,
           controller: listScrollController,
         ));
