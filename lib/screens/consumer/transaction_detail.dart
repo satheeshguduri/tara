@@ -19,7 +19,7 @@ class _TransactionDetailState
 
   @override
   BuildContext getContext() {
-    return this.context;
+    return context;
   }
 
   @override
@@ -58,11 +58,11 @@ class _TransactionDetailState
                 children: [
                   Expanded(
                     flex: 5,
-                    child: downloadAndShareWidget(Strings.DOWNLOAD),
+                    child: downloadAndShareWidget(getTranslation(Strings.DOWNLOAD)),
                   ),
                   Expanded(
                     flex: 5,
-                    child: downloadAndShareWidget(Strings.SHARE),
+                    child: downloadAndShareWidget(getTranslation(Strings.SHARE)),
                   ),
                 ],
               ),
@@ -87,7 +87,7 @@ class _TransactionDetailState
       title:Align(
         alignment: Alignment.topLeft,
         child: Text(
-          Strings.TRANSACTION_DETAIL,
+          getTranslation(Strings.TRANSACTION_DETAIL),
           textAlign: TextAlign.left,
           style: BaseStyles.topBarTextStyle,
         ),
@@ -111,7 +111,7 @@ class _TransactionDetailState
     return Container(
       margin: EdgeInsets.only(top:16,),
       child: Text(
-          Strings.TRANSFER_SUCCESS,
+          getTranslation(Strings.TRANSFER_SUCCESS),
           style: BaseStyles.transactionSuccessTextStyle,
           textAlign: TextAlign.center
       ),
@@ -187,7 +187,7 @@ class _TransactionDetailState
                     Container(
                       margin: EdgeInsets.only(left: 8,right: 8),
                       child: Text(
-                        Strings.AMOUNT,
+                        getTranslation(Strings.AMOUNT),
                         style: BaseStyles.amountTextStyle,
                         textAlign: TextAlign.left,
                       ),
@@ -204,8 +204,8 @@ class _TransactionDetailState
                 ),
               ),
             ),
-            getFromTransferredToWidget(Strings.TRANSFER_TO,"RAFLY NURFALLAH", "Mandiri ••••4421"),
-            getFromTransferredToWidget(Strings.FROM,"Budi Sudarso", "BCA - ****1234"),
+            getFromTransferredToWidget(getTranslation(Strings.TRANSFER_TO),"RAFLY NURFALLAH", "Mandiri ••••4421"),
+            getFromTransferredToWidget(getTranslation(Strings.FROM),"Budi Sudarso", "BCA - ****1234"),
           ],
         ),
       ) ,
@@ -287,7 +287,7 @@ class _TransactionDetailState
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              name==Strings.DOWNLOAD?Image.asset(Assets.ic_download, fit: BoxFit.fill):Image.asset(Assets.ic_share, fit: BoxFit.fill),
+              name==getTranslation(Strings.DOWNLOAD)?Image.asset(Assets.ic_download, fit: BoxFit.fill):Image.asset(Assets.ic_share, fit: BoxFit.fill),
               Container(
                 margin: EdgeInsets.only(left: 2),
                 child: Text(

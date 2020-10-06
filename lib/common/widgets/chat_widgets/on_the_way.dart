@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 
 class OnTheWay extends StatefulWidget {
@@ -60,7 +61,7 @@ class _OnTheWayState extends State<OnTheWay> {
               child: Container(
                 margin: EdgeInsets.only(left: 8,right: 8),
                 child: Text(
-                  widget.isVerifyingAgent?Strings.VERIFYING_AGENT:widget.isArrived?Strings.AGENT_ARRIVED:Strings.AGENT_ON_THE_WAY,
+                  widget.isVerifyingAgent?Utils().getTranslation(Strings.VERIFYING_AGENT,context):widget.isArrived?Utils().getTranslation(Strings.AGENT_ARRIVED,context):Utils().getTranslation(Strings.AGENT_ON_THE_WAY,context),
                   textAlign: TextAlign.left,
                   style: BaseStyles.chatItemHeaderTextStyle,
                 ),
@@ -71,7 +72,7 @@ class _OnTheWayState extends State<OnTheWay> {
               margin: EdgeInsets.only(top: 10,bottom: 10,left: 8,right: 8),
               child: // Agent has Arrived
               Text(
-                widget.isVerifyingAgent?Strings.VERIFYING_AGENT_SUBTEXT:widget.isArrived?Strings.AGENT_ARRIVED_SUBTEXT:Strings.AGENT_ON_THE_WAY_SUBTEXT,
+                widget.isVerifyingAgent?Utils().getTranslation(Strings.VERIFYING_AGENT_SUBTEXT,context):widget.isArrived?Utils().getTranslation(Strings.AGENT_ARRIVED_SUBTEXT,context):Utils().getTranslation(Strings.AGENT_ON_THE_WAY_SUBTEXT,context),
                 style: BaseStyles.chatItemSubTextStyle,
                 maxLines: 3,
               )
@@ -92,7 +93,7 @@ class _OnTheWayState extends State<OnTheWay> {
             ),
             child: Center(
               child: Text(
-                  widget.isVerifyingAgent?Strings.RESEND_OTP:Strings.ASK_FOR_UIN_CODE,
+                  widget.isVerifyingAgent?Utils().getTranslation(Strings.RESEND_OTP,context):Utils().getTranslation(Strings.ASK_FOR_UIN_CODE,context),
                   style: widget.isVerifyingAgent?BaseStyles.chatItemResendOtpButtonTextStyle:BaseStyles.chatItemButtonTextStyle
               ),
             ),

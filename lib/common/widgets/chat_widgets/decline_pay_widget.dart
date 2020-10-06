@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 
 class DeclinePay extends StatefulWidget {
@@ -55,8 +56,8 @@ class _DeclinePayState extends State<DeclinePay> {
                   alignment: Alignment.centerLeft,
                   child: Container(
                     margin: EdgeInsets.only(right: 8,top: 12,bottom: 4,left: 16),
-                    child: Text(  widget.isSender == false ?
-                      Strings.TANIA_REQUESTED : widget.isDeclined ? Strings.REQUEST_DECLINED : Strings.YOU_REQUESTED,
+                    child: Text(
+                      widget.isSender == false ? Utils().getTranslation(Strings.TANIA_REQUESTED,context): widget.isDeclined ? Utils().getTranslation(Strings.REQUEST_DECLINED,context) : Utils().getTranslation(Strings.YOU_REQUESTED,context),
                       textAlign: TextAlign.left,
                       style: widget.isDeclined ? BaseStyles.error_text_style : BaseStyles.agentConfirmedTextStyle,
                     ),
@@ -108,7 +109,7 @@ class _DeclinePayState extends State<DeclinePay> {
                         ),
                         child: Center(
                           child: Text(
-                              Strings.DECLINE,
+                              Utils().getTranslation(Strings.DECLINE,context),
                               style: BaseStyles.chatItemButtonTextStyle
                           ),
                         ),
@@ -131,7 +132,7 @@ class _DeclinePayState extends State<DeclinePay> {
                         ),
                         child: Center(
                           child: Text(
-                              Strings.Pay,
+                            Utils().getTranslation(Strings.Pay,context),
                               style: BaseStyles.chatItemButtonTextStyle
                           ),
                         ),
@@ -170,8 +171,8 @@ class _DeclinePayState extends State<DeclinePay> {
                             end: Alignment(-2.220446049250313e-16, 0.5000000000000002),
                             colors: [Color(0xffb2f7e2), const Color(0xffa1f0f8)]),
                         borderRadius: new BorderRadius.only(
-                            bottomLeft: const Radius.circular(40.0),
-                            )
+                          bottomLeft: const Radius.circular(36.0),
+                        )
                     ),
                   child: Container(
                     margin: EdgeInsets.only(right: 8,bottom: 4,),

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 
 class CustomCard extends StatefulWidget {
@@ -47,7 +48,7 @@ class _CustomCardState extends State<CustomCard> {
             child: (widget.accountNumber!=null&&widget.accountNumber!="")
                 ?Container(padding:EdgeInsets.only(top: 8,),child: Container(
               child: Text(
-                  Strings.MPIN_ACCOUNT_NUMBER,
+                  Utils().getTranslation(Strings.MPIN_ACCOUNT_NUMBER,context),
                   style: BaseStyles.accountNumberInMPINTextStyle,
                   textAlign: TextAlign.left
               ),),):

@@ -6,6 +6,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/screens/base/base_state.dart';
 
 class ChatRequestCashDeposit extends StatefulWidget {
 
@@ -19,7 +20,7 @@ class ChatRequestCashDeposit extends StatefulWidget {
   _RequestCashDepositState createState() => _RequestCashDepositState();
 }
 
-class _RequestCashDepositState extends State<ChatRequestCashDeposit> {
+class _RequestCashDepositState extends BaseState<ChatRequestCashDeposit> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -57,7 +58,7 @@ class _RequestCashDepositState extends State<ChatRequestCashDeposit> {
                               alignment: Alignment.centerLeft,
                               child: Container(
                                 margin: EdgeInsets.only(right: 8,top: 12,bottom: 4,left: 16),
-                                child: Text(  Strings.YOU_REQ_DEPOSITE.toUpperCase(),
+                                child: Text(getTranslation(Strings.YOU_REQ_DEPOSITE).toUpperCase(),
                                   textAlign: TextAlign.left,
                                   style: BaseStyles.agentConfirmedTextStyle,
                                 ),
@@ -87,7 +88,7 @@ class _RequestCashDepositState extends State<ChatRequestCashDeposit> {
                                       ),
                                       color: widget.isConfirmed ? AppColors.light_grey_bg_color : const Color(0xffffffff)
                                   ),
-                                  child:Text(Strings.CANCEL_REQ,style: widget.isConfirmed ? BaseStyles.requestNowTextStyle : BaseStyles.cancel_request_text_style,)
+                                  child:Text(getTranslation(Strings.CANCEL_REQ),style: widget.isConfirmed ? BaseStyles.requestNowTextStyle : BaseStyles.cancel_request_text_style,)
                               ),
                             ],
                           ),
@@ -155,5 +156,11 @@ class _RequestCashDepositState extends State<ChatRequestCashDeposit> {
       margin: EdgeInsets.only(bottom: 10.0),
     );
 
+  }
+
+  @override
+  BuildContext getContext() {
+    // TODO: implement getContext
+    return context;
   }
 }

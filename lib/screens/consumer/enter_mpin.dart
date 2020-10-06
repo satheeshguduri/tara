@@ -21,7 +21,7 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
 
   @override
   BuildContext getContext() {
-    return this.context;
+    return context;
   }
 
   @override
@@ -64,21 +64,21 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: 10),
                   child: Text(
-                    Strings.ENTER_MPIN,
+                    getTranslation(Strings.ENTER_MPIN),
                     style:BaseStyles.bottomSheetTitleStyle,
                     textAlign: TextAlign.left,
                   ),
                 ),
                 Container(
                   padding: EdgeInsets.all(16),
-                  child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: "Yakub Pasha Shaik",accountNumber: Strings.MPIN_ACCOUNT_NUMBER,),
+                  child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: "Yakub Pasha Shaik",accountNumber: getTranslation(Strings.MPIN_ACCOUNT_NUMBER),),
                 ),
                 Center(
                   child: Column(
                     children: [
                       Container(
                         child: Text(
-                            Strings.ENTER_MPIN,
+                            getTranslation(Strings.ENTER_MPIN),
                             style: BaseStyles.enterMPINTextStyle,
                             textAlign: TextAlign.center
                         ),
@@ -125,7 +125,7 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
         ),
         alignment: Alignment.center,
         child: Text(
-          Strings.CONFIRM_TRANSFER,
+          getTranslation(Strings.CONFIRM_TRANSFER),
           textAlign: TextAlign.center,
           style: BaseStyles.addNewBankAccount,
         ),

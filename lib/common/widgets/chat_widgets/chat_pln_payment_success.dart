@@ -6,13 +6,14 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/screens/base/base_state.dart';
 
 class ChatPLNPaymentSuccess extends StatefulWidget {
   @override
   _ChatPLNPaymentSuccessState createState() => _ChatPLNPaymentSuccessState();
 }
 
-class _ChatPLNPaymentSuccessState extends State<ChatPLNPaymentSuccess> {
+class _ChatPLNPaymentSuccessState extends BaseState<ChatPLNPaymentSuccess> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -50,7 +51,7 @@ class _ChatPLNPaymentSuccessState extends State<ChatPLNPaymentSuccess> {
                               alignment: Alignment.centerLeft,
                               child: Container(
                                 margin: EdgeInsets.only(right: 8,top: 12,bottom: 4,left: 16),
-                                child: Text(  Strings.PLN_PAYMENT_SUCCESS.toUpperCase(),
+                                child: Text(  getTranslation(Strings.PLN_PAYMENT_SUCCESS).toUpperCase(),
                                   textAlign: TextAlign.left,
                                   style: BaseStyles.agentConfirmedTextStyle,
                                 ),
@@ -86,10 +87,10 @@ class _ChatPLNPaymentSuccessState extends State<ChatPLNPaymentSuccess> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
 
                                     children: [
-                                      Text(Strings.PRODUCT,style: BaseStyles.textFormFieldHeaderTitleTextStyle),
+                                      Text(getTranslation(Strings.PRODUCT),style: BaseStyles.textFormFieldHeaderTitleTextStyle),
                                       Row(
                                         children: [
-                                          Text(Strings.PLN_TOKEN,style: BaseStyles.backAccountHeaderTextStyle),
+                                          Text(getTranslation(Strings.PLN_TOKEN),style: BaseStyles.backAccountHeaderTextStyle),
                                           Container(
                                               margin: EdgeInsets.only(left: 8,right: 8),
                                               width: 4,
@@ -112,7 +113,7 @@ class _ChatPLNPaymentSuccessState extends State<ChatPLNPaymentSuccess> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
 
                                     children: [
-                                      Text(Strings.STROOM_TOKEN,style: BaseStyles.textFormFieldHeaderTitleTextStyle),
+                                      Text(getTranslation(Strings.STROOM_TOKEN),style: BaseStyles.textFormFieldHeaderTitleTextStyle),
                                       Row(
                                         children: [
                                           Text("1992 0092 8845 9910",style:BaseStyles.backAccountHeaderTextStyle)
@@ -150,7 +151,7 @@ class _ChatPLNPaymentSuccessState extends State<ChatPLNPaymentSuccess> {
                                             children: [
                                               Container(
 //                                                margin: EdgeInsets.only(left: 4),
-                                                child: Text(Strings.DOWNLOAD.toUpperCase(),style: BaseStyles.chatItemButtonTextStyle,),
+                                                child: Text(getTranslation(Strings.DOWNLOAD).toUpperCase(),style: BaseStyles.chatItemButtonTextStyle,),
                                               ),
                                               Container(
                                                   width: 78,
@@ -184,7 +185,7 @@ class _ChatPLNPaymentSuccessState extends State<ChatPLNPaymentSuccess> {
                                             children: [
                                               Container(
 //                                                margin: EdgeInsets.only(left: 4),
-                                                child: Text(Strings.SHARE.toUpperCase(),style: BaseStyles.chatItemButtonTextStyle,),
+                                                child: Text(getTranslation(Strings.SHARE).toUpperCase(),style: BaseStyles.chatItemButtonTextStyle,),
                                               ),
                                               Container(
                                                   width: 46,
@@ -269,5 +270,11 @@ class _ChatPLNPaymentSuccessState extends State<ChatPLNPaymentSuccess> {
       margin: EdgeInsets.only(bottom: 10.0),
     );
 
+  }
+
+  @override
+  BuildContext getContext() {
+    // TODO: implement getContext
+    return context;
   }
 }

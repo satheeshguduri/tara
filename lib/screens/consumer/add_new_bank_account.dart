@@ -95,12 +95,12 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: 10),
                   child: Text(
-                    Strings.ADD_NEW_BANK_ACCOUNT,
+                    getTranslation(Strings.ADD_NEW_BANK_ACCOUNT),
                     style:BaseStyles.bottomSheetTitleStyle,
                     textAlign: TextAlign.left,
                   ),
                 ),
-                textFormFieldContainer(Strings.BANK_NAME,Strings.ENTER_BANK_NAME,TextInputType.text,bankNameTextController,selectedBankFromList,null),
+                textFormFieldContainer(getTranslation(Strings.BANK_NAME),getTranslation(Strings.ENTER_BANK_NAME),TextInputType.text,bankNameTextController,selectedBankFromList,null),
                 (isToShowList==true && arrFilterBankInfo.isNotEmpty)?Container(
                   margin: EdgeInsets.only(top: 1,bottom: 3),
                   child: DropDownList(banksList: arrFilterBankInfo,onPressed: (selectedBank){
@@ -112,8 +112,8 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
                     });
                   },),
                 ):Container(),
-                isToShowList==false?textFormFieldContainer(Strings.BANK_ACCOUNT_NUMBER,Strings.ENTER_BANK_ACCOUNT_NUMBER,TextInputType.number,bankAccountNumberTextController,selectedBankFromList,bankAccountNumberFocusNode):Container(),
-                isToShowList==false?isVerified==true?textFormFieldContainer(Strings.BANK_HOLDER_NAME,"",TextInputType.text,bankHolderNameController,selectedBankFromList,null):Container():Container(),
+                isToShowList==false?textFormFieldContainer(getTranslation(Strings.BANK_ACCOUNT_NUMBER),getTranslation(Strings.ENTER_BANK_ACCOUNT_NUMBER),TextInputType.number,bankAccountNumberTextController,selectedBankFromList,bankAccountNumberFocusNode):Container(),
+                isToShowList==false?isVerified==true?textFormFieldContainer(getTranslation(Strings.BANK_HOLDER_NAME),"",TextInputType.text,bankHolderNameController,selectedBankFromList,null):Container():Container(),
                 Container(
                   margin: EdgeInsets.only(top: 16,bottom: 16),
                   child:Row(
@@ -150,7 +150,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
                       Container(
                         margin: EdgeInsets.only(left: 16,right: 16,top: 16),
                         child: Text(
-                            Strings.SAVE_TO_MY_CONTACT,
+                            getTranslation(Strings.SAVE_TO_MY_CONTACT),
                             style: BaseStyles.saveToMyContactTextStyle,
                             textAlign: TextAlign.left
                         ),),
@@ -297,7 +297,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
                           child: Column(
                             children: [
                               Text(
-                                  Strings.VERIFY,
+                                  getTranslation(Strings.VERIFY),
                                   style: BaseStyles.bottomSheetLocationChangeTextStyle,
                                   textAlign: TextAlign.center
                               ),
@@ -337,7 +337,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
         ),
         alignment: Alignment.center,
         child: Text(
-          Strings.ADD_NEW_BANK_ACCOUNT,
+          getTranslation(Strings.ADD_NEW_BANK_ACCOUNT),
           textAlign: TextAlign.center,
           style: BaseStyles.addNewBankAccount,
         ),

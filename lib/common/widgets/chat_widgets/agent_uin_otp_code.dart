@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 
 class AgentUINOROTP extends StatefulWidget {
@@ -49,7 +50,7 @@ class _AgentUINOROTPState extends State<AgentUINOROTP> {
               child: Container(
                 margin: EdgeInsets.only(left: 16,right: 8,top: 12,bottom: 4),
                 child: Text(
-                  widget.isAgentUINCode?Strings.AGENT_UIN_CODE:Strings.YOUR_OTP_CODE,
+                  widget.isAgentUINCode?Utils().getTranslation(Strings.AGENT_UIN_CODE,context):Utils().getTranslation(Strings.YOUR_OTP_CODE,context),
                   textAlign: TextAlign.left,
                   style: BaseStyles.agentConfirmedTextStyle,
                 ),
@@ -78,7 +79,7 @@ class _AgentUINOROTPState extends State<AgentUINOROTP> {
             ),
             child: Center(
               child: Text(
-                  widget.isAgentUINCode?Strings.CONFIRM_UIN_CODE:Strings.SHARE_TO_AGENT,
+                  widget.isAgentUINCode?Utils().getTranslation(Strings.CONFIRM_UIN_CODE,context):Utils().getTranslation(Strings.SHARE_TO_AGENT,context),
                   style: BaseStyles.chatItemButtonTextStyle
               ),
             ),

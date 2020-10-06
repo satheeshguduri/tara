@@ -40,7 +40,7 @@ class _CashDepositSelectContactState
 
   @override
   BuildContext getContext() {
-    return this.context;
+    return context;
   }
 
   @override
@@ -146,7 +146,7 @@ class _CashDepositSelectContactState
             fillColor: Colors.white,
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent, width: 0.1)),
-            hintText: Strings.SEARCH_CONTACT,
+            hintText: getTranslation(Strings.SEARCH_CONTACT),
             hintStyle: BaseStyles.hintTextStyle,
             focusedBorder: new UnderlineInputBorder(
                 borderSide: new BorderSide(color: Colors.transparent)),
@@ -209,12 +209,12 @@ class _CashDepositSelectContactState
         headerInSection: (section) {
           if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
             if (arrTaraContactInfo.length > 0 && section == 0) {
-              return headerViewContainer(Strings.TARA_CONTACTS);
+              return headerViewContainer(getTranslation(Strings.TARA_CONTACTS));
             } else {
-              return headerViewContainer(Strings.ALL_CONTACTS);
+              return headerViewContainer(getTranslation(Strings.ALL_CONTACTS));
             }
           } else {
-            return headerViewContainer(Strings.SEARCHED_CONTACTS);
+            return headerViewContainer(getTranslation(Strings.SEARCHED_CONTACTS));
           }
         },
       ),

@@ -133,7 +133,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                             children: [
                               Opacity(
                                 opacity: 0.6,
-                                child: Text(Strings.AVAIL_BALANCE,
+                                child: Text(getTranslation(Strings.AVAIL_BALANCE),
                                     style: const TextStyle(
                                         color: AppColors.primaryText,
                                         fontWeight: FontWeight.w500,
@@ -171,7 +171,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              Text(Strings.TODAY_COLLECTION,
+                                              Text(getTranslation(Strings.TODAY_COLLECTION),
                                                   style: const TextStyle(
                                                       color:
                                                           AppColors.primaryText,
@@ -213,7 +213,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              Text(Strings.TODAY_PAYOUT,
+                                              Text(getTranslation(Strings.TODAY_PAYOUT),
                                                   style: const TextStyle(
                                                       color:
                                                           AppColors.primaryText,
@@ -246,7 +246,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(Strings.REQUEST,
+                              Text(getTranslation(Strings.REQUEST),
                                   style: const TextStyle(
                                       color: AppColors.primaryText,
                                       fontWeight: FontWeight.w700,
@@ -254,7 +254,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                       fontSize: 20.0)),
                               Row(
                                 children: [
-                                  Text(Strings.ACCEPT_REQUEST,
+                                  Text(getTranslation(Strings.ACCEPT_REQUEST),
                                       style: const TextStyle(
                                           color: AppColors.primaryText,
                                           fontWeight: FontWeight.w500,
@@ -296,7 +296,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                                Strings.INCOMING,
+                                            getTranslation(Strings.INCOMING),
                                                 style: const TextStyle(
                                                     color:  AppColors.primaryText,
                                                     fontWeight: FontWeight.w500,
@@ -344,7 +344,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                           ? roundedBoxDecoration()
                                           : null,
                                       child: Center(
-                                        child: Text(Strings.IN_PROGRESS,
+                                        child: Text(getTranslation(Strings.IN_PROGRESS),
                                             style: const TextStyle(
                                                 color: AppColors.primaryText,
                                                 fontWeight: FontWeight.w500,
@@ -365,7 +365,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                           ? roundedBoxDecoration()
                                           : null,
                                       child: Center(
-                                        child: Text(Strings.COMPLETE,
+                                        child: Text(getTranslation(Strings.COMPLETE),
                                             style: const TextStyle(
                                                 color: AppColors.primaryText,
                                                 fontWeight: FontWeight.w500,
@@ -425,7 +425,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(Strings.CASH_DEPOSIT,
+                                Text(getTranslation(Strings.CASH_DEPOSIT),
                                     style: const TextStyle(
                                         color: AppColors.color_black_80_2,
                                         fontWeight: FontWeight.w500,
@@ -455,7 +455,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(Strings.COMMISSION,
+                                Text(getTranslation(Strings.COMMISSION),
                                     style: const TextStyle(
                                         color: AppColors.color_black_80_2,
                                         fontWeight: FontWeight.w500,
@@ -529,7 +529,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                         bottomLeft: Radius.circular(8))),
                                 child: // Text
                                     Center(
-                                        child: Text(Strings.REJECT,
+                                        child: Text(getTranslation(Strings.REJECT),
                                             style: const TextStyle(
                                                 color: Color(0Xfff95074),
                                                 fontWeight: FontWeight.w700,
@@ -548,7 +548,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                         borderRadius: BorderRadius.only(
                                             bottomRight: Radius.circular(8))),
                                     child: Center(
-                                      child: Text(Strings.ACCEPT,
+                                      child: Text(getTranslation(Strings.ACCEPT),
                                           style: const TextStyle(
                                               color: AppColors.primaryText,
                                               fontWeight: FontWeight.w700,
@@ -628,7 +628,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
             ),
             Container(height: 8,),
             Text(
-                Strings.NO_PROGRESS_YET,
+              getTranslation(Strings.NO_PROGRESS_YET),
                 style: const TextStyle(
                     color:  AppColors.primaryText,
                     fontWeight: FontWeight.w700,
@@ -639,7 +639,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
             ),
             Container(height: 8,),
             Text(
-                Strings.SEE_AVAIL_REQ,
+              getTranslation(Strings.SEE_AVAIL_REQ),
                 style: const TextStyle(
                     color:  AppColors.battleship_grey,
                     fontWeight: FontWeight.w400,

@@ -1,11 +1,10 @@
 
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 
 class AgentConfirmed extends StatefulWidget {
@@ -51,7 +50,7 @@ class _AgentConfirmedState extends State<AgentConfirmed> {
               child: Container(
                 margin: EdgeInsets.only(left: 16,right: 8),
                 child: Text(
-                  Strings.AGENT_CONFIRMED,
+                  Utils().getTranslation(Strings.AGENT_CONFIRMED,context),
                   textAlign: TextAlign.left,
                   style: BaseStyles.agentConfirmedTextStyle,
                 ),

@@ -5,13 +5,14 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/screens/base/base_state.dart';
 
 class ChatMoneyTransferSuccess extends StatefulWidget {
   @override
   _ChatMoneyTransferSuccessState createState() => _ChatMoneyTransferSuccessState();
 }
 
-class _ChatMoneyTransferSuccessState extends State<ChatMoneyTransferSuccess> {
+class _ChatMoneyTransferSuccessState extends BaseState<ChatMoneyTransferSuccess> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -49,7 +50,7 @@ class _ChatMoneyTransferSuccessState extends State<ChatMoneyTransferSuccess> {
                               alignment: Alignment.centerLeft,
                               child: Container(
                                 margin: EdgeInsets.only(right: 8,top: 12,bottom: 4,left: 16),
-                                child: Text(  Strings.YOU_TRANSFERED,
+                                child: Text(getTranslation(Strings.YOU_TRANSFERED),
                                   textAlign: TextAlign.left,
                                   style: BaseStyles.agentConfirmedTextStyle,
                                 ),
@@ -97,7 +98,7 @@ class _ChatMoneyTransferSuccessState extends State<ChatMoneyTransferSuccess> {
                                             children: [
                                               Container(
 //                                                margin: EdgeInsets.only(left: 4),
-                                                child: Text(Strings.DOWNLOAD.toUpperCase(),style: BaseStyles.chatItemButtonTextStyle,),
+                                                child: Text(getTranslation(Strings.DOWNLOAD).toUpperCase(),style: BaseStyles.chatItemButtonTextStyle,),
                                               ),
                                               Container(
                                                   width: 78,
@@ -131,7 +132,7 @@ class _ChatMoneyTransferSuccessState extends State<ChatMoneyTransferSuccess> {
                                             children: [
                                               Container(
 //                                                margin: EdgeInsets.only(left: 4),
-                                                child: Text(Strings.SHARE.toUpperCase(),style: BaseStyles.chatItemButtonTextStyle,),
+                                                child: Text(getTranslation(Strings.SHARE).toUpperCase(),style: BaseStyles.chatItemButtonTextStyle,),
                                               ),
                                               Container(
                                                   width: 46,
@@ -216,5 +217,11 @@ class _ChatMoneyTransferSuccessState extends State<ChatMoneyTransferSuccess> {
       margin: EdgeInsets.only(bottom: 10.0),
     );
 
+  }
+
+  @override
+  BuildContext getContext() {
+    // TODO: implement getContext
+    return context;
   }
 }

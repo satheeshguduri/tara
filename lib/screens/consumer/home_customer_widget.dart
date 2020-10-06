@@ -28,7 +28,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
   @override
   BuildContext getContext() {
-    return this.context;
+    return context;
   }
 
   @override
@@ -81,7 +81,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      Strings.MY_ACCOUNTS,
+                      getTranslation(Strings.MY_ACCOUNTS),
                       textAlign: TextAlign.left,
                       style: BaseStyles.homeScreenHeadersStyle,
                     ),
@@ -98,7 +98,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                             child: Align(
                               alignment: Alignment.topRight,
                               child: Text(
-                                Strings.SEE_ALL,
+                                getTranslation(Strings.SEE_ALL),
                                 textAlign: TextAlign.center,
                                 style: BaseStyles.seeAllTextStyle,
                               ),
@@ -172,7 +172,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                         ),
                       ),
                       Text(
-                        Strings.WALLET,
+                        getTranslation(Strings.WALLET),
                         textAlign: TextAlign.left,
                         style: BaseStyles.taraWalletTextStyle,
                       ),
@@ -240,7 +240,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      Strings.TRANSFER_TO,
+                      getTranslation(Strings.TRANSFER_TO),
                       textAlign: TextAlign.left,
                       style:BaseStyles.homeScreenHeadersStyle,
                     ),
@@ -319,7 +319,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      Strings.PAYMENT,
+                      getTranslation(Strings.PAYMENT),
                       textAlign: TextAlign.left,
                       style:BaseStyles.homeScreenHeadersStyle ,
                     ),
@@ -358,7 +358,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        Strings.TRANSACTIONS,
+                        getTranslation(Strings.TRANSACTIONS),
                         textAlign: TextAlign.left,
                         style: BaseStyles.homeScreenHeadersStyle,
                       ),
@@ -375,7 +375,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                               child: Align(
                                 alignment: Alignment.topRight,
                                 child: Text(
-                                  Strings.SEE_ALL,
+                                  getTranslation(Strings.SEE_ALL),
                                   textAlign: TextAlign.center,
                                   style: BaseStyles.seeAllTextStyle,
                                 ),

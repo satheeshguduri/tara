@@ -27,7 +27,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
 
   @override
   BuildContext getContext() {
-    return this.context;
+    return context;
   }
 
   @override
@@ -95,7 +95,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(top: 10),
             child: Text(
-                Strings.CASH_DEPOSIT,
+                getTranslation(Strings.CASH_DEPOSIT),
                 style:BaseStyles.bottomSheetTitleStyle,
                textAlign: TextAlign.left,
             ),
@@ -110,7 +110,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                     Container(
                       margin: EdgeInsets.only(top: 16),
                       child: Text(
-                          Strings.SELECT_LOCATION,
+                          getTranslation(Strings.SELECT_LOCATION),
                           style: BaseStyles.bottomSheetSubTitleStyle
                       ),
                     ),
@@ -165,7 +165,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                                 child: Column(
                                   children: [
                                     Text(
-                                        Strings.CHANGE,
+                                        getTranslation(Strings.CHANGE),
                                         style: BaseStyles.bottomSheetLocationChangeTextStyle,
                                         textAlign: TextAlign.center
                                     ),
@@ -184,11 +184,11 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                         ),
                       ),
                     ),
-                    textFormFieldContainer(Strings.DEPOSIT_AMOUNT,Strings.RP,TextInputType.number,depositTextController,depositTextFocusNode),
-                    textFormFieldContainer(Strings.REMARKS_OPTIONAL,Strings.LOCATION_REMARKS_HINT,TextInputType.text,remarksTextController,null),
+                    textFormFieldContainer(getTranslation(Strings.DEPOSIT_AMOUNT),getTranslation(Strings.RP),TextInputType.number,depositTextController,depositTextFocusNode),
+                    textFormFieldContainer(getTranslation(Strings.REMARKS_OPTIONAL),getTranslation(Strings.LOCATION_REMARKS_HINT),TextInputType.text,remarksTextController,null),
                     addAdditionalContactSwitch(),
-                    isSwitched==true?textFormFieldContainer(Strings.CONTACT_NAME,Strings.CONTACT_NAME_HINT,TextInputType.text,contactNameTextController,null):Container(),
-                    isSwitched==true?textFormFieldContainer(Strings.PHONE_NUMBER,Strings.PHONE_NUMBER_HINT,TextInputType.phone,phoneNumberController,phoneNumberFocusNode):Container(),
+                    isSwitched==true?textFormFieldContainer(getTranslation(Strings.CONTACT_NAME),getTranslation(Strings.CONTACT_NAME_HINT),TextInputType.text,contactNameTextController,null):Container(),
+                    isSwitched==true?textFormFieldContainer(getTranslation(Strings.PHONE_NUMBER),getTranslation(Strings.PHONE_NUMBER_HINT),TextInputType.phone,phoneNumberController,phoneNumberFocusNode):Container(),
                     requestNowWidget()
                   ],
                 ),
@@ -270,7 +270,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
           Container(
             margin: EdgeInsets.only(top: 8,bottom: 8),
             child: Text(
-                Strings.ADD_ADDITIONAL_CONTACT,
+                getTranslation(Strings.ADD_ADDITIONAL_CONTACT),
                 style: BaseStyles.additionContactTextTextStyle,
                 textAlign: TextAlign.left,
             ),
@@ -311,7 +311,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
           ),
           alignment: Alignment.center,
           child: Text(
-            Strings.REQUEST_NOW,
+            getTranslation(Strings.REQUEST_NOW),
             textAlign: TextAlign.center,
             style: BaseStyles.requestNowTextStyle,
           ),

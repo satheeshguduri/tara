@@ -14,11 +14,7 @@ class Utils {
     return _instance;
   }
 
-  String getTranslation(String key) => AppLocalizations.of(getContext()).translate(key);
-
-  BuildContext getContext() {
-    return this.getContext();
-  }
+  String getTranslation(String key,context) => AppLocalizations.of(context).translate(key);
 
   void showOverlay(BuildContext context) {
     if (overlayEntry != null) return;

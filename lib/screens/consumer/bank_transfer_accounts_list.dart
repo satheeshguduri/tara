@@ -96,7 +96,7 @@ class _BankTransferAccountsListState
       title:Align(
         alignment: Alignment.topLeft,
         child: Text(
-          Strings.TRANSFER_TO_BANK_ACCOUNT,
+          getTranslation(Strings.TRANSFER_TO_BANK_ACCOUNT),
           textAlign: TextAlign.left,
           style: BaseStyles.topBarTextStyle,
         ),
@@ -127,7 +127,7 @@ class _BankTransferAccountsListState
             top: 0.0,
             child: Container(
               child: Text(
-                Strings.CONTACT_LIST,
+                getTranslation(Strings.CONTACT_LIST),
                 textAlign: TextAlign.left,
                 style: BaseStyles.bankAccountHeaderTitleStyle,
               ),
@@ -177,12 +177,12 @@ class _BankTransferAccountsListState
         headerInSection: (section) {
           if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
             if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
-              return headerViewContainer(Strings.RECENTLY_ADDED);
+              return headerViewContainer(getTranslation(Strings.RECENTLY_ADDED));
             } else {
-              return headerViewContainer(Strings.ALL_ACCOUNTS);
+              return headerViewContainer(getTranslation(Strings.ALL_ACCOUNTS));
             }
           } else {
-            return headerViewContainer(Strings.SEARCHED_ACCOUNTS);
+            return headerViewContainer(getTranslation(Strings.SEARCHED_ACCOUNTS));
           }
         },
       ),
@@ -192,11 +192,11 @@ class _BankTransferAccountsListState
   Widget headerViewContainer(String headerTitle) {
     return Column(
       children: [
-        (headerTitle==Strings.RECENTLY_ADDED || headerTitle==Strings.SEARCHED_ACCOUNTS)? getSearchBarWidget():Container(),
-        (headerTitle==Strings.RECENTLY_ADDED || headerTitle==Strings.SEARCHED_ACCOUNTS)?contactListTitleWidget():Container(),
-        (headerTitle==Strings.RECENTLY_ADDED || headerTitle==Strings.SEARCHED_ACCOUNTS)?Container(
+        (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))? getSearchBarWidget():Container(),
+        (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))?contactListTitleWidget():Container(),
+        (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))?Container(
           margin: EdgeInsets.only(bottom: 8),
-          child: DashedLineBorderButton(buttonText: Strings.SEND_TO_NEW_ACCOUNT,buttonColor: Color(0xfff7f7fa),
+          child: DashedLineBorderButton(buttonText: getTranslation(Strings.SEND_TO_NEW_ACCOUNT),buttonColor: Color(0xfff7f7fa),
           onPressed: (){
             Navigator.push(
               context,
@@ -270,7 +270,7 @@ class _BankTransferAccountsListState
               fillColor: Colors.white,
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent, width: 0.1)),
-              hintText: Strings.SEARCH_CONTACT_OR_BANK,
+              hintText: getTranslation(Strings.SEARCH_CONTACT_OR_BANK),
               hintStyle: BaseStyles.hintTextStyle,
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent)),

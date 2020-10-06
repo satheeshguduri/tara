@@ -108,7 +108,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                   child: contactInfo != null ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                      Text(Strings.RECEIPENT,
+                      Text(getTranslation(Strings.RECIPIENT),
                       style: const TextStyle(
                           color: AppColors.fareColor,
                           fontWeight: FontWeight.w700,
@@ -152,7 +152,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                             children: [
                               Container(
                                 margin: EdgeInsets.only(top: 16, bottom: 4),
-                                child: Text(Strings.SELECT_ACC,
+                                child: Text(getTranslation(Strings.SELECT_ACC),
                                     style: BaseStyles
                                         .textFormFieldHeaderTitleTextStyle,
                                     textAlign: TextAlign.left),
@@ -178,7 +178,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                                   Assets.ic_plus,
                                   fit: BoxFit.none,
                                 ),
-                                Text(Strings.ADD_NEW_BANK_ACCOUNT,
+                                Text(getTranslation(Strings.ADD_NEW_BANK_ACCOUNT),
                                   style: const TextStyle(
                                       color: AppColors.fareColor,
                                       fontWeight: FontWeight.w700,
@@ -199,7 +199,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(Strings.RECEIPENT,
+                        Text(getTranslation(Strings.RECIPIENT),
                             style: const TextStyle(
                                 color: AppColors.fareColor,
                                 fontWeight: FontWeight.w700,
@@ -212,7 +212,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                             children: [
                               Container(
                                 margin: EdgeInsets.only(top: 8, bottom: 4),
-                                child: Text(Strings.BANK_NAME,
+                                child: Text(getTranslation(Strings.BANK_NAME),
                                     style: BaseStyles
                                         .textFormFieldHeaderTitleTextStyle,
                                     textAlign: TextAlign.left),
@@ -236,9 +236,9 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                                             : Container(),
                                         labelStyle: BaseStyles
                                             .textFormFieldHeaderTitleTextStyle,
-//                                  labelText: Strings.BANK_NAME,
-                                  hintText: Strings.BANK_NAME_HINT)
-                                ),
+//                                  labelText: getTranslation(Strings.BANK_NAME,
+                                  hintText: getTranslation(Strings.BANK_NAME_HINT)
+                                ),),
                                 suggestionsCallback: (pattern) {
                                   return BankList.getSuggestions(pattern);
                                 },
@@ -263,17 +263,17 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
 //                              value.isEmpty ? 'Please select a city' : null,
                               ),
                             ]),
-//                            textFormFieldContainer(Strings.BANK_NAME, Strings.BANK_NAME_HINT, TextInputType.text, txtCtrlBankName),
+//                            textFormFieldContainer(getTranslation(Strings.BANK_NAME, getTranslation(Strings.BANK_NAME_HINT, TextInputType.text, txtCtrlBankName),
                         textFormFieldContainer(
-                            Strings.BANK_ACC_NO,
-                            Strings.BANK_ACC_NO_HINT,
+                            getTranslation(Strings.BANK_ACC_NO),
+                            getTranslation(Strings.BANK_ACC_NO_HINT),
                             TextInputType.text,
                             txtCtrlBankAcc),
                         isBankAccVerFailed
                             ? Container(
                                 margin: EdgeInsets.only(top: 8),
                                 child: Text(
-                                  Strings.error_verify_bank_account,
+                                  getTranslation(Strings.error_verify_bank_account),
                                   style: BaseStyles.error_text_style,
                                 ),
                               )
@@ -295,15 +295,15 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(Strings.TRANSFER_DETAILS,
+                        Text(getTranslation(Strings.TRANSFER_DETAILS),
                             style: const TextStyle(
                                 color: AppColors.fareColor,
                                 fontWeight: FontWeight.w700,
                                 fontStyle: FontStyle.normal,
                                 fontSize: 16.0)),
                         textFormFieldContainer(
-                            Strings.TRANSFER_AMT,
-                            Strings.TRANSFER_AMT_HINT,
+                            getTranslation(Strings.TRANSFER_AMT),
+                            getTranslation(Strings.TRANSFER_AMT_HINT),
                             TextInputType.text,
                             txtCtrlTransferAmt),
                         Column(
@@ -311,7 +311,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                             children: [
                               Container(
                                 margin: EdgeInsets.only(top: 16, bottom: 4),
-                                child: Text(Strings.TRANSACTION_TYPE,
+                                child: Text(getTranslation(Strings.TRANSACTION_TYPE),
                                     style: BaseStyles
                                         .textFormFieldHeaderTitleTextStyle,
                                     textAlign: TextAlign.left),
@@ -319,8 +319,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                               _getDropDownList("transactionType"),
                             ]),
                         textFormFieldContainer(
-                            Strings.MESSAGE_OPT,
-                            Strings.MESSAGE_OPT_HINT,
+                            getTranslation(Strings.MESSAGE_OPT),
+                            getTranslation(Strings.MESSAGE_OPT_HINT),
                             TextInputType.text,
                             txtCtrlTransType),
                         Row(
@@ -356,7 +356,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                             Container(
                               margin:
                                   EdgeInsets.only(left: 16, right: 16, top: 16),
-                              child: Text(Strings.SET_RECURRING,
+                              child: Text(getTranslation(Strings.SET_RECURRING),
                                   style: BaseStyles
                                       .textFormFieldHeaderTitleTextStyle,
                                   textAlign: TextAlign.left),
@@ -380,7 +380,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(Strings.PAYMENT_SOURCE,
+                        Text(getTranslation(Strings.PAYMENT_SOURCE),
                             style: const TextStyle(
                                 color: AppColors.fareColor,
                                 fontWeight: FontWeight.w700,
@@ -469,7 +469,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                             alignment: Alignment.center,
                             children: [
                               InkWell(
-                                child: Text(Strings.VERIFY,
+                                child: Text(getTranslation(Strings.VERIFY),
                                     style: const TextStyle(
                                         color: AppColors.fareColor,
                                         fontWeight: FontWeight.w700,
@@ -514,13 +514,13 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
 
   _getDropDownHint(String type) {
     if (type == "transactionType") {
-      return Text(Strings.TRANSACTION_TYPE_HINT);
+      return Text(getTranslation(Strings.TRANSACTION_TYPE_HINT));
     } else if (type == "paymentSource") {
       return Container();
     } else if (type == "frequency") {
-      return Text(Strings.TRANSACTION_TYPE_HINT);
+      return Text(getTranslation(Strings.TRANSACTION_TYPE_HINT));
     } else if (type == "bankAccount") {
-      return Text(Strings.SELECT_ACC);
+      return Text(getTranslation(Strings.SELECT_ACC));
     }
 
   }
@@ -621,7 +621,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
             color: AppColors.bottom_border_color),
         alignment: Alignment.center,
         child: Text(
-          Strings.CONTINUE,
+          getTranslation(Strings.CONTINUE),
           textAlign: TextAlign.center,
           style: BaseStyles.addNewBankAccount,
         ),
@@ -631,11 +631,11 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
 
   getFrequencyStartTitle() {
     if (frequencyType == Strings.DAILY) {
-      return Strings.START_DATE;
+      return getTranslation(Strings.START_DATE);
     } else if (frequencyType == Strings.MONTHLY) {
-      return Strings.START_MONTH;
+      return getTranslation(Strings.START_MONTH);
     } else if (frequencyType == Strings.YEARLY) {
-      return Strings.START_YEAR;
+      return getTranslation(Strings.START_YEAR);
     } else {
       return "";
     }
@@ -643,11 +643,11 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
 
   getFrequencyEndTitle() {
     if (frequencyType == Strings.DAILY) {
-      return Strings.END_DATE;
+      return getTranslation(Strings.END_DATE);
     } else if (frequencyType == Strings.MONTHLY) {
-      return Strings.END_MONTH;
+      return getTranslation(Strings.END_MONTH);
     } else if (frequencyType == Strings.YEARLY) {
-      return Strings.END_YEAR;
+      return getTranslation(Strings.END_YEAR);
     } else {
       return "";
     }
@@ -721,7 +721,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(Strings.FREQUENCY,
+                    Text(getTranslation(Strings.FREQUENCY),
                         style: BaseStyles.textFormFieldHeaderTitleTextStyle,
                         textAlign: TextAlign.left),
                     _getDropDownList("frequency")

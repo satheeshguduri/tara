@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/colors.dart';
+import 'package:tara_app/common/constants/strings.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class InputDoneView extends StatelessWidget {
   @override
@@ -17,7 +19,7 @@ class InputDoneView extends StatelessWidget {
             onPressed: () {
               FocusScope.of(context).requestFocus(FocusNode());
             },
-            child: Text("Done",
+            child: Text(Utils().getTranslation(Strings.Done,context),
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
           ),

@@ -3,13 +3,14 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_input_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_list_widget.dart';
+import 'package:tara_app/screens/base/base_state.dart';
 
 class ConversationPage extends StatefulWidget {
   @override
   _ConversationPageState createState() => _ConversationPageState();
 }
 
-class _ConversationPageState extends State<ConversationPage> {
+class _ConversationPageState extends BaseState<ConversationPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +44,18 @@ class _ConversationPageState extends State<ConversationPage> {
       title:Align(
         alignment: Alignment.topLeft,
         child: Text(
-          Strings.TARA_CASH_DEPOSIT,
+    getTranslation(Strings.TARA_CASH_DEPOSIT),
           textAlign: TextAlign.left,
           style: BaseStyles.topBarTextStyle,
         ),
       ),
     );
+  }
+
+  @override
+  BuildContext getContext() {
+    // TODO: implement getContext
+    return context;
   }
 
 }

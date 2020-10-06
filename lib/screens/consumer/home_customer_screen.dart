@@ -9,11 +9,8 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/strings.dart';
-import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/screens/consumer/home_customer_widget.dart';
 import '../../common/constants/values.dart';
-import '../../common/widgets/base_button.dart';
-import '../../common/widgets/rounded_button.dart';
 import '../base/base_state.dart';
 
 class HomeCustomerScreen extends StatefulWidget {
@@ -41,7 +38,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
   @override
   BuildContext getContext() {
     // TODO: implement getContext
-    this.context;
+    return context;
   }
 
   @override

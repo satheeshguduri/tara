@@ -9,10 +9,7 @@ import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
-import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
-import 'package:tara_app/screens/consumer/enter_mpin.dart';
-import 'package:tara_app/screens/consumer/transaction_detail.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
@@ -210,10 +207,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
-            RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
-            RoundedButton(buttonText: Strings.CASH_DEPOSIT,image: Assets.ic_cash_deposit,onPressed:cashDepositBottomSheet),
-            RoundedButton(buttonText: Strings.RESTOCK,image: Assets.ic_restock,),
+            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,),
+            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,),
+            RoundedButton(buttonText: getTranslation(Strings.CASH_DEPOSIT),image: Assets.ic_cash_deposit,onPressed:cashDepositBottomSheet),
+            RoundedButton(buttonText: getTranslation(Strings.RESTOCK),image: Assets.ic_restock,),
           ],
         ),
       );
@@ -224,10 +221,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,),
-            RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,),
-            RoundedButton(buttonText: Strings.PAYMENT,image: Assets.ic_payment,),
-            RoundedButton(buttonText: Strings.CMS_TOP_UP,image: Assets.ic_topup,),
+            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,),
+            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,),
+            RoundedButton(buttonText: getTranslation(Strings.PAYMENT),image: Assets.ic_payment,),
+            RoundedButton(buttonText: getTranslation(Strings.CMS_TOP_UP),image: Assets.ic_topup,),
           ],
         ),
       );
@@ -238,21 +235,21 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: Strings.SEND,image: Assets.SEND_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,onPressed: (){
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => BankTransferAccountsList()),
               );
             },),
-            RoundedButton(buttonText: Strings.RECEIVE,image: Assets.RECEIVE_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,onPressed: (){
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ConversationPage()),
               );
             },),
-            RoundedButton(buttonText: Strings.ADD_BENEFICIARY,image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.ADD_BENEFICIARY),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
             },),
-            RoundedButton(buttonText: Strings.SHOP,image: Assets.SHOP_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.SHOP),image: Assets.SHOP_ICON,onPressed: (){
 
             },),
           ],

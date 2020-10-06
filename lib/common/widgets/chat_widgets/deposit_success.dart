@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 
 class DepositSuccess extends StatefulWidget {
@@ -55,7 +56,7 @@ class _DepositSuccessState extends State<DepositSuccess> {
               child: Container(
                 margin: EdgeInsets.only(left: 8,right: 8),
                 child: Text(
-                  Strings.DEPOSIT_SUCCESS,
+                  Utils().getTranslation(Strings.DEPOSIT_SUCCESS,context),
                   textAlign: TextAlign.left,
                   style: BaseStyles.chatItemHeaderTextStyle,
                 ),

@@ -8,7 +8,6 @@ import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:tara_app/common/widgets/custom_button.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
@@ -145,7 +144,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                               Opacity(
                                 opacity : 0.6,
                                 child:   Text(
-                                    Strings.AVAIL_BALANCE,
+                                    getTranslation(Strings.AVAIL_BALANCE),
                                     style: const TextStyle(
                                         color:  AppColors.primaryText,
                                         fontWeight: FontWeight.w500,
@@ -212,7 +211,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               Text(
-                                                  Strings.INCOMING,
+                                                  getTranslation(Strings.INCOMING),
                                                   style: const TextStyle(
                                                       color:  AppColors.primaryText,
                                                       fontWeight: FontWeight.w500,
@@ -256,7 +255,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               Text(
-                                                  Strings.OUT_GOING,
+                                                  getTranslation(Strings.OUT_GOING),
                                                   style: const TextStyle(
                                                       color:  AppColors.primaryText,
                                                       fontWeight: FontWeight.w500,
@@ -293,7 +292,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                  Strings.ORDERS,
+                                  getTranslation(Strings.ORDERS),
                                   style: const TextStyle(
                                       color:  AppColors.fareColor,
                                       fontWeight: FontWeight.w700,
@@ -306,7 +305,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                                 children: [
                                   InkWell(
                                     child:Text(
-                                        Strings.SEE_ALL,
+                                        getTranslation(Strings.SEE_ALL),
                                         style: const TextStyle(
                                             color:  AppColors.fareColor,
                                             fontWeight: FontWeight.w700,
@@ -360,7 +359,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                              Strings.NEW,
+                                              getTranslation(Strings.NEW),
                                               style: const TextStyle(
                                                   color:  AppColors.primaryText,
                                                   fontWeight: FontWeight.w500,
@@ -410,7 +409,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                                     decoration: isTapOnIndex2 ? roundedBoxDecoration() : null,
                                     child:Center(
                                       child: Text(
-                                          Strings.IN_PROGRESS,
+                                          getTranslation(Strings.IN_PROGRESS),
                                           style: const TextStyle(
                                               color:  AppColors.primaryText,
                                               fontWeight: FontWeight.w500,
@@ -436,7 +435,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                                     decoration: isTapOnIndex3 ? roundedBoxDecoration() : null,
                                     child:Center(
                                       child: Text(
-                                          Strings.COMPLETED,
+                                          getTranslation(Strings.COMPLETED),
                                           style: const TextStyle(
                                               color:  AppColors.primaryText,
                                               fontWeight: FontWeight.w500,
@@ -583,7 +582,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
             ),
             Container(height: 8,),
             Text(
-                Strings.NO_PROGRESS_YET,
+                getTranslation(Strings.NO_PROGRESS_YET),
                 style: const TextStyle(
                     color:  AppColors.primaryText,
                     fontWeight: FontWeight.w700,
@@ -594,7 +593,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
             ),
             Container(height: 8,),
             Text(
-                Strings.SEE_AVAIL_REQ,
+                getTranslation(Strings.SEE_AVAIL_REQ),
                 style: const TextStyle(
                     color:  AppColors.battleship_grey,
                     fontWeight: FontWeight.w400,
