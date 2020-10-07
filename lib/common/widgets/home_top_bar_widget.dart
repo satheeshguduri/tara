@@ -10,6 +10,7 @@ import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/create_account.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
@@ -245,7 +246,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             RoundedButton(buttonText: getTranslation(Strings.ADD_BENEFICIARY),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
             },),
             RoundedButton(buttonText: getTranslation(Strings.SHOP),image: Assets.SHOP_ICON,onPressed: (){
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreateAccount()),
+              );
             },),
           ],
         ),

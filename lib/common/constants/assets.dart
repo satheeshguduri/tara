@@ -77,4 +77,6 @@ class Assets {
   static const ic_share = "assets/images/icon.png";
   static const ic_plus = "assets/images/icon-2.png";
 
+  static const ic_Login_flow_bg = "assets/images/rectangle-10.png";
+
 }
