@@ -95,7 +95,7 @@ class BaseStyles {
   );
 
   static TextStyle bottomSheetTitleStyle = TextStyle(
-  color: Color(0xff123456),
+  color: AppColors.header_top_bar_color,
   fontWeight: FontWeight.w700,
 //  fontFamily: "",
   fontStyle:  FontStyle.normal,
@@ -111,7 +111,7 @@ class BaseStyles {
   );
 
   static TextStyle bottomSheetLocationStyle = TextStyle(
-  color:  Color(0xff123456),
+  color:  AppColors.header_top_bar_color,
   fontWeight: FontWeight.w400,
 //  fontFamily: "",
   fontStyle:  FontStyle.normal,
@@ -119,7 +119,7 @@ class BaseStyles {
   );
 
   static TextStyle bottomSheetLocationChangeTextStyle =  TextStyle(
-      color:  Color(0xff123456),
+      color: AppColors.header_top_bar_color,
       fontWeight: FontWeight.w700,
 //      fontFamily: "",
       fontStyle:  FontStyle.normal,
@@ -127,7 +127,7 @@ class BaseStyles {
   );
 
   static TextStyle additionContactTextTextStyle =  TextStyle(
-  color:  const Color(0xff123456),
+  color:  AppColors.header_top_bar_color,
   fontWeight: FontWeight.w500,
 //  fontFamily: "",
   fontStyle:  FontStyle.normal,
@@ -135,7 +135,7 @@ class BaseStyles {
   );
 
   static TextStyle textFormFieldHeaderTitleTextStyle =  TextStyle(
-  color:  const Color(0xff123456),
+  color:  AppColors.header_top_bar_color,
   fontWeight: FontWeight.w500,
 //  fontFamily: "",
   fontStyle:  FontStyle.normal,
@@ -151,7 +151,7 @@ class BaseStyles {
   );
 
   static TextStyle contactsHeaderTextStyle =  TextStyle(
-  color:  Color(0xff123456),
+  color:  AppColors.header_top_bar_color,
   fontWeight: FontWeight.w600,
 //      fontFamily: "",
   fontStyle:  FontStyle.normal,
@@ -345,5 +345,12 @@ class BaseStyles {
       fontWeight: FontWeight.w700,
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
+  );
+
+  static const subHeaderTextStyle =  TextStyle(
+      color:  Color(0xff697683),
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
   );
 }

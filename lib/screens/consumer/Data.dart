@@ -71,3 +71,10 @@ class BankModel {
   String image;
   String bankName;
 }
+
+
+class CountryCodeModel {
+  String image;
+  String countryName;
+  String countryCode;
+}

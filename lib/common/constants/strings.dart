@@ -137,4 +137,8 @@ class Strings{
   static const STROOM_TOKEN = "stroom_token";
   static const YOU_REQ_DEPOSITE = "you_req_deposit";
   static const CANCEL_REQ = "cancel_req";
+
+  static const CREATE_ACCOUNT = "create_account";
+  static const HELLO = "hello";
+  static const PLEASE_ENTER_MOBILE = "please_enter_mobile";
 }

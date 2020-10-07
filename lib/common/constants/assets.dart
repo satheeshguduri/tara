@@ -79,4 +79,16 @@ class Assets {
 
   static const ic_Login_flow_bg = "assets/images/rectangle-10.png";
 
+
+  static const ic_australia_flag= "assets/images/ic_australia_flag.png";
+  static const ic_brazil_flag = "assets/images/ic_brazil_flag.png";
+  static const ic_canada_flag = "assets/images/ic_canada_flag.png";
+  static const ic_france_flag = "assets/images/ic_france_flag.png";
+  static const ic_germany_flag= "assets/images/ic_germany_flag.png";
+  static const ic_india_flag = "assets/images/ic_india_flag.png";
+  static const ic_indonesia_flag = "assets/images/ic_indonesia_flag.png";
+  static const ic_ireland_flag = "assets/images/ic_ireland_flag.png";
+  static const ic_uk_flag= "assets/images/ic_uk_flag.png";
+  static const ic_usa_flag = "assets/images/ic_usa_flag.png";
+
 }

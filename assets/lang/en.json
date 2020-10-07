@@ -126,5 +126,10 @@
   "pln_token":"PLN Token",
   "stroom_token":"Stroom Token",
   "you_req_deposit":"YOU REQUEST DEPOSIT",
-  "cancel_req":"Cancel Request"
+  "cancel_req":"Cancel Request",
+
+  "create_account": "Create Account",
+  "hello": "Hello!",
+  "please_enter_mobile": "Please enter mobile phone number to get started."
+
 }

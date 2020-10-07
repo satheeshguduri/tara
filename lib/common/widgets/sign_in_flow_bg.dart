@@ -15,11 +15,14 @@ class SignInFlowBg extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.centerRight,
       decoration: BoxDecoration(
-    image: DecorationImage(
-    image: AssetImage(Assets.ic_Login_flow_bg),
-    fit: BoxFit.cover,
-    )),
-      child: current,);
+          image: DecorationImage(
+            image: AssetImage(Assets.ic_Login_flow_bg),
+            fit: BoxFit.cover,
+          )),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: current,
+      ));
 
     return current;
   }
