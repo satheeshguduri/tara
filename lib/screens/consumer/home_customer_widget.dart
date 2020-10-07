@@ -11,6 +11,7 @@ import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 
 class HomeCustomerWidget extends StatefulWidget {
   HomeCustomerWidget({Key key}) : super(key: key);
@@ -265,43 +266,54 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
   getTransferToGridItem(String accountName)
   {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Container(
-        width: 76,
-        height: 92,
-        margin: EdgeInsets.only(left: 8),
-        decoration: BoxDecoration(
-          color: AppColors.primaryBackground,
-          boxShadow: [
-            Shadows.primaryShadow,
-          ],
-          borderRadius: Radii.k8pxRadius,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: 40,
-              margin: EdgeInsets.only(left: 18, top: 8, right: 18),
-              decoration: BoxDecoration(
-                color: AppColors.accentElement,
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Container(),
+    return InkWell(
+        onTap: (){
+          if (accountName == "Bank\nAccount")
+          {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BankTransferAccountsList()),
+            );
+          }
+        },
+        child:Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            width: 76,
+            height: 92,
+            margin: EdgeInsets.only(left: 8),
+            decoration: BoxDecoration(
+              color: AppColors.primaryBackground,
+              boxShadow: [
+                Shadows.primaryShadow,
+              ],
+              borderRadius: Radii.k8pxRadius,
             ),
-            Container(
-              margin: EdgeInsets.only(top: 4,left: 4,bottom: 4,right: 4),
-              child: Text(
-                accountName,
-                textAlign: TextAlign.center,
-                style: BaseStyles.transferToItemTextStyle,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  height: 40,
+                  margin: EdgeInsets.only(left: 18, top: 8, right: 18),
+                  decoration: BoxDecoration(
+                    color: AppColors.accentElement,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Container(),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 4,left: 4,bottom: 4,right: 4),
+                  child: Text(
+                    accountName,
+                    textAlign: TextAlign.center,
+                    style: BaseStyles.transferToItemTextStyle,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+
+        ));
   }
 
   getPaymentWidget()

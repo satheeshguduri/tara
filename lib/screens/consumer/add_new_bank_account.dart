@@ -62,7 +62,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SafeArea(child: Container(
       padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom),
       decoration: BoxDecoration(
@@ -160,7 +160,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
                 addNewBankAccountWidget()
               ])
       ),
-    );
+    ),);
 
   }
 

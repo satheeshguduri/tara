@@ -22,92 +22,110 @@ class AgentConfirmed extends StatefulWidget {
 class _AgentConfirmedState extends State<AgentConfirmed> {
   @override
   Widget build(BuildContext context) {
+
     return Container(
-//      margin: EdgeInsets.only(left: 16, right: 16, top: 8),
-//      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-                color: const Color(0x1f000000),
-                offset: Offset(0, 4),
-                blurRadius: 6,
-                spreadRadius: 0),
-            BoxShadow(
-                color: const Color(0x14000000),
-                offset: Offset(0, 0),
-                blurRadius: 2,
-                spreadRadius: 0)
-          ],
-          color: AppColors.primaryBackground),
-      child:Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 32,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 16,right: 8),
-                child: Text(
-                  Utils().getTranslation(Strings.AGENT_CONFIRMED,context),
-                  textAlign: TextAlign.left,
-                  style: BaseStyles.agentConfirmedTextStyle,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 16,right: 8,bottom: 8),
-            child: Row(
-              children: [
-                Image.asset(
-                  "assets/images/avatar-11.png",
-                  height: 32,
-                  width: 32,
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 16),
-                  child: Column(
+      padding: EdgeInsets.only(left: 8,right: 8,bottom: 8),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      boxShadow: [
+                        BoxShadow(
+                            color: const Color(0x1f000000),
+                            offset: Offset(0, 4),
+                            blurRadius: 6,
+                            spreadRadius: 0),
+                        BoxShadow(
+                            color: const Color(0x14000000),
+                            offset: Offset(0, 0),
+                            blurRadius: 2,
+                            spreadRadius: 0)
+                      ],
+                      color: AppColors.primaryBackground),
+                  child:Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        child: Text(
-                          "Pasek Sujana",
-                          textAlign: TextAlign.left,
-                          style: BaseStyles.transactionItemPersonNameTextStyle,
+                        height: 32,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            margin: EdgeInsets.only(left: 16,right: 8),
+                            child: Text(
+                              Utils().getTranslation(Strings.AGENT_CONFIRMED,context),
+                              textAlign: TextAlign.left,
+                              style: BaseStyles.agentConfirmedTextStyle,
+                            ),
+                          ),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 4),
-                        child: Text(
-                          "ID No.324 567",
-                          textAlign: TextAlign.left,
-                          style: BaseStyles.transactionItemDateTextStyle,
+                        margin: EdgeInsets.only(left: 16,right: 8,bottom: 8),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "assets/images/avatar-11.png",
+                              height: 32,
+                              width: 32,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      "Pasek Sujana",
+                                      textAlign: TextAlign.left,
+                                      style: BaseStyles.transactionItemPersonNameTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 4),
+                                    child: Text(
+                                      "ID No.324 567",
+                                      textAlign: TextAlign.left,
+                                      style: BaseStyles.transactionItemDateTextStyle,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                DateFormat('dd MMM kk:mm')
+                                    .format(DateTime.fromMillisecondsSinceEpoch(1565888474278)),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12.0,
+                                    fontStyle: FontStyle.normal),
+                              ),
+                              margin: EdgeInsets.only(bottom:8.0,right: 8),
+                            )])
                     ],
                   ),
                 ),
-              ],
-            ),
+                width: 200,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0)),
+              )
+            ],
           ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    DateFormat('dd MMM kk:mm')
-                        .format(DateTime.fromMillisecondsSinceEpoch(1565888474278)),
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12.0,
-                        fontStyle: FontStyle.normal),
-                  ),
-                  margin: EdgeInsets.only(bottom:8.0,right: 8),
-                )])
         ],
+        crossAxisAlignment: CrossAxisAlignment.start,
       ),
+      margin: EdgeInsets.only(bottom: 10.0),
     );
   }
 

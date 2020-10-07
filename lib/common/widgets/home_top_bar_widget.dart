@@ -235,12 +235,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BankTransferAccountsList()),
-              );
-            },),
+            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,),
             RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,onPressed: (){
               Navigator.push(
                 context,
@@ -307,15 +302,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return Container(
-              padding: EdgeInsets.all(10),
-              height: MediaQuery.of(context).size.width > 230 ? 500 : null,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(8),
-                      topLeft: Radius.circular(8))),
-              child: CashDepositWidget());
+          return CashDepositWidget();
         });
   }
 }

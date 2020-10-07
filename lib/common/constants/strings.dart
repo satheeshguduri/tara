@@ -125,7 +125,7 @@ class Strings{
   static const TANIA_REQUESTED = "tania_requested";
   static const DECLINE = "decline";
   static const Pay = "pay";
-  static const Done = "Done";
+  static const Done = "done";
 
 
   static const YOU_REQUESTED = "you_requested";
