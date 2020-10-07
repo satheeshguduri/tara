@@ -46,11 +46,12 @@ class _CashDepositSelectContactState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+//      backgroundColor: Colors.white,
       key: key,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0), // here the desired height
+          preferredSize: Size.fromHeight(65.0), // here the desired height
           child: _buildAppBar(context)),
-      body: _buildTaraAndAllContactsList(),
+      body:SafeArea(child:  _buildTaraAndAllContactsList(),), //bottom: true,top: false,
     );
   }
 
@@ -81,89 +82,92 @@ class _CashDepositSelectContactState
 
   _buildTaraAndAllContactsList() {
     return Container(
-        height: MediaQuery.of(context).size.height,
-        margin: EdgeInsets.only(bottom: 16, top: 8),
+        height: MediaQuery.of(context).size.height-16,
+//        margin: EdgeInsets.only(top: 8,bottom: 16,),
         child: listViewContainer());
   }
 
   Widget _buildAppBar(BuildContext context) {
-    return AppBar(
-      elevation: 0.1,
-      centerTitle: false,
-      leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () =>
-              Navigator.pop(context, false) //Navigator.pop(context, false),
+    return Container(
+      margin: EdgeInsets.only(top:4),
+      child: AppBar(
+        elevation: 0.5,
+        centerTitle: false,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () =>
+                Navigator.pop(context, false) //Navigator.pop(context, false),
+        ),
+        title: Container(
+          height: 40,
+          margin: EdgeInsets.only(
+            left: 8,
+            right: 8,
           ),
-      title: Container(
-        height: 40,
-        margin: EdgeInsets.only(
-          left: 8,
-          right: 8,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          border: new Border.all(color: Colors.grey, width: 1),
-        ),
-        child: TextField(
-          controller: _searchQuery,
-          keyboardType: TextInputType.text,
-          style: BaseStyles.baseTextStyle,
-          cursorColor: Colors.black,
-          autofocus: false,
-          onChanged: (value) {
-            _searchText = value;
-            if (_searchText != null &&
-                _searchText.toString().isNotEmpty &&
-                _searchText.toString().length > 2) {
-              arrFilterContactInfo = List();
-              if (arrContactInfo.length > 0) {
-                arrFilterContactInfo = arrContactInfo
-                    .where((contact) => contact.name
-                        .toLowerCase()
-                        .contains(_searchText.toLowerCase()))
-                    .toList();
-                if (arrFilterContactInfo.length > 0) {
-                  setState(() {});
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            border: new Border.all(color: Colors.grey, width: 1),
+          ),
+          child: TextField(
+            controller: _searchQuery,
+            keyboardType: TextInputType.text,
+            style: BaseStyles.baseTextStyle,
+            cursorColor: Colors.black,
+            autofocus: false,
+            onChanged: (value) {
+              _searchText = value;
+              if (_searchText != null &&
+                  _searchText.toString().isNotEmpty &&
+                  _searchText.toString().length > 2) {
+                arrFilterContactInfo = List();
+                if (arrContactInfo.length > 0) {
+                  arrFilterContactInfo = arrContactInfo
+                      .where((contact) => contact.name
+                      .toLowerCase()
+                      .contains(_searchText.toLowerCase()))
+                      .toList();
+                  if (arrFilterContactInfo.length > 0) {
+                    setState(() {});
+                  }
+                }
+              } else {
+                if (_searchQuery.text == "") {
+                  setState(() {
+                    _searchText = "";
+                    _searchQuery.text = "";
+                    arrFilterContactInfo.clear();
+                  });
                 }
               }
-            } else {
-              if (_searchQuery.text == "") {
-                setState(() {
-                  _searchText = "";
-                  _searchQuery.text = "";
-                  arrFilterContactInfo.clear();
-                });
-              }
-            }
-          },
-          decoration: new InputDecoration(
-            prefixIcon: Icon(
-              Icons.search,
-              color: Colors.black54,
-              size: 20,
-            ),
-            fillColor: Colors.white,
-            enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent, width: 0.1)),
-            hintText: getTranslation(Strings.SEARCH_CONTACT),
-            hintStyle: BaseStyles.hintTextStyle,
-            focusedBorder: new UnderlineInputBorder(
-                borderSide: new BorderSide(color: Colors.transparent)),
-            suffixIcon: InkWell(
-              onTap: () => () {
-                setState(() {
-                  _searchText = "";
-                  _searchQuery.text = "";
-                  arrFilterContactInfo.clear();
-                });
-              },
-              child: Icon(Icons.clear,
-                  color: (_searchText != null &&
-                          _searchText.toString().isNotEmpty &&
-                          _searchText.toString().length > 0)
-                      ? Colors.black54
-                      : Colors.transparent),
+            },
+            decoration: new InputDecoration(
+              prefixIcon: Icon(
+                Icons.search,
+                color: Colors.black54,
+                size: 20,
+              ),
+              fillColor: Colors.white,
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent, width: 0.1)),
+              hintText: getTranslation(Strings.SEARCH_CONTACT),
+              hintStyle: BaseStyles.hintTextStyle,
+              focusedBorder: new UnderlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.transparent)),
+              suffixIcon: InkWell(
+                onTap: () => () {
+                  setState(() {
+                    _searchText = "";
+                    _searchQuery.text = "";
+                    arrFilterContactInfo.clear();
+                  });
+                },
+                child: Icon(Icons.clear,
+                    color: (_searchText != null &&
+                        _searchText.toString().isNotEmpty &&
+                        _searchText.toString().length > 0)
+                        ? Colors.black54
+                        : Colors.transparent),
+              ),
             ),
           ),
         ),
@@ -232,7 +236,7 @@ class _CashDepositSelectContactState
 
   getContactItemWidget(ContactInfo contactInfo) {
     return Container(
-      margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+      margin: EdgeInsets.only(left: 16, right: 16, top: 4,bottom: 4),
       padding: EdgeInsets.all(8),
       height: 64,
       decoration: BoxDecoration(
@@ -285,7 +289,7 @@ class _CashDepositSelectContactState
                                 ),
                                 child: Image.asset(
                                   Assets.tara_contacts,
-                                  height: 32,
+                                  height: 24,
                                   width: 32,
                                 ),
                               ),
