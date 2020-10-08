@@ -298,7 +298,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MyAccount()),
+              MaterialPageRoute(builder: (context) => MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),)),
             );
           }
         },

@@ -17,6 +17,13 @@ import 'package:tara_app/screens/consumer/my_account/enter_mpin_screen.dart';
 
 class MyAccount extends StatefulWidget{
 
+  final String fromScreen;
+
+  const MyAccount({
+    Key key,
+    this.fromScreen,
+
+  }) : super(key: key);
 
   @override
   _MyAccountState createState() => _MyAccountState();
@@ -31,20 +38,17 @@ class _MyAccountState extends BaseState<MyAccount>{
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 1,
-      centerTitle: false,
+      centerTitle: (widget.fromScreen!=null&&widget.fromScreen==getTranslation(Strings.MY_ACCOUNTS))?false:true,
       automaticallyImplyLeading: false,
-      leading: IconButton(
+      leading: (widget.fromScreen!=null&&widget.fromScreen==getTranslation(Strings.MY_ACCOUNTS))?IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () =>
               Navigator.pop(context, false) //Navigator.pop(context, false),
-      ),// hides leading widget
-      title:Align(
-        alignment: Alignment.topLeft,
-        child: Text(
-          getTranslation(Strings.MY_ACCOUNT),
-          textAlign: TextAlign.left,
-          style: BaseStyles.topBarTextStyle,
-        ),
+      ):Container(width: 1,),// hides leading widget
+      title:Text(
+        getTranslation(Strings.MY_ACCOUNT),
+        textAlign: (widget.fromScreen!=null&&widget.fromScreen==getTranslation(Strings.MY_ACCOUNTS))?TextAlign.left:TextAlign.center,
+        style: BaseStyles.topBarTextStyle,
       ),
     );
   }
