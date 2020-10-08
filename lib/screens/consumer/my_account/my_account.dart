@@ -11,7 +11,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/card_view.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/connect_new_account_select_ank.dart';
+import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/consumer/enter_mpin.dart';
 import 'package:tara_app/screens/consumer/my_account/enter_mpin_screen.dart';
 

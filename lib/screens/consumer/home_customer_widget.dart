@@ -12,7 +12,7 @@ import 'package:tara_app/common/widgets/rounded_card_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
-import 'package:tara_app/screens/consumer/connect_new_account_select_ank.dart';
+import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 
 class HomeCustomerWidget extends StatefulWidget {
