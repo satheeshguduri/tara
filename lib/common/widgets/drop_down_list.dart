@@ -57,4 +57,5 @@ class _DropDownListState extends State<DropDownList> {
 class BankInfo {
   String bankName;
   String bankIcon;
+  List<String> cardTypeIcons;
 }

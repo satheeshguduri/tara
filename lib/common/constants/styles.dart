@@ -264,6 +264,13 @@ class BaseStyles {
   fontSize: 24.0
   );
 
+  static const cannotFindTextStyle = const TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 18.0
+  );
+
   static const dateAndTimeTextStyle =  const TextStyle(
   color:  AppColors.uncheck_color,
   fontWeight: FontWeight.w400,

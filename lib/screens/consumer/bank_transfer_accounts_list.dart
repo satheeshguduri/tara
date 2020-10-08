@@ -274,19 +274,19 @@ class _BankTransferAccountsListState
               hintStyle: BaseStyles.hintTextStyle,
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent)),
-              suffixIcon: InkWell(
-                onTap: () => () {
+              suffixIcon:  IconButton(
+                icon: Icon(Icons.clear,
+                    color: (_searchText != null &&
+                        _searchText.toString().isNotEmpty)
+                        ? Colors.black54
+                        : Colors.transparent),
+                onPressed: (){
                   setState(() {
                     _searchText = "";
                     _searchQuery.text = "";
                     arrFilterContactInfo.clear();
                   });
                 },
-                child: Icon(Icons.clear,
-                    color: (_searchText != null &&
-                        _searchText.toString().isNotEmpty)
-                        ? Colors.black54
-                        : Colors.transparent),
               ),
             ),
           ),

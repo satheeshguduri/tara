@@ -91,4 +91,9 @@ class Assets {
   static const ic_uk_flag= "assets/images/ic_uk_flag.png";
   static const ic_usa_flag = "assets/images/ic_usa_flag.png";
 
+  static const ic_gpn_logo = "assets/images/ic_gpn_logo.png";
+  static const ic_visa = "assets/images/ic_visa.png";
+  static const ic_master_card= "assets/images/ic_master_card.jpg";
+  static const ic_jcb = "assets/images/ic_jcb.jpg";
+
 }

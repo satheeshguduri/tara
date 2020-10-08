@@ -142,5 +142,13 @@ class Strings{
   static const HELLO = "hello";
   static const PLEASE_ENTER_MOBILE = "please_enter_mobile";
   static const SIGN_IN = "sign_in";
-static const already_have_account = "already_have_account";
+  static const already_have_account = "already_have_account";
+
+  static const select_bank_e_money = "select_bank_e_money";
+  static const connect_new_account = "connect_new_account";
+  static const select_bank_e_money_subtext = "select_bank_e_money_subtext";
+  static const search_bank_e_money_hint = "search_bank_e_money_hint";
+  static const we_cannot_find_anything ="we_cannot_find_anything";
+  static const maybe_try_other_items ="maybe_try_other_items";
+
 }

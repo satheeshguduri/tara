@@ -132,6 +132,11 @@
   "hello": "Hello!",
   "please_enter_mobile": "Please enter mobile phone number to get started.",
   "sign_in": "SIGN IN",
-  "already_have_account": "Already have account?"
-
+  "already_have_account": "Already have account?",
+  "connect_new_account": "Connect New Account",
+  "select_bank_e_money": "Select Bank or E-Money",
+  "select_bank_e_money_subtext": "Select your Bank or E-Money account you would like to connect",
+  "search_bank_e_money_hint": "Search Bank or E-Money...",
+  "we_cannot_find_anything": "We can't find anything with ",
+  "maybe_try_other_items": "Maybe try other items?"
 }
