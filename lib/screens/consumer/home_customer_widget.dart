@@ -13,6 +13,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/connect_new_account_select_ank.dart';
+import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -291,6 +292,13 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => TransferToTaraUser()),
+            );
+          }
+          else if (accountName == "My\nAccount")
+          {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyAccount()),
             );
           }
         },

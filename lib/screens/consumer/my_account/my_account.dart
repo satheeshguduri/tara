@@ -32,7 +32,12 @@ class _MyAccountState extends BaseState<MyAccount>{
     return AppBar(
       elevation: 1,
       centerTitle: false,
-      automaticallyImplyLeading: false, // hides leading widget
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () =>
+              Navigator.pop(context, false) //Navigator.pop(context, false),
+      ),// hides leading widget
       title:Align(
         alignment: Alignment.topLeft,
         child: Text(
