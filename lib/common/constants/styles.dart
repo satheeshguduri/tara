@@ -353,4 +353,11 @@ class BaseStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
+
+  static const alreadyHaveAccountTextStyle = TextStyle(
+  color:  Color(0xff889aac),
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
 }

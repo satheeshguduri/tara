@@ -141,4 +141,6 @@ class Strings{
   static const CREATE_ACCOUNT = "create_account";
   static const HELLO = "hello";
   static const PLEASE_ENTER_MOBILE = "please_enter_mobile";
+  static const SIGN_IN = "sign_in";
+static const already_have_account = "already_have_account";
 }

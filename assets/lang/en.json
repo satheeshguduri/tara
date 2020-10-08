@@ -130,6 +130,8 @@
 
   "create_account": "Create Account",
   "hello": "Hello!",
-  "please_enter_mobile": "Please enter mobile phone number to get started."
+  "please_enter_mobile": "Please enter mobile phone number to get started.",
+  "sign_in": "SIGN IN",
+  "already_have_account": "Already have account?"
 
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
+import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
@@ -42,61 +43,142 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
-      width: MediaQuery.of(context).size.width*0.90,
-      child: Container(
-        padding: EdgeInsets.only(left: 20,right: 16,top: 8,bottom: 8),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0x1f000000),
-                  offset: Offset(0, 4),
-                  blurRadius: 6,
-                  spreadRadius: 0),
-              BoxShadow(
-                  color: const Color(0x14000000),
-                  offset: Offset(0, 0),
-                  blurRadius: 2,
-                  spreadRadius: 0)
-            ],
-            color: AppColors.primaryBackground),
-        child: Wrap(
-          children: <Widget>[
-            Container(
-              width: 62,
-              height: 24,
-              margin: EdgeInsets.only(top: 16,bottom: 8),
-              child: Image.asset(
-                "assets/images/combined-shape-5.png",
-                fit: BoxFit.none,
+      height: 480,
+        child:Stack(
+      children: [
+        Positioned(
+          top: 410,
+          right: 0,
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              width: MediaQuery.of(context).size.width*0.85,
+              margin: EdgeInsets.only(left: 16,),
+              padding: EdgeInsets.only(left: 16,right: 16,top: 16,bottom: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                ),
+                boxShadow: [BoxShadow(
+                    color: const Color(0x29000000),
+                    offset: Offset(0,6),
+                    blurRadius: 14,
+                    spreadRadius: 0
+                ), BoxShadow(
+                    color: const Color(0x1a000000),
+                    offset: Offset(0,0),
+                    blurRadius: 4,
+                    spreadRadius: 0
+                )] ,
+                color: Color(0xfff7f7fa),
+              ),
+              child: Container(
+                margin: EdgeInsets.only(top: 8,),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        getTranslation(Strings.already_have_account),
+                        style: BaseStyles.alreadyHaveAccountTextStyle,
+                        textAlign: TextAlign.right
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 8,),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  getTranslation(Strings.SIGN_IN),
+                                  style: BaseStyles.bottomSheetLocationChangeTextStyle,
+                                  textAlign: TextAlign.left
+                              ),
+                              Container(
+                                height:3,
+                                width: 55,
+                                margin: EdgeInsets.only(top: 4,),
+                                decoration: BoxDecoration(
+                                  gradient: Gradients.primaryGradient,
+                                ),
+                              ),
+                            ],
+                          )
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-            TextWithBottomOverlay(titleStr: Strings.CREATE_ACCOUNT,),
-            Container(
-              color: Colors.grey[200],
-              height: 1,
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 16),
-              child: Text(
-                  getTranslation(Strings.HELLO),
-                  style: BaseStyles.backAccountHeaderTextStyle
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 8),
-              child: Text(
-                  getTranslation(Strings.PLEASE_ENTER_MOBILE),
-                  style: BaseStyles.subHeaderTextStyle
-              ),
-            ),
-            textFormFieldContainer(getTranslation(Strings.PHONE_NUMBER),TextInputType.phone,mobileNoController,mobileNorFocusNode),
-            _getContinueWidget()
-          ],
+          ),
         ),
-      ),
-    );
+        Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            width: MediaQuery.of(context).size.width*0.90,
+            child: Container(
+              padding: EdgeInsets.only(left: 20,right: 16,top: 8,bottom: 8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                    topLeft: Radius.circular(8),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        color: const Color(0x1f000000),
+                        offset: Offset(0, 4),
+                        blurRadius: 6,
+                        spreadRadius: 0),
+                    BoxShadow(
+                        color: const Color(0x14000000),
+                        offset: Offset(0, 0),
+                        blurRadius: 2,
+                        spreadRadius: 0)
+                  ],
+                  color: AppColors.primaryBackground),
+              child: Wrap(
+                children: <Widget>[
+                  Container(
+                    width: 62,
+                    height: 24,
+                    margin: EdgeInsets.only(top: 16,bottom: 8),
+                    child: Image.asset(
+                      "assets/images/combined-shape-5.png",
+                      fit: BoxFit.none,
+                    ),
+                  ),
+                  TextWithBottomOverlay(titleStr: Strings.CREATE_ACCOUNT,),
+                  Container(
+                    color: Colors.grey[200],
+                    height: 1,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Text(
+                        getTranslation(Strings.HELLO),
+                        style: BaseStyles.backAccountHeaderTextStyle
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    child: Text(
+                        getTranslation(Strings.PLEASE_ENTER_MOBILE),
+                        style: BaseStyles.subHeaderTextStyle
+                    ),
+                  ),
+                  textFormFieldContainer(getTranslation(Strings.PHONE_NUMBER),TextInputType.phone,mobileNoController,mobileNorFocusNode),
+                  _getContinueWidget()
+                ],
+              ),
+            ),
+          ),
+        )
+
+        // Container
+
+      ],
+    ));
   }
 
   @override
