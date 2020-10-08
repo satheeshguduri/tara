@@ -152,5 +152,14 @@
   "new_pin": "New MPIN",
   "confirm_new_mpin": "Confirm New MPIN",
   "confirm_MPIN": "Confirm MPIN",
-  "mpin_not_match": "MPIN didn’t match. Please try again."
+  "mpin_not_match": "MPIN didn’t match. Please try again.",
+
+  "enter_card_details": "Enter Card Details",
+  "expired_date": "Expired Date",
+  "cvv": "CVV",
+  "mm": "mm",
+  "yy": "yy",
+  "card_number": "Card Number",
+  "card_number_ex": "Ex : 1234 5678 9012 3456"
+
 }

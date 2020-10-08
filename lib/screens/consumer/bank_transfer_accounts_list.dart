@@ -402,7 +402,7 @@ class _BankTransferAccountsListState
       onTap: (){
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => BankTransferNewContact(contactInfo: contactInfo,)),
+          MaterialPageRoute(builder: (context) => BankTransferNewContact(bankAccInfo: contactInfo,)),
         );
       },
     );

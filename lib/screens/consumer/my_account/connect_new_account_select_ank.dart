@@ -10,6 +10,7 @@ import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
+import 'package:tara_app/screens/consumer/my_account/enter_card_details.dart';
 
 class ConnectNewAccountSelectBank extends StatefulWidget {
   ConnectNewAccountSelectBank({Key key}) : super(key: key);
@@ -272,10 +273,10 @@ class _ConnectNewAccountSelectBankState
         children: [
           ListTile(
             onTap: (){
-//          Navigator.push(
-////            context,
-////            MaterialPageRoute(builder: (context) => BankTransferNewContact(contactInfo: contactInfo,)),
-////          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EnterCardDetails()),
+          );
             },
             title: Container(child:Text(bankInfo.bankName, style: BaseStyles.bankNameTextStyle)),
             leading:(bankInfo.bankIcon!=null&&bankInfo.bankIcon!="")? Container(child:ConstrainedBox(

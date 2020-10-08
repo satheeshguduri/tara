@@ -17,6 +17,7 @@ class TextFieldWidget extends StatefulWidget {
   final ValueChanged onChanged;
   final bool autoFocus;
   final TextInputAction inputAction;
+  final TextStyle placeHolderStyle;
 
   const TextFieldWidget({
     Key key,
@@ -35,6 +36,7 @@ class TextFieldWidget extends StatefulWidget {
     this.onChanged,
     this.autoFocus = false,
     this.inputAction,
+    this.placeHolderStyle = BaseStyles.bankNameTextStyle,
   }) : super(key: key);
 
   @override
@@ -68,7 +70,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               hintText: widget.hint!=null?widget.hint:"",
-              hintStyle: BaseStyles.bankNameTextStyle,
+              hintStyle: widget.placeHolderStyle,
               errorText: widget.errorText!=null?widget.errorText:"",
               counterText: '',
               icon: widget.isIcon ? Icon(widget.icon, color: widget.iconColor) : null),

@@ -94,7 +94,6 @@ class _MyAccountState extends BaseState<MyAccount>{
 
   List<Widget> loadCards(){
     var newList = List<Widget>();
-
     newList.add(Container(
       child: CustomCard(
         image:Assets.my_account_card,bankIcon: Assets.ic_tara,

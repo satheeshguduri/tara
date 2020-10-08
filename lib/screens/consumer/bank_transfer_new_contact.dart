@@ -13,13 +13,18 @@ import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/enter_mpin.dart';
 import 'package:tara_app/screens/consumer/transaction_detail.dart';
+import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 
 import 'Data.dart';
 
 class BankTransferNewContact extends StatefulWidget {
-  BankTransferNewContact({Key key, this.title, this.contactInfo}) : super(key: key);
+
   final String title;
-  BankAccountContactInfo contactInfo;
+  BankAccountContactInfo bankAccInfo;
+  ContactInfo taraContact;
+
+  BankTransferNewContact({Key key, this.title,
+    this.bankAccInfo,this.taraContact}) : super(key: key);
 
   @override
   _BankTransferNewContactState createState() => _BankTransferNewContactState();
@@ -54,6 +59,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   bool isBankAccVerFailed = false;
   BankAccountContactInfo contactInfo;
 
+  ContactInfo taraContact;
+
   @override
   BuildContext getContext() {
     // TODO: implement getContext
@@ -64,7 +71,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    contactInfo = widget.contactInfo;
+    contactInfo = widget.bankAccInfo;
+    taraContact = widget.taraContact;
 
     BankList.init();
     for (var i = 0; i < bankList.length; i++) {
@@ -77,6 +85,239 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     // default values for drop downs
     frequencyType = arrFrequency.first;
     source = arrPaymentSource.first;
+  }
+
+  getRecepient(){
+    if(taraContact != null){
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(getTranslation(Strings.RECIPIENT),
+                style: const TextStyle(
+                    color: AppColors.fareColor,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0)),
+            Row(
+              children: [
+
+                Image.asset(
+                  "assets/images/avatar-11.png",
+                  height: 32,
+                  width: 32,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 4),
+                          child: Text(
+                            taraContact.name,
+                            textAlign: TextAlign.left,
+                            style: BaseStyles.transactionItemPersonNameTextStyle,
+                          ),
+                        ),
+                        Image.asset(
+                          Assets.tara_contacts,
+                          height: 32,
+                          width: 32,
+                        )
+                      ],),
+                      Container(
+                        margin: EdgeInsets.only(top: 4),
+                        child: Text(
+                          taraContact.phoneNumber,
+                          textAlign: TextAlign.left,
+                          style: BaseStyles.transactionItemDateTextStyle,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          ]);
+    }else if(contactInfo != null){
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(getTranslation(Strings.RECIPIENT),
+                style: const TextStyle(
+                    color: AppColors.fareColor,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0)),
+            Row(
+              children: [
+                Image.asset(
+                  "assets/images/avatar-11.png",
+                  height: 32,
+                  width: 32,
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 4),
+                        child: Text(
+                          contactInfo.name,
+                          textAlign: TextAlign.left,
+                          style: BaseStyles.transactionItemPersonNameTextStyle,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 4),
+                        child: Text(
+                          contactInfo.accountNumber,
+                          textAlign: TextAlign.left,
+                          style: BaseStyles.transactionItemDateTextStyle,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 16, bottom: 4),
+                    child: Text(getTranslation(Strings.SELECT_ACC),
+                        style: BaseStyles
+                            .textFormFieldHeaderTitleTextStyle,
+                        textAlign: TextAlign.left),
+                  ),
+                  _getDropDownList("bankAccount"),
+                ]),
+            InkWell(
+              child: Container(
+                margin: EdgeInsets.only(top: 16,bottom: 8),
+                height: 40,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: AppColors.light_grey_blue,
+                        width: 1
+                    ),
+                    color: AppColors.primaryBackground,
+                    borderRadius: Radii.border(8)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Assets.ic_plus,
+                      fit: BoxFit.none,
+                    ),
+                    Text(getTranslation(Strings.ADD_NEW_BANK_ACCOUNT),
+                      style: const TextStyle(
+                          color: AppColors.fareColor,
+                          fontWeight: FontWeight.w700,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+
+                    )
+                  ],
+                ),
+              ),
+              onTap: (){
+                addNewBankAccountBottomSheet();
+              },
+            )
+
+
+          ]);
+    }else{
+      return  Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(getTranslation(Strings.RECIPIENT),
+              style: const TextStyle(
+                  color: AppColors.fareColor,
+                  fontWeight: FontWeight.w700,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 16.0),
+
+            ),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 8, bottom: 4),
+                    child: Text(getTranslation(Strings.BANK_NAME),
+                        style: BaseStyles
+                            .textFormFieldHeaderTitleTextStyle,
+                        textAlign: TextAlign.left),
+                  ),
+                  TypeAheadFormField(
+                    getImmediateSuggestions: true,
+                    textFieldConfiguration: TextFieldConfiguration(
+                      style:
+                      TextStyle(color: AppColors.fareColor),
+                      controller: this._typeAheadController,
+                      decoration: InputDecoration(
+                          prefixIcon: selectedbank != null
+                              ? Container(
+                            margin:
+                            EdgeInsets.only(right: 8),
+                            child: Image.asset(
+                              selectedbank.image,
+                              width: 24,
+                            ),
+                          )
+                              : Container(),
+                          labelStyle: BaseStyles
+                              .textFormFieldHeaderTitleTextStyle,
+//                                  labelText: getTranslation(Strings.BANK_NAME,
+                          hintText: getTranslation(Strings.BANK_NAME_HINT)
+                      ),),
+                    suggestionsCallback: (pattern) {
+                      return BankList.getSuggestions(pattern);
+                    },
+                    itemBuilder: (context, suggestion) {
+                      return ListTile(
+                        leading: Image.asset(suggestion.image),
+                        title: Text(suggestion.bankName),
+                      );
+                    },
+                    transitionBuilder:
+                        (context, suggestionsBox, controller) {
+                      return suggestionsBox;
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      setState(() {
+                        selectedbank = suggestion;
+                        this._typeAheadController.text =
+                            selectedbank.bankName;
+                      });
+                    },
+//                              validator: (value) =>
+//                              value.isEmpty ? 'Please select a city' : null,
+                  ),
+                ]),
+//                            textFormFieldContainer(getTranslation(Strings.BANK_NAME, getTranslation(Strings.BANK_NAME_HINT, TextInputType.text, txtCtrlBankName),
+            textFormFieldContainer(
+                getTranslation(Strings.BANK_ACC_NO),
+                getTranslation(Strings.BANK_ACC_NO_HINT),
+                TextInputType.text,
+                txtCtrlBankAcc),
+            isBankAccVerFailed
+                ? Container(
+              margin: EdgeInsets.only(top: 8),
+              child: Text(
+                getTranslation(Strings.error_verify_bank_account),
+                style: BaseStyles.error_text_style,
+              ),
+            )
+                : Container(),
+          ]);
+    }
   }
 
   @override
@@ -105,180 +346,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                           spreadRadius: 0)
                     ],
                   ),
-                  child: contactInfo != null ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                      Text(getTranslation(Strings.RECIPIENT),
-                      style: const TextStyle(
-                          color: AppColors.fareColor,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                          fontSize: 16.0)),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "assets/images/avatar-11.png",
-                              height: 32,
-                              width: 32,
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(top: 4),
-                                    child: Text(
-                                      contactInfo.name,
-                                      textAlign: TextAlign.left,
-                                      style: BaseStyles.transactionItemPersonNameTextStyle,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 4),
-                                    child: Text(
-                                      contactInfo.accountNumber,
-                                      textAlign: TextAlign.left,
-                                      style: BaseStyles.transactionItemDateTextStyle,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 16, bottom: 4),
-                                child: Text(getTranslation(Strings.SELECT_ACC),
-                                    style: BaseStyles
-                                        .textFormFieldHeaderTitleTextStyle,
-                                    textAlign: TextAlign.left),
-                              ),
-                              _getDropDownList("bankAccount"),
-                            ]),
-                        InkWell(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 16,bottom: 8),
-                            height: 40,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.light_grey_blue,
-                                  width: 1
-                              ),
-                                color: AppColors.primaryBackground,
-                                borderRadius: Radii.border(8)
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  Assets.ic_plus,
-                                  fit: BoxFit.none,
-                                ),
-                                Text(getTranslation(Strings.ADD_NEW_BANK_ACCOUNT),
-                                  style: const TextStyle(
-                                      color: AppColors.fareColor,
-                                      fontWeight: FontWeight.w700,
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
-
-                                )
-                              ],
-                            ),
-                          ),
-                          onTap: (){
-                            addNewBankAccountBottomSheet();
-                          },
-                        )
-
-
-                      ]) :
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(getTranslation(Strings.RECIPIENT),
-                            style: const TextStyle(
-                                color: AppColors.fareColor,
-                                fontWeight: FontWeight.w700,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0),
-
-                        ),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 8, bottom: 4),
-                                child: Text(getTranslation(Strings.BANK_NAME),
-                                    style: BaseStyles
-                                        .textFormFieldHeaderTitleTextStyle,
-                                    textAlign: TextAlign.left),
-                              ),
-                              TypeAheadFormField(
-                                getImmediateSuggestions: true,
-                                textFieldConfiguration: TextFieldConfiguration(
-                                    style:
-                                        TextStyle(color: AppColors.fareColor),
-                                    controller: this._typeAheadController,
-                                    decoration: InputDecoration(
-                                        prefixIcon: selectedbank != null
-                                            ? Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 8),
-                                                child: Image.asset(
-                                                  selectedbank.image,
-                                                  width: 24,
-                                                ),
-                                              )
-                                            : Container(),
-                                        labelStyle: BaseStyles
-                                            .textFormFieldHeaderTitleTextStyle,
-//                                  labelText: getTranslation(Strings.BANK_NAME,
-                                  hintText: getTranslation(Strings.BANK_NAME_HINT)
-                                ),),
-                                suggestionsCallback: (pattern) {
-                                  return BankList.getSuggestions(pattern);
-                                },
-                                itemBuilder: (context, suggestion) {
-                                  return ListTile(
-                                    leading: Image.asset(suggestion.image),
-                                    title: Text(suggestion.bankName),
-                                  );
-                                },
-                                transitionBuilder:
-                                    (context, suggestionsBox, controller) {
-                                  return suggestionsBox;
-                                },
-                                onSuggestionSelected: (suggestion) {
-                                  setState(() {
-                                    selectedbank = suggestion;
-                                    this._typeAheadController.text =
-                                        selectedbank.bankName;
-                                  });
-                                },
-//                              validator: (value) =>
-//                              value.isEmpty ? 'Please select a city' : null,
-                              ),
-                            ]),
-//                            textFormFieldContainer(getTranslation(Strings.BANK_NAME, getTranslation(Strings.BANK_NAME_HINT, TextInputType.text, txtCtrlBankName),
-                        textFormFieldContainer(
-                            getTranslation(Strings.BANK_ACC_NO),
-                            getTranslation(Strings.BANK_ACC_NO_HINT),
-                            TextInputType.text,
-                            txtCtrlBankAcc),
-                        isBankAccVerFailed
-                            ? Container(
-                                margin: EdgeInsets.only(top: 8),
-                                child: Text(
-                                  getTranslation(Strings.error_verify_bank_account),
-                                  style: BaseStyles.error_text_style,
-                                ),
-                              )
-                            : Container(),
-                      ])),
+                  child: getRecepient()
+              ),
               Container(
                   margin: EdgeInsets.only(top: 8, bottom: 8),
                   padding: EdgeInsets.all(16),

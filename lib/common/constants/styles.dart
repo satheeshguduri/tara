@@ -215,6 +215,15 @@ class BaseStyles {
       fontSize: 16.0
   );
 
+  static const placeholderStyle = const TextStyle(
+      color:  AppColors.light_grey_blue,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+
+
+
   static const saveToMyContactTextStyle =const TextStyle(
   color:  Color(0xff697683),
   fontWeight: FontWeight.w400,

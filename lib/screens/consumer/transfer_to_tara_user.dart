@@ -5,10 +5,11 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
-import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
+import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
+import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 
 class TransferToTaraUser extends StatefulWidget {
   TransferToTaraUser({Key key}) : super(key: key);
@@ -281,78 +282,86 @@ class _TransferToTaraUserState
   }
 
   getTaraContactItemWidget(ContactInfo contactInfo) {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
-      padding: EdgeInsets.all(8),
-      height: 64,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-                color: const Color(0x1f000000),
-                offset: Offset(0, 4),
-                blurRadius: 6,
-                spreadRadius: 0),
-            BoxShadow(
-                color: const Color(0x14000000),
-                offset: Offset(0, 0),
-                blurRadius: 2,
-                spreadRadius: 0)
-          ],
-          color: AppColors.primaryBackground),
-      child: Center(
-        child: Row(
-          children: [
-            Image.asset(
-              "assets/images/avatar-11.png",
-              height: 32,
-              width: 32,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 4),
-                        child: Text(
-                          contactInfo.name,
-                          textAlign: TextAlign.left,
-                          style: BaseStyles.transactionItemPersonNameTextStyle,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(8)),
-                          ),
-                          child: Image.asset(
-                            Assets.tara_contacts,
-                            height: 24,
-                            width: 32,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 4),
-                    child: Text(
-                      contactInfo.phoneNumber,
-                      textAlign: TextAlign.left,
-                      style: BaseStyles.transactionItemDateTextStyle,
-                    ),
-                  ),
-                ],
+    return InkWell(
+      child: Container(
+        margin: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
+        padding: EdgeInsets.all(8),
+        height: 64,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0x1f000000),
+                  offset: Offset(0, 4),
+                  blurRadius: 6,
+                  spreadRadius: 0),
+              BoxShadow(
+                  color: const Color(0x14000000),
+                  offset: Offset(0, 0),
+                  blurRadius: 2,
+                  spreadRadius: 0)
+            ],
+            color: AppColors.primaryBackground),
+        child: Center(
+          child: Row(
+            children: [
+              Image.asset(
+                "assets/images/avatar-11.png",
+                height: 32,
+                width: 32,
               ),
-            ),
-          ],
+              Container(
+                margin: EdgeInsets.only(left: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 4),
+                          child: Text(
+                            contactInfo.name,
+                            textAlign: TextAlign.left,
+                            style: BaseStyles.transactionItemPersonNameTextStyle,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Image.asset(
+                              Assets.tara_contacts,
+                              height: 24,
+                              width: 32,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 4),
+                      child: Text(
+                        contactInfo.phoneNumber,
+                        textAlign: TextAlign.left,
+                        style: BaseStyles.transactionItemDateTextStyle,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+      ) ,
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BankTransferNewContact(taraContact: contactInfo,))
+        );
+      },
     );
   }
 }

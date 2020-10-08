@@ -165,5 +165,13 @@ class Strings{
   static const confirm_new_mpin = "confirm_new_mpin";
   static const confirm_MPIN = "confirm_MPIN";
   static const mpin_not_match = "mpin_not_match";
+  static const enter_card_details = "enter_card_details";
+
+  static const card_number_ex = "card_number_ex";
+  static const card_number = "card_number";
+  static const expired_date = "expired_date";
+  static const cvv = "cvv";
+  static const mm = "mm";
+  static const yy = "yy";
 
 }

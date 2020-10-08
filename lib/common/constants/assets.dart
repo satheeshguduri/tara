@@ -76,7 +76,7 @@ class Assets {
   static const ic_download = "assets/images/icon-20.png";
   static const ic_share = "assets/images/icon.png";
   static const ic_plus = "assets/images/icon-2.png";
-  static const my_account_card = "assets/images/rectangle-2-7.png";
+  static const my_account_card = "assets/images/rectangle-2-6.png";
   static const ic_tara = "assets/images/combined-shape-16.png";
   static const ic_right = "assets/images/Outline.svg";
 
