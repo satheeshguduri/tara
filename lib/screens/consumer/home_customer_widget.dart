@@ -294,6 +294,13 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
               MaterialPageRoute(builder: (context) => TransferToTaraUser()),
             );
           }
+          else if (accountName == "My\nAccount")
+          {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),)),
+            );
+          }
         },
         child:Align(
           alignment: Alignment.topLeft,
