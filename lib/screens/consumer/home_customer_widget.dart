@@ -12,6 +12,7 @@ import 'package:tara_app/common/widgets/rounded_card_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/consumer/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -188,37 +189,46 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
       );
     }
     else{
-      return Container(
-        padding: EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
-        child: DottedBorder(
-          borderType: BorderType.RRect,
-          color: Colors.grey[400],
+
+      return InkWell(
+        onTap: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ConnectNewAccountSelectBank()),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            color: Colors.grey[400],
             strokeWidth:1.5,
-          radius: Radius.circular(8),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            child: Container(
-              height: 30,
-              child: Row(
-                children: [
-                  Container(
-                    width: 25,
-                    height: 25,
-                    margin: EdgeInsets.only(left: 8),
-                    child: Image.asset(
-                      "assets/images/icon-2.png",
-                      fit: BoxFit.none,
+            radius: Radius.circular(8),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              child: Container(
+                height: 30,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 25,
+                      height: 25,
+                      margin: EdgeInsets.only(left: 8),
+                      child: Image.asset(
+                        "assets/images/icon-2.png",
+                        fit: BoxFit.none,
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(right: 12,left: 4),
-                    child: Text(
-                      accountName,
-                      textAlign: TextAlign.left,
-                      style: BaseStyles.myAccountItemTextStyle,
+                    Container(
+                      margin: EdgeInsets.only(right: 12,left: 4),
+                      child: Text(
+                        accountName,
+                        textAlign: TextAlign.left,
+                        style: BaseStyles.myAccountItemTextStyle,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
