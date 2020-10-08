@@ -153,20 +153,20 @@ class _CashDepositSelectContactState
               hintStyle: BaseStyles.hintTextStyle,
               focusedBorder: new UnderlineInputBorder(
                   borderSide: new BorderSide(color: Colors.transparent)),
-              suffixIcon: InkWell(
-                onTap: () => () {
+              suffixIcon: IconButton(
+                icon: Icon(Icons.clear,
+                    color: (_searchText != null &&
+                        _searchText.toString().isNotEmpty &&
+                        _searchText.toString().length > 0)
+                        ? Colors.black54
+                        : Colors.transparent),
+                onPressed: (){
                   setState(() {
                     _searchText = "";
                     _searchQuery.text = "";
                     arrFilterContactInfo.clear();
                   });
                 },
-                child: Icon(Icons.clear,
-                    color: (_searchText != null &&
-                        _searchText.toString().isNotEmpty &&
-                        _searchText.toString().length > 0)
-                        ? Colors.black54
-                        : Colors.transparent),
               ),
             ),
           ),
