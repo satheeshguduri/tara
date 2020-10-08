@@ -33,7 +33,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
     HomeCustomerWidget(),
     HomeCustomerWidget(),
     HomeCustomerWidget(),
-    MyAccount(),
+    HomeCustomerWidget(),
   ];
 
   @override
