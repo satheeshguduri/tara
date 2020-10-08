@@ -150,5 +150,7 @@ class Strings{
   static const search_bank_e_money_hint = "search_bank_e_money_hint";
   static const we_cannot_find_anything ="we_cannot_find_anything";
   static const maybe_try_other_items ="maybe_try_other_items";
+  static const transfer_to_tara_user ="transfer_to_tara_user";
+  static const add_bank_or_e_money_account = "add_bank_or_e_money_account";
 
 }

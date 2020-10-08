@@ -45,11 +45,11 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
   Widget build(BuildContext context) {
 
     return Container(
-      height: 480,
+      height: 520,
         child:Stack(
       children: [
         Positioned(
-          top: 410,
+          top: 440,
           right: 0,
           child: Align(
             alignment: Alignment.centerRight,
@@ -139,14 +139,33 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
                   color: AppColors.primaryBackground),
               child: Wrap(
                 children: <Widget>[
-                  Container(
-                    width: 62,
-                    height: 24,
-                    margin: EdgeInsets.only(top: 16,bottom: 8),
-                    child: Image.asset(
-                      "assets/images/combined-shape-5.png",
-                      fit: BoxFit.none,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          Navigator.pop(context, false);
+                        },
+                        child: Container(
+                          width: 32,
+                          height: 24,
+                          margin: EdgeInsets.only(bottom: 8,top: 8),
+                          child: Image.asset(
+                            "assets/images/icon-5.png",
+                            fit: BoxFit.none,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 62,
+                        height: 24,
+                        margin: EdgeInsets.only(bottom: 8,top: 8),
+                        child: Image.asset(
+                          "assets/images/combined-shape-5.png",
+                          fit: BoxFit.none,
+                        ),
+                      ),
+                    ],
                   ),
                   TextWithBottomOverlay(titleStr: Strings.CREATE_ACCOUNT,),
                   Container(

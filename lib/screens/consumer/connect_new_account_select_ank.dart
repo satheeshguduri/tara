@@ -35,6 +35,8 @@ class _ConnectNewAccountSelectBankState
     "Bank Mandiri",
     "May Bank",
     "Permata Bank",
+    "GoPay",
+    "DANA"
   ];
   List<String> arrBankIcons = [
     Assets.ic_bca,
@@ -44,6 +46,8 @@ class _ConnectNewAccountSelectBankState
     Assets.ic_mandiri,
     Assets.ic_maybank,
     Assets.ic_permata,
+    Assets.ic_go_pay,
+    Assets.ic_dana,
   ];
   List<String> arrBankBCACardTypesIcons = [
     Assets.ic_gpn_logo,
@@ -195,7 +199,7 @@ class _ConnectNewAccountSelectBankState
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: Border.all(color: Colors.grey, width: 1),
+            border: Border.all(color: (_searchText.toString().isNotEmpty)?AppColors.header_top_bar_color:Colors.grey[400], width: 1),
           ),
           child: TextField(
             controller: _searchQuery,

@@ -268,7 +268,7 @@ class BaseStyles {
       color:  AppColors.header_top_bar_color,
       fontWeight: FontWeight.w700,
       fontStyle:  FontStyle.normal,
-      fontSize: 18.0
+      fontSize: 16.0
   );
 
   static const dateAndTimeTextStyle =  const TextStyle(

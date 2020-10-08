@@ -83,7 +83,7 @@ class _BankTransferAccountsListState
     return listViewContainer();
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       centerTitle: false,
@@ -146,43 +146,77 @@ class _BankTransferAccountsListState
         (_searchText != null && _searchText.toString().isNotEmpty) ? 1 : 2,
         //for recent search, popular search and user search
         numOfRowInSection: (section) {
-          //default state when search not applied
-          if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
-            if (section == 0) {
-              return arrRecentlyAddedContactInfo.length;
-            } else {
-              return arrContactInfo.length;
-            }
+          if (_searchText
+              .toString()
+              .isNotEmpty && arrFilterContactInfo.isEmpty)
+          {
+            return 0;
           }
-          //search applied
           else {
-            return arrFilterContactInfo.length;
+            //default state when search not applied
+            if (!(_searchText != null && _searchText
+                .toString()
+                .isNotEmpty)) {
+              if (section == 0) {
+                return arrRecentlyAddedContactInfo.length;
+              } else {
+                return arrContactInfo.length;
+              }
+            }
+            //search applied
+            else {
+              return arrFilterContactInfo.length;
+            }
           }
         },
 
         cellAtIndexPath: (section, row) {
-          if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
-            if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
-              return getContactItemWidget(arrRecentlyAddedContactInfo[row]);
-            } else {
-              return getContactItemWidget(arrContactInfo[row]);
-            }
+          if (_searchText
+              .toString()
+              .isNotEmpty && arrFilterContactInfo.isEmpty)
+          {
+            return Container();
           }
-          //search applied
           else {
-            return getContactItemWidget(arrFilterContactInfo[row]);
+            if (!(_searchText != null && _searchText
+                .toString()
+                .isNotEmpty)) {
+              if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
+                return getContactItemWidget(arrRecentlyAddedContactInfo[row]);
+              } else {
+                return getContactItemWidget(arrContactInfo[row]);
+              }
+            }
+            //search applied
+            else {
+              return getContactItemWidget(arrFilterContactInfo[row]);
+            }
           }
         },
 
         headerInSection: (section) {
-          if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
-            if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
-              return headerViewContainer(getTranslation(Strings.RECENTLY_ADDED));
+          if (_searchText
+              .toString()
+              .isNotEmpty && arrFilterContactInfo.isEmpty)
+          {
+            return headerViewContainer(
+                getTranslation(Strings.SEARCHED_ACCOUNTS));
+          }
+          else {
+            if (!(_searchText != null && _searchText
+                .toString()
+                .isNotEmpty)) {
+              if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
+                return headerViewContainer(
+                    getTranslation(Strings.RECENTLY_ADDED));
+              } else {
+                return headerViewContainer(
+                    getTranslation(Strings.ALL_ACCOUNTS));
+              }
             } else {
-              return headerViewContainer(getTranslation(Strings.ALL_ACCOUNTS));
+              return headerViewContainer(
+                  getTranslation(Strings.SEARCHED_ACCOUNTS));
             }
-          } else {
-            return headerViewContainer(getTranslation(Strings.SEARCHED_ACCOUNTS));
           }
         },
       ),
@@ -209,7 +243,14 @@ class _BankTransferAccountsListState
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(headerTitle, style: BaseStyles.backAccountHeaderTextStyle),
-            ))
+            )),
+        (_searchText
+            .toString()
+            .isNotEmpty && arrFilterContactInfo.isEmpty)?Container(
+          child: Center(
+            child: errorTitleTextWidget(),
+          ),
+        ):Container(),
       ],
     );
   }
@@ -227,7 +268,7 @@ class _BankTransferAccountsListState
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: Border.all(color: Colors.grey, width: 1),
+            border: Border.all(color: (_searchText.toString().isNotEmpty)?AppColors.header_top_bar_color:Colors.grey[400], width: 1),
           ),
           child: TextField(
             controller: _searchQuery,
@@ -247,10 +288,10 @@ class _BankTransferAccountsListState
                       .toLowerCase()
                       .contains(_searchText.toLowerCase()))
                       .toList();
-                  if (arrFilterContactInfo.isNotEmpty) {
-                    setState(() {});
-                  }
                 }
+                setState(() {
+
+                });
               } else {
                 if (_searchQuery.text == "") {
                   setState(() {
@@ -261,6 +302,7 @@ class _BankTransferAccountsListState
                 }
               }
             },
+
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.search,
@@ -363,6 +405,18 @@ class _BankTransferAccountsListState
           MaterialPageRoute(builder: (context) => BankTransferNewContact(contactInfo: contactInfo,)),
         );
       },
+    );
+  }
+
+  errorTitleTextWidget() {
+    return Container(
+      margin: EdgeInsets.only(top: 16,),
+      child: Text(
+        getTranslation(Strings.we_cannot_find_anything) +
+            "\"${_searchText.toString()}\"",
+        style: BaseStyles.cannotFindTextStyle,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

@@ -12,6 +12,7 @@ import 'package:tara_app/common/widgets/rounded_card_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 
 class HomeCustomerWidget extends StatefulWidget {
   HomeCustomerWidget({Key key}) : super(key: key);
@@ -273,6 +274,13 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => BankTransferAccountsList()),
+            );
+          }
+          else if (accountName == "Tara\nUsers")
+          {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TransferToTaraUser()),
             );
           }
         },

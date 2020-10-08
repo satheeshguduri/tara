@@ -172,14 +172,22 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                               ),
                               Align(
                                 alignment: Alignment.centerRight,
-                                child: Container(
-                                  width: 33,
-                                  height: 33,
-                                  margin: EdgeInsets.only(right: 16),
-                                  child: Image.asset(
-                                    Assets.PERSON_ICON,
-                                    fit: BoxFit.none,
-                                  ),
+                                child: InkWell(
+                                    onTap: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => CreateAccount()),
+                                      );
+                                    },
+                                    child:Container(
+                                      width: 33,
+                                      height: 33,
+                                      margin: EdgeInsets.only(right: 16),
+                                      child: Image.asset(
+                                        Assets.PERSON_ICON,
+                                        fit: BoxFit.none,
+                                      ),
+                                    )
                                 ),
                               ),
                             ],

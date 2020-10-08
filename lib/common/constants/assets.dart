@@ -96,4 +96,7 @@ class Assets {
   static const ic_master_card= "assets/images/ic_master_card.jpg";
   static const ic_jcb = "assets/images/ic_jcb.jpg";
 
+  static const ic_dana= "assets/images/ic_dana.png";
+  static const ic_go_pay = "assets/images/ic_gopay.png";
+
 }
