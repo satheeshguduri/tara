@@ -1,8 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tara_app/common/constants/colors.dart';
-import 'package:tara_app/common/widgets/login_flow_widgets/create_account.dart';
+import 'package:tara_app/common/widgets/login_flow_widgets/create_new_account.dart';
 import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
 
 import 'base/base_state.dart';
