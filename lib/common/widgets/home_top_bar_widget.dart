@@ -255,10 +255,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             RoundedButton(buttonText: getTranslation(Strings.ADD_BENEFICIARY),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
             },),
             RoundedButton(buttonText: getTranslation(Strings.SHOP),image: Assets.SHOP_ICON,onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ConnectNewAccountSelectBank()),
-              );
+
             },),
           ],
         ),

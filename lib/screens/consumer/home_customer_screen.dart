@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/screens/consumer/home_customer_widget.dart';
+import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import '../../common/constants/values.dart';
 import '../base/base_state.dart';
 
@@ -32,7 +33,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
     HomeCustomerWidget(),
     HomeCustomerWidget(),
     HomeCustomerWidget(),
-    HomeCustomerWidget(),
+    MyAccount(),
   ];
 
   @override
@@ -134,8 +135,8 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
           title: getTabText(TabTitle.MY_ORDERS)
         ),
         BottomNavigationBarItem(
-          icon: getTabImage(Assets.ACCOUNTS_ACTIVE),
-          activeIcon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
+          icon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
+          activeIcon: getTabImage(Assets.ACCOUNTS_ACTIVE),
           title: getTabText(TabTitle.ACCOUNTS),
           ),
       ],

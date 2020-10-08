@@ -144,6 +144,13 @@ class Strings{
   static const SIGN_IN = "sign_in";
   static const already_have_account = "already_have_account";
 
+  static const MY_ACCOUNT = "my_account";
+  static const ACCOUNT_SETTINGS = "account_settings";
+  static const set_as_default_acc = "set_as_default_acc";
+  static const mpin = "mpin";
+  static const balance_check = "balance_check";
+  static const delete_account = "delete_account";
+
   static const select_bank_e_money = "select_bank_e_money";
   static const connect_new_account = "connect_new_account";
   static const select_bank_e_money_subtext = "select_bank_e_money_subtext";
@@ -152,5 +159,11 @@ class Strings{
   static const maybe_try_other_items ="maybe_try_other_items";
   static const transfer_to_tara_user ="transfer_to_tara_user";
   static const add_bank_or_e_money_account = "add_bank_or_e_money_account";
+
+  static const create_mpin = "create_mpin";
+  static const new_pin = "new_pin";
+  static const confirm_new_mpin = "confirm_new_mpin";
+  static const confirm_MPIN = "confirm_MPIN";
+  static const mpin_not_match = "mpin_not_match";
 
 }

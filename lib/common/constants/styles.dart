@@ -367,4 +367,11 @@ class BaseStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
   );
+
+  static const deleteAccountStyle = TextStyle(
+      color:  Colors.pink,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
 }

@@ -24,7 +24,7 @@ class Assets {
   static const CHAT_ACTIVE = "assets/images/icon-39.png";
   static const SCAN_ACTIVE = "assets/images/icon-13.png";
   static const MY_ORDERS_ACTIVE = "assets/images/icon-51.png";
-  static const ACCOUNTS_ACTIVE = "assets/images/icon-51.png";
+  static const ACCOUNTS_ACTIVE = "assets/images/icon-58.png";
 
   static const SEARCH_ICON = "assets/images/icon-3.png";
   static const NOTIFICATION_ICON = "assets/images/icon-7.png";
@@ -76,6 +76,9 @@ class Assets {
   static const ic_download = "assets/images/icon-20.png";
   static const ic_share = "assets/images/icon.png";
   static const ic_plus = "assets/images/icon-2.png";
+  static const my_account_card = "assets/images/rectangle-2-7.png";
+  static const ic_tara = "assets/images/combined-shape-16.png";
+  static const ic_right = "assets/images/Outline.svg";
 
   static const ic_Login_flow_bg = "assets/images/rectangle-10.png";
 
@@ -90,6 +93,7 @@ class Assets {
   static const ic_ireland_flag = "assets/images/ic_ireland_flag.png";
   static const ic_uk_flag= "assets/images/ic_uk_flag.png";
   static const ic_usa_flag = "assets/images/ic_usa_flag.png";
+  static const ic_arrow_right = "assets/images/assets---icon---a---arrow---right.png";
 
   static const ic_gpn_logo = "assets/images/ic_gpn_logo.png";
   static const ic_visa = "assets/images/ic_visa.png";
