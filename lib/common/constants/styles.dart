@@ -383,4 +383,54 @@ class BaseStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
+
+  static const sentOtpTextStyle = TextStyle(
+  color:  Color(0xff697683),
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 12.0
+  );
+
+  static const sentOtpTimeTextStyle = TextStyle(
+  color:  Color(0xff697683),
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 12.0
+  );
+
+  static const verifyTextStyle = TextStyle(
+  color:  Color(0xff889aac),
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const otpTextStyle = const TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 24.0
+  );
+
+  static const mobileNoTextStyle = TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0
+  );
+
+  static const mobileSubTextStyle = TextStyle(
+  color:  Color(0xff697683),
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0,
+      height: 1.5
+  );
+
+  static const errorTextStyle = TextStyle(
+  color:  Colors.pink,
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
 }

@@ -78,9 +78,6 @@ dependencies:
   # show overlay view
   flutter_typeahead: ^1.8.8
 
-  #show otp text field
-  otp_text_field: ^1.0.1
-
   #show list in section wise
   flutter_section_table_view: ^1.0.5
 

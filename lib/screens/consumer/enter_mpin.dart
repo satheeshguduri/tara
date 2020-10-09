@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
+import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/card_view.dart';
@@ -18,6 +17,11 @@ class EnterMPIN extends StatefulWidget {
 }
 
 class _EnterMPINState extends BaseState<EnterMPIN> {
+
+  String otpPin = "";
+  String correctPin = "123456";
+  String errorText = "";
+  bool isOtpEntered = false;
 
   @override
   BuildContext getContext() {
@@ -84,21 +88,66 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
                         ),
                       ),
                       Container(
-                        height: 50,
-                        margin: EdgeInsets.only(top: 8,bottom: 16,left: 8,right: 8),
-                        child: OTPTextField(
+                        height: 40,
+                        margin: EdgeInsets.only(top: 24,),
+                        child: OTPTextFieldWidget(
+                          width:  MediaQuery.of(context).size.width,
                           length: 6,
-                          width: MediaQuery.of(context).size.width,
-                          textFieldAlignment: MainAxisAlignment.spaceEvenly,
                           fieldWidth: 40,
+                          textFieldAlignment: MainAxisAlignment.spaceBetween,
                           fieldStyle:FieldStyle.underline,
-                          obscureText: true,
-                          style: BaseStyles.MPINTextStyle,
+                          obscureText: false,
+                          style: BaseStyles.otpTextStyle,
+                          correctPin:correctPin,
                           onCompleted: (pin) {
                             print("Completed: " + pin);
+                            setState(() {
+                              otpPin = pin;
+                              isOtpEntered = true;
+                            });
+                          },
+                          onChanged: (pin) {
+                            print("Completed: " + pin);
+                            setState(() {
+                              if (pin.length<6)
+                              {
+                                errorText = "";
+                                isOtpEntered = false;
+                                if (pin.length==1)
+                                {
+                                  otpPin = "";
+                                }
+                              }
+                            });
                           },
                         ),
-                      )
+                      ),
+                      Container(
+                        height: 10,
+                        margin: EdgeInsets.only(bottom: 16,),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            getBorderContainer(),
+                            getBorderContainer(),
+                            getBorderContainer(),
+                            getBorderContainer(),
+                            getBorderContainer(),
+                            getBorderContainer(),
+                          ],
+                        ),
+                      ),
+                      errorText.isNotEmpty?Center(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 8,),
+                          child: Text(
+                              errorText,
+                              style: BaseStyles.errorTextStyle,
+                              textAlign: TextAlign.center
+                          ),
+                        ),
+                      ):Container(),
                     ],
                   ),
                 ),
@@ -111,8 +160,22 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
   confirmTransferWidget()
   {
     return InkWell(
-      onTap: (){
-        widget.onConfirmTransfer();
+      onTap: () {
+        if (isOtpEntered&&otpPin.isNotEmpty&&otpPin.length==6)
+        {
+          if (otpPin!=correctPin)
+          {
+            setState(() {
+              errorText = getTranslation(Strings.invalid_mpin);
+            });
+          }else{
+            widget.onConfirmTransfer();
+          }
+        }else if (otpPin.length==0){
+          setState(() {
+            errorText = getTranslation(Strings.mpin_cannot_empty);
+          });
+        }
       },
       child: Container(
         height: 48,
@@ -129,6 +192,24 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
           textAlign: TextAlign.center,
           style: BaseStyles.addNewBankAccount,
         ),
+      ),
+    );
+  }
+
+  getBorderContainer()
+  {
+    return Container(
+      height: 3,
+      width: 40,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide( //                   <--- left side
+              color: errorText.isNotEmpty?Colors.pink:isOtpEntered?Color(0xffb2f7e2):Color(0xffb0b4c1),
+              width: 2.0,
+              style: BorderStyle.solid
+          ),
+        ),
+        color: Colors.transparent,
       ),
     );
   }

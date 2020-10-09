@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:otp_text_field/otp_text_field.dart';
-import 'package:otp_text_field/style.dart';
+import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
@@ -33,6 +32,10 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
   bool isReEnterPinCorrect = true;
   String pin;
 
+  String otpPin = "";
+  String correctPin = "123456";
+  String errorText = "";
+  bool isOtpEntered = false;
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
@@ -96,31 +99,90 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
                               textAlign: TextAlign.center),
                         ),
                         Container(
-                          height: 50,
-                          margin: EdgeInsets.only(
-                              top: 8, bottom: 16, left: 8, right: 8),
-                          child: OTPTextField(
+                          height: 40,
+                          margin: EdgeInsets.only(top: 24,),
+                          child: OTPTextFieldWidget(
+                            width:  MediaQuery.of(context).size.width,
                             length: 6,
-                            width: MediaQuery.of(context).size.width,
-                            textFieldAlignment: MainAxisAlignment.spaceEvenly,
                             fieldWidth: 40,
-                            fieldStyle: FieldStyle.underline,
-                            obscureText: true,
-                            style: BaseStyles.MPINTextStyle,
+                            textFieldAlignment: MainAxisAlignment.spaceBetween,
+                            fieldStyle:FieldStyle.underline,
+                            obscureText: false,
+                            style: BaseStyles.otpTextStyle,
+                            correctPin:correctPin,
                             onCompleted: (pin) {
-                              this.pin = pin;
                               print("Completed: " + pin);
-
+                              setState(() {
+                                otpPin = pin;
+                                isOtpEntered = true;
+                              });
+                            },
+                            onChanged: (pin) {
+                              print("Completed: " + pin);
+                              setState(() {
+                                if (pin.length<6)
+                                {
+                                  errorText = "";
+                                  isOtpEntered = false;
+                                  if (pin.length==1)
+                                  {
+                                    otpPin = "";
+                                  }
+                                }
+                              });
                             },
                           ),
                         ),
-                        isReEnterPinCorrect ? Container() : Text(getTranslation(Strings.mpin_not_match),style: BaseStyles.error_text_style,)
-
+                        Container(
+                          height: 10,
+                          margin: EdgeInsets.only(bottom: 16,),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              getBorderContainer(),
+                              getBorderContainer(),
+                              getBorderContainer(),
+                              getBorderContainer(),
+                              getBorderContainer(),
+                              getBorderContainer(),
+                            ],
+                          ),
+                        ),
+//                        isReEnterPinCorrect ? Container() : Text(getTranslation(Strings.mpin_not_match),style: BaseStyles.error_text_style,),
+                        errorText.isNotEmpty?Center(
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 8,),
+                            child: Text(
+                                errorText,
+                                style: BaseStyles.errorTextStyle,
+                                textAlign: TextAlign.center
+                            ),
+                          ),
+                        ):Container()
                       ],
                     ),
                   ),
                   confirmTransferWidget()
                 ])),
+      ),
+    );
+  }
+
+  getBorderContainer()
+  {
+    return Container(
+      height: 3,
+      width: 40,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide( //                   <--- left side
+              color: errorText.isNotEmpty?Colors.pink:isOtpEntered?Color(0xffb2f7e2):Color(0xffb0b4c1),
+              width: 2.0,
+              style: BorderStyle.solid
+          ),
+        ),
+        color: Colors.transparent,
       ),
     );
   }
@@ -136,24 +198,40 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
         child: InkWell(
           onTap: () {
             if (widget.confirmPin) {
-              // push to Confirm Screen
-              pushAndRemoveUntil(HomeCustomerScreen());
-
-            } else if (widget.isReEnterPin) {
-              if(widget.oldPin != pin){
+              if ((this.otpPin!=null&&this.otpPin.length==0)){
                 setState(() {
-                  isReEnterPinCorrect = false;
+                  errorText = getTranslation(Strings.mpin_cannot_empty);
                 });
               }else{
-                push(CreateMPIN(
-                  confirmPin: true,
-                ));
+                // push to Confirm Screen
+                pushAndRemoveUntil(HomeCustomerScreen());
+              }
+            } else if (widget.isReEnterPin) {
+              if (this.otpPin!=null&&this.otpPin.length==0){
+                setState(() {
+                  errorText = getTranslation(Strings.mpin_cannot_empty);
+                });
+              }
+              else if(widget.oldPin != otpPin){
+                setState(() {
+                  errorText = getTranslation(Strings.mpin_not_match);
+                });
+              }
+              else{
+                  push(CreateMPIN(
+                    confirmPin: true,
+                  ));
               }
             } else {
-              if(this.pin.length == 6){
+              if (this.otpPin!=null&&this.otpPin.length==0){
+                setState(() {
+                  errorText = getTranslation(Strings.mpin_cannot_empty);
+                });
+              }
+              else if(this.otpPin!=null&&this.otpPin.length == 6){
                 push(CreateMPIN(
                   isReEnterPin: true,
-                  oldPin: this.pin,
+                  oldPin: this.otpPin,
                 ));
               }
             }

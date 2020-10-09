@@ -8,6 +8,7 @@ import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/screens/create_account.dart';
 
 class CreateNewAccount extends StatefulWidget {
   const CreateNewAccount({
@@ -309,7 +310,7 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
   _getContinueWidget() {
     return InkWell(
       onTap: () {
-
+        push(CreateAccount(isFromCreateAccount: true,));
       },
       child: Container(
         height: 48,

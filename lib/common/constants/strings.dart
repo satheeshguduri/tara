@@ -175,4 +175,13 @@ class Strings{
   static const yy = "yy";
   static const name_on_card = "name_on_card";
 
+  static const mobile_verification = "mobile_verification";
+  static const mobile_verification_subtext = "mobile_verification_subtext";
+  static const sent_otp_text = "sent_otp_text";
+  static const resend_otp = "resend_otp";
+  static const verify = "verify";
+  static const pin_cannot_empty = "pin_cannot_empty";
+  static const invalid_pin = "invalid_pin";
+  static const mpin_cannot_empty = "mpin_cannot_empty";
+  static const invalid_mpin = "invalid_mpin";
 }
