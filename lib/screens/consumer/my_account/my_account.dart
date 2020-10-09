@@ -180,7 +180,7 @@ class _MyAccountState extends BaseState<MyAccount>{
               color: Colors.white,
               child: _loadAccounts(),
             ),
-            Container(
+            _current == 0 ? Container(
               margin: EdgeInsets.only(top: 8),
               padding: EdgeInsets.only(top:16,left: 16,right: 16),
               color: Colors.white,
@@ -258,8 +258,8 @@ class _MyAccountState extends BaseState<MyAccount>{
                   ),
                 ],
               ),
-            ),
-            Container(
+            ) : Container(),
+            _current == 0 ?  Container(
               height: 50,
               alignment: Alignment.centerLeft,
               margin: EdgeInsets.only(top: 16,bottom: 16),
@@ -271,7 +271,7 @@ class _MyAccountState extends BaseState<MyAccount>{
 
                 },
               ),
-            )
+            ) : Container()
           ],
         ),
       ),
