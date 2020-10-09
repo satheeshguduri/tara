@@ -4,9 +4,12 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/circle_shape.dart';
+import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
 import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/my_account/my_account.dart';
+import 'package:tara_app/screens/create_account.dart';
 
 class MobileVerification extends StatefulWidget {
   const MobileVerification({
@@ -241,6 +244,8 @@ class _MobileVerificationState extends BaseState<MobileVerification> {
             setState(() {
               errorText = getTranslation(Strings.invalid_pin);
             });
+          }else{
+            push(CreateAccount(isFromMobileVerification:true));
           }
         }
       },

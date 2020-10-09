@@ -102,5 +102,6 @@ class Assets {
 
   static const ic_dana= "assets/images/ic_dana.png";
   static const ic_go_pay = "assets/images/ic_gopay.png";
+  static const ic_success = "assets/images/ic_success.png";
 
 }

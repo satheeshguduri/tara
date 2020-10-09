@@ -184,4 +184,8 @@ class Strings{
   static const invalid_pin = "invalid_pin";
   static const mpin_cannot_empty = "mpin_cannot_empty";
   static const invalid_mpin = "invalid_mpin";
+  static const account_created = "account_created";
+  static const account_success_msg = "account_success_msg";
+  static const get_started = "get_started";
+
 }

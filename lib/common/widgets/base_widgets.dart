@@ -11,6 +11,10 @@ mixin BaseWidgets {
     return Image.asset(iconName, fit: BoxFit.none);
   }
 
+  Image getTabImageWithSize(String iconName,double width, double height) {
+    return Image.asset(iconName, fit: BoxFit.fill,width:width,height: height,);
+  }
+
   Text getTabText(String text) {
     return Text(text, style: BaseStyles.navigationTextStyle);
   }

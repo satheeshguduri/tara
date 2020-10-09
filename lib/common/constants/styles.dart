@@ -433,4 +433,12 @@ class BaseStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
   );
+
+  static const accountSuccessTextStyle =  TextStyle(
+  color:  Color(0xff697683),
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0,
+      height: 1.5
+  );
 }

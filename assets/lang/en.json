@@ -168,8 +168,10 @@
   "pin_cannot_empty": "Pin cannot be empty",
   "invalid_pin": "Incorrect OTP, please try again",
   "mpin_cannot_empty": "MPIN cannot be empty",
-  "invalid_mpin": "Incorrect MPIN, please try again"
+  "invalid_mpin": "Incorrect MPIN, please try again",
   "card_number_ex": "Ex : 1234 5678 9012 3456",
-  "name_on_card": "Name On Card"
-
+  "name_on_card": "Name On Card",
+  "account_created": "Account Created!",
+  "account_success_msg": "Your Tara account successfully\ncreated. Welcome!",
+  "get_started": "Get Started"
 }
