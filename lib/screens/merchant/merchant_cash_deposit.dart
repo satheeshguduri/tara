@@ -346,10 +346,7 @@ updateViews()
                       flex: 2.toInt(),
                       child: InkWell(
                         onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => CashDepositSelectContact()),
-                          );
+                          push(CashDepositSelectContact());
                         },
                         child: Align(
                           alignment: Alignment.centerRight,
