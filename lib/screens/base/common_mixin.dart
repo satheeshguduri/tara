@@ -67,6 +67,9 @@ mixin CommonMixin {
       buildMaterialPageRoute(screen: screen),
       (Route<dynamic> route) => false);
 
+  void popToRootScreen(Widget screen) => Navigator.of(getContext()).popUntil((route) => route.isFirst);
+
+
   ///Remove the latest screen in the navigation stack
   void pop() {
     Navigator.of(getContext()).pop();

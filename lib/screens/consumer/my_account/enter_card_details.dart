@@ -6,6 +6,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/my_account/create_mpin_screen.dart';
 
 class EnterCardDetails extends StatefulWidget {
   @override
@@ -163,7 +164,9 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
             color: AppColors.bottom_border_color),
         alignment: Alignment.center,
         child: InkWell(
-            onTap: () {},
+            onTap: () {
+              push(CreateMPIN());
+            },
             child: Container(
               height: 48,
               alignment: Alignment.center,

@@ -13,7 +13,7 @@ import 'package:tara_app/common/widgets/card_view.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/consumer/enter_mpin.dart';
-import 'package:tara_app/screens/consumer/my_account/enter_mpin_screen.dart';
+import 'package:tara_app/screens/consumer/my_account/create_mpin_screen.dart';
 
 class MyAccount extends StatefulWidget{
 
@@ -146,10 +146,7 @@ class _MyAccountState extends BaseState<MyAccount>{
                   ),
                 ),
                 onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ConnectNewAccountSelectBank()),
-                  );
+                  push(ConnectNewAccountSelectBank());
                 },
               )
               ,
@@ -248,11 +245,7 @@ class _MyAccountState extends BaseState<MyAccount>{
                         ],
                       ) ,
                       onTap: (){
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => CreateMPIN()),
-                        );
+                        push(CreateMPIN());
                       },
                     ),
                   ),

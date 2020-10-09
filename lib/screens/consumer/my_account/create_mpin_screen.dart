@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/card_view.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 
 class CreateMPIN extends StatefulWidget {
@@ -136,7 +137,7 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
           onTap: () {
             if (widget.confirmPin) {
               // push to Confirm Screen
-//              Navigator.of(context).pop(MyAccount());
+              pushAndRemoveUntil(HomeCustomerScreen());
 
             } else if (widget.isReEnterPin) {
               if(widget.oldPin != pin){
