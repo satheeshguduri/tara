@@ -188,4 +188,15 @@ class Strings{
   static const account_success_msg = "account_success_msg";
   static const get_started = "get_started";
 
+  static const create_password = "create_password";
+  static const create_pass_sub_heading = "create_pass_sub_heading";
+
+  static const capital_letter = "capital_letter";
+  static const number = "number";
+  static const special_char = "special_char";
+  static const pass_heading = "pass_heading";
+  static const confirm_pass = "confirm_pass";
+  static const new_pass = "new_pass";
+
+
 }

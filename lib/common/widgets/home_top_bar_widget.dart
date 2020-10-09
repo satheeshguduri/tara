@@ -12,6 +12,7 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/create_password.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
@@ -249,13 +250,11 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             RoundedButton(buttonText: getTranslation(Strings.ADD_BENEFICIARY),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
             },),
             RoundedButton(buttonText: getTranslation(Strings.SHOP),image: Assets.SHOP_ICON,onPressed: (){
-
             },),
           ],
         ),
       );
     }
-
   }
 
   Widget getSearchWidget() {

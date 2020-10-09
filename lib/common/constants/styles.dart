@@ -441,4 +441,26 @@ class BaseStyles {
   fontSize: 16.0,
       height: 1.5
   );
+
+  static const overLayTextStyle_grey = TextStyle(
+      color:  AppColors.light_grey_blue,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0,
+      decoration: TextDecoration.none
+  );
+  static const overLayTextStyle_satisfy = TextStyle(
+      color:  AppColors.fareColor,
+      fontWeight: FontWeight.w500,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0,
+      decoration: TextDecoration.none
+  );
+  static const overLayTextStyle_heading = TextStyle(
+      color:  AppColors.fareColor,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0,
+      decoration: TextDecoration.none
+  );
 }

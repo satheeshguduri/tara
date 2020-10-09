@@ -5,6 +5,7 @@ import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.
 import 'package:tara_app/common/widgets/login_flow_widgets/create_new_account.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/mobile_verification.dart';
 import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
+import 'package:tara_app/screens/create_password.dart';
 
 import 'base/base_state.dart';
 
@@ -12,9 +13,10 @@ class CreateAccount extends StatefulWidget{
 
   final bool isFromMobileVerification;
   final bool isFromCreateAccount;
+  final bool isFromCreatePassword;
 
   const CreateAccount(
-      {Key key, this.isFromMobileVerification = false, this.isFromCreateAccount = false, })
+      {Key key, this.isFromMobileVerification = false, this.isFromCreateAccount = false, this.isFromCreatePassword = false, })
       : super(key: key);
 
   @override
@@ -29,7 +31,10 @@ class _CreateAccountState extends BaseState<CreateAccount>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: SignInFlowBg(child: widget.isFromCreateAccount?MobileVerification():widget.isFromMobileVerification?AccountConfirmation():CreateNewAccount()),
+      body: SignInFlowBg(child: widget.isFromCreateAccount?
+      MobileVerification():widget.isFromMobileVerification?
+      CreatePassword(): widget.isFromCreatePassword ?
+      AccountConfirmation():CreateNewAccount()),
     );
   }
 

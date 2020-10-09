@@ -103,5 +103,14 @@ class Assets {
   static const ic_dana= "assets/images/ic_dana.png";
   static const ic_go_pay = "assets/images/ic_gopay.png";
   static const ic_success = "assets/images/ic_success.png";
+  static const ic_lock = "assets/images/icon-40.png";
+
+  static const ic_pass_pass = "assets/images/vector.png";
+  static const ic_pass_fail = "assets/images/vector-2.png";
+
+  static const triangle = "assets/images/triangle.svg";
+
+
+
 
 }
