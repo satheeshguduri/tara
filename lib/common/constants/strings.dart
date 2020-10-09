@@ -173,5 +173,6 @@ class Strings{
   static const cvv = "cvv";
   static const mm = "mm";
   static const yy = "yy";
+  static const name_on_card = "name_on_card";
 
 }

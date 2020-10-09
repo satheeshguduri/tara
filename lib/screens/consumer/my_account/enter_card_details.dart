@@ -148,6 +148,14 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                     ),
                   ],
                 )),
+            Container(
+              margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+              child: textFormFieldContainer(
+                  getTranslation(Strings.name_on_card),
+                  getTranslation(Strings.name_on_card),
+                  TextInputType.text,
+                  txtCtrlBankAcc),
+            ),
           ]),
           getConfirmWidget()
         ],
