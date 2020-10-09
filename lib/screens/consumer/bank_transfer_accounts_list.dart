@@ -232,10 +232,7 @@ class _BankTransferAccountsListState
           margin: EdgeInsets.only(bottom: 8),
           child: DashedLineBorderButton(buttonText: getTranslation(Strings.SEND_TO_NEW_ACCOUNT),buttonColor: Color(0xfff7f7fa),
           onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => BankTransferNewContact()),
-            );
+           push(BankTransferNewContact());
           },),
         ):Container(),
         Container(
@@ -400,10 +397,7 @@ class _BankTransferAccountsListState
         ),
       ),
       onTap: (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BankTransferNewContact(bankAccInfo: contactInfo,)),
-        );
+       push(BankTransferNewContact(bankAccInfo: contactInfo,));
       },
     );
   }

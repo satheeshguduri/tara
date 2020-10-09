@@ -817,10 +817,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       context: context,
       builder: (BuildContext bc) {
         return EnterMPIN( onConfirmTransfer: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TransactionDetail()),
-          );
+          push(TransactionDetail());
         },);
       });
 }

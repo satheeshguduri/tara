@@ -145,24 +145,16 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
                   isReEnterPinCorrect = false;
                 });
               }else{
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateMPIN(
-                        confirmPin: true,
-                      )),
-                );
+                push(CreateMPIN(
+                  confirmPin: true,
+                ));
               }
             } else {
               if(this.pin.length == 6){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => CreateMPIN(
-                        isReEnterPin: true,
-                        oldPin: this.pin,
-                      )),
-                );
+                push(CreateMPIN(
+                  isReEnterPin: true,
+                  oldPin: this.pin,
+                ));
               }
             }
           },

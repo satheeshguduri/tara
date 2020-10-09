@@ -193,10 +193,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
       return InkWell(
         onTap: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ConnectNewAccountSelectBank()),
-          );
+          push(ConnectNewAccountSelectBank());
         },
         child: Container(
           padding: EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
@@ -282,24 +279,15 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         onTap: (){
           if (accountName == "Bank\nAccount")
           {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => BankTransferAccountsList()),
-            );
+            push(BankTransferAccountsList());
           }
           else if (accountName == "Tara\nUsers")
           {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TransferToTaraUser()),
-            );
+           push(TransferToTaraUser());
           }
           else if (accountName == "My\nAccount")
           {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),)),
-            );
+            push(MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),));
           }
         },
         child:Align(

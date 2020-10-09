@@ -174,10 +174,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                                 alignment: Alignment.centerRight,
                                 child: InkWell(
                                     onTap: (){
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => CreateAccount()),
-                                      );
+                                      push(CreateAccount());
                                     },
                                     child:Container(
                                       width: 33,
@@ -247,10 +244,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,),
             RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ConversationPage()),
-              );
+              push(ConversationPage());
             },),
             RoundedButton(buttonText: getTranslation(Strings.ADD_BENEFICIARY),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
             },),

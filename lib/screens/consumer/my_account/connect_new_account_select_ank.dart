@@ -273,10 +273,7 @@ class _ConnectNewAccountSelectBankState
         children: [
           ListTile(
             onTap: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => EnterCardDetails()),
-          );
+         push(EnterCardDetails());
             },
             title: Container(child:Text(bankInfo.bankName, style: BaseStyles.bankNameTextStyle)),
             leading:(bankInfo.bankIcon!=null&&bankInfo.bankIcon!="")? Container(child:ConstrainedBox(

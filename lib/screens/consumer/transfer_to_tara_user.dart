@@ -115,11 +115,7 @@ class _TransferToTaraUserState
             buttonText: getTranslation(Strings.add_bank_or_e_money_account),
             buttonColor: Color(0xfff7f7fa),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ConnectNewAccountSelectBank()),
-              );
+             push(ConnectNewAccountSelectBank());
             },),
         ),
         (_searchText
@@ -357,10 +353,7 @@ class _TransferToTaraUserState
         ),
       ) ,
       onTap: (){
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BankTransferNewContact(taraContact: contactInfo,))
-        );
+       push(BankTransferNewContact(taraContact: contactInfo,));
       },
     );
   }
