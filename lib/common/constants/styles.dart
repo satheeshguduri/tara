@@ -222,6 +222,13 @@ class BaseStyles {
       fontSize: 16.0
   );
 
+  static const orderTotalStyle = const TextStyle(
+      color:  AppColors.light_grey_blue,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+
 
 
   static const saveToMyContactTextStyle =const TextStyle(
@@ -496,5 +503,12 @@ class BaseStyles {
   fontWeight: FontWeight.w700,
   fontStyle:  FontStyle.normal,
   fontSize: 16.0
+  );
+
+  static const orderDetailsHeaderTextStyle = TextStyle(
+      color:  const Color(0xffb0b4c1),
+      fontWeight: FontWeight.w500,
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0
   );
 }

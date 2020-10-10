@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:tara_app/common/widgets/chat_widgets/agent_confirmed.dart';
 import 'package:tara_app/common/widgets/chat_widgets/agent_uin_otp_code.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_money_transfer_success.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_order_detail.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_pln_payment_success.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_request_cash_deposit.dart';
 import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
@@ -69,6 +70,9 @@ class ChatItemWidget extends StatelessWidget {
     }
     else if (index == 16) {
       return ItemsOrder(isFromAcceptedOrder:true);
+    }
+    else if (index == 17) {
+      return ChatOrderDetail();
     }
     else {
       return Container();

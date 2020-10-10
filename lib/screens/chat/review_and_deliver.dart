@@ -1,9 +1,14 @@
+
 import 'package:flutter/material.dart';
+import 'package:tara_app/common/constants/assets.dart';
+import 'package:tara_app/common/constants/colors.dart';
+import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_input_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_list_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
+import 'package:tara_app/common/widgets/map_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class ReviewAndDeliver extends StatefulWidget {
@@ -18,6 +23,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
   List<String> itemOrderCostList = ["Rp 10.000", "Rp 25.000", "Rp 17.000", "Rp 9.000"];
   List<ItemOrderModel> arrItems = [];
 
+  double positionX = 0;
 
   @override
   BuildContext getContext() {
@@ -54,7 +60,8 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
               child: Column(
                 children: [
                   getItemsOrderTotalWidget(),
-                  getIBillDetailsTotalWidget()
+                  getIBillDetailsTotalWidget(),
+                  getDeliveryInfoWidget()
                 ],
               ),
             )
@@ -247,6 +254,149 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
           )
         ],
       )
+    );
+  }
+  
+  getDeliveryInfoWidget(){
+    return Container(
+      margin: EdgeInsets.only(top: 8),
+      padding: EdgeInsets.only(left: 16,right: 16,top: 16,bottom: 8),
+
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+              getTranslation(Strings.delivery_info),
+              style: BaseStyles.reviewAndConfirmHeaderTextStyle
+          ),
+          Container(
+              height: 150,
+              decoration: BoxDecoration(
+                  borderRadius: Radii.border(8)
+              ),
+            child: MapWidget(),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 16,bottom: 16),
+
+            child:Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(right: 16),
+                  child: Image.asset(Assets.ic_person1),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        "Andi Ruhiyat",
+                        style: BaseStyles.reviewAndConfirmHeaderTextStyle
+                    ),
+                    Container(height: 4,),
+                    Text(
+                        "082212345678",
+                        style: BaseStyles.placeholderStyle
+                    )
+                  ],
+                )
+              ],
+            ) ,
+          )
+          ,
+          Text(
+              getTranslation(Strings.address),
+              style: const TextStyle(
+                  color:  const Color(0xff889aac),
+                  fontWeight: FontWeight.w500,
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 12.0
+              )
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 8,bottom: 8),
+            child: Text(
+                "Jl. Kedoya Raya 4 Blok BC 2 No. 32 RT/RW 012/002, Kedoya Selatan, Jakarta Barat, DKI Jakarta 11520",
+                style: const TextStyle(
+                    color:  AppColors.header_top_bar_color,
+                    fontWeight: FontWeight.w400,
+                    fontStyle:  FontStyle.normal,
+                    fontSize: 14.0
+                )
+            ),
+          ),
+
+          Container(
+              margin: EdgeInsets.only(top: 16,bottom: 16),
+              height: 40,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(8)
+                  ),
+                  color: const Color(0xffb2f7e2)
+              ),
+            child:  Stack(
+              children: [
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 12,
+                  bottom: 12,
+                  child: Text(
+                      getTranslation(Strings.confirm_delivery),
+                      style: const TextStyle(
+                          color:  AppColors.fareColor,
+                          fontWeight: FontWeight.w700,
+                          fontStyle:  FontStyle.normal,
+                          fontSize: 14.0
+                      ),
+                      textAlign: TextAlign.center
+                  ),
+                ),
+                Positioned(
+                  left: positionX,
+                  child: GestureDetector(
+                    onHorizontalDragUpdate: (dragDetails){
+                      double screenWidth = MediaQuery.of(context).size.width - 88;
+                      double dragPos = dragDetails.globalPosition.dx;
+                      if(dragPos >= screenWidth){
+                        // push to confirm delivery
+                      }else{
+                        setState(() {
+                          positionX = dragPos;
+                        });
+                      }
+
+                    },
+                    child:Container(
+                      width: 56,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: Radii.border(8),
+                          boxShadow: [BoxShadow(
+                              color: const Color(0x1f000000),
+                              offset: Offset(0,4),
+                              blurRadius: 6,
+                              spreadRadius: 0
+                          ), BoxShadow(
+                              color: const Color(0x14000000),
+                              offset: Offset(0,0),
+                              blurRadius: 2,
+                              spreadRadius: 0
+                          )] ,
+                          color: const Color(0xffffffff)
+                      ),
+                      child: Center(
+                        child: Image.asset(Assets.ic_arrow_right),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 

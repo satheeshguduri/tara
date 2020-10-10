@@ -84,6 +84,8 @@ dependencies:
   #show dotted lines border
   dotted_border: ^1.0.6
   flutter_svg: ^0.19.0
+  google_maps_flutter:
+
 
 dev_dependencies:
   flutter_test:

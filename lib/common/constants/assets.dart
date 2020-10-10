@@ -110,6 +110,9 @@ class Assets {
 
   static const triangle = "assets/images/triangle.svg";
 
+  static const ic_bag = "assets/images/icon-8.png";
+
+
 
 
 

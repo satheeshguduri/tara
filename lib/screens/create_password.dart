@@ -37,10 +37,6 @@ class _CreatePasswordState extends BaseState<CreatePassword> {
 
   }
 
-   bool showOverlay;
-   Widget Function(BuildContext, Offset anchor) overlayBuilder;
-
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

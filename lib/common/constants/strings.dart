@@ -208,4 +208,10 @@ class Strings{
   static const review_and_deliver = "review_and_deliver";
   static const delivery_fee = "delivery_fee";
   static const items = "items";
+
+  static const order_detail = "order_detail";
+  static const trans_has_been_paid = "trans_has_been_paid";
+  static const address = "address";
+  static const delivery_info = "delivery_info";
+  static const confirm_delivery = "confirm_delivery";
 }

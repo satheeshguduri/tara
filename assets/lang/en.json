@@ -192,5 +192,10 @@
   "order_id": "Order ID:",
   "review_and_deliver": "Review and Deliver",
   "delivery_fee": "Delivery Fee",
-  "items": "items"
+  "items": "items",
+  "order_detail": "Order details",
+  "trans_has_been_paid" : "Transaction has been paid",
+  "address": "Address",
+  "delivery_info": "Delivery info",
+  "confirm_delivery": "Confirm Delivery"
 }
