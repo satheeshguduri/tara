@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
@@ -107,8 +108,8 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
                             fieldWidth: 40,
                             textFieldAlignment: MainAxisAlignment.spaceBetween,
                             fieldStyle:FieldStyle.underline,
-                            obscureText: false,
-                            style: BaseStyles.otpTextStyle,
+                            obscureText: true,
+                            style: BaseStyles.MPINTextStyle,
                             correctPin:correctPin,
                             onCompleted: (pin) {
                               print("Completed: " + pin);
@@ -134,7 +135,7 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
                           ),
                         ),
                         Container(
-                          height: 10,
+                          height: 5,
                           margin: EdgeInsets.only(bottom: 16,),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

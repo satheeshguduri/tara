@@ -182,5 +182,15 @@
   "name_on_card": "Name On Card",
   "account_created": "Account Created!",
   "account_success_msg": "Your Tara account successfully\ncreated. Welcome!",
-  "get_started": "Get Started"
+  "get_started": "Get Started",
+  "items_ordered": "ITEMS ORDERED",
+  "review_and_confirm": "Review and Confirm",
+  "you_have_accepted_order": "You have accepted the order",
+  "items_ordered_small_letter": "Items ordered",
+  "bill_details": "Bill details",
+  "total": "Total",
+  "order_id": "Order ID:",
+  "review_and_deliver": "Review and Deliver",
+  "delivery_fee": "Delivery Fee",
+  "items": "items"
 }

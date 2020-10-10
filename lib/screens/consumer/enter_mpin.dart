@@ -96,8 +96,8 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
                           fieldWidth: 40,
                           textFieldAlignment: MainAxisAlignment.spaceBetween,
                           fieldStyle:FieldStyle.underline,
-                          obscureText: false,
-                          style: BaseStyles.otpTextStyle,
+                          obscureText: true,
+                          style: BaseStyles.MPINTextStyle,
                           correctPin:correctPin,
                           onCompleted: (pin) {
                             print("Completed: " + pin);
@@ -123,7 +123,7 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
                         ),
                       ),
                       Container(
-                        height: 10,
+                        height: 5,
                         margin: EdgeInsets.only(bottom: 16,),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

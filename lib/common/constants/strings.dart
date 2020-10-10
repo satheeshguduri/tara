@@ -197,6 +197,15 @@ class Strings{
   static const pass_heading = "pass_heading";
   static const confirm_pass = "confirm_pass";
   static const new_pass = "new_pass";
+  static const items_ordered = "items_ordered";
+  static const review_and_confirm = "review_and_confirm";
+  static const you_have_accepted_order = "you_have_accepted_order";
 
-
+  static const items_ordered_small_letter = "items_ordered_small_letter";
+  static const bill_details = "bill_details";
+  static const total = "total";
+  static const order_id = "order_id";
+  static const review_and_deliver = "review_and_deliver";
+  static const delivery_fee = "delivery_fee";
+  static const items = "items";
 }

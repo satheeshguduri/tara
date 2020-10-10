@@ -463,4 +463,38 @@ class BaseStyles {
       fontSize: 16.0,
       decoration: TextDecoration.none
   );
+  static const itemOrderQuantityTextStyle = TextStyle(
+  color:  const Color(0xff889aac),
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 12.0
+  );
+
+  static const itemOrderTextStyle = TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const itemOrderHeaderTextStyle = TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 12.0
+  );
+
+  static const itemOrderCostTextStyle = TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const reviewAndConfirmHeaderTextStyle = TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0
+  );
 }

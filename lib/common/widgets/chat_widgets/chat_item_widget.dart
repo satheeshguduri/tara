@@ -7,6 +7,7 @@ import 'package:tara_app/common/widgets/chat_widgets/chat_pln_payment_success.da
 import 'package:tara_app/common/widgets/chat_widgets/chat_request_cash_deposit.dart';
 import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/deposit_success.dart';
+import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/on_the_way.dart';
 
 // ignore: must_be_immutable
@@ -62,7 +63,14 @@ class ChatItemWidget extends StatelessWidget {
       return ChatRequestCashDeposit(
         isConfirmed: true,
       );
-    } else {
+    }
+    else if (index == 15) {
+      return ItemsOrder();
+    }
+    else if (index == 16) {
+      return ItemsOrder(isFromAcceptedOrder:true);
+    }
+    else {
       return Container();
     }
   }
