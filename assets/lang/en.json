@@ -197,5 +197,16 @@
   "trans_has_been_paid" : "Transaction has been paid",
   "address": "Address",
   "delivery_info": "Delivery info",
-  "confirm_delivery": "Confirm Delivery"
+  "confirm_delivery": "Confirm Delivery",
+  "decline_order": "Decline Order",
+  "confirm_order": "Confirm Order",
+  "subtotal": "Subtotal",
+  "others": "Others",
+  "delivery_fee_paid_cash": "Delivery fee is paid with cash by recipient",
+  "inhouse_delivery": "In-house Delivery",
+  "custom_deliver_fee": "Set a custom delivery fee to be included",
+  "delivery_method": "Delivery method",
+  "price": "Price",
+  "quantity": "Quantity",
+  "item_name": "Item Name"
 }

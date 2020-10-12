@@ -214,4 +214,18 @@ class Strings{
   static const address = "address";
   static const delivery_info = "delivery_info";
   static const confirm_delivery = "confirm_delivery";
+  static const decline_order = "decline_order";
+  static const confirm_order = "confirm_order";
+  static const subtotal = "subtotal";
+  static const others = "others";
+  static const delivery_fee_paid_cash = "delivery_fee_paid_cash";
+  static const inhouse_delivery = "inhouse_delivery";
+  static const custom_deliver_fee = "custom_deliver_fee";
+  static const delivery_method = "delivery_method";
+  static const price = "price";
+  static const quantity = "quantity";
+  static const item_name = "item_name";
+
+
+
 }

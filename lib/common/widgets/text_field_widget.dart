@@ -37,6 +37,7 @@ class TextFieldWidget extends StatefulWidget {
     this.autoFocus = false,
     this.inputAction,
     this.placeHolderStyle = BaseStyles.bankNameTextStyle,
+
   }) : super(key: key);
 
   @override

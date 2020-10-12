@@ -4,6 +4,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/review_and_confirm.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
@@ -90,7 +91,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                         InkWell(
                           onTap: (){
                             if (widget.isFromAcceptedOrder==false){
-                              push(ReviewAndDeliver());
+                              push(ReviewAndConfirm());
                             }
                           },
                           child: Container(
