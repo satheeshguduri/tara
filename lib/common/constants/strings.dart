@@ -226,6 +226,10 @@ class Strings{
   static const quantity = "quantity";
   static const item_name = "item_name";
 
-
+  static const order_paid = "order_paid";
+  static const amount_paid = "amount_paid";
+  static const on_delivery_text = "on_delivery_text";
+  static const on_delivery = "on_delivery";
+  static const confirm_arrived = "confirm_arrived";
 
 }

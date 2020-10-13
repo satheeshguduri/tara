@@ -328,6 +328,15 @@ class BaseStyles {
   fontSize: 14.0
   );
 
+  static const declineButtonTextStyle = TextStyle(
+      color: Color(0xfff95074),
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+
+
   static const chatItemResendOtpButtonTextStyle = TextStyle(
       color: Color(0xff889aac),
       fontWeight: FontWeight.w700,
@@ -511,4 +520,12 @@ class BaseStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
   );
+
+  static const orderDetailTextStyle = const TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w500,
+      fontStyle:  FontStyle.normal,
+      fontSize: 10.0
+  );
+
 }

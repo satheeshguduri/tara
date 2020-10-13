@@ -113,6 +113,7 @@ class Assets {
   static const ic_bag = "assets/images/icon-8.png";
 
   static const ic_delete = "assets/images/icon-4.png";
+  static const ic_on_delivery = "assets/images/icon-23.png";
 
 
 

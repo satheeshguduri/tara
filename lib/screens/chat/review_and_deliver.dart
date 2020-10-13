@@ -190,7 +190,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
           Container(
             margin: EdgeInsets.only(bottom: 16),
             child: Text(
-                getTranslation(Strings.order_id) + " TR005523",
+                getTranslation(Strings.order_id) + ": TR005523",
                 style: BaseStyles.itemOrderCostTextStyle
             ),
           ),

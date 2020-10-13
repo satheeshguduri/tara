@@ -9,7 +9,10 @@ import 'package:tara_app/common/widgets/chat_widgets/chat_request_cash_deposit.d
 import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/deposit_success.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/on_delivery.dart';
 import 'package:tara_app/common/widgets/chat_widgets/on_the_way.dart';
+import 'package:tara_app/common/widgets/chat_widgets/order_details_decline_pay.dart';
+import 'package:tara_app/common/widgets/chat_widgets/order_paid.dart';
 
 // ignore: must_be_immutable
 class ChatItemWidget extends StatelessWidget {
@@ -73,6 +76,22 @@ class ChatItemWidget extends StatelessWidget {
     }
     else if (index == 17) {
       return ChatOrderDetail();
+    }
+    else if (index == 18)
+    {
+      return ChatOrderPaid();
+    }
+    else if (index == 19)
+    {
+      return OrderDetailsDeclinePay();
+    }
+    else if (index == 20)
+    {
+      return OnDelivery();
+    }
+    else if (index == 21)
+    {
+      return OnDelivery(isConfirmArrived:true);
     }
     else {
       return Container();

@@ -189,7 +189,7 @@
   "items_ordered_small_letter": "Items ordered",
   "bill_details": "Bill details",
   "total": "Total",
-  "order_id": "Order ID:",
+  "order_id": "Order ID",
   "review_and_deliver": "Review and Deliver",
   "delivery_fee": "Delivery Fee",
   "items": "items",
@@ -208,5 +208,10 @@
   "delivery_method": "Delivery method",
   "price": "Price",
   "quantity": "Quantity",
-  "item_name": "Item Name"
+  "item_name": "Item Name",
+  "order_paid": "ORDER PAID",
+  "amount_paid": "Amount Paid",
+  "on_delivery_text": "Your order is on the way. Please confirm the order once your order have arrived.",
+  "on_delivery": "On delivery",
+  "confirm_arrived": "Confirm arrived "
 }
