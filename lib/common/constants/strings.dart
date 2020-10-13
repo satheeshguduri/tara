@@ -236,5 +236,14 @@ class Strings{
   static const enter_amount = "enter_amount";
   static const enter_message = "enter_message";
   static const confirm = "confirm";
+  static const confirm_handshake = "confirm_handshake";
+  static const enter_otp_code = "enter_otp_code";
+  static const input_otp_code = "input_otp_code";
+  static const share_code_to_chat = "share_code_to_chat";
+  static const your_UIN_code = "your_UIN_code";
+  static const share_code_to_mer = "share_code_to_mer";
+  static const handshake = "handshake";
+  static const prepare_to_coll_cash = "prepare_to_coll_cash";
+  static const cash_collection = "cash_collection";
 
 }

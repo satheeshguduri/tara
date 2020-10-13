@@ -6,7 +6,11 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
+import 'package:tara_app/screens/agent/agent_widgets/agent_inprogress_handshake.dart';
+import 'package:tara_app/screens/agent/agent_widgets/agent_prepair_to_collect_cash.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+
+import 'agent_widgets/agent_empty_inprogress.dart';
 
 class AgentHomeScreen extends StatefulWidget {
   AgentHomeScreen({Key key, this.title}) : super(key: key);
@@ -19,11 +23,13 @@ class AgentHomeScreen extends StatefulWidget {
 class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
   int _currentIndex = 0;
   int selectedSegmentIndex = 0;
+  bool isAccepted = false;
+  bool isHandShake = false;
 
   BoxDecoration roundedBoxDecoration() {
     return BoxDecoration(
         borderRadius: Radii.border(20),
-        boxShadow:Shadows.shadows_list ,
+        boxShadow: Shadows.shadows_list,
         color: AppColors.primaryBackground);
   }
 
@@ -133,7 +139,8 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                             children: [
                               Opacity(
                                 opacity: 0.6,
-                                child: Text(getTranslation(Strings.AVAIL_BALANCE),
+                                child: Text(
+                                    getTranslation(Strings.AVAIL_BALANCE),
                                     style: const TextStyle(
                                         color: AppColors.primaryText,
                                         fontWeight: FontWeight.w500,
@@ -171,7 +178,9 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              Text(getTranslation(Strings.TODAY_COLLECTION),
+                                              Text(
+                                                  getTranslation(
+                                                      Strings.TODAY_COLLECTION),
                                                   style: const TextStyle(
                                                       color:
                                                           AppColors.primaryText,
@@ -213,7 +222,9 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              Text(getTranslation(Strings.TODAY_PAYOUT),
+                                              Text(
+                                                  getTranslation(
+                                                      Strings.TODAY_PAYOUT),
                                                   style: const TextStyle(
                                                       color:
                                                           AppColors.primaryText,
@@ -289,22 +300,26 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                   child: Container(
                                       width: 104,
                                       height: 40,
-                                      decoration: selectedSegmentIndex == 0 ? roundedBoxDecoration() : null,
-                                      child:Center(
+                                      decoration: selectedSegmentIndex == 0
+                                          ? roundedBoxDecoration()
+                                          : null,
+                                      child: Center(
                                         child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                            getTranslation(Strings.INCOMING),
+                                                getTranslation(
+                                                    Strings.INCOMING),
                                                 style: const TextStyle(
-                                                    color:  AppColors.primaryText,
+                                                    color:
+                                                        AppColors.primaryText,
                                                     fontWeight: FontWeight.w500,
-                                                    fontStyle:  FontStyle.normal,
-                                                    fontSize: 14.0
-                                                ),
-                                                textAlign: TextAlign.center
-                                            ),
+                                                    fontStyle: FontStyle.normal,
+                                                    fontSize: 14.0),
+                                                textAlign: TextAlign.center),
 //                                            selectedSegmentIndex == 0 ?
                                             Container(
                                               margin: EdgeInsets.only(left: 4),
@@ -313,24 +328,22 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                               height: 16,
                                               decoration: BoxDecoration(
                                                   color: AppColors.badge_color,
-                                                  borderRadius:BorderRadius.circular(8)
-                                              ),
-                                              child: Text(
-                                                  "1",
+                                                  borderRadius:
+                                                      BorderRadius.circular(8)),
+                                              child: Text("1",
                                                   style: const TextStyle(
-                                                      color:  Color(0xffffffff),
-                                                      fontWeight: FontWeight.w700,
-                                                      fontStyle:  FontStyle.normal,
-                                                      fontSize: 10.0
-                                                  ),
-                                                  textAlign: TextAlign.center
-                                              ),
+                                                      color: Color(0xffffffff),
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontStyle:
+                                                          FontStyle.normal,
+                                                      fontSize: 10.0),
+                                                  textAlign: TextAlign.center),
                                             )
 //                                                : Container()
                                           ],
                                         ),
-                                      )
-                                  ) ),
+                                      ))),
                               InkWell(
                                   onTap: () {
                                     setState(() {
@@ -344,7 +357,8 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                           ? roundedBoxDecoration()
                                           : null,
                                       child: Center(
-                                        child: Text(getTranslation(Strings.IN_PROGRESS),
+                                        child: Text(
+                                            getTranslation(Strings.IN_PROGRESS),
                                             style: const TextStyle(
                                                 color: AppColors.primaryText,
                                                 fontWeight: FontWeight.w500,
@@ -365,7 +379,8 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                           ? roundedBoxDecoration()
                                           : null,
                                       child: Center(
-                                        child: Text(getTranslation(Strings.COMPLETE),
+                                        child: Text(
+                                            getTranslation(Strings.COMPLETE),
                                             style: const TextStyle(
                                                 color: AppColors.primaryText,
                                                 fontWeight: FontWeight.w500,
@@ -529,7 +544,8 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                         bottomLeft: Radius.circular(8))),
                                 child: // Text
                                     Center(
-                                        child: Text(getTranslation(Strings.REJECT),
+                                        child: Text(
+                                            getTranslation(Strings.REJECT),
                                             style: const TextStyle(
                                                 color: Color(0Xfff95074),
                                                 fontWeight: FontWeight.w700,
@@ -547,14 +563,23 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                         color: Color(0Xffb2f7e2),
                                         borderRadius: BorderRadius.only(
                                             bottomRight: Radius.circular(8))),
-                                    child: Center(
-                                      child: Text(getTranslation(Strings.ACCEPT),
-                                          style: const TextStyle(
-                                              color: AppColors.primaryText,
-                                              fontWeight: FontWeight.w700,
-                                              fontStyle: FontStyle.normal,
-                                              fontSize: 14.0),
-                                          textAlign: TextAlign.center),
+                                    child: InkWell(
+                                      child: Center(
+                                        child: Text(
+                                            getTranslation(Strings.ACCEPT),
+                                            style: const TextStyle(
+                                                color: AppColors.primaryText,
+                                                fontWeight: FontWeight.w700,
+                                                fontStyle: FontStyle.normal,
+                                                fontSize: 14.0),
+                                            textAlign: TextAlign.center),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          isAccepted = true;
+                                          selectedSegmentIndex = 1;
+                                        });
+                                      },
                                     ) // Text
                                     // Text
                                     )),
@@ -612,45 +637,18 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
         ),
       );
     } else if (selectedSegmentIndex == 1) {
-      return Container(
-        margin: EdgeInsets.only(bottom: 32,top: 32),
-        padding: EdgeInsets.only(left: 32,right: 32),
-
-        child: Column(
-          children: [
-            Container(
-                width: 88,
-                height: 88,
-                decoration: BoxDecoration(
-                    color: AppColors.light_grey_blue,
-                  borderRadius: Radii.border(44)
-                )
-            ),
-            Container(height: 8,),
-            Text(
-              getTranslation(Strings.NO_PROGRESS_YET),
-                style: const TextStyle(
-                    color:  AppColors.primaryText,
-                    fontWeight: FontWeight.w700,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 16.0
-                ),
-                textAlign: TextAlign.center
-            ),
-            Container(height: 8,),
-            Text(
-              getTranslation(Strings.SEE_AVAIL_REQ),
-                style: const TextStyle(
-                    color:  AppColors.battleship_grey,
-                    fontWeight: FontWeight.w400,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 14.0
-                ),
-                textAlign: TextAlign.center
-            )
-          ],
-        ),
-      );
+      if (isHandShake) {
+        return AgentInProgressHandShake();
+      }
+      if (isAccepted) {
+        return AgentPrepareToCollectCash(confirmDelivery: () {
+          setState(() {
+            isHandShake = true;
+          });
+        });
+      } else {
+        return AgentEmptyInProgress();
+      }
     } else if (selectedSegmentIndex == 2) {
       return Container(
         margin: EdgeInsets.only(bottom: 32),
@@ -659,103 +657,90 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemCount: 6,
-          itemBuilder: (context,index){
-            return  Container(
-              margin: EdgeInsets.only(left: 16, right: 16,top: 16),
+          itemBuilder: (context, index) {
+            return Container(
+              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
               padding: EdgeInsets.all(16),
 //                            height: 64,
-              decoration:
-              BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(8)
-                  ),
-                  boxShadow: Shadows.shadows_list ,
-                  color: AppColors.primaryBackground
-              ),
-              child:Center(
-                child:  Row(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  boxShadow: Shadows.shadows_list,
+                  color: AppColors.primaryBackground),
+              child: Center(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Rectangle
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(Assets.ic_person1,height: 40,width: 40,),
-                          Container(
-                            margin: EdgeInsets.only(left: 16),
-                            child:Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // TODAY • 12:33
-                                Text(
-                                    "TODAY • 12:33",
-                                    style: const TextStyle(
-                                        color:  AppColors.color_black_80_2,
-                                        fontWeight: FontWeight.w500,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 10.0
-                                    )
-                                ),
-                                Container(height: 6,),
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                      Image.asset(
+                        Assets.ic_person1,
+                        height: 40,
+                        width: 40,
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // TODAY • 12:33
+                            Text("TODAY • 12:33",
+                                style: const TextStyle(
+                                    color: AppColors.color_black_80_2,
+                                    fontWeight: FontWeight.w500,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 10.0)),
+                            Container(
+                              height: 6,
+                            ),
 
-                                Text(
-                                    "Andi Ruhiyat",
-                                    style: const TextStyle(
-                                        color:  AppColors.primaryText,
-                                        fontWeight: FontWeight.w700,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 14.0
-                                    )
-                                ),
-                                Container(height: 6,),
-                                Text(
-                                    "Deposit: Rp 25.000.000",
-                                    style: const TextStyle(
-                                        color:  AppColors.battleship_grey,
-                                        fontWeight: FontWeight.w400,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 12.0
-                                    )
-                                )
-                              ],
-                            ) ,
-                          ),
-                        ]),
+                            Text("Andi Ruhiyat",
+                                style: const TextStyle(
+                                    color: AppColors.primaryText,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.0)),
+                            Container(
+                              height: 6,
+                            ),
+                            Text("Deposit: Rp 25.000.000",
+                                style: const TextStyle(
+                                    color: AppColors.battleship_grey,
+                                    fontWeight: FontWeight.w400,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 12.0))
+                          ],
+                        ),
+                      ),
+                    ]),
                     Container(
                       alignment: Alignment.centerRight,
                       margin: EdgeInsets.only(right: 0),
-                      child:  RichText(
-                          text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    style: const TextStyle(
-                                        color:  AppColors.pale_turquoise,
-                                        fontWeight: FontWeight.w700,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 14.0
-                                    ),
-                                    text: "+ "),
-                                TextSpan(
-                                    style: const TextStyle(
-                                        color:  AppColors.fareColor,
-                                        fontWeight: FontWeight.w400,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 14.0
-                                    ),
-                                    text: "Rp 335.750")
-                              ]
-                          )
-                      ),
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            style: const TextStyle(
+                                color: AppColors.pale_turquoise,
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            text: "+ "),
+                        TextSpan(
+                            style: const TextStyle(
+                                color: AppColors.fareColor,
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0),
+                            text: "Rp 335.750")
+                      ])),
                     )
                   ],
                 ),
-              )
-              ,
+              ),
             );
           },
         ),
       );
-    }else{
+    } else {
       return Container();
     }
   }

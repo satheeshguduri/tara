@@ -218,5 +218,14 @@
   "message": "Message",
   "enter_amount": "Rp 0",
   "enter_message": "Enter message",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "confirm_handshake": "Confirm Handshake",
+  "enter_otp_code": "Enter OTP Code",
+  "input_otp_code": "Please input the OTP Code that just sent to Merchant Tara App.",
+  "share_code_to_chat": "Share code to Chat",
+  "your_UIN_code": "Your UIN Code",
+  "share_code_to_mer": "Share this code to Merchant",
+  "handshake": "HANDSHAKE",
+  "prepare_to_coll_cash": "Prepare to collect cash",
+  "cash_collection": "CASH COLLECTION"
 }

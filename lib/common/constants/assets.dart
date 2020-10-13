@@ -119,5 +119,20 @@ class Assets {
   static const ic_back_arrow = "assets/images/icon-44.png";
   static const ic_chat_text_bubble_right = "assets/images/combined-shape-22.png";
   static const ic_chat_text_bubble_left = "assets/images/chat-4.png";
+  static const ic_right_arrow_long = "assets/images/icon-49.png";
+  static const ic_location1 = "assets/images/icon-41.png";
+  static const ic_handshake = "assets/images/handshake.svg";
+  static const ic_download_1 = "assets/images/icon-26.png";
+  static const ic_handshake_active = "assets/images/handshake_active.svg";
+  static const ic_check_solid = "assets/images/assets---icon---c---check---solid-2.png";
+
+
+
+
+
+
+
+
+
 
 }

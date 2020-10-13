@@ -527,4 +527,12 @@ class BaseStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 10.0
   );
+
+  static const enterOTPTextStyle = TextStyle(
+      color:  const Color(0xff8899aa),
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+
 }

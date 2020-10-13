@@ -387,7 +387,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                           color: const Color(0xffffffff)
                       ),
                       child: Center(
-                        child: Image.asset(Assets.ic_arrow_right),
+                        child: Image.asset(Assets.ic_right_arrow_long),
                       ),
                     ),
                   ),
