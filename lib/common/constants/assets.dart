@@ -114,9 +114,10 @@ class Assets {
 
   static const ic_delete = "assets/images/icon-4.png";
   static const ic_on_delivery = "assets/images/icon-23.png";
-
-
-
-
+  static const ic_chat_plus = "assets/images/icon-31.png";
+  static const ic_chat_cross = "assets/images/icon-21.png";
+  static const ic_back_arrow = "assets/images/icon-44.png";
+  static const ic_chat_text_bubble_right = "assets/images/combined-shape-22.png";
+  static const ic_chat_text_bubble_left = "assets/images/chat-4.png";
 
 }

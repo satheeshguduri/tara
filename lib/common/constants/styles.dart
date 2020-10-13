@@ -527,5 +527,4 @@ class BaseStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 10.0
   );
-
 }

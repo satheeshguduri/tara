@@ -213,5 +213,10 @@
   "amount_paid": "Amount Paid",
   "on_delivery_text": "Your order is on the way. Please confirm the order once your order have arrived.",
   "on_delivery": "On delivery",
-  "confirm_arrived": "Confirm arrived "
+  "confirm_arrived": "Confirm arrived ",
+  "select_location": "Select location ...",
+  "message": "Message",
+  "enter_amount": "Rp 0",
+  "enter_message": "Enter message",
+  "confirm": "Confirm"
 }

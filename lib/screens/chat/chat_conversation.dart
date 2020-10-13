@@ -17,14 +17,26 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return SafeArea(
       top: false,
         child: Scaffold(
+          backgroundColor: Color(0xfff7f7fa),
             appBar: _buildAppBar(context), // Custom app bar for chat screen
             body: Stack(children: <Widget>[
-              Column(
+              ChatListWidget(),
+              Stack(
+                fit: StackFit.expand,
                 children: <Widget>[
-                  ChatListWidget(),//Chat list
-                  InputWidget() // The input widget
+                  Positioned(
+                    bottom: 0,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: Container(
+                        color: Color(0xfff7f7fa),
+                        child: InputWidget(),
+                      ),
+                    ),
+                  )
                 ],
               ),
+
             ]
             )
         )

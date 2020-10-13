@@ -231,5 +231,10 @@ class Strings{
   static const on_delivery_text = "on_delivery_text";
   static const on_delivery = "on_delivery";
   static const confirm_arrived = "confirm_arrived";
+  static const select_location = "select_location";
+  static const message = "message";
+  static const enter_amount = "enter_amount";
+  static const enter_message = "enter_message";
+  static const confirm = "confirm";
 
 }

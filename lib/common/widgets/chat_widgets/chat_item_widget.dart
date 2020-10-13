@@ -13,12 +13,16 @@ import 'package:tara_app/common/widgets/chat_widgets/on_delivery.dart';
 import 'package:tara_app/common/widgets/chat_widgets/on_the_way.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_details_decline_pay.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_paid.dart';
+import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
 
 // ignore: must_be_immutable
 class ChatItemWidget extends StatelessWidget {
   var index;
+  var chatMsg;
 
-  ChatItemWidget(this.index);
+  ChatItemWidget(this.index,this.chatMsg);
+
+  List<String> arrWidgets = [];
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +97,12 @@ class ChatItemWidget extends StatelessWidget {
     {
       return OnDelivery(isConfirmArrived:true);
     }
+    else if (index == 22)
+      {
+        return TextChatWidget(textMessage:"",isReceivedMsg: true,);
+      }
     else {
-      return Container();
+      return TextChatWidget(textMessage:"",isReceivedMsg: false,);
     }
   }
 }
