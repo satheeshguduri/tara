@@ -230,5 +230,10 @@
   "cash_collection": "CASH COLLECTION",
   "select_location_title": "Select Location",
   "search_location": "Search Location",
-  "use_current_location": "Use current location"
+  "use_current_location": "Use current location",
+  "upload_your_portrait": "Upload Your Portrait",
+  "portrait_pic_text": "Please upload your self portrait with enough light and a clear background",
+  "upload_documents": "Upload Documents",
+  "next": "Next",
+  "take_picture": "Take a Picture"
 }

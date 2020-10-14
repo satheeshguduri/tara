@@ -248,5 +248,9 @@ class Strings{
   static const select_location_title = "select_location_title";
   static const search_location = "search_location";
   static const use_current_location = "use_current_location";
-
+  static const upload_your_portrait = "upload_your_portrait";
+  static const portrait_pic_text = "portrait_pic_text";
+  static const upload_documents = "upload_documents";
+  static const next = "next";
+  static const take_picture = "take_picture";
 }

@@ -128,6 +128,8 @@ class Assets {
 
   static const ic_current_location = "assets/images/icon-50.png";
   static const ic_location_place = "assets/images/icon-53.png";
+  static const ic_camera = "assets/images/icon-32.png";
+  static const ic_portrait_person_pic = "assets/images/illu.png";
 
 
 

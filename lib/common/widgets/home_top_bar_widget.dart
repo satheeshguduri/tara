@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
+import 'package:tara_app/screens/agent/agent_widgets/upload_portrait_pic.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
@@ -231,7 +232,9 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,),
             RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,),
-            RoundedButton(buttonText: getTranslation(Strings.PAYMENT),image: Assets.ic_payment,),
+            RoundedButton(buttonText: getTranslation(Strings.PAYMENT),image: Assets.ic_payment,onPressed: (){
+              push(UploadPortraitPic());
+            },),
             RoundedButton(buttonText: getTranslation(Strings.CMS_TOP_UP),image: Assets.ic_topup,),
           ],
         ),
