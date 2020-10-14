@@ -26,83 +26,81 @@ class ChatItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (index == 0) {
+
+    if (chatMsg == "onTheWay_isArrived") {
       return OnTheWay(
         isArrived: true,
       );
-    } else if (index == 1) {
+    } else if (chatMsg == "onTheWay_isArrived_false") {
       return OnTheWay(
         isArrived: false,
       );
-    } else if (index == 2) {
+    } else if (chatMsg == "agent_confirmed") {
       return AgentConfirmed();
-    } else if (index == 3) {
+    } else if (chatMsg == "onTheWay_isVerified") {
       return OnTheWay(
         isVerifyingAgent: true,
       );
-    } else if (index == 4) {
+    } else if (chatMsg == "agent_UIN_otp_true") {
       return AgentUINOROTP(
         isAgentUINCode: true,
       );
-    } else if (index == 5) {
+    } else if (chatMsg == "agent_UIN_otp_false") {
       return AgentUINOROTP(
         isAgentUINCode: false,
       );
-    } else if (index == 7) {
+    } else if (chatMsg == "deposit_success") {
       return DepositSuccess();
-    } else if (index == 8) {
+    } else if (chatMsg == "decline_pay") {
       return DeclinePay();
-    } else if (index == 9) {
+    } else if (chatMsg == "decline_pay_isSender_true") {
       return DeclinePay(
         isSender: true,
       );
-    } else if (index == 10) {
+    } else if (chatMsg == "chat_money_transfer_success") {
       return ChatMoneyTransferSuccess();
-    } else if (index == 11) {
+    } else if (chatMsg == "decline_pay_isSender_declined_true") {
       return DeclinePay(
         isSender: true,
         isDeclined: true,
       );
-    } else if (index == 12) {
+    } else if (chatMsg == "chat_pln_payment_success") {
       return ChatPLNPaymentSuccess();
-    } else if (index == 13) {
+    } else if (chatMsg == "chat_request_cash_deposit") {
       return ChatRequestCashDeposit();
-    } else if (index == 14) {
+    } else if (chatMsg == "chat_request_cash_deposit_confirmed_true") {
       return ChatRequestCashDeposit(
         isConfirmed: true,
       );
     }
-    else if (index == 15) {
+    else if (chatMsg == "items_order") {
       return ItemsOrder();
     }
-    else if (index == 16) {
+    else if (chatMsg == "items_order_isFromAcceptedAnswer_true") {
       return ItemsOrder(isFromAcceptedOrder:true);
     }
-    else if (index == 17) {
+    else if (chatMsg == "chat_order_details") {
       return ChatOrderDetail();
     }
-    else if (index == 18)
+    else if (chatMsg == "chat_order_paid")
     {
       return ChatOrderPaid();
     }
-    else if (index == 19)
+    else if (chatMsg == "order_details_decline_pay")
     {
       return OrderDetailsDeclinePay();
     }
-    else if (index == 20)
+    else if (chatMsg == "on_delivery")
     {
       return OnDelivery();
     }
-    else if (index == 21)
+    else if (chatMsg == "on_delivery_isConfirmArrived_true")
     {
       return OnDelivery(isConfirmArrived:true);
     }
-    else if (index == 22)
-      {
-        return TextChatWidget(textMessage:"",isReceivedMsg: true,);
-      }
-    else {
-      return TextChatWidget(textMessage:"",isReceivedMsg: false,);
+    else
+    {
+      return TextChatWidget(textMessage:chatMsg,isReceivedMsg: false,);
     }
   }
 }

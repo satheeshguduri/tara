@@ -37,11 +37,26 @@ class _TextChatWidgetState extends BaseState<TextChatWidget> {
               children: <Widget>[
                 Container(
                   child: Container(
+//                      decoration: BoxDecoration(
+//                          image: DecorationImage(
+//                            image: widget.isReceivedMsg?AssetImage(Assets.ic_chat_text_bubble_left,):AssetImage(Assets.ic_chat_text_bubble_right),
+//                            fit: BoxFit.cover,
+//                          )),
                       decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: widget.isReceivedMsg?AssetImage(Assets.ic_chat_text_bubble_left,):AssetImage(Assets.ic_chat_text_bubble_right),
-                            fit: BoxFit.cover,
-                          )),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: const Color(0x1f000000),
+                                offset: Offset(0, 4),
+                                blurRadius: 6,
+                                spreadRadius: 0),
+                            BoxShadow(
+                                color: const Color(0x14000000),
+                                offset: Offset(0, 0),
+                                blurRadius: 2,
+                                spreadRadius: 0)
+                          ],
+                          color: AppColors.primaryBackground),
                       child: Stack(
                         children: [
                           Column(
@@ -51,7 +66,7 @@ class _TextChatWidgetState extends BaseState<TextChatWidget> {
                                 margin:
                                 EdgeInsets.only(bottom: 8, left: 16, right: 8,top: 16),
                                 child: Text(
-                                  "Hi! This is Tara App",
+                                  widget.textMessage,
                                   style: BaseStyles.chatItemSubTextStyle,
                                   textAlign: TextAlign.left,
                                 ),

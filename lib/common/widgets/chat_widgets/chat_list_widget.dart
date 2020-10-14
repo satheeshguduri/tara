@@ -49,30 +49,6 @@ class ChatListWidget extends StatefulWidget {
     ));
   }
 
-/*  getChatStaticArr()
-  {
-    arrStr.add("onTheWay_isArrived");
-    arrStr.add("onTheWay_isArrived_false");
-    arrStr.add("agent_confirmed");
-    arrStr.add("onTheWay_isVerified");
-    arrStr.add("agent_UIN_otp_true");
-    arrStr.add("agent_UIN_otp_false");
-    arrStr.add("deposit_success");
-    arrStr.add("decline_pay");
-    arrStr.add("decline_pay_isSender_true");
-    arrStr.add("chat_money_transfer_success");
-    arrStr.add("decline_pay_isSender_declined_true");
-    arrStr.add("chat_pln_payment_success");
-    arrStr.add("chat_request_cash_deposit");
-    arrStr.add("chat_request_cash_deposit_confirmed_true");
-    arrStr.add("items_order");
-    arrStr.add("items_order_isFromAcceptedAnswer_true");
-    arrStr.add("chat_order_details");
-    arrStr.add("chat_order_paid");
-    arrStr.add("order_details_decline_pay");
-    arrStr.add("on_delivery");
-    arrStr.add("on_delivery_isConfirmArrived_true");
-    arrStr.add("Hi! This is Tara App");
-  } */
+
 
 }

@@ -245,5 +245,8 @@ class Strings{
   static const handshake = "handshake";
   static const prepare_to_coll_cash = "prepare_to_coll_cash";
   static const cash_collection = "cash_collection";
+  static const select_location_title = "select_location_title";
+  static const search_location = "search_location";
+  static const use_current_location = "use_current_location";
 
 }

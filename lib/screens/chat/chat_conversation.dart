@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tara_app/common/constants/assets.dart';
+import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_input_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_list_widget.dart';
+import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/receive_money.dart';
 
 class ConversationPage extends StatefulWidget {
   @override
@@ -11,6 +16,10 @@ class ConversationPage extends StatefulWidget {
 }
 
 class _ConversationPageState extends BaseState<ConversationPage> {
+  final ScrollController listScrollController = new ScrollController();
+  List<String> arrStr = [];
+  TextEditingController textEditingController = TextEditingController();
+  bool isPlusClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +29,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           backgroundColor: Color(0xfff7f7fa),
             appBar: _buildAppBar(context), // Custom app bar for chat screen
             body: Stack(children: <Widget>[
-              ChatListWidget(),
+              getChatListView(),
               Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
@@ -30,7 +39,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                     child: Center(
                       child: Container(
                         color: Color(0xfff7f7fa),
-                        child: InputWidget(),
+                        child: getChatInputWidget(),
                       ),
                     ),
                   )
@@ -55,13 +64,79 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       ),
       title:Align(
         alignment: Alignment.topLeft,
-        child: Text(
-    getTranslation(Strings.TARA_CASH_DEPOSIT),
-          textAlign: TextAlign.left,
-          style: BaseStyles.topBarTextStyle,
-        ),
+        child: getAvatarWithName(),
       ),
     );
+  }
+
+  getAppBarTitle()
+  {
+    return Text(
+      getTranslation(Strings.TARA_CASH_DEPOSIT),
+      textAlign: TextAlign.left,
+      style: BaseStyles.topBarTextStyle,
+    );
+  }
+
+  getAvatarWithName()
+  {
+    return Container(
+      child: Row(
+        children: [
+          Image.asset("assets/images/avatar-11.png",height: 32,width: 32,),
+          Container(
+            margin: EdgeInsets.only(left: 16),
+            child:Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 4),
+                  child: Text(
+                    "Tania Salsabila",
+                    textAlign: TextAlign.left,
+                    style: BaseStyles.backAccountHeaderTextStyle,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Container(
+                        width: 6,
+                        height: 6,
+                        margin: EdgeInsets.only(top: 4),
+                        decoration: new BoxDecoration(
+                          color:Color(0xffb2f7e2),
+                          shape: BoxShape.circle,
+                        ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 4,left: 4),
+                      child: Text(
+                        "Online",
+                        textAlign: TextAlign.left,
+                        style: BaseStyles.enterMPINTextStyle,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ) ,
+          ),
+        ],
+      ),
+    );
+  }
+
+  getChatListView()
+  {
+    // TODO: implement build
+    return Container(height: MediaQuery.of(context).size.height,
+        child: ListView.builder(
+          padding: EdgeInsets.only(left:10.0,right: 10,top: 10,bottom: 60),
+          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index]),
+          itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,
+          reverse: false,
+          controller: listScrollController,
+        ));
   }
 
   @override
@@ -69,5 +144,216 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     // TODO: implement getContext
     return context;
   }
+
+  @override
+  void initState() {
+    super.initState();
+     getChatStaticArr();
+  }
+
+ getChatStaticArr()
+  {
+    arrStr.add("onTheWay_isArrived");
+    arrStr.add("onTheWay_isArrived_false");
+    arrStr.add("agent_confirmed");
+    arrStr.add("onTheWay_isVerified");
+    arrStr.add("agent_UIN_otp_true");
+    arrStr.add("agent_UIN_otp_false");
+    arrStr.add("deposit_success");
+    arrStr.add("decline_pay");
+    arrStr.add("decline_pay_isSender_true");
+    arrStr.add("chat_money_transfer_success");
+    arrStr.add("decline_pay_isSender_declined_true");
+    arrStr.add("chat_pln_payment_success");
+    arrStr.add("chat_request_cash_deposit");
+    arrStr.add("chat_request_cash_deposit_confirmed_true");
+    arrStr.add("items_order");
+    arrStr.add("items_order_isFromAcceptedAnswer_true");
+    arrStr.add("chat_order_details");
+    arrStr.add("chat_order_paid");
+    arrStr.add("order_details_decline_pay");
+    arrStr.add("on_delivery");
+    arrStr.add("on_delivery_isConfirmArrived_true");
+  }
+
+  getChatInputWidget()
+  {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(bottom: 10,right: 16,top: 10),
+          child: Row(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 16,right: 8),
+                width: 40,
+                height: 40,
+                decoration: new BoxDecoration(
+                  color: AppColors.header_top_bar_color,
+                  shape: BoxShape.circle,
+                ),
+                child:Container(
+                  margin: EdgeInsets.symmetric(horizontal: 1.0),
+                  child: IconButton(
+                    icon: new Icon(
+                      isPlusClicked?Icons.close:Icons.add,
+                      color: Colors.white,
+                    ),
+                    color: AppColors.primaryText,
+                    onPressed: (){
+                      if (!isPlusClicked){
+                        setState(() {
+                          isPlusClicked = true;
+                        });
+                      }
+                      else{
+                        setState(() {
+                          isPlusClicked = false;
+                        });
+                      }
+                    },
+                  ),
+                ),),
+              Expanded(
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child:Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 8),
+                            padding: EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8),
+                            child: TextField(
+                              style: TextStyle(color: AppColors.primaryText, fontSize: 15.0),
+                              controller: textEditingController,
+                              decoration: InputDecoration.collapsed(
+                                hintText: 'Write a message....',
+                                hintStyle: TextStyle(color: Colors.grey),
+                              ),
+                              minLines:1,maxLines:5,
+                              keyboardType:TextInputType.text ,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: IconButton(
+                            icon: Icon(Icons.send,size: 22,),
+                            onPressed: () => {
+                              setState(() {
+                                arrStr.add(textEditingController.text.toString());
+                                textEditingController.text = "";
+                              }),
+                              listScrollController.animateTo(
+                                listScrollController.position.maxScrollExtent,
+                                curve: Curves.easeOut,
+                                duration: const Duration(milliseconds: 300),
+                              )
+                            },
+                            color: AppColors.header_top_bar_color,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          width: double.infinity,
+        ),
+        isPlusClicked?getSendReceiveWidget():Container()
+      ],
+    );
+  }
+
+  getSendReceiveWidget()
+  {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+        border: Border.all(
+            color: Colors.grey[300],
+            width: 0.5
+        ),
+      ),
+      padding: EdgeInsets.only(left:16,right: 16,top: 8),
+      child: Row(
+        children: [
+          getRoundedButton(getTranslation(Strings.SEND),Color(0xffb2f7e2),AppColors.header_top_bar_color,Assets.SEND_ICON,),
+          getRoundedButton(getTranslation(Strings.RECEIVE),Color(0xffb2f7e2),AppColors.header_top_bar_color, Assets.RECEIVE_ICON),
+        ],
+      ),
+    );
+  }
+
+
+  getRoundedButton(String buttonText, Color buttonColor, Color imageColor, String image,)
+  {
+    return InkWell(
+      onTap: (){
+        if (buttonText == getTranslation(Strings.RECEIVE))
+        {
+          receiveBottomSheet();
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 16,right: 16,bottom: 16),
+        width: 70,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 8,right: 8),
+              height: 56,
+              decoration: new BoxDecoration(
+                color: Color(0xffb2f7e2),
+                shape: BoxShape.circle,
+              ),
+              child:Container(
+                height: 33,
+                child: Image.asset(
+                  image,
+                  fit: BoxFit.none,
+                  color:imageColor,
+                ),
+              ),),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                margin: EdgeInsets.only(left: 4),
+                child: Text(
+                  buttonText,
+                  textAlign: TextAlign.center,
+                  style: BaseStyles.sendTextStyle,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future  receiveBottomSheet() {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return ReceiveWidget();
+        });
+  }
+
 
 }

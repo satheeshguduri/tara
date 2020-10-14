@@ -227,5 +227,8 @@
   "share_code_to_mer": "Share this code to Merchant",
   "handshake": "HANDSHAKE",
   "prepare_to_coll_cash": "Prepare to collect cash",
-  "cash_collection": "CASH COLLECTION"
+  "cash_collection": "CASH COLLECTION",
+  "select_location_title": "Select Location",
+  "search_location": "Search Location",
+  "use_current_location": "Use current location"
 }

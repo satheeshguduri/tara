@@ -126,6 +126,9 @@ class Assets {
   static const ic_handshake_active = "assets/images/handshake_active.svg";
   static const ic_check_solid = "assets/images/assets---icon---c---check---solid-2.png";
 
+  static const ic_current_location = "assets/images/icon-50.png";
+  static const ic_location_place = "assets/images/icon-53.png";
+
 
 
 

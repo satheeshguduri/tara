@@ -4,48 +4,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tara_app/common/constants/assets.dart';
-import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/map_places_widget.dart';
 
-class Map extends StatefulWidget {
+
+class MapScreen extends StatefulWidget {
+
+  final String address;
+
+  final Function(String) addressCallback;
+  MapScreen({Key key, this.address,this.addressCallback}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _MapState();
-  }
+  _MapScreenState createState() => _MapScreenState();
+
 }
 
-class _MapState extends BaseState<Map> {
+class _MapScreenState extends BaseState<MapScreen> {
 
-  LatLng _center = LatLng(0.0,0.0);
   Completer<GoogleMapController> _controller = Completer();
-  GoogleMapController mapController;
 
-  final Set<Marker> _markers = {};
+  LatLng _center = const LatLng(45.521563, -122.677433);
+
+  var placeName = "";
+  var locationName = "";
+
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+  }
 
   @override
   void initState() {
     super.initState();
-  }
+    placeName = "Pamulang Square";
+    locationName = widget.address;
 
-  void _onMapCreated(GoogleMapController controller) {
-
-    setState(() {
-      mapController = controller;
-    });
-  }
-
-  void check(CameraUpdate u, GoogleMapController c) async {
-    c.animateCamera(u);
-    mapController.animateCamera(u);
-    LatLngBounds l1=await c.getVisibleRegion();
-    LatLngBounds l2=await c.getVisibleRegion();
-    print(l1.toString());
-    print(l2.toString());
-    if(l1.southwest.latitude==-90 ||l2.southwest.latitude==-90)
-      check(u, c);
   }
 
   void _onCameraMove(CameraPosition position) {
@@ -54,57 +49,66 @@ class _MapState extends BaseState<Map> {
 
   @override
   Widget build(BuildContext context) {
-
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       bottom: true,
       top: false,
       child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            GoogleMap(
-              padding: EdgeInsets.zero,
-              onMapCreated: _onMapCreated,
-              markers: _markers,
-              myLocationEnabled: true,
-              myLocationButtonEnabled: false,
-              tiltGesturesEnabled: false,
-              mapToolbarEnabled: false,
-              onCameraMove: _onCameraMove,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 12.0,
-              ),),
-            Positioned(
-              top: 24,
-              child: Container(
-                margin: EdgeInsets.only(bottom: 10,right: 16,top: 10,left: 16),
+        body: Container(
+          height: size.height,
+          width: size.width,
+          child: Stack(
+            children: <Widget>[
+              GoogleMap(
+                padding: EdgeInsets.zero,
+                onMapCreated: _onMapCreated,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: false,
+                tiltGesturesEnabled: false,
+                mapToolbarEnabled: false,
+                onCameraMove: _onCameraMove,
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 12.0,
+                ),),
+              Container(
+                margin: EdgeInsets.only(right: 8,top: 35,left: 8),
                 child: Row(
                   children: <Widget>[
                     Container(
+                      margin: EdgeInsets.only(right: 8,left: 8),
                       child: InkWell(child:getTabImageWithSize(Assets.ic_back_arrow,25,25),onTap: (){
                         Navigator.pop(context, false);
                       },),
                     ),
                     Expanded(
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child:Container(
-                          padding: EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8),
-                          child: Row(
-                            children: [
-                              IconButton(
+                      child: InkWell(
+                        onTap: (){
+                          push(MapPlacesWidget(addressCallback: (place,location){
+                            setState(() {
+                              locationName = location;
+                              placeName = place;
+                            });
+                          }));
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child:Container(
+                            margin: EdgeInsets.only(right: 8,left: 4),
+                            height: 40,
+                            child: Row(
+                              children: [
+                                IconButton(
                                   icon: Icon(Icons.search,size: 24,), //Navigator.pop(context, false),
-                              ),
-                              Flexible(
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 8),
-                                  child: Text(getTranslation(Strings.select_location),
-                                  style: BaseStyles.alreadyHaveAccountTextStyle,),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  child: Text(getTranslation(Strings.select_location),
+                                    style: BaseStyles.alreadyHaveAccountTextStyle,),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -113,12 +117,133 @@ class _MapState extends BaseState<Map> {
                 ),
                 width: double.infinity,
               ),
-            )
-          ],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child:Container(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
+                  ),
+                ),
+                  child: Wrap(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(top: 4,bottom: 8),
+                          alignment: Alignment.center,
+                          child: Opacity(
+                            opacity: 0.3,
+                            child: Container(
+                              width: 48,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 209, 212, 215),
+                                borderRadius: BorderRadius.all(Radius.circular(2)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          margin: EdgeInsets.only(top: 8,left: 16,right: 16),
+                          child: Text(
+                            getTranslation(Strings.select_location_title),
+                            style:BaseStyles.bottomSheetTitleStyle,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 8,bottom: 16,left: 16,right: 16),
+                          child:Row(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Image.asset(
+                                  Assets.ic_location,
+                                  fit: BoxFit.none,
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                              Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(left: 16,right: 8,top: 6),
+                                        child: Text(
+                                          placeName,
+                                          style:BaseStyles.backAccountHeaderTextStyle,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 16,right: 8,top: 6),
+                                        child: Text(
+                                          locationName,
+                                          style: BaseStyles.bottomSheetLocationStyle,
+                                          maxLines: 3,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                              )
+                            ],
+                          ),
+                        ),
+                        selectLocationWidget(),
+                      ])
+              ),
+          )
+            ],
+          ),
         ),
       ),
     );
   }
+
+  selectLocationWidget()
+  {
+    return InkWell(
+      onTap: (){
+
+      },
+      child: Container(
+        height: 48,
+        margin: EdgeInsets.only(bottom: 16,left: 16,right: 16),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+                Radius.circular(8)
+            ),
+            color: const Color(0xffb2f7e2)
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          getTranslation(Strings.select_location_title),
+          textAlign: TextAlign.center,
+          style: BaseStyles.addNewBankAccount,
+        ),
+      ),
+    );
+  }
+
+//  Future<LatLng> getUserLocation() async {
+//    var currentLocation = <String, double>{};
+//    final location = LocationManager.Location();
+//    try {
+//      currentLocation = await location.getLocation();
+//      final lat = currentLocation["latitude"];
+//      final lng = currentLocation["longitude"];
+//      final center = LatLng(lat, lng);
+//      return center;
+//    } on Exception {
+//      currentLocation = null;
+//      return null;
+//    }
+//  }
 
   @override
   BuildContext getContext() {

@@ -7,6 +7,7 @@ import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/screens/map_screen.dart';
 
 class CashDepositWidget extends StatefulWidget {
   CashDepositWidget({Key key}) : super(key: key);
@@ -24,6 +25,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
   bool isSwitched = false;
   FocusNode depositTextFocusNode = new FocusNode();
   FocusNode phoneNumberFocusNode = new FocusNode();
+  var addressStr = "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …";
 
   @override
   BuildContext getContext() {
@@ -112,7 +114,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                                   child: Container(
                                     margin: EdgeInsets.only(left: 8,right: 8),
                                     child: Text(
-                                      "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …",
+                                      addressStr,
                                       style: BaseStyles.bottomSheetLocationStyle,
                                       maxLines: 3,
                                     ),
@@ -123,24 +125,33 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                           ),
                           Expanded(
                             flex: 2.5.toInt(),
-                            child: Container(
-                                padding: EdgeInsets.only(top: 8,bottom: 8),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                        getTranslation(Strings.CHANGE),
-                                        style: BaseStyles.bottomSheetLocationChangeTextStyle,
-                                        textAlign: TextAlign.center
-                                    ),
-                                    Container(
-                                      height:2 ,
-                                      margin: EdgeInsets.only(top: 4,left: 8,right: 8),
-                                      decoration: BoxDecoration(
-                                        gradient: Gradients.primaryGradient,
+                            child: InkWell(
+                              onTap: (){
+                                push(MapScreen(address:addressStr,addressCallback:(address){
+                                  setState(() {
+                                    addressStr = address;
+                                  });
+                                }));
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.only(top: 8,bottom: 8),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                          getTranslation(Strings.CHANGE),
+                                          style: BaseStyles.bottomSheetLocationChangeTextStyle,
+                                          textAlign: TextAlign.center
                                       ),
-                                    ),
-                                  ],
-                                )
+                                      Container(
+                                        height:2 ,
+                                        margin: EdgeInsets.only(top: 4,left: 8,right: 8),
+                                        decoration: BoxDecoration(
+                                          gradient: Gradients.primaryGradient,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                              ),
                             ),
                           ),
                         ],
@@ -182,133 +193,6 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
         Utils().removeOverlay();
     });
   }
-
-/*
-updateViews()
-  {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            alignment: Alignment.center,
-            child: Opacity(
-              opacity: 0.3,
-              child: Container(
-                width: 48,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 209, 212, 215),
-                  borderRadius: BorderRadius.all(Radius.circular(2)),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: 10),
-            child: Text(
-                getTranslation(Strings.CASH_DEPOSIT),
-                style:BaseStyles.bottomSheetTitleStyle,
-               textAlign: TextAlign.left,
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(bottom: 16),
-              child:SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 16),
-                      child: Text(
-                          getTranslation(Strings.SELECT_LOCATION),
-                          style: BaseStyles.bottomSheetSubTitleStyle
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 8),
-                      padding: EdgeInsets.only(left: 8,bottom: 8,top: 8,right: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)
-                          ),
-                          border: Border.all(
-                              color: Color(0xffe9ecef),
-                              width: 1
-                          ),
-                          color: Color(0xffffffff)
-                      ),
-                      child:Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 7.5.toInt(),
-                              child: Row(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Image.asset(
-                                      Assets.ic_location,
-                                      fit: BoxFit.none,
-//                            color: Colors.black54,
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 8,right: 8),
-                                      child: Text(
-                                        "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …",
-                                        style: BaseStyles.bottomSheetLocationStyle,
-                                        maxLines: 3,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2.5.toInt(),
-                              child: Container(
-                                padding: EdgeInsets.only(top: 8,bottom: 8),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                        getTranslation(Strings.CHANGE),
-                                        style: BaseStyles.bottomSheetLocationChangeTextStyle,
-                                        textAlign: TextAlign.center
-                                    ),
-                                  Container(
-                                    height:2 ,
-                                    margin: EdgeInsets.only(top: 4,left: 8,right: 8),
-                                    decoration: BoxDecoration(
-                                      gradient: Gradients.primaryGradient,
-                                    ),
-                                  ),
-                                  ],
-                                )
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    textFormFieldContainer(getTranslation(Strings.DEPOSIT_AMOUNT),getTranslation(Strings.RP),TextInputType.number,depositTextController,depositTextFocusNode),
-                    textFormFieldContainer(getTranslation(Strings.REMARKS_OPTIONAL),getTranslation(Strings.LOCATION_REMARKS_HINT),TextInputType.text,remarksTextController,null),
-                    addAdditionalContactSwitch(),
-                    isSwitched==true?textFormFieldContainer(getTranslation(Strings.CONTACT_NAME),getTranslation(Strings.CONTACT_NAME_HINT),TextInputType.text,contactNameTextController,null):Container(),
-                    isSwitched==true?textFormFieldContainer(getTranslation(Strings.PHONE_NUMBER),getTranslation(Strings.PHONE_NUMBER_HINT),TextInputType.phone,phoneNumberController,phoneNumberFocusNode):Container(),
-                    requestNowWidget()
-                  ],
-                ),
-              ),),),
-        ],
-      ),
-    );
-  }  */
 
   textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
   {
