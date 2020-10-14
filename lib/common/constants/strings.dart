@@ -253,4 +253,13 @@ class Strings{
   static const upload_documents = "upload_documents";
   static const next = "next";
   static const take_picture = "take_picture";
+
+  static const transaction = "transaction";
+  static const receive_cash_merchant = "receive_cash_merchant";
+  static const requested_amount = "requested_amount";
+  static const agent_in_progress_transaction_msg = "agent_in_progress_transaction_msg";
+  static const describe_issue = "describe_issue";
+  static const send_report = "send_report";
+  static const decline_trans_heading = "decline_trans_heading";
+
 }

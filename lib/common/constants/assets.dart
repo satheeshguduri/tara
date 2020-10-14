@@ -130,6 +130,8 @@ class Assets {
   static const ic_location_place = "assets/images/icon-53.png";
   static const ic_camera = "assets/images/icon-32.png";
   static const ic_portrait_person_pic = "assets/images/illu.png";
+  static const ic_un_check_grey = "assets/images/assets---icon---c---checkbox---off.png";
+  static const ic_check_quare = "assets/images/On.png";
 
 
 

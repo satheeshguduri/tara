@@ -1,4 +1,3 @@
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +12,10 @@ import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class AgentInProgressHandShake extends StatefulWidget {
+  final Function confirmHandShake;
 
-  final Function confirmDelivery;
-
-  const AgentInProgressHandShake({Key key, this.confirmDelivery}) : super(key: key);
+  const AgentInProgressHandShake({Key key, this.confirmHandShake})
+      : super(key: key);
 
   @override
   _AgentInProgressHandShakeState createState() =>
@@ -26,8 +25,6 @@ class AgentInProgressHandShake extends StatefulWidget {
 class _AgentInProgressHandShakeState
     extends BaseState<AgentInProgressHandShake> {
   double positionX = 0;
-
-  GlobalKey confirmDelivery = GlobalKey();
 
   @override
   BuildContext getContext() {
@@ -56,14 +53,16 @@ class _AgentInProgressHandShakeState
                   width: 30,
                   height: 30,
                   decoration: BoxDecoration(
-                      borderRadius: Radii.border(15),
-                      ),
+                    borderRadius: Radii.border(15),
+                  ),
                   child: Image.asset(Assets.ic_check_solid),
                 ),
-                Text(
-                  "- - - -",
-                  style: BaseStyles.placeholderStyle,
-                ),
+                Container(
+                    width: 40,
+                    height: 1,
+                    decoration: BoxDecoration(
+                        border:
+                            Border.all(color: AppColors.fareColor, width: 2))),
                 Container(
                   width: 40,
                   height: 40,
@@ -99,7 +98,9 @@ class _AgentInProgressHandShakeState
               ],
             ),
           ),
-          Container(height: 8,),
+          Container(
+            height: 8,
+          ),
           Text(getTranslation(Strings.handshake),
               style: const TextStyle(
                   color: AppColors.color_black_80_2,
@@ -107,7 +108,9 @@ class _AgentInProgressHandShakeState
                   fontStyle: FontStyle.normal,
                   fontSize: 10.0),
               textAlign: TextAlign.center),
-          Container(height: 8,),
+          Container(
+            height: 8,
+          ),
           Text(getTranslation(Strings.share_code_to_mer),
               style: const TextStyle(
                   color: AppColors.header_top_bar_color,
@@ -115,53 +118,43 @@ class _AgentInProgressHandShakeState
                   fontStyle: FontStyle.normal,
                   fontSize: 16.0),
               textAlign: TextAlign.center),
-          Container(height: 8,),
+          Container(
+            height: 8,
+          ),
           Text(getTranslation(Strings.your_UIN_code),
               style: const TextStyle(
                   color: AppColors.color_black_80_2,
                   fontWeight: FontWeight.w500,
-                  fontFamily: "Roboto",
                   fontStyle: FontStyle.normal,
                   fontSize: 12.0),
               textAlign: TextAlign.center),
           Container(
-              width: 216,
-              height: 56,
-              margin: EdgeInsets.only(top: 8,bottom: 8),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: Radii.border(8),
-                  border: Border.all(
-                      color: AppColors.light_grey_bg_color,
-                      width: 1
-                  ),
-                  color: AppColors.background_color
-              ),
-            child: Text(
-                "TAR112322421",
+            width: 216,
+            height: 56,
+            margin: EdgeInsets.only(top: 8, bottom: 8),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: Radii.border(8),
+                border:
+                    Border.all(color: AppColors.light_grey_bg_color, width: 1),
+                color: AppColors.background_color),
+            child: Text("TAR112322421",
                 style: const TextStyle(
                     color: AppColors.fareColor,
                     fontWeight: FontWeight.w700,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 27.0
-                ),
-                textAlign: TextAlign.center
-            ),
+                    fontStyle: FontStyle.normal,
+                    fontSize: 27.0),
+                textAlign: TextAlign.center),
           ),
           Container(
-              width: 190,
-              margin: EdgeInsets.only(top: 8,bottom: 16),
-              padding: EdgeInsets.only(top: 4,bottom: 4,left: 8,right: 8),
-              decoration: BoxDecoration(
-                  borderRadius: Radii.border(6),
-                  border: Border.all(
-                      color: AppColors.light_grey_blue,
-                      width: 1
-                  ),
-                  color: Colors.white
-              ),
-            child:
-            Row(
+            width: 190,
+            margin: EdgeInsets.only(top: 8, bottom: 16),
+            padding: EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
+            decoration: BoxDecoration(
+                borderRadius: Radii.border(6),
+                border: Border.all(color: AppColors.light_grey_blue, width: 1),
+                color: Colors.white),
+            child: Row(
               children: <Widget>[
                 Image.asset(Assets.ic_share),
                 Text(getTranslation(Strings.share_code_to_chat),
@@ -171,84 +164,73 @@ class _AgentInProgressHandShakeState
                         fontStyle: FontStyle.normal,
                         fontSize: 16.0),
                     textAlign: TextAlign.center),
-
               ],
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 8,bottom: 16),
+              margin: EdgeInsets.only(top: 8, bottom: 16),
               height: 1,
               decoration: BoxDecoration(
                   border: Border.all(
-                      color: AppColors.light_grey_bg_color,
-                      width: 1
-                  )
-              )
-          ),
+                      color: AppColors.light_grey_bg_color, width: 1))),
           Container(
-            padding: EdgeInsets.only(left: 16,right: 16),
-            child: Text(
-                getTranslation(Strings.input_otp_code),
+            padding: EdgeInsets.only(left: 16, right: 16),
+            child: Text(getTranslation(Strings.input_otp_code),
                 style: const TextStyle(
-                    color:  AppColors.fareColor,
+                    color: AppColors.fareColor,
                     fontWeight: FontWeight.w400,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 14.0
-                ),
-                textAlign: TextAlign.center
-            ),
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.center),
           ),
           Container(
-            margin: EdgeInsets.only(top:16,left: 16,right: 16),
+            margin: EdgeInsets.only(top: 16, left: 16, right: 16),
             decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(
-                    color: AppColors.light_grey_blue,
-                    width: 1.0,
-                  ),
-                )),
-            child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child:InkWell(
-                      onTap: (){
-                      },
-                      child: Image.asset(Assets.ic_lock,color:Color(0xff8899aa)),
-                    ),
-                  ),
-                  Expanded(
-                      flex: 9,
-                      child: TextFieldWidget(
-                        isObscure:true,
-                        hint: getTranslation(Strings.enter_otp_code),
-                        placeHolderStyle: BaseStyles.enterOTPTextStyle,
-                      )),
-                ]),
-          ),
-          InkWell(
-            child: Container(
-              margin: EdgeInsets.only(top:16,left: 16,right: 16),
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(8)
-                  ),
-                  color: AppColors.light_grey_bg_color
+              bottom: BorderSide(
+                color: AppColors.light_grey_blue,
+                width: 1.0,
               ),
+            )),
+            child: Row(children: [
+              Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: () {},
+                  child: Image.asset(Assets.ic_lock, color: Color(0xff8899aa)),
+                ),
+              ),
+              Expanded(
+                  flex: 9,
+                  child: TextFieldWidget(
+                    isObscure: true,
+                    hint: getTranslation(Strings.enter_otp_code),
+                    placeHolderStyle: BaseStyles.enterOTPTextStyle,
+                  )),
+            ]),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: AppColors.pale_turquoise //AppColors.light_grey_bg_color
+            ),
+            child: InkWell(
               child: Text(
                 getTranslation(Strings.confirm_handshake),
                 style: TextStyle(
-                    color:  AppColors.color_black_80_2,
+                    color: AppColors.fareColor,//AppColors.color_black_80_2,
                     fontWeight: FontWeight.w700,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 14.0
-                ),
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
               ),
+              onTap: () {
+                widget.confirmHandShake();
+              },
             ),
           )
-
         ],
       ),
     );

@@ -235,5 +235,13 @@
   "portrait_pic_text": "Please upload your self portrait with enough light and a clear background",
   "upload_documents": "Upload Documents",
   "next": "Next",
-  "take_picture": "Take a Picture"
+  "take_picture": "Take a Picture",
+  "transaction": "TRANSACTION",
+  "receive_cash_merchant": "Receive the cash from Merchant",
+  "requested_amount": "Requested Deposit Amount",
+  "agent_in_progress_transaction_msg": "Please make sure the collected amount is the same amount as Requested Deposit Amount above.",
+  "describe_issue": "Please describe the issues",
+  "send_report": "Send Report",
+  "decline_trans_heading": "Let us know why you decline the transaction?"
+
 }

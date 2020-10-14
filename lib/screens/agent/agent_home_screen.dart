@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/screens/agent/agent_widgets/agent_inprogress_handshake.dart';
+import 'package:tara_app/screens/agent/agent_widgets/agent_inprogress_transaction.dart';
 import 'package:tara_app/screens/agent/agent_widgets/agent_prepair_to_collect_cash.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
@@ -25,6 +26,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
   int selectedSegmentIndex = 0;
   bool isAccepted = false;
   bool isHandShake = false;
+  bool isConfirmHandShake = false;
 
   BoxDecoration roundedBoxDecoration() {
     return BoxDecoration(
@@ -638,7 +640,30 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
       );
     } else if (selectedSegmentIndex == 1) {
       if (isHandShake) {
-        return AgentInProgressHandShake();
+        return AgentInProgressHandShake(confirmHandShake: (){
+          setState(() {
+            isHandShake = false;
+            isConfirmHandShake = true;
+          });
+        });
+      }
+      if (isConfirmHandShake){
+        return AgentInProgressTransaction(
+          tapOnConfirm: (){
+            setState(() {
+              isAccepted = false;
+              isHandShake = false;
+              isConfirmHandShake = false;
+              selectedSegmentIndex = 2;
+            });
+        },
+          tapOnDecline: (){
+            setState(() {
+              isHandShake = true;
+              isConfirmHandShake = false;
+            });
+          },
+        );
       }
       if (isAccepted) {
         return AgentPrepareToCollectCash(confirmDelivery: () {
