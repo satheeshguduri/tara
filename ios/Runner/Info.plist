@@ -48,5 +48,7 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    <string>Access your camera to capture your photo</string>
 </dict>
 </plist>

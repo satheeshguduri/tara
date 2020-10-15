@@ -1,10 +1,14 @@
+import 'dart:io';
+import 'package:camera/camera.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/screens/agent/agent_widgets/take_picture_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class UploadPortraitPic extends StatefulWidget {
@@ -18,7 +22,8 @@ class UploadPortraitPic extends StatefulWidget {
 
 class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
   
-  bool isPicUploaded = false;
+  String imagePath = "";
+  File imageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +59,8 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
                     alignment: Alignment.center,
                     child: Column(
                       children: [
-                        portraitPicWidget(),
-                        takePictureWidget(),
+                        portraitPicWidget(context),
+                        takePictureWidget(context),
                       ],
                     ),
                   ),
@@ -104,26 +109,26 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
         margin: EdgeInsets.only(bottom: 16, top: 36,),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: isPicUploaded?Color(0xffb2f7e2):Color(0xffe9ecef)),
+            color: imagePath.isNotEmpty?Color(0xffb2f7e2):Color(0xffe9ecef)),
         alignment: Alignment.center,
         child: Text(
           getTranslation(Strings.next),
           textAlign: TextAlign.center,
-          style: isPicUploaded?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
+          style: (imagePath.isNotEmpty || (imageFile!=null))?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
         ),
       ),
     );
   }
 
-  takePictureWidget()
+  takePictureWidget(BuildContext context)
   {
     return InkWell(
       onTap: (){
-
+        _showSelectionDialog(context);
       },
       child: Container(
         height: 45,
-          width: 150,
+          width: 160,
         margin: EdgeInsets.only(bottom: 16,top: 8,),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
@@ -139,11 +144,11 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(Assets.ic_camera, fit: BoxFit.fill),
+            imagePath.isNotEmpty?Image.asset(Assets.ic_refresh, fit: BoxFit.fill):Image.asset(Assets.ic_camera, fit: BoxFit.fill),
             Container(
-              margin: EdgeInsets.only(left: 2),
+              margin: EdgeInsets.only(left: 4),
               child: Text(
-                getTranslation(Strings.take_picture),
+                imagePath.isNotEmpty?getTranslation(Strings.replace_photo):getTranslation(Strings.take_picture),
                 textAlign: TextAlign.center,
                 style: BaseStyles.addNewBankAccount,
               ),
@@ -154,12 +159,40 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
     );
   }
 
-  portraitPicWidget()
+  void _showCamera() async {
+
+    final cameras = await availableCameras();
+    final camera = cameras.first;
+
+    push(TakePictureScreen(camera: camera,imagePathCallback: (selectedImagePath){
+      setState(() {
+        imagePath = selectedImagePath;
+        imageFile = null;
+      });
+    },));
+  }
+
+  portraitPicWidget(BuildContext context)
   {
-    return Container(
+    return (imageFile!=null)?Container(
+        height: 240,
+        width: 240,
+        margin: EdgeInsets.only(top: 16,bottom: 16),
+        child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            child:Image.file(imageFile,fit: BoxFit.fill,))):
+    imagePath.isNotEmpty?
+    Container(
+        height: 240,
+        width: 240,
+        margin: EdgeInsets.only(top: 16,bottom: 16),
+        child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            child:Image.file(File(imagePath),fit: BoxFit.fill,))):
+    Container(
       height: 240,
       width: 240,
-        color: Color(0xfff5fafa),
+      color: Color(0xfff5fafa),
       margin: EdgeInsets.only(top: 16,bottom: 8),
       child: DottedBorder(
         borderType: BorderType.RRect,
@@ -172,23 +205,74 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
             color: Color(0xfff5fafa),
             margin: EdgeInsets.all(50),
             child: Container(
-                width: 140,
-                height: 140,
-                decoration: BoxDecoration(
-                  color: Color(0xffe9ecef),
-                  shape: BoxShape.circle,
-                ),
+              width: 140,
+              height: 140,
+              decoration: BoxDecoration(
+                color: Color(0xffe9ecef),
+                shape: BoxShape.circle,
+              ),
               child: Container(
-                  margin: EdgeInsets.all(30),
-                  width: 68,
-                  height: 75,
-                  child: Image.asset(Assets.ic_portrait_person_pic, fit: BoxFit.cover,color: Color(0xff889aac),),
+                margin: EdgeInsets.all(30),
+                width: 68,
+                height: 75,
+                child: Image.asset(Assets.ic_portrait_person_pic, fit: BoxFit.cover,color: Color(0xff889aac),),
               ),
             ),
           ) ,
         ),
       ),
     );
+  }
+
+
+  Future<void> _showSelectionDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text(getTranslation(Strings.take_picture_dialog),style: BaseStyles.mobileNoTextStyle,),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 4,bottom: 4),
+                      height: 1,
+                      color: Colors.grey[300],
+                    ),
+                    GestureDetector(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 8,bottom: 8),
+                        child: Text(getTranslation(Strings.gallery),style: BaseStyles.itemOrderTextStyle,),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _openGallery(context);
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    GestureDetector(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 8,bottom: 8),
+                        child:Text(getTranslation(Strings.camera),style: BaseStyles.itemOrderTextStyle,),),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _showCamera();
+                      },
+                    )
+                  ],
+                ),
+              ));
+        });
+  }
+
+  void _openGallery(BuildContext context) async {
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
+    this.setState(() {
+      imageFile = picture;
+      imagePath = "";
+    });
+
+    Navigator.of(context).pop();
   }
 
   @override

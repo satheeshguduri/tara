@@ -88,6 +88,10 @@ dependencies:
   flutter_google_places: ^0.2.6
   http: ^0.12.2
   uuid: ^2.2.2
+  camera:
+  path_provider:
+  path:
+  image_picker:
 
 
 dev_dependencies:

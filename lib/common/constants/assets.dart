@@ -133,6 +133,7 @@ class Assets {
   static const ic_un_check_grey = "assets/images/assets---icon---c---checkbox---off.png";
   static const ic_check_quare = "assets/images/On.png";
 
+  static const ic_refresh = "assets/images/ic_refresh.png";
 
 
 
