@@ -9,6 +9,7 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/strings.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/home_customer_widget.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import '../../common/constants/values.dart';
@@ -30,7 +31,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
 
   final List<Widget> _children = [
     HomeCustomerWidget(),
-    HomeCustomerWidget(),
+    ConversationPage(canGoBack: false,),
     HomeCustomerWidget(),
     HomeCustomerWidget(),
     MyAccount(),
