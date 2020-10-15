@@ -242,6 +242,10 @@
   "agent_in_progress_transaction_msg": "Please make sure the collected amount is the same amount as Requested Deposit Amount above.",
   "describe_issue": "Please describe the issues",
   "send_report": "Send Report",
-  "decline_trans_heading": "Let us know why you decline the transaction?"
+  "decline_trans_heading": "Let us know why you decline the transaction?",
+  "replace_photo": "Replace Photo",
+  "take_picture_dialog": "From where do you want to take the photo?",
+  "gallery": "Gallery",
+  "camera": "Camera"
 
 }
