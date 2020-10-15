@@ -18,6 +18,10 @@ class EnterCardDetails extends StatefulWidget {
 
 class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
   TextEditingController txtCtrlBankAcc = TextEditingController();
+  TextEditingController txtCtrlExpMonth = TextEditingController();
+  TextEditingController txtCtrlExpYear = TextEditingController();
+  TextEditingController txtCtrlCvv = TextEditingController();
+  TextEditingController txtCtrlNameOnCard = TextEditingController();
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
@@ -26,9 +30,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
       automaticallyImplyLeading: false, // hides leading widget
       leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () =>
-              Navigator.pop(context, false) //Navigator.pop(context, false),
-          ),
+          onPressed: pop,),
       title: Align(
         alignment: Alignment.topLeft,
         child: Text(
@@ -47,119 +49,121 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
       backgroundColor: Colors.white,
       appBar: _buildAppBar(context),
       body: SafeArea(
-          child: Column(
+          child: SingleChildScrollView(
+            child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(children: [
-            Container(
-              margin: EdgeInsets.only(left: 16, right: 16, top: 8),
-              child:
-                  TextWithBottomOverlay(titleStr: Strings.enter_card_details),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: textFormFieldContainer(
-                  getTranslation(Strings.card_number),
-                  getTranslation(Strings.card_number_ex),
-                  TextInputType.number,
-                  txtCtrlBankAcc),
-            ),
-            Container(
-                margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-                child: Row(
-                  children: [
-                    Expanded(
-                        flex: 3,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 8),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  child: Text(
-                                      getTranslation(Strings.expired_date),
-                                      style: BaseStyles
-                                          .textFormFieldHeaderTitleTextStyle,
-                                      textAlign: TextAlign.left),
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Expanded(
-                                        flex: 2,
-                                        child: Container(
-                                          child: textFormFieldContainer(
-                                              "",
-                                              getTranslation(Strings.mm),
-                                              TextInputType.number,
-                                              txtCtrlBankAcc),
-                                        )),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(left: 8, right: 8),
-                                      child: Text(
-                                        "/",
-                                        style: TextStyle(
-                                          color: AppColors.light_grey_blue,
-                                          fontSize: 24,
+            Column(children: [
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+                child:
+                    TextWithBottomOverlay(titleStr: Strings.enter_card_details),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+                child: textFormFieldContainer(
+                    getTranslation(Strings.card_number),
+                    getTranslation(Strings.card_number_ex),
+                    TextInputType.number,
+                    txtCtrlBankAcc),
+              ),
+              Container(
+                  margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          flex: 3,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 8),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                        getTranslation(Strings.expired_date),
+                                        style: BaseStyles
+                                            .textFormFieldHeaderTitleTextStyle,
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      Expanded(
+                                          flex: 2,
+                                          child: Container(
+                                            child: textFormFieldContainer(
+                                                "",
+                                                getTranslation(Strings.mm),
+                                                TextInputType.number,
+                                                txtCtrlExpMonth),
+                                          )),
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 8, right: 8),
+                                        child: Text(
+                                          "/",
+                                          style: TextStyle(
+                                            color: AppColors.light_grey_blue,
+                                            fontSize: 24,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Expanded(
-                                        flex: 2,
-                                        child: Container(
-                                          child: textFormFieldContainer(
-                                              "",
-                                              getTranslation(Strings.yy),
-                                              TextInputType.number,
-                                              txtCtrlBankAcc),
-                                        )),
-                                  ],
-                                ),
-                              ]),
-                        )),
-                    Container(
-                      margin: EdgeInsets.only(left: 16, right: 16),
-                    ),
-                    Expanded(
-                        flex: 4,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 8),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  child: Text(getTranslation(Strings.cvv),
-                                      style: BaseStyles
-                                          .textFormFieldHeaderTitleTextStyle,
-                                      textAlign: TextAlign.left),
-                                ),
-                                Container(
-                                  child: textFormFieldContainer(
-                                      "",
-                                      getTranslation(Strings.cvv),
-                                      TextInputType.number,
-                                      txtCtrlBankAcc),
-                                ),
-                              ]),
-                        )),
-                    Container(
-                      margin: EdgeInsets.only(left: 16, right: 16),
-                    ),
-                  ],
-                )),
-            Container(
-              margin: EdgeInsets.only(left: 16, right: 16, top: 8),
-              child: textFormFieldContainer(
-                  getTranslation(Strings.name_on_card),
-                  getTranslation(Strings.name_on_card),
-                  TextInputType.text,
-                  txtCtrlBankAcc),
-            ),
-          ]),
-          getConfirmWidget()
+                                      Expanded(
+                                          flex: 2,
+                                          child: Container(
+                                            child: textFormFieldContainer(
+                                                "",
+                                                getTranslation(Strings.yy),
+                                                TextInputType.number,
+                                                txtCtrlExpYear),
+                                          )),
+                                    ],
+                                  ),
+                                ]),
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(left: 16, right: 16),
+                      ),
+                      Expanded(
+                          flex: 4,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 8),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: Text(getTranslation(Strings.cvv),
+                                        style: BaseStyles
+                                            .textFormFieldHeaderTitleTextStyle,
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  Container(
+                                    child: textFormFieldContainer(
+                                        "",
+                                        getTranslation(Strings.cvv),
+                                        TextInputType.number,
+                                        txtCtrlCvv),
+                                  ),
+                                ]),
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(left: 16, right: 16),
+                      ),
+                    ],
+                  )),
+              Container(
+                margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+                child: textFormFieldContainer(
+                    getTranslation(Strings.name_on_card),
+                    getTranslation(Strings.name_on_card),
+                    TextInputType.text,
+                    txtCtrlNameOnCard),
+              ),
+            ]),
+            getConfirmWidget()
         ],
-      )),
+      ),
+          )),
     );
   }
 
