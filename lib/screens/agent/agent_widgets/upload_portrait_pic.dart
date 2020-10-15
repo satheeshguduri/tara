@@ -9,6 +9,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/agent/agent_widgets/take_picture_screen.dart';
+import 'package:tara_app/screens/agent/agent_widgets/upload_documents_part2.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class UploadPortraitPic extends StatefulWidget {
@@ -64,15 +65,13 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
                       ],
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: _getNextWidget(),
-                  )
+
                 ],
               ),
             ),
           ),
         ),
+          bottomNavigationBar:Container(padding: EdgeInsets.only(left: 16,right: 16),child:_getNextWidget())
       ),
     );
   }
@@ -102,19 +101,20 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
   _getNextWidget() {
     return InkWell(
       onTap: () {
-       
+       push(UploadDocumentPartTwo());
       },
       child: Container(
         height: 48,
         margin: EdgeInsets.only(bottom: 16, top: 36,),
+
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: imagePath.isNotEmpty?Color(0xffb2f7e2):Color(0xffe9ecef)),
+            color: (imagePath.isNotEmpty || (imageFile!=null))?Color(0xffb2f7e2):Color(0xffe9ecef)),
         alignment: Alignment.center,
         child: Text(
           getTranslation(Strings.next),
           textAlign: TextAlign.center,
-          style: (imagePath.isNotEmpty || (imageFile!=null))?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
+          style: (imagePath.isNotEmpty || (imageFile!=null))?BaseStyles.mobileNoTextStyle:BaseStyles.saveAndContinueDisableTextStyle,
         ),
       ),
     );
@@ -144,11 +144,11 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            imagePath.isNotEmpty?Image.asset(Assets.ic_refresh, fit: BoxFit.fill):Image.asset(Assets.ic_camera, fit: BoxFit.fill),
+            (imagePath.isNotEmpty || (imageFile!=null))?Image.asset(Assets.ic_refresh, fit: BoxFit.fill):Image.asset(Assets.ic_camera, fit: BoxFit.fill),
             Container(
               margin: EdgeInsets.only(left: 4),
               child: Text(
-                imagePath.isNotEmpty?getTranslation(Strings.replace_photo):getTranslation(Strings.take_picture),
+                (imagePath.isNotEmpty || (imageFile!=null))?getTranslation(Strings.replace_photo):getTranslation(Strings.take_picture),
                 textAlign: TextAlign.center,
                 style: BaseStyles.addNewBankAccount,
               ),
@@ -267,7 +267,7 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
 
   void _openGallery(BuildContext context) async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
-    this.setState(() {
+    setState(() {
       imageFile = picture;
       imagePath = "";
     });

@@ -246,6 +246,14 @@
   "replace_photo": "Replace Photo",
   "take_picture_dialog": "From where do you want to take the photo?",
   "gallery": "Gallery",
-  "camera": "Camera"
-
+  "camera": "Camera",
+  "skip": "SKIP",
+  "back": "Back",
+  "save_continue": "Save & Continue",
+  "upload_ktp": "Upload KTP",
+  "upload_utility_bill": "Upload Utility Bill",
+  "ktp": "KTP",
+  "utility_bill": "Utility Bill",
+  "ktp_subtext": "Please upload or take picture of your KTP",
+  "utility_bill_subtext": "Please upload or take picture of your Utility Bill"
 }

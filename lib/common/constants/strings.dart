@@ -265,5 +265,15 @@ class Strings{
   static const take_picture_dialog = "take_picture_dialog";
   static const gallery = "gallery";
   static const camera = "camera";
+  static const skip = "skip";
+  static const save_continue = "save_continue";
+  static const back = "back";
+
+  static const upload_ktp = "upload_ktp";
+  static const upload_utility_bill = "upload_utility_bill";
+  static const ktp = "ktp";
+  static const utility_bill = "utility_bill";
+  static const ktp_subtext = "ktp_subtext";
+  static const utility_bill_subtext = "utility_bill_subtext";
 
 }

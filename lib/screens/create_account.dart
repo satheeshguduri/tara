@@ -5,6 +5,8 @@ import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.
 import 'package:tara_app/common/widgets/login_flow_widgets/create_new_account.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/mobile_verification.dart';
 import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
+import 'package:tara_app/flavors.dart';
+import 'package:tara_app/screens/agent/agent_widgets/upload_portrait_pic.dart';
 import 'package:tara_app/screens/create_password.dart';
 
 import 'base/base_state.dart';
@@ -31,12 +33,24 @@ class _CreateAccountState extends BaseState<CreateAccount>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: SignInFlowBg(child: widget.isFromCreateAccount?
-      MobileVerification():widget.isFromMobileVerification?
-      CreatePassword(): widget.isFromCreatePassword ?
-      AccountConfirmation():CreateNewAccount()),
+      body: SignInFlowBg(child: getSignInFlow()),
     );
   }
+
+  getSignInFlow()
+  {
+    if(Flavor.CONSUMER == F.appFlavor){
+      return widget.isFromCreateAccount?
+      MobileVerification():widget.isFromMobileVerification?
+      CreatePassword(): widget.isFromCreatePassword ?
+      AccountConfirmation():CreateNewAccount();
+    }else if(Flavor.AGENT == F.appFlavor){
+      return widget.isFromCreateAccount?
+      MobileVerification()
+      :CreateNewAccount();
+    }
+  }
+
 
   @override
   BuildContext getContext() {

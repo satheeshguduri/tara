@@ -535,4 +535,32 @@ class BaseStyles {
       fontSize: 16.0
   );
 
+  static const uploadKtpTextStyle = TextStyle(
+  color:  Color(0xff697683),
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const ktpTitleTextStyle = TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 20.0
+  );
+
+  static const ktpSubTitleTextStyle = TextStyle(
+      color:  Color(0xff697683),
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0,
+      height: 1.5
+  );
+
+  static const saveAndContinueDisableTextStyle = TextStyle(
+  color:  Color(0xff889aac),
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0
+  );
 }
