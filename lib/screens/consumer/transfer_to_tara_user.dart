@@ -165,8 +165,8 @@ class _TransferToTaraUserState
             onChanged: (value) {
               _searchText = value;
               if (_searchText != null &&
-                  _searchText.toString().isNotEmpty &&
-                  _searchText.toString().length > 2) {
+                  _searchText.toString().trim().isNotEmpty &&
+                  _searchText.toString().trim().length > 2) {
                 arrFilterTaraContactInfo = [];
                 if (arrTaraContactInfo.isNotEmpty) {
                   arrFilterTaraContactInfo = arrTaraContactInfo

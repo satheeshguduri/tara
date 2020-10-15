@@ -117,8 +117,8 @@ class _CashDepositSelectContactState
             onChanged: (value) {
               _searchText = value;
               if (_searchText != null &&
-                  _searchText.toString().isNotEmpty &&
-                  _searchText.toString().length > 2) {
+                  _searchText.toString().trim().isNotEmpty &&
+                  _searchText.toString().trim().length > 2) {
                 arrFilterContactInfo = List();
                 if (arrContactInfo.length > 0) {
                   arrFilterContactInfo = arrContactInfo
@@ -179,11 +179,11 @@ class _CashDepositSelectContactState
     return Container(
       child: SectionTableView(
         sectionCount:
-            (_searchText != null && _searchText.toString().isNotEmpty) ? 1 : 2,
+            (_searchText != null && _searchText.toString().trim().isNotEmpty) ? 1 : 2,
         //for recent search, popular search and user search
         numOfRowInSection: (section) {
           //default state when search not applied
-          if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
+          if (!(_searchText != null && _searchText.toString().trim().isNotEmpty)) {
             if (section == 0) {
               return arrTaraContactInfo.length;
             } else {
@@ -197,7 +197,7 @@ class _CashDepositSelectContactState
         },
 
         cellAtIndexPath: (section, row) {
-          if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
+          if (!(_searchText != null && _searchText.toString().trim().isNotEmpty)) {
             if (arrTaraContactInfo.length > 0 && section == 0) {
               return getContactItemWidget(arrTaraContactInfo[row]);
             } else {
@@ -211,7 +211,7 @@ class _CashDepositSelectContactState
         },
 
         headerInSection: (section) {
-          if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
+          if (!(_searchText != null && _searchText.toString().trim().isNotEmpty)) {
             if (arrTaraContactInfo.length > 0 && section == 0) {
               return headerViewContainer(getTranslation(Strings.TARA_CONTACTS));
             } else {

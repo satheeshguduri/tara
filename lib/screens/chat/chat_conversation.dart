@@ -20,6 +20,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   List<String> arrStr = [];
   TextEditingController textEditingController = TextEditingController();
   bool isPlusClicked = false;
+  String chatMsg = "";
 
   @override
   Widget build(BuildContext context) {
@@ -236,6 +237,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                               ),
                               minLines:1,maxLines:5,
                               keyboardType:TextInputType.text ,
+                              onChanged: (value){
+                                chatMsg = value.trim();
+                              },
                             ),
                           ),
                         ),
@@ -243,15 +247,24 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                           child: IconButton(
                             icon: Icon(Icons.send,size: 22,),
                             onPressed: () => {
-                              setState(() {
-                                arrStr.add(textEditingController.text.toString());
-                                textEditingController.text = "";
-                              }),
-                              listScrollController.animateTo(
-                                listScrollController.position.maxScrollExtent,
-                                curve: Curves.easeOut,
-                                duration: const Duration(milliseconds: 300),
-                              )
+                              if (chatMsg.isNotEmpty&&chatMsg != '')
+                                {
+                                  setState(() {
+                                    arrStr.add(chatMsg);
+                                    textEditingController.text = "";
+                                    chatMsg = "";
+                                  }),
+                                  listScrollController.animateTo(
+                                    listScrollController.position.maxScrollExtent,
+                                    curve: Curves.easeOut,
+                                    duration: const Duration(milliseconds: 300),
+                                  )
+                                }else{
+                                setState(() {
+                                  textEditingController.text = "";
+                                  chatMsg = "";
+                                }),
+                              }
                             },
                             color: AppColors.header_top_bar_color,
                           ),

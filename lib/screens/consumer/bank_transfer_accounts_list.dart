@@ -276,8 +276,8 @@ class _BankTransferAccountsListState
             onChanged: (value) {
               _searchText = value;
               if (_searchText != null &&
-                  _searchText.toString().isNotEmpty &&
-                  _searchText.toString().length > 2) {
+                  _searchText.toString().trim().isNotEmpty &&
+                  _searchText.toString().trim().length > 2) {
                 arrFilterContactInfo = [];
                 if (arrContactInfo.isNotEmpty) {
                   arrFilterContactInfo = arrContactInfo

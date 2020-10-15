@@ -124,7 +124,7 @@ class _MobileVerificationState extends BaseState<MobileVerification> {
                           onChanged: (pin) {
                             print("Completed: " + pin);
                             setState(() {
-                              if (pin.length<6)
+                              if (pin.trim().length<6)
                               {
                                 errorText = "";
                                 isOtpEntered = false;

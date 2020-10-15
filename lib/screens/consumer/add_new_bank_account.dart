@@ -191,8 +191,8 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
     {
      var _searchText = textEditingController.text;
       if (_searchText != null &&
-          _searchText.toString().isNotEmpty &&
-          _searchText.toString().length > 2) {
+          _searchText.toString().trim().isNotEmpty &&
+          _searchText.toString().trim().length > 2) {
         arrFilterBankInfo = [];
         if (arrBankInfo.isNotEmpty) {
           arrFilterBankInfo = arrBankInfo
