@@ -271,8 +271,6 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
       imageFile = picture;
       imagePath = "";
     });
-
-    Navigator.of(context).pop();
   }
 
   @override
@@ -284,6 +282,11 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
 }

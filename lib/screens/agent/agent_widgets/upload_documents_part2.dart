@@ -571,7 +571,6 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
         imagePath_utility_bill = "";
       });
     }
-    Navigator.of(context).pop();
   }
 
   @override
@@ -583,6 +582,11 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
 }
