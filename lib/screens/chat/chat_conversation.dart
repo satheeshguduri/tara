@@ -14,10 +14,11 @@ class ConversationPage extends StatefulWidget {
   final bool canGoBack;
   final bool isFromSend;
   final BankAccountContactInfo selectedContact;
+  final String money;
   @override
   _ConversationPageState createState() => _ConversationPageState();
 
-  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.selectedContact,Key key}):super(key:key);
+  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.selectedContact,this.money,Key key}):super(key:key);
 }
 
 class _ConversationPageState extends BaseState<ConversationPage> {
@@ -148,7 +149,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return Container(height: MediaQuery.of(context).size.height,
         child: ListView.builder(
           padding: EdgeInsets.only(left:10.0,right: 10,top: 10,bottom: 60),
-          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index]),
+          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index],widget.money),
           itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,
           reverse: false,
           controller: listScrollController,

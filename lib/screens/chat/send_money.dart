@@ -244,7 +244,7 @@ class _SendWidgetState extends BaseState<SendWidget> {
         context: context,
         builder: (BuildContext context) {
           return EnterMPIN( onConfirmTransfer: (){
-            push(ConversationPage(isFromSend: true,selectedContact: widget.selectedContact,));
+            push(ConversationPage(isFromSend: true,selectedContact: widget.selectedContact,money:amountTextController.text.toString()));
           },);
         });
   }

@@ -10,7 +10,8 @@ import 'package:tara_app/screens/base/base_state.dart';
 
 class ChatRequestCashDeposit extends StatefulWidget {
   final bool isConfirmed;
-  const ChatRequestCashDeposit({Key key, this.isConfirmed = false})
+  final String requestedAmount;
+  const ChatRequestCashDeposit({Key key, this.isConfirmed = false,this.requestedAmount})
       : super(key: key);
 
   @override
@@ -68,7 +69,7 @@ class _RequestCashDepositState extends BaseState<ChatRequestCashDeposit> {
                           Container(
                             margin:
                                 EdgeInsets.only(left: 16, right: 8, bottom: 8),
-                            child: Text("Rp 500.000",
+                            child: Text((widget.requestedAmount!=null)?"Rp " +  widget.requestedAmount + ".000":"Rp 500.000",
                                 style: BaseStyles.agentUIN_OTP_CODE_TextStyle),
                           ),
                           Row(

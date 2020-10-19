@@ -19,8 +19,9 @@ import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
 class ChatItemWidget extends StatelessWidget {
   var index;
   var chatMsg;
+  var requestedAmount;
 
-  ChatItemWidget(this.index,this.chatMsg);
+  ChatItemWidget(this.index,this.chatMsg,this.requestedAmount);
 
   List<String> arrWidgets = [];
 
@@ -67,7 +68,7 @@ class ChatItemWidget extends StatelessWidget {
     } else if (chatMsg == "chat_pln_payment_success") {
       return ChatPLNPaymentSuccess();
     } else if (chatMsg == "chat_request_cash_deposit") {
-      return ChatRequestCashDeposit();
+      return ChatRequestCashDeposit(requestedAmount: requestedAmount,);
     } else if (chatMsg == "chat_request_cash_deposit_confirmed_true") {
       return ChatRequestCashDeposit(
         isConfirmed: true,

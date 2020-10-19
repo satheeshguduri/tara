@@ -42,7 +42,7 @@ class ChatListWidget extends StatefulWidget {
     return Container(height: MediaQuery.of(context).size.height,
         child: ListView.builder(
       padding: EdgeInsets.only(left:10.0,right: 10,top: 10,bottom: 60),
-      itemBuilder: (context, index) => ChatItemWidget(index,""), //arrStr[index]
+      itemBuilder: (context, index) => ChatItemWidget(index,"",""), //arrStr[index]
       itemCount: 24,//(arrStr!=null&&arrStr.length>0)?arrStr.length:0,
       reverse: false,
       controller: listScrollController,
