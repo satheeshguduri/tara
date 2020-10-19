@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
@@ -12,14 +11,7 @@ import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 
 class CreateMPIN extends StatefulWidget {
-  final bool isReEnterPin;
-  final bool confirmPin;
-
-  final String oldPin;
-
-  const CreateMPIN(
-      {Key key, this.isReEnterPin = false, this.confirmPin = false, this.oldPin})
-      : super(key: key);
+  const CreateMPIN({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -29,12 +21,12 @@ class CreateMPIN extends StatefulWidget {
 }
 
 class _CreateMPIN extends BaseState<CreateMPIN> {
-
   bool isReEnterPinCorrect = true;
   String pin;
 
-  String otpPin = "";
-  String correctPin = "123456";
+  String newPin = "";
+  String confirmPin = "";
+  bool isFinishConfirmPin = false;
   String errorText = "";
   bool isOtpEntered = false;
 
@@ -57,15 +49,6 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
         ),
       ),
     );
-  }
-
-  String getPinTitle() {
-    if (widget.isReEnterPin)
-      return Strings.confirm_new_mpin;
-    else if (widget.confirmPin)
-      return Strings.confirm_MPIN;
-    else
-      return Strings.new_pin;
   }
 
   @override
@@ -95,73 +78,30 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
                                   getTranslation(Strings.MPIN_ACCOUNT_NUMBER),
                             ),
                           ),
-                          Container(
-                            child: Text(getTranslation(getPinTitle()),
-                                style: BaseStyles.enterMPINTextStyle,
-                                textAlign: TextAlign.center),
-                          ),
-                          Container(
-                            height: 40,
-                            margin: EdgeInsets.only(top: 24,),
-                            child: OTPTextFieldWidget(
-                              width:  MediaQuery.of(context).size.width,
-                              length: 6,
-                              fieldWidth: 40,
-                              textFieldAlignment: MainAxisAlignment.spaceBetween,
-                              fieldStyle:FieldStyle.underline,
-                              obscureText: true,
-                              style: BaseStyles.MPINTextStyle,
-                              correctPin:correctPin,
-                              onCompleted: (pin) {
-                                print("Completed: " + pin);
-                                setState(() {
-                                  otpPin = pin;
-                                  isOtpEntered = true;
-                                });
-                              },
-                              onChanged: (pin) {
-                                print("Completed: " + pin);
-                                setState(() {
-                                  if (pin.trim().length<6)
-                                  {
-                                    errorText = "";
-                                    isOtpEntered = false;
-                                    if (pin.length==1)
-                                    {
-                                      otpPin = "";
-                                    }
-                                  }
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            height: 5,
-                            margin: EdgeInsets.only(bottom: 16,),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                getBorderContainer(),
-                                getBorderContainer(),
-                                getBorderContainer(),
-                                getBorderContainer(),
-                                getBorderContainer(),
-                                getBorderContainer(),
-                              ],
-                            ),
-                          ),
-//                        isReEnterPinCorrect ? Container() : Text(getTranslation(Strings.mpin_not_match),style: BaseStyles.error_text_style,),
-                          errorText.isNotEmpty?Center(
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 8,),
-                              child: Text(
-                                  errorText,
-                                  style: BaseStyles.errorTextStyle,
-                                  textAlign: TextAlign.center
-                              ),
-                            ),
-                          ):Container()
+                          getOTPBorderContainer(Strings.new_pin),
+//                          errorText.isNotEmpty?Center(
+//                            child: Container(
+//                              margin: EdgeInsets.only(bottom: 32,),
+//                              child: Text(
+//                                  errorText,
+//                                  style: BaseStyles.errorTextStyle,
+//                                  textAlign: TextAlign.center
+//                              ),
+//                            ),
+//                          ):Container(),
+                          getOTPBorderContainer(Strings.confirm_new_mpin),
+                          errorText.isNotEmpty
+                              ? Center(
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      bottom: 8,
+                                    ),
+                                    child: Text(errorText,
+                                        style: BaseStyles.errorTextStyle,
+                                        textAlign: TextAlign.center),
+                                  ),
+                                )
+                              : Container()
                         ],
                       ),
                     ),
@@ -172,18 +112,108 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
     );
   }
 
-  getBorderContainer()
-  {
+  getOTPBorderContainer(String heading) {
+    return Column(
+      children: [
+        Container(
+          child: Text(getTranslation(heading),
+              style: BaseStyles.enterMPINTextStyle,
+              textAlign: TextAlign.center),
+        ),
+        Container(
+          height: 40,
+          margin: EdgeInsets.only(
+            top: 16,
+          ),
+          child: OTPTextFieldWidget(
+            width: MediaQuery.of(context).size.width,
+            length: 6,
+            fieldWidth: 40,
+            textFieldAlignment: MainAxisAlignment.spaceBetween,
+            fieldStyle: FieldStyle.underline,
+            obscureText: true,
+            style: BaseStyles.MPINTextStyle,
+            correctPin: newPin,
+            onCompleted: (pin) {
+              setState(() {
+                if (heading == Strings.new_pin) {
+                  newPin = pin;
+                } else {
+                  confirmPin = pin;
+                  isFinishConfirmPin = true;
+                }
+              });
+            },
+            onChanged: (pin) {
+              setState(() {
+                print("On Changes: $pin");
+                print("New Pin: $newPin");
+                errorText = "";
+                if (heading == Strings.new_pin) {
+                  newPin = pin;
+                  if (newPin.length == 2 && pin.length == 1) {
+                    newPin = "";
+                  } else {}
+                } else {
+                  confirmPin = pin;
+                  isFinishConfirmPin = false;
+                  if (pin.length == 1) {
+                    confirmPin = "";
+                  } else {
+                    confirmPin = pin;
+                  }
+                }
+              });
+            },
+          ),
+        ),
+        Container(
+          height: 5,
+          margin: EdgeInsets.only(
+            bottom: 32,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              getBorderContainer(heading),
+              getBorderContainer(heading),
+              getBorderContainer(heading),
+              getBorderContainer(heading),
+              getBorderContainer(heading),
+              getBorderContainer(heading),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  getBorderColor(String heading) {
+    if (heading == Strings.new_pin) {
+      if (newPin.length == 6) {
+        return AppColors.fareColor;
+      }
+    } else {
+      if (newPin != confirmPin && isFinishConfirmPin) {
+        return Colors.pink;
+      } else if (confirmPin.length == 6) {
+        return AppColors.fareColor;
+      }
+    }
+    return AppColors.light_grey_blue;
+  }
+
+  getBorderContainer(String heading) {
     return Container(
       height: 3,
       width: 40,
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide( //                   <--- left side
-              color: errorText.isNotEmpty?Colors.pink:isOtpEntered?Color(0xffb2f7e2):Color(0xffb0b4c1),
+          bottom: BorderSide(
+              color: getBorderColor(heading),
               width: 2.0,
-              style: BorderStyle.solid
-          ),
+              style: BorderStyle.solid),
         ),
         color: Colors.transparent,
       ),
@@ -196,59 +226,39 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
         margin: EdgeInsets.only(bottom: 32, top: 8, left: 8, right: 8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: AppColors.bottom_border_color),
+            color: confirmPin.length == 6 && newPin.length == 6
+                ? AppColors.bottom_border_color
+                : Color(0xffe9ecef)),
         alignment: Alignment.center,
         child: InkWell(
-          onTap: () {
-            if (widget.confirmPin) {
-              if ((this.otpPin!=null&&this.otpPin.length==0)){
-                setState(() {
-                  errorText = getTranslation(Strings.mpin_cannot_empty);
-                });
-              }else{
-                // push to Confirm Screen
-                pushAndRemoveUntil(HomeCustomerScreen());
+            onTap: () {
+              if (confirmPin.length == 6 && newPin.length == 6) {
+                if (this.newPin != null && this.newPin.length == 0) {
+                  setState(() {
+                    errorText = getTranslation(Strings.mpin_cannot_empty);
+                  });
+                } else if (newPin != confirmPin) {
+                  setState(() {
+                    errorText = getTranslation(Strings.mpin_not_match);
+                  });
+                } else {
+                  pushAndRemoveUntil(HomeCustomerScreen());
+                }
+              } else {
+                return;
               }
-            } else if (widget.isReEnterPin) {
-              if (this.otpPin!=null&&this.otpPin.length==0){
-                setState(() {
-                  errorText = getTranslation(Strings.mpin_cannot_empty);
-                });
-              }
-              else if(widget.oldPin != otpPin){
-                setState(() {
-                  errorText = getTranslation(Strings.mpin_not_match);
-                });
-              }
-              else{
-                  push(CreateMPIN(
-                    confirmPin: true,
-                  ));
-              }
-            } else {
-              if (this.otpPin!=null&&this.otpPin.length==0){
-                setState(() {
-                  errorText = getTranslation(Strings.mpin_cannot_empty);
-                });
-              }
-              else if(this.otpPin!=null&&this.otpPin.length == 6){
-                push(CreateMPIN(
-                  isReEnterPin: true,
-                  oldPin: this.otpPin,
-                ));
-              }
-            }
-          },
-          child: Container(
-            height: 48,
-            alignment: Alignment.center,
-            child:Text(
-            getTranslation(Strings.CONTINUE),
-            textAlign: TextAlign.center,
-            style: BaseStyles.addNewBankAccount,
-          ),
-        ))
-    );
+            },
+            child: Container(
+              height: 48,
+              alignment: Alignment.center,
+              child: Text(
+                getTranslation(Strings.CONTINUE),
+                textAlign: TextAlign.center,
+                style: confirmPin.length == 6 && newPin.length == 6
+                    ? BaseStyles.addNewBankAccount
+                    : BaseStyles.disableButtonStyle,
+              ),
+            )));
   }
 
   @override

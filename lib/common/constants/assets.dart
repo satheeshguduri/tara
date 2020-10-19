@@ -132,6 +132,8 @@ class Assets {
   static const ic_portrait_person_pic = "assets/images/illu.png";
   static const ic_un_check_grey = "assets/images/assets---icon---c---checkbox---off.png";
   static const ic_check_quare = "assets/images/On.png";
+  static const ic_check_filled = "assets/images/check_filled.svg";
+  static const ic_check_un_select = "assets/images/check_unselect.svg";
 
   static const ic_refresh = "assets/images/ic_refresh.png";
 

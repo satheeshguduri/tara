@@ -208,6 +208,13 @@ class BaseStyles {
       fontSize: 14.0
   );
 
+  static const disableButtonStyle = const TextStyle(
+      color:  Color(0xff889aac),
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
   static const bankNameTextStyle = const TextStyle(
       color:  AppColors.header_top_bar_color,
       fontWeight: FontWeight.w400,

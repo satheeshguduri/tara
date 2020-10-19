@@ -32,24 +32,27 @@ class _AgentDeclineTransactionState extends BaseState<AgentDeclineTransaction>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      height: 410,
+//      height: 410,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight: Radius.circular(8)),
           color: Colors.white
       ),
-      child: Column(
+      child: Wrap(
         children: <Widget>[
-          Container(
-            width: 53,
-            height: 4,
-            margin: EdgeInsets.only(bottom: 16),
-         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-              Radius.circular(4)
-          ),
-             color: AppColors.light_grey_bg_color
-         ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              width: 53,
+              height: 4,
+              margin: EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(4)
+                  ),
+                  color: AppColors.light_grey_bg_color
+              ),
+            ),
           ),
           Text(
               getTranslation(Strings.decline_trans_heading),
@@ -67,46 +70,50 @@ class _AgentDeclineTransactionState extends BaseState<AgentDeclineTransaction>{
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context,index){
-                  return Row(
-                    children: [
-                      Expanded(
-                        flex:2,
-                        child:InkWell(
-                          child: arrSelectedIndex.contains(index) ? Image.asset(Assets.ic_check_solid) : Image.asset(Assets.ic_un_check_grey),
-                          onTap: (){
-                            if(arrSelectedIndex.contains(index)){
-                              setState(() {
-                                if (index == 2){
-                                  isOtherSelected = false;
+                  return
+                    Container(
+                      padding: EdgeInsets.only(top: 8,bottom: 8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex:2,
+                            child:InkWell(
+                              child: arrSelectedIndex.contains(index) ? SvgPicture.asset(Assets.ic_check_filled,width: 24,) : SvgPicture.asset(Assets.ic_check_un_select,width: 24,),
+                              onTap: (){
+                                if(arrSelectedIndex.contains(index)){
+                                  setState(() {
+                                    if (index == 2){
+                                      isOtherSelected = false;
+                                    }
+                                    arrSelectedIndex.remove(index);
+                                  });
+                                }else{
+                                  if (index == 2){
+                                    isOtherSelected = true;
+                                  }
+                                  setState(() {
+                                    arrSelectedIndex.add(index);
+                                  });
                                 }
-                                arrSelectedIndex.remove(index);
-                              });
-                            }else{
-                              if (index == 2){
-                                isOtherSelected = true;
-                              }
-                              setState(() {
-                                arrSelectedIndex.add(index);
-                              });
-                            }
 
-                          },
-                        ) ,
+                              },
+                            ) ,
+                          ),
+                          Expanded(
+                            flex: 12,
+                            child:Text(
+                                arrTransDecline[index],
+                                style: const TextStyle(
+                                    color:  AppColors.fareColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontStyle:  FontStyle.normal,
+                                    fontSize: 14.0
+                                )
+                            ) ,
+                          )
+                        ],
                       ),
-                      Expanded(
-                        flex: 12,
-                        child:Text(
-                            arrTransDecline[index],
-                            style: const TextStyle(
-                                color:  AppColors.fareColor,
-                                fontWeight: FontWeight.w400,
-                                fontStyle:  FontStyle.normal,
-                                fontSize: 14.0
-                            )
-                        ) ,
-                      )
-                    ],
-                  );
+                    );
                 }) ,
           ),
           isOtherSelected ? Container(
@@ -140,7 +147,6 @@ class _AgentDeclineTransactionState extends BaseState<AgentDeclineTransaction>{
                 fontSize: 14.0
             ),),
           )
-
         ],
       ),
     );
