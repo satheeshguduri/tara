@@ -6,15 +6,18 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
+import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 
 class ConversationPage extends StatefulWidget {
 
   final bool canGoBack;
-  
+  final bool isFromSend;
+  final BankAccountContactInfo selectedContact;
   @override
   _ConversationPageState createState() => _ConversationPageState();
 
-  ConversationPage({this.canGoBack = true,Key key}):super(key:key);
+  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.selectedContact,Key key}):super(key:key);
 }
 
 class _ConversationPageState extends BaseState<ConversationPage> {
@@ -64,8 +67,15 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         visible: widget.canGoBack,
         child: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () =>
-                Navigator.pop(context, false) //Navigator.pop(context, false),
+            onPressed: () {
+              if(widget.isFromSend==true)
+              {
+                pushAndRemoveUntil(HomeCustomerScreen());
+              }
+              else{
+                Navigator.pop(context, false);
+              }
+            }
         ),
       ),
       title:Align(
@@ -98,7 +108,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                 Container(
                   margin: EdgeInsets.only(top: 4),
                   child: Text(
-                    "Tania Salsabila",
+                    (widget.selectedContact!=null&&widget.selectedContact.name!=null)?widget.selectedContact.name:"Tania Salsabila",
                     textAlign: TextAlign.left,
                     style: BaseStyles.backAccountHeaderTextStyle,
                   ),
@@ -153,32 +163,38 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   @override
   void initState() {
     super.initState();
-     getChatStaticArr();
+    getChatStaticArr();
   }
 
  getChatStaticArr()
   {
-    arrStr.add("onTheWay_isArrived");
-    arrStr.add("onTheWay_isArrived_false");
-    arrStr.add("agent_confirmed");
-    arrStr.add("onTheWay_isVerified");
-    arrStr.add("agent_UIN_otp_true");
-    arrStr.add("agent_UIN_otp_false");
-    arrStr.add("deposit_success");
-    arrStr.add("decline_pay");
-    arrStr.add("decline_pay_isSender_true");
-    arrStr.add("chat_money_transfer_success");
-    arrStr.add("decline_pay_isSender_declined_true");
-    arrStr.add("chat_pln_payment_success");
-    arrStr.add("chat_request_cash_deposit");
-    arrStr.add("chat_request_cash_deposit_confirmed_true");
-    arrStr.add("items_order");
-    arrStr.add("items_order_isFromAcceptedAnswer_true");
-    arrStr.add("chat_order_details");
-    arrStr.add("chat_order_paid");
-    arrStr.add("order_details_decline_pay");
-    arrStr.add("on_delivery");
-    arrStr.add("on_delivery_isConfirmArrived_true");
+    if(widget.isFromSend==true)
+    {
+      arrStr.add("chat_request_cash_deposit");
+    }
+    else{
+      arrStr.add("onTheWay_isArrived");
+      arrStr.add("onTheWay_isArrived_false");
+      arrStr.add("agent_confirmed");
+      arrStr.add("onTheWay_isVerified");
+      arrStr.add("agent_UIN_otp_true");
+      arrStr.add("agent_UIN_otp_false");
+      arrStr.add("deposit_success");
+      arrStr.add("decline_pay");
+      arrStr.add("decline_pay_isSender_true");
+      arrStr.add("chat_money_transfer_success");
+      arrStr.add("decline_pay_isSender_declined_true");
+      arrStr.add("chat_pln_payment_success");
+      arrStr.add("chat_request_cash_deposit");
+      arrStr.add("chat_request_cash_deposit_confirmed_true");
+      arrStr.add("items_order");
+      arrStr.add("items_order_isFromAcceptedAnswer_true");
+      arrStr.add("chat_order_details");
+      arrStr.add("chat_order_paid");
+      arrStr.add("order_details_decline_pay");
+      arrStr.add("on_delivery");
+      arrStr.add("on_delivery_isConfirmArrived_true");
+    }
   }
 
   getChatInputWidget()
