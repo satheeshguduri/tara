@@ -276,7 +276,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             },),
             RoundedButton(buttonText: getTranslation(Strings.SHOP),image: Assets.SHOP_ICON,onPressed: (){
               ChatInboxInfo chatInboxInfo = ChatInboxInfo();
-              chatInboxInfo.chatTitle = getTranslation(Strings.CASH_DEPOSIT);
+              chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
               chatInboxInfo.chatCardTitle = "tara_shop_received_text";
               push(ConversationPage(chatInboxInfo: chatInboxInfo,));
             },),
