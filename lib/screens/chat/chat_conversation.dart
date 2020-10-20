@@ -244,6 +244,10 @@ class _ConversationPageState extends BaseState<ConversationPage> {
               setState(() {
                 arrStr.add("decline_pay_isSender_declined_true");
               });
+            }else if (val == "pay"){
+              setState(() {
+                arrStr.add("chat_money_transfer_success");
+              });
             }
           }),
           itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,
