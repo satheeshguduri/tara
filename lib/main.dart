@@ -8,7 +8,7 @@ import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,7 +35,7 @@ void main() async{
     runZonedGuarded((){
       runApp(TaraApp());
 
-    }, Crashlytics.instance.recordError);
+    }, (obj,trace){});//Crashlytics.instance.recordError);
   });
   enableLogging();
 }
