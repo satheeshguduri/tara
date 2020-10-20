@@ -12,8 +12,9 @@ import 'package:tara_app/screens/consumer/Data.dart';
 class CashDepositSelectContact extends StatefulWidget {
   final bool isFromSend;
   final bool isFromReceive;
-
-  CashDepositSelectContact({Key key,this.isFromSend=false,this.isFromReceive=false}) : super(key: key);
+  final bool isFromCashDeposit;
+  final Function(ContactInfo) selectedContactCallback;
+  CashDepositSelectContact({Key key,this.isFromSend=false,this.isFromReceive=false,this.selectedContactCallback,this.isFromCashDeposit=false}) : super(key: key);
 
   @override
   _CashDepositSelectContactState createState() =>
@@ -246,7 +247,12 @@ class _CashDepositSelectContactState
           push(ConversationPage(isFromSend: true,selectedContact: contactInfoTemp,));
         }else  if (widget.isFromReceive != null && widget.isFromReceive == true) {
           push(ConversationPage(isFromReceive: true,selectedContact: contactInfoTemp,));
-        }else{
+        }
+        else if (widget.isFromCashDeposit != null && widget.isFromCashDeposit == true) {
+          widget.selectedContactCallback(contactInfoTemp);
+          Navigator.pop(context, false);
+        }
+        else{
           push(ConversationPage(selectedContact: contactInfoTemp,));
         }
       },

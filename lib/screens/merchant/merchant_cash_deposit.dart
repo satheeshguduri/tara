@@ -6,11 +6,15 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 import 'package:tara_app/screens/map_screen.dart';
 
 class CashDepositWidget extends StatefulWidget {
-  CashDepositWidget({Key key}) : super(key: key);
+  final ChatInboxInfo chatInboxInfo;
+  final Function(ChatInboxInfo) chatInboxInfoCallBack;
+  CashDepositWidget({Key key,this.chatInboxInfo,this.chatInboxInfoCallBack}) : super(key: key);
 
   @override
   _CashDepositWidgetState createState() => _CashDepositWidgetState();
@@ -26,6 +30,7 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
   FocusNode depositTextFocusNode = new FocusNode();
   FocusNode phoneNumberFocusNode = new FocusNode();
   var addressStr = "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …";
+  ContactInfo selectedContactInfo;
 
   @override
   BuildContext getContext() {
@@ -127,11 +132,11 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                             flex: 2.5.toInt(),
                             child: InkWell(
                               onTap: (){
-                                push(MapScreen(address:addressStr,addressCallback:(address){
+                              /*  push(MapScreen(address:addressStr,addressCallback:(address){
                                   setState(() {
                                     addressStr = address;
                                   });
-                                }));
+                                })); */
                               },
                               child: Container(
                                   padding: EdgeInsets.only(top: 8,bottom: 8),
@@ -224,13 +229,26 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
                 children: [
                   Expanded(
                     flex: textEditingController == contactNameTextController?8.toInt():1,
-                    child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,),
+                    child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
+                      if (textEditingController == depositTextController)
+                      {
+                        setState(() {
+
+                        });
+                      }
+                    }),
                   ),
                   textEditingController == contactNameTextController?Expanded(
                       flex: 2.toInt(),
                       child: InkWell(
                         onTap: (){
-                          push(CashDepositSelectContact());
+                          push(CashDepositSelectContact(isFromCashDeposit:true,selectedContactCallback: (contactInfoTemp){
+                            setState(() {
+                              selectedContactInfo = contactInfoTemp;
+                              contactNameTextController.text = selectedContactInfo.name;
+                              phoneNumberController.text = selectedContactInfo.phoneNumber;
+                            });
+                          },));
                         },
                         child: Align(
                           alignment: Alignment.centerRight,
@@ -291,7 +309,23 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
   {
     return InkWell(
         onTap: (){
-
+          if(depositTextController.text.toString().trim().isNotEmpty)
+          {
+            if (widget.chatInboxInfo!=null)
+            {
+              widget.chatInboxInfo.chatAmount = depositTextController.text;
+              widget.chatInboxInfo.chatCardTitle = "chat_request_cash_deposit";
+              widget.chatInboxInfoCallBack(widget.chatInboxInfo);
+              Navigator.pop(context);
+            }else{
+              ChatInboxInfo chatInboxInfo = ChatInboxInfo();
+              chatInboxInfo.chatTitle = getTranslation(Strings.CASH_DEPOSIT);
+              chatInboxInfo.chatAmount = depositTextController.text;
+              chatInboxInfo.chatCardTitle = "chat_request_cash_deposit";
+              widget.chatInboxInfoCallBack(chatInboxInfo);
+              Navigator.pop(context);
+            }
+          }
         },
       child: Container(
           height: 48,
@@ -300,13 +334,13 @@ class _CashDepositWidgetState extends BaseState<CashDepositWidget> {
               borderRadius: BorderRadius.all(
                   Radius.circular(8)
               ),
-              color: const Color(0xffe9ecef)
+              color: (depositTextController.text.toString().trim().isNotEmpty)?Color(0xffb2f7e2):Color(0xffe9ecef)
           ),
           alignment: Alignment.center,
           child: Text(
             getTranslation(Strings.REQUEST_NOW),
             textAlign: TextAlign.center,
-            style: BaseStyles.requestNowTextStyle,
+            style: (depositTextController.text.toString().trim().isNotEmpty)?BaseStyles.mobileNoTextStyle:BaseStyles.requestNowTextStyle,
           ),
       ),
     );
