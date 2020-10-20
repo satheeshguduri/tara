@@ -55,18 +55,22 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     isFromTaraOrder = widget.isFromTaraOrder;
     // getChatStaticArr();
     showChatInboxWidgets();
-  }
-
-
-  @override
-  void init() {
-    // TODO: implement init
-    super.init();
-    setState(() {
+    if(widget.arrChats != null && widget.arrChats.length != 0){
       arrStr = widget.arrChats;
-    });
-
+    }
   }
+
+
+//  @override
+//  void init() {
+//    // TODO: implement init
+//    super.init();
+//    setState(() {
+//
+//      arrStr = widget.arrChats;
+//    });
+
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +242,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             print(val);
             if(val == "decline"){
               setState(() {
-                arrStr.add("decline_pay_isSender_true");
+                arrStr.add("decline_pay_isSender_declined_true");
               });
             }
           }),
