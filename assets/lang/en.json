@@ -260,5 +260,7 @@
   "tara_user": "Tara User",
   "merchant": "Merchant",
   "chat": "Chat",
-  "inbox": "Inbox"
+  "inbox": "Inbox",
+  "utility_bill_subtext": "Please upload or take picture of your Utility Bill",
+  "transfer_to_e_money": "Transfer to E-Money"
 }

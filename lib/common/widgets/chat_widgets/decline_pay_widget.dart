@@ -10,12 +10,13 @@ class DeclinePay extends StatefulWidget {
   final bool isAgentUINCode;
   final bool isSender;
   final bool isDeclined;
+  final Function onTapAction;
 
   const DeclinePay(
       {Key key,
       this.isAgentUINCode = false,
       this.isSender = false,
-      this.isDeclined = false})
+      this.isDeclined = false, this.onTapAction})
       : super(key: key);
 
   @override
@@ -113,51 +114,62 @@ class _DeclinePayState extends State<DeclinePay> {
                                       children: [
                                         Expanded(
                                           flex: 5,
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                bottom: 8, top: 8),
-                                            margin: EdgeInsets.only(right: 8),
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(8)),
-                                                border: Border.all(
-                                                    color:
-                                                        const Color(0xffb0b4c1),
-                                                    width: 1),
-                                                color: const Color(0xffffffff)),
-                                            child: Center(
-                                              child: Text(
-                                                  Utils().getTranslation(
-                                                      Strings.DECLINE, context),
-                                                  style: BaseStyles
-                                                      .chatItemButtonTextStyle),
+                                          child: InkWell(
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  bottom: 8, top: 8),
+                                              margin: EdgeInsets.only(right: 8),
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(8)),
+                                                  border: Border.all(
+                                                      color:
+                                                      const Color(0xffb0b4c1),
+                                                      width: 1),
+                                                  color: const Color(0xffffffff)),
+                                              child: Center(
+                                                child: Text(
+                                                    Utils().getTranslation(
+                                                        Strings.DECLINE, context),
+                                                    style: BaseStyles
+                                                        .chatItemButtonTextStyle),
+                                              ),
                                             ),
+                                            onTap: (){
+                                              widget.onTapAction("decline");
+                                            },
                                           ),
                                         ),
                                         Expanded(
                                           flex: 5,
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                bottom: 8, top: 8),
-                                            margin: EdgeInsets.only(
-                                              left: 8,
+                                          child: InkWell(
+                                            child: Container(
+                                              padding: EdgeInsets.only(
+                                                  bottom: 8, top: 8),
+                                              margin: EdgeInsets.only(
+                                                left: 8,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(8)),
+                                                  border: Border.all(
+                                                      color:
+                                                      const Color(0xffb2f7e2),
+                                                      width: 1),
+                                                  color: const Color(0xffb2f7e2)),
+                                              child: Center(
+                                                child: Text(
+                                                    Utils().getTranslation(
+                                                        Strings.Pay, context),
+                                                    style: BaseStyles
+                                                        .chatItemButtonTextStyle),
+                                              ),
                                             ),
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(8)),
-                                                border: Border.all(
-                                                    color:
-                                                        const Color(0xffb2f7e2),
-                                                    width: 1),
-                                                color: const Color(0xffb2f7e2)),
-                                            child: Center(
-                                              child: Text(
-                                                  Utils().getTranslation(
-                                                      Strings.Pay, context),
-                                                  style: BaseStyles
-                                                      .chatItemButtonTextStyle),
-                                            ),
-                                          ),
+                                            onTap: (){
+                                              widget.onTapAction("pay");
+                                            },
+                                          )
+                                          ,
                                         )
                                       ],
                                     ),

@@ -158,6 +158,8 @@ class Strings{
   static const we_cannot_find_anything ="we_cannot_find_anything";
   static const maybe_try_other_items ="maybe_try_other_items";
   static const transfer_to_tara_user ="transfer_to_tara_user";
+  static const transfer_to_e_money ="transfer_to_e_money";
+
   static const add_bank_or_e_money_account = "add_bank_or_e_money_account";
 
   static const create_mpin = "create_mpin";

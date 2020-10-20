@@ -21,7 +21,10 @@ class ConversationPage extends StatefulWidget {
   final ContactInfo selectedContact;
   final ChatInboxInfo chatInboxInfo;
   final bool isFromTaraOrder;
-  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.isFromReceive=false,this.selectedContact,this.chatInboxInfo,this.isFromTaraOrder=false,Key key}):super(key:key);
+  final List<String> arrChats;
+
+  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.isFromReceive=false,this.selectedContact,
+    this.chatInboxInfo,this.isFromTaraOrder=false,Key key,this.arrChats}):super(key:key);
 
   @override
   _ConversationPageState createState() => _ConversationPageState();
@@ -35,7 +38,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   bool isPlusClicked = false;
   String chatMsg = "";
   bool isToShowSendAndReceiveBottomSheet = true;
-  String sendReceiveMoney = "";
+  String sendReceiveMoney = "100";
   bool isSendReceiveConfirmed = false;
   ChatInboxInfo chatInboxInfoGlobal;
   bool isFromTaraOrder = false;
@@ -54,6 +57,16 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     showChatInboxWidgets();
   }
 
+
+  @override
+  void init() {
+    // TODO: implement init
+    super.init();
+    setState(() {
+      arrStr = widget.arrChats;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +99,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         )
     );
   }
+
+
+
 
   showReceiveOrSendBottomSheet()
   {
@@ -217,7 +233,15 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return Container(height: MediaQuery.of(context).size.height,
         child: ListView.builder(
           padding: EdgeInsets.only(left:10.0,right: 10,top: 10,bottom: 60),
-          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index],sendReceiveMoney),
+          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index],sendReceiveMoney,
+              (val){
+            print(val);
+            if(val == "decline"){
+              setState(() {
+                arrStr.add("decline_pay_isSender_true");
+              });
+            }
+          }),
           itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,
           reverse: false,
           controller: listScrollController,

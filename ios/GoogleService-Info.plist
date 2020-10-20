@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>175331773500-muks4proh4asmbfjld7ujsdfmk5fmoq3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.175331773500-muks4proh4asmbfjld7ujsdfmk5fmoq3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA3MQya4H0GvCjliTfeGqNuDt6pVOcocSI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>175331773500</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.taraApp.customer</string>
+	<key>PROJECT_ID</key>
+	<string>vdoc-d9ca5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vdoc-d9ca5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:175331773500:ios:8b2a79a171e97ad50f4739</string>
+	<key>DATABASE_URL</key>
+	<string>https://vdoc-d9ca5.firebaseio.com</string>
+</dict>
+</plist>

@@ -9,6 +9,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/enter_mpin.dart';
@@ -21,9 +22,10 @@ class BankTransferNewContact extends StatefulWidget {
   final String title;
   BankAccountContactInfo bankAccInfo;
   ContactInfo taraContact;
+  final bool selfTransfer;
 
   BankTransferNewContact({Key key, this.title,
-    this.bankAccInfo,this.taraContact}) : super(key: key);
+    this.bankAccInfo,this.taraContact, this.selfTransfer = false}) : super(key: key);
 
   @override
   _BankTransferNewContactState createState() => _BankTransferNewContactState();
@@ -99,7 +101,6 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                     fontSize: 16.0)),
             Row(
               children: [
-
                 Image.asset(
                   "assets/images/avatar-11.png",
                   height: 32,
@@ -229,92 +230,29 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                 addNewBankAccountBottomSheet();
               },
             )
-
-
           ]);
     }else{
       return  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(getTranslation(Strings.RECIPIENT),
-              style: const TextStyle(
-                  color: AppColors.fareColor,
-                  fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 16.0),
-
-            ),
+            Text(getTranslation(Strings.TRANSFER_TO),
+                style: const TextStyle(
+                    color: AppColors.fareColor,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16.0)),
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 8, bottom: 4),
-                    child: Text(getTranslation(Strings.BANK_NAME),
+                    margin: EdgeInsets.only(top: 16, bottom: 4),
+                    child: Text(getTranslation(Strings.MY_ACCOUNT),
                         style: BaseStyles
                             .textFormFieldHeaderTitleTextStyle,
                         textAlign: TextAlign.left),
                   ),
-                  TypeAheadFormField(
-                    getImmediateSuggestions: true,
-                    textFieldConfiguration: TextFieldConfiguration(
-                      style:
-                      TextStyle(color: AppColors.fareColor),
-                      controller: this._typeAheadController,
-                      decoration: InputDecoration(
-                          prefixIcon: selectedbank != null
-                              ? Container(
-                            margin:
-                            EdgeInsets.only(right: 8),
-                            child: Image.asset(
-                              selectedbank.image,
-                              width: 24,
-                            ),
-                          )
-                              : Container(),
-                          labelStyle: BaseStyles
-                              .textFormFieldHeaderTitleTextStyle,
-//                                  labelText: getTranslation(Strings.BANK_NAME,
-                          hintText: getTranslation(Strings.BANK_NAME_HINT)
-                      ),),
-                    suggestionsCallback: (pattern) {
-                      return BankList.getSuggestions(pattern);
-                    },
-                    itemBuilder: (context, suggestion) {
-                      return ListTile(
-                        leading: Image.asset(suggestion.image),
-                        title: Text(suggestion.bankName),
-                      );
-                    },
-                    transitionBuilder:
-                        (context, suggestionsBox, controller) {
-                      return suggestionsBox;
-                    },
-                    onSuggestionSelected: (suggestion) {
-                      setState(() {
-                        selectedbank = suggestion;
-                        this._typeAheadController.text =
-                            selectedbank.bankName;
-                      });
-                    },
-//                              validator: (value) =>
-//                              value.isEmpty ? 'Please select a city' : null,
-                  ),
+                  _getDropDownList("bankAccount"),
                 ]),
-//                            textFormFieldContainer(getTranslation(Strings.BANK_NAME, getTranslation(Strings.BANK_NAME_HINT, TextInputType.text, txtCtrlBankName),
-            textFormFieldContainer(
-                getTranslation(Strings.BANK_ACC_NO),
-                getTranslation(Strings.BANK_ACC_NO_HINT),
-                TextInputType.text,
-                txtCtrlBankAcc),
-            isBankAccVerFailed
-                ? Container(
-              margin: EdgeInsets.only(top: 8),
-              child: Text(
-                getTranslation(Strings.error_verify_bank_account),
-                style: BaseStyles.error_text_style,
-              ),
-            )
-                : Container(),
           ]);
     }
   }
@@ -816,7 +754,13 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       context: context,
       builder: (BuildContext bc) {
         return EnterMPIN( onConfirmTransfer: (){
+        if(widget.selfTransfer){
           push(TransactionDetail());
+        }else{
+          Navigator.pop(context);
+          push(ConversationPage(arrChats: ["chat_money_transfer_success"],));
+
+        }
         },);
       });
 }

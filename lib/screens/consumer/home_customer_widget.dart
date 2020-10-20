@@ -12,6 +12,7 @@ import 'package:tara_app/common/widgets/rounded_card_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
@@ -283,11 +284,13 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           }
           else if (accountName == "Tara\nUsers")
           {
-           push(TransferToTaraUser(isFromTaraUser:true));
+           push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer_to_tara_user));
           }
           else if (accountName == "My\nAccount")
           {
-            push(MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),));
+            push(BankTransferNewContact(selfTransfer: true,));
+          }else if (accountName == "E-Money"){
+            push(TransferToTaraUser(isFromTaraUser:false,navBarTitle: Strings.transfer_to_e_money));
           }
         },
         child:Align(

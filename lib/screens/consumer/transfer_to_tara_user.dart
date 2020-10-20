@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
@@ -14,7 +15,8 @@ import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.d
 
 class TransferToTaraUser extends StatefulWidget {
   final bool isFromTaraUser;
-  TransferToTaraUser({Key key,this.isFromTaraUser=false}) : super(key: key);
+  final String navBarTitle;
+  TransferToTaraUser({Key key,this.isFromTaraUser=false, this.navBarTitle}) : super(key: key);
 
   @override
   _TransferToTaraUserState createState() =>
@@ -99,7 +101,7 @@ class _TransferToTaraUserState
       title: Align(
         alignment: Alignment.topLeft,
         child: Text(
-          getTranslation(Strings.transfer_to_tara_user),
+          getTranslation(widget.navBarTitle),
           textAlign: TextAlign.left,
           style: BaseStyles.topBarTextStyle,
         ),
@@ -263,11 +265,11 @@ class _TransferToTaraUserState
             if (!(_searchText != null && _searchText
                 .toString()
                 .isNotEmpty)) {
-              return getTaraContactItemWidget(arrTaraContactInfo[row]);
+              return getTaraContactItemWidget(arrTaraContactInfo[row],row);
             }
             //search applied
             else {
-              return getTaraContactItemWidget(arrFilterTaraContactInfo[row]);
+              return getTaraContactItemWidget(arrFilterTaraContactInfo[row],row);
             }
           }
         },
@@ -279,7 +281,7 @@ class _TransferToTaraUserState
     );
   }
 
-  getTaraContactItemWidget(ContactInfo contactInfo) {
+  getTaraContactItemWidget(ContactInfo contactInfo,int index) {
     return InkWell(
       child: Container(
         margin: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
@@ -355,7 +357,11 @@ class _TransferToTaraUserState
         ),
       ) ,
       onTap: (){
-       push(BankTransferNewContact(taraContact: contactInfo,));
+        if(index == 1){
+          push(ConversationPage(arrChats: ["decline_pay"],));
+        }else{
+          push(BankTransferNewContact(taraContact: contactInfo,));
+        }
       },
     );
   }
