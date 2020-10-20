@@ -276,4 +276,9 @@ class Strings{
   static const ktp_subtext = "ktp_subtext";
   static const utility_bill_subtext = "utility_bill_subtext";
 
+  static const all_chats = "all_chats";
+  static const tara_user = "tara_user";
+  static const merchant = "merchant";
+  static const chat = "chat";
+  static const inbox = "inbox";
 }

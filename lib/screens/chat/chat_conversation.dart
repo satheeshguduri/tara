@@ -6,7 +6,9 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
+import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
 import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
@@ -17,7 +19,9 @@ class ConversationPage extends StatefulWidget {
   final bool isFromSend;
   final bool isFromReceive;
   final ContactInfo selectedContact;
-  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.isFromReceive=false,this.selectedContact,Key key}):super(key:key);
+  final ChatInboxInfo chatInboxInfo;
+  final bool isFromTaraOrder;
+  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.isFromReceive=false,this.selectedContact,this.chatInboxInfo,this.isFromTaraOrder=false,Key key}):super(key:key);
 
   @override
   _ConversationPageState createState() => _ConversationPageState();
@@ -33,6 +37,23 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   bool isToShowSendAndReceiveBottomSheet = true;
   String sendReceiveMoney = "";
   bool isSendReceiveConfirmed = false;
+  ChatInboxInfo chatInboxInfoGlobal;
+  bool isFromTaraOrder = false;
+
+  @override
+  BuildContext getContext() {
+    return context;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    chatInboxInfoGlobal = widget.chatInboxInfo;
+    isFromTaraOrder = widget.isFromTaraOrder;
+    // getChatStaticArr();
+    showChatInboxWidgets();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +79,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   )
                 ],
               ),
-            (!widget.isFromSend&&!widget.isFromReceive)?Container():(isToShowSendAndReceiveBottomSheet?showReceiveOrSendBottomSheet():Container())
+            (!widget.isFromSend&&!widget.isFromReceive)?Container():(isToShowSendAndReceiveBottomSheet?showReceiveOrSendBottomSheet():Container()),
+              isFromTaraOrder==true?showCashDepositBottomSheet():Container()
             ]
             )
         )
@@ -82,6 +104,34 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return Container();
   }
 
+  showCashDepositBottomSheet()
+  {
+    Timer(Duration(milliseconds: 2), () {
+      if (widget.isFromTaraOrder==true)
+      {
+        cashDepositBottomSheet(widget.chatInboxInfo);
+      }
+    });
+    return Container();
+  }
+
+  Future  cashDepositBottomSheet(ChatInboxInfo chatInboxInfo) {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return CashDepositWidget(chatInboxInfo: chatInboxInfo,chatInboxInfoCallBack: (chatInfo){
+            setState(() {
+              chatInboxInfoGlobal = chatInfo;
+              isFromTaraOrder = false;
+              showChatInboxWidgets();
+            });
+          },);
+        });
+  }
+
   _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 1,
@@ -92,7 +142,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context, false);
+                Navigator.pop(context, false);
             }
         ),
       ),
@@ -126,7 +176,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                 Container(
                   margin: EdgeInsets.only(top: 4),
                   child: Text(
-                    (widget.selectedContact!=null&&widget.selectedContact.name!=null)?widget.selectedContact.name:"Tania Salsabila",
+                    (widget.selectedContact!=null&&widget.selectedContact.name!=null)?widget.selectedContact.name:
+                    (chatInboxInfoGlobal!=null&&chatInboxInfoGlobal.chatTitle!=null)?chatInboxInfoGlobal.chatTitle:"Tania Salsabila",
                     textAlign: TextAlign.left,
                     style: BaseStyles.backAccountHeaderTextStyle,
                   ),
@@ -173,15 +224,16 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         ));
   }
 
-  @override
-  BuildContext getContext() {
-    return context;
-  }
 
-  @override
-  void initState() {
-    super.initState();
-   // getChatStaticArr();
+  showChatInboxWidgets()
+  {
+    if (isFromTaraOrder==false){
+      if (chatInboxInfoGlobal!=null&&chatInboxInfoGlobal.chatCardTitle!=null)
+      {
+        sendReceiveMoney = chatInboxInfoGlobal.chatAmount!=null?chatInboxInfoGlobal.chatAmount:"";
+        arrStr.add(chatInboxInfoGlobal.chatCardTitle);
+      }
+    }
   }
 
  getChatStaticArr()

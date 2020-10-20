@@ -255,5 +255,10 @@
   "ktp": "KTP",
   "utility_bill": "Utility Bill",
   "ktp_subtext": "Please upload or take picture of your KTP",
-  "utility_bill_subtext": "Please upload or take picture of your Utility Bill"
+  "utility_bill_subtext": "Please upload or take picture of your Utility Bill",
+  "all_chats": "All Chats",
+  "tara_user": "Tara User",
+  "merchant": "Merchant",
+  "chat": "Chat",
+  "inbox": "Inbox"
 }

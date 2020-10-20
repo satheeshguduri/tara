@@ -570,4 +570,32 @@ class BaseStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 16.0
   );
+
+  static const chatInboxTabSelectedTextColor = TextStyle(
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const chatInboxTabUnSelectedTextColor = TextStyle(
+  color:  Color(0xff889aac),
+  fontWeight: FontWeight.w500,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
+
+  static const chatTitleTextStyle = const TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+
+  static const chatSubTitleTextStyle = const TextStyle(
+  color:  Color(0xff697683),
+  fontWeight: FontWeight.w400,
+  fontStyle:  FontStyle.normal,
+  fontSize: 14.0
+  );
 }

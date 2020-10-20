@@ -20,6 +20,8 @@ class TextChatWidget extends StatefulWidget {
 
 class _TextChatWidgetState extends BaseState<TextChatWidget> {
 
+  var taraShopText = "Hi 👋 \n Welcome to Tara Shop! \n\n Now you can order whatever you need easily, and tailored specifically for you.\n You can ask and adjust your order directly with our Trusted Merchant Partner.";
+
   @override
   BuildContext getContext() {
     // TODO: implement getContext
@@ -37,26 +39,21 @@ class _TextChatWidgetState extends BaseState<TextChatWidget> {
               children: <Widget>[
                 Container(
                   child: Container(
-//                      decoration: BoxDecoration(
-//                          image: DecorationImage(
-//                            image: widget.isReceivedMsg?AssetImage(Assets.ic_chat_text_bubble_left,):AssetImage(Assets.ic_chat_text_bubble_right),
-//                            fit: BoxFit.cover,
-//                          )),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           boxShadow: [
                             BoxShadow(
-                                color: const Color(0x1f000000),
+                                color: widget.isReceivedMsg?const Color(0xffb2f7e2):const Color(0x1f000000),
                                 offset: Offset(0, 4),
                                 blurRadius: 6,
                                 spreadRadius: 0),
                             BoxShadow(
-                                color: const Color(0x14000000),
+                                color: widget.isReceivedMsg?const Color(0xffb2f7e2):const Color(0x14000000),
                                 offset: Offset(0, 0),
                                 blurRadius: 2,
                                 spreadRadius: 0)
                           ],
-                          color: AppColors.primaryBackground),
+                          color: widget.isReceivedMsg?const Color(0xffb2f7e2):AppColors.primaryBackground),
                       child: Stack(
                         children: [
                           Column(
@@ -66,7 +63,7 @@ class _TextChatWidgetState extends BaseState<TextChatWidget> {
                                 margin:
                                 EdgeInsets.only(bottom: 8, left: 16, right: 8,top: 16),
                                 child: Text(
-                                  widget.textMessage,
+                                  widget.isReceivedMsg?taraShopText:widget.textMessage,
                                   style: BaseStyles.chatItemSubTextStyle,
                                   textAlign: TextAlign.left,
                                 ),

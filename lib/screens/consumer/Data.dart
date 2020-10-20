@@ -84,3 +84,10 @@ class ContactInfo {
   bool isTaraContact;
   String phoneNumber;
 }
+
+class ChatInboxInfo {
+  String chatTitle;
+  String chatSubTitle;
+  String chatCardTitle;
+  String chatAmount;
+}

@@ -98,6 +98,10 @@ class ChatItemWidget extends StatelessWidget {
     {
       return OnDelivery(isConfirmArrived:true);
     }
+    else if (chatMsg == "tara_shop_received_text")
+    {
+      return TextChatWidget(textMessage:"",isReceivedMsg: true,);
+    }
     else
     {
       return TextChatWidget(textMessage:chatMsg,isReceivedMsg: false,);
