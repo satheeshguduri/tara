@@ -8,9 +8,10 @@ import 'package:tara_app/common/widgets/card_view.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class EnterMPIN extends StatefulWidget {
-  EnterMPIN({Key key, this.onConfirmTransfer}) : super(key: key);
-
+  final bool isFromSendMoney;
+  final Function sendMoneyConfirmed;
   Function onConfirmTransfer;
+  EnterMPIN({Key key, this.onConfirmTransfer,this.sendMoneyConfirmed,this.isFromSendMoney=false}) : super(key: key);
 
   @override
   _EnterMPINState createState() => _EnterMPINState();
@@ -169,7 +170,14 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
               errorText = getTranslation(Strings.invalid_mpin);
             });
           }else{
-            widget.onConfirmTransfer();
+            if (widget.isFromSendMoney==true)
+            {
+              widget.sendMoneyConfirmed();
+              Navigator.pop(context);
+            }
+            else{
+              widget.onConfirmTransfer();
+            }
           }
         }else if (otpPin.length==0){
           setState(() {

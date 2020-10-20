@@ -6,9 +6,14 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 
 class CashDepositSelectContact extends StatefulWidget {
-  CashDepositSelectContact({Key key}) : super(key: key);
+  final bool isFromSend;
+  final bool isFromReceive;
+
+  CashDepositSelectContact({Key key,this.isFromSend=false,this.isFromReceive=false}) : super(key: key);
 
   @override
   _CashDepositSelectContactState createState() =>
@@ -234,81 +239,90 @@ class _CashDepositSelectContactState
         ));
   }
 
-  getContactItemWidget(ContactInfo contactInfo) {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16, top: 4,bottom: 4),
-      padding: EdgeInsets.all(8),
-      height: 64,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-                color: const Color(0x1f000000),
-                offset: Offset(0, 4),
-                blurRadius: 6,
-                spreadRadius: 0),
-            BoxShadow(
-                color: const Color(0x14000000),
-                offset: Offset(0, 0),
-                blurRadius: 2,
-                spreadRadius: 0)
-          ],
-          color: AppColors.primaryBackground),
-      child: Center(
-        child: Row(
-          children: [
-            contactInfo.isTaraContact == true
-                ? Image.asset(
-                    "assets/images/avatar-11.png",
-                    height: 32,
-                    width: 32,
-                  )
-                : bigCircle(contactInfo.name),
-            Container(
-              margin: EdgeInsets.only(left: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 4),
-                        child: Text(
-                          contactInfo.name,
-                          textAlign: TextAlign.left,
-                          style: BaseStyles.transactionItemPersonNameTextStyle,
+  getContactItemWidget(ContactInfo contactInfoTemp) {
+    return InkWell(
+      onTap: (){
+        if (widget.isFromSend != null && widget.isFromSend == true) {
+          push(ConversationPage(isFromSend: true,selectedContact: contactInfoTemp,));
+        }else  if (widget.isFromReceive != null && widget.isFromReceive == true) {
+          push(ConversationPage(isFromReceive: true,selectedContact: contactInfoTemp,));
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 16, right: 16, top: 4,bottom: 4),
+        padding: EdgeInsets.all(8),
+        height: 64,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0x1f000000),
+                  offset: Offset(0, 4),
+                  blurRadius: 6,
+                  spreadRadius: 0),
+              BoxShadow(
+                  color: const Color(0x14000000),
+                  offset: Offset(0, 0),
+                  blurRadius: 2,
+                  spreadRadius: 0)
+            ],
+            color: AppColors.primaryBackground),
+        child: Center(
+          child: Row(
+            children: [
+              contactInfoTemp.isTaraContact == true
+                  ? Image.asset(
+                "assets/images/avatar-11.png",
+                height: 32,
+                width: 32,
+              )
+                  : bigCircle(contactInfoTemp.name),
+              Container(
+                margin: EdgeInsets.only(left: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 4),
+                          child: Text(
+                            contactInfoTemp.name,
+                            textAlign: TextAlign.left,
+                            style: BaseStyles.transactionItemPersonNameTextStyle,
+                          ),
                         ),
-                      ),
-                      contactInfo.isTaraContact == true
-                          ? Align(
-                              alignment: Alignment.topLeft,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                ),
-                                child: Image.asset(
-                                  Assets.tara_contacts,
-                                  height: 24,
-                                  width: 32,
-                                ),
-                              ),
-                            )
-                          : Container()
-                    ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 4),
-                    child: Text(
-                      contactInfo.phoneNumber,
-                      textAlign: TextAlign.left,
-                      style: BaseStyles.transactionItemDateTextStyle,
+                        contactInfoTemp.isTaraContact == true
+                            ? Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Image.asset(
+                              Assets.tara_contacts,
+                              height: 24,
+                              width: 32,
+                            ),
+                          ),
+                        )
+                            : Container()
+                      ],
                     ),
-                  ),
-                ],
+                    Container(
+                      margin: EdgeInsets.only(top: 4),
+                      child: Text(
+                        contactInfoTemp.phoneNumber,
+                        textAlign: TextAlign.left,
+                        style: BaseStyles.transactionItemDateTextStyle,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -330,8 +344,3 @@ class _CashDepositSelectContactState
   }
 }
 
-class ContactInfo {
-  String name;
-  bool isTaraContact;
-  String phoneNumber;
-}

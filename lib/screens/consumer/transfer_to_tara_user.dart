@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';

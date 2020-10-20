@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
@@ -6,19 +8,20 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
-import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
-import 'package:tara_app/screens/consumer/home_customer_screen.dart';
+import 'package:tara_app/screens/chat/send_money.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 
 class ConversationPage extends StatefulWidget {
 
   final bool canGoBack;
   final bool isFromSend;
-  final BankAccountContactInfo selectedContact;
-  final String money;
+  final bool isFromReceive;
+  final ContactInfo selectedContact;
+  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.isFromReceive=false,this.selectedContact,Key key}):super(key:key);
+
   @override
   _ConversationPageState createState() => _ConversationPageState();
 
-  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.selectedContact,this.money,Key key}):super(key:key);
 }
 
 class _ConversationPageState extends BaseState<ConversationPage> {
@@ -27,6 +30,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   TextEditingController textEditingController = TextEditingController();
   bool isPlusClicked = false;
   String chatMsg = "";
+  String sendReceiveMoney = "";
+  bool isSendReceiveConfirmed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +57,26 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   )
                 ],
               ),
-
+              sendReceiveMoney.isEmpty?showReceiveOrSendBottomSheet():Container()
             ]
             )
         )
     );
+  }
+
+  showReceiveOrSendBottomSheet()
+  {
+    Timer(Duration(milliseconds: 2), () {
+      if(widget.isFromSend==true)
+      {
+        sendBottomSheet();
+      }
+      else if(widget.isFromReceive==true)
+      {
+        receiveBottomSheet();
+      }
+    });
+    return Container();
   }
 
   _buildAppBar(BuildContext context) {
@@ -69,13 +89,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              if(widget.isFromSend==true)
-              {
-                pushAndRemoveUntil(HomeCustomerScreen());
-              }
-              else{
-                Navigator.pop(context, false);
-              }
+              Navigator.pop(context, false);
             }
         ),
       ),
@@ -149,7 +163,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return Container(height: MediaQuery.of(context).size.height,
         child: ListView.builder(
           padding: EdgeInsets.only(left:10.0,right: 10,top: 10,bottom: 60),
-          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index],widget.money),
+          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index],sendReceiveMoney),
           itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,
           reverse: false,
           controller: listScrollController,
@@ -164,16 +178,11 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   @override
   void initState() {
     super.initState();
-    getChatStaticArr();
+   // getChatStaticArr();
   }
 
  getChatStaticArr()
   {
-    if(widget.isFromSend==true)
-    {
-      arrStr.add("chat_request_cash_deposit");
-    }
-    else{
       arrStr.add("onTheWay_isArrived");
       arrStr.add("onTheWay_isArrived_false");
       arrStr.add("agent_confirmed");
@@ -195,7 +204,6 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       arrStr.add("order_details_decline_pay");
       arrStr.add("on_delivery");
       arrStr.add("on_delivery_isConfirmArrived_true");
-    }
   }
 
   getChatInputWidget()
@@ -336,6 +344,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         if (buttonText == getTranslation(Strings.RECEIVE))
         {
           receiveBottomSheet();
+        }else if (buttonText == getTranslation(Strings.SEND))
+        {
+          sendBottomSheet();
         }
       },
       child: Container(
@@ -378,16 +389,44 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  Future  receiveBottomSheet() {
+  Future receiveBottomSheet() {
     return showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return ReceiveWidget();
+          return ReceiveWidget(receiveMoneyConfirmed:(amount){
+            setState(() {
+              sendReceiveMoney = amount;
+              arrStr.add("chat_request_cash_deposit");
+              if (isPlusClicked == true)
+              {
+                isPlusClicked = false;
+              }
+            });
+          },);
         });
   }
 
+  Future sendBottomSheet() {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return SendWidget(sendMoneyConfirmed: (amount){
+            setState(() {
+              sendReceiveMoney = amount;
+              arrStr.add("chat_money_transfer_success");
+              if (isPlusClicked == true)
+              {
+                isPlusClicked = false;
+              }
+            });
+          },);
+        });
+  }
 
 }

@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/drop_down_list.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
@@ -17,8 +18,8 @@ import 'package:tara_app/utils/locale/utils.dart';
 
 class SendWidget extends StatefulWidget {
 
-  final BankAccountContactInfo selectedContact;
-  SendWidget({Key key,this.selectedContact}) : super(key: key);
+  final Function(String) sendMoneyConfirmed;
+  SendWidget({Key key,this.sendMoneyConfirmed}) : super(key: key);
 
   @override
   _SendWidgetState createState() => _SendWidgetState();
@@ -243,8 +244,9 @@ class _SendWidgetState extends BaseState<SendWidget> {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return EnterMPIN( onConfirmTransfer: (){
-            push(ConversationPage(isFromSend: true,selectedContact: widget.selectedContact,money:amountTextController.text.toString()));
+          return EnterMPIN( isFromSendMoney:true,sendMoneyConfirmed: (){
+            widget.sendMoneyConfirmed(amountTextController.text.toString());
+            Navigator.pop(context);
           },);
         });
   }

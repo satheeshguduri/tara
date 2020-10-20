@@ -14,8 +14,7 @@ import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/enter_mpin.dart';
 import 'package:tara_app/screens/consumer/transaction_detail.dart';
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
-
-import 'Data.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 
 class BankTransferNewContact extends StatefulWidget {
 

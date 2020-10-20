@@ -11,7 +11,9 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
 class ReceiveWidget extends StatefulWidget {
-  ReceiveWidget({Key key}) : super(key: key);
+
+  final Function(String) receiveMoneyConfirmed;
+  ReceiveWidget({Key key,this.receiveMoneyConfirmed}) : super(key: key);
 
   @override
   _ReceiveWidgetState createState() => _ReceiveWidgetState();
@@ -119,7 +121,8 @@ class _ReceiveWidgetState extends BaseState<ReceiveWidget> {
   _getConfirmWidget() {
     return InkWell(
       onTap: () {
-
+        widget.receiveMoneyConfirmed(amountTextController.text.toString());
+        Navigator.pop(context);
       },
       child:  Container(
         height: 48,

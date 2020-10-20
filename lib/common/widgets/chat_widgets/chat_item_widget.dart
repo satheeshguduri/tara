@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:tara_app/common/widgets/chat_widgets/agent_confirmed.dart';
 import 'package:tara_app/common/widgets/chat_widgets/agent_uin_otp_code.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_money_transfer_success.dart';
@@ -59,7 +58,7 @@ class ChatItemWidget extends StatelessWidget {
         isSender: true,
       );
     } else if (chatMsg == "chat_money_transfer_success") {
-      return ChatMoneyTransferSuccess();
+      return ChatMoneyTransferSuccess(requestedAmount: requestedAmount,);
     } else if (chatMsg == "decline_pay_isSender_declined_true") {
       return DeclinePay(
         isSender: true,

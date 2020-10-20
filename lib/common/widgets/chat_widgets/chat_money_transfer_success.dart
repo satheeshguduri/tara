@@ -8,6 +8,9 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class ChatMoneyTransferSuccess extends StatefulWidget {
+  final String requestedAmount;
+  const ChatMoneyTransferSuccess({Key key,this.requestedAmount})
+      : super(key: key);
   @override
   _ChatMoneyTransferSuccessState createState() =>
       _ChatMoneyTransferSuccessState();
@@ -64,7 +67,7 @@ class _ChatMoneyTransferSuccessState
                           Container(
                             margin:
                                 EdgeInsets.only(left: 16, right: 8, bottom: 8),
-                            child: Text("Rp 450.000",
+                            child: Text(widget.requestedAmount!=null?"Rp " + widget.requestedAmount + ".000":"Rp 450.000",
                                 style: BaseStyles.agentUIN_OTP_CODE_TextStyle),
                           ),
                           Container(

@@ -78,3 +78,9 @@ class CountryCodeModel {
   String countryName;
   String countryCode;
 }
+
+class ContactInfo {
+  String name;
+  bool isTaraContact;
+  String phoneNumber;
+}

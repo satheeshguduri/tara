@@ -6,14 +6,11 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
-import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
-import 'package:tara_app/screens/consumer/enter_mpin.dart';
 
 class BankTransferAccountsList extends StatefulWidget {
-  final bool isFromSend;
 
-  BankTransferAccountsList({Key key,this.isFromSend}) : super(key: key);
+  BankTransferAccountsList({Key key,}) : super(key: key);
 
   @override
   _BankTransferAccountsListState createState() =>
@@ -401,12 +398,7 @@ class _BankTransferAccountsListState
         ),
       ),
       onTap: () {
-        if (widget.isFromSend != null && widget.isFromSend == true) {
-          sendBottomSheet(contactInfo);
-        }
-        else {
           push(BankTransferNewContact(bankAccInfo: contactInfo,));
-        }
       }
     );
   }
@@ -422,19 +414,6 @@ class _BankTransferAccountsListState
       ),
     );
   }
-
-  Future  sendBottomSheet(BankAccountContactInfo contactInfo) {
-    return showModalBottomSheet(
-        isScrollControlled: true,
-        useRootNavigator: true,
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (BuildContext context) {
-          return SendWidget(selectedContact:contactInfo);
-        });
-  }
-
-
 
 }
 
