@@ -13,7 +13,8 @@ import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 
 class TransferToTaraUser extends StatefulWidget {
-  TransferToTaraUser({Key key}) : super(key: key);
+  final bool isFromTaraUser;
+  TransferToTaraUser({Key key,this.isFromTaraUser=false}) : super(key: key);
 
   @override
   _TransferToTaraUserState createState() =>
@@ -110,7 +111,7 @@ class _TransferToTaraUserState
     return Column(
       children: [
         getSearchBarWidget(),
-        Container(
+        widget.isFromTaraUser==false?Container(
           margin: EdgeInsets.only(bottom: 12,top: 16),
           child: DashedLineBorderButton(
             buttonText: getTranslation(Strings.add_bank_or_e_money_account),
@@ -118,7 +119,7 @@ class _TransferToTaraUserState
             onPressed: () {
              push(ConnectNewAccountSelectBank());
             },),
-        ),
+        ):Container(margin: EdgeInsets.only(bottom: 8,top: 8),),
         (_searchText
             .toString()
             .isNotEmpty && arrFilterTaraContactInfo.isEmpty)?Container(

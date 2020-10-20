@@ -283,7 +283,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           }
           else if (accountName == "Tara\nUsers")
           {
-           push(TransferToTaraUser());
+           push(TransferToTaraUser(isFromTaraUser:true));
           }
           else if (accountName == "My\nAccount")
           {
