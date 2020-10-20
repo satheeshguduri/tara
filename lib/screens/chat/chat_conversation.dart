@@ -30,6 +30,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   TextEditingController textEditingController = TextEditingController();
   bool isPlusClicked = false;
   String chatMsg = "";
+  bool isToShowSendAndReceiveBottomSheet = true;
   String sendReceiveMoney = "";
   bool isSendReceiveConfirmed = false;
 
@@ -57,7 +58,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   )
                 ],
               ),
-              sendReceiveMoney.isEmpty?showReceiveOrSendBottomSheet():Container()
+            (!widget.isFromSend&&!widget.isFromReceive)?Container():(isToShowSendAndReceiveBottomSheet?showReceiveOrSendBottomSheet():Container())
             ]
             )
         )
@@ -69,10 +70,12 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     Timer(Duration(milliseconds: 2), () {
       if(widget.isFromSend==true)
       {
+        isToShowSendAndReceiveBottomSheet = false;
         sendBottomSheet();
       }
       else if(widget.isFromReceive==true)
       {
+        isToShowSendAndReceiveBottomSheet = false;
         receiveBottomSheet();
       }
     });
@@ -234,11 +237,13 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                       if (!isPlusClicked){
                         setState(() {
                           isPlusClicked = true;
+                          isToShowSendAndReceiveBottomSheet = false;
                         });
                       }
                       else{
                         setState(() {
                           isPlusClicked = false;
+                          isToShowSendAndReceiveBottomSheet = false;
                         });
                       }
                     },
@@ -398,6 +403,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         builder: (BuildContext context) {
           return ReceiveWidget(receiveMoneyConfirmed:(amount){
             setState(() {
+              sendReceiveMoney = "";
               sendReceiveMoney = amount;
               arrStr.add("chat_request_cash_deposit");
               if (isPlusClicked == true)
@@ -418,6 +424,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         builder: (BuildContext context) {
           return SendWidget(sendMoneyConfirmed: (amount){
             setState(() {
+              sendReceiveMoney = "";
               sendReceiveMoney = amount;
               arrStr.add("chat_money_transfer_success");
               if (isPlusClicked == true)

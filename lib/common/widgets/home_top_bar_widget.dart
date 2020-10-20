@@ -266,7 +266,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
   Widget getSearchWidget() {
     return InkWell(
       onTap: (){
-
+        push(CashDepositSelectContact());
       },
       child: Container(
         height: 40,

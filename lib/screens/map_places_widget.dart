@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/screens/Merchant/merchant_home_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -85,7 +86,7 @@ class _MapPlacesWidgetState extends BaseState<MapPlacesWidget> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back,size: 24,),
           onPressed: (){
-            Navigator.pop(context, false);
+            pushReplacement(MerchantHomeScreen());
           },
         ),
         title:Container(

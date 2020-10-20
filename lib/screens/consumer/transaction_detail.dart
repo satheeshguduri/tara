@@ -4,6 +4,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 
 class TransactionDetail extends StatefulWidget {
   TransactionDetail({Key key}) : super(key: key);
@@ -81,8 +82,9 @@ class _TransactionDetailState
       automaticallyImplyLeading: false, // hides leading widget
       leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () =>
-              Navigator.pop(context, false) //Navigator.pop(context, false),
+          onPressed: () {
+             pushReplacement(HomeCustomerScreen());
+          }
       ),
       title:Align(
         alignment: Alignment.topLeft,
