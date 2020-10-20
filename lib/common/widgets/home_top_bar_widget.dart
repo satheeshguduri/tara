@@ -6,6 +6,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
+import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/agent/agent_widgets/upload_portrait_pic.dart';
@@ -13,6 +14,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/chat/send_money.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/create_account.dart';
@@ -179,7 +181,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                                 alignment: Alignment.centerRight,
                                 child: InkWell(
                                     onTap: (){
-                                      push(CreateAccount());
+                                      if(Flavor.MERCHANT != F.appFlavor)
+                                      {
+                                        push(CreateAccount());
+                                      }
                                     },
                                     child:Container(
                                       width: 33,
@@ -219,9 +224,18 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,),
-            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,),
-            RoundedButton(buttonText: getTranslation(Strings.CASH_DEPOSIT),image: Assets.ic_cash_deposit,onPressed:cashDepositBottomSheet),
+            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,onPressed: (){
+              push(CashDepositSelectContact(isFromSend: true,));
+            },),
+            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,onPressed: (){
+              push(CashDepositSelectContact(isFromReceive: true,));
+            },),
+            RoundedButton(buttonText: getTranslation(Strings.CASH_DEPOSIT),image: Assets.ic_cash_deposit,onPressed:(){
+              ChatInboxInfo chatInboxInfo = ChatInboxInfo();
+              chatInboxInfo.chatTitle = getTranslation(Strings.CASH_DEPOSIT);
+              chatInboxInfo.chatCardTitle = "chat_request_cash_deposit";
+              push(ConversationPage(chatInboxInfo: chatInboxInfo,isFromTaraOrder: true));
+            }),
             RoundedButton(buttonText: getTranslation(Strings.RESTOCK),image: Assets.ic_restock,),
           ],
         ),
@@ -233,8 +247,12 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,),
-            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,),
+            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,onPressed: (){
+              push(CashDepositSelectContact(isFromSend: true,));
+            },),
+            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,onPressed: (){
+              push(CashDepositSelectContact(isFromReceive: true,));
+            },),
             RoundedButton(buttonText: getTranslation(Strings.PAYMENT),image: Assets.ic_payment,onPressed: (){
             },),
             RoundedButton(buttonText: getTranslation(Strings.CMS_TOP_UP),image: Assets.ic_topup,),
@@ -257,7 +275,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             RoundedButton(buttonText: getTranslation(Strings.ADD_BENEFICIARY),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
             },),
             RoundedButton(buttonText: getTranslation(Strings.SHOP),image: Assets.SHOP_ICON,onPressed: (){
-
+              ChatInboxInfo chatInboxInfo = ChatInboxInfo();
+              chatInboxInfo.chatTitle = getTranslation(Strings.CASH_DEPOSIT);
+              chatInboxInfo.chatCardTitle = "tara_shop_received_text";
+              push(ConversationPage(chatInboxInfo: chatInboxInfo,));
             },),
           ],
         ),
@@ -304,16 +325,5 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         ),
       ),
     );
-  }
-
-   Future  cashDepositBottomSheet() {
-    return showModalBottomSheet(
-        isScrollControlled: true,
-        useRootNavigator: true,
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (BuildContext context) {
-          return CashDepositWidget();
-        });
   }
 }
