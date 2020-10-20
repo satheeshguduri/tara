@@ -246,6 +246,8 @@ class _CashDepositSelectContactState
           push(ConversationPage(isFromSend: true,selectedContact: contactInfoTemp,));
         }else  if (widget.isFromReceive != null && widget.isFromReceive == true) {
           push(ConversationPage(isFromReceive: true,selectedContact: contactInfoTemp,));
+        }else{
+          push(ConversationPage(selectedContact: contactInfoTemp,));
         }
       },
       child: Container(
