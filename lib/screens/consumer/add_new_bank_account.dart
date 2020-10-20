@@ -325,6 +325,7 @@ class _AddNewBankAccountState extends BaseState<AddNewBankAccount> {
     return InkWell(
       onTap: (){
         Utils().hideKeyBoard(context);
+        Navigator.pop(context);
       },
       child: Container(
         height: 48,

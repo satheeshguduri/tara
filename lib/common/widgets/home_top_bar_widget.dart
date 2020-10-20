@@ -7,18 +7,11 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/flavors.dart';
-import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
-import 'package:tara_app/screens/agent/agent_widgets/upload_portrait_pic.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
-import 'package:tara_app/screens/chat/chat_inbox.dart';
-import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
-import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
-import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/create_account.dart';
-import 'package:tara_app/screens/create_password.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
