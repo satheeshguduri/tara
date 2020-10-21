@@ -18,6 +18,7 @@ class TextFieldWidget extends StatefulWidget {
   final bool autoFocus;
   final TextInputAction inputAction;
   final TextStyle placeHolderStyle;
+  final int maxLines;
 
   const TextFieldWidget({
     Key key,
@@ -37,6 +38,7 @@ class TextFieldWidget extends StatefulWidget {
     this.autoFocus = false,
     this.inputAction,
     this.placeHolderStyle = BaseStyles.bankNameTextStyle,
+    this.maxLines=1
 
   }) : super(key: key);
 
@@ -60,7 +62,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           obscureText: widget.isObscure!=null?widget.isObscure:null,
           maxLength: getMaxLength(),
           minLines: 1,
-          maxLines: 1,
+          maxLines: widget.maxLines,
           keyboardType: widget.inputType!=null?widget.inputType:null,
           style: BaseStyles.bankNameTextStyle,
           decoration: InputDecoration(
@@ -91,9 +93,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         return 10;
       }
       else{
-        return 25;
+        return 150;
       }
     }
-    return 25;
+    return 150;
   }
 }

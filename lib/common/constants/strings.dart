@@ -283,4 +283,21 @@ class Strings{
   static const merchant = "merchant";
   static const chat = "chat";
   static const inbox = "inbox";
+
+  static const my_dashboard = "my_dashboard";
+  static const profile = "profile";
+  static const notification_settings = "notification_settings";
+  static const help_support = "help_support";
+  static const logout = "logout";
+  static const name = "name";
+  static const email_address = "email_address";
+  static const phone_number_2 = "phone_number_2";
+
+  static const enter_name = "enter_name";
+  static const enter_address = "enter_address";
+  static const enter_email_address = "enter_email_address";
+  static const enter_phone_number = "enter_phone_number";
+  static const save = "save";
+
+
 }

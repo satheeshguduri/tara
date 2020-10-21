@@ -13,6 +13,7 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/consumer/home_customer_widget.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
+import 'package:tara_app/screens/dashboard/dash_board.dart';
 import '../../common/constants/values.dart';
 import '../base/base_state.dart';
 
@@ -34,7 +35,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
     HomeCustomerWidget(),
     ChatInbox(),//ConversationPage(canGoBack: false,),
     HomeCustomerWidget(),
-    HomeCustomerWidget(),
+    DashBoard(),
     MyAccount(),
   ];
 

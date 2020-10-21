@@ -136,6 +136,8 @@ class Assets {
   static const ic_check_un_select = "assets/images/check_unselect.svg";
 
   static const ic_refresh = "assets/images/ic_refresh.png";
+  static const ic_avatar_default = "assets/images/avatardefault.png";
+  static const ic_edit = "assets/images/icon-48.png";
 
 
 

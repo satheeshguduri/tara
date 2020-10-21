@@ -598,4 +598,11 @@ class BaseStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
   );
+
+  static const logoutTextStyle = const TextStyle(
+      color:  Colors.pink,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
 }

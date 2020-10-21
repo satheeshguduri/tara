@@ -8,7 +8,6 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
 import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
