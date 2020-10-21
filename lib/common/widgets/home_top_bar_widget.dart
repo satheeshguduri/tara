@@ -11,6 +11,7 @@ import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.d
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/screens/consumer/shop/shop_home.dart';
 import 'package:tara_app/screens/create_account.dart';
 
 class HomeTopBar extends StatefulWidget {
@@ -271,7 +272,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               ChatInboxInfo chatInboxInfo = ChatInboxInfo();
               chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
               chatInboxInfo.chatCardTitle = "tara_shop_received_text";
-              push(ConversationPage(chatInboxInfo: chatInboxInfo,));
+//              push(ConversationPage(chatInboxInfo: chatInboxInfo,));
+              push(ShopHome());
             },),
           ],
         ),

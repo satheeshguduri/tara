@@ -247,6 +247,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
               setState(() {
                 arrStr.add("chat_money_transfer_success");
               });
+            }else if (val == "cancel_Req"){
+              setState(() {
+              });
             }
           }),
           itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,

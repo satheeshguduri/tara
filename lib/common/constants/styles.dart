@@ -598,6 +598,12 @@ class BaseStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
   );
+  static const shopPreviousOrderAgain = TextStyle(
+      color:  AppColors.header_top_bar_color,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0
+  );
 
   static const logoutTextStyle = const TextStyle(
       color:  Colors.pink,

@@ -88,7 +88,9 @@ class _ChatItemWidgetState extends BaseState<ChatItemWidget> {
     } else if (widget.chatMsg == "chat_pln_payment_success") {
       return ChatPLNPaymentSuccess();
     } else if (widget.chatMsg == "chat_request_cash_deposit") {
-      return ChatRequestCashDeposit(requestedAmount: widget.requestedAmount,);
+      return ChatRequestCashDeposit(requestedAmount: widget.requestedAmount,onTapCancel: (val){
+        widget.onSelectAction(val);
+      },);
     } else if (widget.chatMsg == "chat_request_cash_deposit_confirmed_true") {
       return ChatRequestCashDeposit(
         isConfirmed: true,

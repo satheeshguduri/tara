@@ -11,7 +11,12 @@ import 'package:tara_app/screens/base/base_state.dart';
 class ChatRequestCashDeposit extends StatefulWidget {
   final bool isConfirmed;
   final String requestedAmount;
-  const ChatRequestCashDeposit({Key key, this.isConfirmed = false,this.requestedAmount})
+  final Function onTapCancel;
+  const ChatRequestCashDeposit(
+      {Key key,
+      this.isConfirmed = false,
+      this.requestedAmount,
+      this.onTapCancel})
       : super(key: key);
 
   @override
@@ -69,34 +74,44 @@ class _RequestCashDepositState extends BaseState<ChatRequestCashDeposit> {
                           Container(
                             margin:
                                 EdgeInsets.only(left: 16, right: 8, bottom: 8),
-                            child: Text((widget.requestedAmount!=null)?"Rp " +  widget.requestedAmount + ".000":"Rp 500.000",
+                            child: Text(
+                                (widget.requestedAmount != null)
+                                    ? "Rp " + widget.requestedAmount + ".000"
+                                    : "Rp 500.000",
                                 style: BaseStyles.agentUIN_OTP_CODE_TextStyle),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                  margin: EdgeInsets.only(top: 8, bottom: 8),
-                                  alignment: Alignment.center,
-                                  width: 188,
-                                  height: 32,
+                              InkWell(
+                                child: Container(
+                                    margin: EdgeInsets.only(top: 8, bottom: 8),
+                                    alignment: Alignment.center,
+                                    width: 188,
+                                    height: 32,
 //                                  margin: EdgeInsets.only(left:16,right:16),
-                                  decoration: BoxDecoration(
-                                      borderRadius: Radii.border(8),
-                                      border: widget.isConfirmed
-                                          ? null
-                                          : Border.all(
-                                              color: AppColors.light_grey_blue,
-                                            ),
-                                      color: widget.isConfirmed
-                                          ? AppColors.light_grey_bg_color
-                                          : const Color(0xffffffff)),
-                                  child: Text(
-                                    getTranslation(Strings.CANCEL_REQ),
-                                    style: widget.isConfirmed
-                                        ? BaseStyles.requestNowTextStyle
-                                        : BaseStyles.cancel_request_text_style,
-                                  )),
+                                    decoration: BoxDecoration(
+                                        borderRadius: Radii.border(8),
+                                        border: widget.isConfirmed
+                                            ? null
+                                            : Border.all(
+                                                color:
+                                                    AppColors.light_grey_blue,
+                                              ),
+                                        color: widget.isConfirmed
+                                            ? AppColors.light_grey_bg_color
+                                            : const Color(0xffffffff)),
+                                    child: Text(
+                                      getTranslation(Strings.CANCEL_REQ),
+                                      style: widget.isConfirmed
+                                          ? BaseStyles.requestNowTextStyle
+                                          : BaseStyles
+                                              .cancel_request_text_style,
+                                    )),
+                                onTap: () {
+                                  widget.onTapCancel("cancel_Req");
+                                },
+                              )
                             ],
                           ),
                           Row(

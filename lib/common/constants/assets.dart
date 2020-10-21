@@ -61,6 +61,8 @@ class Assets {
   static const ic_bank3 = "assets/images/bank-bri-logo.png";
   static const ic_bank4 = "assets/images/group-2.png";
 
+  static const ic_back_long = "assets/images/icon-5.png";
+
 
 
 
@@ -138,6 +140,12 @@ class Assets {
   static const ic_refresh = "assets/images/ic_refresh.png";
   static const ic_avatar_default = "assets/images/avatardefault.png";
   static const ic_edit = "assets/images/icon-48.png";
+  static const ic_favourite = "assets/images/Favorite.svg";
+//  static const ic_cart = "assets/images/Cart.svg";
+  static const ic_shop_banner = "assets/images/shop_temp.png";
+
+
+
 
 
 
