@@ -14,6 +14,7 @@ import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/consumer/home_customer_widget.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/dash_board.dart';
+import 'package:tara_app/screens/scan_qr_code.dart';
 import '../../common/constants/values.dart';
 import '../base/base_state.dart';
 
@@ -34,7 +35,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
   final List<Widget> _children = [
     HomeCustomerWidget(),
     ChatInbox(),//ConversationPage(canGoBack: false,),
-    HomeCustomerWidget(),
+    ScanQRCode(),
     DashBoard(),
     MyAccount(),
   ];
@@ -75,7 +76,9 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
             shape: BoxShape.circle,
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          ScanQRCode();
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SafeArea(child: getRootContainer(),top: false,bottom: true,),

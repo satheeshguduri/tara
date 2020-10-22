@@ -5,6 +5,7 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/dashboard/notification_settings.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 
 class DashBoard extends StatefulWidget {
@@ -142,7 +143,14 @@ class _DashBoardState extends BaseState<DashBoard> {
   {
     return InkWell(
       onTap: (){
-        push(ProfileEdit());
+        if (title == Strings.profile)
+        {
+          push(ProfileEdit());
+        }
+        else if (title == Strings.notification_settings)
+        {
+          push(NotificationSettings());
+        }
       },
       child: Container(
         margin: EdgeInsets.only(top: 4,bottom: 4),

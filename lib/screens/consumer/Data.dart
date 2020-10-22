@@ -91,3 +91,9 @@ class ChatInboxInfo {
   String chatCardTitle;
   String chatAmount;
 }
+
+class NotificationSettingsInfo {
+  String settingTitle;
+  String settingSubTitle;
+  bool isSwitched;
+}

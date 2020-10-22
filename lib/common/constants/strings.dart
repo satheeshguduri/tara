@@ -299,5 +299,20 @@ class Strings{
   static const enter_phone_number = "enter_phone_number";
   static const save = "save";
 
+  static const scan_qr = "scan_qr";
+  static const camera_access_text = "camera_access_text";
+  static const camera_access_sub_text = "camera_access_sub_text";
+  static const allow_camera_access_text = "allow_camera_access_text";
+
+}
+
+class NotificationSettingsStrings{
+
+  static const push_notification = "Push Notification";
+  static const receive_notification_push_subtext = "Receive notification from the app";
+  static const email = "Email";
+  static const receive_notification_email_subtext = "Receive notification to your email";
+  static const whats_app = "Whatsapp";
+  static const receive_notification_whatsapp_subtext = "Receive notification to your Whatsapp";
 
 }

@@ -19,6 +19,7 @@ class TextFieldWidget extends StatefulWidget {
   final TextInputAction inputAction;
   final TextStyle placeHolderStyle;
   final int maxLines;
+  final int height;
 
   const TextFieldWidget({
     Key key,
@@ -38,7 +39,8 @@ class TextFieldWidget extends StatefulWidget {
     this.autoFocus = false,
     this.inputAction,
     this.placeHolderStyle = BaseStyles.bankNameTextStyle,
-    this.maxLines=1
+    this.maxLines=1,
+    this.height = 48
 
   }) : super(key: key);
 
@@ -49,7 +51,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 48,
+      height: widget.height.toDouble(),
       child: Padding(
         padding: widget.padding,
         child: TextFormField(

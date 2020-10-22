@@ -115,7 +115,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                   ),
                 ),
                 textFormFieldContainer(getTranslation(Strings.name),getTranslation(Strings.enter_name),TextInputType.text,nameTextController,null,1),
-                textFormFieldContainer(getTranslation(Strings.address),getTranslation(Strings.enter_address),TextInputType.text,addressTextController,null,3),
+                textFormFieldContainer(getTranslation(Strings.address),getTranslation(Strings.enter_address),TextInputType.multiline,addressTextController,null,3),
                 textFormFieldContainer(getTranslation(Strings.email_address),getTranslation(Strings.enter_email_address),TextInputType.emailAddress,emailAddressController,null,1),
                 textFormFieldContainer(getTranslation(Strings.phone_number_2),getTranslation(Strings.enter_phone_number),TextInputType.phone,phoneNumberController,phoneNumberFocusNode,1),
               ],
@@ -179,10 +179,22 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                     textAlign: TextAlign.left
                 ),
               ),
-              Container(
+              textEditingController!=addressTextController?Container(
                 child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,maxLines:maxLines,focusNode: focusNode,onChanged:(value){
 
                 }),
+              ):Container(
+                margin: EdgeInsets.only(top:16,bottom: 12),
+                child: TextField(
+                  style: BaseStyles.bankNameTextStyle,
+                  controller: textEditingController,
+                  decoration: InputDecoration.collapsed(
+                    hintText: hint,
+                    hintStyle: BaseStyles.bankNameTextStyle,
+                  ),
+                  minLines:1,maxLines:maxLines,
+                  keyboardType:inputType,
+                ),
               )
             ],
           ),
