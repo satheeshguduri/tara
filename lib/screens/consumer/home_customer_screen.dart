@@ -7,6 +7,7 @@
     */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
@@ -77,7 +78,9 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
           ),
         ),
         onPressed: () {
-          ScanQRCode();
+          setState(() {
+            _currentIndex = 2;
+          });
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -119,8 +122,8 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
             activeIcon: getTabImage(Assets.HOME_ACTIVE),
             title: getTabText(TabTitle.HOME)),
         BottomNavigationBarItem(
-          icon: getTabImage(Assets.CHAT_IN_ACTIVE),
-          activeIcon: getTabImage(Assets.CHAT_ACTIVE),
+          icon: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,width: 24,) , //getTabImage(Assets.CHAT_IN_ACTIVE),
+          activeIcon: SvgPicture.asset(Assets.CHAT_ACTIVE,width: 24,), //getTabImage(Assets.CHAT_ACTIVE),
           title: Text(
             TabTitle.CHAT,
             style: BaseStyles.navigationTextStyle,
@@ -138,12 +141,12 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
         BottomNavigationBarItem(
           icon: getTabImage(Assets.MY_ORDERS_ACTIVE),
           activeIcon: getTabImage(Assets.MY_ORDERS_IN_ACTIVE),
-          title: getTabText(TabTitle.MY_ORDERS)
+          title: getTabText(TabTitle.DASHBOARD)
         ),
         BottomNavigationBarItem(
-          icon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
-          activeIcon: getTabImage(Assets.ACCOUNTS_ACTIVE),
-          title: getTabText(TabTitle.ACCOUNTS),
+          icon: SvgPicture.asset(Assets.SETTINGS_IN_ACTIVE,width: 24,) ,//getTabImage(Assets.SETTINGS_IN_ACTIVE),
+          activeIcon: SvgPicture.asset(Assets.SETTINGS_ACTIVE,width: 24,) , //getTabImage(Assets.SETTINGS_ACTIVE),
+          title: getTabText(TabTitle.SETTINGS),
           ),
       ],
     );

@@ -15,13 +15,13 @@ class Assets {
   static const String background = "assets/images/container-16.png";
 
   static const HOME_IN_ACTIVE = "assets/images/icon-56.png";
-  static const CHAT_IN_ACTIVE = "assets/images/icon-39.png";
+  static const CHAT_IN_ACTIVE = "assets/images/ic_chat_inactive.svg";
   static const SCAN_IN_ACTIVE = "assets/images/icon-13.png";
   static const MY_ORDERS_IN_ACTIVE = "assets/images/icon-51.png";
   static const ACCOUNTS_IN_ACTIVE = "assets/images/icon-51.png";
 
   static const HOME_ACTIVE = "assets/images/icon-6.png";
-  static const CHAT_ACTIVE = "assets/images/icon-39.png";
+  static const CHAT_ACTIVE = "assets/images/ic_chat_active.svg";
   static const SCAN_ACTIVE = "assets/images/icon-13.png";
   static const MY_ORDERS_ACTIVE = "assets/images/icon-51.png";
   static const ACCOUNTS_ACTIVE = "assets/images/icon-58.png";
@@ -147,7 +147,8 @@ class Assets {
   static const ic_van = "assets/images/icon-18.png";
 
 
-
+  static const SETTINGS_IN_ACTIVE = "assets/images/ic_settings_inactive.svg";
+  static const SETTINGS_ACTIVE = "assets/images/ic_settings_active.svg";
 
 
 

@@ -5,6 +5,7 @@ class TabTitle {
   static const MY_ORDERS = "My Orders";
   static const ACCOUNTS = "Accounts";
   static const SETTINGS = "Settings";
+  static const DASHBOARD = "Dashboard";
 }
 
 class Strings{
