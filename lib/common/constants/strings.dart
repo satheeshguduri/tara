@@ -324,6 +324,8 @@ class Strings{
   static const camera_access_text = "camera_access_text";
   static const camera_access_sub_text = "camera_access_sub_text";
   static const allow_camera_access_text = "allow_camera_access_text";
+  static const find_qr_code_to_scan = "find_qr_code_to_scan";
+  static const find_qr_code_subtext = "find_qr_code_subtext";
 
 }
 

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:tara_app/common/constants/assets.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:tara_app/common/constants/colors.dart';
-import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/circle_shape.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/chat_conversation.dart';
-import 'package:tara_app/screens/consumer/Data.dart';
 
 class ScanQRCode extends StatefulWidget {
   @override
   _ScanQRCodeState createState() => _ScanQRCodeState();
 }
 
-class _ScanQRCodeState extends BaseState<ScanQRCode> {
+class _ScanQRCodeState extends BaseState<ScanQRCode> with TickerProviderStateMixin {
+  var qrText = '';
+  QRViewController controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  bool isAllowCameraAccessClicked = false;
 
   @override
   BuildContext getContext() {
@@ -26,6 +28,7 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,7 +38,12 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
         backgroundColor: Colors.white,
         appBar: _buildAppBar(context),
         body: Center(
-          child: Container(
+          child: SingleChildScrollView(
+        child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
             height: 270,
             child: Stack(
               alignment: Alignment.center,
@@ -77,7 +85,15 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
                   right: 36,
                   child: Align(
                       alignment: Alignment.center,
-                      child: Container(
+                      child: isAllowCameraAccessClicked?Container(
+                        margin: EdgeInsets.only(top: 4,bottom: 4),
+                        height: 260,
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: getScannerWidget(),
+                      ):Container(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,7 +105,7 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
                               textAlign: TextAlign.center,
                             )),
                             Container(padding: EdgeInsets.only(left: 8,right: 8),margin: EdgeInsets.only(top: 8,left: 8,right: 8,),child:  Text(getTranslation(Strings.camera_access_sub_text),
-                                style: BaseStyles.alreadyHaveAccountTextStyle,textAlign: TextAlign.center,),),
+                              style: BaseStyles.alreadyHaveAccountTextStyle,textAlign: TextAlign.center,),),
                             _getAllowCameraAccessWidget()
                           ],
                         ),
@@ -97,22 +113,29 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
                   ),
                 ),
               ],
-
             ),
-        ),
+          ),
+          isAllowCameraAccessClicked?Container(margin: EdgeInsets.only(top: 40,left: 16,right: 16),child:  Text(
+            getTranslation(Strings.find_qr_code_to_scan),
+            style: BaseStyles.ktpTitleTextStyle,
+            textAlign: TextAlign.center,
+          )):Container(),
+          isAllowCameraAccessClicked?Container(padding: EdgeInsets.only(left: 8,right: 8),margin: EdgeInsets.only(top: 8,left: 16,right: 16,bottom: 16),child:  Text(getTranslation(Strings.find_qr_code_subtext),
+            style: BaseStyles.alreadyHaveAccountTextStyle,textAlign: TextAlign.center,),):Container(),
+        ],
       ),
-    ));
+    ))));
   }
 
   BoxDecoration myBoxDecoration_topLeft() {
     return BoxDecoration(
       border: Border(
         left: BorderSide( //                   <--- left side
-          color: Color(0xffb0b4c1),
+          color: isAllowCameraAccessClicked?AppColors.header_top_bar_color:Color(0xffb0b4c1),
           width: 3.0,
         ),
         top: BorderSide( //                    <--- top side
-          color: Color(0xffb0b4c1),
+          color: isAllowCameraAccessClicked?AppColors.header_top_bar_color:Color(0xffb0b4c1),
           width: 3.0,
         ),
       ),
@@ -122,11 +145,11 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
     return BoxDecoration(
       border: Border(
         right: BorderSide( //                   <--- left side
-          color: Color(0xffb0b4c1),
+          color: isAllowCameraAccessClicked?AppColors.header_top_bar_color:Color(0xffb0b4c1),
           width: 3.0,
         ),
         top: BorderSide( //                    <--- top side
-          color: Color(0xffb0b4c1),
+          color: isAllowCameraAccessClicked?AppColors.header_top_bar_color:Color(0xffb0b4c1),
           width: 3.0,
         ),
       ),
@@ -136,11 +159,11 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
     return BoxDecoration(
       border: Border(
         left: BorderSide( //                   <--- left side
-          color: Color(0xffb0b4c1),
+          color: isAllowCameraAccessClicked?AppColors.header_top_bar_color:Color(0xffb0b4c1),
           width: 3.0,
         ),
         bottom: BorderSide( //                    <--- top side
-          color: Color(0xffb0b4c1),
+          color: isAllowCameraAccessClicked?AppColors.header_top_bar_color:Color(0xffb0b4c1),
           width: 3.0,
         ),
       ),
@@ -150,11 +173,11 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
     return BoxDecoration(
       border: Border(
         right: BorderSide( //                   <--- left side
-          color: Color(0xffb0b4c1),
+          color: isAllowCameraAccessClicked?AppColors.header_top_bar_color:Color(0xffb0b4c1),
           width: 3.0,
         ),
         bottom: BorderSide( //                    <--- top side
-          color: Color(0xffb0b4c1),
+          color: isAllowCameraAccessClicked?AppColors.header_top_bar_color:Color(0xffb0b4c1),
           width: 3.0,
         ),
       ),
@@ -177,7 +200,9 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
   _getAllowCameraAccessWidget() {
     return InkWell(
       onTap: () {
-
+          setState(() {
+            isAllowCameraAccessClicked = true;
+          });
       },
       child: Container(
         width: 180,
@@ -199,6 +224,33 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> {
 
   @override
   void dispose() {
+    controller?.dispose();
     super.dispose();
+  }
+
+  /// Display the preview from the camera (or a message if the preview is not available).
+   getScannerWidget() {
+
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+        borderColor: Colors.transparent,//Color(0xffb2f7e2),
+        borderRadius: 10,
+        borderLength: 30,
+        borderWidth: 10,
+        cutOutSize: 300,
+      ),
+    );
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        qrText = scanData;
+        print("qr  text is : {$qrText}");
+      });
+    });
   }
 }

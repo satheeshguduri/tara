@@ -298,5 +298,8 @@
   "scan_qr": "Scan QR",
   "camera_access_text": "This feature requires\n Camera Access",
   "camera_access_sub_text": "Allow Tara app to to access phone camera\nto use this feature",
-  "allow_camera_access_text": "Allow camera access"
+  "allow_camera_access_text": "Allow camera access",
+  "find_qr_code_to_scan" : "Find a QR code to scan",
+   "find_qr_code_subtext" : "Pay any transactions that has QRIS on any\nmerchants."
+
 }

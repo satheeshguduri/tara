@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
+import 'package:tara_app/screens/agent/agent_widgets/take_picture_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
@@ -22,7 +27,8 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
   TextEditingController emailAddressController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   FocusNode phoneNumberFocusNode = FocusNode();
-
+  String imagePath = "";
+  File imageFile;
 
   @override
   BuildContext getContext() {
@@ -66,18 +72,26 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(top: 16,),
-                          child: Container(
-                            height: 120.0,
-                            width: 120.0,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage(Assets.ic_avatar_default),
-                                  fit: BoxFit.cover,
-                                )
-                              // image: new Image.asset(_image.)
-                            ),
-                          ),
+                          child: (imageFile!=null)?
+                          Container(
+                              height: 120,
+                              width: 120,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(60)),
+                                  child:Image.file(imageFile,fit: BoxFit.fill,))):
+                          imagePath.isNotEmpty?
+                          Container(
+                              height: 120,
+                              width: 120,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(60)),
+                                  child:Image.file(File(imagePath),fit: BoxFit.fill,))):
+                          Container(
+                              height: 120,
+                              width: 120,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(60)),
+                                  child:Image.asset(Assets.ic_avatar_default, fit: BoxFit.cover,width:120,height: 120,))),
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
@@ -102,7 +116,9 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                             ),
                             child: Center(
                               child: InkWell(
-                                onTap: (){},
+                                onTap: (){
+                                  _showSelectionDialog(context);
+                                },
                                 child: Container(
                                   child: getTabImageWithSize(Assets.ic_edit,20,20),
                                 ),
@@ -225,6 +241,68 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
         ),
       ),
     );
+  }
+
+
+  Future<void> _showSelectionDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text(getTranslation(Strings.take_picture_dialog),style: BaseStyles.mobileNoTextStyle,),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 4,bottom: 4),
+                      height: 1,
+                      color: Colors.grey[300],
+                    ),
+                    GestureDetector(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 8,bottom: 8),
+                        child: Text(getTranslation(Strings.gallery),style: BaseStyles.itemOrderTextStyle,),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _openGallery(context);
+                      },
+                    ),
+                    Padding(padding: EdgeInsets.all(8.0)),
+                    GestureDetector(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 8,bottom: 8),
+                        child:Text(getTranslation(Strings.camera),style: BaseStyles.itemOrderTextStyle,),),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _showCamera();
+                      },
+                    )
+                  ],
+                ),
+              ));
+        });
+  }
+
+  void _openGallery(BuildContext context) async {
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imageFile = picture;
+      imagePath = "";
+    });
+  }
+
+  void _showCamera() async {
+
+    final cameras = await availableCameras();
+    final camera = cameras.first;
+
+    push(TakePictureScreen(camera: camera,imagePathCallback: (selectedImagePath){
+      setState(() {
+        imagePath = selectedImagePath;
+        imageFile = null;
+      });
+    },));
   }
 
 }
