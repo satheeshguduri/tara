@@ -1,15 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:tara_app/common/widgets/empty_app_bar_widget.dart';
-import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 
@@ -92,7 +89,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("DELIVER TO",
+                    Text(getTranslation(Strings.deliver_to),
                         style: BaseStyles.agentConfirmedTextStyle),
                     Row(
                       children: <Widget>[
@@ -174,7 +171,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
             Container(
               margin: EdgeInsets.only(left: 8),
               child: Text(
-                "Search products or category...",
+                getTranslation(Strings.search_prd_cat),
                 textAlign: TextAlign.left,
                 style: BaseStyles.searchBarTextStyle,
               ),
@@ -237,7 +234,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                           child: Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              "SEE ALL PROMO",
+                              getTranslation(Strings.see_all_promo),
                               textAlign: TextAlign.center,
                               style: BaseStyles.seeAllTextStyle,
                             ),
@@ -288,7 +285,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "Your Past Purchases",
+                    getTranslation(Strings.past_purchase),
                     textAlign: TextAlign.left,
                     style: BaseStyles.bottomSheetTitleStyle,
                   ),
@@ -329,7 +326,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
 //              viewportFraction: 0.2,
               // autoPlay: true,
                 enableInfiniteScroll: false,
-                aspectRatio: 3.4,
+                aspectRatio: 3.3,
 //                enlargeCenterPage: true,
                 onPageChanged: (index, reason) {
                   setState(() {
@@ -406,7 +403,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                         color: AppColors.pale_turquoise
                     ),
                   child: Text(
-                      "Order Again",
+                      getTranslation(Strings.order_again),
                       style: BaseStyles.shopPreviousOrderAgain
                   ),
                 )
@@ -429,7 +426,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Merchant Near You",
+                  getTranslation(Strings.merchant_near_u),
                   textAlign: TextAlign.left,
                   style: BaseStyles.bottomSheetTitleStyle,
                 ),
@@ -556,8 +553,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                       ),
                     ),
                     onTap: (){
-
-                      push(ConversationPage(arrChats: ["items_order_isFromAcceptedAnswer_true"],));
+                      push(ConversationPage(arrChats: ["make_an_order"],));
                     },
                   );
                 })

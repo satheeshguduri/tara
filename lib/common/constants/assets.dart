@@ -144,6 +144,8 @@ class Assets {
 //  static const ic_cart = "assets/images/Cart.svg";
   static const ic_shop_banner = "assets/images/shop_temp.png";
 
+  static const ic_van = "assets/images/icon-18.png";
+
 
 
 

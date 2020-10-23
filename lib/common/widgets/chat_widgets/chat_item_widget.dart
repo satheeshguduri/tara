@@ -8,6 +8,7 @@ import 'package:tara_app/common/widgets/chat_widgets/chat_request_cash_deposit.d
 import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/deposit_success.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
 import 'package:tara_app/common/widgets/chat_widgets/on_delivery.dart';
 import 'package:tara_app/common/widgets/chat_widgets/on_the_way.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_details_decline_pay.dart';
@@ -124,6 +125,10 @@ class _ChatItemWidgetState extends BaseState<ChatItemWidget> {
     else if (widget.chatMsg == "tara_shop_received_text")
     {
       return TextChatWidget(textMessage:"",isReceivedMsg: true,);
+    }else if (widget.chatMsg == "make_an_order"){
+      return MakeAnOrderChat(onSelectOption: (val){
+        widget.onSelectAction(val);
+      },);
     }
     else
     {

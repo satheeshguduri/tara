@@ -9,8 +9,10 @@ import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
+import 'package:tara_app/screens/chat/review_and_confirm.dart';
 import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 
 class ConversationPage extends StatefulWidget {
 
@@ -250,6 +252,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             }else if (val == "cancel_Req"){
               setState(() {
               });
+            }else if (val == "makeAnOrder"){
+              push(MakeAnOrder());
             }
           }),
           itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,

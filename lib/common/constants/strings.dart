@@ -299,6 +299,26 @@ class Strings{
   static const enter_phone_number = "enter_phone_number";
   static const save = "save";
 
+  static const merchant_near_u = "merchant_near_u";
+  static const order_again = "order_again";
+  static const past_purchase = "past_purchase";
+  static const see_all_promo = "see_all_promo";
+  static const search_prd_cat = "search_prd_cat";
+  static const deliver_to = "deliver_to";
+  static const make_an_order = "make_an_order";
+  static const edit = "edit";
+  static const delivery_option = "delivery_option";
+  static const delivery = "delivery";
+  static const pickup = "pickup";
+  static const delivery_to = "delivery_to";
+  static const prefered_delivery = "prefered_delivery";
+  static const item_list = "item_list";
+  static const start_item_list = "start_item_list";
+  static const add_item = "add_item";
+  static const save_as_shoping_list = "save_as_shoping_list";
+  static const save_for_re_order = "save_for_re_order";
+  static const place_order = "place_order";
+  static const save_item = "save_item";
   static const scan_qr = "scan_qr";
   static const camera_access_text = "camera_access_text";
   static const camera_access_sub_text = "camera_access_sub_text";
