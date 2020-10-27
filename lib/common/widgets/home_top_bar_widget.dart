@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
+import 'package:tara_app/screens/agent/balance_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
@@ -249,7 +250,9 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             },),
             RoundedButton(buttonText: getTranslation(Strings.PAYMENT),image: Assets.ic_payment,onPressed: (){
             },),
-            RoundedButton(buttonText: getTranslation(Strings.CMS_TOP_UP),image: Assets.ic_topup,),
+            RoundedButton(buttonText: getTranslation(Strings.CMS_TOP_UP),image: Assets.ic_topup,onPressed: (){
+              push(BalanceHistory());
+            },),
           ],
         ),
       );
@@ -260,15 +263,16 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.transfer),image: Assets.SEND_ICON,onPressed: (){
               push(CashDepositSelectContact(isFromSend: true,));
             },),
-            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.request),image: Assets.RECEIVE_ICON,onPressed: (){
               push(CashDepositSelectContact(isFromReceive: true,));
             },),
-            RoundedButton(buttonText: getTranslation(Strings.ADD_BENEFICIARY),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.bills),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
+
             },),
-            RoundedButton(buttonText: getTranslation(Strings.SHOP),image: Assets.SHOP_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.purchase),image: Assets.SHOP_ICON,onPressed: (){
               ChatInboxInfo chatInboxInfo = ChatInboxInfo();
               chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
               chatInboxInfo.chatCardTitle = "tara_shop_received_text";

@@ -689,7 +689,6 @@ class TextStyles {
   static const subtitle2222 = const TextStyle(
       color:  Color(0xff123456),
       fontWeight: FontWeight.w500,
-
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
@@ -881,5 +880,12 @@ class TextStyles {
 
       fontStyle:  FontStyle.normal,
       fontSize: 10.0
+  );
+
+  static const payoutMinusTextTtyle =  TextStyle(
+  color:  Colors.pink,
+  fontWeight: FontWeight.w700,
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0
   );
 }

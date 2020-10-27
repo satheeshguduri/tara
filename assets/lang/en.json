@@ -300,6 +300,16 @@
   "camera_access_sub_text": "Allow Tara app to to access phone camera\nto use this feature",
   "allow_camera_access_text": "Allow camera access",
   "find_qr_code_to_scan" : "Find a QR code to scan",
-   "find_qr_code_subtext" : "Pay any transactions that has QRIS on any\nmerchants."
+  "find_qr_code_subtext" : "Pay any transactions that has QRIS on any\nmerchants.",
+  "balance_history" : "Balance History",
+  "collection" : "Collection",
+  "payout" : "Payout",
+  "transfer" : "Transfer",
+  "request" : "Request",
+  "bills" : "Bills",
+  "purchase" : "Purchase",
+  "cash" : "Cash",
+  "rewards" : "Rewards",
+  "score" : "Score"
 
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
-import 'package:tara_app/common/constants/borders.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
@@ -9,12 +8,9 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
-import 'package:tara_app/screens/consumer/my_account/my_account.dart';
-import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -26,7 +22,7 @@ class HomeCustomerWidget extends StatefulWidget {
 
 class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
-  var myAccountArray = ["tara wallet","Add Bank", "Add E-Money"];
+  var myAccountArray = ["tara cash","tara reqards", "tara score"];
   var transferToArray = ["Tara\nUsers","Bank\nAccount", "E-Money", "My\nAccount"];
   var paymentOptionsArray = ["Mobile","Internet", "PLN", "BPJS"];
   var paymentOptionsIconsArray = [Assets.MOBILE_ICON,Assets.INTERNET_ICON, Assets.PLN_ICON, Assets.BJPS_ICON];
@@ -140,15 +136,15 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
   getMyAccountsGridItem(String accountName)
   {
-    if (accountName == "tara wallet")
-    {
+//    if (accountName == "tara wallet")
+//    {
       return Container(
-        padding: EdgeInsets.only(right: 8,top: 4,bottom: 4),
+        padding: EdgeInsets.only(right: 8,top: 2,bottom: 2),
         child: Align(
           alignment: Alignment.bottomLeft,
           child: Container(
-            width: 110,
-            height: 40,
+            width: 115,
+            height: 50,
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 19, 53, 86),
               borderRadius: Radii.k8pxRadius,
@@ -177,7 +173,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                         ),
                       ),
                       Text(
-                        getTranslation(Strings.WALLET),
+                        accountName=="tara cash"?getTranslation(Strings.cash):accountName=="tara reqards"?getTranslation(Strings.rewards):getTranslation(Strings.score),
                         textAlign: TextAlign.left,
                         style: BaseStyles.taraWalletTextStyle,
                       ),
@@ -189,51 +185,51 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           ),
         ),
       );
-    }
-    else{
-
-      return InkWell(
-        onTap: (){
-          push(ConnectNewAccountSelectBank());
-        },
-        child: Container(
-          padding: EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
-          child: DottedBorder(
-            borderType: BorderType.RRect,
-            color: Colors.grey[400],
-            strokeWidth:1.5,
-            radius: Radius.circular(8),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              child: Container(
-                height: 30,
-                child: Row(
-                  children: [
-                    Container(
-                      width: 25,
-                      height: 25,
-                      margin: EdgeInsets.only(left: 8),
-                      child: Image.asset(
-                        "assets/images/icon-2.png",
-                        fit: BoxFit.none,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 12,left: 4),
-                      child: Text(
-                        accountName,
-                        textAlign: TextAlign.left,
-                        style: BaseStyles.myAccountItemTextStyle,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-    }
+//    }
+//    else{
+//
+//      return InkWell(
+//        onTap: (){
+//          push(ConnectNewAccountSelectBank());
+//        },
+//        child: Container(
+//          padding: EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
+//          child: DottedBorder(
+//            borderType: BorderType.RRect,
+//            color: Colors.grey[400],
+//            strokeWidth:1.5,
+//            radius: Radius.circular(8),
+//            child: ClipRRect(
+//              borderRadius: BorderRadius.all(Radius.circular(8)),
+//              child: Container(
+//                height: 30,
+//                child: Row(
+//                  children: [
+//                    Container(
+//                      width: 25,
+//                      height: 25,
+//                      margin: EdgeInsets.only(left: 8),
+//                      child: Image.asset(
+//                        "assets/images/icon-2.png",
+//                        fit: BoxFit.none,
+//                      ),
+//                    ),
+//                    Container(
+//                      margin: EdgeInsets.only(right: 12,left: 4),
+//                      child: Text(
+//                        accountName,
+//                        textAlign: TextAlign.left,
+//                        style: BaseStyles.myAccountItemTextStyle,
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//              ),
+//            ),
+//          ),
+//        ),
+//      );
+//    }
   }
 
   getTransferToWidget()

@@ -326,6 +326,17 @@ class Strings{
   static const allow_camera_access_text = "allow_camera_access_text";
   static const find_qr_code_to_scan = "find_qr_code_to_scan";
   static const find_qr_code_subtext = "find_qr_code_subtext";
+  static const balance_history = "balance_history";
+  static const collection = "collection";
+  static const payout = "payout";
+
+  static const transfer = "transfer";
+  static const request = "request";
+  static const bills = "bills";
+  static const purchase = "purchase";
+  static const cash = "cash";
+  static const rewards = "rewards";
+  static const score = "score";
 
 }
 

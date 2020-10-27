@@ -97,3 +97,15 @@ class NotificationSettingsInfo {
   String settingSubTitle;
   bool isSwitched;
 }
+
+class BalanceHistoryInfo {
+  String monthName;
+  List<BalanceInfo> balanceHistory;
+}
+
+class BalanceInfo {
+  String dateTime;
+  String amount;
+  String personName;
+  bool isTaraContact=false;
+}
