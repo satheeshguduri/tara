@@ -44,7 +44,7 @@ class _CreateAccountState extends BaseState<CreateAccount>{
       MobileVerification():widget.isFromMobileVerification?
       CreatePassword(): widget.isFromCreatePassword ?
       AccountConfirmation():CreateNewAccount();
-    }else if(Flavor.AGENT == F.appFlavor){
+    }else if(Flavor.AGENT == F.appFlavor ||  Flavor.MERCHANT == F.appFlavor){
       return widget.isFromCreateAccount?
       MobileVerification()
       :CreateNewAccount();

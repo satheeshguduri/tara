@@ -98,13 +98,19 @@ class _ChatItemWidgetState extends BaseState<ChatItemWidget> {
       );
     }
     else if (widget.chatMsg == "items_order") {
-      return ItemsOrder();
+      return ItemsOrder(onTapAction: (val){
+        widget.onSelectAction(val);
+      },);
     }
     else if (widget.chatMsg == "items_order_isFromAcceptedAnswer_true") {
-      return ItemsOrder(isFromAcceptedOrder:true);
+      return ItemsOrder(isFromAcceptedOrder:true,onTapAction: (val){
+        widget.onSelectAction(val);
+      },);
     }
     else if (widget.chatMsg == "chat_order_details") {
-      return ChatOrderDetail();
+      return ChatOrderDetail(onTapAction: (val){
+        widget.onSelectAction(val);
+      },);
     }
     else if (widget.chatMsg == "chat_order_paid")
     {

@@ -12,6 +12,9 @@ import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/agent/agent_widgets/take_picture_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
+
+import '../../../flavors.dart';
 
 class UploadDocumentPartTwo extends StatefulWidget {
   const UploadDocumentPartTwo({
@@ -518,7 +521,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
   _getSaveAndContinueWidget() {
     return InkWell(
       onTap: () {
-        pushAndRemoveUntil(AgentHomeScreen());
+        push(ConnectNewAccountSelectBank());
       },
       child: Container(
         height: 48,

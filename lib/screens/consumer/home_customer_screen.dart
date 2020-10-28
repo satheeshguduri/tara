@@ -122,8 +122,16 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
             activeIcon: getTabImage(Assets.HOME_ACTIVE),
             title: getTabText(TabTitle.HOME)),
         BottomNavigationBarItem(
-          icon: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,width: 24,) , //getTabImage(Assets.CHAT_IN_ACTIVE),
-          activeIcon: SvgPicture.asset(Assets.CHAT_ACTIVE,width: 24,), //getTabImage(Assets.CHAT_ACTIVE),
+          icon: Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,),
+          ), //getTabImage(Assets.CHAT_IN_ACTIVE),
+          activeIcon: Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(Assets.CHAT_ACTIVE,),
+          ), //getTabImage(Assets.CHAT_ACTIVE),
           title: Text(
             TabTitle.CHAT,
             style: BaseStyles.navigationTextStyle,
@@ -144,8 +152,14 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
           title: getTabText(TabTitle.DASHBOARD)
         ),
         BottomNavigationBarItem(
-          icon: SvgPicture.asset(Assets.SETTINGS_IN_ACTIVE,width: 24,) ,//getTabImage(Assets.SETTINGS_IN_ACTIVE),
-          activeIcon: SvgPicture.asset(Assets.SETTINGS_ACTIVE,width: 24,) , //getTabImage(Assets.SETTINGS_ACTIVE),
+          icon: Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(Assets.SETTINGS_IN_ACTIVE,) ,),//getTabImage(Assets.SETTINGS_IN_ACTIVE),
+          activeIcon: Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(Assets.SETTINGS_ACTIVE,width: 24,) ,), //getTabImage(Assets.SETTINGS_ACTIVE),
           title: getTabText(TabTitle.SETTINGS),
           ),
       ],

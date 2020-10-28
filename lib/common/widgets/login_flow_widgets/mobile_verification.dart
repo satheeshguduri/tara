@@ -249,7 +249,7 @@ class _MobileVerificationState extends BaseState<MobileVerification> {
           }else{
             if(Flavor.CONSUMER == F.appFlavor){
               push(CreateAccount(isFromMobileVerification:true));
-            }else if(Flavor.AGENT == F.appFlavor){
+            }else if(Flavor.AGENT == F.appFlavor ||  Flavor.MERCHANT == F.appFlavor){
               push(UploadPortraitPic());
             }
           }

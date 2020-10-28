@@ -11,8 +11,10 @@ import 'package:tara_app/utils/locale/utils.dart';
 class ItemsOrder extends StatefulWidget {
 
   final bool isFromAcceptedOrder;
+  final Function onTapAction;
   const ItemsOrder({
     this.isFromAcceptedOrder=false,
+    this.onTapAction,
     Key key,
   }) : super(key: key);
 
@@ -91,7 +93,11 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                         InkWell(
                           onTap: (){
                             if (widget.isFromAcceptedOrder==false){
-                              push(ReviewAndConfirm());
+                              push(ReviewAndConfirm(callBackToConfirmOrder: (val){
+                                widget.onTapAction(val);
+                              },));
+                            }else{
+                              widget.onTapAction(Strings.order_detail);
                             }
                           },
                           child: Container(

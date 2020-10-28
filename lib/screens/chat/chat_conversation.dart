@@ -255,6 +255,22 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             }else if (val == "makeAnOrder"){
               push(MakeAnOrder());
             }
+            else if (val == Strings.confirm_order){
+              setState(() {
+                arrStr.clear();
+                arrStr.add("items_order_isFromAcceptedAnswer_true");
+              });
+            }
+            else if (val == Strings.order_detail){
+              setState(() {
+                arrStr.add("chat_order_details");
+              });
+            }
+            else if (val == Strings.order_paid){
+              setState(() {
+                arrStr.add("chat_order_paid");
+              });
+            }
           }),
           itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,
           reverse: false,

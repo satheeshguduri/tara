@@ -177,10 +177,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                                 alignment: Alignment.centerRight,
                                 child: InkWell(
                                     onTap: (){
-                                      if(Flavor.MERCHANT != F.appFlavor)
-                                      {
-                                        push(CreateAccount());
-                                      }
+                                      push(CreateAccount());
                                     },
                                     child:Container(
                                       width: 33,
@@ -271,7 +268,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             RoundedButton(buttonText: getTranslation(Strings.request),image: Assets.RECEIVE_ICON,onPressed: (){
               push(CashDepositSelectContact(isFromReceive: true,));
             },),
-            RoundedButton(buttonText: getTranslation(Strings.bills),image: Assets.ADD_BENEFICIARY_ICON,onPressed: (){
+            RoundedButton(buttonText: getTranslation(Strings.bills),image: Assets.ic_payment,onPressed: (){
 
             },),
             RoundedButton(buttonText: getTranslation(Strings.purchase),image: Assets.SHOP_ICON,onPressed: (){

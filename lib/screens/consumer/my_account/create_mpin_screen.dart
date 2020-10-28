@@ -6,9 +6,13 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/card_view.dart';
+import 'package:tara_app/screens/Merchant/merchant_home_screen.dart';
+import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
+
+import '../../../flavors.dart';
 
 class CreateMPIN extends StatefulWidget {
   const CreateMPIN({Key key}) : super(key: key);
@@ -242,7 +246,14 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
                     errorText = getTranslation(Strings.mpin_not_match);
                   });
                 } else {
-                  pushAndRemoveUntil(HomeCustomerScreen());
+                  if(Flavor.CONSUMER == F.appFlavor){
+                    pushAndRemoveUntil(HomeCustomerScreen());
+                  }
+                  else if(Flavor.MERCHANT == F.appFlavor){
+                    pushAndRemoveUntil(MerchantHomeScreen());
+                  }else if(Flavor.AGENT == F.appFlavor){
+                    pushAndRemoveUntil(AgentHomeScreen());
+                  }
                 }
               } else {
                 return;

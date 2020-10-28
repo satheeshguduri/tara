@@ -9,6 +9,7 @@ import 'package:tara_app/common/widgets/chat_widgets/chat_input_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_list_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/map_widget.dart';
+import 'package:tara_app/screens/Merchant/merchant_home_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class ReviewAndDeliver extends StatefulWidget {
@@ -361,6 +362,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                       double dragPos = dragDetails.globalPosition.dx;
                       if(dragPos >= screenWidth){
                         // push to confirm delivery
+                        pushAndRemoveUntil(MerchantHomeScreen());
                       }else{
                         setState(() {
                           positionX = dragPos;

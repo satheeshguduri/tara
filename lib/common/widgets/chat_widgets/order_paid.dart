@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/review_and_deliver.dart';
 
 class ChatOrderPaid extends StatefulWidget {
   const ChatOrderPaid({Key key}) : super(key: key);
@@ -130,23 +131,28 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                               ],
                             ),
                           ),
-                          Container(
-                            margin:
-                            EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),
-                            height: 36,
-                            decoration: BoxDecoration(
-                                borderRadius: Radii.border(8),
-                                border: Border.all(
-                                    color: const Color(0xffb2f7e2),
-                                    width: 1
-                                ),
-                                color: const Color(0xffb2f7e2)
-                            ),
-                            child: Center(
-                              child: Text(
-                                  getTranslation(
-                                      Strings.review_and_deliver),
-                                  style: BaseStyles.chatItemButtonTextStyle),
+                          InkWell(
+                            onTap: (){
+                              push(ReviewAndDeliver());
+                            },
+                            child: Container(
+                              margin:
+                              EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),
+                              height: 36,
+                              decoration: BoxDecoration(
+                                  borderRadius: Radii.border(8),
+                                  border: Border.all(
+                                      color: const Color(0xffb2f7e2),
+                                      width: 1
+                                  ),
+                                  color: const Color(0xffb2f7e2)
+                              ),
+                              child: Center(
+                                child: Text(
+                                    getTranslation(
+                                        Strings.review_and_deliver),
+                                    style: BaseStyles.chatItemButtonTextStyle),
+                              ),
                             ),
                           ),
 

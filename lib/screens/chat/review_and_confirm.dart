@@ -11,6 +11,8 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
 
 class ReviewAndConfirm extends StatefulWidget {
+  Function(String) callBackToConfirmOrder;
+  ReviewAndConfirm({Key key,this.callBackToConfirmOrder}) : super(key: key);
   @override
   _ReviewAndConfirmState createState() => _ReviewAndConfirmState();
 }
@@ -591,7 +593,10 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                       ))
                   ) ,
                   onTap: (){
-                    push(ReviewAndDeliver());
+//                    push(ReviewAndDeliver());
+
+                  widget.callBackToConfirmOrder(Strings.confirm_order);
+                  Navigator.pop(context, false);
                   },
                 )
 

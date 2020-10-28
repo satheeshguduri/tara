@@ -9,7 +9,8 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class ChatOrderDetail extends StatefulWidget {
-  const ChatOrderDetail({Key key}) : super(key: key);
+  final Function onTapAction;
+  const ChatOrderDetail({Key key,this.onTapAction}) : super(key: key);
 
   @override
   _ChatOrderDetailState createState() => _ChatOrderDetailState();
@@ -126,7 +127,11 @@ class _ChatOrderDetailState extends BaseState<ChatOrderDetail> {
                               ],
                             ),
                           ),
-                          Container(
+                          InkWell(
+                            onTap: (){
+                              widget.onTapAction(Strings.order_paid);
+                            },
+                            child: Container(
                               margin:
                               EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),
                               height: 36,
@@ -138,11 +143,12 @@ class _ChatOrderDetailState extends BaseState<ChatOrderDetail> {
                                   ),
                                   color: const Color(0x80f1e4c6)
                               ),
-                            child: Center(
-                              child: Text(
-                                  getTranslation(
-                                      Strings.trans_has_been_paid),
-                                  style: BaseStyles.chatItemSubTextStyle),
+                              child: Center(
+                                child: Text(
+                                    getTranslation(
+                                        Strings.trans_has_been_paid),
+                                    style: BaseStyles.chatItemSubTextStyle),
+                              ),
                             ),
                           ),
 
