@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -10,6 +11,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
 
 class MerchantHomeScreen extends StatefulWidget {
   MerchantHomeScreen({Key key, this.title}) : super(key: key);
@@ -58,8 +60,16 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
             activeIcon: getTabImage(Assets.HOME_ACTIVE),
             title: getTabText(TabTitle.HOME)),
         BottomNavigationBarItem(
-          icon: getTabImage(Assets.CHAT_IN_ACTIVE),
-          activeIcon: getTabImage(Assets.CHAT_ACTIVE),
+          icon: Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,),
+          ), //getTabImage(Assets.CHAT_IN_ACTIVE),
+          activeIcon: Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(Assets.CHAT_ACTIVE,),
+          ), //getTabImage(Assets.CHAT_ACTIVE),
           title: Text(
             TabTitle.CHAT,
             style: BaseStyles.navigationTextStyle,
@@ -79,9 +89,15 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
     title: getTabText(TabTitle.ACCOUNTS),
     ),
         BottomNavigationBarItem(
-            icon: getTabImage(Assets.ic_settings),
-            activeIcon: getTabImage(Assets.ic_settings),
-            title: getTabText(TabTitle.SETTINGS)
+          icon: Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(Assets.SETTINGS_IN_ACTIVE,) ,),//getTabImage(Assets.SETTINGS_IN_ACTIVE),
+          activeIcon: Container(
+            width: 24,
+            height: 24,
+            child: SvgPicture.asset(Assets.SETTINGS_ACTIVE,width: 24,) ,), //getTabImage(Assets.SETTINGS_ACTIVE),
+          title: getTabText(TabTitle.SETTINGS),
         ),
       ],
     );
@@ -472,94 +488,99 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
           physics: NeverScrollableScrollPhysics(),
           itemCount: 6,
           itemBuilder: (context,index){
-            return  Container(
-              margin: EdgeInsets.only(left: 16, right: 16,top: 16),
-              padding: EdgeInsets.all(16),
+            return  InkWell(
+              onTap: (){
+                push(ConversationPage(arrChats: ["items_order"],));
+              },
+              child: Container(
+                margin: EdgeInsets.only(left: 16, right: 16,top: 16),
+                padding: EdgeInsets.all(16),
 //                            height: 64,
-              decoration:
-              BoxDecoration(
-                  borderRadius: Radii.border(8),
-                  boxShadow: Shadows.shadows_list,
-                  color: AppColors.primaryBackground
-              ),
-              child:Center(
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Rectangle
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(Assets.ic_person1,height: 40,width: 40,),
-                          Container(
-                            margin: EdgeInsets.only(left: 16),
-                            child:Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // TODAY • 12:33
-                                Text(
-                                    "TODAY • 12:33",
-                                    style: const TextStyle(
-                                        color:  AppColors.color_black_80_2,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 10.0
-                                    )
-                                ),
-                                Container(height: 6,),
-
-                                Text(
-                                    "Andi Ruhiyat",
-                                    style: const TextStyle(
-                                        color:  AppColors.primaryText,
-                                        fontWeight: FontWeight.w700,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 14.0
-                                    )
-                                ),
-                                Container(height: 6,),
-                                Text(
-                                    "Eggs, Flour, Water Gallon…",
-                                    style: const TextStyle(
-                                        color:  AppColors.battleship_grey,
-                                        fontWeight: FontWeight.w400,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 12.0
-                                    )
-                                )
-                              ],
-                            ) ,
-                          ),
-                        ]),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      margin: EdgeInsets.only(right: 0),
-                      child:  RichText(
-                          text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    style: const TextStyle(
-                                        color:  AppColors.pale_turquoise,
-                                        fontWeight: FontWeight.w700,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 14.0
-                                    ),
-                                    text: "+ "),
-                                TextSpan(
-                                    style: const TextStyle(
-                                        color:  AppColors.fareColor,
-                                        fontWeight: FontWeight.w400,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 14.0
-                                    ),
-                                    text: "Rp 335.750")
-                              ]
-                          )
-                      ),
-                    )
-                  ],
+                decoration:
+                BoxDecoration(
+                    borderRadius: Radii.border(8),
+                    boxShadow: Shadows.shadows_list,
+                    color: AppColors.primaryBackground
                 ),
-              )
-              ,
+                child:Center(
+                  child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Rectangle
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Image.asset(Assets.ic_person1,height: 40,width: 40,),
+                            Container(
+                              margin: EdgeInsets.only(left: 16),
+                              child:Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // TODAY • 12:33
+                                  Text(
+                                      "TODAY • 12:33",
+                                      style: const TextStyle(
+                                          color:  AppColors.color_black_80_2,
+                                          fontStyle:  FontStyle.normal,
+                                          fontSize: 10.0
+                                      )
+                                  ),
+                                  Container(height: 6,),
+
+                                  Text(
+                                      "Andi Ruhiyat",
+                                      style: const TextStyle(
+                                          color:  AppColors.primaryText,
+                                          fontWeight: FontWeight.w700,
+                                          fontStyle:  FontStyle.normal,
+                                          fontSize: 14.0
+                                      )
+                                  ),
+                                  Container(height: 6,),
+                                  Text(
+                                      "Eggs, Flour, Water Gallon…",
+                                      style: const TextStyle(
+                                          color:  AppColors.battleship_grey,
+                                          fontWeight: FontWeight.w400,
+                                          fontStyle:  FontStyle.normal,
+                                          fontSize: 12.0
+                                      )
+                                  )
+                                ],
+                              ) ,
+                            ),
+                          ]),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        margin: EdgeInsets.only(right: 0),
+                        child:  RichText(
+                            text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                      style: const TextStyle(
+                                          color:  AppColors.pale_turquoise,
+                                          fontWeight: FontWeight.w700,
+                                          fontStyle:  FontStyle.normal,
+                                          fontSize: 14.0
+                                      ),
+                                      text: "+ "),
+                                  TextSpan(
+                                      style: const TextStyle(
+                                          color:  AppColors.fareColor,
+                                          fontWeight: FontWeight.w400,
+                                          fontStyle:  FontStyle.normal,
+                                          fontSize: 14.0
+                                      ),
+                                      text: "Rp 335.750")
+                                ]
+                            )
+                        ),
+                      )
+                    ],
+                  ),
+                )
+                ,
+              ),
             );
           },
         ),
