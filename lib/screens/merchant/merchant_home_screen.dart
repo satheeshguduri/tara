@@ -56,7 +56,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
-            icon: getTabImage(Assets.ic_home),
+            icon: getTabImage(Assets.HOME_IN_ACTIVE),
             activeIcon: getTabImage(Assets.HOME_ACTIVE),
             title: getTabText(TabTitle.HOME)),
         BottomNavigationBarItem(
@@ -83,11 +83,11 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
               child: getTabText(TabTitle.SCAN)
           ),
         ),
-    BottomNavigationBarItem(
-    icon: getTabImage(Assets.ACCOUNTS_ACTIVE),
-    activeIcon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
-    title: getTabText(TabTitle.ACCOUNTS),
-    ),
+        BottomNavigationBarItem(
+          icon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
+          activeIcon: getTabImage(Assets.ACCOUNTS_ACTIVE),
+          title: getTabText(TabTitle.ACCOUNTS),
+        ),
         BottomNavigationBarItem(
           icon: Container(
             width: 24,

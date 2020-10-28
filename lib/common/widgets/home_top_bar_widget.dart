@@ -15,6 +15,7 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/shop_home.dart';
 import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/notification_screen.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
@@ -130,49 +131,56 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                           ),
                           Row(
                             children: [
-                              Container(
-                                width: 29,
-                                height: 29,
-                                margin: EdgeInsets.only(right: 4),
-                                child: Stack(
-                                  alignment: Alignment.centerRight,
-                                  children: [
-                                    Positioned(
-                                      right: 4,
-                                      child: Image.asset(
-                                        Assets.NOTIFICATION_ICON,
-                                        fit: BoxFit.none,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      child: Container(
-                                        width: 14,
-                                        height: 14,
-                                        decoration: BoxDecoration(
-                                          color: AppColors.badge_color,
-                                          borderRadius: Radii.border(7),
+                              InkWell(
+                                child:Container(
+                                  width: 29,
+                                  height: 29,
+                                  margin: EdgeInsets.only(right: 4),
+                                  child: Stack(
+                                    alignment: Alignment.centerRight,
+                                    children: [
+                                      Positioned(
+                                        right: 4,
+                                        child: Image.asset(
+                                          Assets.NOTIFICATION_ICON,
+                                          fit: BoxFit.none,
                                         ),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                                          children: [
-                                            Container(
-                                              margin: EdgeInsets.symmetric(horizontal: 4),
-                                              child: Text(
-                                                "3",
-                                                textAlign: TextAlign.center,
-                                                style: BaseStyles.notificationBadgeTextStyle,
+                                      ),
+                                      Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child:
+                                        Container(
+                                          width: 14,
+                                          height: 14,
+                                          decoration: BoxDecoration(
+                                            color: AppColors.badge_color,
+                                            borderRadius: Radii.border(7),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.symmetric(horizontal: 4),
+                                                child: Text(
+                                                  "3",
+                                                  textAlign: TextAlign.center,
+                                                  style: BaseStyles.notificationBadgeTextStyle,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
+                                onTap: (){
+                                  push(NotificationScreen());
+                                },
+                              )
+                              ,
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: InkWell(

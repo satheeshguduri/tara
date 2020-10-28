@@ -150,6 +150,10 @@ class Assets {
   static const SETTINGS_IN_ACTIVE = "assets/images/ic_settings_inactive.svg";
   static const SETTINGS_ACTIVE = "assets/images/ic_settings_active.svg";
 
+  static const pln_notification = "assets/images/logo.png";
+
+  static const avatar11 = "assets/images/oval-19.png";
+
 
 
 

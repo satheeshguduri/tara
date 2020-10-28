@@ -314,5 +314,8 @@
   "transaction_history" : "Transaction History",
   "success" : "Success",
   "failed" : "Failed",
-  "search_transaction" : "Search Transaction"
+  "search_transaction" : "Search Transaction",
+  "notifications": "Notification",
+  "mark_all_read": "MARK ALL READ",
+  "recent": "Recent"
 }

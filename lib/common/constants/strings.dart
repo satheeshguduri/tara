@@ -341,6 +341,9 @@ class Strings{
   static const success = "success";
   static const failed = "failed";
   static const search_transaction = "search_transaction";
+  static const notifications = "notifications";
+  static const mark_all_read = "mark_all_read";
+  static const recent = "recent";
 
 
 }
