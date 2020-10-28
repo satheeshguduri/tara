@@ -337,6 +337,11 @@ class Strings{
   static const cash = "cash";
   static const rewards = "rewards";
   static const score = "score";
+  static const transaction_history = "transaction_history";
+  static const success = "success";
+  static const failed = "failed";
+  static const search_transaction = "search_transaction";
+
 
 }
 

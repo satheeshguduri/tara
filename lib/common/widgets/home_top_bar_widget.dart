@@ -9,6 +9,7 @@ import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/agent/balance_history.dart';
+import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
@@ -249,6 +250,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               push(CashDepositSelectContact(isFromReceive: true,));
             },),
             RoundedButton(buttonText: getTranslation(Strings.PAYMENT),image: Assets.ic_payment,onPressed: (){
+              push(TransactionHistory());
             },),
             RoundedButton(buttonText: getTranslation(Strings.CMS_TOP_UP),image: Assets.ic_topup,onPressed: (){
               push(BalanceHistory());

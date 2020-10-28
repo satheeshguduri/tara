@@ -310,6 +310,9 @@
   "purchase" : "Purchase",
   "cash" : "Cash",
   "rewards" : "Rewards",
-  "score" : "Score"
-
+  "score" : "Score",
+  "transaction_history" : "Transaction History",
+  "success" : "Success",
+  "failed" : "Failed",
+  "search_transaction" : "Search Transaction"
 }

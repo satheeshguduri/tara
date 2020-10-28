@@ -109,3 +109,18 @@ class BalanceInfo {
   String personName;
   bool isTaraContact=false;
 }
+
+class TransactionHistoryInfo {
+  String monthName;
+  List<TransactionInfo> transactionHistory;
+}
+
+class TransactionInfo {
+  String transactionId;
+  String dateTime;
+  String amount;
+  String transactionDesc;
+  String source;
+  bool isTaraContact=false;
+  bool isSuccess=false;
+}
