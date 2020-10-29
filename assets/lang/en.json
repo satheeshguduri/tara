@@ -317,5 +317,6 @@
   "search_transaction" : "Search Transaction",
   "notifications": "Notification",
   "mark_all_read": "MARK ALL READ",
-  "recent": "Recent"
+  "recent": "Recent",
+  "my_orders": "My Orders"
 }

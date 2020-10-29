@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
+import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
@@ -391,30 +392,35 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   ),
                   Expanded(
                     flex: 2.5.toInt(),
-                    child: Container(
-                        padding: EdgeInsets.only(top: 8,bottom: 8),
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 16),
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  getTranslation(Strings.SEE_ALL),
-                                  textAlign: TextAlign.center,
-                                  style: BaseStyles.seeAllTextStyle,
+                    child: InkWell(
+                      onTap: (){
+                        push(TransactionHistory());
+                      },
+                      child: Container(
+                          padding: EdgeInsets.only(top: 8,bottom: 8),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 16),
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: Text(
+                                    getTranslation(Strings.SEE_ALL),
+                                    textAlign: TextAlign.center,
+                                    style: BaseStyles.seeAllTextStyle,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              height:2 ,
-                              margin: EdgeInsets.only(top: 4,left: 4,right: 16),
-                              decoration: BoxDecoration(
-                                gradient: Gradients.primaryGradient,
+                              Container(
+                                height:2 ,
+                                margin: EdgeInsets.only(top: 4,left: 4,right: 16),
+                                decoration: BoxDecoration(
+                                  gradient: Gradients.primaryGradient,
+                                ),
                               ),
-                            ),
-                          ],
-                        )
+                            ],
+                          )
+                      ),
                     ),
                   ),
                 ],

@@ -344,6 +344,7 @@ class Strings{
   static const notifications = "notifications";
   static const mark_all_read = "mark_all_read";
   static const recent = "recent";
+  static const my_orders = "my_orders";
 
 
 }

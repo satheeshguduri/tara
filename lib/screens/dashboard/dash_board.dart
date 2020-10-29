@@ -5,6 +5,7 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/notification_settings.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 
@@ -15,6 +16,12 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends BaseState<DashBoard> {
 
+
+  List<String> dashBoardOptions = [ Strings.profile,
+    Strings.notification_settings,
+    Strings.MY_ACCOUNTS,
+    Strings.my_orders,
+    Strings.help_support];
 
   @override
   BuildContext getContext() {
@@ -36,6 +43,7 @@ class _DashBoardState extends BaseState<DashBoard> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Container(
               height: 216,
@@ -98,7 +106,8 @@ class _DashBoardState extends BaseState<DashBoard> {
                 ],
               ),
             ),
-            SingleChildScrollView(
+            Expanded(
+              flex: 2,
               child: Column(
                 children: [
                   Center(
@@ -118,23 +127,32 @@ class _DashBoardState extends BaseState<DashBoard> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 16,right: 16,top: 16,bottom: 16),
-                    child: Column(
-                      children: [
-                        getCardWithTitle(Strings.profile),
-                        getCardWithTitle(Strings.notification_settings),
-                        getCardWithTitle(Strings.help_support)
-                      ],
-                    ),
-                  ),
                 ],
               ),
-            )
-          ],
-        ),
-        floatingActionButton:getLogOutWidget(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            ),
+        Expanded(
+            flex: 8,
+            child:SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 16,right: 16,top: 16,),
+                    child: ListView.builder(
+                      padding:EdgeInsets.zero,
+                      primary: false,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: dashBoardOptions.length,
+                      itemBuilder: (context,index){
+                        return  getCardWithTitle(dashBoardOptions[index]);
+                      },
+                    ),
+                  ),
+                  getLogOutWidget(),
+                ],
+              )
+            ),)
+          ]),
       ),
     );
   }
@@ -150,6 +168,10 @@ class _DashBoardState extends BaseState<DashBoard> {
         else if (title == Strings.notification_settings)
         {
           push(NotificationSettings());
+        }
+        else if (title == Strings.MY_ACCOUNTS)
+        {
+          push(MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),));
         }
       },
       child: Container(
@@ -208,7 +230,7 @@ class _DashBoardState extends BaseState<DashBoard> {
       },
       child: Container(
         height: 48,
-        margin: EdgeInsets.only(bottom: 24,top: 8,left: 16,right: 16),
+        margin: EdgeInsets.only(bottom: 24,top: 24,left: 16,right: 16),
         decoration: BoxDecoration(
           border: Border.all(width: 1,color: Color(0xffb0b4c1)),
             borderRadius: BorderRadius.all(

@@ -224,7 +224,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                           ],
                                         ),
                                         onTap: (){
-                                          push(BalanceHistory());
+                                          push(BalanceHistory(selectedIndex: 0,));
                                         },
                                       )
                                   ),
@@ -274,7 +274,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
                                           ],
                                         ) ,
                                         onTap: (){
-                                          push(BalanceHistory());
+                                          push(BalanceHistory(selectedIndex: 1,));
                                         },
                                       )
 

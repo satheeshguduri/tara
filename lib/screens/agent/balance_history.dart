@@ -8,6 +8,9 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 
 class BalanceHistory extends StatefulWidget {
+  final int selectedIndex;
+  BalanceHistory({Key key, this.selectedIndex}) : super(key: key);
+
   @override
   _BalanceHistoryState createState() => _BalanceHistoryState();
 }
@@ -113,6 +116,7 @@ class _BalanceHistoryState extends BaseState<BalanceHistory> {
     // TODO: implement build
     return DefaultTabController(
       length: 2,
+      initialIndex: (widget.selectedIndex!=null)?widget.selectedIndex:0,
       child: SafeArea(
         top: false,
         bottom: true,

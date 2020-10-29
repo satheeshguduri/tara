@@ -255,10 +255,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               push(CashDepositSelectContact(isFromReceive: true,));
             },),
             RoundedButton(buttonText: getTranslation(Strings.PAYMENT),image: Assets.ic_payment,onPressed: (){
-              push(TransactionHistory());
+
             },),
             RoundedButton(buttonText: getTranslation(Strings.CMS_TOP_UP),image: Assets.ic_topup,onPressed: (){
-              push(BalanceHistory());
+
             },),
           ],
         ),
