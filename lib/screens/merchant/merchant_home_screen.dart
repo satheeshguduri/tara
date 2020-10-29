@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -106,6 +107,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    Future.delayed(Duration.zero, () => showDialogIfFirstLoaded(context));
     return Scaffold(
         bottomNavigationBar:getBottomNavigation(),
         floatingActionButton: FloatingActionButton(
@@ -730,6 +732,47 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
             );
           },
         ),
+      );
+    }
+  }
+
+  showDialogIfFirstLoaded(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int timestamp = prefs.getInt('myTimestampKey');
+    DateTime before;
+    DateTime now;
+    Duration timeDifference;
+    int hours;
+    if (timestamp!=null)
+    {
+      before = DateTime.fromMillisecondsSinceEpoch(timestamp);
+      now = DateTime.now();
+      timeDifference = now.difference(before);
+      hours = timeDifference.inHours;
+    }
+
+    if (timestamp == null || (hours!=null && hours == 24)) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text("Settle Balance"),
+            content: new Text("Please make sure to settle the previous day balances and continue"),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Ok"),
+                onPressed: () {
+                  // Close the dialog
+                  Navigator.of(context).pop();
+                  int timestamp = DateTime.now().millisecondsSinceEpoch;
+                  prefs.setInt('myTimestampKey', timestamp);
+                },
+              ),
+            ],
+          );
+        },
       );
     }
   }
