@@ -318,5 +318,9 @@
   "notifications": "Notification",
   "mark_all_read": "MARK ALL READ",
   "recent": "Recent",
-  "my_orders": "My Orders"
+  "my_orders": "My Orders",
+  "recent": "Recent",
+  "see_order_details" : "See Order Details",
+  "incoming": "Incoming",
+  "outgoing": "Outgoing"
 }

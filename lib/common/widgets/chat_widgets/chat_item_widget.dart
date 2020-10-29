@@ -102,6 +102,12 @@ class _ChatItemWidgetState extends BaseState<ChatItemWidget> {
         widget.onSelectAction(val);
       },);
     }
+    else if (widget.chatMsg == "items_order_self") {
+      return ItemsOrder(selfOrder: true, onTapAction: (val){
+        widget.onSelectAction(val);
+      },);
+    }
+
     else if (widget.chatMsg == "items_order_isFromAcceptedAnswer_true") {
       return ItemsOrder(isFromAcceptedOrder:true,onTapAction: (val){
         widget.onSelectAction(val);

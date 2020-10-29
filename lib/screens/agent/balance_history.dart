@@ -9,7 +9,8 @@ import 'package:tara_app/screens/consumer/Data.dart';
 
 class BalanceHistory extends StatefulWidget {
   final int selectedIndex;
-  BalanceHistory({Key key, this.selectedIndex}) : super(key: key);
+  final String fromScreen;
+  BalanceHistory({Key key, this.selectedIndex, this.fromScreen = ""}) : super(key: key);
 
   @override
   _BalanceHistoryState createState() => _BalanceHistoryState();
@@ -174,8 +175,8 @@ class _BalanceHistoryState extends BaseState<BalanceHistory> {
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicatorWeight: 4.0,
                   tabs: [
-                    getTab(Strings.collection),
-                    getTab(Strings.payout),
+                    getTab(widget.fromScreen == "merchant" ? Strings.incoming : Strings.collection),
+                    getTab(widget.fromScreen == "merchant" ? Strings.outgoing : Strings.payout),
                   ],
                   labelStyle: BaseStyles.chatInboxTabSelectedTextColor,
                   unselectedLabelStyle:BaseStyles.chatInboxTabUnSelectedTextColor

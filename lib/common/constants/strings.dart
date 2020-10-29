@@ -330,6 +330,9 @@ class Strings{
   static const collection = "collection";
   static const payout = "payout";
 
+  static const incoming = "incoming";
+  static const outgoing = "outgoing";
+
   static const transfer = "transfer";
   static const request = "request";
   static const bills = "bills";
@@ -345,6 +348,7 @@ class Strings{
   static const mark_all_read = "mark_all_read";
   static const recent = "recent";
   static const my_orders = "my_orders";
+  static const see_order_details = "see_order_details";
 
 
 }

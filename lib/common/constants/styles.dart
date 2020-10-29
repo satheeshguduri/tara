@@ -239,8 +239,8 @@ class BaseStyles {
 
 
   static const saveToMyContactTextStyle =const TextStyle(
-  color:  Color(0xff697683),
-  fontWeight: FontWeight.w400,
+  color:  AppColors.header_top_bar_color,
+  fontWeight: FontWeight.w500,
   fontStyle:  FontStyle.normal,
   fontSize: 14.0
   );

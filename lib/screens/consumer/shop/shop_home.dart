@@ -9,6 +9,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 
 class ShopHome extends StatefulWidget {
   @override
@@ -57,7 +58,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
               top: 180,
               left: 0,
               right: 0,
-              height: MediaQuery.of(context).size.height - 240,
+              height: MediaQuery.of(context).size.height - 188,
               child: SingleChildScrollView(
                 physics: ScrollPhysics(),
                 child: loadContent(),
@@ -255,7 +256,6 @@ class _ShopHomeState extends BaseState<ShopHome> {
         ),
         loadPreviousOrders(),
         loadMerchantNearYou(),
-
       ],
     );
   }
@@ -320,100 +320,93 @@ class _ShopHomeState extends BaseState<ShopHome> {
               ),
             ],
           ),
-          CarouselSlider(
-            items: loadPreviousOrderCards(),
-            options: CarouselOptions(
-//              viewportFraction: 0.2,
-              // autoPlay: true,
-                enableInfiniteScroll: false,
-                aspectRatio: 3.3,
-//                enlargeCenterPage: true,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = index;
-                  });
-                }),
-          )
+          Container(
+              height: 120,
+              margin: EdgeInsets.only(left: 0, right: 0,top: 16),
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 4,
+                  itemBuilder: (context,index){
+                    return Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      margin:EdgeInsets.only(left:8,right: 8,top: 16,bottom: 8),
+                      padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(8)
+                          ),
+                          boxShadow: [BoxShadow(
+                              color: Color(0x1f000000),
+                              offset: Offset(0,4),
+                              blurRadius: 6,
+                              spreadRadius: 0
+                          ), BoxShadow(
+                              color: Color(0x14000000),
+                              offset: Offset(0,0),
+                              blurRadius: 2,
+                              spreadRadius: 0
+                          )] ,
+                          color: AppColors.primaryBackground
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              "9 Sep 2020 • 14:30",
+                              style:  TextStyle(
+                                  color:  AppColors.light_grey_blue,
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle:  FontStyle.normal,
+                                  fontSize: 10.0
+                              )
+                          ),
+                          Text(
+                              "Toko Surya Jaya",
+                              style: BaseStyles.bottomSheetTitleStyle
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                  "8 Items - Rp 180.000",
+                                  style: TextStyle(
+                                      color:  AppColors.light_grey_blue,
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle:  FontStyle.normal,
+                                      fontSize: 10.0
+                                  )
+                              ),
+                              InkWell(
+                                child: Container(
+                                  width: 88,
+                                  height: 24,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6)
+                                      ),
+                                      color: AppColors.pale_turquoise
+                                  ),
+                                  child: Text(
+                                      getTranslation(Strings.order_again),
+                                      style: BaseStyles.shopPreviousOrderAgain
+                                  ),
+                                ),
+                                onTap: (){
+                                  push(MakeAnOrder());
+                                },
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  })
+          ),
         ],
       )
     );
-  }
-
-  List<Widget> loadPreviousOrderCards() {
-    List<Widget> arrList = List<Widget>();
-    for (int i = 0; i <= 4; i++) {
-      arrList.add(
-          Container(
-        margin:EdgeInsets.only(right: 8,top: 16,bottom: 8),
-        padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-                Radius.circular(8)
-            ),
-            boxShadow: [BoxShadow(
-                color: const Color(0x1f000000),
-                offset: Offset(0,4),
-                blurRadius: 6,
-                spreadRadius: 0
-            ), BoxShadow(
-                color: const Color(0x14000000),
-                offset: Offset(0,0),
-                blurRadius: 2,
-                spreadRadius: 0
-            )] ,
-            color: AppColors.primaryBackground
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-                "9 Sep 2020 • 14:30",
-                style: const TextStyle(
-                    color:  AppColors.light_grey_blue,
-                    fontWeight: FontWeight.w500,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 10.0
-                )
-            ),
-            Text(
-                "Toko Surya Jaya",
-                style: BaseStyles.bottomSheetTitleStyle
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                    "8 Items - Rp 180.000",
-                    style: const TextStyle(
-                        color:  AppColors.light_grey_blue,
-                        fontWeight: FontWeight.w500,
-                        fontStyle:  FontStyle.normal,
-                        fontSize: 10.0
-                    )
-                ),
-                Container(
-                    width: 88,
-                    height: 24,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(6)
-                        ),
-                        color: AppColors.pale_turquoise
-                    ),
-                  child: Text(
-                      getTranslation(Strings.order_again),
-                      style: BaseStyles.shopPreviousOrderAgain
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ));
-    }
-    return arrList;
   }
 
   loadMerchantNearYou(){

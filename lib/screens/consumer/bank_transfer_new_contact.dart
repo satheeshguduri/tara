@@ -36,6 +36,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   TextEditingController txtCtrlBankAcc = TextEditingController();
   TextEditingController txtCtrlTransferAmt = TextEditingController();
   TextEditingController txtCtrlTransType = TextEditingController();
+  TextEditingController txtCtrlAccHolderName = TextEditingController();
 
   List<PaymentSource> arrPaymentSource = List<PaymentSource>();
   List<String> bankList = ["Bank BCA", "BANK BRI", "BANK Mandiri", "Maybank"];
@@ -235,7 +236,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       return  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(getTranslation(Strings.TRANSFER_TO),
+            Text(getTranslation(Strings.RECIPIENT),
                 style: const TextStyle(
                     color: AppColors.fareColor,
                     fontWeight: FontWeight.w700,
@@ -246,13 +247,69 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 16, bottom: 4),
-                    child: Text(getTranslation(Strings.MY_ACCOUNT),
+                    child: Text(getTranslation(Strings.BANK_NAME),
                         style: BaseStyles
                             .textFormFieldHeaderTitleTextStyle,
                         textAlign: TextAlign.left),
                   ),
                   _getDropDownList("bankAccount"),
                 ]),
+            textFormFieldContainer(
+                getTranslation(Strings.BANK_ACCOUNT_NUMBER),
+                getTranslation(Strings.BANK_ACCOUNT_NUMBER),
+                TextInputType.text,
+                txtCtrlBankAcc),
+            textFormFieldContainer(
+                getTranslation(Strings.BANK_HOLDER_NAME),
+                getTranslation(Strings.BANK_HOLDER_NAME),
+                TextInputType.text,
+                txtCtrlAccHolderName),
+            Container(
+              margin: EdgeInsets.only(top: 16,bottom: 16),
+              child:Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: (isToSaveContact) ? AppColors.header_top_bar_color : AppColors.uncheck_color,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
+                        )),
+                    width: 24,
+                    height: 24,
+                    child: Theme(
+                      data: ThemeData(
+                        unselectedWidgetColor: Colors.transparent,
+                      ),
+                      child: Checkbox(
+                        activeColor: Colors.transparent,
+                        checkColor: AppColors.header_top_bar_color,
+                        value: isToSaveContact,
+                        tristate: false,
+                        onChanged: (bool isChecked) {
+                          setState(() {
+                            isToSaveContact = isChecked;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 16,right: 16,top: 16),
+                    child: Text(
+                        getTranslation(Strings.SAVE_TO_MY_CONTACT),
+                        style: BaseStyles.saveToMyContactTextStyle,
+                        textAlign: TextAlign.left
+                    ),),
+                ],
+              ) ,
+            )
+
+
+
           ]);
     }
   }
@@ -457,12 +514,14 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                         hint: hint,
                         inputType: inputType,
                         textController: textEditingController,
+
                         isIcon: false,
                         onChanged: (val) {
                           if (textEditingController == txtCtrlBankAcc) {
                             print(val);
                             if (val.length < 9) {
                               isBankAccVerFailed = false;
+
                             }
                             setState(() {});
                           }
@@ -485,7 +544,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                                 onTap: () {
                                   // verify failure
                                   setState(() {
-                                    isBankAccVerFailed = true;
+                                    isBankAccVerFailed = false;
+                                    txtCtrlAccHolderName.text = "M. AGUS RAHMADI";
                                   });
                                 },
                               ),

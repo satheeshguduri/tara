@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/shop/shop_add_item.dart';
 
 class MakeAnOrder extends StatefulWidget {
@@ -353,7 +354,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
             ),
             onTap: (){
              if (arrShopItem.length > 0 ){
-               pop();
+               push(ConversationPage(arrChats: ["tara_shop_received_text","items_order_self"],));
              }
             },
           )
