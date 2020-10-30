@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -105,13 +106,18 @@ class _ChatInboxState extends BaseState<ChatInbox> {
             child: Container(
               width: 60,
               height: 60,
-              child: Image.asset(Assets.CHAT_ACTIVE, fit: BoxFit.none,color: AppColors.header_top_bar_color,),
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,color: AppColors.header_top_bar_color,width: 24,height: 24,),
+              ),
               decoration: BoxDecoration(
                 gradient: Gradients.primaryGradient,
                 shape: BoxShape.circle,
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              push(ConversationPage());
+            },
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         ),

@@ -137,7 +137,11 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
               ),
               child: getTabImage(Assets.ic_Scan),
             ),
-            onPressed: () {}),
+            onPressed: () {
+              setState(() {
+                _currentIndex = 2;
+              });
+            }),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: SafeArea(child: getRootContainer(),top: false,bottom: true,)
 
