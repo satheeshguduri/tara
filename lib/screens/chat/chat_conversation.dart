@@ -23,9 +23,11 @@ class ConversationPage extends StatefulWidget {
   final ChatInboxInfo chatInboxInfo;
   final bool isFromTaraOrder;
   final List<String> arrChats;
+  final Function callback;
+  final bool isFromShopHome;
 
   ConversationPage({this.canGoBack = true,this.isFromSend=false,this.isFromReceive=false,this.selectedContact,
-    this.chatInboxInfo,this.isFromTaraOrder=false,Key key,this.arrChats}):super(key:key);
+    this.chatInboxInfo,this.isFromTaraOrder=false,Key key,this.arrChats,this.callback,this.isFromShopHome}):super(key:key);
 
   @override
   _ConversationPageState createState() => _ConversationPageState();
@@ -163,7 +165,13 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
+              if (widget.isFromShopHome==true)
+                {
+                  widget.callback();
+                }
+                else{
                 Navigator.pop(context, false);
+              }
             }
         ),
       ),

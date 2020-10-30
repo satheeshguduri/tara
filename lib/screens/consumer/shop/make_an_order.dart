@@ -359,7 +359,10 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
             onTap: (){
              if (arrShopItem.length > 0 ){
                if (widget.isFromShopHome==true){
-                 push(ConversationPage(arrChats: ["tara_shop_received_text","items_order_self"],));
+                 push(ConversationPage(isFromShopHome:true,arrChats: ["tara_shop_received_text","items_order_self"],callback: (){
+                   widget.callBack(["tara_shop_received_text","items_order_self"],);
+                   Navigator.pop(context, false);
+                 },));
                }
                else{
                  widget.callBack(["tara_shop_received_text","items_order_self"],);

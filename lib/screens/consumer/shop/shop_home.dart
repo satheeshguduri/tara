@@ -394,7 +394,10 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                   ),
                                 ),
                                 onTap: (){
-                                  push(MakeAnOrder(isFromShopHome: true,));
+                                  push(MakeAnOrder(isFromShopHome: true,callBack: (arr){
+                                    Navigator.pop(
+                                        context, false);
+                                  },));
                                 },
                               )
                             ],
