@@ -11,6 +11,10 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/shop/shop_add_item.dart';
 
 class MakeAnOrder extends StatefulWidget {
+  final Function(List<String>) callBack;
+  final bool isFromShopHome;
+  MakeAnOrder({Key key, this.callBack,this.isFromShopHome=false}) : super(key: key);
+
   @override
   _MakeAnOrderState createState() => _MakeAnOrderState();
 }
@@ -354,7 +358,13 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
             ),
             onTap: (){
              if (arrShopItem.length > 0 ){
-               push(ConversationPage(arrChats: ["tara_shop_received_text","items_order_self"],));
+               if (widget.isFromShopHome==true){
+                 push(ConversationPage(arrChats: ["tara_shop_received_text","items_order_self"],));
+               }
+               else{
+                 widget.callBack(["tara_shop_received_text","items_order_self"],);
+                 Navigator.pop(context, false);
+               }
              }
             },
           )

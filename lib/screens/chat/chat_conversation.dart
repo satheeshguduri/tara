@@ -253,7 +253,12 @@ class _ConversationPageState extends BaseState<ConversationPage> {
               setState(() {
               });
             }else if (val == "makeAnOrder"){
-              push(MakeAnOrder());
+              push(MakeAnOrder(callBack: (arrOfStrings){
+                setState(() {
+                  arrStr.clear();
+                  arrStr = arrOfStrings;
+                });
+              },));
             }
             else if (val == Strings.confirm_order){
               setState(() {

@@ -394,7 +394,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                   ),
                                 ),
                                 onTap: (){
-                                  push(MakeAnOrder());
+                                  push(MakeAnOrder(isFromShopHome: true,));
                                 },
                               )
                             ],
