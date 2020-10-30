@@ -128,7 +128,11 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
               ),
               child:getTabImage(Assets.ic_Scan),
             ),
-            onPressed: () {}),
+            onPressed: () {
+              setState(() {
+                _currentIndex = 2;
+              });
+            }),
         floatingActionButtonLocation:
         FloatingActionButtonLocation.centerDocked,
         body: getRootScreen()
