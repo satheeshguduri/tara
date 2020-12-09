@@ -1,12 +1,9 @@
 
+import 'package:get/get.dart';
+
 import '../models/language/language.dart';
-import 'package:mobx/mobx.dart';
 
-part 'language_store.g.dart';
-
-class LanguageStore = _LanguageStore with _$LanguageStore;
-
-abstract class _LanguageStore with Store {
+abstract class LanguageController extends GetxController {
   static const String TAG = "LanguageStore";
 
 
@@ -22,22 +19,20 @@ abstract class _LanguageStore with Store {
   }
 
   // store variables:-----------------------------------------------------------
-  @observable
-  String _locale = "en";
+  var _locale = "en".obs;
 
-  @computed
-  String get locale => _locale;
+  String get locale => _locale.value;
 
   // actions:-------------------------------------------------------------------
-  @action
+  // @action
   void changeLanguage(String value) {
-    _locale = value;
+    _locale.value = value;
 //    _repository.changeLanguage(value).then((_) {
 //      // write additional logic here
 //    });
   }
 
-  @action
+  // @action
   String getCode() {
     var code;
 
@@ -50,7 +45,7 @@ abstract class _LanguageStore with Store {
     return code;
   }
 
-  @action
+  // @action
   String getLanguage() {
     return supportedLanguages[supportedLanguages
             .indexWhere((language) => language.locale == _locale)]
