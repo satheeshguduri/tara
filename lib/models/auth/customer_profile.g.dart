@@ -40,3 +40,16 @@ Map<String, dynamic> _$CustomerProfileToJson(CustomerProfile instance) =>
       'token': instance.token,
       'address': instance.address,
     };
+
+SignUpRequest _$SignUpRequestFromJson(Map<String, dynamic> json) {
+  return SignUpRequest(
+    data: json['data'] == null
+        ? null
+        : CustomerProfile.fromJson(json['data'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$SignUpRequestToJson(SignUpRequest instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+    };

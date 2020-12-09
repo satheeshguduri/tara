@@ -2,14 +2,14 @@
 *  extensions.dart
 *
 *  Created by Yakub Pasha.
-*  Copyright © 2020 nxgenpro. All rights reserved.
+*  Copyright © 2020 Tara.id. All rights reserved.
 */
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
 
 extension PaddedWidget on Widget {
   Widget withPad({EdgeInsets padding = const EdgeInsets.only(top:5.0,bottom: 5.0)}){
@@ -41,7 +41,7 @@ extension TappableWidget on Widget {
   }
 
 extension ProgressIndicator on Widget {
-  ModalProgressHUD withProgressIndicator({ Widget progressIndicator = CustomWidgets.getIndicator,
+  ModalProgressHUD withProgressIndicator({ Widget progressIndicator = BaseWidgets.getIndicator,
     bool showIndicator}) {
     return ModalProgressHUD(
         progressIndicator: progressIndicator,

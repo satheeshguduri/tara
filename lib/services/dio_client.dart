@@ -11,11 +11,9 @@ import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tara_app/services/rest_client.dart';
 
-@Singleton()
 class APIHelper{
   Dio dio;
-  APIHelper(){
-    dio = Dio();   // Provide a dio instance
+  APIHelper(this.dio){// Provide a dio instance
     dio.interceptors.add(PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
@@ -23,5 +21,8 @@ class APIHelper{
       responseBody: true,
       compact: true,
     ));
+  }
+  RestClient getDioClient(){
+    return RestClient(dio);
   }
 }

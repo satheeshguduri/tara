@@ -8,7 +8,9 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
+import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
 
 import 'api.dart';
@@ -30,7 +32,7 @@ abstract class RestClient {
   Future<BaseResponse> login(@Body() AuthRequest loginRequest);
 
   @POST(API.login)
-  Future<BaseResponse> signUp(@Body() AuthRequest loginRequest);
+  Future<BaseResponse> signUp(@Body() SignUpRequest loginRequest);
 
 
 }

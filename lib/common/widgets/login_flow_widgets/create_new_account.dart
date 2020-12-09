@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tara_app/common/constants/assets.dart';
-import 'package:tara_app/common/constants/colors.dart';
-import 'package:tara_app/common/constants/gradients.dart';
-import 'package:tara_app/common/constants/strings.dart';
-import 'package:tara_app/common/constants/styles.dart';
+import 'package:get/get.dart';
+import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/create_account.dart';
@@ -21,6 +19,8 @@ class CreateNewAccount extends StatefulWidget {
 }
 
 class _CreateNewAccountState extends BaseState<CreateNewAccount> {
+
+  AuthController controller = Get.put(AuthController());
 
   static List<String> countryNamesList = ["australia", "brazil", "canada", "france","germany", "india", "indonesia", "ireland","uk","usa"];
   static List<String> countryCodesList = ["+61", "+55", "+1", "+33","+49", "+91", "+62", "+353","+44","+1"];
@@ -150,9 +150,7 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
-                        onTap: (){
-                          Navigator.pop(context, false);
-                        },
+                        onTap: pop,
                         child: Container(
                           width: 32,
                           height: 24,
@@ -211,6 +209,14 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
   void initState() {
     super.initState();
     loadData();
+  }
+
+  Widget getRootContainer(){
+
+    return Obx(()=>
+        SafeArea(child: null)//put your body container here.
+            .withProgressIndicator(showIndicator: controller.showProgress.value));
+
   }
 
   loadData()

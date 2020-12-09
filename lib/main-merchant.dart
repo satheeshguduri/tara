@@ -1,10 +1,10 @@
 import 'dart:async';
 
-//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'flavors.dart';
 import 'main.dart';
+import 'tara_app.dart';
 
 Future<void> main() async {
   F.appFlavor = Flavor.MERCHANT;

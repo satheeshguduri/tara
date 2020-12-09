@@ -50,13 +50,14 @@ class CustomerProfile extends BaseRequest {
 
 }
 
-//
-// @JsonSerializable()
-// class SignUpRequestWithData {
-//
-//   final CustomerProfile data;
-//   AuthRequestWithData({@required this.data});
-//
-//   factory AuthRequestWithData.fromJson(Map<String, dynamic> json) => _$AuthRequestWithDataFromJson(json);
-//   Map<String, dynamic> toJson() => _$AuthRequestWithDataToJson(this);
-// }
+@JsonSerializable()
+class SignUpRequest {
+  final String mobileNumber;
+  final String password;
+  final CustomerProfile data;
+
+  SignUpRequest({this.mobileNumber, this.password, this.data});
+
+  factory SignUpRequest.fromJson(Map<String, dynamic> json) => _$SignUpRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$SignUpRequestToJson(this);
+}

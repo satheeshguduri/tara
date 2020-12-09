@@ -13,3 +13,6 @@ export 'borders.dart';
 export 'shadows.dart';
 export 'styles.dart';
 export 'margins.dart';
+export 'strings.dart';
+export 'assets.dart';
+export '../widgets/extensions.dart';
