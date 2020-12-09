@@ -58,7 +58,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<BaseResponse> login(loginRequest) async {
+  Future<AuthResponse> login(loginRequest) async {
     ArgumentError.checkNotNull(loginRequest, 'loginRequest');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -73,12 +73,12 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = BaseResponse.fromJson(_result.data);
+    final value = AuthResponse.fromJson(_result.data);
     return value;
   }
 
   @override
-  Future<BaseResponse> signUp(loginRequest) async {
+  Future<AuthResponse> signUp(loginRequest) async {
     ArgumentError.checkNotNull(loginRequest, 'loginRequest');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -94,7 +94,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = BaseResponse.fromJson(_result.data);
+    final value = AuthResponse.fromJson(_result.data);
     return value;
   }
 }

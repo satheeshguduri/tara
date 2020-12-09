@@ -5,8 +5,7 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 import 'package:dartz/dartz.dart';
-import 'package:flutter/widgets.dart';
-import 'package:injectable/injectable.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
@@ -31,7 +30,7 @@ class AuthRepositoryImpl implements AuthRepository{
   }
 
   @override
-  Future<Either<Failure, BaseResponse>> login(AuthRequest authRequest) async{
+  Future<Either<Failure, AuthResponse>> login(AuthRequest authRequest) async{
     try {
       var response = await getIt.get<RestClient>().login(authRequest);
       return Right(response);
@@ -57,7 +56,7 @@ class AuthRepositoryImpl implements AuthRepository{
   }
 
   @override
-  Future<Either<Failure, BaseResponse>> signUp(SignUpRequest signUpRequest) async{
+  Future<Either<Failure, AuthResponse>> signUp(SignUpRequest signUpRequest) async{
     try {
       var response = await getIt.get<RestClient>().signUp(signUpRequest);
       return Right(response);
