@@ -8,6 +8,7 @@ import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
 import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/agent/agent_widgets/upload_portrait_pic.dart';
 import 'package:tara_app/screens/create_password.dart';
+import 'package:tara_app/screens/signin_screen.dart';
 
 import 'base/base_state.dart';
 
@@ -16,9 +17,12 @@ class CreateAccount extends StatefulWidget{
   final bool isFromMobileVerification;
   final bool isFromCreateAccount;
   final bool isFromCreatePassword;
+  final bool isSingInClicked;
+  final bool isFromCompleteProfile;
+  final String mobileNumber;
 
   const CreateAccount(
-      {Key key, this.isFromMobileVerification = false, this.isFromCreateAccount = false, this.isFromCreatePassword = false, })
+      {Key key, this.isFromMobileVerification = false, this.isFromCreateAccount = false, this.isFromCreatePassword = false,this.isSingInClicked=false,this.isFromCompleteProfile=false,this.mobileNumber })
       : super(key: key);
 
   @override
@@ -40,9 +44,9 @@ class _CreateAccountState extends BaseState<CreateAccount>{
   getSignInFlow()
   {
     if(Flavor.CONSUMER == F.appFlavor){
-      return widget.isFromCreateAccount?
-      MobileVerification():widget.isFromMobileVerification?
-      CreatePassword(): widget.isFromCreatePassword ?
+      return widget.isSingInClicked?SignIn():widget.isFromCreateAccount?
+      MobileVerification(mobileNumber: widget?.mobileNumber!=null?widget.mobileNumber:"",):widget.isFromCompleteProfile?
+//      CreatePassword(): widget.isFromCreatePassword ?
       AccountConfirmation():CreateNewAccount();
     }else if(Flavor.AGENT == F.appFlavor ||  Flavor.MERCHANT == F.appFlavor){
       return widget.isFromCreateAccount?

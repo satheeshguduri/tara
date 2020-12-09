@@ -349,8 +349,18 @@ class Strings{
   static const recent = "recent";
   static const my_orders = "my_orders";
   static const see_order_details = "see_order_details";
-
-
+  static const login = "login";
+  static const SIGN_UP = "sign_up";
+  static const dont_have_account = "dont_have_account";
+  static const enter_login_description = "enter_login_description";
+  static const complete_profile = "complete_profile";
+  static const personal_details = "personal_details";
+  static const save_and_continue = "save_and_continue";
+  static const enter_full_name = "enter_full_name";
+  static const enter_password = "enter_password";
+  static const enter_confirm_password = "enter_confirm_password";
+  static const password = "password";
+  static const confirm_password = "confirm_password";
 }
 
 class NotificationSettingsStrings{

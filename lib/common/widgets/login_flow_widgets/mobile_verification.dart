@@ -10,12 +10,16 @@ import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/agent/agent_widgets/upload_portrait_pic.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/complete_profile_details.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/create_account.dart';
 
 class MobileVerification extends StatefulWidget {
+  final String mobileNumber;
+
   const MobileVerification({
     Key key,
+    this.mobileNumber
   }) : super(key: key);
 
   @override
@@ -248,7 +252,8 @@ class _MobileVerificationState extends BaseState<MobileVerification> {
             });
           }else{
             if(Flavor.CONSUMER == F.appFlavor){
-              push(CreateAccount(isFromMobileVerification:true));
+//              push(CreateAccount(isFromMobileVerification:true));
+              push(CompleteProfile(mobileNumber:widget?.mobileNumber!=null?widget.mobileNumber:"",));
             }else if(Flavor.AGENT == F.appFlavor ||  Flavor.MERCHANT == F.appFlavor){
               push(UploadPortraitPic());
             }
