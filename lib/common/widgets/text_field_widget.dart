@@ -20,6 +20,8 @@ class TextFieldWidget extends StatefulWidget {
   final TextStyle placeHolderStyle;
   final int maxLines;
   final int height;
+  final TextAlign alignment;
+  final bool enableInteractiveSelection;
 
   const TextFieldWidget({
     Key key,
@@ -40,7 +42,9 @@ class TextFieldWidget extends StatefulWidget {
     this.inputAction,
     this.placeHolderStyle = BaseStyles.bankNameTextStyle,
     this.maxLines=1,
-    this.height = 48
+    this.height = 48,
+    this.alignment = TextAlign.left,
+    this.enableInteractiveSelection = true,
 
   }) : super(key: key);
 
@@ -55,6 +59,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       child: Padding(
         padding: widget.padding,
         child: TextFormField(
+          enableInteractiveSelection: widget.enableInteractiveSelection,
           controller: widget.textController,
           focusNode: widget.focusNode!=null?widget.focusNode:null,
           onFieldSubmitted: widget.onFieldSubmitted!=null?widget.onFieldSubmitted:null,

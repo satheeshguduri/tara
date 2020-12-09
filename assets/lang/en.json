@@ -322,5 +322,17 @@
   "recent": "Recent",
   "see_order_details" : "See Order Details",
   "incoming": "Incoming",
-  "outgoing": "Outgoing"
+  "outgoing": "Outgoing",
+  "login": "Login",
+  "sign_up": "SIGN UP",
+  "dont_have_account": "Don't have an account?",
+  "enter_login_description": "Enter your credentials to  start using\nTara app",
+  "complete_profile": "Complete Profile",
+  "personal_details": "Personal Details",
+  "save_and_continue": "Save & Continue",
+  "enter_full_name": "Enter Full Name",
+  "enter_password": "Enter Password",
+  "enter_confirm_password": "Enter Confirm Password",
+  "password": "Password",
+  "confirm_password": "Confirm Password"
 }

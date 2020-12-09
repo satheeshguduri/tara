@@ -9,6 +9,7 @@ import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/signin_screen.dart';
 
 class CreateNewAccount extends StatefulWidget {
   const CreateNewAccount({
@@ -86,26 +87,31 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
                         textAlign: TextAlign.right
                     ),
                     Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 8,),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                  getTranslation(Strings.SIGN_IN),
-                                  style: BaseStyles.bottomSheetLocationChangeTextStyle,
-                                  textAlign: TextAlign.left
-                              ),
-                              Container(
-                                height:3,
-                                width: 55,
-                                margin: EdgeInsets.only(top: 4,),
-                                decoration: BoxDecoration(
-                                  gradient: Gradients.primaryGradient,
+                      child: InkWell(
+                        onTap: (){
+                          push(CreateAccount(isSingInClicked: true,));
+                        },
+                        child: Container(
+                            margin: EdgeInsets.only(left: 8,),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    getTranslation(Strings.SIGN_IN),
+                                    style: BaseStyles.bottomSheetLocationChangeTextStyle,
+                                    textAlign: TextAlign.left
                                 ),
-                              ),
-                            ],
-                          )
+                                Container(
+                                  height:3,
+                                  width: 55,
+                                  margin: EdgeInsets.only(top: 4,),
+                                  decoration: BoxDecoration(
+                                    gradient: Gradients.primaryGradient,
+                                  ),
+                                ),
+                              ],
+                            )
+                        ),
                       ),
                     )
                   ],
@@ -257,7 +263,7 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
                     ),
                     color: Colors.transparent,
                   ),
-                  child:TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
+                  child:TextFieldWidget(placeHolderStyle: BaseStyles.subHeaderTextStyle,hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
 
                   }),
                 )
@@ -310,7 +316,7 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
   _getContinueWidget() {
     return InkWell(
       onTap: () {
-        push(CreateAccount(isFromCreateAccount: true,));
+        push(CreateAccount(isFromCreateAccount: true,mobileNumber:mobileNoController.text,));
       },
       child: Container(
         height: 48,
