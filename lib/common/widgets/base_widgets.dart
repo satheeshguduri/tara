@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../constants/styles.dart';
 import '../constants/values.dart';
@@ -18,7 +19,10 @@ mixin BaseWidgets {
   Text getTabText(String text) {
     return Text(text, style: BaseStyles.navigationTextStyle);
   }
-
+  static const Widget getIndicator = SpinKitDoubleBounce(
+    color: AppColors.secondaryBackground,
+    size: 50.0,
+  );
   Divider getDivider() {
     return Divider(
       color: AppColors.primaryElement,

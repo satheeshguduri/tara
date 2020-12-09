@@ -9,7 +9,7 @@ import 'package:flutter/rendering.dart';
 
 
 class Gradients {
-  static const Gradient primaryGradient = LinearGradient(
+  static  Gradient primaryGradient = LinearGradient(
     begin: Alignment(0.5, 0),
     end: Alignment(0.5, 1),
     stops: [

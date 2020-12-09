@@ -73,7 +73,7 @@ dependencies:
   localstorage: 3.0.2+5
 
   #Json annotation can be used for json serializer
-  json_annotation: 3.0.1
+  json_annotation: 3.1.0
 
   # show overlay view
   flutter_typeahead: ^1.8.8
@@ -95,29 +95,42 @@ dependencies:
   qr_code_scanner:
 
 
+  #dio client generator using source_gen and inspired
+  retrofit: 1.3.4+1
+
+  #Dio Client for http to use part of retrofit
+  dio: 3.0.10
+  pretty_dio_logger:
+  # getx for statemanagement
+  get: 3.15.0
+  injectable: 1.0.5
+  get_it: 5.0.1
+  dartz: ^0.9.2
+  modal_progress_hud: 0.1.3
+  flutter_spinkit: 4.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-
   #build runner used to auto generate the source
   build_runner:
 
+  injectable_generator:
+
   #To generate the serializable object for a data model
-  json_serializable:
+  json_serializable: 3.5.0
 
   #code analysis lib
   pedantic: 1.8.0
 
+  #generator for retorfit
+  retrofit_generator:
+
   #MobX store code auto generation library
-  mobx_codegen:
-
-
-
-
+  mobx_codegen: 1.1.1+3
 
 dependency_overrides:
-  analyzer: '0.39.14'
+  analyzer: '0.40.0'
 # Run this script to generate the app icon: flutter pub run flutter_launcher_icons:main
 flutter_icons:
   android: "launcher_icon"
