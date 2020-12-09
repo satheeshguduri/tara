@@ -261,7 +261,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
   }
 
   List<Widget> loadCards() {
-    List<Widget> arrList = List<Widget>();
+    List<Widget> arrList = [];
+
     for (int i = 0; i <= 4; i++) {
       arrList.add(Container(
         height: 180,

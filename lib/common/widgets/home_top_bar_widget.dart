@@ -6,10 +6,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
-import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
-import 'package:tara_app/screens/agent/balance_history.dart';
-import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
@@ -232,7 +229,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               push(CashDepositSelectContact(isFromReceive: true,));
             },),
             RoundedButton(buttonText: getTranslation(Strings.CASH_DEPOSIT),image: Assets.ic_cash_deposit,onPressed:(){
-              ChatInboxInfo chatInboxInfo = ChatInboxInfo();
+              var chatInboxInfo = ChatInboxInfo();
               chatInboxInfo.chatTitle = getTranslation(Strings.CASH_DEPOSIT);
               chatInboxInfo.chatCardTitle = "chat_request_cash_deposit";
               push(ConversationPage(chatInboxInfo: chatInboxInfo,isFromTaraOrder: true));
@@ -280,7 +277,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
 
             },),
             RoundedButton(buttonText: getTranslation(Strings.purchase),image: Assets.SHOP_ICON,onPressed: (){
-              ChatInboxInfo chatInboxInfo = ChatInboxInfo();
+              var chatInboxInfo = ChatInboxInfo();
               chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
               chatInboxInfo.chatCardTitle = "tara_shop_received_text";
 //              push(ConversationPage(chatInboxInfo: chatInboxInfo,));

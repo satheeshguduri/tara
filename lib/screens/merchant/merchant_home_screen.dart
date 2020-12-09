@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -14,6 +15,7 @@ import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/dash_board.dart';
 import 'package:tara_app/screens/merchant/merchant_home_widget.dart';
 import 'package:tara_app/screens/scan_qr_code.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class MerchantHomeScreen extends StatefulWidget {
   MerchantHomeScreen({Key key, this.title}) : super(key: key);
@@ -124,7 +126,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                     blurRadius: 4,
                   ),
                 ],
-                borderRadius: Radii.border(28),
+                borderRadius:  Radii.border(28),
               ),
               child:getTabImage(Assets.ic_Scan),
             ),
@@ -146,36 +148,36 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
 
   showDialogIfFirstLoaded(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int timestamp = prefs.getInt('myTimestampKey');
-    DateTime before;
-    DateTime now;
-    Duration timeDifference;
-    int hours;
-    if (timestamp!=null)
+    String savedDateStr = prefs.getString('myTimestampKey');
+    bool isFirstTimeInaDay = prefs.getBool('isFirstTimeInaDay');
+    if (savedDateStr!=null)
     {
-      before = DateTime.fromMillisecondsSinceEpoch(timestamp);
-      now = DateTime.now();
-      timeDifference = now.difference(before);
-      hours = timeDifference.inHours;
+      var todayDateStr = Utils().getStringFromDate(DateTime.now(),"yyyy-MM-dd");// DateTime.fromMillisecondsSinceEpoch(timestamp);
+      if (savedDateStr!=todayDateStr)
+      {
+        isFirstTimeInaDay = false;
+      }
     }
 
-    if (timestamp == null || (hours!=null && hours == 24)) {
+    if (savedDateStr == null || !isFirstTimeInaDay) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           // return object of type Dialog
           return AlertDialog(
-            title: new Text("Settle Balance"),
-            content: new Text("Please make sure to settle the previous day balances and continue"),
+            title:  Text("Settle Balance"),
+            content:  Text("Please make sure to settle the previous day balances and continue"),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
-              new FlatButton(
-                child: new Text("Ok"),
+               FlatButton(
+                child:  Text("Ok"),
+
                 onPressed: () {
                   // Close the dialog
-                  Navigator.of(context).pop();
-                  int timestamp = DateTime.now().millisecondsSinceEpoch;
-                  prefs.setInt('myTimestampKey', timestamp);
+                  pop();
+                  String date = Utils().getStringFromDate(DateTime.now(),"yyyy-MM-dd");
+                  prefs.setString('myTimestampKey', date);
+                  prefs.setBool('isFirstTimeInaDay', true);
                 },
               ),
             ],

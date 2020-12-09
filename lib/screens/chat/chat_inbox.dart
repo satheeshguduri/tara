@@ -37,10 +37,7 @@ class _ChatInboxState extends BaseState<ChatInbox> {
   List<String> arrAllChatChatAmount = ["","","100","200","500",""];
 
   @override
-  BuildContext getContext() {
-    // TODO: implement getContext
-    return context;
-  }
+  BuildContext getContext() => context;
 
   @override
   void initState() {
@@ -48,11 +45,11 @@ class _ChatInboxState extends BaseState<ChatInbox> {
     loadData();
   }
 
-  loadData()
+  void loadData()
   {
-     arrAllChats = [];
-     arrMerchantChats = [];
-     arrTaraUserChats = [];
+    arrAllChats = [];
+    arrMerchantChats = [];
+    arrTaraUserChats = [];
 
     for (var i = 0; i < arrAllChatTitle.length; i++) {
       var chatInboxInfo = ChatInboxInfo();
@@ -63,23 +60,23 @@ class _ChatInboxState extends BaseState<ChatInbox> {
       arrAllChats.add(chatInboxInfo);
     }
 
-     for (var i = 0; i < arrMerchantTitle.length; i++) {
-       var chatInboxInfo = ChatInboxInfo();
-       chatInboxInfo.chatTitle = arrMerchantTitle[i];
-       chatInboxInfo.chatSubTitle = arrMerchantSubTitle[i];
-       chatInboxInfo.chatCardTitle = arrMerchantChatCard[i];
-       chatInboxInfo.chatAmount = arrMerchantChatAmount[i];
-       arrMerchantChats.add(chatInboxInfo);
-     }
+    for (var i = 0; i < arrMerchantTitle.length; i++) {
+      var chatInboxInfo = ChatInboxInfo();
+      chatInboxInfo.chatTitle = arrMerchantTitle[i];
+      chatInboxInfo.chatSubTitle = arrMerchantSubTitle[i];
+      chatInboxInfo.chatCardTitle = arrMerchantChatCard[i];
+      chatInboxInfo.chatAmount = arrMerchantChatAmount[i];
+      arrMerchantChats.add(chatInboxInfo);
+    }
 
-     for (var i = 0; i < arrTaraUserTitle.length; i++) {
-       var chatInboxInfo = ChatInboxInfo();
-       chatInboxInfo.chatTitle = arrTaraUserTitle[i];
-       chatInboxInfo.chatSubTitle = arrTaraUserSubTitle[i];
-       chatInboxInfo.chatCardTitle = arrTaraUserChatCard[i];
-       chatInboxInfo.chatAmount = arrTaraUserChatAmount[i];
-       arrTaraUserChats.add(chatInboxInfo);
-     }
+    for (var i = 0; i < arrTaraUserTitle.length; i++) {
+      var chatInboxInfo = ChatInboxInfo();
+      chatInboxInfo.chatTitle = arrTaraUserTitle[i];
+      chatInboxInfo.chatSubTitle = arrTaraUserSubTitle[i];
+      chatInboxInfo.chatCardTitle = arrTaraUserChatCard[i];
+      chatInboxInfo.chatAmount = arrTaraUserChatAmount[i];
+      arrTaraUserChats.add(chatInboxInfo);
+    }
   }
 
   @override
@@ -92,7 +89,7 @@ class _ChatInboxState extends BaseState<ChatInbox> {
         bottom: true,
         child: Scaffold(
           backgroundColor: Colors.white,
-          appBar: _buildAppBar(context),
+          appBar: _buildAppBar(),
           body: TabBarView(
             children: [
               getChatListWidget(Strings.all_chats),
@@ -125,16 +122,16 @@ class _ChatInboxState extends BaseState<ChatInbox> {
     );
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar() {
     return AppBar(
-      elevation: 0,
-      centerTitle: true,
-      automaticallyImplyLeading: false, // hides leading widget
-      title:Text(
-        getTranslation(Strings.inbox),
-        textAlign: TextAlign.center,
-        style: BaseStyles.topBarTextStyle,
-      ),
+        elevation: 0,
+        centerTitle: true,
+        automaticallyImplyLeading: false, // hides leading widget
+        title:Text(
+          getTranslation(Strings.inbox),
+          textAlign: TextAlign.center,
+          style: BaseStyles.topBarTextStyle,
+        ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(40),
           child: Container(
@@ -170,19 +167,17 @@ class _ChatInboxState extends BaseState<ChatInbox> {
     );
   }
 
-  getTab(String tabName)
-  {
-    return Container(
-      margin: EdgeInsets.only(top: 16,bottom: 8,),
-      child: Text(
-          getTranslation(tabName),
-          textAlign: TextAlign.center
-      ),
-    );
-  }
+  Widget getTab(String tabName) => Container(
+    margin: EdgeInsets.only(top: 16,bottom: 8,),
+    child: Text(
+        getTranslation(tabName),
+        textAlign: TextAlign.center
+    ),
+  );
 
   getChatListWidget(String tabTitle)
   {
+    var length = (tabTitle == Strings.tara_user?arrTaraUserChats.length:tabTitle==Strings.merchant?arrMerchantChats.length:arrAllChats.length);
     return Container(
       margin: EdgeInsets.only(top: 8,bottom: 8),
       child: ListView.builder(
@@ -190,7 +185,7 @@ class _ChatInboxState extends BaseState<ChatInbox> {
         primary: false,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: tabTitle==Strings.tara_user?arrTaraUserChats.length:tabTitle==Strings.merchant?arrMerchantChats.length:arrAllChats.length,
+        itemCount: length,
         itemBuilder: (context,index){
           if (tabTitle==Strings.tara_user)
           {

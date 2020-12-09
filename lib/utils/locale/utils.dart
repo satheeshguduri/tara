@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/widgets/input_done_view.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';
@@ -39,5 +40,13 @@ class Utils {
   /*used to hide key board*/
   void hideKeyBoard(BuildContext mContext) {
     FocusScope.of(mContext).requestFocus(FocusNode());
+  }
+
+  String getStringFromDate(DateTime date, String format)
+  {
+//    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat(format); //'yyyy-MM-dd'
+    final String formatted = formatter.format(date);
+    return formatted;
   }
 }
