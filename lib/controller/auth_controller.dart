@@ -30,8 +30,6 @@ class AuthController extends GetxController {
 
   ///on clicking on send otp
   void getOtp() async{
-
-
     //validate empty state here for the text fields
     if(mobileNumberTextEditController.text.isNotEmpty){
       showProgress.value = true;
@@ -55,7 +53,7 @@ class AuthController extends GetxController {
     if(otpTextEditController.text.isNotEmpty){
       showProgress.value = true;
       AuthRequest request = AuthRequest(mobileNumber: mobileNumberTextEditController.text);
-      Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().getOtp(AuthRequestWithData(data: request));
+      Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().validateOtp(AuthRequestWithData(data: request));
       showProgress.value = false;
       response.fold(
               (l) =>
@@ -85,7 +83,7 @@ class AuthController extends GetxController {
       showProgress.value = true;
       CustomerProfile customerProfile = CustomerProfile(mobileNumber: mobileNumberTextEditController.text);
       SignUpRequest request = SignUpRequest(data: customerProfile,);
-      Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().login(request);
+      Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().signUp(request);
       showProgress.value = false;
       response.fold(
               (l) =>
