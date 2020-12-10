@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/merchant/merchant_home_screen.dart';
+import 'package:tara_app/screens/splash/splash_screen.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';
 
 import 'common/constants/app_theme.dart';
@@ -51,22 +52,12 @@ class _TaraAppState extends State<TaraApp> {
             const Locale('en', ''), // English, no country code
             const Locale('id', ''), // Spanish, no country code
           ],
-          home: getLandingScreen(),
+          home: SplashScreen(),
           title: "Tara",
           theme: themeData
       ),
     );
   }
 
-  Widget getLandingScreen(){
-    if(Flavor.CONSUMER == F.appFlavor){
-      return HomeCustomerScreen();
-    }else if(Flavor.MERCHANT == F.appFlavor){
-      return MerchantHomeScreen();
-    }else if(Flavor.AGENT == F.appFlavor){
-      return AgentHomeScreen();
-    }
 
-    return HomeCustomerScreen();
-  }
 }

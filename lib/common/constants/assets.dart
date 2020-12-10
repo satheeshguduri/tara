@@ -154,6 +154,8 @@ class Assets {
 
   static const avatar11 = "assets/images/oval-19.png";
 
+  static const splashlogo = "assets/images/combined-shape-5.png";
+
 
 
 
