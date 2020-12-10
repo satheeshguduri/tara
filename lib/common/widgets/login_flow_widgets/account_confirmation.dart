@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
-import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
 
@@ -25,13 +24,8 @@ class _AccountConfirmationScreenState extends BaseState<AccountConfirmationScree
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body:getRootContainer(),
+      body:SignInFlowBg(child:getConfirmationWidget()),
     );
-  }
-
-  Widget getRootContainer(){
-    return Obx(()=>
-        SafeArea(child: getConfirmationWidget()).withProgressIndicator(showIndicator: false));
   }
 
   Widget getConfirmationWidget() {

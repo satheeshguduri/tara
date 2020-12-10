@@ -47,7 +47,7 @@ class _CompleteProfileScreenState extends BaseState<CompleteProfileScreen> {
     return Obx(() => SafeArea(
             child: SingleChildScrollView(
           child: getAllWidgets(),
-        ).withProgressIndicator(showIndicator: controller.showProgress.value)));
+        )).withProgressIndicator(showIndicator: controller.showProgress.value));
   }
 
   AppBar buildAppBar(BuildContext context) {
