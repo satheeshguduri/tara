@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
@@ -8,6 +9,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class AccountConfirmationScreen extends StatefulWidget {
   const AccountConfirmationScreen({
@@ -88,13 +90,13 @@ class _AccountConfirmationScreenState extends BaseState<AccountConfirmationScree
         style: BaseStyles.chatItemDepositSuccessMoneyTextStyle,
       ),
     ).onTap(onPressed: (){
-      pushAndRemoveUntil(HomeCustomerScreen());
+      Get.offAll(Utils().getLandingScreen());
+      //pushAndRemoveUntil(HomeCustomerScreen());
     });
   }
 
   @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
 

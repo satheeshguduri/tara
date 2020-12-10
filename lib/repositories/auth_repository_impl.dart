@@ -25,6 +25,9 @@ class AuthRepositoryImpl implements AuthRepository{
 
   @override
   Future<Either<Failure, BaseResponse>> getOtp(AuthRequestWithData authRequestWithData) async{
+    if(!await networkInfo.isConnected){
+      return Left(Failure(message:"No Internet Connection"));
+    }
     try {
       var response = await remoteDataSource.getOTP(authRequestWithData);
       return Right(response);

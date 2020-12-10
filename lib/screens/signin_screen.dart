@@ -13,6 +13,7 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/screens/create_account_screen.dart';
 
 
 class SignInScreen extends StatefulWidget {
@@ -79,7 +80,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                         Expanded(
                             child: InkWell(
                               onTap: (){
-                                pop();
+                                Get.off(CreateAccountScreen());
                               },
                               child: Container(
                                   margin: EdgeInsets.only(left: 8,),
@@ -136,7 +137,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                       color: AppColors.primaryBackground),
                   child: Wrap(
                     children: <Widget>[
-                      Column(
+                      /*Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           InkWell(
@@ -154,7 +155,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                             ),
                           ),
                         ],
-                      ),
+                      ),*/
                       TextWithBottomOverlay(titleStr: Strings.login,),
                       Container(
                         color: Colors.grey[200],

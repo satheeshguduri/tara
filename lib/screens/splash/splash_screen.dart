@@ -11,6 +11,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/merchant/merchant_home_screen.dart';
 import 'package:tara_app/screens/signin_screen.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 import '../../flavors.dart';
 import '../../injector.dart';
@@ -40,7 +41,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
       if(!isLoggedIn)
         Get.off(SignInScreen());
       else
-        Get.off(getLandingScreen());
+        Get.off(Utils().getLandingScreen());
     });
   }
   @override
@@ -53,24 +54,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
         ),
       ),
     );
-
   }
-
-
-  Widget getLandingScreen(){
-    if(Flavor.CONSUMER == F.appFlavor){
-      return HomeCustomerScreen();
-    }else if(Flavor.MERCHANT == F.appFlavor){
-      return MerchantHomeScreen();
-    }else if(Flavor.AGENT == F.appFlavor){
-      return AgentHomeScreen();
-    }else{
-      return SignInScreen();
-    }
-  }
-
-
-
   @override
   BuildContext getContext() =>context;
 }

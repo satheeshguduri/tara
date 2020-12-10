@@ -20,6 +20,7 @@ import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/complete_profile_details.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/services/error/failure.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 import '../injector.dart';
 
@@ -104,7 +105,7 @@ class AuthController extends GetxController {
       CustomerProfile customerProfile = CustomerProfile(
           firstName: fullName.value,
           email: email.value,
-          customerType: "Consumer");
+          customerType: Utils().getCustomerType());
       SignUpRequest request = SignUpRequest(
           customerProfile: customerProfile,
           mobileNumber: mobileNumber.value,
@@ -113,7 +114,7 @@ class AuthController extends GetxController {
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().signUp(request);
       showProgress.value = false;
-      response.fold((l) => Get.to(AccountConfirmationScreen()),
+      response.fold((l) => Get.defaultDialog(content: Text(l.message)),
           (r) => Get.to(AccountConfirmationScreen()));
       // Get.to(Consumer())); //navigate to consumer home screen
     }
@@ -143,6 +144,7 @@ class AuthController extends GetxController {
     }
     return true;
   }
+
 
   void isEnterAllTheFieldsInCompleteProfile() {
     if (!GetUtils.isNullOrBlank(fullName.value) &&

@@ -136,7 +136,7 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          InkWell(
+                          /*InkWell(
                             onTap: pop,
                             child: Container(
                               width: 32,
@@ -147,7 +147,7 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
                                 fit: BoxFit.none,
                               ),
                             ),
-                          ),
+                          ),*/
                           Container(
                             width: 62,
                             height: 24,

@@ -4,6 +4,7 @@
 *  Created by Yakub Pasha.
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
+import 'package:dio/dio.dart';
 import 'package:tara_app/services/error/server_error.dart';
 
 ///handle custom error and dio errors here
@@ -13,7 +14,7 @@ class Failure {
 
   Failure({this.message});
 
-  Failure.fromServerError(Error error){
+  Failure.fromServerError(DioError error){
     message = ServerError(error).message;
   }
 }
