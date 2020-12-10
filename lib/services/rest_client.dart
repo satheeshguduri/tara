@@ -29,10 +29,10 @@ abstract class RestClient {
   @POST(API.validate_otp)
   Future<BaseResponse> validateOtp(@Body() AuthRequestWithData loginRequest);
 
-  @POST(API.signup)
+  @POST(API.login)
   Future<AuthResponse> login(@Body() AuthRequest loginRequest);
 
-  @POST(API.login)
+  @POST(API.signup)
   Future<AuthResponse> signUp(@Body() SignUpRequest loginRequest);
 
 

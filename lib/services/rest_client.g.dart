@@ -65,7 +65,8 @@ class _RestClient implements RestClient {
     final _data = <String, dynamic>{};
     _data.addAll(loginRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>('v1/tara/auth',
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v1/tara/auth/validate',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
@@ -85,8 +86,7 @@ class _RestClient implements RestClient {
     final _data = <String, dynamic>{};
     _data.addAll(loginRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        'v1/tara/auth/validate',
+    final _result = await _dio.request<Map<String, dynamic>>('v1/tara/auth',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
