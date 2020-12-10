@@ -45,9 +45,10 @@ SignUpRequest _$SignUpRequestFromJson(Map<String, dynamic> json) {
   return SignUpRequest(
     mobileNumber: json['mobileNumber'] as String,
     password: json['password'] as String,
-    data: json['data'] == null
+    customerProfile: json['customerProfile'] == null
         ? null
-        : CustomerProfile.fromJson(json['data'] as Map<String, dynamic>),
+        : CustomerProfile.fromJson(
+            json['customerProfile'] as Map<String, dynamic>),
   );
 }
 
@@ -55,5 +56,5 @@ Map<String, dynamic> _$SignUpRequestToJson(SignUpRequest instance) =>
     <String, dynamic>{
       'mobileNumber': instance.mobileNumber,
       'password': instance.password,
-      'data': instance.data,
+      'customerProfile': instance.customerProfile,
     };
