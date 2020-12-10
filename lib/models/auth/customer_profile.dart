@@ -15,7 +15,7 @@ part 'customer_profile.g.dart';
 class CustomerProfile extends BaseRequest {
 
   final String firstName;
-  final String id;
+  final int id;
   final String lastName;
   final String mobileNumber;
   final String country;
@@ -26,7 +26,7 @@ class CustomerProfile extends BaseRequest {
   final String firebaseId;
   final String credential;
   final String token;
-  final String address;
+  final dynamic address;
 
 
   CustomerProfile({

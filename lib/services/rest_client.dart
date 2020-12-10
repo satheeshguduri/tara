@@ -24,16 +24,16 @@ abstract class RestClient {
   factory RestClient(Dio dio,{String baseUrl}) = _RestClient;
 
   @POST(API.get_otp)
-  Future<BaseResponse> getOTP(@Body() AuthRequestWithData loginRequest);
+  Future<BaseResponse> getOTP(@Body() AuthRequestWithData authRequestWithData);
 
   @POST(API.validate_otp)
-  Future<BaseResponse> validateOtp(@Body() AuthRequestWithData loginRequest);
+  Future<BaseResponse> validateOtp(@Body() AuthRequestWithData authRequestWithData);
 
   @POST(API.login)
   Future<AuthResponse> login(@Body() AuthRequest loginRequest);
 
   @POST(API.signup)
-  Future<AuthResponse> signUp(@Body() SignUpRequest loginRequest);
+  Future<AuthResponse> signUp(@Body() SignUpRequest signUpRequest);
 
 
 }

@@ -12,7 +12,7 @@ part 'security_token.g.dart';
 @JsonSerializable()
 class SecurityToken{
 
-  final String id;
+  final int id;
   final Token token;
   final String createdDate;
   final String updatedDate;
@@ -28,7 +28,7 @@ class SecurityToken{
 @JsonSerializable()
 class Token{
 
-  final String id;
+  final int id;
   final String tara;
   final String ndmp;
   final String rtp;
