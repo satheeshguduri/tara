@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
-import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/create_account_screen.dart';
 import 'package:tara_app/screens/signin_screen.dart';
 
 class CreateNewAccount extends StatefulWidget {
@@ -21,27 +22,28 @@ class CreateNewAccount extends StatefulWidget {
 class _CreateNewAccountState extends BaseState<CreateNewAccount> {
 
   AuthController controller = Get.put(AuthController());
+  PhoneNumber number = PhoneNumber(isoCode: 'IN');
 
-  static List<String> countryNamesList = ["australia", "brazil", "canada", "france","germany", "india", "indonesia", "ireland","uk","usa"];
-  static List<String> countryCodesList = ["+61", "+55", "+1", "+33","+49", "+91", "+62", "+353","+44","+1"];
-  static List<String> imgList = [
-    Assets.ic_australia_flag,
-    Assets.ic_brazil_flag,
-    Assets.ic_canada_flag,
-    Assets.ic_france_flag,
-    Assets.ic_germany_flag,
-    Assets.ic_india_flag,
-    Assets.ic_indonesia_flag,
-    Assets.ic_ireland_flag,
-    Assets.ic_uk_flag,
-    Assets.ic_usa_flag,
-  ];
-
-  List<CountryCodeModel> arrCountries = List<CountryCodeModel>();
-
-  CountryCodeModel dropdownValue;
-  TextEditingController mobileNoController = TextEditingController();
-  FocusNode mobileNorFocusNode = FocusNode();
+//  static List<String> countryNamesList = ["australia", "brazil", "canada", "france","germany", "india", "indonesia", "ireland","uk","usa"];
+//  static List<String> countryCodesList = ["+61", "+55", "+1", "+33","+49", "+91", "+62", "+353","+44","+1"];
+//  static List<String> imgList = [
+//    Assets.ic_australia_flag,
+//    Assets.ic_brazil_flag,
+//    Assets.ic_canada_flag,
+//    Assets.ic_france_flag,
+//    Assets.ic_germany_flag,
+//    Assets.ic_india_flag,
+//    Assets.ic_indonesia_flag,
+//    Assets.ic_ireland_flag,
+//    Assets.ic_uk_flag,
+//    Assets.ic_usa_flag,
+//  ];
+//
+//  List<CountryCodeModel> arrCountries = List<CountryCodeModel>();
+//
+//  CountryCodeModel dropdownValue;
+//  TextEditingController mobileNoController = TextEditingController();
+//  FocusNode mobileNorFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +91,7 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
                     Expanded(
                       child: InkWell(
                         onTap: (){
-                          push(CreateAccount(isSingInClicked: true,));
+                          push(CreateAccountScreen(isSingInClicked: true,));
                         },
                         child: Container(
                             margin: EdgeInsets.only(left: 8,),
@@ -191,7 +193,39 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
                         style: BaseStyles.subHeaderTextStyle
                     ),
                   ),
-                  textFormFieldContainer(getTranslation(Strings.PHONE_NUMBER),TextInputType.phone,mobileNoController,mobileNorFocusNode),
+                //  textFormFieldContainer(getTranslation(Strings.PHONE_NUMBER),TextInputType.phone,mobileNoController,mobileNorFocusNode),
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide( //                   <--- left side
+                          color: Colors.grey[400],
+                          width: 1.0,
+                        ),
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    child: InternationalPhoneNumberInput(
+                        autoValidate:true,
+                      onInputChanged: (PhoneNumber number) {
+                        print(number.phoneNumber);
+                      },
+                      onInputValidated: (bool value) {
+                        print(value);
+                      },
+                      selectorConfig: SelectorConfig(
+                        selectorType: PhoneInputSelectorType.DROPDOWN,
+                      ),
+                      ignoreBlank: false,
+                      selectorTextStyle: TextStyle(color: Colors.black),
+                      initialValue: number,
+                      textFieldController: controller.mobileNumberTextEditController,
+                      inputBorder: InputBorder.none,
+                      inputDecoration: InputDecoration(
+                        border: InputBorder.none, hintText: getTranslation(Strings.phone_number_2),
+                      ),
+                    ),
+                  ),
                   _getContinueWidget()
                 ],
               ),
@@ -208,7 +242,7 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
   @override
   void initState() {
     super.initState();
-    loadData();
+//    loadData();
   }
 
   Widget getRootContainer(){
@@ -219,110 +253,110 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
 
   }
 
-  loadData()
-  {
-    arrCountries = List<CountryCodeModel>();
-    for (var i = 0; i < countryNamesList.length; i++) {
-      var country = CountryCodeModel();
-      country.countryName = countryNamesList[i];
-      country.image = imgList[i];
-      country.countryCode = countryCodesList[i];
-      arrCountries.add(country);
-    }
+//  loadData()
+//  {
+//    arrCountries = List<CountryCodeModel>();
+//    for (var i = 0; i < countryNamesList.length; i++) {
+//      var country = CountryCodeModel();
+//      country.countryName = countryNamesList[i];
+//      country.image = imgList[i];
+//      country.countryCode = countryCodesList[i];
+//      arrCountries.add(country);
+//    }
+//
+//    dropdownValue = arrCountries.first;
+//  }
 
-    dropdownValue = arrCountries.first;
-  }
+//  textFormFieldContainer(String hint,TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
+//  {
+//    return Container(
+//        margin: EdgeInsets.only(top:8),
+//        child: Container(
+//          child:Row(
+//            children: [
+//              Wrap(
+//                children: [
+//                  Container(
+//                    margin: EdgeInsets.only(right: 12),
+//                    decoration: BoxDecoration(
+//                      border: Border(
+//                        bottom: BorderSide( //                   <--- left side
+//                          color: Colors.grey[400],
+//                          width: 1.0,
+//                        ),
+//                      ),
+//                      color: Colors.transparent,
+//                    ),
+//                    child: _getDropDownList(),
+//                  ),
+//                ],
+//              ),
+//              Expanded(
+//                flex:6.2.toInt(),
+//                child:Container(
+//                  decoration: BoxDecoration(
+//                    border: Border(
+//                      bottom: BorderSide( //                   <--- left side
+//                        color: Colors.grey[400],
+//                        width: 1.0,
+//                      ),
+//                    ),
+//                    color: Colors.transparent,
+//                  ),
+//                  child:TextFieldWidget(placeHolderStyle: BaseStyles.subHeaderTextStyle,hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
+//
+//                  }),
+//                )
+//              ),
+//            ],
+//          ),
+//        )
+//    );
+//  }
 
-  textFormFieldContainer(String hint,TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
-  {
-    return Container(
-        margin: EdgeInsets.only(top:8),
-        child: Container(
-          child:Row(
-            children: [
-              Wrap(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 12),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide( //                   <--- left side
-                          color: Colors.grey[400],
-                          width: 1.0,
-                        ),
-                      ),
-                      color: Colors.transparent,
-                    ),
-                    child: _getDropDownList(),
-                  ),
-                ],
-              ),
-              Expanded(
-                flex:6.2.toInt(),
-                child:Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide( //                   <--- left side
-                        color: Colors.grey[400],
-                        width: 1.0,
-                      ),
-                    ),
-                    color: Colors.transparent,
-                  ),
-                  child:TextFieldWidget(placeHolderStyle: BaseStyles.subHeaderTextStyle,hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
-
-                  }),
-                )
-              ),
-            ],
-          ),
-        )
-    );
-  }
-
-  _getDropDownList() {
-    return DropdownButton<CountryCodeModel>(
-      icon: Image.asset(Assets.ic_dropdown,width: 18,),
-      value: dropdownValue,
-      style: BaseStyles.subHeaderTextStyle,
-      underline: Container(),
-      onChanged: (val) {
-        setState(() {
-          dropdownValue = val;
-        });
-      },
-      items: _getDropdownItems(),
-    );
-  }
-
-  _getDropdownItems() {
-    return arrCountries
-        .map<DropdownMenuItem<CountryCodeModel>>((CountryCodeModel countryCodeModel) {
-      return DropdownMenuItem<CountryCodeModel>(
-        child: Container(
-            margin: EdgeInsets.only(top: 8, bottom: 8),
-            child: Row(
-              children: [
-                Image.asset(countryCodeModel.image,width: 18,height: 18,),
-                Container(
-                  width: 3,
-                ),
-                Text(
-                  countryCodeModel.countryCode,
-                  style: BaseStyles.subHeaderTextStyle,
-                  textAlign: TextAlign.center,
-                )
-              ],
-            )),
-        value: countryCodeModel,
-      );
-    }).toList();
-  }
+//  _getDropDownList() {
+//    return DropdownButton<CountryCodeModel>(
+//      icon: Image.asset(Assets.ic_dropdown,width: 18,),
+//      value: dropdownValue,
+//      style: BaseStyles.subHeaderTextStyle,
+//      underline: Container(),
+//      onChanged: (val) {
+//        setState(() {
+//          dropdownValue = val;
+//        });
+//      },
+//      items: _getDropdownItems(),
+//    );
+//  }
+//
+//  _getDropdownItems() {
+//    return arrCountries
+//        .map<DropdownMenuItem<CountryCodeModel>>((CountryCodeModel countryCodeModel) {
+//      return DropdownMenuItem<CountryCodeModel>(
+//        child: Container(
+//            margin: EdgeInsets.only(top: 8, bottom: 8),
+//            child: Row(
+//              children: [
+//                Image.asset(countryCodeModel.image,width: 18,height: 18,),
+//                Container(
+//                  width: 3,
+//                ),
+//                Text(
+//                  countryCodeModel.countryCode,
+//                  style: BaseStyles.subHeaderTextStyle,
+//                  textAlign: TextAlign.center,
+//                )
+//              ],
+//            )),
+//        value: countryCodeModel,
+//      );
+//    }).toList();
+//  }
 
   _getContinueWidget() {
     return InkWell(
       onTap: () {
-        push(CreateAccount(isFromCreateAccount: true,mobileNumber:mobileNoController.text,));
+        push(CreateAccountScreen(isFromCreateAccount: true,mobileNumber:controller.mobileNumberTextEditController.text,));
       },
       child: Container(
         height: 48,

@@ -24,7 +24,7 @@ Future<void> init() async{
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
   final sharedPreferences = await SharedPreferences.getInstance();
   getIt.registerLazySingleton(() => sharedPreferences);
-  getIt.registerLazySingleton<RestClient>(() => APIHelper(getIt()).getDioClient());
+  getIt.registerLazySingleton<RestClient>(() => APIHelper().getDioClient());
   getIt.registerLazySingleton(() => DataConnectionChecker());
   Get.put(AuthController());
   await GetStorage.init();

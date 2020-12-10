@@ -12,7 +12,7 @@ import 'package:tara_app/screens/agent/agent_widgets/upload_portrait_pic.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/complete_profile_details.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
-import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/create_account_screen.dart';
 
 class MobileVerification extends StatefulWidget {
   final String mobileNumber;

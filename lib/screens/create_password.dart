@@ -13,7 +13,7 @@ import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
-import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/create_account_screen.dart';
 
 class CreatePassword extends StatefulWidget {
   @override
@@ -292,7 +292,7 @@ class _CreatePasswordState extends BaseState<CreatePassword> {
             isFailedValidation = true;
           });
         }else{
-          push(CreateAccount(isFromCreatePassword: true,));
+          push(CreateAccountScreen(isFromCreatePassword: true,));
         }
       },
       child: Container(

@@ -10,7 +10,7 @@ import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
-import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/create_account_screen.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({

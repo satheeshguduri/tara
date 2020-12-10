@@ -13,7 +13,8 @@ import 'package:tara_app/services/rest_client.dart';
 
 class APIHelper{
   Dio dio;
-  APIHelper(this.dio){// Provide a dio instance
+  APIHelper(){
+    dio = Dio();// Provide a dio instance
     dio.interceptors.add(PrettyDioLogger(
       requestHeader: true,
       requestBody: true,

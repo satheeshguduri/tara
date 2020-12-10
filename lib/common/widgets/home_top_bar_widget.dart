@@ -11,7 +11,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/shop_home.dart';
-import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/create_account_screen.dart';
 import 'package:tara_app/screens/notification_screen.dart';
 
 class HomeTopBar extends StatefulWidget {
@@ -182,7 +182,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                                 alignment: Alignment.centerRight,
                                 child: InkWell(
                                     onTap: (){
-                                      push(CreateAccount());
+                                      push(CreateAccountScreen());
                                     },
                                     child:Container(
                                       width: 33,

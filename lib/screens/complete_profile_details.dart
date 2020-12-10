@@ -6,7 +6,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/create_account.dart';
+import 'package:tara_app/screens/create_account_screen.dart';
 
 class CompleteProfile extends StatefulWidget {
   final String mobileNumber;
@@ -174,7 +174,7 @@ class _CompleteProfileState extends BaseState<CompleteProfile> {
       onTap: () {
         if (isAllDetailsEntered)
         {
-          push(CreateAccount(isFromCompleteProfile: true,));
+          push(CreateAccountScreen(isFromCompleteProfile: true,));
         }
       },
       child: Container(

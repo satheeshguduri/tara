@@ -10,8 +10,8 @@ class API{
   API._();
   static const bool IS_LIVE = false;
 
-  static const LIVE_ENDPOINT = "https://107.20.4.43:9001/";
-  static const DEMO_ENDPOINT = "https://107.20.4.43:9001/";//DEMO endpoint should be replaced here
+  static const LIVE_ENDPOINT = "http://107.20.4.43:9001/";
+  static const DEMO_ENDPOINT = "http://107.20.4.43:9001/";//DEMO endpoint should be replaced here
 
   //API Endpoint
   static const baseUrl = IS_LIVE?LIVE_ENDPOINT:DEMO_ENDPOINT;

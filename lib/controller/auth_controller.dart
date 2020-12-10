@@ -8,8 +8,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/mobile_verification.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
@@ -34,11 +36,12 @@ class AuthController extends GetxController {
     if(mobileNumberTextEditController.text.isNotEmpty){
       showProgress.value = true;
       AuthRequest request = AuthRequest(mobileNumber: mobileNumberTextEditController.text);
+      print(request.toJson());
       Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().getOtp(AuthRequestWithData(data: request));
       showProgress.value = false;
       response.fold(
               (l) =>
-                  Get.defaultDialog(content: Text(l.message)),
+                  print(l.message),
               (r) =>
                   Get.to(MobileVerification()));
     }else{
@@ -48,7 +51,6 @@ class AuthController extends GetxController {
   }
   ///on tapping the verify
   void validateOtp() async{
-
     //validate empty state here for the text fields
     if(otpTextEditController.text.isNotEmpty){
       showProgress.value = true;
@@ -68,7 +70,7 @@ class AuthController extends GetxController {
     if(mobileNumberTextEditController.text.isNotEmpty){
       showProgress.value = true;
       AuthRequest request = AuthRequest(mobileNumber: mobileNumberTextEditController.text);
-      Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().login(request);
+      Either<Failure, AuthResponse> response = await getIt.get<AuthRepository>().login(request);
       showProgress.value = false;
       response.fold(
               (l) =>
@@ -83,7 +85,7 @@ class AuthController extends GetxController {
       showProgress.value = true;
       CustomerProfile customerProfile = CustomerProfile(mobileNumber: mobileNumberTextEditController.text);
       SignUpRequest request = SignUpRequest(data: customerProfile,);
-      Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().signUp(request);
+      Either<Failure, AuthResponse> response = await getIt.get<AuthRepository>().signUp(request);
       showProgress.value = false;
       response.fold(
               (l) =>
