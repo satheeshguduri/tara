@@ -334,5 +334,7 @@
   "enter_password": "Enter Password",
   "enter_confirm_password": "Enter Confirm Password",
   "password": "Password",
-  "confirm_password": "Confirm Password"
+  "confirm_password": "Confirm Password",
+  "password_not_match": "Password & Confirm Password should be same",
+  "invalid_email": "Please enter valid email address"
 }

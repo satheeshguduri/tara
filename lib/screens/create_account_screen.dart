@@ -225,20 +225,6 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
         ));
   }
 
-//  getSignInFlow()
-//  {
-//    if(Flavor.CONSUMER == F.appFlavor){
-//      return widget.isSingInClicked?SignIn():widget.isFromCreateAccount?
-//      MobileVerification(mobileNumber: widget?.mobileNumber!=null?widget.mobileNumber:"",):widget.isFromCompleteProfile?
-////      CreatePassword(): widget.isFromCreatePassword ?
-//      AccountConfirmation():CreateNewAccount();
-//    }else if(Flavor.AGENT == F.appFlavor ||  Flavor.MERCHANT == F.appFlavor){
-//      return widget.isFromCreateAccount?
-//      MobileVerification()
-//      :CreateNewAccount();
-//    }
-//  }
-
   _getContinueWidget() {
     return Container(
       height: 48,

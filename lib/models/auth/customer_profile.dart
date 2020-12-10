@@ -54,9 +54,9 @@ class CustomerProfile extends BaseRequest {
 class SignUpRequest {
   final String mobileNumber;
   final String password;
-  final CustomerProfile data;
+  final CustomerProfile customerProfile;
 
-  SignUpRequest({this.mobileNumber, this.password, this.data});
+  SignUpRequest({this.mobileNumber, this.password, this.customerProfile});
 
   factory SignUpRequest.fromJson(Map<String, dynamic> json) => _$SignUpRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SignUpRequestToJson(this);

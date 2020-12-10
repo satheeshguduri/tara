@@ -361,6 +361,8 @@ class Strings{
   static const enter_confirm_password = "enter_confirm_password";
   static const password = "password";
   static const confirm_password = "confirm_password";
+  static const password_not_match = "password_not_match";
+  static const invalid_email = "invalid_email";
 }
 
 class NotificationSettingsStrings{

@@ -45,4 +45,17 @@ class Shadows {
       blurRadius: 4,
       spreadRadius: 0
   )];
+
+  static const List<BoxShadow> shadows_list_3= [
+  BoxShadow(
+  color: const Color(0x1f000000),
+  offset: Offset(0, 4),
+  blurRadius: 6,
+  spreadRadius: 0),
+  BoxShadow(
+  color: const Color(0x14000000),
+  offset: Offset(0, 0),
+  blurRadius: 2,
+  spreadRadius: 0)
+  ];
 }

@@ -26,7 +26,6 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends BaseState<SignInScreen> {
 
-  FocusNode mobileNorFocusNode = FocusNode();
   bool isFailedValidation = false;
 
   AuthController controller = Get.find();
@@ -59,22 +58,12 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                 child: Container(
                   width: MediaQuery.of(context).size.width*0.85,
                   margin: EdgeInsets.only(left: 16,),
-                  padding: EdgeInsets.only(left: 16,right: 16,top: 16,bottom: 16),
+                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(8),
                     ),
-                    boxShadow: [BoxShadow(
-                        color: const Color(0x29000000),
-                        offset: Offset(0,6),
-                        blurRadius: 14,
-                        spreadRadius: 0
-                    ), BoxShadow(
-                        color: const Color(0x1a000000),
-                        offset: Offset(0,0),
-                        blurRadius: 4,
-                        spreadRadius: 0
-                    )] ,
+                    boxShadow: Shadows.shadows_list_2  ,
                     color: Color(0xfff7f7fa),
                   ),
                   child: Container(

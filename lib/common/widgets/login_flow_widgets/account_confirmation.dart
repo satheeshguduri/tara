@@ -1,25 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
+import 'package:get/get.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:tara_app/common/constants/values.dart';
 
-class AccountConfirmation extends StatefulWidget {
-  const AccountConfirmation({
+class AccountConfirmationScreen extends StatefulWidget {
+  const AccountConfirmationScreen({
     Key key,
   }) : super(key: key);
 
   @override
-  _AccountConfirmationState createState() => _AccountConfirmationState();
+  _AccountConfirmationScreenState createState() => _AccountConfirmationScreenState();
 }
 
-class _AccountConfirmationState extends BaseState<AccountConfirmation> {
+class _AccountConfirmationScreenState extends BaseState<AccountConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body:getRootContainer(),
+    );
+  }
 
+  Widget getRootContainer(){
+    return Obx(()=>
+        SafeArea(child: getConfirmationWidget()).withProgressIndicator(showIndicator: false));
+  }
+
+  Widget getConfirmationWidget() {
     return Container(
         child:Align(
           alignment: Alignment.centerRight,
@@ -32,18 +47,7 @@ class _AccountConfirmationState extends BaseState<AccountConfirmation> {
                     bottomLeft: Radius.circular(8),
                     topLeft: Radius.circular(8),
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: const Color(0x1f000000),
-                        offset: Offset(0, 4),
-                        blurRadius: 6,
-                        spreadRadius: 0),
-                    BoxShadow(
-                        color: const Color(0x14000000),
-                        offset: Offset(0, 0),
-                        blurRadius: 2,
-                        spreadRadius: 0)
-                  ],
+                  boxShadow: Shadows.shadows_list_3,
                   color: AppColors.primaryBackground),
               child: Wrap(
                 children: <Widget>[
@@ -67,7 +71,7 @@ class _AccountConfirmationState extends BaseState<AccountConfirmation> {
                       textAlign: TextAlign.center,)),
                   ),
                   Center(
-                    child: __getStartedWidget(),
+                    child: getStartedWidget(),
                   )
                 ],
               ),
@@ -76,25 +80,22 @@ class _AccountConfirmationState extends BaseState<AccountConfirmation> {
         ));
   }
 
-  __getStartedWidget() {
-    return InkWell(
-      onTap: () {
-        pushAndRemoveUntil(HomeCustomerScreen());
-      },
-      child: Container(
-        height: 48,
-        margin: EdgeInsets.only(bottom: 16, top: 16,),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: Color(0xffb2f7e2),),
-        alignment: Alignment.center,
-        child: Text(
-          getTranslation(Strings.get_started),
-          textAlign: TextAlign.center,
-          style: BaseStyles.chatItemDepositSuccessMoneyTextStyle,
-        ),
+  Widget getStartedWidget() {
+    return Container(
+      height: 48,
+      margin: EdgeInsets.only(bottom: 16, top: 16,),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: Color(0xffb2f7e2),),
+      alignment: Alignment.center,
+      child: Text(
+        getTranslation(Strings.get_started),
+        textAlign: TextAlign.center,
+        style: BaseStyles.chatItemDepositSuccessMoneyTextStyle,
       ),
-    );
+    ).onTap(onPressed: (){
+      pushAndRemoveUntil(HomeCustomerScreen());
+    });
   }
 
   @override
