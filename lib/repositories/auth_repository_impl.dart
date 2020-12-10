@@ -18,6 +18,7 @@ import '../injector.dart';
 
 class AuthRepositoryImpl implements AuthRepository{
 
+
   @override
   Future<Either<Failure, BaseResponse>> getOtp(AuthRequestWithData authRequestWithData) async{
     try {

@@ -12,6 +12,7 @@ import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/signin_screen.dart';
 
 
 import 'base/base_state.dart';
@@ -87,32 +88,29 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
                             textAlign: TextAlign.right
                         ),
                         Expanded(
-                          child: InkWell(
-                            onTap: (){
-                              push(CreateAccountScreen(isSingInClicked: true,));
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(left: 8,),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        getTranslation(Strings.SIGN_IN),
-                                        style: BaseStyles.bottomSheetLocationChangeTextStyle,
-                                        textAlign: TextAlign.left
+                          child: Container(
+                              margin: EdgeInsets.only(left: 8,),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      getTranslation(Strings.SIGN_IN),
+                                      style: BaseStyles.bottomSheetLocationChangeTextStyle,
+                                      textAlign: TextAlign.left
+                                  ),
+                                  Container(
+                                    height:3,
+                                    width: 55,
+                                    margin: EdgeInsets.only(top: 4,),
+                                    decoration: BoxDecoration(
+                                      gradient: Gradients.primaryGradient,
                                     ),
-                                    Container(
-                                      height:3,
-                                      width: 55,
-                                      margin: EdgeInsets.only(top: 4,),
-                                      decoration: BoxDecoration(
-                                        gradient: Gradients.primaryGradient,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                            ),
-                          ),
+                                  ),
+                                ],
+                              )
+                          ).onTap(onPressed: (){
+                            push(SignInScreen());
+                          }),
                         )
                       ],
                     ),
@@ -196,6 +194,7 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
 //                          autoValidate:true,
                           onInputChanged: (PhoneNumber number) {
                             print(number.phoneNumber);
+                            controller.mobileNumber.value = number.phoneNumber;
                           },
                           onInputValidated: (bool value) {
                             print(value);

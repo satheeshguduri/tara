@@ -9,6 +9,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
@@ -37,7 +38,7 @@ class _TaraAppState extends State<TaraApp> {
         Provider<FirebaseAnalyticsObserver>.value(value: observer),
 //        Provider<GlobalStore>(create: (context)=> GlobalStore())
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           localizationsDelegates: [
             AppLocalizations.delegate,

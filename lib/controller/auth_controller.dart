@@ -15,6 +15,8 @@ import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
+import 'package:tara_app/screens/complete_profile_details.dart';
+import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/services/error/failure.dart';
 
 import '../injector.dart';
@@ -22,6 +24,9 @@ import '../injector.dart';
 class AuthController extends GetxController {
   ///listen for the progress bar changes
   var showProgress = false.obs;
+  var mobileNumber = "".obs;
+  var otp = "".obs;
+  var confirmPwd = "".obs;
 
   TextEditingController mobileNumberTextEditController = TextEditingController();
   TextEditingController passwordTextEditController = TextEditingController();
@@ -33,9 +38,9 @@ class AuthController extends GetxController {
   ///on clicking on send otp
   void getOtp() async{
     //validate empty state here for the text fields
-    if(mobileNumberTextEditController.text.isNotEmpty){
+    if(mobileNumber.value.isNotEmpty){
       showProgress.value = true;
-      AuthRequest request = AuthRequest(mobileNumber: mobileNumberTextEditController.text);
+      AuthRequest request = AuthRequest(mobileNumber: mobileNumber.value);
       print(request.toJson());
       Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().getOtp(AuthRequestWithData(data: request));
       showProgress.value = false;
@@ -43,7 +48,7 @@ class AuthController extends GetxController {
               (l) =>
                   print(l.message),
               (r) =>
-                  Get.to(MobileVerification()));
+                  Get.to(CompleteProfile()));
     }else{
       //handle empty state error here
     }
@@ -54,7 +59,7 @@ class AuthController extends GetxController {
     //validate empty state here for the text fields
     if(otpTextEditController.text.isNotEmpty){
       showProgress.value = true;
-      AuthRequest request = AuthRequest(mobileNumber: mobileNumberTextEditController.text);
+      AuthRequest request = AuthRequest(mobileNumber: mobileNumber.value,otp: otp.value);
       Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().validateOtp(AuthRequestWithData(data: request));
       showProgress.value = false;
       response.fold(
@@ -67,15 +72,15 @@ class AuthController extends GetxController {
 
   void login() async{
     //validate empty state here for the text fields
-    if(mobileNumberTextEditController.text.isNotEmpty){
+    if(mobileNumber.value.isNotEmpty&&confirmPwd.value.isNotEmpty){
       showProgress.value = true;
-      AuthRequest request = AuthRequest(mobileNumber: mobileNumberTextEditController.text);
+      AuthRequest request = AuthRequest(mobileNumber: mobileNumber.value,password: confirmPwd.value);
       Either<Failure, AuthResponse> response = await getIt.get<AuthRepository>().login(request);
       showProgress.value = false;
       response.fold(
               (l) =>
               Get.defaultDialog(content: Text(l.message)),
-              (r) => print("Navigate to consumer home screen"));
+              (r) => Get.to(HomeCustomerScreen()));
              // Get.to(Consumer())); //navigate to consumer home screen
     }
   }

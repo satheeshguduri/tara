@@ -1,54 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/Data.dart';
-import 'package:tara_app/screens/consumer/home_customer_screen.dart';
-import 'package:tara_app/screens/create_account_screen.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:tara_app/common/constants/values.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({
+
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({
     Key key,
   }) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  _SignInScreenState createState() => _SignInScreenState();
 }
 
-class _SignInState extends BaseState<SignIn> {
+class _SignInScreenState extends BaseState<SignInScreen> {
 
-  static List<String> countryNamesList = ["australia", "brazil", "canada", "france","germany", "india", "indonesia", "ireland","uk","usa"];
-  static List<String> countryCodesList = ["+61", "+55", "+1", "+33","+49", "+91", "+62", "+353","+44","+1"];
-  static List<String> imgList = [
-    Assets.ic_australia_flag,
-    Assets.ic_brazil_flag,
-    Assets.ic_canada_flag,
-    Assets.ic_france_flag,
-    Assets.ic_germany_flag,
-    Assets.ic_india_flag,
-    Assets.ic_indonesia_flag,
-    Assets.ic_ireland_flag,
-    Assets.ic_uk_flag,
-    Assets.ic_usa_flag,
-  ];
-
-  List<CountryCodeModel> arrCountries = List<CountryCodeModel>();
-
-  CountryCodeModel dropdownValue;
-  TextEditingController mobileNoController = TextEditingController();
-  TextEditingController confirmPass = TextEditingController();
   FocusNode mobileNorFocusNode = FocusNode();
   bool isFailedValidation = false;
 
+  AuthController controller = Get.find();
+  PhoneNumber number = PhoneNumber(isoCode: 'IN');
+
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body:getRootContainer(),
+    );
+  }
 
+  Widget getRootContainer(){
+    return Obx(()=>
+        SafeArea(child: SignInFlowBg(child: getSignInWidget())).withProgressIndicator(showIndicator: controller.showProgress.value));
+  }
+
+  Widget getSignInWidget()
+  {
     return Container(
         height: 520,
         child:Stack(
@@ -90,32 +88,32 @@ class _SignInState extends BaseState<SignIn> {
                             textAlign: TextAlign.right
                         ),
                         Expanded(
-                          child: InkWell(
-                            onTap: (){
-                              pop();
-                            },
-                            child: Container(
-                                margin: EdgeInsets.only(left: 8,),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        getTranslation(Strings.SIGN_UP),
-                                        style: BaseStyles.bottomSheetLocationChangeTextStyle,
-                                        textAlign: TextAlign.left
-                                    ),
-                                    Container(
-                                      height:3,
-                                      width: 55,
-                                      margin: EdgeInsets.only(top: 4,),
-                                      decoration: BoxDecoration(
-                                        gradient: Gradients.primaryGradient,
+                            child: InkWell(
+                              onTap: (){
+                                pop();
+                              },
+                              child: Container(
+                                  margin: EdgeInsets.only(left: 8,),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          getTranslation(Strings.SIGN_UP),
+                                          style: BaseStyles.bottomSheetLocationChangeTextStyle,
+                                          textAlign: TextAlign.left
                                       ),
-                                    ),
-                                  ],
-                                )
-                            ),
-                          )
+                                      Container(
+                                        height:3,
+                                        width: 55,
+                                        margin: EdgeInsets.only(top: 4,),
+                                        decoration: BoxDecoration(
+                                          gradient: Gradients.primaryGradient,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                              ),
+                            )
                         )
                       ],
                     ),
@@ -180,7 +178,39 @@ class _SignInState extends BaseState<SignIn> {
                             style: BaseStyles.subHeaderTextStyle
                         ),
                       ),
-                      textFormFieldContainer(getTranslation(Strings.PHONE_NUMBER),TextInputType.phone,mobileNoController,mobileNorFocusNode),
+                      Container(
+                        margin: EdgeInsets.only(top: 8),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide( //                   <--- left side
+                              color: Colors.grey[400],
+                              width: 1.0,
+                            ),
+                          ),
+                          color: Colors.transparent,
+                        ),
+                        child: InternationalPhoneNumberInput(
+//                          autoValidate:true,
+                          onInputChanged: (PhoneNumber number) {
+                            print(number.phoneNumber);
+                            controller.mobileNumber.value = number.phoneNumber;
+                          },
+                          onInputValidated: (bool value) {
+                            print(value);
+                          },
+                          selectorConfig: SelectorConfig(
+                            selectorType: PhoneInputSelectorType.DROPDOWN,
+                          ),
+                          ignoreBlank: false,
+                          selectorTextStyle: TextStyle(color: Colors.black),
+                          initialValue: number,
+                          textFieldController: controller.mobileNumberTextEditController,
+                          inputBorder: InputBorder.none,
+                          inputDecoration: InputDecoration(
+                            border: InputBorder.none, hintText: getTranslation(Strings.phone_number_2),
+                          ),
+                        ),
+                      ),
                       Container(
                         decoration: BoxDecoration(
                             border: Border(
@@ -191,21 +221,21 @@ class _SignInState extends BaseState<SignIn> {
                             )),
                         child: Row(
                             children: [
-                             Container(
-                               child:  Image.asset(Assets.ic_lock,color:AppColors.light_grey_blue),
-                               height: 24,
-                               width: 24,
-                               margin: EdgeInsets.only(right: 8),
-                             ),
+                              Container(
+                                child:  Image.asset(Assets.ic_lock,color:AppColors.light_grey_blue),
+                                height: 24,
+                                width: 24,
+                                margin: EdgeInsets.only(right: 8),
+                              ),
                               Expanded(
-                                child: textFormFieldContainer(getTranslation(Strings.confirm_password),TextInputType.text,confirmPass,null,isObscure:true,
+                                child: textFormFieldContainer(getTranslation(Strings.confirm_password),TextInputType.text,controller.confirmPasswordTextEditController,null,isObscure:true,
                                   placeHolderStyle: BaseStyles.subHeaderTextStyle,),
                               )
                             ]),
                       ),
                       isFailedValidation == false ? Container() :
                       Text("Password didn’t match. Please try again.", style: BaseStyles.error_text_style,),
-                      _getContinueWidget()
+                      getContinueWidget()
                     ],
                   ),
                 ),
@@ -218,21 +248,8 @@ class _SignInState extends BaseState<SignIn> {
   @override
   void initState() {
     super.initState();
-    loadData();
   }
 
-  loadData()
-  {
-    arrCountries = List<CountryCodeModel>();
-    for (var i = 0; i < countryNamesList.length; i++) {
-      var country = CountryCodeModel();
-      country.countryName = countryNamesList[i];
-      country.image = imgList[i];
-      country.countryCode = countryCodesList[i];
-      arrCountries.add(country);
-    }
-    dropdownValue = arrCountries.first;
-  }
 
   textFormFieldContainer(String hint,TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode,
       {bool isObscure=false, placeHolderStyle: BaseStyles.bankNameTextStyle,})
@@ -242,37 +259,11 @@ class _SignInState extends BaseState<SignIn> {
         child: Container(
           child:Row(
             children: [
-              textEditingController!=confirmPass?Wrap(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 12),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide( //                   <--- left side
-                          color: Colors.grey[400],
-                          width: 1.0,
-                        ),
-                      ),
-                      color: Colors.transparent,
-                    ),
-                    child: _getDropDownList(),
-                  ),
-                ],
-              ):Container(),
               Expanded(
-                  flex:6.2.toInt(),
+                  flex:1,
                   child:Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide( //                   <--- left side
-                          color: textEditingController!=confirmPass?Colors.grey[400]:Colors.transparent,
-                          width: 1.0,
-                        ),
-                      ),
-                      color: Colors.transparent,
-                    ),
                     child:TextFieldWidget(isObscure:isObscure,placeHolderStyle: BaseStyles.subHeaderTextStyle,hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
-
+                      controller.confirmPwd.value = textEditingController.text;
                     }),
                   )
               ),
@@ -282,70 +273,28 @@ class _SignInState extends BaseState<SignIn> {
     );
   }
 
-  _getDropDownList() {
-    return DropdownButton<CountryCodeModel>(
-      icon: Image.asset(Assets.ic_dropdown,width: 18,),
-      value: dropdownValue,
-      style: BaseStyles.subHeaderTextStyle,
-      underline: Container(),
-      onChanged: (val) {
-        setState(() {
-          dropdownValue = val;
-        });
-      },
-      items: _getDropdownItems(),
-    );
-  }
 
-  _getDropdownItems() {
-    return arrCountries
-        .map<DropdownMenuItem<CountryCodeModel>>((CountryCodeModel countryCodeModel) {
-      return DropdownMenuItem<CountryCodeModel>(
-        child: Container(
-            margin: EdgeInsets.only(top: 8, bottom: 8),
-            child: Row(
-              children: [
-                Image.asset(countryCodeModel.image,width: 18,height: 18,),
-                Container(
-                  width: 3,
-                ),
-                Text(
-                  countryCodeModel.countryCode,
-                  style: BaseStyles.subHeaderTextStyle,
-                  textAlign: TextAlign.center,
-                )
-              ],
-            )),
-        value: countryCodeModel,
-      );
-    }).toList();
-  }
-
-  _getContinueWidget() {
-    return InkWell(
-      onTap: () {
-        if(mobileNoController.text.isEmpty&&confirmPass.text.isEmpty){
-          setState(() {
-            isFailedValidation = true;
-          });
-        }else{
-          push(HomeCustomerScreen());
-        }
-      },
-      child: Container(
-        height: 48,
-        margin: EdgeInsets.only(bottom: 16, top: 24,),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: AppColors.bottom_border_color),
-        alignment: Alignment.center,
-        child: Text(
-          getTranslation(Strings.CONTINUE),
-          textAlign: TextAlign.center,
-          style: BaseStyles.addNewBankAccount,
-        ),
+ Widget getContinueWidget() {
+    return Container(
+      height: 48,
+      margin: EdgeInsets.only(bottom: 16, top: 24,),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: AppColors.bottom_border_color),
+      alignment: Alignment.center,
+      child: Text(
+        getTranslation(Strings.CONTINUE),
+        textAlign: TextAlign.center,
+        style: BaseStyles.addNewBankAccount,
       ),
-    );
+    ).onTap(onPressed: (){
+      if(controller.mobileNumberTextEditController.text.isNotEmpty&&
+          controller.confirmPasswordTextEditController.text.isNotEmpty){
+        controller.login();
+      }else{
+        //set error
+      }
+    });
   }
 
   @override
