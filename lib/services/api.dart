@@ -24,5 +24,7 @@ class API{
   ///SignUP
   static const signup = "v1/tara/auth";
 
+  static const update_profile = "v1/tara/crm/customer";
+
 
 }

@@ -35,5 +35,8 @@ abstract class RestClient {
   @POST(API.signup)
   Future<AuthResponse> signUp(@Body() SignUpRequest signUpRequest);
 
+  @PUT(API.update_profile)
+  Future<AuthResponse> updateProfile(@Header("Authorization") String token,@Body() CustomerProfile signUpRequest);
+
 
 }

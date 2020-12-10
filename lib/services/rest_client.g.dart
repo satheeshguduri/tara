@@ -97,4 +97,26 @@ class _RestClient implements RestClient {
     final value = AuthResponse.fromJson(_result.data);
     return value;
   }
+
+  @override
+  Future<AuthResponse> updateProfile(token, signUpRequest) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(signUpRequest, 'signUpRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(signUpRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v1/tara/crm/customer',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = AuthResponse.fromJson(_result.data);
+    return value;
+  }
 }

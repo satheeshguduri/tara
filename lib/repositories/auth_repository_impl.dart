@@ -5,6 +5,7 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 import 'package:dartz/dartz.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -66,6 +67,9 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<Either<Failure, AuthResponse>> signUp(SignUpRequest signUpRequest) async{
     try {
       var response = await remoteDataSource.signUp(signUpRequest);
+      // AuthResponse user = Get.find();
+      // var bearerToken = "Bearer "+user.securityToken.token.tara;
+      // var response2 = await remoteDataSource.updateProfile(bearerToken, user.customerProfile);
       userLocalDataSource.setUser(response);
       return Right(response);
     }catch(e){
