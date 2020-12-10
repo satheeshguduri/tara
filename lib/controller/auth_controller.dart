@@ -9,6 +9,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/strings.dart';
+import 'package:tara_app/common/helpers/helpers.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/mobile_verification.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -108,10 +109,11 @@ class AuthController extends GetxController {
           customerProfile: customerProfile,
           mobileNumber: mobileNumber.value,
           password: password.value);
+      print(request.toJson());
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().signUp(request);
       showProgress.value = false;
-      response.fold((l) => Get.defaultDialog(content: Text(l.message)),
+      response.fold((l) => Get.to(AccountConfirmationScreen()),
           (r) => Get.to(AccountConfirmationScreen()));
       // Get.to(Consumer())); //navigate to consumer home screen
     }
@@ -124,7 +126,7 @@ class AuthController extends GetxController {
     } else if (GetUtils.isNullOrBlank(email.value)) {
       errorMessage.value = Strings.enter_email_address;
       return false;
-    } else if (GetUtils.isEmail(email.value)) {
+    } else if (Validator().email(email.value) != null) {
       errorMessage.value = Strings.invalid_email;
       return false;
     } else if (GetUtils.isNullOrBlank(password.value)) {
@@ -143,10 +145,10 @@ class AuthController extends GetxController {
   }
 
   void isEnterAllTheFieldsInCompleteProfile() {
-    if (GetUtils.isNullOrBlank(fullName.value) &&
-        GetUtils.isNullOrBlank(email.value) &&
-        GetUtils.isNullOrBlank(password.value) &&
-        GetUtils.isNullOrBlank(confirmPwd.value)) {
+    if (!GetUtils.isNullOrBlank(fullName.value) &&
+        !GetUtils.isNullOrBlank(email.value) &&
+        !GetUtils.isNullOrBlank(password.value) &&
+        !GetUtils.isNullOrBlank(confirmPwd.value)) {
       isEnterAllTheFields.value = true;
     }else{
       isEnterAllTheFields.value = false;

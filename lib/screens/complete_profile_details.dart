@@ -108,10 +108,10 @@ class _CompleteProfileScreenState extends BaseState<CompleteProfileScreen> {
             isSecureText: true),
         controller.errorMessage.value.isEmpty
             ? Container()
-            : Text(
-                getTranslation(controller.errorMessage.value),
-                style: BaseStyles.error_text_style,
-              ),
+            : Container(margin:EdgeInsets.all(8),child: Text(
+          getTranslation(controller.errorMessage.value),
+          style: BaseStyles.error_text_style,
+        ),),
         saveAndContinueWidget()
       ],
     );
