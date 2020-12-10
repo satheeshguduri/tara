@@ -9,7 +9,7 @@ part of 'customer_profile.dart';
 CustomerProfile _$CustomerProfileFromJson(Map<String, dynamic> json) {
   return CustomerProfile(
     firstName: json['firstName'] as String,
-    id: json['id'] as String,
+    id: json['id'] as int,
     lastName: json['lastName'] as String,
     mobileNumber: json['mobileNumber'] as String,
     country: json['country'] as String,
@@ -20,7 +20,7 @@ CustomerProfile _$CustomerProfileFromJson(Map<String, dynamic> json) {
     firebaseId: json['firebaseId'] as String,
     credential: json['credential'] as String,
     token: json['token'] as String,
-    address: json['address'] as String,
+    address: json['address'],
   );
 }
 

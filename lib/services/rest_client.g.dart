@@ -17,12 +17,12 @@ class _RestClient implements RestClient {
   String baseUrl;
 
   @override
-  Future<BaseResponse> getOTP(loginRequest) async {
-    ArgumentError.checkNotNull(loginRequest, 'loginRequest');
+  Future<BaseResponse> getOTP(authRequestWithData) async {
+    ArgumentError.checkNotNull(authRequestWithData, 'authRequestWithData');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(loginRequest?.toJson() ?? <String, dynamic>{});
+    _data.addAll(authRequestWithData?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>('v1/tara/auth/otp',
         queryParameters: queryParameters,
@@ -37,12 +37,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<BaseResponse> validateOtp(loginRequest) async {
-    ArgumentError.checkNotNull(loginRequest, 'loginRequest');
+  Future<BaseResponse> validateOtp(authRequestWithData) async {
+    ArgumentError.checkNotNull(authRequestWithData, 'authRequestWithData');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(loginRequest?.toJson() ?? <String, dynamic>{});
+    _data.addAll(authRequestWithData?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v1/tara/auth/otp/validate',
@@ -79,12 +79,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<AuthResponse> signUp(loginRequest) async {
-    ArgumentError.checkNotNull(loginRequest, 'loginRequest');
+  Future<AuthResponse> signUp(signUpRequest) async {
+    ArgumentError.checkNotNull(signUpRequest, 'signUpRequest');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(loginRequest?.toJson() ?? <String, dynamic>{});
+    _data.addAll(signUpRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>('v1/tara/auth',
         queryParameters: queryParameters,

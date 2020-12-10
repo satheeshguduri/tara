@@ -8,7 +8,7 @@ part of 'security_token.dart';
 
 SecurityToken _$SecurityTokenFromJson(Map<String, dynamic> json) {
   return SecurityToken(
-    id: json['id'] as String,
+    id: json['id'] as int,
     token: json['token'] == null
         ? null
         : Token.fromJson(json['token'] as Map<String, dynamic>),
@@ -31,7 +31,7 @@ Map<String, dynamic> _$SecurityTokenToJson(SecurityToken instance) =>
 
 Token _$TokenFromJson(Map<String, dynamic> json) {
   return Token(
-    id: json['id'] as String,
+    id: json['id'] as int,
     tara: json['tara'] as String,
     ndmp: json['ndmp'] as String,
     rtp: json['rtp'] as String,
