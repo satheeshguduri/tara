@@ -6,42 +6,49 @@
 */
 
 import 'package:dartz/dartz.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/services/error/failure.dart';
 
 abstract class UserLocalDataStore{
-  void addCustomerInfo(String object);
+  void setUser(AuthResponse authResponse);
   void clear();
-  Future<bool> isLoggedIn();
-  Future<Either<Failure,CustomerProfile>> getCustomerInfo();
+  bool isLoggedIn();
+  Future<Either<Failure,AuthResponse>> getUser();
 }
 
 class UserLocalDataStoreImpl implements UserLocalDataStore{
+
+   static const String USR_KEY= "USER";
 
   GetStorage storage;
   UserLocalDataStoreImpl(this.storage);
 
   @override
-  void addCustomerInfo(String object) {
-    // TODO: implement addCustomerInfo
+  void clear() async{
+      await storage.remove(USR_KEY);
   }
 
   @override
-  void clear() {
-    // TODO: implement clear
+  Future<Either<Failure, AuthResponse>> getUser() async{
+    if(storage.hasData(USR_KEY)){
+      var data = await storage.read(USR_KEY);
+      return Right(AuthResponse.fromJson(data));
+    }else{
+
+      return Left(Failure(message: "User Does not Exist"));//TODO String constant
+    }
   }
 
   @override
-  Future<Either<Failure, CustomerProfile>> getCustomerInfo() {
-    // TODO: implement getCustomerInfo
-    throw UnimplementedError();
+  bool isLoggedIn() {
+   return storage?.hasData(USR_KEY)??false;
   }
 
   @override
-  Future<bool> isLoggedIn() {
-    // TODO: implement isLoggedIn
-    throw UnimplementedError();
+  void setUser(AuthResponse authResponse) async{
+      await storage.write(USR_KEY, authResponse.toJson());
+      Get.put(authResponse);
   }
-
 }

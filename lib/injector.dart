@@ -21,7 +21,6 @@ import 'package:tara_app/services/util/network_info.dart';
 var getIt = GetIt.I;
 Future<void> init() async{
   getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(getIt()));
-  getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
   final sharedPreferences = await SharedPreferences.getInstance();
   getIt.registerLazySingleton(() => sharedPreferences);
   getIt.registerLazySingleton<RestClient>(() => APIHelper().getDioClient());
@@ -30,5 +29,6 @@ Future<void> init() async{
   await GetStorage.init();
   getIt.registerLazySingleton<GetStorage>(() => GetStorage());
   getIt.registerLazySingleton<UserLocalDataStore>(() => UserLocalDataStoreImpl(getIt()));
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt(),getIt(),getIt()));
 
 }

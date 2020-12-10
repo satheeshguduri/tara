@@ -5,6 +5,7 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 import 'package:dartz/dartz.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
@@ -13,31 +14,33 @@ import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/services/error/server_error.dart';
 import 'package:tara_app/services/rest_client.dart';
-
-import '../injector.dart';
+import 'package:tara_app/services/util/network_info.dart';
 
 class AuthRepositoryImpl implements AuthRepository{
+  UserLocalDataStore userLocalDataSource;
+  NetworkInfo networkInfo;
+  RestClient remoteDataSource;
 
+  AuthRepositoryImpl(this.userLocalDataSource,this.networkInfo,this.remoteDataSource);
 
   @override
   Future<Either<Failure, BaseResponse>> getOtp(AuthRequestWithData authRequestWithData) async{
     try {
-      var response = await getIt.get<RestClient>().getOTP(authRequestWithData);
+      var response = await remoteDataSource.getOTP(authRequestWithData);
       return Right(response);
     }catch(e){
-      var message = ServerError(e).message;
-      return Left(Failure(message:message));
+      return Left(Failure.fromServerError(e));
     }
   }
 
   @override
   Future<Either<Failure, AuthResponse>> login(AuthRequest authRequest) async{
     try {
-      var response = await getIt.get<RestClient>().login(authRequest);
+      var response = await remoteDataSource.login(authRequest);
+      userLocalDataSource.setUser(response);
       return Right(response);
     }catch(e){
-      var message = ServerError(e).message;
-      return Left(Failure(message:message));
+      return Left(Failure.fromServerError(e));
     }
   }
 
@@ -49,7 +52,7 @@ class AuthRepositoryImpl implements AuthRepository{
   @override
   Future<Either<Failure, BaseResponse>> validateOtp(AuthRequestWithData authRequestWithData) async{
     try {
-      var response = await getIt.get<RestClient>().validateOtp(authRequestWithData);
+      var response = await remoteDataSource.validateOtp(authRequestWithData);
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));
@@ -59,11 +62,11 @@ class AuthRepositoryImpl implements AuthRepository{
   @override
   Future<Either<Failure, AuthResponse>> signUp(SignUpRequest signUpRequest) async{
     try {
-      var response = await getIt.get<RestClient>().signUp(signUpRequest);
+      var response = await remoteDataSource.signUp(signUpRequest);
+      userLocalDataSource.setUser(response);
       return Right(response);
     }catch(e){
-      var message = ServerError(e).message;
-      return Left(Failure(message:message));
+      return Left(Failure.fromServerError(e));
     }
   }
 

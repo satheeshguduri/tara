@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -8,6 +9,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/notification_settings.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends BaseState<DashBoard> {
 
+  AuthResponse user = Get.find();
 
   List<String> dashBoardOptions = [ Strings.profile,
     Strings.notification_settings,
@@ -121,7 +124,7 @@ class _DashBoardState extends BaseState<DashBoard> {
                   Center(
                     child: Container(
                       child: Text(
-                        "Yakub Pasha",
+                        user.customerProfile.firstName,
                         textAlign: TextAlign.center,
                         style: BaseStyles.bankAccountHeaderTitleStyle,
                       ),
