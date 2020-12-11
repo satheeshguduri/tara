@@ -126,6 +126,16 @@ class BaseStyles {
       fontSize: 14.0
   );
 
+  static TextStyle resendDefaultTextStyle =  TextStyle(
+      color: Color(0xffe9ecef),
+      fontWeight: FontWeight.w700,
+//      fontFamily: "",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+
+
   static TextStyle additionContactTextTextStyle =  TextStyle(
   color:  AppColors.header_top_bar_color,
   fontWeight: FontWeight.w500,

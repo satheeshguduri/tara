@@ -336,5 +336,7 @@
   "password": "Password",
   "confirm_password": "Confirm Password",
   "password_not_match": "Password & Confirm Password should be same",
-  "invalid_email": "Please enter valid email address"
+  "invalid_email": "Please enter valid email address",
+  "invalid_number": "Please enter valid phone number",
+  "invalid_otp": "Please enter valid OTP"
 }

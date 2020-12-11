@@ -9,6 +9,7 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/screens/create_account_screen.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
   CompleteProfileScreen({
@@ -57,8 +58,10 @@ class _CompleteProfileScreenState extends BaseState<CompleteProfileScreen> {
       automaticallyImplyLeading: false, // hides leading widget
       leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () =>
-              Navigator.pop(context, false) //Navigator.pop(context, false),
+          onPressed: () {
+            controller.errorMessage.value = "";
+            pushAndRemoveUntil(CreateAccountScreen());
+          }
           ),
       title: Align(
         alignment: Alignment.topLeft,
@@ -108,7 +111,7 @@ class _CompleteProfileScreenState extends BaseState<CompleteProfileScreen> {
             isSecureText: true),
         controller.errorMessage.value.isEmpty
             ? Container()
-            : Container(margin:EdgeInsets.all(8),child: Text(
+            : Container(margin:EdgeInsets.only(top: 16,left: 16),child: Text(
           getTranslation(controller.errorMessage.value),
           style: BaseStyles.error_text_style,
         ),),
@@ -151,6 +154,7 @@ class _CompleteProfileScreenState extends BaseState<CompleteProfileScreen> {
   }
 
   void onChanged(TextEditingController textEditingController) {
+    controller.errorMessage.value = "";
     if (textEditingController == controller.nameTextEditController) {
       controller.fullName.value = textEditingController.text;
     } else if (textEditingController == controller.emailTextEditController) {
@@ -241,7 +245,10 @@ class _CompleteProfileScreenState extends BaseState<CompleteProfileScreen> {
             : BaseStyles.verifyTextStyle,
       ),
     ).onTap(onPressed: () {
-      controller.signUp();
+      if(controller.isEnterAllTheFields.value)
+      {
+        controller.signUp();
+      }
     });
   }
 }

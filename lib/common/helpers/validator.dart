@@ -41,6 +41,18 @@ class Validator {
       return null;
   }
 
+  String validateMobile(String value) {
+    String pattern = r'^(?:[+0]9)?[0-9]{10,12}$';  //^(?:[+0]9)?[0-9]{10,12}$
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return 'Please enter mobile number';
+    }
+    else if (!regExp.hasMatch(value)) {
+      return 'Please enter valid mobile number';
+    }
+    return null;
+  }
+
   String amount(String value) {
     Pattern pattern = r'^\d+$';
     RegExp regex = new RegExp(pattern);

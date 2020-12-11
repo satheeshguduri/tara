@@ -5,13 +5,15 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/helpers.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
-import 'package:tara_app/common/widgets/login_flow_widgets/mobile_verification.dart';
+import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
@@ -35,6 +37,10 @@ class AuthController extends GetxController {
   var password = "".obs;
   var isEnterAllTheFields = false.obs;
   var errorMessage = "".obs;
+  var countDownTimeString = "02:00".obs;
+
+  Timer timer;
+  var seconds=120.obs;
 
   TextEditingController mobileNumberTextEditController =
       TextEditingController();
@@ -48,7 +54,7 @@ class AuthController extends GetxController {
   ///on clicking on send otp
   void getOtp({bool isFromResendOtp = false}) async {
     //validate empty state here for the text fields
-    if (mobileNumber.value.isNotEmpty) {
+    if (isValidationSuccessInSignUp()) {
       showProgress.value = true;
       AuthRequest request = AuthRequest(mobileNumber: mobileNumber.value);
       print(request.toJson());
@@ -70,7 +76,7 @@ class AuthController extends GetxController {
   ///on tapping the verify
   void validateOtp() async {
     //validate empty state here for the text fields
-    if (otp.value.isNotEmpty) {
+    if (isValidationSuccessInOtp()) {
       showProgress.value = true;
       AuthRequest request =
           AuthRequest(mobileNumber: mobileNumber.value, otp: otp.value);
@@ -85,7 +91,7 @@ class AuthController extends GetxController {
 
   void login() async {
     //validate empty state here for the text fields
-    if (mobileNumber.value.isNotEmpty && confirmPwd.value.isNotEmpty) {
+    if (isValidationSuccessInSignIn()) {
       showProgress.value = true;
       AuthRequest request = AuthRequest(
           mobileNumber: mobileNumber.value, password: confirmPwd.value);
@@ -155,5 +161,82 @@ class AuthController extends GetxController {
     }else{
       isEnterAllTheFields.value = false;
     }
+  }
+
+  bool isValidationSuccessInSignIn() {
+    if (GetUtils.isNullOrBlank(mobileNumber.value)) {
+      errorMessage.value = Strings.enter_phone_number;
+      return false;
+    } else if (Validator().validateMobile(mobileNumber.value) != null) {
+      errorMessage.value = Strings.invalid_number;
+      return false;
+    } else if (GetUtils.isNullOrBlank(confirmPwd.value)) {
+      errorMessage.value = Strings.enter_password;
+      return false;
+    }else{
+      errorMessage.value = "";
+    }
+    return true;
+  }
+
+  bool isValidationSuccessInSignUp() {
+    if (GetUtils.isNullOrBlank(mobileNumber.value)) {
+      errorMessage.value = Strings.enter_phone_number;
+      return false;
+    } else if (Validator().validateMobile(mobileNumber.value) != null) {
+      errorMessage.value = Strings.invalid_number;
+      return false;
+    } else{
+      errorMessage.value = "";
+    }
+    return true;
+  }
+
+  bool isValidationSuccessInOtp() {
+    if (GetUtils.isNullOrBlank(otp.value)) {
+      errorMessage.value = Strings.enter_otp_code;
+      return false;
+    }else if (otp.value.length<6) {
+      errorMessage.value = Strings.invalid_otp;
+      return false;
+    } else{
+      errorMessage.value = "";
+    }
+    return true;
+  }
+
+  void  startTimer() {
+    // Set 1 second callback
+    const period = const Duration(seconds: 1);
+    timer = Timer.periodic(period, (timer) {
+      // Update interface
+      if (seconds.value == 0) {
+        // Countdown seconds 0, cancel timer
+        cancelTimer();
+      }
+      else
+      {
+        seconds.value = seconds.value - 1;
+        constructTime(seconds.value);
+      }
+    });
+  }
+
+  void cancelTimer() {
+    if (timer != null) {
+      timer.cancel();
+      timer = null;
+    }
+  }
+
+  String constructTime(int seconds) {
+    int minute = seconds % 3600 ~/ 60;
+    int second = seconds % 60;
+    countDownTimeString.value = formatTime(minute) + ":" + formatTime(second);
+    return countDownTimeString.value;
+  }
+
+  String formatTime(int timeNum) {
+    return timeNum < 10 ? "0" + timeNum.toString() : timeNum.toString();
   }
 }

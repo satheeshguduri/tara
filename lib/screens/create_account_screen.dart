@@ -62,7 +62,7 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
         child:Stack(
           children: [
             Positioned(
-              top: 440,
+              top: 420,
               right: 0,
               child: Align(
                 alignment: Alignment.centerRight,
@@ -178,7 +178,6 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
                             style: BaseStyles.subHeaderTextStyle
                         ),
                       ),
-                      //  textFormFieldContainer(getTranslation(Strings.PHONE_NUMBER),TextInputType.phone,mobileNoController,mobileNorFocusNode),
                       Container(
                         margin: EdgeInsets.only(top: 8),
                         decoration: BoxDecoration(
@@ -191,9 +190,9 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
                           color: Colors.transparent,
                         ),
                         child: InternationalPhoneNumberInput(
-//                          autoValidate:true,
                           onInputChanged: (PhoneNumber number) {
                             print(number.phoneNumber);
+                            controller.errorMessage.value = "";
                             controller.mobileNumber.value = number.phoneNumber;
                           },
                           onInputValidated: (bool value) {
@@ -212,20 +211,24 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
                           ),
                         ),
                       ),
-                      _getContinueWidget()
+                      controller.errorMessage.value.isEmpty
+                          ? Container()
+                          : Container(margin:EdgeInsets.all(8),child: Text(
+                        getTranslation(controller.errorMessage.value),
+                        style: BaseStyles.error_text_style,
+                      ),),
+                      getContinueWidget()
                     ],
                   ),
                 ),
               ),
             )
-
             // Container
-
           ],
         ));
   }
 
-  _getContinueWidget() {
+  Widget getContinueWidget() {
     return Container(
       height: 48,
       margin: EdgeInsets.only(bottom: 16, top: 24,),
@@ -239,12 +242,7 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: (){
-      if(controller.mobileNumberTextEditController.text.isNotEmpty){
-        controller.getOtp();
-      }else{
-        //set error
-      }
-
+      controller.getOtp();
     });
   }
 

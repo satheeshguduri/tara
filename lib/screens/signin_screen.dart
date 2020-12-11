@@ -52,7 +52,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
         child:Stack(
           children: [
             Positioned(
-              top: 440,
+              top: 420,
               right: 0,
               child: Align(
                 alignment: Alignment.centerRight,
@@ -78,32 +78,29 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                             textAlign: TextAlign.right
                         ),
                         Expanded(
-                            child: InkWell(
-                              onTap: (){
-                                Get.off(CreateAccountScreen());
-                              },
-                              child: Container(
-                                  margin: EdgeInsets.only(left: 8,),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          getTranslation(Strings.SIGN_UP),
-                                          style: BaseStyles.bottomSheetLocationChangeTextStyle,
-                                          textAlign: TextAlign.left
+                            child: Container(
+                                margin: EdgeInsets.only(left: 8,),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        getTranslation(Strings.SIGN_UP),
+                                        style: BaseStyles.bottomSheetLocationChangeTextStyle,
+                                        textAlign: TextAlign.left
+                                    ),
+                                    Container(
+                                      height:3,
+                                      width: 55,
+                                      margin: EdgeInsets.only(top: 4,),
+                                      decoration: BoxDecoration(
+                                        gradient: Gradients.primaryGradient,
                                       ),
-                                      Container(
-                                        height:3,
-                                        width: 55,
-                                        margin: EdgeInsets.only(top: 4,),
-                                        decoration: BoxDecoration(
-                                          gradient: Gradients.primaryGradient,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                              ),
-                            )
+                                    ),
+                                  ],
+                                )
+                            ).onTap(onPressed: (){
+                              Get.off(CreateAccountScreen());
+                            })
                         )
                       ],
                     ),
@@ -183,6 +180,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
 //                          autoValidate:true,
                           onInputChanged: (PhoneNumber number) {
                             print(number.phoneNumber);
+                            controller.errorMessage.value = "";
                             controller.mobileNumber.value = number.phoneNumber;
                           },
                           onInputValidated: (bool value) {
@@ -205,7 +203,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                         decoration: BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
-                                color: isFailedValidation == false ? AppColors.light_grey_blue : AppColors.badge_color,
+                                color: AppColors.light_grey_blue,
                                 width: 1.0,
                               ),
                             )),
@@ -223,8 +221,12 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                               )
                             ]),
                       ),
-                      isFailedValidation == false ? Container() :
-                      Text("Password didn’t match. Please try again.", style: BaseStyles.error_text_style,),
+                      controller.errorMessage.value.isEmpty
+                          ? Container()
+                          : Container(margin:EdgeInsets.all(8),child: Text(
+                        getTranslation(controller.errorMessage.value),
+                        style: BaseStyles.error_text_style,
+                      ),),
                       getContinueWidget()
                     ],
                   ),
@@ -253,6 +255,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                   flex:1,
                   child:Container(
                     child:TextFieldWidget(isObscure:isObscure,placeHolderStyle: BaseStyles.subHeaderTextStyle,hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
+                      controller.errorMessage.value = "";
                       controller.confirmPwd.value = textEditingController.text;
                     }),
                   )
@@ -278,12 +281,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: (){
-      if(controller.mobileNumberTextEditController.text.isNotEmpty&&
-          controller.confirmPasswordTextEditController.text.isNotEmpty){
-        controller.login();
-      }else{
-        //set error
-      }
+      controller.login();
     });
   }
 

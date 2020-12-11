@@ -363,6 +363,8 @@ class Strings{
   static const confirm_password = "confirm_password";
   static const password_not_match = "password_not_match";
   static const invalid_email = "invalid_email";
+  static const invalid_number = "invalid_number";
+  static const invalid_otp = "invalid_otp";
 }
 
 class NotificationSettingsStrings{

@@ -25,7 +25,6 @@ class MobileVerificationScreen extends StatefulWidget {
 
 class _MobileVerificationScreenState
     extends BaseState<MobileVerificationScreen> {
-  String errorText = "";
   bool isOtpEntered = false;
 
   AuthController controller = Get.find();
@@ -63,20 +62,18 @@ class _MobileVerificationScreenState
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context, false);
-                    },
-                    child: Container(
-                      width: 32,
-                      height: 24,
-                      margin: EdgeInsets.only(top: 8),
-                      child: Image.asset(
-                        "assets/images/icon-5.png",
-                        fit: BoxFit.none,
-                      ),
+                  Container(
+                    width: 32,
+                    height: 24,
+                    margin: EdgeInsets.only(top: 8),
+                    child: Image.asset(
+                      "assets/images/icon-5.png",
+                      fit: BoxFit.none,
                     ),
-                  ),
+                  ).onTap(onPressed: (){
+                      controller.errorMessage.value = "";
+                      Navigator.pop(context, false); //Navigator.pop(context, false),
+                  }),
                 ],
               ),
               TextWithBottomOverlay(
@@ -132,7 +129,7 @@ class _MobileVerificationScreenState
                         print("Completed: " + pin);
                         setState(() {
                           if (pin.trim().length < 6) {
-                            errorText = "";
+                            controller.errorMessage.value = "";
                             isOtpEntered = false;
                           }
                         });
@@ -159,18 +156,12 @@ class _MobileVerificationScreenState
                   ),
                 ],
               ),
-              errorText.isNotEmpty
-                  ? Center(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          bottom: 8,
-                        ),
-                        child: Text(errorText,
-                            style: BaseStyles.errorTextStyle,
-                            textAlign: TextAlign.center),
-                      ),
-                    )
-                  : Container(),
+              controller.errorMessage.value.isEmpty
+                  ? Container()
+                  : Container(margin:EdgeInsets.all(8),child: Text(
+                getTranslation(controller.errorMessage.value),
+                style: BaseStyles.error_text_style,
+              ),),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -186,7 +177,7 @@ class _MobileVerificationScreenState
                                 text: getTranslation(Strings.sent_otp_text)),
                             TextSpan(
                                 style: BaseStyles.sentOtpTimeTextStyle,
-                                text: " 00:56")
+                                text: controller.countDownTimeString.value)
                           ]))),
                     ),
                     Expanded(
@@ -198,8 +189,9 @@ class _MobileVerificationScreenState
                           child: Column(
                             children: [
                               Text(getTranslation(Strings.resend_otp),
-                                  style: BaseStyles
-                                      .bottomSheetLocationChangeTextStyle,
+                                  style: (controller.countDownTimeString.value == "00:00"&&controller.seconds.value == 0)?BaseStyles
+                                      .bottomSheetLocationChangeTextStyle:BaseStyles
+                                      .resendDefaultTextStyle,
                                   textAlign: TextAlign.center),
                               Container(
                                 height: 2,
@@ -211,7 +203,8 @@ class _MobileVerificationScreenState
                               ),
                             ],
                           )).onTap(onPressed: () {
-                        if (controller.mobileNumber.value.isNotEmpty) {
+                        if (controller.mobileNumber.value.isNotEmpty && controller.countDownTimeString.value == "00:00") {
+                          controller.startTimer();
                           controller.getOtp(isFromResendOtp:true);
                         }
                       }),
@@ -235,7 +228,7 @@ class _MobileVerificationScreenState
         border: Border(
           bottom: BorderSide(
               //                   <--- left side
-              color: errorText.isNotEmpty
+              color: controller.errorMessage.value.isNotEmpty
                   ? Colors.pink
                   : isOtpEntered ? Color(0xffb2f7e2) : Color(0xffb0b4c1),
               width: 2.0,
@@ -265,17 +258,8 @@ class _MobileVerificationScreenState
             : BaseStyles.verifyTextStyle,
       ),
     ).onTap(onPressed: () {
-      if (controller.otp.value.isNotEmpty && controller.otp.value.length == 6) {
+      if (isOtpEntered) {
         controller.validateOtp();
-      } else {
-        //set error
-        setState(() {
-          if (controller.otp.value.isEmpty) {
-            errorText = getTranslation(Strings.pin_cannot_empty);
-          } else {
-            errorText = getTranslation(Strings.invalid_pin);
-          }
-        });
       }
     });
   }
@@ -289,5 +273,6 @@ class _MobileVerificationScreenState
   @override
   void initState() {
     super.initState();
+    controller.startTimer();
   }
 }
