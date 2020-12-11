@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -63,143 +64,11 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               children: [
                 Container(
                   height: 56,
+                  margin: EdgeInsets.only(left: 16,right: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-//                      Expanded(
-////                      flex: 3.toInt(),
-//                          child:Align(
-//                        alignment: Alignment.centerLeft,
-//                        child:
-//                      )),
-                      Row(
-                        children: [
-                          Container(
-                            width: 62,
-                            height: 24,
-                            margin: EdgeInsets.only(left: 16,top: 8),
-                            child: Image.asset(
-                              "assets/images/combined-shape-5.png",
-                              fit: BoxFit.none,
-                            ),
-                          ),
-                          Text(
-                              widget.appName,
-                              style: const TextStyle(
-                                  color:  AppColors.fareColor,
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "PlayfairDisplay",
-                                  fontStyle:  FontStyle.normal,
-                                  fontSize: 12.0
-                              )
-                          )
-                        ],
-                      ),
-
-                      Row(
-                        children: [
-                          Container(
-                            width: 150,
-                            height: 38,
-                            margin: EdgeInsets.only(top: 9, right: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    "Hello",
-                                    textAlign: TextAlign.right,
-                                    style: BaseStyles.navigationTextStyle,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    "Kiran Kumar Yasala hgasdjhahjdgadg",
-                                    textAlign: TextAlign.right,
-                                    style: BaseStyles.nameTextStyle,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              InkWell(
-                                child:Container(
-                                  width: 29,
-                                  height: 29,
-                                  margin: EdgeInsets.only(right: 4),
-                                  child: Stack(
-                                    alignment: Alignment.centerRight,
-                                    children: [
-                                      Positioned(
-                                        right: 4,
-                                        child: Image.asset(
-                                          Assets.NOTIFICATION_ICON,
-                                          fit: BoxFit.none,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        child:
-                                        Container(
-                                          width: 14,
-                                          height: 14,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.badge_color,
-                                            borderRadius: Radii.border(7),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.symmetric(horizontal: 4),
-                                                child: Text(
-                                                  "3",
-                                                  textAlign: TextAlign.center,
-                                                  style: BaseStyles.notificationBadgeTextStyle,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: (){
-                                  push(NotificationScreen());
-                                },
-                              )
-                              ,
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: InkWell(
-                                    onTap: (){
-                                      push(CreateAccountScreen());
-                                    },
-                                    child:Container(
-                                      width: 33,
-                                      height: 33,
-                                      margin: EdgeInsets.only(right: 16),
-                                      child: Image.asset(
-                                        Assets.PERSON_ICON,
-                                        fit: BoxFit.none,
-                                      ),
-                                    )
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
+                      Expanded(child: showLogoAndTitle()), nameNotificationsAndImage()              ],
                   ),
                 ),
                 getSearchWidget(),
@@ -290,43 +159,170 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
   }
 
   Widget getSearchWidget() {
-    return InkWell(
-      onTap: (){
-        push(CashDepositSelectContact());
-      },
-      child: Container(
-        height: 40,
-        margin: EdgeInsets.only(left: 16, top: 16, right: 16),
-        decoration: BoxDecoration(
-          color: Color.fromARGB(179, 255, 255, 255),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(26, 0, 0, 0),
-              offset: Offset(0, 1),
-              blurRadius: 2,
+    return Container(
+      height: 40,
+      margin: EdgeInsets.only(left: 16, top: 16, right: 16),
+      decoration: BoxDecoration(
+        color: Color.fromARGB(179, 255, 255, 255),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(26, 0, 0, 0),
+            offset: Offset(0, 1),
+            blurRadius: 2,
+          ),
+        ],
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 25,
+            height: 25,
+            margin: EdgeInsets.only(left: 8),
+            child: getTabImage(Assets.SEARCH_ICON),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 8),
+            child: Text(
+              "Try typing action, contact or merchant...",
+              textAlign: TextAlign.left,
+              style: BaseStyles.searchBarTextStyle,
             ),
-          ],
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 25,
-              height: 25,
-              margin: EdgeInsets.only(left: 8),
-              child: getTabImage(Assets.SEARCH_ICON),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 8),
-              child: Text(
-                "Try typing action, contact or merchant...",
-                textAlign: TextAlign.left,
-                style: BaseStyles.searchBarTextStyle,
-              ),
-            ),
-          ],
+          ),
+        ],
+      ),
+    ).onTap(onPressed:() =>Get.to(CashDepositSelectContact()));
+  }
+
+ Widget showLogoAndTitle() {
+  return Row(
+    children: [
+      Container(
+        width: 62,
+        height: 24,
+        margin: EdgeInsets.only(top: 8),
+        child: Image.asset(
+          "assets/images/combined-shape-5.png",
+          fit: BoxFit.none,
         ),
       ),
+      Flexible(
+        child: Text(
+            widget.appName,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: const TextStyle(
+                color:  AppColors.fareColor,
+                fontWeight: FontWeight.w400,
+                fontFamily: "PlayfairDisplay",
+                fontStyle:  FontStyle.normal,
+                fontSize: 12.0
+            )
+         ),
+      )
+
+    ],
+  );
+
+
+ }
+
+ Widget  nameNotificationsAndImage() {
+    return Row(
+      children: [
+        Container(
+          width: 150,
+          height: 38,
+          margin: EdgeInsets.only(top: 9),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  "Hello",
+                  textAlign: TextAlign.right,
+                  style: BaseStyles.navigationTextStyle,
+                ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  "Kiran Kumar Yasala hgasdjhahjdgadg",
+                  textAlign: TextAlign.right,
+                  style: BaseStyles.nameTextStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Row(
+          children: [
+            Container(
+              width: 29,
+              height: 29,
+              margin: EdgeInsets.only(right: 4),
+              child: Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  Positioned(
+                    right: 4,
+                    child: Image.asset(
+                      Assets.NOTIFICATION_ICON,
+                      fit: BoxFit.none,
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child:
+                    Container(
+                      width: 14,
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: AppColors.badge_color,
+                        borderRadius: Radii.border(7),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 4),
+                            child: Text(
+                              "3",
+                              textAlign: TextAlign.center,
+                              style: BaseStyles.notificationBadgeTextStyle,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ).onTap(onPressed: ()=>Get.to(NotificationScreen()))
+            ,
+            Align(
+              alignment: Alignment.centerRight,
+                   child:Container(
+                    width: 32,
+                    height: 32,
+                   // margin: EdgeInsets.only(right: 16),
+                    child: Image.asset(
+                      Assets.PERSON_ICON,
+                      fit: BoxFit.none,
+                    ),
+                  ).onTap(onPressed:() =>Get.to(CreateAccountScreen())),
+              )
+          ],
+        )
+      ],
     );
+
+
   }
+
 }
