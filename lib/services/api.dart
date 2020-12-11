@@ -2,7 +2,7 @@
 *  api.dart.dart
 *
 *  Created by Yakub Pasha.
-*  Copyright © 2020 nxgenpro. All rights reserved.
+*  Copyright © 2020 Tara.id. All rights reserved.
 */
 
 

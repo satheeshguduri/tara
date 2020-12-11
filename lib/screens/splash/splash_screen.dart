@@ -6,16 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
-import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/home_customer_screen.dart';
-import 'package:tara_app/screens/merchant/merchant_home_screen.dart';
 import 'package:tara_app/screens/signin_screen.dart';
 import 'package:tara_app/utils/locale/utils.dart';
-
-import '../../flavors.dart';
 import '../../injector.dart';
-import '../../tara_app.dart';
 
 class SplashScreen extends StatefulWidget{
   @override
@@ -34,6 +28,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
             (l) => print,
             (r) => {
               if(r?.securityToken?.token!=null){
+                Get.put(r),
                 isLoggedIn = true
               }
             });

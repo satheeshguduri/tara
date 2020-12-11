@@ -6,6 +6,7 @@
 */
 
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
@@ -15,6 +16,7 @@ import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/auth_repository_impl.dart';
 import 'package:tara_app/services/dio_client.dart';
+import 'package:tara_app/services/firebase_remote_service.dart';
 import 'package:tara_app/services/rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 
@@ -28,6 +30,8 @@ Future<void> init() async{
   Get.put(AuthController());
   await GetStorage.init();
   getIt.registerLazySingleton<GetStorage>(() => GetStorage());
+  getIt.registerLazySingleton<DatabaseReference>(() => FirebaseDatabase.instance.reference());
+  getIt.registerLazySingleton<FirebaseRemoteService>(() => FirebaseRemoteService(getIt()));
   getIt.registerLazySingleton<UserLocalDataStore>(() => UserLocalDataStoreImpl(getIt()));
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt(),getIt(),getIt()));
 
