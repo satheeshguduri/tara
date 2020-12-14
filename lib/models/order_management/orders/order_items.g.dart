@@ -1,0 +1,24 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'order_items.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+OrderItems _$OrderItemsFromJson(Map<String, dynamic> json) {
+  return OrderItems(
+    json['name'] as String,
+    json['quantity'] as int,
+    (json['price'] as num)?.toDouble(),
+    (json['currency'] as num)?.toDouble(),
+  );
+}
+
+Map<String, dynamic> _$OrderItemsToJson(OrderItems instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'quantity': instance.quantity,
+      'price': instance.price,
+      'currency': instance.currency,
+    };
