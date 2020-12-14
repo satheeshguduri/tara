@@ -13,6 +13,8 @@ import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
+import 'package:tara_app/models/order_management/orders/order.dart';
+import 'package:tara_app/models/order_management/store/store.dart';
 
 import 'api.dart';
 
@@ -37,6 +39,19 @@ abstract class RestClient {
 
   @PUT(API.update_profile)
   Future<AuthResponse> updateProfile(@Header("Authorization") String token,@Body() CustomerProfile signUpRequest);
+
+  //Order management API
+  // createStore(Store store);
+  @POST(API.create_store)
+  Future<Store> createStore(@Header("Authorization") String token,@Body() Store store);
+
+  @GET(API.get_orders_consumers)
+  Future<List<Order>> getConsumerOrders(@Header("Authorization") String token,@Path() String consumerId);
+
+  @GET(API.get_orders_merchants)
+  Future<List<Order>> getMerchantOrders(@Header("Authorization") String token,@Path() String merchantId);
+
+
 
 
 }

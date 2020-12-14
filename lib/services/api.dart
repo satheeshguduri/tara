@@ -23,8 +23,18 @@ class API{
   static const login = "v1/tara/auth/validate";
   ///SignUP
   static const signup = "v1/tara/auth";
-
+  ///update profile
   static const update_profile = "v1/tara/crm/customer";
+
+  //Order Related API's
+
+static const get_orders_consumers = "v0.1/tara/erp/consumer/{consumerId}/order";
+static const get_orders_merchants = "v0.1/tara/erp/merchant/{merchantId}/order";
+static const get_stores = "v0.1/tara/erp/store";
+static const create_store = "v0.1/tara/erp/store";
+static const update_store = "v0.1/tara/erp/store";
+static const place_order = "v0.1/tara/erp/order";
+static const update_order = "v0.1/tara/erp/order/{orderId}}";
 
 
 }

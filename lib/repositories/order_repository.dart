@@ -10,11 +10,14 @@ import 'package:tara_app/services/error/failure.dart';
 
 abstract class OrderRepository {
   Future<Either<Failure,order.Order>> findByTransactionId(String transactionId);
-  Future<Either<Failure,order.Order>> findByOrderId(String OrderId);
-  Future<Either<Failure,List<order.Order>>> findAllByOrderId(String id);
-  Future<Either<Failure,List<order.Order>>> findAllByMerchantId(String id);
-
-
+  Future<Either<Failure,order.Order>> getOrderByOrderId(String orderId);
+  Future<Either<Failure,List<order.Order>>> findAllByOrderId(String orderId);
+  Future<Either<Failure,List<order.Order>>> getOrdersByMerchantId(String merchantId);
+  Future<Either<Failure,List<order.Order>>> getOrdersByConsumerId(String consumerId);
+  Future<Either<Failure,List<order.Order>>> createOrder(Order order, String merchantId);
+  Future<Either<Failure,List<order.Order>>> updateOrder(Order order, String merchantId);
+  Future<Either<Failure,List<order.Order>>> deleteOrder(String orderId);
+  Future<Either<Failure,List<order.Order>>> findOrderByMerchantId(String merchantId);
 
 }
 
