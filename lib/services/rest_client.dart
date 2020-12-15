@@ -47,81 +47,81 @@ abstract class RestClient {
   @POST(API.create_store)
   Future<Store> createStore(@Header("Authorization") String token,@Body() Store store);
 
-  @POST(API.create_store)
-  Future<BaseResponse> deleteStore(@Header("Authorization") String token,@Body() String id);
+  // @POST(API.create_store)
+  // Future<BaseResponse> deleteStore(@Header("Authorization") String token,@Body() String id);
 
   @POST(API.create_store)
   Future<Store> updateStore(@Header("Authorization") String token,@Body() Store store);
 
-  @POST(API.create_store)
-  Future<Store> setStatus(@Header("Authorization") String token,@Body() String storeId, String status);
+  // @POST(API.create_store)
+  // Future<Store> setStatus(@Header("Authorization") String token,@Body() String storeId, String status);
 
   @GET(API.create_store)
   Future<List<Store>> getAllStores(@Header("Authorization") String token);
 
-  @GET(API.create_store)
-  Future<Store> getStore(@Header("Authorization") String token,@Body() String storeId);
+  // @GET(API.create_store)
+  // Future<Store> getStore(@Header("Authorization") String token,@Body() String storeId);
 
 
 
-  @GET(API.get_orders_consumers)
-  Future<List<Order>> getConsumerOrders(@Header("Authorization") String token,@Path() String consumerId);
-
-  @GET(API.get_orders_merchants)
-  Future<List<Order>> getMerchantOrders(@Header("Authorization") String token,@Path() String merchantId);
+  // @GET(API.get_orders_consumers)
+  // Future<List<Order>> getConsumerOrders(@Header("Authorization") String token,@Path() String consumerId);
+  //
+  // @GET(API.get_orders_merchants)
+  // Future<List<Order>> getMerchantOrders(@Header("Authorization") String token,@Path() String merchantId);
 
 
 
 
 // Orders api's
   @POST(API.create_order)
-  Future<Order> createOrder(@Header("Authorization") String token,@Body() Order order, String merchantId);
+  Future<Order> createOrder(@Header("Authorization") String token,@Body() Order order);
 
-  @POST(API.create_order)
-  Future<Order> deleteOrder(@Header("Authorization") String token,@Body()  String orderId);
+  // @POST(API.create_order)
+  // Future<Order> deleteOrder(@Header("Authorization") String token,@Body()  String orderId);
 
-  @PUT(API.update_order)
-  Future<Order> updateOrder(@Header("Authorization") String token,@Body() Order order,@Path() String orderId);
+  // @PUT(API.update_order)
+  // Future<Order> updateOrder(@Header("Authorization") String token,@Body() Order order,@Path() String orderId);
 
+  //
+  // @GET(API.create_order)
+  // Future<Order> findByTransactionId(@Header("Authorization") String token,@Body() String transactionId);
+  //
+  // @GET(API.create_order)
+  // Future<Order> findOrderByMerchantId(@Header("Authorization") String token,@Body() String merchantId);
+  //
+  // @GET(API.create_order)
+  // Future<Order> getOrderByOrderId(@Header("Authorization") String token,@Body() String orderId);
+  //
+  // @GET(API.create_order)
+  // Future<List<Order>> getOrdersByConsumerId(@Header("Authorization") String token,@Body() String consumerId);
 
-  @GET(API.create_order)
-  Future<Order> findByTransactionId(@Header("Authorization") String token,@Body() String transactionId);
-
-  @GET(API.create_order)
-  Future<Order> findOrderByMerchantId(@Header("Authorization") String token,@Body() String merchantId);
-
-  @GET(API.create_order)
-  Future<Order> getOrderByOrderId(@Header("Authorization") String token,@Body() String orderId);
-
-  @GET(API.create_order)
-  Future<List<Order>> getOrdersByConsumerId(@Header("Authorization") String token,@Body() String consumerId);
-
-  @GET(API.create_order)
-  Future<List<Order>> getOrdersByMerchantId(@Header("Authorization") String token,@Body() String merchantId);
-
-  @GET(API.create_order)
-  Future<List<Order>> findAllByOrderId(@Header("Authorization") String token,@Body() String orderId);
+  // @GET(API.create_order)
+  // Future<List<Order>> getOrdersByMerchantId(@Header("Authorization") String token,@Body() String merchantId);
+  //
+  // @GET(API.create_order)
+  // Future<List<Order>> findAllByOrderId(@Header("Authorization") String token,@Body() String orderId);
 
 
   // CATALOGUE api's
 
-  @GET(API.create_order)
-  Future<List<Catalogue>> getAll(@Header("Authorization") String token,);
+  // @GET(API.create_order)
+  // Future<List<Catalogue>> getAll(@Header("Authorization") String token);
 
-  @GET(API.create_order)
-  Future<Catalogue> getCatalogueById(@Header("Authorization") String token,@Body() double id);
+  // @GET(API.create_order)
+  // Future<Catalogue> getCatalogueById(@Header("Authorization") String token,@Body() double id);
 
-  @GET(API.create_order)
-  Future<Catalogue> getOneById(@Header("Authorization") String token,@Body() double id);
-
-  @GET(API.create_order)
-  Future<void> removeCatalogue(@Header("Authorization") String token,@Body() double Id);
+  // @GET(API.create_order)
+  // Future<Catalogue> getOneById(@Header("Authorization") String token,@Body() double id);
+  //
+  // @GET(API.create_order)
+  // Future<void> removeCatalogue(@Header("Authorization") String token,@Body() double Id);
 
   @GET(API.create_order)
   Future<Catalogue> saveCatalogue(@Header("Authorization") String token,@Body() Catalogue catalogue);
 
   @GET(API.create_order)
-  Future<Catalogue> updateCatalogue(@Header("Authorization") String token,@Body() Catalogue catalogue, double id);
+  Future<Catalogue> updateCatalogue(@Header("Authorization") String token,@Body() Catalogue catalogue);
 
 
 

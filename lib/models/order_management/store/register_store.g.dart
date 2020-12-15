@@ -8,9 +8,9 @@ part of 'register_store.dart';
 
 RegisterStore _$RegisterStoreFromJson(Map<String, dynamic> json) {
   return RegisterStore(
-    json['storeId'] as String,
-    json['picUrl'] as String,
-    json['registrationDocUrl'] as String,
+    storeId: json['storeId'] as String,
+    picUrl: json['picUrl'] as String,
+    registrationDocUrl: json['registrationDocUrl'] as String,
   );
 }
 

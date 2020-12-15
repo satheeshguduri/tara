@@ -8,10 +8,10 @@ part of 'store_type_id.dart';
 
 StoreTypeId _$StoreTypeIdFromJson(Map<String, dynamic> json) {
   return StoreTypeId(
-    json['store'] == null
+    store: json['store'] == null
         ? null
         : Store.fromJson(json['store'] as Map<String, dynamic>),
-    _$enumDecodeNullable(_$StoreTypesEnumMap, json['storeType']),
+    storeType: _$enumDecodeNullable(_$StoreTypesEnumMap, json['storeType']),
   );
 }
 

@@ -8,10 +8,10 @@ part of 'store_owner_id.dart';
 
 StoreOwnerId _$StoreOwnerIdFromJson(Map<String, dynamic> json) {
   return StoreOwnerId(
-    json['store'] == null
+    store: json['store'] == null
         ? null
         : Store.fromJson(json['store'] as Map<String, dynamic>),
-    json['owner'] == null
+    owner: json['owner'] == null
         ? null
         : Owner.fromJson(json['owner'] as Map<String, dynamic>),
   );

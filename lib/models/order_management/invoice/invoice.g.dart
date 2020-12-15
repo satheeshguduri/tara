@@ -8,19 +8,19 @@ part of 'invoice.dart';
 
 Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
   return Invoice(
-    (json['id'] as num)?.toDouble(),
-    json['invoiceId'] as String,
-    (json['totalAmount'] as num)?.toDouble(),
-    (json['tax'] as num)?.toDouble(),
-    (json['deliveryCost'] as num)?.toDouble(),
-    (json['items'] as List)
+    id: (json['id'] as num)?.toDouble(),
+    invoiceId: json['invoiceId'] as String,
+    totalAmount: (json['totalAmount'] as num)?.toDouble(),
+    tax: (json['tax'] as num)?.toDouble(),
+    deliveryCost: (json['deliveryCost'] as num)?.toDouble(),
+    items: (json['items'] as List)
         ?.map(
             (e) => e == null ? null : Item.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    json['order'] == null
+    order: json['order'] == null
         ? null
         : Order.fromJson(json['order'] as Map<String, dynamic>),
-    json['customerAddress'] == null
+    customerAddress: json['customerAddress'] == null
         ? null
         : CustomerAddress.fromJson(
             json['customerAddress'] as Map<String, dynamic>),

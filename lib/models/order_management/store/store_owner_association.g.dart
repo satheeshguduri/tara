@@ -9,13 +9,13 @@ part of 'store_owner_association.dart';
 StoreOwnerAssociation _$StoreOwnerAssociationFromJson(
     Map<String, dynamic> json) {
   return StoreOwnerAssociation(
-    json['storeOwnerId'] == null
+    storeOwnerId: json['storeOwnerId'] == null
         ? null
         : StoreOwnerId.fromJson(json['storeOwnerId'] as Map<String, dynamic>),
-    json['dateOfAssociation'] == null
+    dateOfAssociation: json['dateOfAssociation'] == null
         ? null
         : DateTime.parse(json['dateOfAssociation'] as String),
-    json['active'] as bool,
+    active: json['active'] as bool,
   );
 }
 

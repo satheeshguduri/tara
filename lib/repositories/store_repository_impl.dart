@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/repositories/stores_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/services/rest_client.dart';
@@ -27,10 +28,10 @@ class StoreRepositoryImpl extends StoresRepository{
   @override
   Future<Either<Failure, BaseResponse>> deleteStore(String id) async{
     try {
-      var response = await remoteDataSource.deleteStore(token, id);
-      return Right(response);
+     // var response = await remoteDataSource.deleteStore(token, id);
+     // return Right(response);
     }catch(e){
-      return Left(Failure.fromServerError(e));
+     // return Left(Failure.fromServerError(e));
     }
   }
 
@@ -46,19 +47,19 @@ class StoreRepositoryImpl extends StoresRepository{
   @override
   Future<Either<Failure, Store>> getStore(String storeId) async{
     try {
-      var response = await remoteDataSource.getStore(token, storeId);
-      return Right(response);
+     // var response = await remoteDataSource.getStore(token, storeId);
+     // return Right(response);
     }catch(e){
-      return Left(Failure.fromServerError(e));
+     // return Left(Failure.fromServerError(e));
     }
   }
   @override
   Future<Either<Failure, Store>> setStatus(String storeId, String status)async{
     try {
-      var response = await remoteDataSource.setStatus(token, storeId,status);
-      return Right(response);
+     // var response = await remoteDataSource.setStatus(token, storeId,status);
+     // return Right(response);
     }catch(e){
-      return Left(Failure.fromServerError(e));
+     // return Left(Failure.fromServerError(e));
     }
   }
 
@@ -70,5 +71,11 @@ class StoreRepositoryImpl extends StoresRepository{
     }catch(e){
       return Left(Failure.fromServerError(e));
     }
+  }
+
+  @override
+  Future<Either<Failure, Owner>> createOwner(Owner owner) {
+    // TODO: implement createOwner
+    throw UnimplementedError();
   }
 }

@@ -8,35 +8,35 @@ part of 'order.dart';
 
 Order _$OrderFromJson(Map<String, dynamic> json) {
   return Order(
-    json['orderId'] as String,
-    json['storeId'] == null
+    orderId: json['orderId'] as String,
+    storeId: json['storeId'] == null
         ? null
         : Store.fromJson(json['storeId'] as Map<String, dynamic>),
-    json['catalogueId'] == null
+    catalogueId: json['catalogueId'] == null
         ? null
         : Catalogue.fromJson(json['catalogueId'] as Map<String, dynamic>),
-    (json['items'] as List)
+    items: (json['items'] as List)
         ?.map((e) =>
             e == null ? null : OrderItems.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    json['customerId'] as int,
-    (json['deliveryAddress'] as List)
+    customerId: json['customerId'] as int,
+    deliveryAddress: (json['deliveryAddress'] as List)
         ?.map((e) =>
             e == null ? null : OrderAddress.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    _$enumDecodeNullable(_$StatusesEnumMap, json['status']),
-    (json['price'] as num)?.toDouble(),
-    (json['tax'] as num)?.toDouble(),
-    json['deliveryDate'] == null
+    status: _$enumDecodeNullable(_$StatusesEnumMap, json['status']),
+    price: (json['price'] as num)?.toDouble(),
+    tax: (json['tax'] as num)?.toDouble(),
+    deliveryDate: json['deliveryDate'] == null
         ? null
         : DateTime.parse(json['deliveryDate'] as String),
-    json['orderDate'] == null
+    orderDate: json['orderDate'] == null
         ? null
         : DateTime.parse(json['orderDate'] as String),
-    _$enumDecodeNullable(_$OrderTypesEnumMap, json['orderType']),
-    json['transactionId'] as String,
-    json['merchantId'] as String,
-    json['order_extra'] == null
+    orderType: _$enumDecodeNullable(_$OrderTypesEnumMap, json['orderType']),
+    transactionId: json['transactionId'] as String,
+    merchantId: json['merchantId'] as String,
+    order_extra: json['order_extra'] == null
         ? null
         : JsonbOrderExtra.fromJson(json['order_extra'] as Map<String, dynamic>),
   );

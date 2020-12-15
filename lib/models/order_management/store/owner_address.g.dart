@@ -8,11 +8,11 @@ part of 'owner_address.dart';
 
 OwnerAddress _$OwnerAddressFromJson(Map<String, dynamic> json) {
   return OwnerAddress(
-    json['dno'] as String,
-    json['streetName'] as String,
-    json['city'] as String,
-    json['country'] as String,
-    (json['zipcode'] as num)?.toDouble(),
+    dno: json['dno'] as String,
+    streetName: json['streetName'] as String,
+    city: json['city'] as String,
+    country: json['country'] as String,
+    zipcode: (json['zipcode'] as num)?.toDouble(),
   );
 }
 

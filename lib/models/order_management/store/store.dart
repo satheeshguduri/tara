@@ -21,8 +21,8 @@ class Store{
    Owner owner;
 
 
-   Store(
-   {this.id,
+   Store({
+   this.id,
       this.name,
       this.address,
       this.latitude,

@@ -8,10 +8,10 @@ part of 'order_items.dart';
 
 OrderItems _$OrderItemsFromJson(Map<String, dynamic> json) {
   return OrderItems(
-    json['name'] as String,
-    json['quantity'] as int,
-    (json['price'] as num)?.toDouble(),
-    (json['currency'] as num)?.toDouble(),
+    name: json['name'] as String,
+    quantity: json['quantity'] as int,
+    price: (json['price'] as num)?.toDouble(),
+    currency: (json['currency'] as num)?.toDouble(),
   );
 }
 

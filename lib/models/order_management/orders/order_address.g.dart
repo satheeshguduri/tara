@@ -8,11 +8,11 @@ part of 'order_address.dart';
 
 OrderAddress _$OrderAddressFromJson(Map<String, dynamic> json) {
   return OrderAddress(
-    json['dno'] as String,
-    json['streetName'] as String,
-    json['city'] as String,
-    json['country'] as String,
-    json['zipcode'] as int,
+    dno: json['dno'] as String,
+    streetName: json['streetName'] as String,
+    city: json['city'] as String,
+    country: json['country'] as String,
+    zipcode: json['zipcode'] as int,
   );
 }
 

@@ -8,12 +8,12 @@ part of 'jsonb_customer_address.dart';
 
 JsonbCustomerAddress _$JsonbCustomerAddressFromJson(Map<String, dynamic> json) {
   return JsonbCustomerAddress(
-    json['addressLine'] as String,
-    json['street'] as String,
-    json['district'] as String,
-    json['state'] as String,
-    json['country'] as String,
-    json['pinCode'] as String,
+    addressLine: json['addressLine'] as String,
+    street: json['street'] as String,
+    district: json['district'] as String,
+    state: json['state'] as String,
+    country: json['country'] as String,
+    pinCode: json['pinCode'] as String,
   );
 }
 

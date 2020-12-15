@@ -8,13 +8,13 @@ part of 'store_type_association.dart';
 
 StoreTypeAssociation _$StoreTypeAssociationFromJson(Map<String, dynamic> json) {
   return StoreTypeAssociation(
-    json['storeTypeId'] == null
+    storeTypeId: json['storeTypeId'] == null
         ? null
         : StoreTypeId.fromJson(json['storeTypeId'] as Map<String, dynamic>),
-    json['dateOfAssociation'] == null
+    dateOfAssociation: json['dateOfAssociation'] == null
         ? null
         : DateTime.parse(json['dateOfAssociation'] as String),
-    json['active'] as bool,
+    active: json['active'] as bool,
   );
 }
 

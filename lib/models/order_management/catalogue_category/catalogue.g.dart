@@ -8,8 +8,8 @@ part of 'catalogue.dart';
 
 Catalogue _$CatalogueFromJson(Map<String, dynamic> json) {
   return Catalogue(
-    (json['id'] as num)?.toDouble(),
-    json['name'] as String,
+    id: (json['id'] as num)?.toDouble(),
+    name: json['name'] as String,
   );
 }
 

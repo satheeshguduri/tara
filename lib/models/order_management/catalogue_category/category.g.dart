@@ -8,9 +8,9 @@ part of 'category.dart';
 
 Category _$CategoryFromJson(Map<String, dynamic> json) {
   return Category(
-    (json['id'] as num)?.toDouble(),
-    json['name'] as String,
-    (json['items'] as List)
+    id: (json['id'] as num)?.toDouble(),
+    name: json['name'] as String,
+    items: (json['items'] as List)
         ?.map(
             (e) => e == null ? null : Item.fromJson(e as Map<String, dynamic>))
         ?.toList(),

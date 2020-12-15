@@ -8,12 +8,12 @@ part of 'customer_address.dart';
 
 CustomerAddress _$CustomerAddressFromJson(Map<String, dynamic> json) {
   return CustomerAddress(
-    (json['id'] as num)?.toDouble(),
-    json['address'] == null
+    id: (json['id'] as num)?.toDouble(),
+    address: json['address'] == null
         ? null
         : JsonbCustomerAddress.fromJson(
             json['address'] as Map<String, dynamic>),
-    json['addressType'] as String,
+    addressType: json['addressType'] as String,
   );
 }
 

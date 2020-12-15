@@ -8,16 +8,16 @@ part of 'item.dart';
 
 Item _$ItemFromJson(Map<String, dynamic> json) {
   return Item(
-    (json['id'] as num)?.toDouble(),
-    json['sku'] as String,
-    json['itemName'] as String,
-    (json['price'] as num)?.toDouble(),
-    json['quantityInStock'] as int,
-    (json['catalogue'] as List)
+    id: (json['id'] as num)?.toDouble(),
+    sku: json['sku'] as String,
+    itemName: json['itemName'] as String,
+    price: (json['price'] as num)?.toDouble(),
+    quantityInStock: json['quantityInStock'] as int,
+    catalogue: (json['catalogue'] as List)
         ?.map((e) =>
             e == null ? null : Catalogue.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    (json['category'] as List)
+    category: (json['category'] as List)
         ?.map((e) =>
             e == null ? null : Category.fromJson(e as Map<String, dynamic>))
         ?.toList(),

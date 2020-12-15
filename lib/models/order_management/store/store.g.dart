@@ -8,24 +8,24 @@ part of 'store.dart';
 
 Store _$StoreFromJson(Map<String, dynamic> json) {
   return Store(
-    json['id'] as String,
-    json['name'] as String,
-    json['address'] == null
+    id: json['id'] as String,
+    name: json['name'] as String,
+    address: json['address'] == null
         ? null
         : StoreAddress.fromJson(json['address'] as Map<String, dynamic>),
-    json['latitude'] as String,
-    json['longitude'] as String,
-    json['registration_status'] as bool,
-    _$enumDecodeNullable(_$StatusEnumMap, json['status']),
-    (json['types'] as List)
+    latitude: json['latitude'] as String,
+    longitude: json['longitude'] as String,
+    registration_status: json['registration_status'] as bool,
+    status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
+    types: (json['types'] as List)
         ?.map((e) => e == null
             ? null
             : StoreTypeAssociation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    json['registerStore'] == null
+    registerStore: json['registerStore'] == null
         ? null
         : RegisterStore.fromJson(json['registerStore'] as Map<String, dynamic>),
-    json['owner'] == null
+    owner: json['owner'] == null
         ? null
         : Owner.fromJson(json['owner'] as Map<String, dynamic>),
   );
