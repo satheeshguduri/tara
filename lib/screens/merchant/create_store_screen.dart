@@ -89,7 +89,7 @@ class _CreateStoreScreenState extends BaseState<CreateStoreScreen> {
                 Container(
                   margin: EdgeInsets.only(top: 16),
                   child: Text(
-                      getTranslation(Strings.SELECT_LOCATION),
+                      getTranslation(Strings.address),
                       style: BaseStyles.bottomSheetSubTitleStyle
                   ),
                 ),
@@ -162,6 +162,12 @@ class _CreateStoreScreenState extends BaseState<CreateStoreScreen> {
                     ),
                   ),
                 ),
+                controller.errorMessage.value.isEmpty
+                    ? Container()
+                    : Container(margin:EdgeInsets.all(8),child: Text(
+                  getTranslation(controller.errorMessage.value),
+                  style: BaseStyles.error_text_style,
+                ),),
                 submitWidget()
               ])
       ),
@@ -169,7 +175,9 @@ class _CreateStoreScreenState extends BaseState<CreateStoreScreen> {
   }
 
   void onChanged(TextEditingController textEditingController) {
-
+    controller.errorMessage.value = "";
+    controller.storeName.value = textEditingController.text;
+    controller.isEnterAllTheFieldsInCreateStore();
   }
 
   Widget textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController)
@@ -225,21 +233,24 @@ class _CreateStoreScreenState extends BaseState<CreateStoreScreen> {
   {
     return Container(
       height: 48,
-      margin: EdgeInsets.only(bottom: 16,top: 8,left: 8,right: 8),
+      margin: EdgeInsets.only(bottom: 16, top: 36, left: 16, right: 16),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-              Radius.circular(8)
-          ),
-          color: AppColors.bottom_border_color
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: controller.isEnterTheFieldsInCreateStore.value
+              ? Color(0xffb2f7e2)
+              : Color(0xffe9ecef)),
       alignment: Alignment.center,
       child: Text(
         getTranslation(Strings.submit),
         textAlign: TextAlign.center,
-        style: BaseStyles.addNewBankAccount,
+        style: controller.isEnterTheFieldsInCreateStore.value
+            ? BaseStyles.chatItemDepositSuccessMoneyTextStyle
+            : BaseStyles.verifyTextStyle,
       ),
     ).onTap(onPressed: (){
-      controller.createStore();
+      if (controller.isEnterTheFieldsInCreateStore.value){
+        controller.createStore();
+      }
     });
   }
 

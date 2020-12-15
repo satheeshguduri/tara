@@ -9,6 +9,8 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/screens/Merchant/create_owner_screen.dart';
+import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
@@ -111,6 +113,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     Future.delayed(Duration.zero, () => showDialogIfFirstLoaded(context));
+    Future.delayed(Duration.zero, () => showBottomSheetToCreateOwner());
     return Scaffold(
         bottomNavigationBar:getBottomNavigation(),
         floatingActionButton: FloatingActionButton(
@@ -185,5 +188,26 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
         },
       );
     }
+  }
+
+  showBottomSheetToCreateOwner() async {
+    bool isCreatedOwner = await Utils().getPrefBoolValue(SharedPreferencesStrings.isCreatedOwner);
+    if (!isCreatedOwner)
+    {
+      openBottomSheet();
+    }
+  }
+
+  Future openBottomSheet() {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        isDismissible: false,
+        enableDrag:false,
+        builder: (BuildContext context) {
+          return CreateOwnerScreen();
+        });
   }
 }

@@ -7,11 +7,12 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/controller/create_store_and_owner_controller.dart';
+import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
-
+import 'package:tara_app/utils/locale/utils.dart';
 
 class CreateOwnerScreen extends StatefulWidget {
   CreateOwnerScreen({Key key}) : super(key: key);
@@ -21,7 +22,6 @@ class CreateOwnerScreen extends StatefulWidget {
 }
 
 class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
-
   CreateStoreAndOwnerController controller = Get.find();
 
   @override
@@ -40,16 +40,15 @@ class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
     return getRootContainer();
   }
 
-  Widget getRootContainer(){
-    return Obx(()=>
-        SafeArea(child: getTotalWidget())).withProgressIndicator(showIndicator: controller.showProgress.value);
+  Widget getRootContainer() {
+    return Obx(() => SafeArea(child: getTotalWidget()))
+        .withProgressIndicator(showIndicator: controller.showProgress.value);
   }
 
-  Widget getTotalWidget()
-  {
+  Widget getTotalWidget() {
     return Container(
-      padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -58,127 +57,145 @@ class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
         ),
       ),
       child: Container(
-          margin: EdgeInsets.only(left: 16,right: 16),
-          child: Wrap(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(top: 4,bottom: 8),
-                  alignment: Alignment.center,
-                  child: Opacity(
-                    opacity: 0.3,
-                    child: Container(
-                      width: 48,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 209, 212, 215),
-                        borderRadius: BorderRadius.all(Radius.circular(2)),
+          margin: EdgeInsets.only(left: 16, right: 16),
+          child: Wrap(children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 4, bottom: 8),
+              alignment: Alignment.center,
+              child: Opacity(
+                opacity: 0.3,
+                child: Container(
+                  width: 48,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 209, 212, 215),
+                    borderRadius: BorderRadius.all(Radius.circular(2)),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                controller.isCreateOwnerResponseSuccess.value
+                    ? getTranslation(Strings.create_store)
+                    : getTranslation(Strings.create_owner),
+                style: BaseStyles.bottomSheetTitleStyle,
+                textAlign: TextAlign.left,
+              ),
+            ),
+            controller.isCreateOwnerResponseSuccess.value
+                ? textFormFieldContainer(
+                    getTranslation(Strings.store_name),
+                    getTranslation(Strings.enter_store_name),
+                    TextInputType.text,
+                    controller.storeNameTextController)
+                : textFormFieldContainer(
+                    getTranslation(Strings.owner_name),
+                    getTranslation(Strings.enter_owner_name),
+                    TextInputType.text,
+                    controller.ownerNameTextController),
+            Container(
+              margin: EdgeInsets.only(top: 16),
+              child: Text(getTranslation(Strings.address),
+                  style: BaseStyles.bottomSheetSubTitleStyle),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 8),
+              padding: EdgeInsets.only(left: 8, bottom: 8, top: 8, right: 8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  border: Border.all(color: Color(0xffe9ecef), width: 1),
+                  color: Color(0xffffffff)),
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 7.5.toInt(),
+                      child: Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Image.asset(
+                              Assets.ic_location,
+                              fit: BoxFit.none,
+                              width: 24,
+                              height: 24,
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 8, right: 8),
+                              child: Text(
+                                controller.addressStr.value,
+                                style: BaseStyles.bottomSheetLocationStyle,
+                                maxLines: 3,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text(
-                    getTranslation(Strings.create_owner),
-                    style:BaseStyles.bottomSheetTitleStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                textFormFieldContainer(getTranslation(Strings.owner_name),getTranslation(Strings.enter_owner_name),TextInputType.text,controller.ownerNameTextController),
-                Container(
-                  margin: EdgeInsets.only(top: 16),
-                  child: Text(
-                      getTranslation(Strings.SELECT_LOCATION),
-                      style: BaseStyles.bottomSheetSubTitleStyle
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 8),
-                  padding: EdgeInsets.only(left: 8,bottom: 8,top: 8,right: 8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(8)
-                      ),
-                      border: Border.all(
-                          color: Color(0xffe9ecef),
-                          width: 1
-                      ),
-                      color: Color(0xffffffff)
-                  ),
-                  child:Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 7.5.toInt(),
-                          child: Row(
+                    Expanded(
+                      flex: 2.5.toInt(),
+                      child: Container(
+                          padding: EdgeInsets.only(top: 8, bottom: 8),
+                          child: Column(
                             children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Image.asset(
-                                  Assets.ic_location,
-                                  fit: BoxFit.none,
-                                  width: 24,
-                                  height: 24,
+                              Text(getTranslation(Strings.CHANGE),
+                                  style: BaseStyles
+                                      .bottomSheetLocationChangeTextStyle,
+                                  textAlign: TextAlign.center),
+                              Container(
+                                height: 2,
+                                margin:
+                                    EdgeInsets.only(top: 4, left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                  gradient: Gradients.primaryGradient,
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 8,right: 8),
-                                  child: Text(
-                                    controller.addressStr.value,
-                                    style: BaseStyles.bottomSheetLocationStyle,
-                                    maxLines: 3,
-                                  ),
-                                ),
-                              )
                             ],
-                          ),
-                        ),
-                        Expanded(
-                          flex: 2.5.toInt(),
-                          child: Container(
-                              padding: EdgeInsets.only(top: 8,bottom: 8),
-                              child: Column(
-                                children: [
-                                  Text(
-                                      getTranslation(Strings.CHANGE),
-                                      style: BaseStyles.bottomSheetLocationChangeTextStyle,
-                                      textAlign: TextAlign.center
-                                  ),
-                                  Container(
-                                    height:2 ,
-                                    margin: EdgeInsets.only(top: 4,left: 8,right: 8),
-                                    decoration: BoxDecoration(
-                                      gradient: Gradients.primaryGradient,
-                                    ),
-                                  ),
-                                ],
-                              )
-                          ),
-                        ),
-                      ],
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            controller.errorMessage.value.isEmpty
+                ? Container()
+                : Container(
+                    margin: EdgeInsets.all(8),
+                    child: Text(
+                      getTranslation(controller.errorMessage.value),
+                      style: BaseStyles.error_text_style,
                     ),
                   ),
-                ),
-                submitWidget()
-              ])
-      ),
+            submitWidget()
+          ])),
     );
   }
 
   void onChanged(TextEditingController textEditingController) {
-
+    controller.errorMessage.value = "";
+    if (controller.isCreateOwnerResponseSuccess.value) {
+      controller.storeName.value = textEditingController.text;
+      controller.isEnterAllTheFieldsInCreateStore();
+    } else {
+      controller.ownerName.value = textEditingController.text;
+      controller.isEnterAllTheFieldsInCreateOwner();
+    }
   }
 
-  Widget textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController)
-  {
+  Widget textFormFieldContainer(String headerTitle, String hint,
+      TextInputType inputType, TextEditingController textEditingController) {
     return Container(
-        margin: EdgeInsets.only(top:8),
+        margin: EdgeInsets.only(top: 8),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide( //                   <--- left side
+            bottom: BorderSide(
+              //                   <--- left side
               color: Colors.grey,
               width: 1.0,
             ),
@@ -190,12 +207,10 @@ class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 4,bottom: 4),
-                child: Text(
-                    headerTitle,
+                margin: EdgeInsets.only(top: 4, bottom: 4),
+                child: Text(headerTitle,
                     style: BaseStyles.textFormFieldHeaderTitleTextStyle,
-                    textAlign: TextAlign.left
-                ),
+                    textAlign: TextAlign.left),
               ),
               Container(
                 child: Row(
@@ -206,9 +221,14 @@ class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
                         children: [
                           Expanded(
                             flex: 1,
-                            child:TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,onChanged:(value){
-                              onChanged(textEditingController);
-                            }),
+                            child: TextFieldWidget(
+                                hint: hint,
+                                inputType: inputType,
+                                textController: textEditingController,
+                                isIcon: false,
+                                onChanged: (value) {
+                                  onChanged(textEditingController);
+                                }),
                           ),
                         ],
                       ),
@@ -218,29 +238,65 @@ class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
               )
             ],
           ),
-        )
-    );
+        ));
   }
-  Widget submitWidget()
-  {
+
+  Widget submitWidget() {
     return Container(
       height: 48,
-      margin: EdgeInsets.only(bottom: 16,top: 8,left: 8,right: 8),
+      margin: EdgeInsets.only(bottom: 16, top: 36, left: 16, right: 16),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-              Radius.circular(8)
-          ),
-          color: AppColors.bottom_border_color
-      ),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: controller.isCreateOwnerResponseSuccess.value
+              ? controller.isEnterTheFieldsInCreateStore.value
+                  ? Color(0xffb2f7e2)
+                  : Color(0xffe9ecef)
+              : controller.isEnterTheFieldsInCreateOwner.value
+                  ? Color(0xffb2f7e2)
+                  : Color(0xffe9ecef)),
       alignment: Alignment.center,
       child: Text(
         getTranslation(Strings.submit),
         textAlign: TextAlign.center,
-        style: BaseStyles.addNewBankAccount,
+        style: controller.isCreateOwnerResponseSuccess.value
+            ? controller.isEnterTheFieldsInCreateStore.value
+                ? BaseStyles.chatItemDepositSuccessMoneyTextStyle
+                : BaseStyles.verifyTextStyle
+            : controller.isEnterTheFieldsInCreateOwner.value
+                ? BaseStyles.chatItemDepositSuccessMoneyTextStyle
+                : BaseStyles.verifyTextStyle,
       ),
-    ).onTap(onPressed: (){
-      controller.createOwner();
+    ).onTap(onPressed: () {
+      if (controller.isCreateOwnerResponseSuccess.value) {
+        if (controller.isEnterTheFieldsInCreateStore.value) {
+          controller.createStore();
+        }
+      } else {
+        if (controller.isEnterTheFieldsInCreateOwner.value) {
+          controller.createOwner();
+        }
+      }
     });
   }
 
+  /* void showBottomSheetToCreateStore() async {
+    bool isCreatedStore =
+        await Utils().getPrefBoolValue(SharedPreferencesStrings.isCreatedStore);
+    if (!isCreatedStore) {
+      openBottomSheet();
+    }
+  }
+
+  Future openBottomSheet() {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: Get.context,
+        isDismissible: false,
+        enableDrag: false,
+        builder: (BuildContext context) {
+          return CreateStoreScreen();
+        });
+  } */
 }
