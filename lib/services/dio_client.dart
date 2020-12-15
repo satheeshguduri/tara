@@ -9,7 +9,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:tara_app/services/order_rest_client.dart';
 import 'package:tara_app/services/rest_client.dart';
+
+import 'api.dart';
 
 class APIHelper{
   Dio dio;
@@ -20,10 +23,13 @@ class APIHelper{
       requestBody: true,
       request: true,
       responseBody: true,
-      compact: true,
+      compact: false,
     ));
   }
   RestClient getDioClient(){
     return RestClient(dio);
+  }
+  OrderRestClient getDioOrderClient(){
+    return OrderRestClient(dio);
   }
 }

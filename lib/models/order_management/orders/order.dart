@@ -17,7 +17,7 @@ class Order{
   List<OrderItems> items;
   int customerId;
   List<OrderAddress> deliveryAddress;
-  Statuses status;
+  Statuses status; //
   double price;
   double tax;
   DateTime deliveryDate;

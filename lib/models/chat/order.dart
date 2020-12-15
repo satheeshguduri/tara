@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/order_management/orders/order_items.dart';
 /*
 
 part 'order.g.dart';
@@ -15,7 +16,7 @@ class Order {
 
      String type;
      String orderId;
-     List<String> items;//TODO proper object from order service
+     List<OrderItems> items;//TODO proper object from order service
      num total;
      String customerId;
      String merchantId;

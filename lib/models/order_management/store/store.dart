@@ -9,6 +9,7 @@ part 'store.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Store{
 
+   @JsonKey(ignore: true)
    String id;
    String name;
    StoreAddress address;
@@ -19,10 +20,12 @@ class Store{
    List<StoreTypeAssociation> types;
    RegisterStore registerStore;
    Owner owner;
+   int integrationId;
+   List<int> storeTypeId;
 
 
    Store({
-   this.id,
+      this.id,
       this.name,
       this.address,
       this.latitude,
@@ -31,7 +34,8 @@ class Store{
       this.status,
       this.types,
       this.registerStore,
-      this.owner});
+      this.owner,
+      this.integrationId,this.storeTypeId});
 
   factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
 

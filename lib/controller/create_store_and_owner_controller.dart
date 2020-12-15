@@ -5,23 +5,19 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 
-import 'dart:async';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/constants/strings.dart';
-import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/repositories/stores_repository.dart';
-import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
 import '../injector.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 
 class CreateStoreAndOwnerController extends GetxController {
   ///listen for the progress bar changes
@@ -41,21 +37,14 @@ class CreateStoreAndOwnerController extends GetxController {
 
   TextEditingController ownerNameTextController = TextEditingController();
   TextEditingController storeNameTextController = TextEditingController();
-
+  AuthResponse user = Get.find();
   ///on clicking on send otp
   void createOwner() async {
     //validate empty state here for the text fields
     if (isValidationSuccessInCreateOwner()) {
       showProgress.value = true;
-      var data = await getIt.get<UserLocalDataStore>().getUser();
-      data.fold(
-          (l) => print,
-          (r) => {
-                if (r?.customerProfile?.id != null)
-                  {token.value = "${r?.customerProfile?.id}"}
-              });
-      Owner request = Owner(name: ownerName.value, id: token.value);
-      print(request.toJson());
+      Owner request = Owner(name: ownerNameTextController.text,integrationId: user.customerProfile.id);
+      print(request.toJson().toString());
       Either<Failure, Owner> response =
           await getIt.get<StoresRepository>().createOwner(request);
       showProgress.value = false;
@@ -78,14 +67,8 @@ class CreateStoreAndOwnerController extends GetxController {
     //validate empty state here for the text fields
     if (isValidationSuccessInCreateStore()) {
       showProgress.value = true;
-      var data = await getIt.get<UserLocalDataStore>().getUser();
-      data.fold(
-          (l) => print,
-          (r) => {
-                if (r?.customerProfile?.id != null)
-                  {token.value = "${r?.customerProfile?.id}"}
-              });
-      Store request = Store(name: storeName.value, id: token.value);
+      Owner owner = Owner(name:ownerNameTextController.text,integrationId: user.customerProfile.id);
+      Store request = Store(id:null,name: storeNameTextController.text, owner: owner,storeTypeId: [132, 135]);
       print(request.toJson());
       Either<Failure, Store> response =
           await getIt.get<StoresRepository>().createStore(request);

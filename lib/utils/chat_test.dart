@@ -5,19 +5,21 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/models/chat/payment_success.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 
 import '../injector.dart';
 
 class ChatTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AuthResponse user = getIt.get<AuthResponse>();
     return new Scaffold(
       appBar: new AppBar(title: new Text("Firebase test"),),
       body: new Column(
         children: <Widget>[
           new Flexible(
             child: new FirebaseAnimatedList(
-                query: getIt.get<FirebaseRemoteService>().getDataStream(path:FirebasePath.getPath("CID-7231947ee8f5436fb193ec63721759fa","MID-485bafe8600846e2966c88cbce3e0f40")),
+                query: getIt.get<FirebaseRemoteService>().getDataStream(path:FirebasePath.getPath(user.customerProfile.firebaseId,"MID-485bafe8600846e2966c88cbce3e0f40")),
                 padding: new EdgeInsets.all(8.0),
                 reverse: false,
                 itemBuilder: (_, DataSnapshot snapshot,

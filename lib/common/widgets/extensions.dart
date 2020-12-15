@@ -26,7 +26,11 @@ extension StyledText on String{
       style:style
     );
   }
+  String bearer(){
+    return "Bearer "+this;
+  }
 }
+
 extension TappableWidget on Widget {
   Widget onTap({Function onPressed}) {
     return InkWell(

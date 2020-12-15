@@ -10,7 +10,10 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
   return Order(
     type: json['type'] as String,
     orderId: json['orderId'] as String,
-    items: (json['items'] as List)?.map((e) => e as String)?.toList(),
+    items: (json['items'] as List)
+        ?.map((e) =>
+            e == null ? null : OrderItems.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     total: json['total'] as num,
     customerId: json['customerId'] as String,
     merchantId: json['merchantId'] as String,

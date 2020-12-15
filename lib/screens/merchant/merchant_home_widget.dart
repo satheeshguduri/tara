@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -7,10 +9,14 @@ import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/screens/agent/balance_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
-import 'package:tara_app/screens/consumer/transaction_detail.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/services/error/failure.dart';
+import 'package:tara_app/models/order_management/orders/order.dart' as order;
 
 class MerchantHomeWidget extends StatefulWidget{
 
@@ -26,7 +32,18 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
   bool isTapOnIndex2 = false;
   bool isTapOnIndex3 = false;
 
+@override
+  void initState() async{
+    // TODO: implement initState
+    super.initState();
 
+  }
+  //Example to get the orders this need to be called in future builder
+  Future getOrders() async {
+    AuthResponse user = Get.find();
+    Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByMerchantId(user.customerProfile.id);
+    response.fold((l) => print, (r) => print(r.toString()));
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

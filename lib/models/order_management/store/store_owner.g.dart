@@ -8,7 +8,6 @@ part of 'store_owner.dart';
 
 Owner _$OwnerFromJson(Map<String, dynamic> json) {
   return Owner(
-    id: json['id'] as String,
     name: json['name'] as String,
     address: json['address'] == null
         ? null
@@ -24,12 +23,11 @@ Owner _$OwnerFromJson(Map<String, dynamic> json) {
             ? null
             : StoreOwnerAssociation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    integrationId: (json['integrationId'] as num)?.toDouble(),
+    integrationId: json['integrationId'] as int,
   );
 }
 
 Map<String, dynamic> _$OwnerToJson(Owner instance) => <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'address': instance.address?.toJson(),
       'kycStatus': instance.kycStatus,

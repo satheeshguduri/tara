@@ -24,6 +24,7 @@ import 'package:tara_app/repositories/store_repository_impl.dart';
 import 'package:tara_app/repositories/stores_repository.dart';
 import 'package:tara_app/services/dio_client.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
+import 'package:tara_app/services/order_rest_client.dart';
 import 'package:tara_app/services/rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 
@@ -33,6 +34,7 @@ Future<void> init() async{
   final sharedPreferences = await SharedPreferences.getInstance();
   getIt.registerLazySingleton(() => sharedPreferences);
   getIt.registerLazySingleton<RestClient>(() => APIHelper().getDioClient());
+  getIt.registerLazySingleton<OrderRestClient>(() => APIHelper().getDioOrderClient());
   getIt.registerLazySingleton(() => DataConnectionChecker());
   Get.put(AuthController());
   await GetStorage.init();
@@ -44,7 +46,7 @@ Future<void> init() async{
   getIt.registerLazySingleton<StoresRepository>(() => StoreRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(getIt(),getIt()));
-  Get.put(CreateStoreAndOwnerController());
+  Get.lazyPut(()=>CreateStoreAndOwnerController());
 
 
 }

@@ -8,7 +8,6 @@ part of 'store.dart';
 
 Store _$StoreFromJson(Map<String, dynamic> json) {
   return Store(
-    id: json['id'] as String,
     name: json['name'] as String,
     address: json['address'] == null
         ? null
@@ -28,11 +27,12 @@ Store _$StoreFromJson(Map<String, dynamic> json) {
     owner: json['owner'] == null
         ? null
         : Owner.fromJson(json['owner'] as Map<String, dynamic>),
+    integrationId: json['integrationId'] as int,
+    storeTypeId: (json['storeTypeId'] as List)?.map((e) => e as int)?.toList(),
   );
 }
 
 Map<String, dynamic> _$StoreToJson(Store instance) => <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'address': instance.address?.toJson(),
       'latitude': instance.latitude,
@@ -42,6 +42,8 @@ Map<String, dynamic> _$StoreToJson(Store instance) => <String, dynamic>{
       'types': instance.types?.map((e) => e?.toJson())?.toList(),
       'registerStore': instance.registerStore?.toJson(),
       'owner': instance.owner?.toJson(),
+      'integrationId': instance.integrationId,
+      'storeTypeId': instance.storeTypeId,
     };
 
 T _$enumDecode<T>(
