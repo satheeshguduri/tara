@@ -28,7 +28,7 @@ class Order{
   JsonbOrderExtra order_extra;
 
   Order(
-      this.orderId,
+  {this.orderId,
       this.storeId,
       this.catalogueId,
       this.items,
@@ -42,7 +42,7 @@ class Order{
       this.orderType,
       this.transactionId,
       this.merchantId,
-      this.order_extra);
+      this.order_extra});
 
 factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 

@@ -9,7 +9,7 @@ class StoreAddress{
    double zipcode;
 
    StoreAddress(
-      this.dno, this.streetName, this.city, this.country, this.zipcode);
+   {this.dno, this.streetName, this.city, this.country, this.zipcode});
 
   factory StoreAddress.fromJson(Map<String, dynamic> json) => _$StoreAddressFromJson(json);
 

@@ -8,7 +8,7 @@ class StoreTypeAssociation{
    DateTime dateOfAssociation;
    bool active;
 
-   StoreTypeAssociation(this.storeTypeId, this.dateOfAssociation, this.active);
+   StoreTypeAssociation({this.storeTypeId, this.dateOfAssociation, this.active});
 
   factory StoreTypeAssociation.fromJson(Map<String, dynamic> json) => _$StoreTypeAssociationFromJson(json);
 

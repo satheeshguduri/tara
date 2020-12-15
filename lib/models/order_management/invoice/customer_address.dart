@@ -8,7 +8,7 @@ class CustomerAddress{
    JsonbCustomerAddress address;
   String addressType;
 
-   CustomerAddress(this.id, this.address, this.addressType);
+   CustomerAddress({this.id, this.address, this.addressType});
 
 
    factory CustomerAddress.fromJson(Map<String, dynamic> json) => _$CustomerAddressFromJson(json);

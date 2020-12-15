@@ -12,6 +12,7 @@ import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/controller/create_store_and_owner_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/auth_repository_impl.dart';
@@ -43,7 +44,7 @@ Future<void> init() async{
   getIt.registerLazySingleton<StoresRepository>(() => StoreRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(getIt(),getIt()));
-
+  Get.put(CreateStoreAndOwnerController());
 
 
 }

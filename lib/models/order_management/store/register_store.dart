@@ -10,7 +10,7 @@ class RegisterStore{
    String registrationDocUrl;
 
 
-   RegisterStore(this.storeId, this.picUrl, this.registrationDocUrl);
+   RegisterStore({this.storeId, this.picUrl, this.registrationDocUrl});
 
   factory RegisterStore.fromJson(Map<String, dynamic> json) => _$RegisterStoreFromJson(json);
 

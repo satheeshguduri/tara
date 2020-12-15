@@ -8,7 +8,7 @@ class StoreOwnerId{
    Store store;
    Owner owner;
 
-   StoreOwnerId(this.store, this.owner);
+   StoreOwnerId({this.store, this.owner});
 
   factory StoreOwnerId.fromJson(Map<String, dynamic> json) => _$StoreOwnerIdFromJson(json);
 

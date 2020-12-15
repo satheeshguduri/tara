@@ -9,8 +9,8 @@ class JsonbCustomerAddress{
    String country;
    String pinCode;
 
-   JsonbCustomerAddress(this.addressLine, this.street, this.district, this.state,
-       this.country, this.pinCode);
+   JsonbCustomerAddress({this.addressLine, this.street, this.district, this.state,
+       this.country, this.pinCode});
 
 factory JsonbCustomerAddress.fromJson(Map<String, dynamic> json) => _$JsonbCustomerAddressFromJson(json);
 

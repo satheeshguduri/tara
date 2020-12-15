@@ -14,8 +14,8 @@ class Item{
    List<Catalogue> catalogue;
    List<Category> category;
 
-   Item(this.id, this.sku, this.itemName, this.price, this.quantityInStock,
-       this.catalogue, this.category);
+   Item({this.id, this.sku, this.itemName, this.price, this.quantityInStock,
+       this.catalogue, this.category});
 
 factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 

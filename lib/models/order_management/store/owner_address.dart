@@ -10,7 +10,7 @@ class OwnerAddress{
 
 
    OwnerAddress(
-      this.dno, this.streetName, this.city, this.country, this.zipcode);
+   {this.dno, this.streetName, this.city, this.country, this.zipcode});
 
   factory OwnerAddress.fromJson(Map<String, dynamic> json) => _$OwnerAddressFromJson(json);
 

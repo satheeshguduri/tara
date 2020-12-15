@@ -9,7 +9,7 @@ class Category{
    String name;
    List<Item> items;
 
-   Category(this.id, this.name, this.items);
+   Category({this.id, this.name, this.items});
 
 factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 

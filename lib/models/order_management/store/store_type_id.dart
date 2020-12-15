@@ -8,7 +8,7 @@ class StoreTypeId{
    Store store;
    StoreTypes storeType;
 
-   StoreTypeId(this.store, this.storeType);
+   StoreTypeId({this.store, this.storeType});
 
   factory StoreTypeId.fromJson(Map<String, dynamic> json) => _$StoreTypeIdFromJson(json);
 

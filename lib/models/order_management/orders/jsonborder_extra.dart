@@ -8,7 +8,7 @@ class JsonbOrderExtra{
    bool interpret;
 
 
-   JsonbOrderExtra(this.customer_commid, this.merchant_commid, this.interpret);
+   JsonbOrderExtra({this.customer_commid, this.merchant_commid, this.interpret});
 
   factory JsonbOrderExtra.fromJson(Map<String, dynamic> json) => _$JsonbOrderExtraFromJson(json);
 

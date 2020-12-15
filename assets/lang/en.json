@@ -338,5 +338,13 @@
   "password_not_match": "Password & Confirm Password should be same",
   "invalid_email": "Please enter valid email address",
   "invalid_number": "Please enter valid phone number",
-  "invalid_otp": "Please enter valid OTP"
+  "invalid_otp": "Please enter valid OTP",
+  "enter_owner_name": "Please enter owner name",
+  "enter_store_name": "Please enter store name",
+  "create_owner": "Create Owner",
+  "create_store": "Create Store",
+  "owner_name": "Owner name",
+  "store_name": "Store name",
+  "submit": "Submit"
+
 }

@@ -14,8 +14,8 @@ class Owner{
    List<StoreOwnerAssociation> owners;
    double integrationId;
 
-   Owner(this.id, this.name, this.address, this.kycStatus, this.types,
-      this.owners, this.integrationId);
+   Owner({this.id, this.name, this.address, this.kycStatus, this.types,
+      this.owners, this.integrationId});
 
   factory Owner.fromJson(Map<String, dynamic> json) => _$OwnerFromJson(json);
 

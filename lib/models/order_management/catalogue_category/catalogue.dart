@@ -6,7 +6,7 @@ class Catalogue{
   double id;
   String name;
 
-  Catalogue(this.id, this.name); // Store store_id;
+  Catalogue({this.id, this.name}); // Store store_id;
   // private List<Item> items;
 
 factory Catalogue.fromJson(Map<String, dynamic> json) => _$CatalogueFromJson(json);

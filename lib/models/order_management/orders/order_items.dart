@@ -9,7 +9,7 @@ class OrderItems{
    double price;
    double currency;
 
-   OrderItems(this.name, this.quantity, this.price, this.currency);
+   OrderItems({this.name, this.quantity, this.price, this.currency});
 
 
 

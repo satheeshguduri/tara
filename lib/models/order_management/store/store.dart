@@ -22,7 +22,7 @@ class Store{
 
 
    Store(
-      this.id,
+   {this.id,
       this.name,
       this.address,
       this.latitude,
@@ -31,7 +31,7 @@ class Store{
       this.status,
       this.types,
       this.registerStore,
-      this.owner);
+      this.owner});
 
   factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
 

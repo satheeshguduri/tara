@@ -365,6 +365,13 @@ class Strings{
   static const invalid_email = "invalid_email";
   static const invalid_number = "invalid_number";
   static const invalid_otp = "invalid_otp";
+  static const enter_owner_name = "enter_owner_name";
+  static const enter_store_name = "enter_store_name";
+  static const create_owner = "create_owner";
+  static const create_store = "create_store";
+  static const owner_name = "owner_name";
+  static const store_name = "store_name";
+  static const submit  = "submit";
 }
 
 class NotificationSettingsStrings{

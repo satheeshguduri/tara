@@ -8,7 +8,7 @@ class StoreOwnerAssociation{
    DateTime dateOfAssociation;
    bool active;
 
-   StoreOwnerAssociation(this.storeOwnerId, this.dateOfAssociation, this.active);
+   StoreOwnerAssociation({this.storeOwnerId, this.dateOfAssociation, this.active});
 
   factory StoreOwnerAssociation.fromJson(Map<String, dynamic> json) => _$StoreOwnerAssociationFromJson(json);
 

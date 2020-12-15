@@ -15,8 +15,8 @@ class Invoice{
    Order order;
    CustomerAddress customerAddress;
 
-   Invoice(this.id, this.invoiceId, this.totalAmount, this.tax,
-       this.deliveryCost, this.items, this.order, this.customerAddress);
+   Invoice({this.id, this.invoiceId, this.totalAmount, this.tax,
+       this.deliveryCost, this.items, this.order, this.customerAddress});
 
 factory Invoice.fromJson(Map<String, dynamic> json) => _$InvoiceFromJson(json);
 
