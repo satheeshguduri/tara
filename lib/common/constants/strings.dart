@@ -384,3 +384,10 @@ class NotificationSettingsStrings{
   static const receive_notification_whatsapp_subtext = "Receive notification to your Whatsapp";
 
 }
+
+class SharedPreferencesStrings{
+  SharedPreferencesStrings._();
+  static const merchant_id = "merchant_id";
+  static const isCreatedOwner = "isCreatedOwner";
+  static const isCreatedStore = "isCreatedStore";
+}

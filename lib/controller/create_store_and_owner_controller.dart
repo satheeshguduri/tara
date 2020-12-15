@@ -10,9 +10,14 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/constants/strings.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/core/base_response.dart';
+import 'package:tara_app/models/order_management/store/store_owner.dart';
+import 'package:tara_app/repositories/stores_repository.dart';
+import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
@@ -29,7 +34,10 @@ class CreateStoreAndOwnerController extends GetxController {
   var isEnterTheFieldsInCreateOwner = false.obs;
   var isEnterTheFieldsInCreateStore = false.obs;
   var errorMessage = "".obs;
-  var addressStr = "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …".obs;
+  var addressStr =
+      "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …".obs;
+  var token = "".obs;
+  var isCreateOwnerResponseSuccess = false.obs;
 
   TextEditingController ownerNameTextController = TextEditingController();
   TextEditingController storeNameTextController = TextEditingController();
@@ -39,16 +47,27 @@ class CreateStoreAndOwnerController extends GetxController {
     //validate empty state here for the text fields
     if (isValidationSuccessInCreateOwner()) {
       showProgress.value = true;
-//      Store request = Store(name: ownerName.value,id:merchantId);
-//      print(request.toJson());
-//      Either<Failure, BaseResponse> response = await getIt
-//          .get<AuthRepository>()
-//          .getOtp(AuthRequestWithData(data: request));
-//      showProgress.value = false;
-//      response.fold(
-//            (l) => print(l.message),
-//            (r) => print(r.message),
-//      );
+      var data = await getIt.get<UserLocalDataStore>().getUser();
+      data.fold(
+          (l) => print,
+          (r) => {
+                if (r?.customerProfile?.id != null)
+                  {token.value = "${r?.customerProfile?.id}"}
+              });
+      Owner request = Owner(name: ownerName.value, id: token.value);
+      print(request.toJson());
+      Either<Failure, Owner> response =
+          await getIt.get<StoresRepository>().createOwner(request);
+      showProgress.value = false;
+      response.fold(
+        (l) => print(l.message),
+        (r) async => {
+          print(r.integrationId),
+          Utils()
+              .savePrefBoolValue(SharedPreferencesStrings.isCreatedOwner, true),
+         isCreateOwnerResponseSuccess.value = true
+        },
+      );
     } else {
       //handle empty state error here
     }
@@ -59,31 +78,41 @@ class CreateStoreAndOwnerController extends GetxController {
     //validate empty state here for the text fields
     if (isValidationSuccessInCreateStore()) {
       showProgress.value = true;
-
-
-//      AuthRequest request =
-//      AuthRequest(mobileNumber: mobileNumber.value, otp: otp.value);
-//      Either<Failure, BaseResponse> response = await getIt
-//          .get<AuthRepository>()
-//          .validateOtp(AuthRequestWithData(data: request));
-//      showProgress.value = false;
-//      response.fold((l) => Get.defaultDialog(content: Text(l.message)),
-//              (r) => Get.to(CompleteProfileScreen()));
+      var data = await getIt.get<UserLocalDataStore>().getUser();
+      data.fold(
+          (l) => print,
+          (r) => {
+                if (r?.customerProfile?.id != null)
+                  {token.value = "${r?.customerProfile?.id}"}
+              });
+      Store request = Store(name: storeName.value, id: token.value);
+      print(request.toJson());
+      Either<Failure, Store> response =
+          await getIt.get<StoresRepository>().createStore(request);
+      showProgress.value = false;
+      response.fold(
+        (l) => print(l.message),
+        (r) async => {
+          print(r.registerStore),
+          Utils()
+              .savePrefBoolValue(SharedPreferencesStrings.isCreatedStore, true)
+        },
+      );
     }
   }
 
   void isEnterAllTheFieldsInCreateOwner() {
     if (!GetUtils.isNullOrBlank(ownerName.value)) {
       isEnterTheFieldsInCreateOwner.value = true;
-    }else{
+    } else {
       isEnterTheFieldsInCreateOwner.value = false;
     }
   }
 
   void isEnterAllTheFieldsInCreateStore() {
-    if (!GetUtils.isNullOrBlank(ownerName.value)) {
+    if (!GetUtils.isNullOrBlank(storeName.value)) {
       isEnterTheFieldsInCreateStore.value = true;
-    }else{
+    } else {
       isEnterTheFieldsInCreateStore.value = false;
     }
   }
@@ -92,7 +121,7 @@ class CreateStoreAndOwnerController extends GetxController {
     if (GetUtils.isNullOrBlank(ownerName.value)) {
       errorMessage.value = Strings.enter_owner_name;
       return false;
-    } else{
+    } else {
       errorMessage.value = "";
     }
     return true;
@@ -102,12 +131,9 @@ class CreateStoreAndOwnerController extends GetxController {
     if (GetUtils.isNullOrBlank(storeName.value)) {
       errorMessage.value = Strings.enter_store_name;
       return false;
-    } else{
+    } else {
       errorMessage.value = "";
     }
     return true;
   }
-
-
- 
 }

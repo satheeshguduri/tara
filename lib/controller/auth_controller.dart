@@ -99,7 +99,7 @@ class AuthController extends GetxController {
           await getIt.get<AuthRepository>().login(request);
       showProgress.value = false;
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
-          (r) => Get.to(HomeCustomerScreen()));
+          (r) => Get.off(Utils().getLandingScreen()));
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }

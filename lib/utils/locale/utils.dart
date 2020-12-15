@@ -88,4 +88,28 @@ class Utils {
     }
 
   }
+
+  void savePrefStringValue(String prefsKey, String value) async {
+    preferences = await SharedPreferences.getInstance();
+    preferences.setString(prefsKey, value);
+  }
+
+  Future<String> getPrefStringValue(String prefsKey) async {
+    preferences = await SharedPreferences.getInstance();
+    return preferences.getString(prefsKey) != null
+        ? preferences.getString(prefsKey)
+        : "";
+  }
+
+  void savePrefBoolValue(String prefsKey, bool value) async {
+    preferences = await SharedPreferences.getInstance();
+    preferences.setBool(prefsKey, value);
+  }
+
+  Future<bool> getPrefBoolValue(String prefsKey) async {
+    preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(prefsKey) != null
+        ? preferences.getBool(prefsKey)
+        : false;
+  }
 }
