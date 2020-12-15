@@ -33,7 +33,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
   bool isTapOnIndex3 = false;
 
 @override
-  void initState() async{
+  void initState(){
     // TODO: implement initState
     super.initState();
 
