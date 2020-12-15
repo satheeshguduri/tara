@@ -14,10 +14,10 @@ abstract class OrderRepository {
   Future<Either<Failure,List<order.Order>>> findAllByOrderId(String orderId);
   Future<Either<Failure,List<order.Order>>> getOrdersByMerchantId(String merchantId);
   Future<Either<Failure,List<order.Order>>> getOrdersByConsumerId(String consumerId);
-  Future<Either<Failure,List<order.Order>>> createOrder(Order order, String merchantId);
-  Future<Either<Failure,List<order.Order>>> updateOrder(Order order, String merchantId);
-  Future<Either<Failure,List<order.Order>>> deleteOrder(String orderId);
-  Future<Either<Failure,List<order.Order>>> findOrderByMerchantId(String merchantId);
+  Future<Either<Failure,order.Order>> createOrder(order.Order order, String merchantId);
+  Future<Either<Failure,order.Order>> updateOrder(order.Order order,String orderId);
+  Future<Either<Failure,order.Order>> deleteOrder(String orderId);
+  Future<Either<Failure,order.Order>> findOrderByMerchantId(String merchantId);
 
 }
 

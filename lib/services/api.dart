@@ -33,8 +33,11 @@ static const get_orders_merchants = "v0.1/tara/erp/merchant/{merchantId}/order";
 static const get_stores = "v0.1/tara/erp/store";
 static const create_store = "v0.1/tara/erp/store";
 static const update_store = "v0.1/tara/erp/store";
-static const place_order = "v0.1/tara/erp/order";
+static const create_order = "v0.1/tara/erp/order";
 static const update_order = "v0.1/tara/erp/order/{orderId}}";
+
+
+
 
 
 }

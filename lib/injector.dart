@@ -15,6 +15,12 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/auth_repository_impl.dart';
+import 'package:tara_app/repositories/chat_repository.dart';
+import 'package:tara_app/repositories/chat_repository_impl.dart';
+import 'package:tara_app/repositories/order_repository.dart';
+import 'package:tara_app/repositories/order_repository_impl.dart';
+import 'package:tara_app/repositories/store_repository_impl.dart';
+import 'package:tara_app/repositories/stores_repository.dart';
 import 'package:tara_app/services/dio_client.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
 import 'package:tara_app/services/rest_client.dart';
@@ -34,5 +40,10 @@ Future<void> init() async{
   getIt.registerLazySingleton<FirebaseRemoteService>(() => FirebaseRemoteService(getIt()));
   getIt.registerLazySingleton<UserLocalDataStore>(() => UserLocalDataStoreImpl(getIt()));
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt(),getIt(),getIt()));
+  getIt.registerLazySingleton<StoresRepository>(() => StoreRepositoryImpl(getIt(),getIt(),getIt()));
+  getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt(),getIt()));
+  getIt.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(getIt(),getIt()));
+
+
 
 }
