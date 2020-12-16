@@ -121,13 +121,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<CustomerProfile>> getCustomerInfo(token, customerId) async {
+  Future<CustomerProfile> getCustomerInfo(token, customerId) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(customerId, 'customerId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<List<dynamic>>(
+    final _result = await _dio.request<Map<String, dynamic>>(
         'v1/tara/crm/customer/profiles/$customerId',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -136,9 +136,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    var value = _result.data
-        .map((dynamic i) => CustomerProfile.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = CustomerProfile.fromJson(_result.data);
     return value;
   }
 

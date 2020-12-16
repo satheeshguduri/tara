@@ -38,6 +38,8 @@ class SplashScreenState extends BaseState<SplashScreen> {
       else
         Get.off(Utils().getLandingScreen());
     });
+    // get the Storetype
+
   }
   @override
   Widget build(BuildContext context) {

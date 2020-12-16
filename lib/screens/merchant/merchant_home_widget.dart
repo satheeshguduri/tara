@@ -9,14 +9,11 @@ import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
-import 'package:tara_app/injector.dart';
-import 'package:tara_app/repositories/order_repository.dart';
+import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/screens/agent/balance_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
-import 'package:tara_app/models/auth/auth_response.dart';
-import 'package:tara_app/services/error/failure.dart';
-import 'package:tara_app/models/order_management/orders/order.dart' as order;
+import 'package:tara_app/common/constants/values.dart';
 
 class MerchantHomeWidget extends StatefulWidget{
 
@@ -32,18 +29,22 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
   bool isTapOnIndex2 = false;
   bool isTapOnIndex3 = false;
 
+  OrderController controller = Get.find();
+
+  @override
+  void init() {
+    // TODO: implement init
+    super.init();
+    controller.getMerchantOrders();
+  }
+
 @override
   void initState(){
     // TODO: implement initState
     super.initState();
 
   }
-  //Example to get the orders this need to be called in future builder
-  Future getOrders() async {
-    AuthResponse user = Get.find();
-    Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByMerchantId(user.customerProfile.id);
-    response.fold((l) => print, (r) => print(r.toString()));
-  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -402,7 +403,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
             ],
           )
       ) ,
-    );
+    ).withProgressIndicator(showIndicator: controller.showProgress.value);
   }
 
   @override
@@ -414,111 +415,115 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
   Widget getBottomView(){
     if(isTapOnIndex1){
       // New
-      return Container(
-        margin: EdgeInsets.only(bottom: 32),
-        child: ListView.builder(
-          primary: false,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: 6,
-          itemBuilder: (context,index){
-            return  InkWell(
-              onTap: (){
-                push(ConversationPage(arrChats: ["items_order"],));
-              },
-              child: Container(
-                margin: EdgeInsets.only(left: 16, right: 16,top: 16),
-                padding: EdgeInsets.all(16),
+      if(controller.orderList.length != 0){
+        return Container(
+          margin: EdgeInsets.only(bottom: 32),
+          child: ListView.builder(
+            primary: false,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: controller.orderList.length,
+            itemBuilder: (context,index){
+              return  InkWell(
+                onTap: (){
+                  push(ConversationPage(arrChats: ["items_order"],));
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 16, right: 16,top: 16),
+                  padding: EdgeInsets.all(16),
 //                            height: 64,
-                decoration:
-                BoxDecoration(
-                    borderRadius: Radii.border(8),
-                    boxShadow: Shadows.shadows_list,
-                    color: AppColors.primaryBackground
-                ),
-                child:Center(
-                  child:  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Rectangle
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Image.asset(Assets.ic_person1,height: 40,width: 40,),
-                            Container(
-                              margin: EdgeInsets.only(left: 16),
-                              child:Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // TODAY • 12:33
-                                  Text(
-                                      "TODAY • 12:33",
-                                      style: const TextStyle(
-                                          color:  AppColors.color_black_80_2,
-                                          fontStyle:  FontStyle.normal,
-                                          fontSize: 10.0
-                                      )
-                                  ),
-                                  Container(height: 6,),
-
-                                  Text(
-                                      "Andi Ruhiyat",
-                                      style: const TextStyle(
-                                          color:  AppColors.primaryText,
-                                          fontWeight: FontWeight.w700,
-                                          fontStyle:  FontStyle.normal,
-                                          fontSize: 14.0
-                                      )
-                                  ),
-                                  Container(height: 6,),
-                                  Text(
-                                      "Eggs, Flour, Water Gallon…",
-                                      style: const TextStyle(
-                                          color:  AppColors.battleship_grey,
-                                          fontWeight: FontWeight.w400,
-                                          fontStyle:  FontStyle.normal,
-                                          fontSize: 12.0
-                                      )
-                                  )
-                                ],
-                              ) ,
-                            ),
-                          ]),
-                      Container(
-                        alignment: Alignment.centerRight,
-                        margin: EdgeInsets.only(right: 0),
-                        child:  RichText(
-                            text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                      style: const TextStyle(
-                                          color:  AppColors.pale_turquoise,
-                                          fontWeight: FontWeight.w700,
-                                          fontStyle:  FontStyle.normal,
-                                          fontSize: 14.0
-                                      ),
-                                      text: "+ "),
-                                  TextSpan(
-                                      style: const TextStyle(
-                                          color:  AppColors.fareColor,
-                                          fontWeight: FontWeight.w400,
-                                          fontStyle:  FontStyle.normal,
-                                          fontSize: 14.0
-                                      ),
-                                      text: "Rp 335.750")
-                                ]
-                            )
-                        ),
-                      )
-                    ],
+                  decoration:
+                  BoxDecoration(
+                      borderRadius: Radii.border(8),
+                      boxShadow: Shadows.shadows_list,
+                      color: AppColors.primaryBackground
                   ),
-                )
-                ,
-              ),
-            );
-          },
-        ),
-      );
+                  child:Center(
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Rectangle
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Image.asset(Assets.ic_person1,height: 40,width: 40,),
+                              Container(
+                                margin: EdgeInsets.only(left: 16),
+                                child:Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // TODAY • 12:33
+                                    Text(
+                                        controller.orderList[index].orderDate.toString(),
+//                                        "TODAY • 12:33",
+                                        style: const TextStyle(
+                                            color:  AppColors.color_black_80_2,
+                                            fontStyle:  FontStyle.normal,
+                                            fontSize: 10.0
+                                        )
+                                    ),
+                                    Container(height: 6,),
+
+                                    Text(
+                                        "Andi Ruhiyat",
+                                        style: const TextStyle(
+                                            color:  AppColors.primaryText,
+                                            fontWeight: FontWeight.w700,
+                                            fontStyle:  FontStyle.normal,
+                                            fontSize: 14.0
+                                        )
+                                    ),
+                                    Container(height: 6,),
+                                    Text(
+                                        "Eggs, Flour, Water Gallon…",
+                                        style: const TextStyle(
+                                            color:  AppColors.battleship_grey,
+                                            fontWeight: FontWeight.w400,
+                                            fontStyle:  FontStyle.normal,
+                                            fontSize: 12.0
+                                        )
+                                    )
+                                  ],
+                                ) ,
+                              ),
+                            ]),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          margin: EdgeInsets.only(right: 0),
+                          child:  RichText(
+                              text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                        style: const TextStyle(
+                                            color:  AppColors.pale_turquoise,
+                                            fontWeight: FontWeight.w700,
+                                            fontStyle:  FontStyle.normal,
+                                            fontSize: 14.0
+                                        ),
+                                        text: "+ "),
+                                    TextSpan(
+                                        style: const TextStyle(
+                                            color:  AppColors.fareColor,
+                                            fontWeight: FontWeight.w400,
+                                            fontStyle:  FontStyle.normal,
+                                            fontSize: 14.0
+                                        ),
+                                        text: "Rp 335.750")
+                                  ]
+                              )
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                  ,
+                ),
+              );
+            },
+          ),
+        );
+      }
+      return Container();
     }else if(isTapOnIndex2){
       // inProgress
       return Container(

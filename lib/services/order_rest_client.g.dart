@@ -108,7 +108,7 @@ class _OrderRestClient implements OrderRestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<List<dynamic>>('v0.1/tara/erp/store',
+    final _result = await _dio.request<List<dynamic>>('v0.1/tara/erp/storetype',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

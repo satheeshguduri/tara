@@ -34,3 +34,5 @@ class Order {
      Map<String, dynamic> toJson( instance) => _$OrderToJson(this);
 
 }
+
+

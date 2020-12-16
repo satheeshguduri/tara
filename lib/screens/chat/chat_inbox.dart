@@ -9,6 +9,7 @@ import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/utils/chat_test.dart';
 
 class ChatInbox extends StatefulWidget {
   @override
@@ -113,6 +114,7 @@ class _ChatInboxState extends BaseState<ChatInbox> {
               ),
             ),
             onPressed: () {
+//              push(ChatTest());
               push(ConversationPage());
             },
           ),

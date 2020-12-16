@@ -1,11 +1,21 @@
 import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/chat/payment_success.dart';
+import 'package:tara_app/models/chat/text_message.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
@@ -13,6 +23,8 @@ import 'package:tara_app/screens/chat/review_and_confirm.dart';
 import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
+import 'package:tara_app/services/config/firebase_path.dart';
+import 'package:tara_app/services/firebase_remote_service.dart';
 
 class ConversationPage extends StatefulWidget {
 
@@ -25,9 +37,10 @@ class ConversationPage extends StatefulWidget {
   final List<String> arrChats;
   final Function callback;
   final bool isFromShopHome;
+  CustomerProfile custInfo;
 
   ConversationPage({this.canGoBack = true,this.isFromSend=false,this.isFromReceive=false,this.selectedContact,
-    this.chatInboxInfo,this.isFromTaraOrder=false,Key key,this.arrChats,this.callback,this.isFromShopHome}):super(key:key);
+    this.chatInboxInfo,this.isFromTaraOrder=false,Key key,this.arrChats,this.callback,this.isFromShopHome, this.custInfo}):super(key:key);
 
   @override
   _ConversationPageState createState() => _ConversationPageState();
@@ -45,22 +58,30 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   bool isSendReceiveConfirmed = false;
   ChatInboxInfo chatInboxInfoGlobal;
   bool isFromTaraOrder = false;
-
+  AuthResponse user = Get.find();
   @override
   BuildContext getContext() {
     return context;
   }
+  @override
+  void init() {
+    // TODO: implement init
+    super.init();
+
+    print(widget.custInfo.firebaseId);
+  }
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     chatInboxInfoGlobal = widget.chatInboxInfo;
     isFromTaraOrder = widget.isFromTaraOrder;
     // getChatStaticArr();
     showChatInboxWidgets();
-    if(widget.arrChats != null && widget.arrChats.length != 0){
+    if(widget.arrChats != null && widget.arrChats.length != 0) {
       arrStr = widget.arrChats;
     }
+
   }
 
 
@@ -240,55 +261,68 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  getChatListView()
-  {
+
+  getChatListView(){
     // TODO: implement build
-    return Container(height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          padding: EdgeInsets.only(left:10.0,right: 10,top: 10,bottom: 60),
-          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index],sendReceiveMoney,
-              (val){
-            print(val);
-            if(val == "decline"){
-              setState(() {
-                arrStr.add("decline_pay_isSender_declined_true");
-              });
-            }else if (val == "pay"){
-              setState(() {
-                arrStr.add("chat_money_transfer_success");
-              });
-            }else if (val == "cancel_Req"){
-              setState(() {
-              });
-            }else if (val == "makeAnOrder"){
-              push(MakeAnOrder(callBack: (arrOfStrings){
-                setState(() {
-                  arrStr.clear();
-                  arrStr = arrOfStrings;
-                });
-              },));
-            }
-            else if (val == Strings.confirm_order){
-              setState(() {
-                arrStr.clear();
-                arrStr.add("items_order_isFromAcceptedAnswer_true");
-              });
-            }
-            else if (val == Strings.order_detail){
-              setState(() {
-                arrStr.add("chat_order_details");
-              });
-            }
-            else if (val == Strings.order_paid){
-              setState(() {
-                arrStr.add("chat_order_paid");
-              });
-            }
-          }),
-          itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,
-          reverse: false,
-          controller: listScrollController,
-        ));
+//    return Container(height: MediaQuery.of(context).size.height,
+//        child:
+//        ListView.builder(
+//          padding: EdgeInsets.only(left:10.0,right: 10,top: 10,bottom: 60),
+//          itemBuilder: (context, index) => ChatItemWidget(index,arrStr[index],sendReceiveMoney,
+//              (val){
+//            print(val);
+//            if(val == "decline"){
+//              setState(() {
+//                arrStr.add("decline_pay_isSender_declined_true");
+//              });
+//            }else if (val == "pay"){
+//              setState(() {
+//                arrStr.add("chat_money_transfer_success");
+//              });
+//            }else if (val == "cancel_Req"){
+//              setState(() {
+//              });
+//            }else if (val == "makeAnOrder"){
+//              push(MakeAnOrder(callBack: (arrOfStrings){
+//                setState(() {
+//                  arrStr.clear();
+//                  arrStr = arrOfStrings;
+//                });
+//              },));
+//            }
+//            else if (val == Strings.confirm_order){
+//              setState(() {
+//                arrStr.clear();
+//                arrStr.add("items_order_isFromAcceptedAnswer_true");
+//              });
+//            }
+//            else if (val == Strings.order_detail){
+//              setState(() {
+//                arrStr.add("chat_order_details");
+//              });
+//            }
+//            else if (val == Strings.order_paid){
+//              setState(() {
+//                arrStr.add("chat_order_paid");
+//              });
+//            }
+//          }),
+//          itemCount: (arrStr!=null&&arrStr.length>0)?arrStr.length:0,
+//          reverse: false,
+//          controller: listScrollController,
+//        ))
+   return new FirebaseAnimatedList(
+        query: getIt.get<FirebaseRemoteService>().getDataStream(path:FirebasePath.getPath(
+            user.customerProfile.firebaseId,"MID-7272c9fa010b40398210e937b76b1e9a")),
+        padding: new EdgeInsets.all(8.0),
+        reverse: false,
+        itemBuilder: (_, DataSnapshot snapshot,
+            Animation<double> animation, int x) {
+          return new ListTile(
+            subtitle: new Text(snapshot.value.toString()),
+          );
+        }
+    );
   }
 
 
@@ -298,7 +332,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       if (chatInboxInfoGlobal!=null&&chatInboxInfoGlobal.chatCardTitle!=null)
       {
         sendReceiveMoney = chatInboxInfoGlobal.chatAmount!=null?chatInboxInfoGlobal.chatAmount:"";
-        arrStr.add(chatInboxInfoGlobal.chatCardTitle);
+//        arrStr.add(chatInboxInfoGlobal.chatCardTitle);
       }
     }
   }
@@ -328,8 +362,11 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       arrStr.add("on_delivery_isConfirmArrived_true");
   }
 
-  getChatInputWidget()
-  {
+  TextMessage getChatMessage(){
+    return TextMessage();
+  }
+
+  getChatInputWidget() {
     return Column(
       children: [
         Container(
@@ -400,18 +437,22 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                           child: IconButton(
                             icon: Icon(Icons.send,size: 22,),
                             onPressed: () => {
-                              if (chatMsg.isNotEmpty&&chatMsg != '')
-                                {
-                                  setState(() {
-                                    arrStr.add(chatMsg);
-                                    textEditingController.text = "";
-                                    chatMsg = "";
-                                  }),
-                                  listScrollController.animateTo(
-                                    listScrollController.position.maxScrollExtent,
-                                    curve: Curves.easeOut,
-                                    duration: const Duration(milliseconds: 300),
-                                  )
+                              if (chatMsg.isNotEmpty&&chatMsg != ''){
+//                                  setState(() {
+////                                    arrStr.add(chatMsg);
+//                                    textEditingController.text = "";
+//                                    chatMsg = "";
+//                                  }),
+//                                  listScrollController.animateTo(
+//                                    listScrollController.position.maxScrollExtent,
+//                                    curve: Curves.easeOut,
+//                                    duration: const Duration(milliseconds: 300),
+//                                  )
+
+                              getIt.get<FirebaseRemoteService>().setData(
+                                  path: FirebasePath.getPath(
+                                      user.customerProfile.firebaseId,"MID-7272c9fa010b40398210e937b76b1e9a"),
+                                  data: getChatMessage().toJson())
                                 }else{
                                 setState(() {
                                   textEditingController.text = "";

@@ -13,9 +13,9 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
-import 'package:tara_app/services/error/server_error.dart';
 import 'package:tara_app/services/rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
+import 'package:tara_app/common/constants/values.dart';
 
 class AuthRepositoryImpl implements AuthRepository{
   UserLocalDataStore userLocalDataSource;
@@ -81,8 +81,8 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<Either<Failure, CustomerProfile>> getCustomerInfoByCustomerId(String customerId) async{
     try {
       AuthResponse user = Get.find();
-      var bearerToken = "Bearer "+user.securityToken.token.tara;
-      var response = await remoteDataSource.getCustomerInfo(bearerToken,customerId);
+      var token = user.securityToken.token.tara.bearer();
+      var response = await remoteDataSource.getCustomerInfo(token,customerId);
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));

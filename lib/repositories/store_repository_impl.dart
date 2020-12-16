@@ -1,5 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
@@ -65,9 +67,22 @@ class StoreRepositoryImpl extends StoresRepository{
 
   @override
   Future<Either<Failure, List<StoreTypeModel>>> getStoreTypes() async{
+
+    AuthResponse user = Get.find();
+    token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.getStoreTypes(token);
+
+      // to save store types in singleton object
+      var storeTypes = StoreTypeResponse();
+      storeTypes.storeTypesList = response;
+
+      OrderController ctl = Get.find();
+      ctl.storeTypesList = response;
+      Get.put(ctl);
+
       return Right(response);
+
     }catch(e){
       return Left(Failure.fromServerError(e));
     }

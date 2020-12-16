@@ -38,10 +38,10 @@ abstract class OrderRestClient {
   // @POST(API.create_store)
   // Future<Store> setStatus(@Header("Authorization") String token,@Body() String storeId, String status);
 
-  @GET(API.create_store)
+  @GET(API.get_stores)
   Future<List<Store>> getAllStores(@Header("Authorization") String token);
 
-  @GET(API.create_store)
+  @GET(API.get_store_types)
   Future<List<StoreTypeModel>> getStoreTypes(@Header("Authorization") String token);
 
   // @GET(API.create_store)

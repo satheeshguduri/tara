@@ -10,9 +10,12 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/helpers.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
+import 'package:tara_app/screens/agent/agent_home_screen.dart';
+import 'package:tara_app/screens/merchant/merchant_home_screen.dart';
 import 'package:tara_app/screens/merchant/create_owner_screen.dart';
 import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -25,6 +28,7 @@ import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
+import '../flavors.dart';
 import '../injector.dart';
 
 class AuthController extends GetxController {

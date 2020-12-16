@@ -8,8 +8,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/strings.dart';
+import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/controller/store_controller.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/repositories/stores_repository.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/consumer/home_customer_widget.dart';
@@ -32,7 +37,6 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
   //with TickerProviderStateMixin {
 
   int _currentIndex = 0;
-
   final List<Widget> _children = [
     HomeCustomerWidget(),
     ChatInbox(),//ConversationPage(canGoBack: false,),
@@ -55,7 +59,8 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
 
 
   @override
-  init() async {
+  init(){
+    getIt.get<StoresRepository>().getStoreTypes();
   }
 
   @override

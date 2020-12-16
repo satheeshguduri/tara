@@ -1,15 +1,19 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
+import 'package:tara_app/common/constants/values.dart';
 
 class ShopHome extends StatefulWidget {
   @override
@@ -17,8 +21,23 @@ class ShopHome extends StatefulWidget {
 }
 
 class _ShopHomeState extends BaseState<ShopHome> {
-  int _current = 0;
 
+  int _current = 0;
+  OrderController controller = Get.find();
+  @override
+  void init() async{
+    // TODO: implement init
+    super.init();
+    controller.getConsumerOrders();
+    controller.getAllStore();
+    print(controller.storeTypesList);
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   BuildContext getContext() {
     // TODO: implement getContext
@@ -30,44 +49,49 @@ class _ShopHomeState extends BaseState<ShopHome> {
     // TODO: implement build
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: SafeArea(
-        top: false,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 240,
-                decoration: BoxDecoration(
-                    gradient: Gradients.primaryGradient,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: const Radius.circular(16.0),
-                      bottomRight: const Radius.circular(16.0),
-                    )),
-                child: Column(
-                  children: [
-                    buildNavBar(),
-                    getSearchWidget(),
-                  ],
+      body: getRootContainer(),
+    );
+  }
+
+  Widget getRootContainer(){
+    return Obx(()=>
+        SafeArea(
+          top: false,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 240,
+                  decoration: BoxDecoration(
+                      gradient: Gradients.primaryGradient,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: const Radius.circular(16.0),
+                        bottomRight: const Radius.circular(16.0),
+                      )),
+                  child: Column(
+                    children: [
+                      buildNavBar(),
+                      getSearchWidget(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              top: 180,
-              left: 0,
-              right: 0,
-              height: MediaQuery.of(context).size.height - 188,
-              child: SingleChildScrollView(
-                physics: ScrollPhysics(),
-                child: loadContent(),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+              Positioned(
+                top: 180,
+                left: 0,
+                right: 0,
+                height: MediaQuery.of(context).size.height - 188,
+                child: SingleChildScrollView(
+                  physics: ScrollPhysics(),
+                  child: loadContent(),
+                ),
+              )
+            ],
+          ),
+        ).withProgressIndicator(showIndicator: controller.showProgress.value));
   }
 
   buildNavBar() {
@@ -254,7 +278,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
             ],
           ),
         ),
-        loadPreviousOrders(),
+        controller.orderList.length != 0 ?
+        loadPreviousOrders() : Container(),
         loadMerchantNearYou(),
       ],
     );
@@ -416,6 +441,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
   loadMerchantNearYou(){
     return Column(
       children: [
+        controller.storeTypesList.length != 0 ?
         Container(
             height: 120,
             margin: EdgeInsets.only(left: 16, right: 16,top: 16),
@@ -430,7 +456,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                 Expanded(
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: 4,
+                      itemCount: controller.storeTypesList.length,
                       itemBuilder: (context,index){
                         return Container(
                           margin:EdgeInsets.only(left: 8, right: 8,top: 16,bottom: 8),
@@ -465,7 +491,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                   )
                               ),
                               Text(
-                                  "Fresh\nVeggie",
+                                  describeEnum(controller.storeTypesList[index].type),
                                   style: const TextStyle(
                                       color:  AppColors.fareColor,
                                       fontWeight: FontWeight.w500,
@@ -479,14 +505,15 @@ class _ShopHomeState extends BaseState<ShopHome> {
                 ),
               ],
             )
-        ),
+        ) :  Container(),
+        controller.arrStores.length != 0 ?
         Container(
 //          height: 72,
             child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 6,
+                itemCount: controller.arrStores.length,
                 itemBuilder: (context,index){
                   return InkWell(
                     child: Container(
@@ -520,9 +547,10 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                 child: Image.asset(Assets.PERSON_ICON,width: 40,height: 40,),
                               ),
                               Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      "Toko Surya Jaya",
+                                      controller.arrStores[index].name,
                                       style: const TextStyle(
                                           color:  AppColors.fareColor,
                                           fontWeight: FontWeight.w700,
@@ -531,7 +559,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                   ),
                                   Container(height: 8,),
                                   Text(
-                                      "Groceries • 1.5 km",
+                                    controller.getStoreType(controller.arrStores[index]) +
+                                      " • 1.5 km",
                                       style: const TextStyle(
                                           color:  AppColors.light_grey_blue,
                                           fontWeight: FontWeight.w500,
@@ -550,15 +579,21 @@ class _ShopHomeState extends BaseState<ShopHome> {
                       ),
                     ),
                     onTap: (){
-                      push(ConversationPage(arrChats: ["make_an_order"],));
+                      int integrationID = controller.arrStores[index].owner.integrationId;
+                      if(integrationID != null){
+                        controller.getCustomerInfo(integrationID.toString());
+                      }else{
+                        controller.getCustomerInfo("28670118");
+                      }
+                      if(controller.custInfo.value.firebaseId != null){
+                        push(ConversationPage(arrChats: ["make_an_order"],custInfo: controller.custInfo.value,));
+                      }
                     },
                   );
                 })
-        )
+        ) : Container()
       ],
     );
   }
-
-
 
 }

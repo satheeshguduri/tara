@@ -206,7 +206,7 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
                       color: Colors.transparent,
                     ),
                     child: InternationalPhoneNumberInput(
-                        autoValidate:true,
+//                        autoValidate:true,
                       onInputChanged: (PhoneNumber number) {
                         print(number.phoneNumber);
                       },
