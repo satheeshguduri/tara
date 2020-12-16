@@ -22,17 +22,11 @@ import 'package:tara_app/models/auth/auth_response.dart';
 class CreateStoreAndOwnerController extends GetxController {
   ///listen for the progress bar changes
   var showProgress = false.obs;
-  var merchantId = "".obs;
-  var ownerName = "".obs;
-  var storeName = "".obs;
-  var ownerAddress = "".obs;
-  var storeAddress = "".obs;
   var isEnterTheFieldsInCreateOwner = false.obs;
   var isEnterTheFieldsInCreateStore = false.obs;
   var errorMessage = "".obs;
   var addressStr =
       "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …".obs;
-  var token = "".obs;
   var isCreateOwnerResponseSuccess = false.obs;
 
   TextEditingController ownerNameTextController = TextEditingController();
@@ -85,7 +79,7 @@ class CreateStoreAndOwnerController extends GetxController {
   }
 
   void isEnterAllTheFieldsInCreateOwner() {
-    if (!GetUtils.isNullOrBlank(ownerName.value)) {
+    if (!GetUtils.isNullOrBlank(ownerNameTextController.text)) {
       isEnterTheFieldsInCreateOwner.value = true;
     } else {
       isEnterTheFieldsInCreateOwner.value = false;
@@ -93,7 +87,7 @@ class CreateStoreAndOwnerController extends GetxController {
   }
 
   void isEnterAllTheFieldsInCreateStore() {
-    if (!GetUtils.isNullOrBlank(storeName.value)) {
+    if (!GetUtils.isNullOrBlank(storeNameTextController.text)) {
       isEnterTheFieldsInCreateStore.value = true;
     } else {
       isEnterTheFieldsInCreateStore.value = false;
@@ -101,7 +95,7 @@ class CreateStoreAndOwnerController extends GetxController {
   }
 
   bool isValidationSuccessInCreateOwner() {
-    if (GetUtils.isNullOrBlank(ownerName.value)) {
+    if (GetUtils.isNullOrBlank(ownerNameTextController.text)) {
       errorMessage.value = Strings.enter_owner_name;
       return false;
     } else {
@@ -111,7 +105,7 @@ class CreateStoreAndOwnerController extends GetxController {
   }
 
   bool isValidationSuccessInCreateStore() {
-    if (GetUtils.isNullOrBlank(storeName.value)) {
+    if (GetUtils.isNullOrBlank(storeNameTextController.text)) {
       errorMessage.value = Strings.enter_store_name;
       return false;
     } else {

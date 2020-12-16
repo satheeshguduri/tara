@@ -88,12 +88,12 @@ class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
             controller.isCreateOwnerResponseSuccess.value
                 ? textFormFieldContainer(
                     getTranslation(Strings.store_name),
-                    getTranslation(Strings.enter_store_name),
+                    getTranslation(Strings.store_name),
                     TextInputType.text,
                     controller.storeNameTextController)
                 : textFormFieldContainer(
                     getTranslation(Strings.owner_name),
-                    getTranslation(Strings.enter_owner_name),
+                    getTranslation(Strings.owner_name),
                     TextInputType.text,
                     controller.ownerNameTextController),
             Container(
@@ -180,10 +180,8 @@ class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
   void onChanged(TextEditingController textEditingController) {
     controller.errorMessage.value = "";
     if (controller.isCreateOwnerResponseSuccess.value) {
-      controller.storeName.value = textEditingController.text;
       controller.isEnterAllTheFieldsInCreateStore();
     } else {
-      controller.ownerName.value = textEditingController.text;
       controller.isEnterAllTheFieldsInCreateOwner();
     }
   }

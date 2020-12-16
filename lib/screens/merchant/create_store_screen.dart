@@ -85,7 +85,7 @@ class _CreateStoreScreenState extends BaseState<CreateStoreScreen> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                textFormFieldContainer(getTranslation(Strings.store_name),getTranslation(Strings.enter_store_name),TextInputType.text,controller.storeNameTextController),
+                textFormFieldContainer(getTranslation(Strings.store_name),getTranslation(Strings.store_name),TextInputType.text,controller.storeNameTextController),
                 Container(
                   margin: EdgeInsets.only(top: 16),
                   child: Text(
@@ -176,7 +176,6 @@ class _CreateStoreScreenState extends BaseState<CreateStoreScreen> {
 
   void onChanged(TextEditingController textEditingController) {
     controller.errorMessage.value = "";
-    controller.storeName.value = textEditingController.text;
     controller.isEnterAllTheFieldsInCreateStore();
   }
 
