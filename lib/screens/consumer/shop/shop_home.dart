@@ -420,10 +420,10 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                   ),
                                 ),
                                 onTap: (){
-                                  push(MakeAnOrder(isFromShopHome: true,callBack: (arr){
-                                    Navigator.pop(
-                                        context, false);
-                                  },));
+//                                  push(MakeAnOrder(isFromShopHome: true,callBack: (arr){
+//                                    Navigator.pop(
+//                                        context, false);
+//                                  },));
                                 },
                               )
                             ],
@@ -587,7 +587,10 @@ class _ShopHomeState extends BaseState<ShopHome> {
                       }
                       var firebaseID = controller.custInfo.value.firebaseId;
                       if(firebaseID != null){
-                        push(ConversationPage(arrChats: ["make_an_order"],custInfo: controller.custInfo.value,));
+                        push(ConversationPage(arrChats: ["make_an_order"],
+                          custInfo: controller.custInfo.value,
+                          merchantStore: controller.arrStores[index],
+                        ));
                       }
                     },
                   );

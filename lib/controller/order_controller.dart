@@ -5,11 +5,12 @@ import 'package:get/get.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as order;
-import 'package:tara_app/models/order_management/store/store_type_id.dart';
+import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/repositories/stores_repository.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 
@@ -23,6 +24,9 @@ class OrderController extends GetxController{
   List<StoreTypeModel> storeTypesList;
   var arrStores = List<Store>().obs;
   var custInfo = CustomerProfile().obs;
+
+  var orderItems = order.Order().obs;
+  var items = List<OrderItems>().obs;
 
   //Example to get the orders this need to be called in future builder
   Future getMerchantOrders() async {
@@ -66,6 +70,16 @@ class OrderController extends GetxController{
     });
   }
 
+
+  Future<Either<Failure,order.Order>> createOrder(order.Order orderReq) async{
+    showProgress.value = true;
+    Either<Failure,order.Order> response = await getIt.get<OrderRepository>().createOrder(orderReq);
+    showProgress.value = false;
+//    response.fold((l) => print(l.message), (r) => {
+//
+//    });
+  return response;
+  }
 
   String getStoreType(Store store){
     var storeName = "";

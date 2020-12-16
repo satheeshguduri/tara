@@ -8,8 +8,9 @@ class OrderItems{
    int quantity;
    double price;
    double currency;
+   String unit;
 
-   OrderItems({this.name, this.quantity, this.price, this.currency});
+   OrderItems({this.name, this.quantity, this.price, this.currency, this.unit});
 
 
 

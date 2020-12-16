@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -6,6 +7,8 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
@@ -14,8 +17,9 @@ import 'package:tara_app/utils/locale/utils.dart';
 class ShopAddItem extends StatefulWidget {
 
   final Function saveItem;
+  final OrderItems editItem;
 
-  ShopAddItem({Key key,this.saveItem}) : super(key: key);
+  ShopAddItem({Key key,this.saveItem, this.editItem}) : super(key: key);
 
   @override
   _ShopAddItemState createState() => _ShopAddItemState();
@@ -23,17 +27,28 @@ class ShopAddItem extends StatefulWidget {
 
 class _ShopAddItemState extends BaseState<ShopAddItem> {
 
-  TextEditingController amountTextController = TextEditingController();
-  TextEditingController messageTextController = TextEditingController();
-
+  TextEditingController nameTextController = TextEditingController();
+  TextEditingController qntyTextController = TextEditingController();
   FocusNode amountFocusNode = new FocusNode();
 
   String pcs;
-  List<String> arrPcs = ["1","2","3","4","5","6","7","8","9","10"];
+  List<String> arrUnits = ["Kgs","Grms","Pcs","Ltrs"];
+
+  OrderController controller = Get.find();
 
   @override
   BuildContext getContext() {
     return context;
+  }
+  @override
+  void init() {
+    // TODO: implement init
+    super.init();
+    if(widget.editItem != null){
+      nameTextController.text = widget.editItem.name;
+      qntyTextController.text = widget.editItem.quantity.toString();
+      pcs = widget.editItem.unit;
+    }
   }
 
   @override
@@ -91,12 +106,12 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Expanded(
-                          flex: 7,
-                          child:textFormFieldContainer("Item Name","Enter item name",TextInputType.text,amountTextController,amountFocusNode),
+                          flex: 6,
+                          child:textFormFieldContainer("Item Name","Enter item name",TextInputType.text,nameTextController,amountFocusNode),
                         ),
                         Expanded(
-                          flex: 3,
-                          child:textFormFieldContainer("Quantity","100",TextInputType.number,messageTextController,null),
+                          flex: 4,
+                          child:textFormFieldContainer("Quantity","100",TextInputType.number,qntyTextController,null),
                         ),
                       ],
                     ),
@@ -115,7 +130,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
         value: pcs,
         isExpanded: true,
         icon: Image.asset(Assets.ic_dropdown),
-        hint: Text("Pcs"),
+        hint: Text("units"),
         underline: Container(),
         onChanged: (val) {
           setState(() {
@@ -127,7 +142,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
     );
   }
   _getDropdownItems() {
-    return arrPcs
+    return arrUnits
         .map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem(
         child: Container(
@@ -145,23 +160,36 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
   _getConfirmWidget() {
     return InkWell(
       onTap: () {
-        var shopItem = ShopItem();
-        shopItem.title = "Nanas";
-        shopItem.qty = "10";
-        widget.saveItem(shopItem);
-        Navigator.of(context).pop();
+        if (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null){
+          var arrOrderItems = controller.items.value;
+          if(widget.editItem != null){
+            // update item
+            var item = arrOrderItems.where((element) => element.name == widget.editItem.name).first;
+            item.name = nameTextController.text;
+            item.quantity = int.parse(qntyTextController.text);
+            item.unit = pcs;
+          }else{
+            var item = OrderItems();
+            item.name = nameTextController.text;
+            item.quantity = int.parse(qntyTextController.text);
+            item.unit = pcs;
+            arrOrderItems.add(item);
+          }
+          widget.saveItem();
+          Navigator.of(context).pop();
+        }
       },
       child:  Container(
         height: 48,
         margin: EdgeInsets.only(bottom: 16, top: 36,),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: (amountTextController.text.toString().isNotEmpty&&messageTextController.text.toString().isNotEmpty)?Color(0xffb2f7e2):Color(0xffe9ecef)),
+            color: (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)?Color(0xffb2f7e2):Color(0xffe9ecef)),
         alignment: Alignment.center,
         child: Text(
           getTranslation(Strings.save_item),
           textAlign: TextAlign.center,
-          style: (amountTextController.text.toString().isNotEmpty&&messageTextController.text.toString().isNotEmpty)?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
+          style: (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
         ),
       ),
     );
@@ -211,16 +239,20 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 4,
-                      child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
-                        setState(() {
+                      flex: 3,
+                      child: TextFieldWidget(
+                          hint: hint,
+                          inputType: inputType,
+                          textController: textEditingController,
+                          isIcon: false,
+                          focusNode: focusNode,
+                          onChanged:(value){
 
-                        });
-                      }),
+                          }),
                     ),
                     headerTitle == "Quantity" ?
                     Expanded(
-                      flex: 6,
+                      flex: 7,
                       child: _getDropDownList(),
                     ) : Container()
                   ],

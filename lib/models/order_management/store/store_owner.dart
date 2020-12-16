@@ -6,7 +6,6 @@ import 'package:tara_app/models/order_management/store/store_type_association.da
 part 'store_owner.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Owner{
-   @JsonKey(ignore: true)
    String id;
    String name;
    OwnerAddress address;

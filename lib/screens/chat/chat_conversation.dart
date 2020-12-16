@@ -8,21 +8,23 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/chat/text_message.dart';
+import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
 import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
 
 class ConversationPage extends StatefulWidget {
-
   final bool canGoBack;
   final bool isFromSend;
   final bool isFromReceive;
@@ -33,13 +35,26 @@ class ConversationPage extends StatefulWidget {
   final Function callback;
   final bool isFromShopHome;
   CustomerProfile custInfo;
+  final Store merchantStore;
 
-  ConversationPage({this.canGoBack = true,this.isFromSend=false,this.isFromReceive=false,this.selectedContact,
-    this.chatInboxInfo,this.isFromTaraOrder=false,Key key,this.arrChats,this.callback,this.isFromShopHome, this.custInfo}):super(key:key);
+  ConversationPage(
+      {this.canGoBack = true,
+      this.isFromSend = false,
+      this.isFromReceive = false,
+      this.selectedContact,
+      this.chatInboxInfo,
+      this.isFromTaraOrder = false,
+      Key key,
+      this.arrChats,
+      this.callback,
+      this.isFromShopHome,
+      this.custInfo,
+        this.merchantStore
+      })
+      : super(key: key);
 
   @override
   _ConversationPageState createState() => _ConversationPageState();
-
 }
 
 class _ConversationPageState extends BaseState<ConversationPage> {
@@ -58,6 +73,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   BuildContext getContext() {
     return context;
   }
+
   @override
   void init() {
     // TODO: implement init
@@ -67,18 +83,16 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     chatInboxInfoGlobal = widget.chatInboxInfo;
     isFromTaraOrder = widget.isFromTaraOrder;
     // getChatStaticArr();
     showChatInboxWidgets();
-    if(widget.arrChats != null && widget.arrChats.length != 0) {
+    if (widget.arrChats != null && widget.arrChats.length != 0) {
       arrStr = widget.arrChats;
     }
-
   }
-
 
 //  @override
 //  void init() {
@@ -94,9 +108,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      top: false,
+        top: false,
         child: Scaffold(
-          backgroundColor: Color(0xfff7f7fa),
+            backgroundColor: Color(0xfff7f7fa),
             appBar: _buildAppBar(context), // Custom app bar for chat screen
             body: Stack(children: <Widget>[
               getChatListView(),
@@ -115,27 +129,38 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   )
                 ],
               ),
-            (!widget.isFromSend&&!widget.isFromReceive)?Container():(isToShowSendAndReceiveBottomSheet?showReceiveOrSendBottomSheet():Container()),
-              isFromTaraOrder==true?showCashDepositBottomSheet():Container()
-            ]
-            )
-        )
-    );
+              Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Positioned(
+                    bottom: 76,
+                    width: MediaQuery.of(context).size.width,
+                    child: MakeAnOrderChat(
+                      onSelectOption: (val) {
+                        push(MakeAnOrder(isFromShopHome: false,
+                          merchantStore: widget.merchantStore,));
+                      },
+                    ),
+                  )
+                ],
+              ),
+              (!widget.isFromSend && !widget.isFromReceive)
+                  ? Container()
+                  : (isToShowSendAndReceiveBottomSheet
+                      ? showReceiveOrSendBottomSheet()
+                      : Container()),
+              isFromTaraOrder == true
+                  ? showCashDepositBottomSheet()
+                  : Container()
+            ])));
   }
 
-
-
-
-  showReceiveOrSendBottomSheet()
-  {
+  showReceiveOrSendBottomSheet() {
     Timer(Duration(milliseconds: 2), () {
-      if(widget.isFromSend==true)
-      {
+      if (widget.isFromSend == true) {
         isToShowSendAndReceiveBottomSheet = false;
         sendBottomSheet();
-      }
-      else if(widget.isFromReceive==true)
-      {
+      } else if (widget.isFromReceive == true) {
         isToShowSendAndReceiveBottomSheet = false;
         receiveBottomSheet();
       }
@@ -143,31 +168,32 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return Container();
   }
 
-  showCashDepositBottomSheet()
-  {
+  showCashDepositBottomSheet() {
     Timer(Duration(milliseconds: 2), () {
-      if (widget.isFromTaraOrder==true)
-      {
+      if (widget.isFromTaraOrder == true) {
         cashDepositBottomSheet(widget.chatInboxInfo);
       }
     });
     return Container();
   }
 
-  Future  cashDepositBottomSheet(ChatInboxInfo chatInboxInfo) {
+  Future cashDepositBottomSheet(ChatInboxInfo chatInboxInfo) {
     return showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return CashDepositWidget(chatInboxInfo: chatInboxInfo,chatInboxInfoCallBack: (chatInfo){
-            setState(() {
-              chatInboxInfoGlobal = chatInfo;
-              isFromTaraOrder = false;
-              showChatInboxWidgets();
-            });
-          },);
+          return CashDepositWidget(
+            chatInboxInfo: chatInboxInfo,
+            chatInboxInfoCallBack: (chatInfo) {
+              setState(() {
+                chatInboxInfoGlobal = chatInfo;
+                isFromTaraOrder = false;
+                showChatInboxWidgets();
+              });
+            },
+          );
         });
   }
 
@@ -181,25 +207,21 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              if (widget.isFromShopHome==true)
-                {
-                  widget.callback();
-                }
-                else{
+              if (widget.isFromShopHome == true) {
+                widget.callback();
+              } else {
                 Navigator.pop(context, false);
               }
-            }
-        ),
+            }),
       ),
-      title:Align(
+      title: Align(
         alignment: Alignment.topLeft,
         child: getAvatarWithName(),
       ),
     );
   }
 
-  getAppBarTitle()
-  {
+  getAppBarTitle() {
     return Text(
       getTranslation(Strings.TARA_CASH_DEPOSIT),
       textAlign: TextAlign.left,
@@ -207,22 +229,30 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  getAvatarWithName()
-  {
+  getAvatarWithName() {
     return Container(
       child: Row(
         children: [
-          Image.asset("assets/images/avatar-11.png",height: 32,width: 32,),
+          Image.asset(
+            "assets/images/avatar-11.png",
+            height: 32,
+            width: 32,
+          ),
           Container(
             margin: EdgeInsets.only(left: 16),
-            child:Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 4),
                   child: Text(
-                    (widget.selectedContact!=null&&widget.selectedContact.name!=null)?widget.selectedContact.name:
-                    (chatInboxInfoGlobal!=null&&chatInboxInfoGlobal.chatTitle!=null)?chatInboxInfoGlobal.chatTitle: widget.custInfo.firstName,
+                    (widget.selectedContact != null &&
+                            widget.selectedContact.name != null)
+                        ? widget.selectedContact.name
+                        : (chatInboxInfoGlobal != null &&
+                                chatInboxInfoGlobal.chatTitle != null)
+                            ? chatInboxInfoGlobal.chatTitle
+                            : widget.custInfo.firstName,
                     textAlign: TextAlign.left,
                     style: BaseStyles.backAccountHeaderTextStyle,
                   ),
@@ -230,16 +260,16 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                 Row(
                   children: [
                     Container(
-                        width: 6,
-                        height: 6,
-                        margin: EdgeInsets.only(top: 4),
-                        decoration: new BoxDecoration(
-                          color:Color(0xffb2f7e2),
-                          shape: BoxShape.circle,
-                        ),
+                      width: 6,
+                      height: 6,
+                      margin: EdgeInsets.only(top: 4),
+                      decoration: new BoxDecoration(
+                        color: Color(0xffb2f7e2),
+                        shape: BoxShape.circle,
+                      ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 4,left: 4),
+                      margin: EdgeInsets.only(top: 4, left: 4),
                       child: Text(
                         "Online",
                         textAlign: TextAlign.left,
@@ -249,15 +279,14 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   ],
                 )
               ],
-            ) ,
+            ),
           ),
         ],
       ),
     );
   }
 
-
-  getChatListView(){
+  getChatListView() {
     // TODO: implement build
 //    return Container(height: MediaQuery.of(context).size.height,
 //        child:
@@ -306,66 +335,67 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 //          reverse: false,
 //          controller: listScrollController,
 //        ))
-   return new FirebaseAnimatedList(
-        query: getIt.get<FirebaseRemoteService>().getDataStream(path:FirebasePath.getPath(
-            user.customerProfile.firebaseId,widget.custInfo.firebaseId)),
+    return new FirebaseAnimatedList(
+        query: getIt.get<FirebaseRemoteService>().getDataStream(
+            path: FirebasePath.getPath(
+                user.customerProfile.firebaseId, widget.custInfo.firebaseId)),
         padding: new EdgeInsets.all(8.0),
         reverse: false,
-        itemBuilder: (_, DataSnapshot snapshot,
-            Animation<double> animation, int x) {
-            return loadChatWidget(snapshot);
-
-        }
-    );
+        itemBuilder:
+            (_, DataSnapshot snapshot, Animation<double> animation, int x) {
+          return loadChatWidget(snapshot);
+        });
   }
 
-  Widget loadChatWidget(DataSnapshot snapshot){
+  Widget loadChatWidget(DataSnapshot snapshot) {
     String chatType = snapshot.value["type"];
     String message = snapshot.value["text"];
-    if(chatType == "TEXT_BASED" && message != null){
-      return TextChatWidget(textMessage: message,);
-    }else{
+    if (chatType == "TEXT_BASED" && message != null) {
+      return TextChatWidget(
+        textMessage: message,
+      );
+    } else {
       return Container();
     }
   }
 
-  showChatInboxWidgets()
-  {
-    if (isFromTaraOrder==false){
-      if (chatInboxInfoGlobal!=null&&chatInboxInfoGlobal.chatCardTitle!=null)
-      {
-        sendReceiveMoney = chatInboxInfoGlobal.chatAmount!=null?chatInboxInfoGlobal.chatAmount:"";
+  showChatInboxWidgets() {
+    if (isFromTaraOrder == false) {
+      if (chatInboxInfoGlobal != null &&
+          chatInboxInfoGlobal.chatCardTitle != null) {
+        sendReceiveMoney = chatInboxInfoGlobal.chatAmount != null
+            ? chatInboxInfoGlobal.chatAmount
+            : "";
 //        arrStr.add(chatInboxInfoGlobal.chatCardTitle);
       }
     }
   }
 
- getChatStaticArr()
-  {
-      arrStr.add("onTheWay_isArrived");
-      arrStr.add("onTheWay_isArrived_false");
-      arrStr.add("agent_confirmed");
-      arrStr.add("onTheWay_isVerified");
-      arrStr.add("agent_UIN_otp_true");
-      arrStr.add("agent_UIN_otp_false");
-      arrStr.add("deposit_success");
-      arrStr.add("decline_pay");
-      arrStr.add("decline_pay_isSender_true");
-      arrStr.add("chat_money_transfer_success");
-      arrStr.add("decline_pay_isSender_declined_true");
-      arrStr.add("chat_pln_payment_success");
-      arrStr.add("chat_request_cash_deposit");
-      arrStr.add("chat_request_cash_deposit_confirmed_true");
-      arrStr.add("items_order");
-      arrStr.add("items_order_isFromAcceptedAnswer_true");
-      arrStr.add("chat_order_details");
-      arrStr.add("chat_order_paid");
-      arrStr.add("order_details_decline_pay");
-      arrStr.add("on_delivery");
-      arrStr.add("on_delivery_isConfirmArrived_true");
+  getChatStaticArr() {
+    arrStr.add("onTheWay_isArrived");
+    arrStr.add("onTheWay_isArrived_false");
+    arrStr.add("agent_confirmed");
+    arrStr.add("onTheWay_isVerified");
+    arrStr.add("agent_UIN_otp_true");
+    arrStr.add("agent_UIN_otp_false");
+    arrStr.add("deposit_success");
+    arrStr.add("decline_pay");
+    arrStr.add("decline_pay_isSender_true");
+    arrStr.add("chat_money_transfer_success");
+    arrStr.add("decline_pay_isSender_declined_true");
+    arrStr.add("chat_pln_payment_success");
+    arrStr.add("chat_request_cash_deposit");
+    arrStr.add("chat_request_cash_deposit_confirmed_true");
+    arrStr.add("items_order");
+    arrStr.add("items_order_isFromAcceptedAnswer_true");
+    arrStr.add("chat_order_details");
+    arrStr.add("chat_order_paid");
+    arrStr.add("order_details_decline_pay");
+    arrStr.add("on_delivery");
+    arrStr.add("on_delivery_isConfirmArrived_true");
   }
 
-  TextMessage getChatMessage(){
+  TextMessage getChatMessage() {
     var textMessage = TextMessage();
     textMessage.type = "TEXT_BASED";
     textMessage.timestamp = DateTime.now();
@@ -379,33 +409,32 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 10,right: 16,top: 10),
+          margin: EdgeInsets.only(bottom: 10, right: 16, top: 10),
           child: Row(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 16,right: 8),
+                margin: EdgeInsets.only(left: 16, right: 8),
                 width: 40,
                 height: 40,
                 decoration: new BoxDecoration(
                   color: AppColors.header_top_bar_color,
                   shape: BoxShape.circle,
                 ),
-                child:Container(
+                child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 1.0),
                   child: IconButton(
                     icon: new Icon(
-                      isPlusClicked?Icons.close:Icons.add,
+                      isPlusClicked ? Icons.close : Icons.add,
                       color: Colors.white,
                     ),
                     color: AppColors.primaryText,
-                    onPressed: (){
-                      if (!isPlusClicked){
+                    onPressed: () {
+                      if (!isPlusClicked) {
                         setState(() {
                           isPlusClicked = true;
                           isToShowSendAndReceiveBottomSheet = false;
                         });
-                      }
-                      else{
+                      } else {
                         setState(() {
                           isPlusClicked = false;
                           isToShowSendAndReceiveBottomSheet = false;
@@ -413,30 +442,34 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                       }
                     },
                   ),
-                ),),
+                ),
+              ),
               Expanded(
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  child:Container(
+                  child: Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(
                           child: Container(
                             margin: EdgeInsets.only(left: 8),
-                            padding: EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8),
+                            padding: EdgeInsets.only(
+                                left: 12, right: 12, top: 8, bottom: 8),
                             child: TextField(
-                              style: TextStyle(color: AppColors.primaryText, fontSize: 15.0),
+                              style: TextStyle(
+                                  color: AppColors.primaryText, fontSize: 15.0),
                               controller: textEditingController,
                               decoration: InputDecoration.collapsed(
                                 hintText: 'Write a message....',
                                 hintStyle: TextStyle(color: Colors.grey),
                               ),
-                              minLines:1,maxLines:5,
-                              keyboardType:TextInputType.text ,
-                              onChanged: (value){
+                              minLines: 1,
+                              maxLines: 5,
+                              keyboardType: TextInputType.text,
+                              onChanged: (value) {
                                 chatMsg = value.trim();
                               },
                             ),
@@ -444,26 +477,30 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                         ),
                         Container(
                           child: IconButton(
-                            icon: Icon(Icons.send,size: 22,),
+                            icon: Icon(
+                              Icons.send,
+                              size: 22,
+                            ),
                             onPressed: () => {
-                              if (chatMsg.isNotEmpty&&chatMsg != ''){
-
-                              getIt.get<FirebaseRemoteService>().setData(
-                                  path: FirebasePath.getPath(
-                                      user.customerProfile.firebaseId,widget.custInfo.firebaseId),
-                                  data: getChatMessage().toJson()),
-
-                                setState(() {
-                                  textEditingController.text = "";
-                                  chatMsg = "";
-                                })
-
-                                }else{
-                                setState(() {
-                                  textEditingController.text = "";
-                                  chatMsg = "";
-                                }),
-                              }
+                              if (chatMsg.isNotEmpty && chatMsg != '')
+                                {
+                                  getIt.get<FirebaseRemoteService>().setData(
+                                      path: FirebasePath.getPath(
+                                          user.customerProfile.firebaseId,
+                                          widget.custInfo.firebaseId),
+                                      data: getChatMessage().toJson()),
+                                  setState(() {
+                                    textEditingController.text = "";
+                                    chatMsg = "";
+                                  })
+                                }
+                              else
+                                {
+                                  setState(() {
+                                    textEditingController.text = "";
+                                    chatMsg = "";
+                                  }),
+                                }
                             },
                             color: AppColors.header_top_bar_color,
                           ),
@@ -477,13 +514,12 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           ),
           width: double.infinity,
         ),
-        isPlusClicked?getSendReceiveWidget():Container()
+        isPlusClicked ? getSendReceiveWidget() : Container()
       ],
     );
   }
 
-  getSendReceiveWidget()
-  {
+  getSendReceiveWidget() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -491,55 +527,60 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           topLeft: Radius.circular(12),
           topRight: Radius.circular(12),
         ),
-        border: Border.all(
-            color: Colors.grey[300],
-            width: 0.5
-        ),
+        border: Border.all(color: Colors.grey[300], width: 0.5),
       ),
-      padding: EdgeInsets.only(left:16,right: 16,top: 8),
+      padding: EdgeInsets.only(left: 16, right: 16, top: 8),
       child: Row(
         children: [
-          getRoundedButton(getTranslation(Strings.SEND),Color(0xffb2f7e2),AppColors.header_top_bar_color,Assets.SEND_ICON,),
-          getRoundedButton(getTranslation(Strings.RECEIVE),Color(0xffb2f7e2),AppColors.header_top_bar_color, Assets.RECEIVE_ICON),
+          getRoundedButton(
+            getTranslation(Strings.SEND),
+            Color(0xffb2f7e2),
+            AppColors.header_top_bar_color,
+            Assets.SEND_ICON,
+          ),
+          getRoundedButton(getTranslation(Strings.RECEIVE), Color(0xffb2f7e2),
+              AppColors.header_top_bar_color, Assets.RECEIVE_ICON),
         ],
       ),
     );
   }
 
-
-  getRoundedButton(String buttonText, Color buttonColor, Color imageColor, String image,)
-  {
+  getRoundedButton(
+    String buttonText,
+    Color buttonColor,
+    Color imageColor,
+    String image,
+  ) {
     return InkWell(
-      onTap: (){
-        if (buttonText == getTranslation(Strings.RECEIVE))
-        {
+      onTap: () {
+        if (buttonText == getTranslation(Strings.RECEIVE)) {
           receiveBottomSheet();
-        }else if (buttonText == getTranslation(Strings.SEND))
-        {
+        } else if (buttonText == getTranslation(Strings.SEND)) {
           sendBottomSheet();
         }
       },
       child: Container(
-        margin: EdgeInsets.only(left: 16,right: 16,bottom: 16),
+        margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
         width: 70,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(left: 8,right: 8),
+              margin: EdgeInsets.only(left: 8, right: 8),
               height: 56,
               decoration: new BoxDecoration(
                 color: Color(0xffb2f7e2),
                 shape: BoxShape.circle,
               ),
-              child:Container(
+              child: Container(
                 height: 33,
                 child: Image.asset(
                   image,
                   fit: BoxFit.none,
-                  color:imageColor,
+                  color: imageColor,
                 ),
-              ),),
+              ),
+            ),
             Align(
               alignment: Alignment.center,
               child: Container(
@@ -566,17 +607,18 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return ReceiveWidget(receiveMoneyConfirmed:(amount){
-            setState(() {
-              sendReceiveMoney = "";
-              sendReceiveMoney = amount;
-              arrStr.add("chat_request_cash_deposit");
-              if (isPlusClicked == true)
-              {
-                isPlusClicked = false;
-              }
-            });
-          },);
+          return ReceiveWidget(
+            receiveMoneyConfirmed: (amount) {
+              setState(() {
+                sendReceiveMoney = "";
+                sendReceiveMoney = amount;
+                arrStr.add("chat_request_cash_deposit");
+                if (isPlusClicked == true) {
+                  isPlusClicked = false;
+                }
+              });
+            },
+          );
         });
   }
 
@@ -587,18 +629,18 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return SendWidget(sendMoneyConfirmed: (amount){
-            setState(() {
-              sendReceiveMoney = "";
-              sendReceiveMoney = amount;
-              arrStr.add("chat_money_transfer_success");
-              if (isPlusClicked == true)
-              {
-                isPlusClicked = false;
-              }
-            });
-          },);
+          return SendWidget(
+            sendMoneyConfirmed: (amount) {
+              setState(() {
+                sendReceiveMoney = "";
+                sendReceiveMoney = amount;
+                arrStr.add("chat_money_transfer_success");
+                if (isPlusClicked == true) {
+                  isPlusClicked = false;
+                }
+              });
+            },
+          );
         });
   }
-
 }

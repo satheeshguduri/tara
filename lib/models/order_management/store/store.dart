@@ -8,8 +8,6 @@ import 'package:tara_app/models/order_management/store/store_type_association.da
 part 'store.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Store{
-
-   @JsonKey(ignore: true)
    String id;
    String name;
    StoreAddress address;

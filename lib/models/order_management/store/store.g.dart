@@ -8,6 +8,7 @@ part of 'store.dart';
 
 Store _$StoreFromJson(Map<String, dynamic> json) {
   return Store(
+    id: json['id'] as String,
     name: json['name'] as String,
     address: json['address'] == null
         ? null
@@ -33,6 +34,7 @@ Store _$StoreFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$StoreToJson(Store instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'address': instance.address?.toJson(),
       'latitude': instance.latitude,

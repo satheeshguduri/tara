@@ -1,18 +1,33 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/models/order_management/orders/order_address.dart';
+import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/order_types.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
+import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/shop/shop_add_item.dart';
+import 'package:tara_app/models/order_management/orders/order.dart' as order;
+import 'package:tara_app/services/error/failure.dart';
+
 
 class MakeAnOrder extends StatefulWidget {
-  final Function(List<String>) callBack;
   final bool isFromShopHome;
-  MakeAnOrder({Key key, this.callBack,this.isFromShopHome=false}) : super(key: key);
+  final Store merchantStore;
+  MakeAnOrder({Key key,
+    this.isFromShopHome=false,
+    this.merchantStore
+  }) : super(key: key);
 
   @override
   _MakeAnOrderState createState() => _MakeAnOrderState();
@@ -21,11 +36,26 @@ class MakeAnOrder extends StatefulWidget {
 class _MakeAnOrderState extends BaseState<MakeAnOrder> {
   List<DeliveryType> arrDeliveryType = List<DeliveryType>();
   DeliveryType deliveryType;
-  List<ShopItem> arrShopItem = List<ShopItem>();
 
   bool isEdit = false;
   int selectedSegmentIndex = 0;
 
+  OrderController controller = Get.find();
+  AuthResponse user = Get.find();
+  List<OrderAddress> address;
+
+  @override
+  void init() {
+    // TODO: implement init
+    super.init();
+    var address1 = OrderAddress();
+    address1.dno = "1-2-3";
+    address1.streetName = "kattedan";
+    address1.city = "Hyderabad";
+    address1.country = "india";
+    address1.zipcode = 500077;
+    address.add(address1);
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -48,19 +78,22 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     return Scaffold(
       backgroundColor: Color(0xfff7f7fa),
       appBar: _buildAppBar(context),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _getDeliveryOption(),
-              _getItemList(),
-              _getSaveAsShoppingList()
-            ],
-          ),
-        ),
-      ),
+      body:getRootContainer(),
     );
+  }
+  Widget getRootContainer(){
+    return Obx(() => Container(
+      height: MediaQuery.of(context).size.height,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _getDeliveryOption(),
+            _getItemList(),
+            _getSaveAsShoppingList()
+          ],
+        ),
+      ).withProgressIndicator(showIndicator: controller.showProgress.value),
+    ));
   }
 
   _buildAppBar(BuildContext context) {
@@ -72,6 +105,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
+              controller.items.clear();
               Navigator.pop(context, false);
             }),
       ),
@@ -230,7 +264,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
   }
 
   _getItemList() {
-    if (arrShopItem != null && arrShopItem.length > 0) {
+    if (controller.items != null && controller.items.length > 0) {
       return _getShopItemList();
     }
     return Container(
@@ -284,7 +318,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                   ),
                   onTap: () {
                     // show bottom sheet
-                    _showAddItemBottomSheet();
+                    _showAddItemBottomSheet(null);
                   },
                 ),
               )
@@ -349,24 +383,27 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
               height: 48,
               decoration: BoxDecoration(
                   borderRadius: Radii.border(8),
-                  color: arrShopItem.length > 0 ? AppColors.pale_turquoise : AppColors.light_grey_bg_color),
+                  color: controller.items.length > 0 ? AppColors.pale_turquoise : AppColors.light_grey_bg_color),
               child: Text(
                 getTranslation(Strings.place_order),
-                style: arrShopItem.length > 0 ? TextStyles.bUTTONBlack222 : TextStyles.bUTTONGrey3222,
+                style: controller.items.length > 0 ? TextStyles.bUTTONBlack222 : TextStyles.bUTTONGrey3222,
               ),
             ),
-            onTap: (){
-             if (arrShopItem.length > 0 ){
-               if (widget.isFromShopHome==true){
-                 push(ConversationPage(isFromShopHome:true,arrChats: ["tara_shop_received_text","items_order_self"],callback: (){
-                   widget.callBack(["tara_shop_received_text","items_order_self"],);
-                   Navigator.pop(context, false);
-                 },));
-               }
-               else{
-                 widget.callBack(["tara_shop_received_text","items_order_self"],);
-                 Navigator.pop(context, false);
-               }
+            onTap: () async{
+             if (controller.items.length > 0 ){
+               var orderReq = order.Order();
+               orderReq.items = controller.items.value;
+               orderReq.customerId = user.customerProfile.id;
+               orderReq.merchantId = widget.merchantStore.owner.integrationId.toString();
+               orderReq.storeId = widget.merchantStore;
+               orderReq.deliveryAddress = address;
+               orderReq.status = Statuses.PENDING;
+               orderReq.orderDate = DateTime.now();   //"2020-10-09";
+               orderReq.orderType = OrderTypes.TEXT_BASED;
+               Either<Failure,order.Order> response = await controller.createOrder(orderReq);
+                   response.fold((l) => print(l.message), (r) => {
+                   Navigator.pop(context, false)
+                   });
              }
             },
           )
@@ -391,7 +428,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         color: Colors.white);
   }
 
-  _showAddItemBottomSheet() {
+  _showAddItemBottomSheet(OrderItems item) {
     return showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
@@ -399,9 +436,10 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         context: context,
         builder: (BuildContext context) {
           return ShopAddItem(
-            saveItem: (item) {
+            editItem: item,
+            saveItem: (){
               setState(() {
-                arrShopItem.add(item);
+
               });
             },
           );
@@ -460,7 +498,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
           ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: arrShopItem.length,
+              itemCount: controller.items.length,
               itemBuilder: (context, index) {
                 return Container(
                   child: Row(
@@ -473,9 +511,9 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(arrShopItem[index].title,
+                                Text(controller.items[index].name,
                                     style: TextStyles.body2222),
-                                Text(arrShopItem[index].qty,
+                                Text(controller.items[index].quantity.toString(),
                                     style: BaseStyles.sentOtpTextStyle)
                               ],
                             ),
@@ -498,7 +536,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                                       color: AppColors.fareColor,
                                     ),
                                     onPressed: () {
-                                      _showAddItemBottomSheet();
+                                      _showAddItemBottomSheet(controller.items[index]);
                                     },
                                   ),
                                   IconButton(
@@ -508,7 +546,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        arrShopItem.removeAt(index);
+                                        controller.items.removeAt(index);
                                       });
                                     },
                                   )
@@ -544,7 +582,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
               ),
               onTap: () {
                 // show bottom sheet
-                _showAddItemBottomSheet();
+                _showAddItemBottomSheet(null);
               },
             ),
           )
@@ -561,7 +599,3 @@ class DeliveryType {
   DeliveryType(this.title, this.subTitle);
 }
 
-class ShopItem {
-  String title;
-  String qty;
-}
