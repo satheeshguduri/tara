@@ -441,7 +441,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
   loadMerchantNearYou(){
     return Column(
       children: [
-        controller.storeTypesList.length != 0 ?
+        controller.storeTypesList != null && controller.storeTypesList.length != 0?
         Container(
             height: 120,
             margin: EdgeInsets.only(left: 16, right: 16,top: 16),
@@ -506,7 +506,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
               ],
             )
         ) :  Container(),
-        controller.arrStores.length != 0 ?
+        controller.arrStores != null && controller.arrStores.length != 0 ?
         Container(
 //          height: 72,
             child: ListView.builder(
@@ -585,7 +585,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
                       }else{
                         controller.getCustomerInfo("28670118");
                       }
-                      if(controller.custInfo.value.firebaseId != null){
+                      var firebaseID = controller.custInfo.value.firebaseId;
+                      if(firebaseID != null){
                         push(ConversationPage(arrChats: ["make_an_order"],custInfo: controller.custInfo.value,));
                       }
                     },
