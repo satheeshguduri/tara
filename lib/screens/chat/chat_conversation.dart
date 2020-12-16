@@ -8,21 +8,16 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
-import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
-import 'package:tara_app/models/chat/payment_success.dart';
 import 'package:tara_app/models/chat/text_message.dart';
-import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
-import 'package:tara_app/screens/chat/review_and_confirm.dart';
 import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
-import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
 
@@ -227,7 +222,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   margin: EdgeInsets.only(top: 4),
                   child: Text(
                     (widget.selectedContact!=null&&widget.selectedContact.name!=null)?widget.selectedContact.name:
-                    (chatInboxInfoGlobal!=null&&chatInboxInfoGlobal.chatTitle!=null)?chatInboxInfoGlobal.chatTitle:"Tania Salsabila",
+                    (chatInboxInfoGlobal!=null&&chatInboxInfoGlobal.chatTitle!=null)?chatInboxInfoGlobal.chatTitle: widget.custInfo.firstName,
                     textAlign: TextAlign.left,
                     style: BaseStyles.backAccountHeaderTextStyle,
                   ),
@@ -313,18 +308,26 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 //        ))
    return new FirebaseAnimatedList(
         query: getIt.get<FirebaseRemoteService>().getDataStream(path:FirebasePath.getPath(
-            user.customerProfile.firebaseId,"MID-7272c9fa010b40398210e937b76b1e9a")),
+            user.customerProfile.firebaseId,widget.custInfo.firebaseId)),
         padding: new EdgeInsets.all(8.0),
         reverse: false,
         itemBuilder: (_, DataSnapshot snapshot,
             Animation<double> animation, int x) {
-          return new ListTile(
-            subtitle: new Text(snapshot.value.toString()),
-          );
+            return loadChatWidget(snapshot);
+
         }
     );
   }
 
+  Widget loadChatWidget(DataSnapshot snapshot){
+    String chatType = snapshot.value["type"];
+    String message = snapshot.value["text"];
+    if(chatType == "TEXT_BASED" && message != null){
+      return TextChatWidget(textMessage: message,);
+    }else{
+      return Container();
+    }
+  }
 
   showChatInboxWidgets()
   {
@@ -363,7 +366,13 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   }
 
   TextMessage getChatMessage(){
-    return TextMessage();
+    var textMessage = TextMessage();
+    textMessage.type = "TEXT_BASED";
+    textMessage.timestamp = DateTime.now();
+    textMessage.senderId = user.customerProfile.firebaseId;
+    textMessage.receiverId = widget.custInfo.firebaseId;
+    textMessage.text = textEditingController.text;
+    return textMessage;
   }
 
   getChatInputWidget() {
@@ -438,21 +447,17 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                             icon: Icon(Icons.send,size: 22,),
                             onPressed: () => {
                               if (chatMsg.isNotEmpty&&chatMsg != ''){
-//                                  setState(() {
-////                                    arrStr.add(chatMsg);
-//                                    textEditingController.text = "";
-//                                    chatMsg = "";
-//                                  }),
-//                                  listScrollController.animateTo(
-//                                    listScrollController.position.maxScrollExtent,
-//                                    curve: Curves.easeOut,
-//                                    duration: const Duration(milliseconds: 300),
-//                                  )
 
                               getIt.get<FirebaseRemoteService>().setData(
                                   path: FirebasePath.getPath(
-                                      user.customerProfile.firebaseId,"MID-7272c9fa010b40398210e937b76b1e9a"),
-                                  data: getChatMessage().toJson())
+                                      user.customerProfile.firebaseId,widget.custInfo.firebaseId),
+                                  data: getChatMessage().toJson()),
+
+                                setState(() {
+                                  textEditingController.text = "";
+                                  chatMsg = "";
+                                })
+
                                 }else{
                                 setState(() {
                                   textEditingController.text = "";
