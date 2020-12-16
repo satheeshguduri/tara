@@ -438,9 +438,6 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
           return ShopAddItem(
             editItem: item,
             saveItem: (){
-              setState(() {
-
-              });
             },
           );
         });
