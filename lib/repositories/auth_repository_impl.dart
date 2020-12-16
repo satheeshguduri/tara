@@ -77,4 +77,16 @@ class AuthRepositoryImpl implements AuthRepository{
     }
   }
 
+  @override
+  Future<Either<Failure, CustomerProfile>> getCustomerInfoByCustomerId(String customerId) async{
+    try {
+      AuthResponse user = Get.find();
+      var bearerToken = "Bearer "+user.securityToken.token.tara;
+      var response = await remoteDataSource.getCustomerInfo(bearerToken,customerId);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
 }

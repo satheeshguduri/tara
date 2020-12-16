@@ -45,7 +45,7 @@ abstract class RestClient {
   Future<BaseResponse> updateProfile(@Header("Authorization") String token, @Body() CustomerProfile updateProfileRequest);
 
   @GET(API.customer_profile)
-  Future<List<CustomerProfile>> getCustomerInfo(@Header("Authorization") String token,@Path() String customerId);
+  Future<CustomerProfile> getCustomerInfo(@Header("Authorization") String token,@Path() String customerId);
 
   //Order management API
   // createStore(Store store);
