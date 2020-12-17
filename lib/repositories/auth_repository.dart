@@ -18,5 +18,8 @@ abstract class AuthRepository {
   Future<Either<Failure,AuthResponse>> signUp(SignUpRequest signUpRequest);
   Future<Either<Failure,BaseResponse>> refreshToken(String test);
   Future<Either<Failure,CustomerProfile>> getCustomerInfoByCustomerId(String customerId);
+  Future<Either<Failure,BaseResponse>> updateProfile(CustomerProfile profile);
+
+
 }
 

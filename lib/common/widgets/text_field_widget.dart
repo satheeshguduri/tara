@@ -22,6 +22,7 @@ class TextFieldWidget extends StatefulWidget {
   final int height;
   final TextAlign alignment;
   final bool enableInteractiveSelection;
+  final bool enable;
 
   const TextFieldWidget({
     Key key,
@@ -30,7 +31,7 @@ class TextFieldWidget extends StatefulWidget {
     this.errorText,
     this.isObscure = false,
     this.inputType,
-    this.textController,
+  @required this.textController,
     this.isIcon = true,
     this.padding = const EdgeInsets.all(0),
     this.hintColor = Colors.grey,
@@ -45,6 +46,7 @@ class TextFieldWidget extends StatefulWidget {
     this.height = 48,
     this.alignment = TextAlign.left,
     this.enableInteractiveSelection = true,
+    this.enable=false,
 
   }) : super(key: key);
 
@@ -59,6 +61,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       child: Padding(
         padding: widget.padding,
         child: TextFormField(
+          enabled: widget.enable,
           enableInteractiveSelection: widget.enableInteractiveSelection,
           controller: widget.textController,
           focusNode: widget.focusNode!=null?widget.focusNode:null,

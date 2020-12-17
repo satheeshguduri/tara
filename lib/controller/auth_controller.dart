@@ -16,6 +16,10 @@ import 'package:tara_app/common/helpers/helpers.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
 import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/merchant/merchant_home_screen.dart';
+import 'package:tara_app/models/auth/security_token.dart';
+import 'package:tara_app/models/order_management/orders/order.dart' as order;
+import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/screens/merchant/create_owner_screen.dart';
 import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -130,6 +134,28 @@ class AuthController extends GetxController {
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }
+  //updating profile info
+  void updateProfile(String name,String address,String email,AuthResponse user) async {
+        showProgress.value = true;
+        CustomerProfile customerProfile = CustomerProfile(
+        id: user.customerProfile.id,
+        lastName: user.customerProfile.lastName,
+        mobileNumber: user.customerProfile.mobileNumber,
+        country: user.customerProfile.country,
+        dateOfBirth: user.customerProfile.dateOfBirth,
+        isKyc: user.customerProfile.isKyc,
+        customerType: user.customerProfile.customerType,
+        firebaseId: user.customerProfile.firebaseId,
+        firstName: name,
+       // address: "address",
+        email: email);
+      Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().updateProfile(customerProfile);
+      showProgress.value = false;
+      response.fold((l) => Get.defaultDialog(content: Text(l.message)),
+              (r) =>Get.defaultDialog(content: Text(r.message)));
+    }
+
+
 
   bool isValidationSuccessInCompleteProfile() {
     if (GetUtils.isNullOrBlank(fullName.value)) {

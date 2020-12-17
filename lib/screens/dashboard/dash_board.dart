@@ -10,6 +10,9 @@ import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/notification_settings.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/common/constants/values.dart';
+
+
 
 class DashBoard extends StatefulWidget {
   @override
@@ -124,7 +127,7 @@ class _DashBoardState extends BaseState<DashBoard> {
                   Center(
                     child: Container(
                       child: Text(
-                        user.customerProfile.firstName,
+                        user?.customerProfile?.firstName??"",
                         textAlign: TextAlign.center,
                         style: BaseStyles.bankAccountHeaderTitleStyle,
                       ),
@@ -162,22 +165,7 @@ class _DashBoardState extends BaseState<DashBoard> {
 
   getCardWithTitle(String title)
   {
-    return InkWell(
-      onTap: (){
-        if (title == Strings.profile)
-        {
-          push(ProfileEdit());
-        }
-        else if (title == Strings.notification_settings)
-        {
-          push(NotificationSettings());
-        }
-        else if (title == Strings.MY_ACCOUNTS)
-        {
-          push(MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),));
-        }
-      },
-      child: Container(
+    return Container(
         margin: EdgeInsets.only(top: 4,bottom: 4),
         child: Container(
           decoration: BoxDecoration(

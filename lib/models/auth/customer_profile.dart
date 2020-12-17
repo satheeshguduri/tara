@@ -14,19 +14,19 @@ part 'customer_profile.g.dart';
 @JsonSerializable()
 class CustomerProfile extends BaseRequest {
 
-  final String firstName;
-  final int id;
-  final String lastName;
-  final String mobileNumber;
-  final String country;
-  final String dateOfBirth;
-  final bool isKyc;
-  final String email;
-  final String customerType;
-  final String firebaseId;
-  final String credential;
-  final String token;
-  final dynamic address;
+   String firstName;
+   int id;
+   String lastName;
+   String mobileNumber;
+   String country;
+   String dateOfBirth;
+   bool isKyc;
+   String email;
+   String customerType;
+   String firebaseId;
+   String credential;
+   String token;
+   dynamic address;
 
 
   CustomerProfile({
@@ -52,9 +52,9 @@ class CustomerProfile extends BaseRequest {
 
 @JsonSerializable()
 class SignUpRequest {
-  final String mobileNumber;
-  final String password;
-  final CustomerProfile customerProfile;
+   String mobileNumber;
+   String password;
+   CustomerProfile customerProfile;
 
   SignUpRequest({this.mobileNumber, this.password, this.customerProfile});
 

@@ -40,12 +40,12 @@ Future<void> init() async{
   getIt.registerLazySingleton<RestClient>(() => APIHelper().getDioClient());
   getIt.registerLazySingleton<OrderRestClient>(() => APIHelper().getDioOrderClient());
   getIt.registerLazySingleton(() => DataConnectionChecker());
-  Get.put(AuthController());
   await GetStorage.init();
   getIt.registerLazySingleton<GetStorage>(() => GetStorage());
   getIt.registerLazySingleton<DatabaseReference>(() => FirebaseDatabase.instance.reference());
   getIt.registerLazySingleton<FirebaseRemoteService>(() => FirebaseRemoteService(getIt()));
   getIt.registerLazySingleton<UserLocalDataStore>(() => UserLocalDataStoreImpl(getIt()));
+  Get.put(AuthController());
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<StoresRepository>(() => StoreRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt(),getIt()));

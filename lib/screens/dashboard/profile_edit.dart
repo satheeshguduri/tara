@@ -2,15 +2,23 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
+import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/screens/agent/agent_widgets/take_picture_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import '../../common/constants/values.dart';
+import '../../injector.dart';
+import 'dash_board.dart';
+
 
 class ProfileEdit extends StatefulWidget {
 
@@ -21,14 +29,18 @@ class ProfileEdit extends StatefulWidget {
 }
 
 class _ProfileEditState extends BaseState<ProfileEdit> {
+  AuthResponse user = Get.find();
+  AuthController controller = Get.find();
 
   TextEditingController nameTextController = TextEditingController();
   TextEditingController addressTextController = TextEditingController();
   TextEditingController emailAddressController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+
   FocusNode phoneNumberFocusNode = FocusNode();
   String imagePath = "";
   File imageFile;
+
 
   @override
   BuildContext getContext() {
@@ -39,7 +51,8 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
   @override
   void initState() {
     super.initState();
-    addListenersToRequiredTextField();
+   //addListenersToRequiredTextField();
+
   }
 
   void addListenersToRequiredTextField() {
@@ -115,14 +128,11 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                                 color: Colors.white
                             ),
                             child: Center(
-                              child: InkWell(
-                                onTap: (){
-                                  _showSelectionDialog(context);
-                                },
-                                child: Container(
+                             child: Container(
                                   child: getTabImageWithSize(Assets.ic_edit,20,20),
+                                ).onTap(onPressed:()=> _showSelectionDialog(context),
                                 ),
-                              ),
+
                             ),
                           ),
                         ),
@@ -130,10 +140,12 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                     ),
                   ),
                 ),
-                textFormFieldContainer(getTranslation(Strings.name),getTranslation(Strings.enter_name),TextInputType.text,nameTextController,null,1),
-                textFormFieldContainer(getTranslation(Strings.address),getTranslation(Strings.enter_address),TextInputType.multiline,addressTextController,null,3),
-                textFormFieldContainer(getTranslation(Strings.email_address),getTranslation(Strings.enter_email_address),TextInputType.emailAddress,emailAddressController,null,1),
-                textFormFieldContainer(getTranslation(Strings.phone_number_2),getTranslation(Strings.enter_phone_number),TextInputType.phone,phoneNumberController,phoneNumberFocusNode,1),
+                textFormFieldContainer(getTranslation(Strings.name),user.customerProfile.firstName.toString(),TextInputType.text,nameTextController,null,1,true),
+                textFormFieldContainer(getTranslation(Strings.address),user.customerProfile.address.toString(),TextInputType.multiline,addressTextController,null,3,true),
+                textFormFieldContainer(getTranslation(Strings.email_address),user.customerProfile.email.toString(),TextInputType.emailAddress,emailAddressController,null,1,true),
+                textFormFieldContainer(getTranslation(Strings.phone_number_2),user.customerProfile.mobileNumber.toString(),TextInputType.phone,phoneNumberController,phoneNumberFocusNode,1,false),
+
+
               ],
             )
           ),
@@ -151,7 +163,8 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
       leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context, false);
+           // Navigator.pop(context, false);
+            Get.off(DashBoard());
           }
       ),
       title:Align(
@@ -165,7 +178,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
     );
   }
 
-  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode,int maxLines)
+  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode,int maxLines,bool trueOrFalse)
   {
     return Container(
         margin: EdgeInsets.only(top:16,left: 16,right: 16),
@@ -196,7 +209,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                 ),
               ),
               textEditingController!=addressTextController?Container(
-                child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,maxLines:maxLines,focusNode: focusNode,onChanged:(value){
+                child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,maxLines:maxLines,focusNode: focusNode,enable:trueOrFalse,onChanged:(value){
 
                 }),
               ):Container(
@@ -204,9 +217,10 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                 child: TextField(
                   style: BaseStyles.bankNameTextStyle,
                   controller: textEditingController,
+                  enabled: trueOrFalse,
                   decoration: InputDecoration.collapsed(
-                    hintText: hint,
-                    hintStyle: BaseStyles.bankNameTextStyle,
+                  hintText: hint,
+                  hintStyle: BaseStyles.bankNameTextStyle,
                   ),
                   minLines:1,maxLines:maxLines,
                   keyboardType:inputType,
@@ -220,11 +234,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
 
   saveWidget()
   {
-    return InkWell(
-      onTap: (){
-        Utils().hideKeyBoard(context);
-      },
-      child: Container(
+    return  Container(
         height: 48,
         margin: EdgeInsets.only(bottom: 16,top: 8,left: 8,right: 8),
         decoration: BoxDecoration(
@@ -239,7 +249,10 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
           textAlign: TextAlign.center,
           style: BaseStyles.mobileNoTextStyle,
         ),
-      ),
+      ).onTap(onPressed: (){
+        Utils().hideKeyBoard(context);
+        controller.updateProfile(nameTextController.text,addressTextController.text,emailAddressController.text,user);
+       }
     );
   }
 
@@ -258,26 +271,24 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                       height: 1,
                       color: Colors.grey[300],
                     ),
-                    GestureDetector(
-                      child: Container(
+                     Container(
                         margin: EdgeInsets.only(top: 8,bottom: 8),
                         child: Text(getTranslation(Strings.gallery),style: BaseStyles.itemOrderTextStyle,),
-                      ),
-                      onTap: () {
+                      ).onTap(onPressed: (){
                         Navigator.of(context).pop();
                         _openGallery(context);
-                      },
+                      }
+
                     ),
                     Padding(padding: EdgeInsets.all(8.0)),
-                    GestureDetector(
-                      child: Container(
+                     Container(
                         margin: EdgeInsets.only(top: 8,bottom: 8),
-                        child:Text(getTranslation(Strings.camera),style: BaseStyles.itemOrderTextStyle,),),
-                      onTap: () {
+                        child:Text(getTranslation(Strings.camera),style: BaseStyles.itemOrderTextStyle,),).onTap(onPressed: (){
                         Navigator.of(context).pop();
+                      // Get.off();
                         _showCamera();
-                      },
-                    )
+                      }),
+
                   ],
                 ),
               ));

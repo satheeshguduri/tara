@@ -10,6 +10,7 @@ import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/security_token.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
@@ -21,6 +22,8 @@ class AuthRepositoryImpl implements AuthRepository{
   UserLocalDataStore userLocalDataSource;
   NetworkInfo networkInfo;
   RestClient remoteDataSource;
+  String token;
+
 
   AuthRepositoryImpl(this.userLocalDataSource,this.networkInfo,this.remoteDataSource);
 
@@ -81,12 +84,26 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<Either<Failure, CustomerProfile>> getCustomerInfoByCustomerId(String customerId) async{
     try {
       AuthResponse user = Get.find();
-      var token = user.securityToken.token.tara.bearer();
+      token = user.securityToken.token.tara.bearer();
       var response = await remoteDataSource.getCustomerInfo(token,customerId);
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));
     }
   }
+
+  @override
+  Future<Either<Failure, BaseResponse>> updateProfile(CustomerProfile customerProfile) async{
+
+    try {
+      AuthResponse user = Get.find();
+      token = user.securityToken.token.tara.bearer();
+      var response = await remoteDataSource.updateProfile(token, customerProfile);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
 
 }
