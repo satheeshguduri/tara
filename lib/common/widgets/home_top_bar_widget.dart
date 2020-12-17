@@ -372,7 +372,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                   Assets.PERSON_ICON,
                   fit: BoxFit.none,
                 ),
-              ).onTap(onPressed: () => (userName != "")?Get.to(ProfileEdit(isFromHomeTopBar:true)):Get.to(CreateAccountScreen())),
+              ).onTap(onPressed: () => Get.to(ProfileEdit(isFromHomeTopBar:true))),
             )
           ],
         )

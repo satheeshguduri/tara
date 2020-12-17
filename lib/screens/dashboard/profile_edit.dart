@@ -155,7 +155,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
             ),
             textFormFieldContainer(
                 getTranslation(Strings.name),
-                user.customerProfile.firstName.toString(),
+                user?.customerProfile?.firstName !=null?user?.customerProfile?.firstName.toString():getTranslation(Strings.enter_full_name),
                 TextInputType.text,
                 nameTextController,
                 null,
@@ -163,7 +163,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                 true),
             textFormFieldContainer(
                 getTranslation(Strings.address),
-                user.customerProfile.address.toString(),
+                user?.customerProfile?.address!=null?user?.customerProfile?.address.toString():getTranslation(Strings.enter_address),
                 TextInputType.multiline,
                 addressTextController,
                 null,
@@ -171,7 +171,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                 true),
             textFormFieldContainer(
                 getTranslation(Strings.email_address),
-                user.customerProfile.email.toString(),
+                user?.customerProfile?.email!=null?user?.customerProfile?.email.toString():getTranslation(Strings.enter_email_address),
                 TextInputType.emailAddress,
                 emailAddressController,
                 null,
@@ -179,7 +179,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
                 true),
             textFormFieldContainer(
                 getTranslation(Strings.phone_number_2),
-                user.customerProfile.mobileNumber.toString(),
+                user?.customerProfile?.email!=null?user?.customerProfile?.mobileNumber.toString():"",
                 TextInputType.phone,
                 phoneNumberController,
                 phoneNumberFocusNode,

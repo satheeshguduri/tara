@@ -54,7 +54,7 @@ Future<void> init() async{
   Get.lazyPut(()=>CreateStoreAndOwnerController());
   Get.put(OrderController());
   Get.lazyPut(()=>StoreTypeResponse());
-  Get.put(AuthResponse());
+//  Get.put(AuthResponse());
 
 
 }
