@@ -19,10 +19,9 @@ import '../../common/constants/values.dart';
 import '../../injector.dart';
 import 'dash_board.dart';
 
-
 class ProfileEdit extends StatefulWidget {
-
-  ProfileEdit({Key key,}) : super(key: key);
+  final bool isFromHomeTopBar;
+  ProfileEdit({Key key, this.isFromHomeTopBar = false}) : super(key: key);
 
   @override
   _ProfileEditState createState() => new _ProfileEditState();
@@ -41,7 +40,6 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
   String imagePath = "";
   File imageFile;
 
-
   @override
   BuildContext getContext() {
     // TODO: implement getContext
@@ -51,8 +49,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
   @override
   void initState() {
     super.initState();
-   //addListenersToRequiredTextField();
-
+    //addListenersToRequiredTextField();
   }
 
   void addListenersToRequiredTextField() {
@@ -72,85 +69,125 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
       top: false,
       bottom: true,
       child: Scaffold(
-          backgroundColor: Colors.white,
-          appBar: _buildAppBar(context),
-          body: SingleChildScrollView(
+        backgroundColor: Colors.white,
+        appBar: _buildAppBar(context),
+        body: SingleChildScrollView(
             child: Wrap(
-              children: [
-                Center(
-                  child: Container(
-                    width: 130,
-                    height: 130,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(top: 16,),
-                          child: (imageFile!=null)?
-                          Container(
+          children: [
+            Center(
+              child: Container(
+                width: 130,
+                height: 130,
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 16,
+                      ),
+                      child: (imageFile != null)
+                          ? Container(
                               height: 120,
                               width: 120,
                               child: ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(60)),
-                                  child:Image.file(imageFile,fit: BoxFit.fill,))):
-                          imagePath.isNotEmpty?
-                          Container(
-                              height: 120,
-                              width: 120,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(60)),
-                                  child:Image.file(File(imagePath),fit: BoxFit.fill,))):
-                          Container(
-                              height: 120,
-                              width: 120,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(60)),
-                                  child:Image.asset(Assets.ic_avatar_default, fit: BoxFit.cover,width:120,height: 120,))),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(60)),
+                                  child: Image.file(
+                                    imageFile,
+                                    fit: BoxFit.fill,
+                                  )))
+                          : imagePath.isNotEmpty
+                              ? Container(
+                                  height: 120,
+                                  width: 120,
+                                  child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(60)),
+                                      child: Image.file(
+                                        File(imagePath),
+                                        fit: BoxFit.fill,
+                                      )))
+                              : Container(
+                                  height: 120,
+                                  width: 120,
+                                  child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(60)),
+                                      child: Image.asset(
+                                        Assets.ic_avatar_default,
+                                        fit: BoxFit.cover,
+                                        width: 120,
+                                        height: 120,
+                                      ))),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        margin: EdgeInsets.only(right: 12, bottom: 4),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: const Color(0x24000000),
+                                  offset: Offset(0, 2),
+                                  blurRadius: 6,
+                                  spreadRadius: 0),
+                              BoxShadow(
+                                  color: const Color(0x14000000),
+                                  offset: Offset(0, 0),
+                                  blurRadius: 2,
+                                  spreadRadius: 0)
+                            ],
+                            color: Colors.white),
+                        child: Center(
                           child: Container(
-                            width: 32,
-                            height: 32,
-                            margin: EdgeInsets.only(right: 12,bottom: 4),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                boxShadow: [BoxShadow(
-                                    color: const Color(0x24000000),
-                                    offset: Offset(0,2),
-                                    blurRadius: 6,
-                                    spreadRadius: 0
-                                ), BoxShadow(
-                                    color: const Color(0x14000000),
-                                    offset: Offset(0,0),
-                                    blurRadius: 2,
-                                    spreadRadius: 0
-                                )] ,
-                                color: Colors.white
-                            ),
-                            child: Center(
-                             child: Container(
-                                  child: getTabImageWithSize(Assets.ic_edit,20,20),
-                                ).onTap(onPressed:()=> _showSelectionDialog(context),
-                                ),
-
-                            ),
+                            child: getTabImageWithSize(Assets.ic_edit, 20, 20),
+                          ).onTap(
+                            onPressed: () => _showSelectionDialog(context),
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                textFormFieldContainer(getTranslation(Strings.name),user.customerProfile.firstName.toString(),TextInputType.text,nameTextController,null,1,true),
-                textFormFieldContainer(getTranslation(Strings.address),user.customerProfile.address.toString(),TextInputType.multiline,addressTextController,null,3,true),
-                textFormFieldContainer(getTranslation(Strings.email_address),user.customerProfile.email.toString(),TextInputType.emailAddress,emailAddressController,null,1,true),
-                textFormFieldContainer(getTranslation(Strings.phone_number_2),user.customerProfile.mobileNumber.toString(),TextInputType.phone,phoneNumberController,phoneNumberFocusNode,1,false),
-
-
-              ],
-            )
-          ),
-        bottomNavigationBar:saveWidget(),
-
+              ),
+            ),
+            textFormFieldContainer(
+                getTranslation(Strings.name),
+                user.customerProfile.firstName.toString(),
+                TextInputType.text,
+                nameTextController,
+                null,
+                1,
+                true),
+            textFormFieldContainer(
+                getTranslation(Strings.address),
+                user.customerProfile.address.toString(),
+                TextInputType.multiline,
+                addressTextController,
+                null,
+                3,
+                true),
+            textFormFieldContainer(
+                getTranslation(Strings.email_address),
+                user.customerProfile.email.toString(),
+                TextInputType.emailAddress,
+                emailAddressController,
+                null,
+                1,
+                true),
+            textFormFieldContainer(
+                getTranslation(Strings.phone_number_2),
+                user.customerProfile.mobileNumber.toString(),
+                TextInputType.phone,
+                phoneNumberController,
+                phoneNumberFocusNode,
+                1,
+                false),
+          ],
+        )),
+        bottomNavigationBar: saveWidget(),
       ),
     );
   }
@@ -163,11 +200,14 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
       leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-           // Navigator.pop(context, false);
-            Get.off(DashBoard());
-          }
-      ),
-      title:Align(
+            // Navigator.pop(context, false);
+            if (widget.isFromHomeTopBar) {
+              Get.offAll(Utils().getLandingScreen());
+            } else {
+              Get.off(DashBoard());
+            }
+          }),
+      title: Align(
         alignment: Alignment.topLeft,
         child: Text(
           getTranslation(Strings.profile),
@@ -178,22 +218,32 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
     );
   }
 
-  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode,int maxLines,bool trueOrFalse)
-  {
+  textFormFieldContainer(
+      String headerTitle,
+      String hint,
+      TextInputType inputType,
+      TextEditingController textEditingController,
+      FocusNode focusNode,
+      int maxLines,
+      bool trueOrFalse) {
     return Container(
-        margin: EdgeInsets.only(top:16,left: 16,right: 16),
+        margin: EdgeInsets.only(top: 16, left: 16, right: 16),
         decoration: BoxDecoration(
-          border: textEditingController!=phoneNumberController?Border(
-            bottom: BorderSide( //                   <--- left side
-              color: Colors.grey,
-              width: 1.0,
-            ),
-          ):Border(
-            bottom: BorderSide( //                   <--- left side
-              color: Colors.transparent,
-              width: 0.0,
-            ),
-          ),
+          border: textEditingController != phoneNumberController
+              ? Border(
+                  bottom: BorderSide(
+                    //                   <--- left side
+                    color: Colors.grey,
+                    width: 1.0,
+                  ),
+                )
+              : Border(
+                  bottom: BorderSide(
+                    //                   <--- left side
+                    color: Colors.transparent,
+                    width: 0.0,
+                  ),
+                ),
           color: Colors.transparent,
         ),
         child: Container(
@@ -201,94 +251,102 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 4,bottom: 4),
-                child: Text(
-                    headerTitle,
+                margin: EdgeInsets.only(top: 4, bottom: 4),
+                child: Text(headerTitle,
                     style: BaseStyles.textFormFieldHeaderTitleTextStyle,
-                    textAlign: TextAlign.left
-                ),
+                    textAlign: TextAlign.left),
               ),
-              textEditingController!=addressTextController?Container(
-                child: TextFieldWidget(hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,maxLines:maxLines,focusNode: focusNode,enable:trueOrFalse,onChanged:(value){
-
-                }),
-              ):Container(
-                margin: EdgeInsets.only(top:16,bottom: 12),
-                child: TextField(
-                  style: BaseStyles.bankNameTextStyle,
-                  controller: textEditingController,
-                  enabled: trueOrFalse,
-                  decoration: InputDecoration.collapsed(
-                  hintText: hint,
-                  hintStyle: BaseStyles.bankNameTextStyle,
-                  ),
-                  minLines:1,maxLines:maxLines,
-                  keyboardType:inputType,
-                ),
-              )
+              textEditingController != addressTextController
+                  ? Container(
+                      child: TextFieldWidget(
+                          hint: hint,
+                          inputType: inputType,
+                          textController: textEditingController,
+                          isIcon: false,
+                          maxLines: maxLines,
+                          focusNode: focusNode,
+                          enable: trueOrFalse,
+                          onChanged: (value) {}),
+                    )
+                  : Container(
+                      margin: EdgeInsets.only(top: 16, bottom: 12),
+                      child: TextField(
+                        style: BaseStyles.bankNameTextStyle,
+                        controller: textEditingController,
+                        enabled: trueOrFalse,
+                        decoration: InputDecoration.collapsed(
+                          hintText: hint,
+                          hintStyle: BaseStyles.bankNameTextStyle,
+                        ),
+                        minLines: 1,
+                        maxLines: maxLines,
+                        keyboardType: inputType,
+                      ),
+                    )
             ],
           ),
-        )
-    );
+        ));
   }
 
-  saveWidget()
-  {
-    return  Container(
-        height: 48,
-        margin: EdgeInsets.only(bottom: 16,top: 8,left: 8,right: 8),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-                Radius.circular(8)
-            ),
-            color: AppColors.bottom_border_color
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          getTranslation(Strings.save),
-          textAlign: TextAlign.center,
-          style: BaseStyles.mobileNoTextStyle,
-        ),
-      ).onTap(onPressed: (){
-        Utils().hideKeyBoard(context);
-        controller.updateProfile(nameTextController.text,addressTextController.text,emailAddressController.text,user);
-       }
-    );
+  saveWidget() {
+    return Container(
+      height: 48,
+      margin: EdgeInsets.only(bottom: 16, top: 8, left: 8, right: 8),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: AppColors.bottom_border_color),
+      alignment: Alignment.center,
+      child: Text(
+        getTranslation(Strings.save),
+        textAlign: TextAlign.center,
+        style: BaseStyles.mobileNoTextStyle,
+      ),
+    ).onTap(onPressed: () {
+      Utils().hideKeyBoard(context);
+      controller.updateProfile(nameTextController.text,
+          addressTextController.text, emailAddressController.text, user);
+    });
   }
-
 
   Future<void> _showSelectionDialog(BuildContext context) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-              title: Text(getTranslation(Strings.take_picture_dialog),style: BaseStyles.mobileNoTextStyle,),
+              title: Text(
+                getTranslation(Strings.take_picture_dialog),
+                style: BaseStyles.mobileNoTextStyle,
+              ),
               content: SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: 4,bottom: 4),
+                      margin: EdgeInsets.only(top: 4, bottom: 4),
                       height: 1,
                       color: Colors.grey[300],
                     ),
-                     Container(
-                        margin: EdgeInsets.only(top: 8,bottom: 8),
-                        child: Text(getTranslation(Strings.gallery),style: BaseStyles.itemOrderTextStyle,),
-                      ).onTap(onPressed: (){
-                        Navigator.of(context).pop();
-                        _openGallery(context);
-                      }
-
-                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 8),
+                      child: Text(
+                        getTranslation(Strings.gallery),
+                        style: BaseStyles.itemOrderTextStyle,
+                      ),
+                    ).onTap(onPressed: () {
+                      Navigator.of(context).pop();
+                      _openGallery(context);
+                    }),
                     Padding(padding: EdgeInsets.all(8.0)),
-                     Container(
-                        margin: EdgeInsets.only(top: 8,bottom: 8),
-                        child:Text(getTranslation(Strings.camera),style: BaseStyles.itemOrderTextStyle,),).onTap(onPressed: (){
-                        Navigator.of(context).pop();
+                    Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 8),
+                      child: Text(
+                        getTranslation(Strings.camera),
+                        style: BaseStyles.itemOrderTextStyle,
+                      ),
+                    ).onTap(onPressed: () {
+                      Navigator.of(context).pop();
                       // Get.off();
-                        _showCamera();
-                      }),
-
+                      _showCamera();
+                    }),
                   ],
                 ),
               ));
@@ -304,16 +362,17 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
   }
 
   void _showCamera() async {
-
     final cameras = await availableCameras();
     final camera = cameras.first;
 
-    push(TakePictureScreen(camera: camera,imagePathCallback: (selectedImagePath){
-      setState(() {
-        imagePath = selectedImagePath;
-        imageFile = null;
-      });
-    },));
+    push(TakePictureScreen(
+      camera: camera,
+      imagePathCallback: (selectedImagePath) {
+        setState(() {
+          imagePath = selectedImagePath;
+          imageFile = null;
+        });
+      },
+    ));
   }
-
 }

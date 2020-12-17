@@ -45,14 +45,14 @@ class CreateStoreAndOwnerController extends GetxController {
   ///on clicking on send otp
   void createOwner() async {
     var ownerName = "";
-    if (!GetUtils.isNullOrBlank(user.customerProfile.firstName)) {
+    if (!GetUtils.isNullOrBlank(user?.customerProfile?.firstName)) {
       ownerName = user.customerProfile.firstName;
-    }else if (!GetUtils.isNullOrBlank(user.customerProfile.lastName)) {
+    }else if (!GetUtils.isNullOrBlank(user?.customerProfile?.lastName)) {
       ownerName = user.customerProfile.lastName;
     }
     //validate empty state here for the text fields
-    if (!GetUtils.isNullOrBlank(ownerName)) {
-      Owner request = Owner(name: ownerName,integrationId: user.customerProfile.id);
+    if (!GetUtils.isNullOrBlank(ownerName) && !GetUtils.isNullOrBlank(user?.customerProfile?.id)) {
+      Owner request = Owner(name: ownerName,integrationId: user?.customerProfile?.id);
       print(request.toJson().toString());
       Either<Failure, Owner> response =
           await getIt.get<StoresRepository>().createOwner(request);
