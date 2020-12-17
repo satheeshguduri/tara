@@ -372,6 +372,12 @@ class Strings{
   static const owner_name = "owner_name";
   static const store_name = "store_name";
   static const submit  = "submit";
+
+  static const shop_details = "shop_details";
+  static const shop_category = "shop_category";
+  static const shop_address = "shop_address";
+  static const shop_name = "shop_name";
+
 }
 
 class NotificationSettingsStrings{

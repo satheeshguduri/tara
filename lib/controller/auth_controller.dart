@@ -10,17 +10,9 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/helpers.dart';
-import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
-import 'package:tara_app/screens/agent/agent_home_screen.dart';
-import 'package:tara_app/screens/merchant/merchant_home_screen.dart';
-import 'package:tara_app/models/auth/security_token.dart';
-import 'package:tara_app/models/order_management/orders/order.dart' as order;
-import 'package:tara_app/models/order_management/store/store.dart';
-import 'package:tara_app/repositories/order_repository.dart';
-import 'package:tara_app/screens/merchant/create_owner_screen.dart';
+import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -28,11 +20,9 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/complete_profile_details.dart';
-import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
-import '../flavors.dart';
 import '../injector.dart';
 
 class AuthController extends GetxController {
@@ -108,7 +98,7 @@ class AuthController extends GetxController {
           await getIt.get<AuthRepository>().login(request);
       showProgress.value = false;
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
-          (r) => Get.off(Utils().getLandingScreen()));
+          (r) => Get.to(CreateStoreScreen())); //Get.offAll(Utils().getLandingScreen()
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }
@@ -130,7 +120,7 @@ class AuthController extends GetxController {
           await getIt.get<AuthRepository>().signUp(request);
       showProgress.value = false;
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
-          (r) => Get.to(AccountConfirmationScreen()));
+          (r) => Get.to(CreateStoreScreen()));
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }

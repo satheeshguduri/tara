@@ -14,7 +14,8 @@ part 'store_type_model.g.dart';
 @JsonSerializable()
 class StoreTypeModel {
   double id;
-  StoreTypes type;
+//  StoreTypes type;
+  String type;
   List<StoreTypeAssociation> storeTypeAssociations;
 
   StoreTypeModel({this.id, this.type, this.storeTypeAssociations});

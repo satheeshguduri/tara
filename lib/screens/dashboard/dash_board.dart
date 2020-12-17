@@ -209,8 +209,7 @@ class _DashBoardState extends BaseState<DashBoard> {
             ),
           ) ,
         ),
-      ),
-    );
+      );
   }
 
   getLogOutWidget()
