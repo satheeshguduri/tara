@@ -7,24 +7,27 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/shop_home.dart';
 import 'package:tara_app/screens/create_account_screen.dart';
+import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/screens/notification_screen.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
   HomeTopBar({Key key, this.appName = ""}) : super(key: key);
 
-
   @override
   _HomeTopBarState createState() => _HomeTopBarState();
 }
 
 class _HomeTopBarState extends BaseState<HomeTopBar> {
+  AuthResponse user = Get.find();
+  var userName = "";
 
   @override
   BuildContext getContext() {
@@ -45,12 +48,11 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             child: Container(
               height: 190,
               decoration: BoxDecoration(
-                gradient: Gradients.primaryGradient,
+                  gradient: Gradients.primaryGradient,
                   borderRadius: BorderRadius.only(
                     bottomLeft: const Radius.circular(16.0),
                     bottomRight: const Radius.circular(16.0),
-                  )
-              ),
+                  )),
               child: Container(),
             ),
           ),
@@ -64,15 +66,19 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               children: [
                 Container(
                   height: 56,
-                  margin: EdgeInsets.only(left: 16,right: 16),
+                  margin: EdgeInsets.only(left: 16, right: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: showLogoAndTitle()), nameNotificationsAndImage()              ],
+                      Expanded(child: showLogoAndTitle()),
+                      nameNotificationsAndImage()
+                    ],
                   ),
                 ),
                 getSearchWidget(),
-                Container(height: 8,),
+                Container(
+                  height: 8,
+                ),
                 getTopOptions()
               ],
             ),
@@ -82,76 +88,129 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
     );
   }
 
-  Widget getTopOptions()
-  {
-    if(widget.appName == "Merchant"){
+  Widget getTopOptions() {
+    if (widget.appName == "Merchant") {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.only(top: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,onPressed: (){
-              push(CashDepositSelectContact(isFromSend: true,));
-            },),
-            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,onPressed: (){
-              push(CashDepositSelectContact(isFromReceive: true,));
-            },),
-            RoundedButton(buttonText: getTranslation(Strings.CASH_DEPOSIT),image: Assets.ic_cash_deposit,onPressed:(){
-              var chatInboxInfo = ChatInboxInfo();
-              chatInboxInfo.chatTitle = getTranslation(Strings.CASH_DEPOSIT);
-              chatInboxInfo.chatCardTitle = "chat_request_cash_deposit";
-              push(ConversationPage(chatInboxInfo: chatInboxInfo,isFromTaraOrder: true));
-            }),
-            RoundedButton(buttonText: getTranslation(Strings.RESTOCK),image: Assets.ic_restock,),
+            RoundedButton(
+              buttonText: getTranslation(Strings.SEND),
+              image: Assets.SEND_ICON,
+              onPressed: () {
+                push(CashDepositSelectContact(
+                  isFromSend: true,
+                ));
+              },
+            ),
+            RoundedButton(
+              buttonText: getTranslation(Strings.RECEIVE),
+              image: Assets.RECEIVE_ICON,
+              onPressed: () {
+                push(CashDepositSelectContact(
+                  isFromReceive: true,
+                ));
+              },
+            ),
+            RoundedButton(
+                buttonText: getTranslation(Strings.CASH_DEPOSIT),
+                image: Assets.ic_cash_deposit,
+                onPressed: () {
+                  var chatInboxInfo = ChatInboxInfo();
+                  chatInboxInfo.chatTitle =
+                      getTranslation(Strings.CASH_DEPOSIT);
+                  chatInboxInfo.chatCardTitle = "chat_request_cash_deposit";
+                  push(ConversationPage(
+                      chatInboxInfo: chatInboxInfo, isFromTaraOrder: true));
+                }),
+            RoundedButton(
+              buttonText: getTranslation(Strings.RESTOCK),
+              image: Assets.ic_restock,
+            ),
           ],
         ),
       );
-    }else if(widget.appName == "Agent"){
+    } else if (widget.appName == "Agent") {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.only(top: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: getTranslation(Strings.SEND),image: Assets.SEND_ICON,onPressed: (){
-              push(CashDepositSelectContact(isFromSend: true,));
-            },),
-            RoundedButton(buttonText: getTranslation(Strings.RECEIVE),image: Assets.RECEIVE_ICON,onPressed: (){
-              push(CashDepositSelectContact(isFromReceive: true,));
-            },),
-            RoundedButton(buttonText: getTranslation(Strings.PAYMENT),image: Assets.ic_payment,onPressed: (){
-
-            },),
-            RoundedButton(buttonText: getTranslation(Strings.CMS_TOP_UP),image: Assets.ic_topup,onPressed: (){
-
-            },),
+            RoundedButton(
+              buttonText: getTranslation(Strings.SEND),
+              image: Assets.SEND_ICON,
+              onPressed: () {
+                push(CashDepositSelectContact(
+                  isFromSend: true,
+                ));
+              },
+            ),
+            RoundedButton(
+              buttonText: getTranslation(Strings.RECEIVE),
+              image: Assets.RECEIVE_ICON,
+              onPressed: () {
+                push(CashDepositSelectContact(
+                  isFromReceive: true,
+                ));
+              },
+            ),
+            RoundedButton(
+              buttonText: getTranslation(Strings.PAYMENT),
+              image: Assets.ic_payment,
+              onPressed: () {},
+            ),
+            RoundedButton(
+              buttonText: getTranslation(Strings.CMS_TOP_UP),
+              image: Assets.ic_topup,
+              onPressed: () {},
+            ),
           ],
         ),
       );
-    }else{
+    } else {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.only(top: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            RoundedButton(buttonText: getTranslation(Strings.transfer),image: Assets.SEND_ICON,onPressed: (){
-              push(CashDepositSelectContact(isFromSend: true,));
-            },),
-            RoundedButton(buttonText: getTranslation(Strings.request),image: Assets.RECEIVE_ICON,onPressed: (){
-              push(CashDepositSelectContact(isFromReceive: true,));
-            },),
-            RoundedButton(buttonText: getTranslation(Strings.bills),image: Assets.ic_payment,onPressed: (){
-
-            },),
-            RoundedButton(buttonText: getTranslation(Strings.purchase),image: Assets.SHOP_ICON,onPressed: (){
-              var chatInboxInfo = ChatInboxInfo();
-              chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
-              chatInboxInfo.chatCardTitle = "tara_shop_received_text";
+            RoundedButton(
+              buttonText: getTranslation(Strings.transfer),
+              image: Assets.SEND_ICON,
+              onPressed: () {
+                push(CashDepositSelectContact(
+                  isFromSend: true,
+                ));
+              },
+            ),
+            RoundedButton(
+              buttonText: getTranslation(Strings.request),
+              image: Assets.RECEIVE_ICON,
+              onPressed: () {
+                push(CashDepositSelectContact(
+                  isFromReceive: true,
+                ));
+              },
+            ),
+            RoundedButton(
+              buttonText: getTranslation(Strings.bills),
+              image: Assets.ic_payment,
+              onPressed: () {},
+            ),
+            RoundedButton(
+              buttonText: getTranslation(Strings.purchase),
+              image: Assets.SHOP_ICON,
+              onPressed: () {
+                var chatInboxInfo = ChatInboxInfo();
+                chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
+                chatInboxInfo.chatCardTitle = "tara_shop_received_text";
 //              push(ConversationPage(chatInboxInfo: chatInboxInfo,));
-              push(ShopHome());
-            },),
+                push(ShopHome());
+              },
+            ),
           ],
         ),
       );
@@ -191,43 +250,43 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           ),
         ],
       ),
-    ).onTap(onPressed:() =>Get.to(CashDepositSelectContact()));
+    ).onTap(onPressed: () => Get.to(CashDepositSelectContact()));
   }
 
- Widget showLogoAndTitle() {
-  return Row(
-    children: [
-      Container(
-        width: 62,
-        height: 24,
-        margin: EdgeInsets.only(top: 8),
-        child: Image.asset(
-          "assets/images/combined-shape-5.png",
-          fit: BoxFit.none,
+  Widget showLogoAndTitle() {
+    return Row(
+      children: [
+        Container(
+          width: 62,
+          height: 24,
+          margin: EdgeInsets.only(top: 8),
+          child: Image.asset(
+            "assets/images/combined-shape-5.png",
+            fit: BoxFit.none,
+          ),
         ),
-      ),
-      Flexible(
-        child: Text(
-            widget.appName,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: const TextStyle(
-                color:  AppColors.fareColor,
-                fontWeight: FontWeight.w400,
-                fontFamily: "PlayfairDisplay",
-                fontStyle:  FontStyle.normal,
-                fontSize: 12.0
-            )
-         ),
-      )
+        Flexible(
+          child: Text(widget.appName,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(
+                  color: AppColors.fareColor,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "PlayfairDisplay",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0)),
+        )
+      ],
+    );
+  }
 
-    ],
-  );
+  Widget nameNotificationsAndImage() {
 
-
- }
-
- Widget  nameNotificationsAndImage() {
+    if (user?.customerProfile?.firstName != null) {
+      userName = user?.customerProfile?.firstName;
+    } else if (user?.customerProfile?.lastName != null) {
+      userName = user?.customerProfile?.lastName;
+    }
     return Row(
       children: [
         Container(
@@ -248,7 +307,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               Align(
                 alignment: Alignment.topRight,
                 child: Text(
-                  "Kiran Kumar Yasala hgasdjhahjdgadg",
+                  userName != "" ? userName : "Customer Name",
                   textAlign: TextAlign.right,
                   style: BaseStyles.nameTextStyle,
                   maxLines: 1,
@@ -277,8 +336,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                   Positioned(
                     top: 0,
                     right: 0,
-                    child:
-                    Container(
+                    child: Container(
                       width: 14,
                       height: 14,
                       decoration: BoxDecoration(
@@ -303,26 +361,22 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                   ),
                 ],
               ),
-            ).onTap(onPressed: ()=>Get.to(NotificationScreen()))
-            ,
+            ).onTap(onPressed: () => Get.to(NotificationScreen())),
             Align(
               alignment: Alignment.centerRight,
-                   child:Container(
-                    width: 32,
-                    height: 32,
-                   // margin: EdgeInsets.only(right: 16),
-                    child: Image.asset(
-                      Assets.PERSON_ICON,
-                      fit: BoxFit.none,
-                    ),
-                  ).onTap(onPressed:() =>Get.to(CreateAccountScreen())),
-              )
+              child: Container(
+                width: 32,
+                height: 32,
+                // margin: EdgeInsets.only(right: 16),
+                child: Image.asset(
+                  Assets.PERSON_ICON,
+                  fit: BoxFit.none,
+                ),
+              ).onTap(onPressed: () => (userName != "")?Get.to(ProfileEdit()):Get.to(CreateAccountScreen())),
+            )
           ],
         )
       ],
     );
-
-
   }
-
 }
