@@ -27,13 +27,14 @@ class OrderController extends GetxController{
   var items = List<OrderItems>().obs;
 
   //Example to get the orders this need to be called in future builder
-  Future<List<order.Order>> getMerchantOrders() async {
+  Future getMerchantOrders() async {
     showProgress.value = true;
     AuthResponse user = Get.find();
     Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByMerchantId(user.customerProfile.id);
     showProgress.value = false;
-    return response.fold((l) => [], (r) => r);
-
+    response.fold((l) => print, (r) => {
+      orderList.value = r,
+    });
 
   }
 

@@ -26,7 +26,6 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
         ?.toList(),
     status: _$enumDecodeNullable(_$StatusesEnumMap, json['status']),
     price: (json['price'] as num)?.toDouble(),
-    tax: (json['tax'] as num)?.toDouble(),
     deliveryDate: json['deliveryDate'] == null
         ? null
         : DateTime.parse(json['deliveryDate'] as String),
@@ -39,8 +38,6 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
     order_extra: json['order_extra'] == null
         ? null
         : JsonbOrderExtra.fromJson(json['order_extra'] as Map<String, dynamic>),
-    messageType:
-        _$enumDecodeNullable(_$MessageTypeEnumMap, json['messageType']),
   );
 }
 
@@ -54,14 +51,12 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
           instance.deliveryAddress?.map((e) => e?.toJson())?.toList(),
       'status': _$StatusesEnumMap[instance.status],
       'price': instance.price,
-      'tax': instance.tax,
       'deliveryDate': instance.deliveryDate?.toIso8601String(),
       'orderDate': instance.orderDate?.toIso8601String(),
       'orderType': _$OrderTypesEnumMap[instance.orderType],
       'transactionId': instance.transactionId,
       'merchantId': instance.merchantId,
       'order_extra': instance.order_extra?.toJson(),
-      'messageType': _$MessageTypeEnumMap[instance.messageType],
     };
 
 T _$enumDecode<T>(
@@ -112,14 +107,4 @@ const _$StatusesEnumMap = {
 const _$OrderTypesEnumMap = {
   OrderTypes.CATALOGUE_BASED: 'CATALOGUE_BASED',
   OrderTypes.TEXT_BASED: 'TEXT_BASED',
-};
-
-const _$MessageTypeEnumMap = {
-  MessageType.TEXT: 'TEXT',
-  MessageType.REQUEST_TRANSFER: 'REQUEST_TRANSFER',
-  MessageType.PAYMENT_SUCCESS: 'PAYMENT_SUCCESS',
-  MessageType.TRANSFER_SUCCESS: 'TRANSFER_SUCCESS',
-  MessageType.ORDER: 'ORDER',
-  MessageType.ORDER_CONFIRMATION: 'ORDER_CONFIRMATION',
-  MessageType.ORDER_DECLINED: 'ORDER_DECLINED',
 };

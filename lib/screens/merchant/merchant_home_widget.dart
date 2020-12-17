@@ -39,19 +39,20 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
   void init() {
     // TODO: implement init
     super.init();
-//    controller.getMerchantOrders();
+    controller.getMerchantOrders();
   }
 
 @override
   void initState(){
     // TODO: implement initState
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SafeArea(
+    return Obx(()=> SafeArea(
       top: false,
       child:Container(
           constraints: BoxConstraints.expand(),
@@ -399,38 +400,20 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                         ],
                       ),
                     ),
-//                    getBottomView(),
-                    getStoreTypes()
+                    getBottomView()
                   ],
                 ),
               ))
             ],
           )
       ) ,
-    ).withProgressIndicator(showIndicator: controller.showProgress.value);
+    ).withProgressIndicator(showIndicator: controller.showProgress.value));
   }
 
   @override
   BuildContext getContext() {
     // TODO: implement getContext
     return context;
-  }
-
-  Widget getStoreTypes()
-  {
-    return FutureBuilder<List<order.Order>>(
-        future: controller.getMerchantOrders(),
-        builder: buildShopCategories);
-  }
-
-  Widget buildShopCategories(
-      BuildContext context, AsyncSnapshot<List<order.Order>> snapshot) {
-    Text text = const Text('Select Category');
-    if (snapshot.hasData) {
-      controller.orderList = snapshot.data;
-      return getBottomView();
-    }
-    return Container(margin: EdgeInsets.only(top: 16, bottom: 16), child: text);
   }
 
   Widget getBottomView(){

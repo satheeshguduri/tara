@@ -7,7 +7,7 @@ class OrderItems{
    String name;
    int quantity;
    double price;
-   double currency;
+   String currency;
    String unit;
 
    OrderItems({this.name, this.quantity, this.price, this.currency, this.unit});

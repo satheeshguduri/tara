@@ -20,14 +20,14 @@ class Order{
   List<OrderAddress> deliveryAddress;
   Statuses status; //
   double price;
-  double tax;
+//  double tax;
   DateTime deliveryDate;
   DateTime orderDate;
   OrderTypes orderType;
   String transactionId;
   String merchantId;
   JsonbOrderExtra order_extra;
-  MessageType messageType;
+//  MessageType messageType;
 
   Order(
   {this.orderId,
@@ -38,13 +38,14 @@ class Order{
       this.deliveryAddress,
       this.status,
       this.price,
-      this.tax,
+//      this.tax,
       this.deliveryDate,
       this.orderDate,
       this.orderType,
       this.transactionId,
       this.merchantId,
-      this.order_extra,this.messageType});
+      this.order_extra,});
+//  this.messageType
 
 factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 Map<String, dynamic> toJson() => _$OrderToJson(this);
