@@ -98,7 +98,10 @@ class AuthController extends GetxController {
           await getIt.get<AuthRepository>().login(request);
       showProgress.value = false;
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
-          (r) => Get.to(CreateStoreScreen())); //Get.offAll(Utils().getLandingScreen()
+          (r) => {
+            Get.put(r),
+            Get.to(CreateStoreScreen())
+          }); //Get.offAll(Utils().getLandingScreen()
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }
@@ -120,7 +123,10 @@ class AuthController extends GetxController {
           await getIt.get<AuthRepository>().signUp(request);
       showProgress.value = false;
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
-          (r) => Get.to(CreateStoreScreen()));
+          (r) => {
+            Get.put(r),
+            Get.to(CreateStoreScreen())
+      });
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }

@@ -16,6 +16,7 @@ import 'package:tara_app/controller/create_store_and_owner_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/auth_repository_impl.dart';
 import 'package:tara_app/repositories/chat_repository.dart';
@@ -53,7 +54,7 @@ Future<void> init() async{
   Get.lazyPut(()=>CreateStoreAndOwnerController());
   Get.put(OrderController());
   Get.lazyPut(()=>StoreTypeResponse());
-
+  Get.put(AuthResponse());
 
 
 }
