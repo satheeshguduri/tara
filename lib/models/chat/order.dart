@@ -11,7 +11,7 @@ part 'order.g.dart';
 */
 part 'order.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Order {
 
      String type;

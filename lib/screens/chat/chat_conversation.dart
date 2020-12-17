@@ -138,7 +138,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   )
                 ],
               ),
-              Stack(
+              widget.fromScreen == FromScreen.consumer ? Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
                   Positioned(
@@ -153,7 +153,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                     ),
                   )
                 ],
-              ),
+              ) : Container(),
               (!widget.isFromSend && !widget.isFromReceive)
                   ? Container()
                   : (isToShowSendAndReceiveBottomSheet
@@ -349,7 +349,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         query: getIt.get<FirebaseRemoteService>().getDataStream(
             path: FirebasePath.getPath(
                 user.customerProfile.firebaseId, widget.custInfo.firebaseId)),
-        padding: new EdgeInsets.all(8.0),
+        padding: new EdgeInsets.only(left:0.0,right:0.0,top:0.0,bottom:16.0),
         reverse: false,
         itemBuilder:
             (_, DataSnapshot snapshot, Animation<double> animation, int x) {
@@ -362,7 +362,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     print(snapshot.value.toString());
     String chatType = snapshot.value["messageType"];
     if(chatType == describeEnum(MessageType.ORDER)){
-      Order order = Order.fromSnapshot(snapshot);
+//      Order order = Order.fromJson(snapshot.value);
       if (widget.fromScreen == FromScreen.merchant){
         return ItemsOrder();
       }else if (widget.fromScreen == FromScreen.consumer){
