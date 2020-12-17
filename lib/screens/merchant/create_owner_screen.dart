@@ -7,12 +7,10 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/controller/create_store_and_owner_controller.dart';
-import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
-import 'package:tara_app/utils/locale/utils.dart';
 
 class CreateOwnerScreen extends StatefulWidget {
   CreateOwnerScreen({Key key}) : super(key: key);
@@ -88,12 +86,12 @@ class _CreateOwnerScreenState extends BaseState<CreateOwnerScreen> {
             controller.isCreateOwnerResponseSuccess.value
                 ? textFormFieldContainer(
                     getTranslation(Strings.store_name),
-                    getTranslation(Strings.store_name),
+                    getTranslation(Strings.enter_store_name),
                     TextInputType.text,
                     controller.storeNameTextController)
                 : textFormFieldContainer(
                     getTranslation(Strings.owner_name),
-                    getTranslation(Strings.owner_name),
+                    getTranslation(Strings.enter_owner_name),
                     TextInputType.text,
                     controller.ownerNameTextController),
             Container(

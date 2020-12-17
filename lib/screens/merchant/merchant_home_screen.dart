@@ -113,7 +113,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     Future.delayed(Duration.zero, () => showDialogIfFirstLoaded(context));
-    Future.delayed(Duration.zero, () => showBottomSheetToCreateOwner());
+//    Future.delayed(Duration.zero, () => showBottomSheetToCreateOwner());
     return Scaffold(
         bottomNavigationBar:getBottomNavigation(),
         floatingActionButton: FloatingActionButton(
@@ -190,7 +190,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
     }
   }
 
-  showBottomSheetToCreateOwner() async {
+ /* showBottomSheetToCreateOwner() async {
     bool isCreatedOwner = await Utils().getPrefBoolValue(SharedPreferencesStrings.isCreatedOwner);
     if (!isCreatedOwner)
     {
@@ -209,5 +209,5 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
         builder: (BuildContext context) {
           return CreateOwnerScreen();
         });
-  }
+  }  */
 }
