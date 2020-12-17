@@ -17,9 +17,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
     total: json['total'] as num,
     customerId: json['customerId'] as String,
     merchantId: json['merchantId'] as String,
-    timestamp: json['timestamp'] == null
-        ? null
-        : DateTime.parse(json['timestamp'] as String),
+    timestamp: json['timestamp'] as int,
     transactionId: json['transactionId'] as String,
     orderStatus: json['orderStatus'] as String,
   );
@@ -32,7 +30,7 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'total': instance.total,
       'customerId': instance.customerId,
       'merchantId': instance.merchantId,
-      'timestamp': instance.timestamp?.toIso8601String(),
+      'timestamp': instance.timestamp,
       'transactionId': instance.transactionId,
       'orderStatus': instance.orderStatus,
     };

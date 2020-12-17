@@ -4,6 +4,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/models/chat/order.dart';
+import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_confirm.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
@@ -14,12 +15,12 @@ class ItemsOrder extends StatefulWidget {
   final bool isFromAcceptedOrder;
   final Function onTapAction;
   final bool selfOrder;
-  final Order orderId;
+  final Order order;
   const ItemsOrder({
     this.isFromAcceptedOrder=false,
     this.onTapAction,
     this.selfOrder = false,
-    this.orderId,
+    this.order,
     Key key,
   }) : super(key: key);
 
@@ -28,33 +29,17 @@ class ItemsOrder extends StatefulWidget {
 }
 
 class _ItemsOrderState extends BaseState<ItemsOrder> {
-
-  List<String> itemOrderList = ["Nanas", "Bengkoang", "Minyak Bimoli", "Telor Ayam"];
-  List<String> itemOrderQuantityList = ["500gr", "200gr", "1", "0.5kg"];
-  List<ItemOrderModel> arrItems = [];
-
+  List<OrderItems> arrItems = [];
 
   @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
-
+@override
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData();
-  }
-
-  loadData()
-  {
-    arrItems = [];
-    for (var i = 0; i < itemOrderList.length; i++) {
-      var itemOrderModel = ItemOrderModel();
-      itemOrderModel.itemName = itemOrderList[i];
-      itemOrderModel.quantity = itemOrderQuantityList[i];
-      arrItems.add(itemOrderModel);
-    }
+    arrItems = widget.order.items;
   }
 
   @override
@@ -96,7 +81,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                 InkWell(
                   onTap: (){
                     if (widget.isFromAcceptedOrder==false){
-                      push(ReviewAndConfirm(callBackToConfirmOrder: (val){
+                      push(ReviewAndConfirm(orderId: widget.order.orderId,callBackToConfirmOrder: (val){
                         widget.onTapAction(val);
                       },));
                     }else{
@@ -154,14 +139,15 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
 
   getItemsListWidget()
   {
+    List<OrderItems> items = widget.order.items;
     return  Container(
         margin:
         EdgeInsets.only(bottom: 8, left: 8, right: 8,),
         color: Colors.transparent,
-        height: (arrItems!=null&&arrItems.length>0)? (arrItems.length * 40).toDouble():0,
+        height: (items!=null&&items.length>0)? (items.length * 40).toDouble():0,
         child: ListView.builder(
-          itemBuilder: (context, index) => getOrderItemWidget(arrItems[index]),
-          itemCount: arrItems.length,
+          itemBuilder: (context, index) => getOrderItemWidget(items[index]),
+          itemCount: items.length,
           physics: NeverScrollableScrollPhysics(),
           padding:EdgeInsets.zero,
           primary: false,
@@ -169,7 +155,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
         ));
   }
 
-  getOrderItemWidget(ItemOrderModel itemOrderModel)
+  getOrderItemWidget(OrderItems itemOrderModel)
   {
     return Container(
         height: 40,
@@ -181,14 +167,14 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                 Container(
                   margin: EdgeInsets.only(bottom: 8,top: 8,left: 8,right: 8),
                   child: Text(
-                      itemOrderModel.itemName,
+                      itemOrderModel.name,
                       style: BaseStyles.itemOrderTextStyle
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 8,top: 8,right: 8),
                   child: Text(
-                      itemOrderModel.quantity,
+                      itemOrderModel.quantity.toString(),
                       style: BaseStyles.itemOrderQuantityTextStyle
                   ),
                 ),

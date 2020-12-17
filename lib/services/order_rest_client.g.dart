@@ -155,7 +155,7 @@ class _OrderRestClient implements OrderRestClient {
     _data.addAll(order?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
-        'v0.1/tara/erp/order/$orderId}',
+        'v0.1/tara/erp/order/$orderId',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'PUT',
@@ -175,7 +175,7 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>(
-        'v0.1/tara/erp/order/$orderId}',
+        'v0.1/tara/erp/order/$orderId',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

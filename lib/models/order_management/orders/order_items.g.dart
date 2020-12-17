@@ -6,7 +6,7 @@ part of 'order_items.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrderItems _$OrderItemsFromJson(Map<String, dynamic> json) {
+OrderItems _$OrderItemsFromJson(Map<dynamic, dynamic> json) {
   return OrderItems(
     name: json['name'] as String,
     quantity: json['quantity'] as int,

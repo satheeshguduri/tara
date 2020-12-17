@@ -430,11 +430,16 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
             itemBuilder: (context,index){
               return  InkWell(
                 onTap: (){
-                  var firID = controller.orderList[index].order_extra.data.customer_commid;
-                  var customer = CustomerProfile();
-                  customer.firebaseId = firID;
-                  customer.firstName = "Customer Name";
-                  push(ConversationPage(arrChats: ["items_order"],custInfo: customer, fromScreen: FromScreen.merchant,));
+                  if(controller.orderList[index]?.order_extra?.data?.customer_commid?.isNotEmpty??false){
+                    var firID = controller.orderList[index].order_extra.data.customer_commid;
+                    var customer = CustomerProfile();
+                    customer.firebaseId = firID;
+                    customer.firstName = "Customer Name";
+                    push(ConversationPage(arrChats: ["items_order"],custInfo: customer, fromScreen: FromScreen.merchant,));
+                  }else{
+                    showToast(message: "Unable to show the order");//translate the message.
+                  }
+
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 16, right: 16,top: 16),

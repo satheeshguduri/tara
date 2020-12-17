@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'order_items.g.dart';
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class OrderItems{
 
 
@@ -14,7 +14,7 @@ class OrderItems{
 
 
 
-factory OrderItems.fromJson(Map<String, dynamic> json) => _$OrderItemsFromJson(json);
+factory OrderItems.fromJson(Map<dynamic, dynamic> json) => _$OrderItemsFromJson(json);
 
 Map<String, dynamic> toJson() => _$OrderItemsToJson(this);
 }

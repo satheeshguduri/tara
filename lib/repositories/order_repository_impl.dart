@@ -69,11 +69,11 @@ class OrderRepositoryImpl extends OrderRepository{
   }
 
   @override
-  Future<Either<Failure, order.Order>> updateOrder(order.Order order,String orderId) async{
+  Future<Either<Failure, order.Order>> updateOrder(order.Order order) async{
     AuthResponse user = Get.find();
     token = user.securityToken.token.tara.bearer();
     try {
-     var response = await remoteDataSource.updateOrder(token, order,orderId);
+     var response = await remoteDataSource.updateOrder(token, order,order.orderId);
      return Right(response);
     }catch(e){
      return Left(Failure.fromServerError(e));

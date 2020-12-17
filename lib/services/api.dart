@@ -37,8 +37,8 @@ static const get_stores = "v0.1/tara/erp/store";
 static const create_store = "v0.1/tara/erp/store";
 static const create_owner = "v0.1/tara/erp/owner";
 static const create_order = "v0.1/tara/erp/order";
-static const update_order = "v0.1/tara/erp/order/{orderId}}";
-static const get_order = "v0.1/tara/erp/order/{orderId}}";
+static const update_order = "v0.1/tara/erp/order/{orderId}";
+static const get_order = "v0.1/tara/erp/order/{orderId}";
 static const get_store_types = "v0.1/tara/erp/storetype";
 
 

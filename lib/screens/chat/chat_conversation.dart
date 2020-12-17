@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -21,6 +22,8 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/chat/message_type.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/chat/text_message.dart';
+import 'package:tara_app/models/order_management/orders/order_status.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -362,19 +365,40 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     print(snapshot.value.toString());
     String chatType = snapshot.value["messageType"];
     if(chatType == describeEnum(MessageType.ORDER)){
-//      Order order = Order.fromJson(snapshot.value);
+     Order order = Order.fromSnapshot(snapshot);
       if (widget.fromScreen == FromScreen.merchant){
-        return ItemsOrder();
+        if(order.orderStatus == describeEnum(Statuses.PENDING))
+          return ItemsOrder(order: order,);
+        else if(order.orderStatus == describeEnum(Statuses.ACCEPTED)){
+          return TextChatWidget(textMessage: "You have accepted the order.",isReceivedMsg: false);
+        }else if(order.orderStatus == describeEnum(Statuses.CANCELLED)){
+          return TextChatWidget(textMessage:"You have canceled the order",isReceivedMsg: false);
+        }else if(order.orderStatus == describeEnum(Statuses.ORDER_PAYMENT_DECLINED)){
+          return TextChatWidget(textMessage:"Payment Declined By the User",isReceivedMsg: true);
+        }
       }else if (widget.fromScreen == FromScreen.consumer){
-        return ItemsOrder(selfOrder: true);
+        if(order.orderStatus == describeEnum(Statuses.PENDING))
+          return ItemsOrder(order: order,selfOrder: true,);
+        else if(order.orderStatus == describeEnum(Statuses.ACCEPTED)){
+          //return Pay and Decline Widget Here
+          return TextChatWidget(textMessage: "Order confirmed by the Store",isReceivedMsg: true);
+        }else if(order.orderStatus == describeEnum(Statuses.CANCELLED)){
+          return TextChatWidget(textMessage:"Ordered declined by the Store",isReceivedMsg: true);
+        }else if(order.orderStatus == describeEnum(Statuses.ORDER_PAYMENT_DECLINED)){
+          //update the txt on Pay and decline widget, button should be replaced with text
+          return TextChatWidget(textMessage:"You have declined the payment",isReceivedMsg: true);
+        }
+
+
       }else{
         return Container();
       }
+    }else {
+      String message = snapshot.value["text"];
+      return TextChatWidget(
+        textMessage: message,
+      );
     }
-    String message = snapshot.value["text"];
-    return TextChatWidget(
-      textMessage: message,
-    );
   }
 
   showChatInboxWidgets() {

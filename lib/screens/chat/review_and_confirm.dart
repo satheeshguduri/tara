@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tara_app/common/constants/assets.dart';
@@ -5,77 +6,90 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
-import 'package:tara_app/models/chat/order.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
+import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
+import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/review_and_deliver.dart';
+import 'package:tara_app/services/error/failure.dart';
 
 class ReviewAndConfirm extends StatefulWidget {
   Function(String) callBackToConfirmOrder;
-  final Order orderId;
+  String orderId;
   ReviewAndConfirm({Key key,this.callBackToConfirmOrder, this.orderId}) : super(key: key);
   @override
   _ReviewAndConfirmState createState() => _ReviewAndConfirmState();
 }
 
 class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
-  List<String> itemOrderList = [
-    "Nanas",
-    "Bengkoang",
-    "Minyak Bimoli",
-    "Telor Ayam"
-  ];
-  List<String> itemOrderQuantityList = ["500gr", "200gr", "1", "0.5kg"];
-  List<String> itemOrderCostList = [
-    "Rp 10.000",
-    "Rp 25.000",
-    "Rp 17.000",
-    "Rp 9.000"
-  ];
-  List<ItemOrderModel> arrItems = [];
+  // List<String> itemOrderList = [
+  //   "Nanas",
+  //   "Bengkoang",
+  //   "Minyak Bimoli",
+  //   "Telor Ayam"
+  // ];
+  // List<String> itemOrderQuantityList = ["500gr", "200gr", "1", "0.5kg"];
+  // List<String> itemOrderCostList = [
+  //   "Rp 10.000",
+  //   "Rp 25.000",
+  //   "Rp 17.000",
+  //   "Rp 9.000"
+  // ];
+  List<OrderItems> arrItems = [];
   List<String> arrEmptyOrder = [];
+  OrderModel.Order order;
 
   List<TextEditingController> _controllers = new List();
 
   @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
-
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    loadData();
+  
+  FutureBuilder getOrdersFuture(){
+    return FutureBuilder<Either<Failure,OrderModel.Order>>(
+      future: getIt.get<OrderRepository>().getOrderByOrderId(widget.orderId),
+      builder: (context, AsyncSnapshot<Either<Failure,OrderModel.Order>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          // If the Future is complete, display the preview.
+          if(snapshot.hasData) {
+            Either<Failure,OrderModel.Order> result = snapshot.data;
+            result.fold((l) => Text("Unable to fetch the Order details"), (r)=>{
+                order = r,
+                arrItems = order.items
+            });
+            return getPageContainer();
+          }
+          return Container();
+        } else {
+          // Otherwise, display a loading indicator.
+          return const Center(child: BaseWidgets.getIndicator);
+        }
+      },
+    );
   }
 
-  loadData() {
-    arrItems = [];
-    for (var i = 0; i < itemOrderList.length; i++) {
-      var itemOrderModel = ItemOrderModel();
-      itemOrderModel.itemName = itemOrderList[i];
-      itemOrderModel.quantity = itemOrderQuantityList[i];
-      itemOrderModel.cost = itemOrderCostList[i];
-      arrItems.add(itemOrderModel);
-    }
+  Widget getPageContainer(){
+    return Column(
+      children: [
+        getItemsOrderTotalWidget(),
+        getDeliveryInfoWidget(),
+        getDeliveryMethodWidget(),
+        getBillingInfoWidget()
+      ],
+    );
   }
-
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         backgroundColor: Color(0xfff7f7fa),
         appBar: _buildAppBar(context),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              getItemsOrderTotalWidget(),
-              getDeliveryInfoWidget(),
-              getDeliveryMethodWidget(),
-              getBillingInfoWidget()
-            ],
-          ),
+          child: getOrdersFuture(),
         ));
   }
 
@@ -244,9 +258,9 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         ));
   }
 
-  getOrderItemWidget(ItemOrderModel itemOrderModel, int index) {
+  getOrderItemWidget(OrderItems itemOrderModel, int index) {
     _controllers.add(new TextEditingController());
-    _controllers[index].text = itemOrderModel.cost;
+    _controllers[index].text = itemOrderModel.price.toString();
     return Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
         decoration: BoxDecoration(
@@ -261,12 +275,12 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(bottom: 4, top: 4, right: 8),
-                    child: Text(itemOrderModel.itemName,
+                    child: Text(itemOrderModel.name,
                         style: BaseStyles.itemOrderTextStyle),
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 4, top: 4, right: 8),
-                    child: Text(itemOrderModel.quantity,
+                    child: Text(itemOrderModel.quantity.toString(),
                         style: BaseStyles.itemOrderQuantityTextStyle),
                   ),
                 ],
@@ -594,9 +608,14 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                           fontSize: 14.0
                       ))
                   ) ,
-                  onTap: (){
+                  onTap: ()async {
 //                    push(ReviewAndDeliver());
-
+                  //wrote a controlle and show progress
+                  //   YAKUB: Uncomment to update the status.
+                   /* order.status = Statuses.ACCEPTED;
+                    print(order.toJson().toString());
+                    await getIt.get<OrderRepository>().updateOrder(order);
+                    print("Order Status ACCEPTED and Updated");*/
                   widget.callBackToConfirmOrder(Strings.confirm_order);
                   Navigator.pop(context, false);
                   },
@@ -608,7 +627,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
-  getBillingItemWidget(ItemOrderModel itemOrderModel) {
+  getBillingItemWidget(OrderItems itemOrderModel) {
     return Container(
         child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -618,12 +637,12 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(itemOrderModel.itemName,
+              Text(itemOrderModel.name,
                   style: BaseStyles.itemOrderTextStyle),
               Container(
                 height: 4,
               ),
-              Text(itemOrderModel.quantity,
+              Text("${itemOrderModel.quantity}",
                   style: BaseStyles.itemOrderQuantityTextStyle),
               Container(
                 height: 16,
@@ -634,7 +653,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         Expanded(
           flex: 2,
           child:
-              Text(itemOrderModel.cost, style: BaseStyles.itemOrderTextStyle),
+              Text("${itemOrderModel.price}", style: BaseStyles.itemOrderTextStyle),
         )
       ],
     ));

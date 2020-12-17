@@ -14,7 +14,7 @@ abstract class OrderRepository {
   Future<Either<Failure,List<order.Order>>> getOrdersByMerchantId(int merchantId);
   Future<Either<Failure,List<order.Order>>> getOrdersByConsumerId(int consumerId);
   Future<Either<Failure,order.Order>> createOrder(order.Order order);
-  Future<Either<Failure,order.Order>> updateOrder(order.Order order,String orderId);
+  Future<Either<Failure,order.Order>> updateOrder(order.Order order);
  /* Future<Either<Failure,order.Order>> deleteOrder(String orderId);
   Future<Either<Failure,order.Order>> findOrderByMerchantId(String merchantId);
   Future<Either<Failure,order.Order>> findByTransactionId(String transactionId);*/
