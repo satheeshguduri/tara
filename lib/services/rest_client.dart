@@ -97,11 +97,11 @@ abstract class RestClient {
   @GET(API.get_order)
   Future<Order> getOrderByOrderId(@Header("Authorization") String token, @Path() String orderId);
 
-  @GET(API.get_orders_consumers)
-  Future<List<Order>> getOrdersByConsumerId(@Header("Authorization") String token, @Path() String consumerId);
-
-  @GET(API.get_orders_merchants)
-  Future<List<Order>> getOrdersByMerchantId(@Header("Authorization") String token, @Path() String merchantId);
+//  @GET(API.get_orders_consumers)
+//  Future<List<Order>> getOrdersByConsumerId(@Header("Authorization") String token, @Path() String consumerId);
+//
+//  @GET(API.get_orders_merchants)
+//  Future<List<Order>> getOrdersByMerchantId(@Header("Authorization") String token, @Path() String merchantId);
 
 
   //

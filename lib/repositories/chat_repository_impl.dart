@@ -38,7 +38,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   void updateOrder(order.Order order) {
-    firebaseRemoteService.setData(path: FirebasePath.getPath(order.order_extra.customer_commid, order.order_extra.merchant_commid), data: order.toJson());
+    firebaseRemoteService.setData(path: FirebasePath.getPath(order.order_extra.data.customer_commid, order.order_extra.data.merchant_commid), data: order.toJson());
   }
 }
 

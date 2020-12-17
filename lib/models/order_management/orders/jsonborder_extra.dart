@@ -1,14 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/order_management/orders/order_extra_data.dart';
 part 'jsonborder_extra.g.dart';
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class JsonbOrderExtra{
 
-   String customer_commid;
-   String merchant_commid;
-   bool interpret;
+   OrderExtraData data;
 
-
-   JsonbOrderExtra({this.customer_commid, this.merchant_commid, this.interpret});
+   JsonbOrderExtra({this.data});
 
   factory JsonbOrderExtra.fromJson(Map<String, dynamic> json) => _$JsonbOrderExtraFromJson(json);
 

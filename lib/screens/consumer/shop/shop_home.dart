@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -278,8 +279,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
             ],
           ),
         ),
-        controller.orderList.length != 0 ?
-        loadPreviousOrders() : Container(),
+
+        loadPreviousOrders(),
         loadMerchantNearYou(),
       ],
     );
@@ -299,143 +300,149 @@ class _ShopHomeState extends BaseState<ShopHome> {
   }
 
   loadPreviousOrders(){
-    return Container(
-        margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 7.5.toInt(),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    getTranslation(Strings.past_purchase),
-                    textAlign: TextAlign.left,
-                    style: BaseStyles.bottomSheetTitleStyle,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2.5.toInt(),
-                child: Container(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 16),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              getTranslation(Strings.SEE_ALL),
-                              textAlign: TextAlign.center,
-                              style: BaseStyles.seeAllTextStyle,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 2,
-                          margin: EdgeInsets.only(top: 4, left: 4, right: 16),
-                          decoration: BoxDecoration(
-                            gradient: Gradients.primaryGradient,
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
-            ],
-          ),
-          Container(
-              height: 120,
-              margin: EdgeInsets.only(left: 0, right: 0,top: 16),
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 4,
-                  itemBuilder: (context,index){
-                    return Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      margin:EdgeInsets.only(left:8,right: 8,top: 16,bottom: 8),
-                      padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)
-                          ),
-                          boxShadow: [BoxShadow(
-                              color: Color(0x1f000000),
-                              offset: Offset(0,4),
-                              blurRadius: 6,
-                              spreadRadius: 0
-                          ), BoxShadow(
-                              color: Color(0x14000000),
-                              offset: Offset(0,0),
-                              blurRadius: 2,
-                              spreadRadius: 0
-                          )] ,
-                          color: AppColors.primaryBackground
+    if( controller.orderList.length != 0){
+      return Container(
+          margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 7.5.toInt(),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        getTranslation(Strings.past_purchase),
+                        textAlign: TextAlign.left,
+                        style: BaseStyles.bottomSheetTitleStyle,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                              "9 Sep 2020 • 14:30",
-                              style:  TextStyle(
-                                  color:  AppColors.light_grey_blue,
-                                  fontWeight: FontWeight.w500,
-                                  fontStyle:  FontStyle.normal,
-                                  fontSize: 10.0
-                              )
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2.5.toInt(),
+                    child: Container(
+                        padding: EdgeInsets.only(top: 8, bottom: 8),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 16),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  getTranslation(Strings.SEE_ALL),
+                                  textAlign: TextAlign.center,
+                                  style: BaseStyles.seeAllTextStyle,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 2,
+                              margin: EdgeInsets.only(top: 4, left: 4, right: 16),
+                              decoration: BoxDecoration(
+                                gradient: Gradients.primaryGradient,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                ],
+              ),
+              Container(
+                  height: 120,
+                  margin: EdgeInsets.only(left: 0, right: 0,top: 16),
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller.orderList.length,
+                      itemBuilder: (context,index){
+                        var order = controller.orderList.value[index];
+                        return Container(
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          margin:EdgeInsets.only(left:8,right: 8,top: 16,bottom: 8),
+                          padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(8)
+                              ),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0x1f000000),
+                                  offset: Offset(0,4),
+                                  blurRadius: 6,
+                                  spreadRadius: 0
+                              ), BoxShadow(
+                                  color: Color(0x14000000),
+                                  offset: Offset(0,0),
+                                  blurRadius: 2,
+                                  spreadRadius: 0
+                              )] ,
+                              color: AppColors.primaryBackground
                           ),
-                          Text(
-                              "Toko Surya Jaya",
-                              style: BaseStyles.bottomSheetTitleStyle
-                          ),
-                          Row(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+
                               Text(
-                                  "8 Items - Rp 180.000",
-                                  style: TextStyle(
+                                DateFormat('dd MMM yyyy • kk:mm').format(order.orderDate),
+                                  style:  TextStyle(
                                       color:  AppColors.light_grey_blue,
                                       fontWeight: FontWeight.w500,
                                       fontStyle:  FontStyle.normal,
                                       fontSize: 10.0
                                   )
                               ),
-                              InkWell(
-                                child: Container(
-                                  width: 88,
-                                  height: 24,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(6)
+                              Text(
+                                   order.storeId.name,
+                                  style: BaseStyles.bottomSheetTitleStyle
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      order.items.length.toString() + " Items - Rp " + order.price.toString(),
+                                      style: TextStyle(
+                                          color:  AppColors.light_grey_blue,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:  FontStyle.normal,
+                                          fontSize: 10.0
+                                      )
+                                  ),
+                                  InkWell(
+                                    child: Container(
+                                      width: 88,
+                                      height: 24,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)
+                                          ),
+                                          color: AppColors.pale_turquoise
                                       ),
-                                      color: AppColors.pale_turquoise
-                                  ),
-                                  child: Text(
-                                      getTranslation(Strings.order_again),
-                                      style: BaseStyles.shopPreviousOrderAgain
-                                  ),
-                                ),
-                                onTap: (){
+                                      child: Text(
+                                          getTranslation(Strings.order_again),
+                                          style: BaseStyles.shopPreviousOrderAgain
+                                      ),
+                                    ),
+                                    onTap: (){
 //                                  push(MakeAnOrder(isFromShopHome: true,callBack: (arr){
 //                                    Navigator.pop(
 //                                        context, false);
 //                                  },));
-                                },
+                                    },
+                                  )
+                                ],
                               )
                             ],
-                          )
-                        ],
-                      ),
-                    );
-                  })
-          ),
-        ],
-      )
-    );
+                          ),
+                        );
+                      })
+              ),
+            ],
+          )
+      );
+    }
+    return Container();
+
   }
 
   loadMerchantNearYou(){
@@ -491,7 +498,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                   )
                               ),
                               Text(
-                                  describeEnum(controller.storeTypesList[index].type),
+                                  controller.storeTypesList[index].type,
                                   style: const TextStyle(
                                       color:  AppColors.fareColor,
                                       fontWeight: FontWeight.w500,
@@ -578,19 +585,17 @@ class _ShopHomeState extends BaseState<ShopHome> {
                         ],
                       ),
                     ),
-                    onTap: (){
+                    onTap: () async{
                       int integrationID = controller.arrStores[index].owner.integrationId;
                       if(integrationID != null){
-                        controller.getCustomerInfo(integrationID.toString());
-                      }else{
-                        controller.getCustomerInfo("28670118");
-                      }
-                      var firebaseID = controller.custInfo.value.firebaseId;
-                      if(firebaseID != null){
-                        push(ConversationPage(arrChats: ["make_an_order"],
-                          custInfo: controller.custInfo.value,
+                        var response = await controller.getCustomerInfo(integrationID.toString());
+                        response.fold((l) => print(l.message), (r) => {
+                        if(r.firebaseId != null){
+                          push(ConversationPage(arrChats: ["make_an_order"],
+                          custInfo: r,
                           merchantStore: controller.arrStores[index],
-                        ));
+                        ))}
+                        });
                       }
                     },
                   );

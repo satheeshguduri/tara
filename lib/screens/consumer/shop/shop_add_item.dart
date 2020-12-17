@@ -163,7 +163,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
         if (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null){
           if(widget.editItem != null){
             // update item
-            var item = controller.items.value.where((element) => element.name == widget.editItem.name).first;
+            var item = controller.items.where((element) => element.name == widget.editItem.name).first;
             item.name = nameTextController.text;
             item.quantity = int.parse(qntyTextController.text);
             item.unit = pcs;
@@ -172,9 +172,9 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
             item.name = nameTextController.text;
             item.quantity = int.parse(qntyTextController.text);
             item.unit = pcs;
-            controller.items.value.add(item);
+            controller.items.add(item);
           }
-          widget.saveItem();
+//          widget.saveItem();
           Navigator.of(context).pop();
         }
       },

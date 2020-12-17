@@ -20,24 +20,21 @@ class OrderController extends GetxController{
 
   var showProgress = false.obs;
   var orderList =  List<order.Order>().obs;
-  var storeTypeRes = StoreTypeResponse();
+//  var storeTypeRes = StoreTypeResponse();
   List<StoreTypeModel> storeTypesList;
   var arrStores = List<Store>().obs;
-  var custInfo = CustomerProfile().obs;
-
-  var orderItems = order.Order().obs;
+  // for create order
   var items = List<OrderItems>().obs;
 
   //Example to get the orders this need to be called in future builder
-  Future getMerchantOrders() async {
+  Future<List<order.Order>> getMerchantOrders() async {
     showProgress.value = true;
     AuthResponse user = Get.find();
     Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByMerchantId(user.customerProfile.id);
     showProgress.value = false;
-    response.fold((l) => print, (r) => {
-      orderList.value = r,
-      print(r.toString())
-    });
+    return response.fold((l) => [], (r) => r);
+
+
   }
 
   //Example to get the orders this need to be called in future builder
@@ -61,13 +58,13 @@ class OrderController extends GetxController{
     });
   }
 
-  Future getCustomerInfo(String custId) async{
+  Future<Either<Failure,CustomerProfile>> getCustomerInfo(String custId) async{
     showProgress.value = true;
     Either<Failure,CustomerProfile> response = await getIt.get<AuthRepository>().getCustomerInfoByCustomerId(custId);
     showProgress.value = false;
-    response.fold((l) => print(l.message), (r) => {
-      custInfo.value = r
-    });
+//    response.fold((l) => print(l.message), (r) => {
+//    });
+  return response;
   }
 
 
@@ -86,7 +83,7 @@ class OrderController extends GetxController{
     for(StoreTypeModel storeType in storeTypesList){
       if(store.storeTypeId != null){
         if(store.storeTypeId.contains(storeType.id)){
-          storeName = describeEnum(storeType.type);
+          storeName = storeType.type;
         }
 //        for(int id in store.storeTypeId){
 //          if(id == storeType.id){

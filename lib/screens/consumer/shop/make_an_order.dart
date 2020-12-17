@@ -10,6 +10,8 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/order_management/orders/jsonborder_extra.dart';
 import 'package:tara_app/models/order_management/orders/order_address.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/models/order_management/orders/order_types.dart';
@@ -24,9 +26,11 @@ import 'package:tara_app/services/error/failure.dart';
 class MakeAnOrder extends StatefulWidget {
   final bool isFromShopHome;
   final Store merchantStore;
+  final CustomerProfile merchantProfile;
   MakeAnOrder({Key key,
     this.isFromShopHome=false,
-    this.merchantStore
+    this.merchantStore,
+    this.merchantProfile
   }) : super(key: key);
 
   @override
@@ -400,6 +404,11 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                orderReq.status = Statuses.PENDING;
                orderReq.orderDate = DateTime.now();   //"2020-10-09";
                orderReq.orderType = OrderTypes.TEXT_BASED;
+               var orderExtra = JsonbOrderExtra();
+               orderExtra.data.customer_commid = user.customerProfile.firebaseId;
+               orderExtra.data.merchant_commid = widget.merchantProfile.firebaseId;
+               orderExtra.data.interpret = true;
+               orderReq.order_extra = orderExtra;
                Either<Failure,order.Order> response = await controller.createOrder(orderReq);
                    response.fold((l) => print(l.message), (r) => {
                    Navigator.pop(context, false)

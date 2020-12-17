@@ -312,50 +312,6 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<List<Order>> getOrdersByConsumerId(token, consumerId) async {
-    ArgumentError.checkNotNull(token, 'token');
-    ArgumentError.checkNotNull(consumerId, 'consumerId');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<List<dynamic>>(
-        'v0.1/tara/erp/consumer/$consumerId/order',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{r'Authorization': token},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    var value = _result.data
-        .map((dynamic i) => Order.fromJson(i as Map<String, dynamic>))
-        .toList();
-    return value;
-  }
-
-  @override
-  Future<List<Order>> getOrdersByMerchantId(token, merchantId) async {
-    ArgumentError.checkNotNull(token, 'token');
-    ArgumentError.checkNotNull(merchantId, 'merchantId');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<List<dynamic>>(
-        'v0.1/tara/erp/merchant/$merchantId/order',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{r'Authorization': token},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    var value = _result.data
-        .map((dynamic i) => Order.fromJson(i as Map<String, dynamic>))
-        .toList();
-    return value;
-  }
-
-  @override
   Future<Catalogue> saveCatalogue(token, catalogue) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(catalogue, 'catalogue');

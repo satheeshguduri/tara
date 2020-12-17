@@ -2,25 +2,29 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/chat/order.dart';
+import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/screens/agent/balance_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/models/order_management/orders/order.dart' as order;
 
 class MerchantHomeWidget extends StatefulWidget{
 
   @override
   MerchantHomeWidgetState createState() => MerchantHomeWidgetState();
-
-
 }
 
 class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
@@ -35,14 +39,13 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
   void init() {
     // TODO: implement init
     super.init();
-    controller.getMerchantOrders();
+//    controller.getMerchantOrders();
   }
 
 @override
   void initState(){
     // TODO: implement initState
     super.initState();
-
   }
 
   @override
@@ -396,7 +399,8 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                         ],
                       ),
                     ),
-                    getBottomView()
+//                    getBottomView(),
+                    getStoreTypes()
                   ],
                 ),
               ))
@@ -410,6 +414,23 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
   BuildContext getContext() {
     // TODO: implement getContext
     return context;
+  }
+
+  Widget getStoreTypes()
+  {
+    return FutureBuilder<List<order.Order>>(
+        future: controller.getMerchantOrders(),
+        builder: buildShopCategories);
+  }
+
+  Widget buildShopCategories(
+      BuildContext context, AsyncSnapshot<List<order.Order>> snapshot) {
+    Text text = const Text('Select Category');
+    if (snapshot.hasData) {
+      controller.orderList = snapshot.data;
+      return getBottomView();
+    }
+    return Container(margin: EdgeInsets.only(top: 16, bottom: 16), child: text);
   }
 
   Widget getBottomView(){
@@ -426,7 +447,11 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
             itemBuilder: (context,index){
               return  InkWell(
                 onTap: (){
-                  push(ConversationPage(arrChats: ["items_order"],));
+                  var firID = controller.orderList[index].order_extra.data.customer_commid;
+                  var customer = CustomerProfile();
+                  customer.firebaseId = firID;
+                  customer.firstName = "Customer Name";
+                  push(ConversationPage(arrChats: ["items_order"],custInfo: customer, fromScreen: FromScreen.merchant,));
                 },
                 child: Container(
                   margin: EdgeInsets.only(left: 16, right: 16,top: 16),
@@ -454,7 +479,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                   children: [
                                     // TODAY • 12:33
                                     Text(
-                                        controller.orderList[index].orderDate.toString(),
+                                    DateFormat('dd MMM yyyy • kk:mm').format(controller.orderList[index].orderDate),
 //                                        "TODAY • 12:33",
                                         style: const TextStyle(
                                             color:  AppColors.color_black_80_2,
@@ -465,7 +490,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                     Container(height: 6,),
 
                                     Text(
-                                        "Andi Ruhiyat",
+                                        "Andi Ruhiyat", //TODO:- Display Name Here
                                         style: const TextStyle(
                                             color:  AppColors.primaryText,
                                             fontWeight: FontWeight.w700,
@@ -475,7 +500,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                     ),
                                     Container(height: 6,),
                                     Text(
-                                        "Eggs, Flour, Water Gallon…",
+                                        getOrderItems(controller.orderList[index]),
                                         style: const TextStyle(
                                             color:  AppColors.battleship_grey,
                                             fontWeight: FontWeight.w400,
@@ -508,7 +533,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                             fontStyle:  FontStyle.normal,
                                             fontSize: 14.0
                                         ),
-                                        text: "Rp 335.750")
+                                        text: "Rp " + controller.orderList[index].price.toString())
                                   ]
                               )
                           ),
@@ -657,7 +682,8 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                         fontStyle:  FontStyle.normal,
                                         fontSize: 14.0
                                     ),
-                                    text: "Rp 335.750")
+                                    text:
+                                    "Rp 335.750")
                               ]
                           )
                       ),
@@ -682,7 +708,12 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
         color: AppColors.primaryBackground
     );
   }
-
-
-
+  
+  String getOrderItems(order.Order orderTemp){
+    var itemsStr = "";
+    for(OrderItems item in orderTemp.items){
+      itemsStr += item.name + ",";
+    }
+    return itemsStr.substring(0, itemsStr.length - 1);
+  }
 }

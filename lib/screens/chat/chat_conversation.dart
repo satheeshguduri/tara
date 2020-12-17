@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
 import 'package:tara_app/injector.dart';
@@ -36,6 +37,7 @@ class ConversationPage extends StatefulWidget {
   final bool isFromShopHome;
   CustomerProfile custInfo;
   final Store merchantStore;
+  final FromScreen fromScreen;
 
   ConversationPage(
       {this.canGoBack = true,
@@ -49,7 +51,8 @@ class ConversationPage extends StatefulWidget {
       this.callback,
       this.isFromShopHome,
       this.custInfo,
-        this.merchantStore
+        this.merchantStore,
+        this.fromScreen = FromScreen.consumer
       })
       : super(key: key);
 
@@ -138,7 +141,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                     child: MakeAnOrderChat(
                       onSelectOption: (val) {
                         push(MakeAnOrder(isFromShopHome: false,
-                          merchantStore: widget.merchantStore,));
+                          merchantStore: widget.merchantStore,
+                        merchantProfile: widget.custInfo,));
                       },
                     ),
                   )
@@ -348,6 +352,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   }
 
   Widget loadChatWidget(DataSnapshot snapshot) {
+
+    print(snapshot.value.toString());
     String chatType = snapshot.value["type"];
     String message = snapshot.value["text"];
     if (chatType == "TEXT_BASED" && message != null) {
