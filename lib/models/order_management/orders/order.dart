@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/chat/message_type.dart';
 import 'package:tara_app/models/order_management/catalogue_category/catalogue.dart';
 import 'package:tara_app/models/order_management/orders/jsonborder_extra.dart';
 import 'package:tara_app/models/order_management/orders/order_types.dart';
@@ -26,6 +27,7 @@ class Order{
   String transactionId;
   String merchantId;
   JsonbOrderExtra order_extra;
+  MessageType messageType;
 
   Order(
   {this.orderId,
@@ -42,7 +44,7 @@ class Order{
       this.orderType,
       this.transactionId,
       this.merchantId,
-      this.order_extra});
+      this.order_extra,this.messageType});
 
 factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 Map<String, dynamic> toJson() => _$OrderToJson(this);

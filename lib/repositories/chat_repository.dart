@@ -12,9 +12,11 @@ import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/chat/text_message.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/services/error/failure.dart';
+import 'package:tara_app/models/order_management/orders/order.dart' as order;
 
 abstract class ChatRepository {
   void sendMessage(TextMessage textMessage);
+  void updateOrder(order.Order order);
   Query openChatRoom(String senderId, String receiverId);
 }
 
