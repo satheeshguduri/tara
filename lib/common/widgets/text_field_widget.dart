@@ -46,7 +46,7 @@ class TextFieldWidget extends StatefulWidget {
     this.height = 48,
     this.alignment = TextAlign.left,
     this.enableInteractiveSelection = true,
-    this.enable=false,
+    this.enable=true,
 
   }) : super(key: key);
 
