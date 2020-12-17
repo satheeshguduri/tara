@@ -7,12 +7,14 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
+import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
 
 class ReviewAndConfirm extends StatefulWidget {
   Function(String) callBackToConfirmOrder;
-  ReviewAndConfirm({Key key,this.callBackToConfirmOrder}) : super(key: key);
+  final Order orderId;
+  ReviewAndConfirm({Key key,this.callBackToConfirmOrder, this.orderId}) : super(key: key);
   @override
   _ReviewAndConfirmState createState() => _ReviewAndConfirmState();
 }

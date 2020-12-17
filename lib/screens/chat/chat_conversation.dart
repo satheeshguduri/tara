@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
@@ -9,11 +10,16 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/enums.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_order_detail.dart';
+import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/chat/message_type.dart';
+import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/chat/text_message.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
@@ -354,15 +360,21 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   Widget loadChatWidget(DataSnapshot snapshot) {
 
     print(snapshot.value.toString());
-    String chatType = snapshot.value["type"];
-    String message = snapshot.value["text"];
-    if (chatType == "TEXT_BASED" && message != null) {
-      return TextChatWidget(
-        textMessage: message,
-      );
-    } else {
-      return Container();
+    String chatType = snapshot.value["messageType"];
+    if(chatType == describeEnum(MessageType.ORDER)){
+      Order order = Order.fromSnapshot(snapshot);
+      if (widget.fromScreen == FromScreen.merchant){
+        return ItemsOrder();
+      }else if (widget.fromScreen == FromScreen.consumer){
+        return ItemsOrder(selfOrder: true);
+      }else{
+        return Container();
+      }
     }
+    String message = snapshot.value["text"];
+    return TextChatWidget(
+      textMessage: message,
+    );
   }
 
   showChatInboxWidgets() {

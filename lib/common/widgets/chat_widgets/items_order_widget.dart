@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_confirm.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
@@ -13,10 +14,12 @@ class ItemsOrder extends StatefulWidget {
   final bool isFromAcceptedOrder;
   final Function onTapAction;
   final bool selfOrder;
+  final Order orderId;
   const ItemsOrder({
     this.isFromAcceptedOrder=false,
     this.onTapAction,
     this.selfOrder = false,
+    this.orderId,
     Key key,
   }) : super(key: key);
 
