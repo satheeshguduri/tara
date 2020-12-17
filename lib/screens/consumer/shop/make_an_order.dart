@@ -13,6 +13,7 @@ import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/order_management/orders/jsonborder_extra.dart';
 import 'package:tara_app/models/order_management/orders/order_address.dart';
+import 'package:tara_app/models/order_management/orders/order_extra_data.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/models/order_management/orders/order_types.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
@@ -404,10 +405,14 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                orderReq.status = Statuses.PENDING;
                orderReq.orderDate = DateTime.now();   //"2020-10-09";
                orderReq.orderType = OrderTypes.TEXT_BASED;
-               var orderExtra = JsonbOrderExtra();
-               orderExtra.data.customer_commid = user.customerProfile.firebaseId;
-               orderExtra.data.merchant_commid = widget.merchantProfile.firebaseId;
-               orderExtra.data.interpret = true;
+
+               var data = OrderExtraData(customer_commid: user.customerProfile.firebaseId,
+                   merchant_commid: widget.merchantProfile.firebaseId,);
+//               data.customer_commid = ;
+//               data.merchant_commid = widget.merchantProfile.firebaseId;
+//               data.interpret = true;
+               var orderExtra = JsonbOrderExtra(data:data);
+//               orderExtra.data = data;
                orderReq.order_extra = orderExtra;
                Either<Failure,order.Order> response = await controller.createOrder(orderReq);
                    response.fold((l) => print(l.message), (r) => {
