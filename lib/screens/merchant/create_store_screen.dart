@@ -293,7 +293,7 @@ class _CreateStoreScreenState extends BaseState<CreateStoreScreen> {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: textEditingController==null?(controller.selectedStoreType.value.type!=null&&controller.selectedStoreType.value.type.isNotEmpty)?
+                      child: textEditingController==null?(!GetUtils.isNullOrBlank(controller.selectedStoreType.value.type))?
                       getDropDownList():getStoreTypes():TextFieldWidget(
                           placeHolderStyle: placeHolderStyle,
                           enableInteractiveSelection:
