@@ -8,10 +8,9 @@ class OrderItems{
    int quantity;
    double price;
    String currency;
-   String unit;
+   String metric;
 
-   OrderItems({this.name, this.quantity, this.price, this.currency, this.unit});
-
+   OrderItems({this.name, this.quantity, this.price, this.currency, this.metric});
 
 
 factory OrderItems.fromJson(Map<dynamic, dynamic> json) => _$OrderItemsFromJson(json);

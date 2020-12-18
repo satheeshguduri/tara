@@ -91,11 +91,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                         },));
                       }
                     }else if(widget.fromScreen == FromScreen.consumer){
-//                      widget.onTapAction();
-                      push(ReviewAndConfirm(orderId: widget.order.orderId,callBackToConfirmOrder: (){
-//                        widget.onTapAction(val);
-                        push(ReviewAndDeliver());
-                      },));
+                      widget.onTapAction();
                     }
                     else{
                       widget.onTapAction(Strings.order_detail);

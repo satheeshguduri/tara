@@ -1,5 +1,6 @@
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -10,9 +11,9 @@ import 'package:tara_app/models/order_management/store/store_type_model.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/repositories/stores_repository.dart';
-import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
 
 import '../injector.dart';
 
@@ -25,6 +26,7 @@ class OrderController extends GetxController{
   var arrStores = List<Store>().obs;
   // for create order
   var items = List<OrderItems>().obs;
+
 
   //Example to get the orders this need to be called in future builder
   Future getMerchantOrders() async {
@@ -78,6 +80,15 @@ class OrderController extends GetxController{
 //    });
   return response;
   }
+//  Future getOrderByOrderId(String orderId) async{
+//    showProgress.value = true;
+//    Either<Failure,OrderModel.Order> response = await getIt.get<OrderRepository>().getOrderByOrderId(orderId);
+//    showProgress.value = false;
+//    response.fold((l) => print(l.message), (r) => {
+////        arrItems.value = r.items,
+//    });
+//
+//  }
 
   String getStoreType(Store store){
     var storeName = "";

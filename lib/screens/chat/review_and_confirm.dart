@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/radii.dart';
@@ -9,48 +10,72 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
+import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/controller/order_update_controller.dart';
 import 'package:tara_app/injector.dart';
-import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
+import 'package:tara_app/models/order_management/orders/order.dart'
+    as OrderModel;
 import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
 import 'package:tara_app/services/error/failure.dart';
+import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class ReviewAndConfirm extends StatefulWidget {
   Function callBackToConfirmOrder;
   String orderId;
-  ReviewAndConfirm({Key key,this.callBackToConfirmOrder, this.orderId}) : super(key: key);
+  ReviewAndConfirm({Key key, this.callBackToConfirmOrder, this.orderId})
+      : super(key: key);
   @override
   _ReviewAndConfirmState createState() => _ReviewAndConfirmState();
 }
 
 class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
-
-  List<OrderItems> arrItems = [];
-  List<String> arrEmptyOrder = [];
   OrderModel.Order order;
+  OrderUpdateController controller = OrderUpdateController();
+  FocusNode deliveryFocusNode = new FocusNode();
 
-  List<TextEditingController> _controllers = new List();
+  @override
+  void init() {
+    // TODO: implement init
+    super.init();
+  }
 
   @override
   BuildContext getContext() {
     return context;
   }
-  
-  FutureBuilder getOrdersFuture(){
-    return FutureBuilder<Either<Failure,OrderModel.Order>>(
+
+  @override
+  initState() {
+    super.initState();
+    addListenersToRequiredTextField();
+  }
+
+  addListenersToRequiredTextField() {
+    deliveryFocusNode.addListener(() {
+      bool hasFocus = deliveryFocusNode.hasFocus;
+      if (hasFocus)
+        Utils().showOverlay(context);
+      else
+        Utils().removeOverlay();
+    });
+  }
+
+  FutureBuilder getOrdersFuture() {
+    return FutureBuilder<Either<Failure, OrderModel.Order>>(
       future: getIt.get<OrderRepository>().getOrderByOrderId(widget.orderId),
-      builder: (context, AsyncSnapshot<Either<Failure,OrderModel.Order>> snapshot) {
+      builder:
+          (context, AsyncSnapshot<Either<Failure, OrderModel.Order>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the Future is complete, display the preview.
-          if(snapshot.hasData) {
-            Either<Failure,OrderModel.Order> result = snapshot.data;
-            result.fold((l) => Text("Unable to fetch the Order details"), (r)=>{
-                order = r,
-                arrItems = order.items
-            });
+          if (snapshot.hasData) {
+            Either<Failure, OrderModel.Order> result = snapshot.data;
+            result.fold((l) => Text("Unable to fetch the Order details"),
+                (r) => {order = r, controller.arrItems.value = order.items});
             return getPageContainer();
           }
           return Container();
@@ -62,23 +87,37 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
-  Widget getPageContainer(){
-    return Column(
-      children: [
-        getItemsOrderTotalWidget(),
-        getDeliveryInfoWidget(),
-        getDeliveryMethodWidget(),
-        getBillingInfoWidget()
-      ],
-    );
+  Widget getPageContainer() {
+    return Container(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          children: [
+            getItemsOrderTotalWidget(),
+            getDeliveryInfoWidget(),
+            getDeliveryMethodWidget(),
+            getBillingInfoWidget()
+          ],
+        ));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xfff7f7fa),
         appBar: _buildAppBar(context),
-        body: SingleChildScrollView(
-          child: getOrdersFuture(),
+        body: Obx(
+          () => GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onPanDown: (_) {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: SingleChildScrollView(
+                child: controller.arrItems.length == 0
+                    ? getOrdersFuture()
+                    : getPageContainer(),
+              ).withProgressIndicator(
+                  showIndicator: controller.showProgress.value)),
         ));
   }
 
@@ -103,9 +142,9 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
   }
 
   getEmptyItemOrderWidget() {
-    if (arrEmptyOrder.length > 0) {
+    if (controller.arrEmptyOrder.length > 0) {
       return ListView.builder(
-          itemCount: arrEmptyOrder.length,
+          itemCount: controller.arrEmptyOrder.length,
           physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           primary: false,
@@ -150,6 +189,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                                                   AppColors.light_grey_blue))),
                                   child: TextFieldWidget(
                                     hint: getTranslation(Strings.quantity),
+                                    inputType: TextInputType.number,
                                     placeHolderStyle:
                                         BaseStyles.placeholderStyle,
                                   )),
@@ -168,6 +208,9 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                                     hint: getTranslation(Strings.price),
                                     placeHolderStyle:
                                         BaseStyles.placeholderStyle,
+                                    inputType: TextInputType.number,
+                                    onFieldSubmitted: (val) {},
+                                    onChanged: (val) {},
                                   )),
                             )
                           ],
@@ -182,9 +225,9 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                         child: InkWell(
                           child: Image.asset(Assets.ic_delete),
                           onTap: () {
-                            setState(() {
-                              arrEmptyOrder.removeLast();
-                            });
+                            if (controller.arrEmptyOrder.length > 0) {
+                              controller.arrEmptyOrder.removeLast();
+                            }
                           },
                         ),
                       )),
@@ -224,9 +267,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
           ],
         ),
         onTap: () {
-          setState(() {
-            arrEmptyOrder.add("");
-          });
+          controller.arrEmptyOrder.add("");
         },
       ),
     );
@@ -235,11 +276,10 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
   getItemsListWidget() {
     return Container(
         color: Colors.transparent,
-//        height: (arrItems!=null&&arrItems.length>0)? (arrItems.length * 50).toDouble() + 20:0,
         child: ListView.builder(
           itemBuilder: (context, index) =>
-              getOrderItemWidget(arrItems[index], index),
-          itemCount: arrItems.length,
+              getOrderItemWidget(controller.arrItems[index], index),
+          itemCount: controller.arrItems.length,
           physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           primary: false,
@@ -248,8 +288,8 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
   }
 
   getOrderItemWidget(OrderItems itemOrderModel, int index) {
-    _controllers.add(new TextEditingController());
-    _controllers[index].text = itemOrderModel.price.toString();
+    controller.textCtrls.add(new TextEditingController());
+    controller.textCtrls[index].text = itemOrderModel.price.toString();
     return Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
         decoration: BoxDecoration(
@@ -289,10 +329,16 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                                 bottom: BorderSide(
                                     color: AppColors.light_grey_blue))),
                         child: TextField(
-                          controller: _controllers[index],
-                          decoration: InputDecoration(border: InputBorder.none),
+                          controller: controller.textCtrls[index],
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
                           textAlign: TextAlign.start,
                           style: BaseStyles.itemOrderCostTextStyle,
+                          keyboardType: TextInputType.number,
+                          onChanged: (val) {
+                            itemOrderModel.price = double.parse(val);
+                          },
                         )),
                   ),
                   Expanded(
@@ -300,7 +346,10 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                       child: Container(
                         child: InkWell(
                           child: Image.asset(Assets.ic_delete),
-                          onTap: () {},
+                          onTap: () {
+                            controller.arrItems.removeAt(index);
+                            controller.textCtrls.removeAt(index);
+                          },
                         ),
                       )),
                 ],
@@ -389,8 +438,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                 fontSize: 12.0)),
         Container(
           margin: EdgeInsets.only(top: 8, bottom: 8),
-          child: Text(
-              getOrderAddress(),//"Jl. Kedoya Raya 4 Blok BC 2 No. 32 RT/RW 012/002, Kedoya Selatan, Jakarta Barat, DKI Jakarta 11520",
+          child: Text(getOrderAddress(),
               style: const TextStyle(
                   color: AppColors.header_top_bar_color,
                   fontWeight: FontWeight.w400,
@@ -455,8 +503,15 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                                   bottom: BorderSide(
                                       color: AppColors.light_grey_blue))),
                           child: TextFieldWidget(
+                            textController: controller.textDeliveryCtrl.value,
                             hint: "Rp 1.000",
                             placeHolderStyle: BaseStyles.placeholderStyle,
+                            focusNode: deliveryFocusNode,
+                            inputType: TextInputType.number,
+                            onChanged: (val) {
+                              // assign data to UI
+                              updateOrderDetails();
+                            },
                           ))
                     ],
                   ),
@@ -508,6 +563,10 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
+  updateOrderDetails() {
+    controller.deliveryCharge.value = controller.textDeliveryCtrl.value.text;
+  }
+
   getBillingInfoWidget() {
     return Container(
       color: AppColors.primaryBackground,
@@ -523,8 +582,8 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
             color: Colors.transparent,
             child: ListView.builder(
               itemBuilder: (context, index) =>
-                  getBillingItemWidget(arrItems[index]),
-              itemCount: arrItems.length,
+                  getBillingItemWidget(controller.arrItems[index]),
+              itemCount: controller.arrItems.length,
               physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               primary: false,
@@ -533,21 +592,25 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
           Expanded(
               flex: 8,
-              child: Text(getTranslation(Strings.subtotal), style: BaseStyles.itemOrderTextStyle)),
+              child: Text(getTranslation(Strings.subtotal),
+                  style: BaseStyles.itemOrderTextStyle)),
           Expanded(
               flex: 2,
-              child: Text("Rp 45.500", style: BaseStyles.itemOrderTextStyle)),
+              child: Text("Rp " + controller.getSubTotal().toString(),
+                  style: BaseStyles.itemOrderTextStyle)),
         ]),
         Row(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
           Expanded(
               flex: 8,
-              child: Text(getTranslation(Strings.delivery_fee), style: BaseStyles.itemOrderTextStyle)),
+              child: Text(getTranslation(Strings.delivery_fee),
+                  style: BaseStyles.itemOrderTextStyle)),
           Expanded(
               flex: 2,
-              child: Text("Rp 8.000", style: BaseStyles.itemOrderTextStyle)),
+              child: Text("Rp " + controller.deliveryCharge.value,
+                  style: BaseStyles.itemOrderTextStyle)),
         ]),
         Container(
-          margin: EdgeInsets.only(top: 16,bottom: 16),
+          margin: EdgeInsets.only(top: 16, bottom: 16),
           height: 1,
           color: AppColors.light_grey_bg_color,
         ),
@@ -556,61 +619,65 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(getTranslation(Strings.total), style: BaseStyles.reviewAndConfirmHeaderTextStyle),
-                Text("Rp 53.500", style: BaseStyles.reviewAndConfirmHeaderTextStyle)
-          ]),
+                Text(getTranslation(Strings.total),
+                    style: BaseStyles.reviewAndConfirmHeaderTextStyle),
+                Text("Rp " + controller.getTotal().toString(),
+                    style: BaseStyles.reviewAndConfirmHeaderTextStyle)
+              ]),
         ),
         Container(
           margin: EdgeInsets.only(bottom: 32),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                 Container(
-              width: 156,
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(13),
-          decoration: BoxDecoration(
-              borderRadius: Radii.border(8),
-            border: Border.all(color: AppColors.light_grey_blue, width: 1),
-            color: const Color(0xffffffff)),
-             child:
-                Text(getTranslation(Strings.decline_order), style: TextStyle(
-                    color:  const Color(0xfff95074),
-                    fontWeight: FontWeight.w700,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 14.0
-                ))
-          ),
-                InkWell(
-                  child:Container(
-                      width: 156,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(13),
-                      decoration: BoxDecoration(
-                          borderRadius: Radii.border(8),
-                          color: Color(0xffb2f7e2)),
-                      child:
-                      Text(getTranslation(Strings.confirm_order), style: TextStyle(
-                          color:  const Color(0xff123456),
-                          fontWeight: FontWeight.w700,
-                          fontStyle:  FontStyle.normal,
-                          fontSize: 14.0
-                      ))
-                  ) ,
-                  onTap: ()async {
-//                    push(ReviewAndDeliver());
-                  //wrote a controlle and show progress
-                  //   YAKUB: Uncomment to update the status.
-                   /* order.status = Statuses.ACCEPTED;
-                    print(order.toJson().toString());
-                    await getIt.get<OrderRepository>().updateOrder(order);
-                    print("Order Status ACCEPTED and Updated");*/
+                Container(
+                        width: 156,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(13),
+                        decoration: BoxDecoration(
+                            borderRadius: Radii.border(8),
+                            border: Border.all(
+                                color: AppColors.light_grey_blue, width: 1),
+                            color: const Color(0xffffffff)),
+                        child: Text(getTranslation(Strings.decline_order),
+                            style: TextStyle(
+                                color: const Color(0xfff95074),
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0)))
+                    .onTap(onPressed: () async {
+                  order.status = Statuses.CANCELLED;
+                  order.price = controller.getTotal();
+                  print(order.toJson().toString());
+                  var response = await controller.updateOrder(order);
+                  print("Order Status CANCELLED and Updated");
+                  response.fold(
+                      (l) => print(l), (r) => Navigator.pop(context, false));
+                }),
+                Container(
+                        width: 156,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(13),
+                        decoration: BoxDecoration(
+                            borderRadius: Radii.border(8),
+                            color: Color(0xffb2f7e2)),
+                        child: Text(getTranslation(Strings.confirm_order),
+                            style: TextStyle(
+                                color: const Color(0xff123456),
+                                fontWeight: FontWeight.w700,
+                                fontStyle: FontStyle.normal,
+                                fontSize: 14.0)))
+                    .onTap(onPressed: () async {
+                  order.status = Statuses.ACCEPTED;
+                  order.price = controller.getTotal();
+                  print(order.toJson().toString());
+                  var response = await controller.updateOrder(order);
+                  print("Order Status ACCEPTED and Updated");
+                  response.fold(
+                      (l) => print(l), (r) => Navigator.pop(context, false));
 //                  widget.callBackToConfirmOrder();
-                  push(ReviewAndDeliver());
-//                  Navigator.pop(context, false);
-                  },
-                )
-
+//                  push(ReviewAndDeliver());
+                })
               ]),
         )
       ]),
@@ -627,8 +694,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(itemOrderModel.name,
-                  style: BaseStyles.itemOrderTextStyle),
+              Text(itemOrderModel.name, style: BaseStyles.itemOrderTextStyle),
               Container(
                 height: 4,
               ),
@@ -642,21 +708,26 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         ),
         Expanded(
           flex: 2,
-          child:
-              Text("${itemOrderModel.price}", style: BaseStyles.itemOrderTextStyle),
+          child: Text("${itemOrderModel.price}",
+              style: BaseStyles.itemOrderTextStyle),
         )
       ],
     ));
   }
 
-  String getOrderAddress(){
-    if(this.order != null && order.deliveryAddress != null){
+  String getOrderAddress() {
+    if (this.order != null && order.deliveryAddress != null) {
       var address = order.deliveryAddress.first;
-      return address.dno + address.streetName + address.city + address.zipcode.toString() + address.country;
+      return address.dno +
+          "," +
+          address.streetName +
+          "," +
+          address.city +
+          "," +
+          address.zipcode.toString() +
+          "," +
+          address.country;
     }
     return "show addrss here";
   }
-
 }
-
-
