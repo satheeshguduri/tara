@@ -4,6 +4,7 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
 
 class OrderDetailsDeclinePay extends StatefulWidget {
-  final Function(String) onTapAction;
+  final Function(ChatAction) onTapAction;
   final Order order;
 
   const OrderDetailsDeclinePay(
@@ -92,7 +93,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                         style: BaseStyles.itemOrderCostTextStyle,
                                       ),
                                       Text(
-                                        "Rp 120.500",
+                                        "Rp " + widget.order.total.toString(),
                                         textAlign: TextAlign.left,
                                         style: BaseStyles.itemOrderCostTextStyle,
                                       )
@@ -111,7 +112,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                         style: BaseStyles.itemOrderCostTextStyle,
                                       ),
                                       Text(
-                                        "Rp 8.000",
+                                        "Rp 0.000",
                                         textAlign: TextAlign.left,
                                         style: BaseStyles.itemOrderCostTextStyle,
                                       )
@@ -136,7 +137,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                         style: BaseStyles.backAccountHeaderTextStyle,
                                       ),
                                       Text(
-                                        "Rp 128.500",
+                                        "Rp " + widget.order.total.toString(),
                                         textAlign: TextAlign.left,
                                         style: BaseStyles.backAccountHeaderTextStyle,
                                       )
@@ -170,7 +171,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                                     .declineButtonTextStyle),
                                           ),
                                         ).onTap(onPressed: (){
-                                          widget.onTapAction("Decline");
+                                          widget.onTapAction(ChatAction.decline);
                                         }),
                                       ),
                                       Expanded(
@@ -197,7 +198,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                                     .chatItemButtonTextStyle),
                                           ),
                                         ).onTap(onPressed: (){
-                                          widget.onTapAction("Pay");
+                                          widget.onTapAction(ChatAction.pay);
                                         }),
                                       )
                                     ],
@@ -210,7 +211,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                         child: Text(
                                           DateFormat('kk:mm').format(
                                               DateTime.fromMillisecondsSinceEpoch(
-                                                  1565888474278)),
+                                                  widget.order.timestamp)),
                                           style: TextStyle(
                                               color: Colors.grey,
                                               fontSize: 12.0,

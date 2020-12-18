@@ -6,14 +6,20 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/models/chat/order.dart';
 
 class ChatOrderPaid extends StatefulWidget {
   final bool isFromOrderDelivered;
-  const ChatOrderPaid({Key key,this.isFromOrderDelivered=false}) : super(key: key);
+  final Order order;
+  final FromScreen fromScreen;
+  final Function onTapAction;
+  const ChatOrderPaid({Key key,this.isFromOrderDelivered=false,
+    this.fromScreen,this.order,this.onTapAction}) : super(key: key);
 
   @override
   _ChatOrderPaidState createState() => _ChatOrderPaidState();
@@ -27,7 +33,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
       padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
       child: Expanded(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: widget.fromScreen == FromScreen.merchant?MainAxisAlignment.start:MainAxisAlignment.end,
           children: <Widget>[
             Container(
               child: Container(
@@ -96,7 +102,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                       Container(
                                         margin: EdgeInsets.only(top: 4),
                                         child: Text(
-                                            "TR005523",
+                                            widget.order.transactionId ?? "TS1001",
                                             style:BaseStyles.mobileNoTextStyle
                                         ),
                                       )
@@ -125,7 +131,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                       Container(
                                         margin: EdgeInsets.only(top: 4),
                                         child: Text(
-                                            "Rp 45.500",
+                                            "Rp " + widget.order.total.toString(),
                                             style:BaseStyles.mobileNoTextStyle
                                         ),
                                       )
@@ -154,7 +160,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                   style: BaseStyles.chatItemButtonTextStyle),
                             ),
                           ).onTap(onPressed: (){
-                            push(ReviewAndDeliver());
+                            push(ReviewAndDeliver(orderId: widget.order.orderId,));
                           }),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.end,
