@@ -11,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:tara_app/screens/agent/agent_home_screen.dart';
-import 'package:tara_app/screens/consumer/home_customer_screen.dart';
-import 'package:tara_app/screens/merchant/merchant_home_screen.dart';
+import 'package:tara_app/main_bindings.dart';
 import 'package:tara_app/screens/splash/splash_screen.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';
 
@@ -40,6 +38,7 @@ class _TaraAppState extends State<TaraApp> {
 //        Provider<GlobalStore>(create: (context)=> GlobalStore())
       ],
       child: GetMaterialApp(
+        initialBinding: MainBindings(),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: [
             AppLocalizations.delegate,

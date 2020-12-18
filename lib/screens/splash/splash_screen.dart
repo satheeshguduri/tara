@@ -10,6 +10,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/signin_screen.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 import '../../injector.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 
 class SplashScreen extends StatefulWidget{
   @override
@@ -25,7 +26,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
   void init() async{
     var data = await getIt.get<UserLocalDataStore>().getUser();
     if(data?.securityToken?.token!=null){
-      Get.put(data);
+      Get.put<AuthResponse>(data);
       isLoggedIn = true;
     }
     Timer(Duration(seconds: 5),() async{
