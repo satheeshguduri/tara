@@ -19,6 +19,7 @@ import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_details_decline_pay.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_paid.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
@@ -82,19 +83,21 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   bool isSendReceiveConfirmed = false;
   ChatInboxInfo chatInboxInfoGlobal;
   bool isFromTaraOrder = false;
-  AuthResponse user = Get.find();
+  AuthResponse user;// = Get.find();
   @override
   BuildContext getContext() {
     return context;
   }
 
   @override
-  void init() {
+  void init() async {
     // TODO: implement init
     super.init();
 
     print(widget.merchantStore);
     print(widget.custInfo.firebaseId);
+    var data = await getIt.get<UserLocalDataStore>().getUser();
+    user = data;
   }
 
   @override
@@ -358,7 +361,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return new FirebaseAnimatedList(
         query: getIt.get<FirebaseRemoteService>().getDataStream(
             path: FirebasePath.getPath(
-                user.customerProfile.firebaseId, widget.custInfo.firebaseId)),
+                user?.customerProfile?.firebaseId, widget.custInfo.firebaseId)),
         padding:
             new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 120.0),
         reverse: false,
@@ -383,12 +386,18 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           // "You have accepted the order."
           return ItemsOrder(
             isFromAcceptedOrder: true,
+            fromScreen: FromScreen.merchant,
             order: order,
             onTapAction: () {},
           );
         } else if (order.orderStatus == describeEnum(Statuses.CANCELLED)) {
-          return TextChatWidget(
-              textMessage: "You have canceled the order", isReceivedMsg: false);
+//          "You have canceled the order"
+          return ItemsOrder(
+            isFromCancelledOrder: true,
+            order: order,
+            fromScreen: FromScreen.merchant,
+            onTapAction: () {},
+          );
         } else if (order.orderStatus ==
             describeEnum(Statuses.ORDER_PAYMENT_DECLINED)) {
           //"Payment Declined By the User"
@@ -435,9 +444,12 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             },
           );
         } else if (order.orderStatus == describeEnum(Statuses.CANCELLED)) {
-          return TextChatWidget(
-              textMessage: "Ordered declined by the Store",
-              isReceivedMsg: true);
+          //          "Ordered declined by the Store"
+          return ItemsOrder(
+            isFromCancelledOrderByStore: true,
+            order: order,
+            onTapAction: () {},
+          );
         } else if (order.orderStatus ==
             describeEnum(Statuses.ORDER_PAYMENT_DECLINED)) {
           //update the txt on Pay and decline widget, button should be replaced with text (i.e "You have declined the payment")
@@ -510,7 +522,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     var textMessage = TextMessage();
     textMessage.type = "TEXT_BASED";
     textMessage.timestamp = DateTime.now();
-    textMessage.senderId = user.customerProfile.firebaseId;
+    textMessage.senderId = user?.customerProfile?.firebaseId;
     textMessage.receiverId = widget.custInfo.firebaseId;
     textMessage.text = textEditingController.text;
     return textMessage;
@@ -597,7 +609,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                                 {
                                   getIt.get<FirebaseRemoteService>().setData(
                                       path: FirebasePath.getPath(
-                                          user.customerProfile.firebaseId,
+                                          user?.customerProfile?.firebaseId,
                                           widget.custInfo.firebaseId),
                                       data: getChatMessage().toJson()),
                                   setState(() {

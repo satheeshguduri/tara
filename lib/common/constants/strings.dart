@@ -382,7 +382,8 @@ class Strings{
   static const total_earning = "total_earning";
   static const customers = "customers";
   static const suppliers = "suppliers";
-
+  static const you_have_cancelled_order = "you_have_cancelled_order";
+  static const cancelled_order_by_store = "cancelled_order_by_store";
 
 }
 

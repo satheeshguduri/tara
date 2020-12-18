@@ -14,6 +14,8 @@ import 'package:tara_app/utils/locale/utils.dart';
 class ItemsOrder extends StatefulWidget {
 
   final bool isFromAcceptedOrder;
+  final bool isFromCancelledOrder;
+  final bool isFromCancelledOrderByStore;
   final Function onTapAction;
   final bool selfOrder;
   final Order order;
@@ -24,6 +26,8 @@ class ItemsOrder extends StatefulWidget {
     this.selfOrder = false,
     this.order,
     this.fromScreen,
+    this.isFromCancelledOrder=false,
+    this.isFromCancelledOrderByStore=false,
     Key key,
   }) : super(key: key);
 
@@ -105,11 +109,14 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                         borderRadius:
                         BorderRadius.all(Radius.circular(8)),
                         border: Border.all(
-                            color: widget.selfOrder ? AppColors.light_grey_bg_color : widget.isFromAcceptedOrder?const Color(0xfff1e4c6):const Color(0xffb2f7e2), width: 1),
+                            color: widget.selfOrder ? AppColors.light_grey_bg_color : (widget.isFromAcceptedOrder||widget.isFromCancelledOrder||widget.isFromCancelledOrderByStore)?const Color(0xfff1e4c6):const Color(0xffb2f7e2), width: 1),
                         color: widget.selfOrder ? Colors.white : widget.isFromAcceptedOrder?const Color(0xfff1e4c6):const Color(0xffb2f7e2)),
                     child: Center(
                       child: Text(
-                          widget.selfOrder ? getTranslation(Strings.see_order_details) :
+                          widget.isFromCancelledOrderByStore ?getTranslation(
+                              Strings.cancelled_order_by_store):
+                          widget.isFromCancelledOrder ?getTranslation(
+                              Strings.you_have_cancelled_order):widget.selfOrder ? getTranslation(Strings.see_order_details) :
                             widget.isFromAcceptedOrder ? getTranslation(
                               Strings.you_have_accepted_order):getTranslation(
                               Strings.review_and_confirm),

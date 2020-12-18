@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/widgets/input_done_view.dart';
+import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/merchant/merchant_home_screen.dart';
@@ -55,6 +56,24 @@ class Utils {
     final String formatted = formatter.format(date);
     return formatted;
   }
+
+  Widget getIntoCreateStoreScreen(){
+    switch(F.appFlavor){
+      case Flavor.CONSUMER:
+        return HomeCustomerScreen();
+        break;
+      case Flavor.MERCHANT:
+        return CreateStoreScreen();
+        break;
+      case Flavor.AGENT:
+        return AgentHomeScreen();
+        break;
+      default:
+        return SignInScreen();
+    }
+  }
+
+
 
   Widget getLandingScreen(){
     switch(F.appFlavor){

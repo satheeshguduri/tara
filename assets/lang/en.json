@@ -353,6 +353,8 @@
   "order_delivered": "Order Delivered",
   "total_earning": "Total Earning",
   "customers": "Customers",
-  "suppliers": "Suppliers"
+  "suppliers": "Suppliers",
+  "you_have_cancelled_order" : "You have cancelled order",
+  "cancelled_order_by_store" : "Order cancelled by Store"
 
 }

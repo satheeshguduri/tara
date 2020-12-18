@@ -100,8 +100,8 @@ class AuthController extends GetxController {
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
           (r) => {
             Get.put(r),
-            Get.to(CreateStoreScreen())
-          }); //Get.offAll(Utils().getLandingScreen()
+            Get.offAll(Utils().getIntoCreateStoreScreen())
+          });
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }

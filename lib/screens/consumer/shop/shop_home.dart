@@ -586,16 +586,19 @@ class _ShopHomeState extends BaseState<ShopHome> {
                       ),
                     ),
                     onTap: () async{
-                      int integrationID = controller.arrStores[index].owner.integrationId;
-                      if(integrationID != null){
-                        var response = await controller.getCustomerInfo(integrationID.toString());
-                        response.fold((l) => print(l.message), (r) => {
-                        if(r.firebaseId != null){
-                          push(ConversationPage(arrChats: ["make_an_order"],
-                          custInfo: r,
-                          merchantStore: controller.arrStores[index],
-                        ))}
-                        });
+                      if (controller.arrStores.length>0)
+                      {
+                        int integrationID = controller.arrStores[index].owner.integrationId;
+                        if(integrationID != null){
+                          var response = await controller.getCustomerInfo(integrationID.toString());
+                          response.fold((l) => print(l.message), (r) => {
+                            if(r.firebaseId != null){
+                              push(ConversationPage(arrChats: ["make_an_order"],
+                                custInfo: r,
+                                merchantStore: controller.arrStores[index],
+                              ))}
+                          });
+                        }
                       }
                     },
                   );

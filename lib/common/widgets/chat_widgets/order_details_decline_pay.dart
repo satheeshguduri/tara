@@ -87,7 +87,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        (arrItems!=null&&arrItems.length>0)?"${(arrItems!=null&&arrItems.length>0)} Items":"Items",
+                                        (arrItems!=null&&arrItems.length>0)?"${(arrItems.length)} Items":"Items",
                                         textAlign: TextAlign.left,
                                         style: BaseStyles.itemOrderCostTextStyle,
                                       ),
