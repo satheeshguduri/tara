@@ -648,6 +648,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                     .onTap(onPressed: () async {
                   order.status = Statuses.CANCELLED;
                   order.price = controller.getTotal();
+//                  order.tax = double.parse(controller.deliveryCharge.value);
                   print(order.toJson().toString());
                   var response = await controller.updateOrder(order);
                   print("Order Status CANCELLED and Updated");

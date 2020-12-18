@@ -5,3 +5,9 @@ enum FromScreen{
   agent,
   none
 }
+
+enum ChatAction{
+  decline,
+  pay,
+  none
+}

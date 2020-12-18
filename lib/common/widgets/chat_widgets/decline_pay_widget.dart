@@ -4,13 +4,14 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
 class DeclinePay extends StatefulWidget {
   final bool isAgentUINCode;
   final bool isSender;
   final bool isDeclined;
-  final Function onTapAction;
+  final Function(ChatAction) onTapAction;
 
   const DeclinePay(
       {Key key,
@@ -136,7 +137,7 @@ class _DeclinePayState extends State<DeclinePay> {
                                               ),
                                             ),
                                             onTap: (){
-                                              widget.onTapAction("decline");
+                                              widget.onTapAction(ChatAction.decline);
                                             },
                                           ),
                                         ),
@@ -166,7 +167,7 @@ class _DeclinePayState extends State<DeclinePay> {
                                               ),
                                             ),
                                             onTap: (){
-                                              widget.onTapAction("pay");
+                                              widget.onTapAction(ChatAction.pay);
                                             },
                                           )
                                           ,

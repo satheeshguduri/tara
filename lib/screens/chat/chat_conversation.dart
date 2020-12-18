@@ -19,6 +19,8 @@ import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_details_decline_pay.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_paid.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
+import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/controller/order_update_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -29,6 +31,7 @@ import 'package:tara_app/models/chat/text_message.dart';
 import 'package:tara_app/models/order_management/orders/order_status.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
@@ -37,6 +40,8 @@ import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
+import 'package:tara_app/models/order_management/orders/order.dart' as order;
+import 'package:tara_app/common/constants/values.dart';
 
 class ConversationPage extends StatefulWidget {
   final bool canGoBack;
@@ -52,21 +57,21 @@ class ConversationPage extends StatefulWidget {
   final Store merchantStore;
   final FromScreen fromScreen;
 
-  ConversationPage(
-      {this.canGoBack = true,
-      this.isFromSend = false,
-      this.isFromReceive = false,
-      this.selectedContact,
-      this.chatInboxInfo,
-      this.isFromTaraOrder = false,
-      Key key,
-      this.arrChats,
-      this.callback,
-      this.isFromShopHome,
-      this.custInfo,
-      this.merchantStore,
-      this.fromScreen = FromScreen.consumer})
-      : super(key: key);
+  ConversationPage({
+    this.canGoBack = true,
+    this.isFromSend = false,
+    this.isFromReceive = false,
+    this.selectedContact,
+    this.chatInboxInfo,
+    this.isFromTaraOrder = false,
+    Key key,
+    this.arrChats,
+    this.callback,
+    this.isFromShopHome,
+    this.custInfo,
+    this.merchantStore,
+    this.fromScreen = FromScreen.consumer,
+  }) : super(key: key);
 
   @override
   _ConversationPageState createState() => _ConversationPageState();
@@ -83,7 +88,11 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   bool isSendReceiveConfirmed = false;
   ChatInboxInfo chatInboxInfoGlobal;
   bool isFromTaraOrder = false;
-  AuthResponse user;// = Get.find();
+  AuthResponse user = Get.find();
+  OrderUpdateController controller = OrderUpdateController();
+
+  order.Order customerOrder;
+
   @override
   BuildContext getContext() {
     return context;
@@ -125,57 +134,58 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        top: false,
-        child: Scaffold(
-            backgroundColor: Color(0xfff7f7fa),
-            appBar: _buildAppBar(context), // Custom app bar for chat screen
-            body: Stack(children: <Widget>[
-              getChatListView(),
-              Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Positioned(
-                    bottom: 0,
-                    width: MediaQuery.of(context).size.width,
-                    child: Center(
-                      child: Container(
-                        color: Color(0xfff7f7fa),
-                        child: getChatInputWidget(),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              widget.fromScreen == FromScreen.consumer
-                  ? Stack(
-                      fit: StackFit.expand,
-                      children: <Widget>[
-                        Positioned(
-                          bottom: 76,
-                          width: MediaQuery.of(context).size.width,
-                          child: MakeAnOrderChat(
-                            onSelectOption: (val) {
-                              push(MakeAnOrder(
-                                isFromShopHome: false,
-                                merchantStore: widget.merchantStore,
-                                merchantProfile: widget.custInfo,
-                              ));
-                            },
+    return Obx(() => SafeArea(
+            top: false,
+            child: Scaffold(
+                backgroundColor: Color(0xfff7f7fa),
+                appBar: _buildAppBar(context), // Custom app bar for chat screen
+                body: Stack(children: <Widget>[
+                  getChatListView(),
+                  Stack(
+                    fit: StackFit.expand,
+                    children: <Widget>[
+                      Positioned(
+                        bottom: 0,
+                        width: MediaQuery.of(context).size.width,
+                        child: Center(
+                          child: Container(
+                            color: Color(0xfff7f7fa),
+                            child: getChatInputWidget(),
                           ),
+                        ),
+                      )
+                    ],
+                  ),
+                  widget.fromScreen == FromScreen.consumer
+                      ? Stack(
+                          fit: StackFit.expand,
+                          children: <Widget>[
+                            Positioned(
+                              bottom: 76,
+                              width: MediaQuery.of(context).size.width,
+                              child: MakeAnOrderChat(
+                                onSelectOption: (val) {
+                                  push(MakeAnOrder(
+                                    isFromShopHome: false,
+                                    merchantStore: widget.merchantStore,
+                                    merchantProfile: widget.custInfo,
+                                  ));
+                                },
+                              ),
+                            )
+                          ],
                         )
-                      ],
-                    )
-                  : Container(),
-              (!widget.isFromSend && !widget.isFromReceive)
-                  ? Container()
-                  : (isToShowSendAndReceiveBottomSheet
-                      ? showReceiveOrSendBottomSheet()
-                      : Container()),
-              isFromTaraOrder == true
-                  ? showCashDepositBottomSheet()
-                  : Container()
-            ])));
+                      : Container(),
+                  (!widget.isFromSend && !widget.isFromReceive)
+                      ? Container()
+                      : (isToShowSendAndReceiveBottomSheet
+                          ? showReceiveOrSendBottomSheet()
+                          : Container()),
+                  isFromTaraOrder == true
+                      ? showCashDepositBottomSheet()
+                      : Container()
+                ])))
+        .withProgressIndicator(showIndicator: controller.showProgress.value));
   }
 
   showReceiveOrSendBottomSheet() {
@@ -404,7 +414,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           return DeclinePay(
             isSender: false,
             isDeclined: true,
-            onTapAction: () {},
+            onTapAction: (chatAction) {},
           );
         } else if (order.orderStatus == describeEnum(Statuses.IN_TRANSIT)) {
           //"payment paid By the User"
@@ -457,7 +467,16 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           return DeclinePay(
             isSender: true,
             isDeclined: true,
-            onTapAction: () {},
+            onTapAction: (chatAction) async {
+              // make service call to get the order Details
+              var response = await controller.getOrderByOrderId(order.orderId);
+              response.fold(
+                  (l) => print(l.message),
+                  (r) => {
+                        customerOrder = r,
+                        consumerAcceptDeclineOrderPayment(chatAction)
+                      });
+            },
           );
         } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
           //"payment paid By the User"
@@ -491,6 +510,22 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             : "";
 //        arrStr.add(chatInboxInfoGlobal.chatCardTitle);
       }
+    }
+  }
+
+  consumerAcceptDeclineOrderPayment(ChatAction chatAction) async {
+    if (chatAction == ChatAction.pay) {
+      // update Order with Pay Accepted
+      customerOrder.status = Statuses.PAID;
+      print(customerOrder.toJson().toString());
+      var response = await controller.updateOrder(customerOrder);
+      print("Order Status PAID and Updated");
+    } else if (chatAction == ChatAction.decline) {
+      // update Order with Pay Decline
+      customerOrder.status = Statuses.ORDER_PAYMENT_DECLINED;
+      print(customerOrder.toJson().toString());
+      var response = await controller.updateOrder(customerOrder);
+      print("Order Status ORDER_PAYMENT_DECLINED and Updated");
     }
   }
 

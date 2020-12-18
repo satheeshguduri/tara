@@ -42,5 +42,11 @@ class OrderUpdateController extends GetxController{
     showProgress.value = false;
     return response;
   }
+  Future<Either<Failure,order.Order>> getOrderByOrderId(String orderId) async{
+    showProgress.value = true;
+    Either<Failure,order.Order> response = await getIt.get<OrderRepository>().getOrderByOrderId(orderId);
+    showProgress.value = false;
+    return response;
+  }
 
 }

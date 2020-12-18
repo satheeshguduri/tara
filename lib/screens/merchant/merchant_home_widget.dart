@@ -531,7 +531,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                         fontStyle:  FontStyle.normal,
                                         fontSize: 14.0
                                     ),
-                                    text: "Rp " + controller.orderList[index].price.toString())
+                                    text: "Rp " + filteredList[index].price.toString())
                               ]
                           )
                       ),
@@ -546,7 +546,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                 var customer = CustomerProfile();
                 customer.firebaseId = firID;
                 customer.firstName = "Customer Name";
-                push(ConversationPage(arrChats: ["items_order"],custInfo: customer, fromScreen: FromScreen.merchant,));
+                push(ConversationPage(custInfo: customer, fromScreen: FromScreen.merchant,));
               }else{
                 showToast(message: "Unable to show the order");//translate the message.
               }

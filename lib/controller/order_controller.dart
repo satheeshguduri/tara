@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as order;
@@ -31,7 +32,7 @@ class OrderController extends GetxController{
   //Example to get the orders this need to be called in future builder
   Future getMerchantOrders() async {
     showProgress.value = true;
-    AuthResponse user = Get.find();
+    AuthResponse user = await getIt.get<UserLocalDataStore>().getUser();
     Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByMerchantId(user.customerProfile.id);
     showProgress.value = false;
     response.fold((l) => print, (r) => {
@@ -43,7 +44,7 @@ class OrderController extends GetxController{
   //Example to get the orders this need to be called in future builder
   Future getConsumerOrders() async {
     showProgress.value = true;
-    AuthResponse user = Get.find();
+    AuthResponse user = await getIt.get<UserLocalDataStore>().getUser(); //Get.find();
     Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByConsumerId(user.customerProfile.id);
     showProgress.value = false;
     response.fold((l) => print, (r) => {

@@ -113,7 +113,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                         color: widget.selfOrder ? Colors.white : widget.isFromAcceptedOrder?const Color(0xfff1e4c6):const Color(0xffb2f7e2)),
                     child: Center(
                       child: Text(
-                          widget.isFromCancelledOrderByStore ?getTranslation(
+                          widget.isFromCancelledOrderByStore ? getTranslation(
                               Strings.cancelled_order_by_store):
                           widget.isFromCancelledOrder ?getTranslation(
                               Strings.you_have_cancelled_order):widget.selfOrder ? getTranslation(Strings.see_order_details) :
