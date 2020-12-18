@@ -41,7 +41,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         children: [
           Container(
             height: 260,
-            child: HomeTopBar(),
+            child: HomeTopBar(appName: "Consumer"),
           ),
           Expanded(
             child: Container(

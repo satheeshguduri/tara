@@ -274,7 +274,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                   fontWeight: FontWeight.w400,
                   fontFamily: "PlayfairDisplay",
                   fontStyle: FontStyle.normal,
-                  fontSize: 12.0)),
+                  fontSize: 11.0)),
         )
       ],
     );
