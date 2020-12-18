@@ -369,7 +369,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
      Order order = Order.fromSnapshot(snapshot);
       if (widget.fromScreen == FromScreen.merchant){
         if(order.orderStatus == describeEnum(Statuses.PENDING))
-          return ItemsOrder(order: order,);
+          return ItemsOrder(fromScreen: FromScreen.merchant, order: order,);
         else if(order.orderStatus == describeEnum(Statuses.ACCEPTED)){
           return TextChatWidget(textMessage: "You have accepted the order.",isReceivedMsg: false);
         }else if(order.orderStatus == describeEnum(Statuses.CANCELLED)){
@@ -379,7 +379,11 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         }
       }else if (widget.fromScreen == FromScreen.consumer){
         if(order.orderStatus == describeEnum(Statuses.PENDING))
-          return ItemsOrder(order: order,selfOrder: true,);
+          return ItemsOrder(fromScreen: FromScreen.consumer ,order: order,selfOrder: true, onTapAction: (){
+            push(MakeAnOrder(isFromShopHome: false,
+              merchantStore: widget.merchantStore,
+              merchantProfile: widget.custInfo,));
+          },);
         else if(order.orderStatus == describeEnum(Statuses.ACCEPTED)){
           //return Pay and Decline Widget Here
           return TextChatWidget(textMessage: "Order confirmed by the Store",isReceivedMsg: true);

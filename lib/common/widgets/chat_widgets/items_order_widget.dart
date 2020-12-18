@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -16,11 +17,13 @@ class ItemsOrder extends StatefulWidget {
   final Function onTapAction;
   final bool selfOrder;
   final Order order;
+  final FromScreen fromScreen;
   const ItemsOrder({
     this.isFromAcceptedOrder=false,
     this.onTapAction,
     this.selfOrder = false,
     this.order,
+    this.fromScreen,
     Key key,
   }) : super(key: key);
 
@@ -80,12 +83,21 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                 (arrItems!=null&&arrItems.length>0)?getItemsListWidget():Container(),
                 InkWell(
                   onTap: (){
-                    if (widget.isFromAcceptedOrder==false){
+                    if(widget.fromScreen == FromScreen.merchant){
+                      if (widget.isFromAcceptedOrder==false){
+                        push(ReviewAndConfirm(orderId: widget.order.orderId,callBackToConfirmOrder: (){
+//                        widget.onTapAction(val);
+                          push(ReviewAndDeliver());
+                        },));
+                      }
+                    }else if(widget.fromScreen == FromScreen.consumer){
+//                      widget.onTapAction();
                       push(ReviewAndConfirm(orderId: widget.order.orderId,callBackToConfirmOrder: (){
 //                        widget.onTapAction(val);
-                      push(ReviewAndDeliver());
+                        push(ReviewAndDeliver());
                       },));
-                    }else{
+                    }
+                    else{
                       widget.onTapAction(Strings.order_detail);
                     }
                   },

@@ -27,19 +27,7 @@ class ReviewAndConfirm extends StatefulWidget {
 }
 
 class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
-  // List<String> itemOrderList = [
-  //   "Nanas",
-  //   "Bengkoang",
-  //   "Minyak Bimoli",
-  //   "Telor Ayam"
-  // ];
-  // List<String> itemOrderQuantityList = ["500gr", "200gr", "1", "0.5kg"];
-  // List<String> itemOrderCostList = [
-  //   "Rp 10.000",
-  //   "Rp 25.000",
-  //   "Rp 17.000",
-  //   "Rp 9.000"
-  // ];
+
   List<OrderItems> arrItems = [];
   List<String> arrEmptyOrder = [];
   OrderModel.Order order;

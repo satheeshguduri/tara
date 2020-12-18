@@ -40,17 +40,17 @@ class _TextChatWidgetState extends BaseState<TextChatWidget> {
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                     boxShadow: [
                       BoxShadow(
-                          color: widget.isReceivedMsg?const Color(0xffb2f7e2):const Color(0x1f000000),
+                          color: const Color(0x1f000000),
                           offset: Offset(0, 4),
                           blurRadius: 6,
                           spreadRadius: 0),
                       BoxShadow(
-                          color: widget.isReceivedMsg?const Color(0xffb2f7e2):const Color(0x14000000),
+                          color: const Color(0x14000000),
                           offset: Offset(0, 0),
                           blurRadius: 2,
                           spreadRadius: 0)
                     ],
-                    color: widget.isReceivedMsg?const Color(0xffb2f7e2):AppColors.primaryBackground),
+                    color: AppColors.primaryBackground),
                 child: Stack(
                   children: [
                     Column(
@@ -60,7 +60,7 @@ class _TextChatWidgetState extends BaseState<TextChatWidget> {
                           margin:
                           EdgeInsets.only(bottom: 8, left: 16, right: 8,top: 16),
                           child: Text(
-                            widget.isReceivedMsg?taraShopText:widget.textMessage,
+                            widget.textMessage,
                             style: BaseStyles.chatItemSubTextStyle,
                             textAlign: TextAlign.left,
                           ),
