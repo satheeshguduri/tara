@@ -48,6 +48,9 @@ class _DashBoardState extends BaseState<DashBoard> {
     super.init();
     var data = await getIt.get<UserLocalDataStore>().getUser();
     user = data;
+    setState(() {
+
+    });
   }
 
   @override

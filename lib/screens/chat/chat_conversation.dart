@@ -88,7 +88,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   bool isSendReceiveConfirmed = false;
   ChatInboxInfo chatInboxInfoGlobal;
   bool isFromTaraOrder = false;
-  AuthResponse user = Get.find();
+  AuthResponse user;
   OrderUpdateController controller = OrderUpdateController();
 
   order.Order customerOrder;
@@ -107,6 +107,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     print(widget.custInfo.firebaseId);
     var data = await getIt.get<UserLocalDataStore>().getUser();
     user = data;
+    setState(() {
+
+    });
   }
 
   @override

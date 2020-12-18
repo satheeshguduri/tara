@@ -42,6 +42,9 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
     super.init();
     var data = await getIt.get<UserLocalDataStore>().getUser();
     user = data;
+    setState(() {
+
+    });
   }
 
   @override
