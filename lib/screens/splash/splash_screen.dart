@@ -24,14 +24,10 @@ class SplashScreenState extends BaseState<SplashScreen> {
   @override
   void init() async{
     var data = await getIt.get<UserLocalDataStore>().getUser();
-    data.fold(
-            (l) => print,
-            (r) => {
-              if(r?.securityToken?.token!=null){
-                Get.put(r),
-                isLoggedIn = true
-              }
-            });
+    if(data?.securityToken?.token!=null){
+      Get.put(data);
+      isLoggedIn = true;
+    }
     Timer(Duration(seconds: 5),() async{
       if(!isLoggedIn)
         Get.off(SignInScreen());

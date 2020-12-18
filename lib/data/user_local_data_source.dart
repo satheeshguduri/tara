@@ -15,7 +15,7 @@ abstract class UserLocalDataStore{
   void setUser(AuthResponse authResponse);
   void clear();
   bool isLoggedIn();
-  Future<Either<Failure,AuthResponse>> getUser();
+  Future<AuthResponse> getUser();
 }
 
 class UserLocalDataStoreImpl implements UserLocalDataStore{
@@ -31,14 +31,18 @@ class UserLocalDataStoreImpl implements UserLocalDataStore{
   }
 
   @override
-  Future<Either<Failure, AuthResponse>> getUser() async{
-    if(storage.hasData(USR_KEY)){
+  Future<AuthResponse> getUser() async{
+    if(storage.hasData(USR_KEY)) {
       var data = await storage.read(USR_KEY);
-      return Right(AuthResponse.fromJson(data));
+      return AuthResponse.fromJson(data);
     }else{
-
-      return Left(Failure(message: "User Does not Exist"));//TODO String constant
+      Future.value(AuthResponse());
     }
+    //   return Right(AuthResponse.fromJson(data));
+    // }else{
+    //
+    //   return Left(Failure(message: "User Does not Exist"));//TODO String constant
+    // }
   }
 
   @override

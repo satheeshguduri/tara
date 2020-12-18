@@ -439,7 +439,10 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
             physics: NeverScrollableScrollPhysics(),
             itemCount: filteredList.length,
             itemBuilder: (context,index){
-              return Align(alignment:Alignment.topCenter,child: getOrderCard(index));
+              return Align(
+                  alignment:Alignment.topCenter,
+                  child: getOrderCard(index)
+              );
             },
           ),
         );

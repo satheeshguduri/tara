@@ -53,12 +53,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
   void init() {
     // TODO: implement init
     super.init();
-    var address1 = OrderAddress();
-    address1.dno = "1-2-3";
-    address1.streetName = "kattedan";
-    address1.city = "Hyderabad";
-    address1.country = "india";
-    address1.zipcode = 500077;
+    var address1 = OrderAddress(dno: "1-2-3",streetName: "kattedan",city: "Hyderabad",country: "india",zipcode: 500077);
     address.add(address1);
   }
   @override

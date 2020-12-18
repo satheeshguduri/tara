@@ -23,19 +23,21 @@ class OrderRepositoryImpl extends OrderRepository{
 
   @override
   Future<Either<Failure, order.Order>> createOrder(order.Order order) async{
-    AuthResponse user = Get.find();
+    // AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.createOrder(token, order);
       return Right(response);
-    }catch(e){
+    }catch(e ){
       return Left(Failure.fromServerError(e));
     }
   }
 
   @override
   Future<Either<Failure, order.Order>> getOrderByOrderId(String orderId) async{
-    AuthResponse user = Get.find();
+    // AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
      var response = await remoteDataSource.getOrderByOrderId(token, orderId);
@@ -47,7 +49,8 @@ class OrderRepositoryImpl extends OrderRepository{
 
   @override
   Future<Either<Failure, List<order.Order>>> getOrdersByConsumerId(int consumerId) async{
-    AuthResponse user = Get.find();
+    // AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.getOrdersByConsumerId(token, consumerId);
@@ -58,7 +61,8 @@ class OrderRepositoryImpl extends OrderRepository{
   }
   @override
   Future<Either<Failure, List<order.Order>>> getOrdersByMerchantId(int merchantId) async{
-    AuthResponse user = Get.find();
+    // AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.getOrdersByMerchantId(token, merchantId);
@@ -70,7 +74,8 @@ class OrderRepositoryImpl extends OrderRepository{
 
   @override
   Future<Either<Failure, order.Order>> updateOrder(order.Order order) async{
-    AuthResponse user = Get.find();
+    // AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
      var response = await remoteDataSource.updateOrder(token, order,order.orderId);

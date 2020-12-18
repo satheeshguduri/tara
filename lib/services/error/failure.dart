@@ -14,7 +14,7 @@ class Failure {
 
   Failure({this.message});
 
-  Failure.fromServerError(Error error){
+  Failure.fromServerError(DioError error){
     message = ServerError(error).message;
   }
 }
