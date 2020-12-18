@@ -491,15 +491,19 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     } else {
       String message = snapshot.value["text"];
       String id = snapshot.value["senderId"];
-      if (id == user.customerProfile.firebaseId) {
-        return TextChatWidget(
-          textMessage: message,
-        );
-      } else {
-        return TextChatWidget(
-          isReceivedMsg: true,
-          textMessage: message,
-        );
+      if(message?.isNotEmpty??false) {
+        if (id == user.customerProfile.firebaseId) {
+          return TextChatWidget(
+            textMessage: message,
+          );
+        } else {
+          return TextChatWidget(
+            isReceivedMsg: true,
+            textMessage: message,
+          );
+        }
+      }else{
+        return Container();
       }
     }
   }

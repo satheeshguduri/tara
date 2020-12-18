@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/helpers.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -148,7 +149,11 @@ class AuthController extends GetxController {
       Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().updateProfile(customerProfile);
       showProgress.value = false;
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
-              (r) =>Get.defaultDialog(content: Text(r.message)));
+              (r) =>{
+                Get.defaultDialog(content: Text(r.message)),
+                user.customerProfile = customerProfile,
+                getIt.get<UserLocalDataStore>().setUser(user)
+              });
     }
 
 

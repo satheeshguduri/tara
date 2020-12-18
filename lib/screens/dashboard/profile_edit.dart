@@ -10,13 +10,11 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/controller/auth_controller.dart';
-import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/screens/agent/agent_widgets/take_picture_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 import '../../common/constants/values.dart';
-import '../../injector.dart';
 import 'dash_board.dart';
 
 class ProfileEdit extends StatefulWidget {
@@ -29,8 +27,7 @@ class ProfileEdit extends StatefulWidget {
 }
 
 class _ProfileEditState extends BaseState<ProfileEdit> {
-  AuthResponse user;
-  UserLocalDataStore userLocalDataSource;
+  AuthResponse user = Get.find();
   AuthController controller = Get.find();
 
   TextEditingController nameTextController = TextEditingController();
@@ -51,7 +48,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
   @override
   void initState() {
     super.initState();
-    user = widget?.user;
+    // user = widget?.user;
   }
 
   void addListenersToRequiredTextField() {

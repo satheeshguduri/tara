@@ -222,7 +222,20 @@ class _DashBoardState extends BaseState<DashBoard> {
             ),
           ) ,
         ),
-      );
+      ).onTap(onPressed: (){
+      if (title == Strings.profile)
+      {
+        push(ProfileEdit());
+      }
+      else if (title == Strings.notification_settings)
+      {
+        push(NotificationSettings());
+      }
+      else if (title == Strings.MY_ACCOUNTS)
+      {
+        push(MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),));
+      }
+    });
   }
 
   getLogOutWidget()

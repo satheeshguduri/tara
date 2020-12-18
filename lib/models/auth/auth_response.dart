@@ -14,8 +14,8 @@ part 'auth_response.g.dart';
 
 @JsonSerializable()
 class AuthResponse {
-  final CustomerProfile customerProfile;
-  final SecurityToken securityToken;
+   CustomerProfile customerProfile;
+   SecurityToken securityToken;
 
 
   AuthResponse({this.customerProfile, this.securityToken});

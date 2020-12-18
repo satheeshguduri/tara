@@ -42,9 +42,19 @@ class SplashScreenState extends BaseState<SplashScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Center(
-          child: Container(
-           child: Image.asset(Assets.tara_logo,fit: BoxFit.fitHeight).withPad(padding: EdgeInsets.all(40)),
+      body: Container(
+        height: double.infinity,
+          width: double.infinity,
+          decoration:BoxDecoration(
+            gradient: Gradients.primaryGradient,
+            borderRadius: BorderRadius.only(
+              bottomLeft: const Radius.circular(16.0),
+              bottomRight: const Radius.circular(16.0),
+            ),),
+        child: Center(
+            child: Container(
+             child: Image.asset(Assets.tara_logo,fit: BoxFit.fitWidth,width: 200,).withPad(padding: EdgeInsets.all(40)),
+          ),
         ),
       ),
     );
