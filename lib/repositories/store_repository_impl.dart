@@ -23,7 +23,7 @@ class StoreRepositoryImpl extends StoresRepository{
 
   @override
   Future<Either<Failure, Owner>> createOwner(Owner owner) async{
-    AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.createOwner(token, owner);
@@ -34,7 +34,7 @@ class StoreRepositoryImpl extends StoresRepository{
   }
   @override
   Future<Either<Failure, Store>> createStore(Store store)  async{
-    AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.createStore(token, store);
@@ -55,7 +55,7 @@ class StoreRepositoryImpl extends StoresRepository{
 
   @override
   Future<Either<Failure, List<Store>>> getAllStores() async{
-    AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.getAllStores(token);
@@ -68,7 +68,7 @@ class StoreRepositoryImpl extends StoresRepository{
   @override
   Future<Either<Failure, List<StoreTypeModel>>> getStoreTypes() async{
 
-    AuthResponse user = Get.find();
+    AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.getStoreTypes(token);

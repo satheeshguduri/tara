@@ -21,14 +21,16 @@ import 'dash_board.dart';
 
 class ProfileEdit extends StatefulWidget {
   final bool isFromHomeTopBar;
-  ProfileEdit({Key key, this.isFromHomeTopBar = false}) : super(key: key);
+  final AuthResponse user;
+  ProfileEdit({Key key, this.isFromHomeTopBar = false,this.user}) : super(key: key);
 
   @override
   _ProfileEditState createState() => new _ProfileEditState();
 }
 
 class _ProfileEditState extends BaseState<ProfileEdit> {
-  AuthResponse user = Get.find();
+  AuthResponse user;
+  UserLocalDataStore userLocalDataSource;
   AuthController controller = Get.find();
 
   TextEditingController nameTextController = TextEditingController();
@@ -49,7 +51,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
   @override
   void initState() {
     super.initState();
-    //addListenersToRequiredTextField();
+    user = widget?.user;
   }
 
   void addListenersToRequiredTextField() {

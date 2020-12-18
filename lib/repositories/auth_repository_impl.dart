@@ -83,7 +83,9 @@ class AuthRepositoryImpl implements AuthRepository{
   @override
   Future<Either<Failure, CustomerProfile>> getCustomerInfoByCustomerId(String customerId) async{
     try {
-      AuthResponse user = Get.find();
+//      AuthResponse user = Get.find();
+//      token = user.securityToken.token.tara.bearer();
+      AuthResponse user = await userLocalDataSource.getUser();
       token = user.securityToken.token.tara.bearer();
       var response = await remoteDataSource.getCustomerInfo(token,customerId);
       return Right(response);
@@ -96,7 +98,9 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<Either<Failure, BaseResponse>> updateProfile(CustomerProfile customerProfile) async{
 
     try {
-      AuthResponse user = Get.find();
+//      AuthResponse user = Get.find();
+//      token = user.securityToken.token.tara.bearer();
+      AuthResponse user = await userLocalDataSource.getUser();
       token = user.securityToken.token.tara.bearer();
       var response = await remoteDataSource.updateProfile(token, customerProfile);
       return Right(response);

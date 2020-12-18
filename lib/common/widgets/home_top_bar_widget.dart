@@ -7,6 +7,8 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -26,12 +28,20 @@ class HomeTopBar extends StatefulWidget {
 }
 
 class _HomeTopBarState extends BaseState<HomeTopBar> {
-  AuthResponse user = Get.find();
+  AuthResponse user;
   var userName = "";
 
   @override
   BuildContext getContext() {
     return context;
+  }
+
+  @override
+  void init() async
+  {
+    super.init();
+    var data = await getIt.get<UserLocalDataStore>().getUser();
+    user = data;
   }
 
   @override
@@ -372,7 +382,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                   Assets.PERSON_ICON,
                   fit: BoxFit.none,
                 ),
-              ).onTap(onPressed: () => Get.to(ProfileEdit(isFromHomeTopBar:true))),
+              ).onTap(onPressed: () => Get.to(ProfileEdit(isFromHomeTopBar:true,user: user,))),
             )
           ],
         )

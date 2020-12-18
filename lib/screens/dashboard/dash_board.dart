@@ -5,6 +5,8 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/injector.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/notification_settings.dart';
@@ -21,7 +23,7 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends BaseState<DashBoard> {
 
-  AuthResponse user = Get.find();
+  AuthResponse user;
 
   List<String> dashBoardOptions = [ Strings.profile,
     Strings.notification_settings,
@@ -38,6 +40,14 @@ class _DashBoardState extends BaseState<DashBoard> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void init() async
+  {
+    super.init();
+    var data = await getIt.get<UserLocalDataStore>().getUser();
+    user = data;
   }
 
   @override
