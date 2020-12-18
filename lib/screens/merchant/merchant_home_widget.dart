@@ -15,6 +15,7 @@ import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/screens/agent/balance_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
@@ -68,7 +69,9 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
               Expanded(child: SingleChildScrollView(
                 child:
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       margin: EdgeInsets.only(left: 16, right: 16,top: 16),
@@ -236,7 +239,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
 
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 16, right: 16,top: 16),
+                      margin: EdgeInsets.all(16),
 //            padding: EdgeInsets.all(16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -319,24 +322,27 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                           textAlign: TextAlign.center
                                       ),
 //                                          isTapOnIndex1 ?
-                                      Container(
-                                        margin: EdgeInsets.only(left: 4),
-                                        alignment: Alignment.center,
-                                        width: 16,
-                                        height: 16,
-                                        decoration: BoxDecoration(
-                                            color: AppColors.badge_color,
-                                            borderRadius:Radii.border(8)
-                                        ),
-                                        child: Text(
-                                            "3",
-                                            style: const TextStyle(
-                                                color:  const Color(0xffffffff),
-                                                fontWeight: FontWeight.w700,
-                                                fontStyle:  FontStyle.normal,
-                                                fontSize: 10.0
-                                            ),
-                                            textAlign: TextAlign.center
+                                      Visibility(
+                                        visible: filteredList.isNotEmpty,
+                                        child: Container(
+                                          margin: EdgeInsets.only(left: 4),
+                                          alignment: Alignment.center,
+                                          width: 16,
+                                          height: 16,
+                                          decoration: BoxDecoration(
+                                              color: AppColors.badge_color,
+                                              borderRadius:Radii.border(8)
+                                          ),
+                                          child: Text(
+                                              "${filteredList.length}",
+                                              style: const TextStyle(
+                                                  color:  const Color(0xffffffff),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontStyle:  FontStyle.normal,
+                                                  fontSize: 10.0
+                                              ),
+                                              textAlign: TextAlign.center
+                                          ),
                                         ),
                                       )
 //                                              : Container()
@@ -400,7 +406,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                         ],
                       ),
                     ),
-                    getBottomView()
+                    Flexible(child: getBottomView(),fit: FlexFit.loose,)
                   ],
                 ),
               ))
@@ -412,192 +418,45 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
 
   @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
-
+  List<order.Order> filteredList = [];
   Widget getBottomView(){
     if(isTapOnIndex1){
+      filteredList = controller.orderList.where((order) => order.status == Statuses.PENDING).toList();
+    }else if(isTapOnIndex2){
+      filteredList = controller.orderList.where((order) => order.status == Statuses.ACCEPTED).toList();
+    }else if(isTapOnIndex3){
+      filteredList = controller.orderList.where((order) => order.status == Statuses.DELIVERED).toList();
+    }
       // New
-      if(controller.orderList.length != 0){
+      if(filteredList.isNotEmpty){
         return Container(
           margin: EdgeInsets.only(bottom: 32),
           child: ListView.builder(
             primary: false,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: controller.orderList.length,
+            itemCount: filteredList.length,
             itemBuilder: (context,index){
-              return  InkWell(
-                onTap: (){
-                  if(controller.orderList[index]?.order_extra?.data?.customer_commid?.isNotEmpty??false){
-                    var firID = controller.orderList[index].order_extra.data.customer_commid;
-                    var customer = CustomerProfile();
-                    customer.firebaseId = firID;
-                    customer.firstName = "Customer Name";
-                    push(ConversationPage(arrChats: ["items_order"],custInfo: customer, fromScreen: FromScreen.merchant,));
-                  }else{
-                    showToast(message: "Unable to show the order");//translate the message.
-                  }
-
-                },
-                child: Container(
-                  margin: EdgeInsets.only(left: 16, right: 16,top: 16),
-                  padding: EdgeInsets.all(16),
-//                            height: 64,
-                  decoration:
-                  BoxDecoration(
-                      borderRadius: Radii.border(8),
-                      boxShadow: Shadows.shadows_list,
-                      color: AppColors.primaryBackground
-                  ),
-                  child:Center(
-                    child:  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Rectangle
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(Assets.ic_person1,height: 40,width: 40,),
-                              Container(
-                                margin: EdgeInsets.only(left: 16),
-                                child:Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    // TODAY • 12:33
-                                    Text(
-                                    DateFormat('dd MMM yyyy • kk:mm').format(controller.orderList[index].orderDate),
-//                                        "TODAY • 12:33",
-                                        style: const TextStyle(
-                                            color:  AppColors.color_black_80_2,
-                                            fontStyle:  FontStyle.normal,
-                                            fontSize: 10.0
-                                        )
-                                    ),
-                                    Container(height: 6,),
-
-                                    Text(
-                                        "Andi Ruhiyat", //TODO:- Display Name Here
-                                        style: const TextStyle(
-                                            color:  AppColors.primaryText,
-                                            fontWeight: FontWeight.w700,
-                                            fontStyle:  FontStyle.normal,
-                                            fontSize: 14.0
-                                        )
-                                    ),
-                                    Container(height: 6,),
-                                    Text(
-                                        getOrderItems(controller.orderList[index]),
-                                        style: const TextStyle(
-                                            color:  AppColors.battleship_grey,
-                                            fontWeight: FontWeight.w400,
-                                            fontStyle:  FontStyle.normal,
-                                            fontSize: 12.0
-                                        )
-                                    )
-                                  ],
-                                ) ,
-                              ),
-                            ]),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.only(right: 0),
-                          child:  RichText(
-                              text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                        style: const TextStyle(
-                                            color:  AppColors.pale_turquoise,
-                                            fontWeight: FontWeight.w700,
-                                            fontStyle:  FontStyle.normal,
-                                            fontSize: 14.0
-                                        ),
-                                        text: "+ "),
-                                    TextSpan(
-                                        style: const TextStyle(
-                                            color:  AppColors.fareColor,
-                                            fontWeight: FontWeight.w400,
-                                            fontStyle:  FontStyle.normal,
-                                            fontSize: 14.0
-                                        ),
-                                        text: "Rp " + controller.orderList[index].price.toString())
-                                  ]
-                              )
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                  ,
-                ),
-              );
+              return Align(alignment:Alignment.topCenter,child: getOrderCard(index));
             },
           ),
         );
       }
       return Container();
-    }else if(isTapOnIndex2){
-      // inProgress
-      return Container(
-        margin: EdgeInsets.only(bottom: 32,top: 32),
-        padding: EdgeInsets.only(left: 32,right: 32),
 
-        child: Column(
-          children: [
-            Container(
-                width: 88,
-                height: 88,
-                decoration: BoxDecoration(
-                    color: AppColors.light_grey_blue,
-                    borderRadius: Radii.border(44)
-                )
-            ),
-            Container(height: 8,),
-            Text(
-                getTranslation(Strings.NO_PROGRESS_YET),
-                style: const TextStyle(
-                    color:  AppColors.primaryText,
-                    fontWeight: FontWeight.w700,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 16.0
-                ),
-                textAlign: TextAlign.center
-            ),
-            Container(height: 8,),
-            Text(
-                getTranslation(Strings.SEE_AVAIL_REQ),
-                style: const TextStyle(
-                    color:  AppColors.battleship_grey,
-                    fontWeight: FontWeight.w400,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 14.0
-                ),
-                textAlign: TextAlign.center
-            )
-          ],
-        ),
-      );
-    }else{
-      // completed
-      return Container(
-        margin: EdgeInsets.only(bottom: 32),
-        child: ListView.builder(
-          primary: false,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: 6,
-          itemBuilder: (context,index){
-            return  Container(
-              margin: EdgeInsets.only(left: 16, right: 16,top: 16),
+  }
+
+  Widget getOrderCard(int index) {
+    return Container(
+              margin: EdgeInsets.only(left: 16, right: 16),
               padding: EdgeInsets.all(16),
 //                            height: 64,
               decoration:
               BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(8)
-                  ),
-                  boxShadow: Shadows.shadows_list ,
+                  borderRadius: Radii.border(8),
+                  boxShadow: Shadows.shadows_list,
                   color: AppColors.primaryBackground
               ),
               child:Center(
@@ -616,10 +475,10 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                               children: [
                                 // TODAY • 12:33
                                 Text(
-                                    "TODAY • 12:33",
+                                DateFormat('dd MMM yyyy • kk:mm').format(filteredList[index].orderDate),
+//                                        "TODAY • 12:33",
                                     style: const TextStyle(
                                         color:  AppColors.color_black_80_2,
-                                        fontWeight: FontWeight.w500,
                                         fontStyle:  FontStyle.normal,
                                         fontSize: 10.0
                                     )
@@ -627,7 +486,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                 Container(height: 6,),
 
                                 Text(
-                                    "Andi Ruhiyat",
+                                    "Andi Ruhiyat", //TODO:- Display Name Here
                                     style: const TextStyle(
                                         color:  AppColors.primaryText,
                                         fontWeight: FontWeight.w700,
@@ -637,7 +496,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                 ),
                                 Container(height: 6,),
                                 Text(
-                                    "Deposit: Rp 25.000.000",
+                                    getOrderItems(filteredList[index]),
                                     style: const TextStyle(
                                         color:  AppColors.battleship_grey,
                                         fontWeight: FontWeight.w400,
@@ -670,8 +529,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                         fontStyle:  FontStyle.normal,
                                         fontSize: 14.0
                                     ),
-                                    text:
-                                    "Rp 335.750")
+                                    text: "Rp " + controller.orderList[index].price.toString())
                               ]
                           )
                       ),
@@ -680,11 +538,17 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                 ),
               )
               ,
-            );
-          },
-        ),
-      );
-    }
+            ).onTap(onPressed: (){
+              if(filteredList[index]?.order_extra?.data?.customer_commid?.isNotEmpty??false){
+                var firID = filteredList[index].order_extra.data.customer_commid;
+                var customer = CustomerProfile();
+                customer.firebaseId = firID;
+                customer.firstName = "Customer Name";
+                push(ConversationPage(arrChats: ["items_order"],custInfo: customer, fromScreen: FromScreen.merchant,));
+              }else{
+                showToast(message: "Unable to show the order");//translate the message.
+              }
+            });
   }
 
   BoxDecoration roundedBoxDecoration(){
