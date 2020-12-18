@@ -426,11 +426,12 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           );
         } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
           //"payment paid By the User"
-          return ChatOrderPaid();
+          return ChatOrderPaid(fromScreen: FromScreen.merchant,);
         } else if (order.orderStatus == describeEnum(Statuses.DELIVERED)) {
           //"payment paid By the User"
           return ChatOrderPaid(
             isFromOrderDelivered: true,
+            fromScreen: FromScreen.merchant,
           );
         }
       } else if (widget.fromScreen == FromScreen.consumer) {
@@ -485,7 +486,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           );
         } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
           //"payment paid By the User"
-          return ChatOrderPaid();
+          return ChatOrderPaid(fromScreen: FromScreen.consumer,);
         }
       } else {
         return Container();
