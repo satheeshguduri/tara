@@ -91,6 +91,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     // TODO: implement init
     super.init();
 
+    print(widget.merchantStore);
     print(widget.custInfo.firebaseId);
   }
 
@@ -352,7 +353,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         query: getIt.get<FirebaseRemoteService>().getDataStream(
             path: FirebasePath.getPath(
                 user.customerProfile.firebaseId, widget.custInfo.firebaseId)),
-        padding: new EdgeInsets.only(left:0.0,right:0.0,top:0.0,bottom:0.0),
+        padding: new EdgeInsets.only(left:0.0,right:0.0,top:0.0,bottom:120.0),
         reverse: false,
         itemBuilder:
             (_, DataSnapshot snapshot, Animation<double> animation, int x) {
@@ -394,9 +395,17 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       }
     }else {
       String message = snapshot.value["text"];
-      return TextChatWidget(
-        textMessage: message,
-      );
+      String id = snapshot.value["senderId"];
+      if (id == user.customerProfile.firebaseId){
+        return TextChatWidget(
+          textMessage: message,
+        );
+      }else{
+        return TextChatWidget(
+          isReceivedMsg: true,
+          textMessage: message,
+        );
+      }
     }
   }
 

@@ -403,12 +403,8 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                orderReq.orderType = OrderTypes.TEXT_BASED;
 
                var data = OrderExtraData(customer_commid: user.customerProfile.firebaseId,
-                   merchant_commid: widget.merchantProfile.firebaseId,);
-//               data.customer_commid = ;
-//               data.merchant_commid = widget.merchantProfile.firebaseId;
-//               data.interpret = true;
+                   merchant_commid: widget.merchantProfile.firebaseId,interpret: "true");
                var orderExtra = JsonbOrderExtra(data:data);
-//               orderExtra.data = data;
                orderReq.order_extra = orderExtra;
                Either<Failure,order.Order> response = await controller.createOrder(orderReq);
                    response.fold((l) => print(l.message),

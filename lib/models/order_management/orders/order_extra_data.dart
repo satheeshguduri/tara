@@ -8,10 +8,9 @@ class OrderExtraData{
   String customer_commid;
   String merchant_commid;
 
-//  bool interpret;
+  String interpret;
 
-
-  OrderExtraData({this.customer_commid, this.merchant_commid});
+  OrderExtraData({this.customer_commid, this.merchant_commid, this.interpret});
 
   factory OrderExtraData.fromJson(Map<String, dynamic> json) => _$OrderExtraDataFromJson(json);
 
