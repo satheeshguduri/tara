@@ -317,7 +317,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               Align(
                 alignment: Alignment.topRight,
                 child: Text(
-                  userName != "" ? userName : "Customer Name",
+                  userName != "" ? userName : "Username",
                   textAlign: TextAlign.right,
                   style: BaseStyles.nameTextStyle,
                   maxLines: 1,

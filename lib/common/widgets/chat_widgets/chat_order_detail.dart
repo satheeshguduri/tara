@@ -7,6 +7,8 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:tara_app/common/constants/values.dart';
 
 class ChatOrderDetail extends StatefulWidget {
   final Function onTapAction;
@@ -127,31 +129,25 @@ class _ChatOrderDetailState extends BaseState<ChatOrderDetail> {
                               ],
                             ),
                           ),
-                          InkWell(
-                            onTap: (){
-                              widget.onTapAction(Strings.order_paid);
-                            },
-                            child: Container(
-                              margin:
-                              EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),
-                              height: 36,
-                              decoration: BoxDecoration(
-                                  borderRadius: Radii.border(8),
-                                  border: Border.all(
-                                      color: const Color(0xfff1e4c6),
-                                      width: 1
-                                  ),
-                                  color: const Color(0x80f1e4c6)
-                              ),
-                              child: Center(
-                                child: Text(
-                                    getTranslation(
-                                        Strings.trans_has_been_paid),
-                                    style: BaseStyles.chatItemSubTextStyle),
-                              ),
+                          Container(
+                            margin:
+                            EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),
+                            height: 36,
+                            decoration: BoxDecoration(
+                                borderRadius: Radii.border(8),
+                                border: Border.all(
+                                    color: const Color(0xfff1e4c6),
+                                    width: 1
+                                ),
+                                color: const Color(0x80f1e4c6)
+                            ),
+                            child: Center(
+                              child: Text(
+                                  getTranslation(
+                                      Strings.trans_has_been_paid),
+                                  style: BaseStyles.chatItemSubTextStyle),
                             ),
                           ),
-
                           Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[

@@ -13,8 +13,11 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_order_detail.dart';
+import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
+import 'package:tara_app/common/widgets/chat_widgets/order_details_decline_pay.dart';
+import 'package:tara_app/common/widgets/chat_widgets/order_paid.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -60,9 +63,8 @@ class ConversationPage extends StatefulWidget {
       this.callback,
       this.isFromShopHome,
       this.custInfo,
-        this.merchantStore,
-        this.fromScreen = FromScreen.consumer
-      })
+      this.merchantStore,
+      this.fromScreen = FromScreen.consumer})
       : super(key: key);
 
   @override
@@ -142,22 +144,26 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                   )
                 ],
               ),
-              widget.fromScreen == FromScreen.consumer ? Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Positioned(
-                    bottom: 76,
-                    width: MediaQuery.of(context).size.width,
-                    child: MakeAnOrderChat(
-                      onSelectOption: (val) {
-                        push(MakeAnOrder(isFromShopHome: false,
-                          merchantStore: widget.merchantStore,
-                        merchantProfile: widget.custInfo,));
-                      },
-                    ),
-                  )
-                ],
-              ) : Container(),
+              widget.fromScreen == FromScreen.consumer
+                  ? Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                        Positioned(
+                          bottom: 76,
+                          width: MediaQuery.of(context).size.width,
+                          child: MakeAnOrderChat(
+                            onSelectOption: (val) {
+                              push(MakeAnOrder(
+                                isFromShopHome: false,
+                                merchantStore: widget.merchantStore,
+                                merchantProfile: widget.custInfo,
+                              ));
+                            },
+                          ),
+                        )
+                      ],
+                    )
+                  : Container(),
               (!widget.isFromSend && !widget.isFromReceive)
                   ? Container()
                   : (isToShowSendAndReceiveBottomSheet
@@ -353,7 +359,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         query: getIt.get<FirebaseRemoteService>().getDataStream(
             path: FirebasePath.getPath(
                 user.customerProfile.firebaseId, widget.custInfo.firebaseId)),
-        padding: new EdgeInsets.only(left:0.0,right:0.0,top:0.0,bottom:120.0),
+        padding:
+            new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 120.0),
         reverse: false,
         itemBuilder:
             (_, DataSnapshot snapshot, Animation<double> animation, int x) {
@@ -362,49 +369,99 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   }
 
   Widget loadChatWidget(DataSnapshot snapshot) {
-
     print(snapshot.value.toString());
     String chatType = snapshot.value["messageType"];
-    if(chatType == describeEnum(MessageType.ORDER)){
-     Order order = Order.fromSnapshot(snapshot);
-      if (widget.fromScreen == FromScreen.merchant){
-        if(order.orderStatus == describeEnum(Statuses.PENDING))
-          return ItemsOrder(fromScreen: FromScreen.merchant, order: order,);
-        else if(order.orderStatus == describeEnum(Statuses.ACCEPTED)){
-          return TextChatWidget(textMessage: "You have accepted the order.",isReceivedMsg: false);
-        }else if(order.orderStatus == describeEnum(Statuses.CANCELLED)){
-          return TextChatWidget(textMessage:"You have canceled the order",isReceivedMsg: false);
-        }else if(order.orderStatus == describeEnum(Statuses.ORDER_PAYMENT_DECLINED)){
-          return TextChatWidget(textMessage:"Payment Declined By the User",isReceivedMsg: true);
+    if (chatType == describeEnum(MessageType.ORDER)) {
+      Order order = Order.fromSnapshot(snapshot);
+      if (widget.fromScreen == FromScreen.merchant) {
+        if (order.orderStatus == describeEnum(Statuses.PENDING))
+          return ItemsOrder(
+            fromScreen: FromScreen.merchant,
+            order: order,
+          );
+        else if (order.orderStatus == describeEnum(Statuses.ACCEPTED)) {
+          // "You have accepted the order."
+          return ItemsOrder(
+            isFromAcceptedOrder: true,
+            order: order,
+            onTapAction: () {},
+          );
+        } else if (order.orderStatus == describeEnum(Statuses.CANCELLED)) {
+          return TextChatWidget(
+              textMessage: "You have canceled the order", isReceivedMsg: false);
+        } else if (order.orderStatus ==
+            describeEnum(Statuses.ORDER_PAYMENT_DECLINED)) {
+          //"Payment Declined By the User"
+          return DeclinePay(
+            isSender: false,
+            isDeclined: true,
+            onTapAction: () {},
+          );
+        } else if (order.orderStatus == describeEnum(Statuses.IN_TRANSIT)) {
+          //"payment paid By the User"
+          return ChatOrderDetail(
+            onTapAction: () {},
+          );
+        } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
+          //"payment paid By the User"
+          return ChatOrderPaid();
+        } else if (order.orderStatus == describeEnum(Statuses.DELIVERED)) {
+          //"payment paid By the User"
+          return ChatOrderPaid(
+            isFromOrderDelivered: true,
+          );
         }
-      }else if (widget.fromScreen == FromScreen.consumer){
-        if(order.orderStatus == describeEnum(Statuses.PENDING))
-          return ItemsOrder(fromScreen: FromScreen.consumer ,order: order,selfOrder: true, onTapAction: (){
-            push(MakeAnOrder(isFromShopHome: false,
-              merchantStore: widget.merchantStore,
-              merchantProfile: widget.custInfo,));
-          },);
-        else if(order.orderStatus == describeEnum(Statuses.ACCEPTED)){
-          //return Pay and Decline Widget Here
-          return TextChatWidget(textMessage: "Order confirmed by the Store",isReceivedMsg: true);
-        }else if(order.orderStatus == describeEnum(Statuses.CANCELLED)){
-          return TextChatWidget(textMessage:"Ordered declined by the Store",isReceivedMsg: true);
-        }else if(order.orderStatus == describeEnum(Statuses.ORDER_PAYMENT_DECLINED)){
-          //update the txt on Pay and decline widget, button should be replaced with text
-          return TextChatWidget(textMessage:"You have declined the payment",isReceivedMsg: true);
+      } else if (widget.fromScreen == FromScreen.consumer) {
+        if (order.orderStatus == describeEnum(Statuses.PENDING))
+          return ItemsOrder(
+            fromScreen: FromScreen.consumer,
+            order: order,
+            selfOrder: true,
+            onTapAction: () {
+              push(MakeAnOrder(
+                isFromShopHome: false,
+                merchantStore: widget.merchantStore,
+                merchantProfile: widget.custInfo,
+              ));
+            },
+          );
+        else if (order.orderStatus == describeEnum(Statuses.ACCEPTED)) {
+          //return Pay and Decline Widget Here (i.e "Order confirmed by the Store")
+          return OrderDetailsDeclinePay(
+            order: order,
+            onTapAction: (btn) {
+              if (btn == "Decline") {
+              } else if (btn == "Decline") {}
+            },
+          );
+        } else if (order.orderStatus == describeEnum(Statuses.CANCELLED)) {
+          return TextChatWidget(
+              textMessage: "Ordered declined by the Store",
+              isReceivedMsg: true);
+        } else if (order.orderStatus ==
+            describeEnum(Statuses.ORDER_PAYMENT_DECLINED)) {
+          //update the txt on Pay and decline widget, button should be replaced with text (i.e "You have declined the payment")
+          //"Payment Declined By the User"
+          return DeclinePay(
+            isSender: true,
+            isDeclined: true,
+            onTapAction: () {},
+          );
+        } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
+          //"payment paid By the User"
+          return ChatOrderPaid();
         }
-
-      }else{
+      } else {
         return Container();
       }
-    }else {
+    } else {
       String message = snapshot.value["text"];
       String id = snapshot.value["senderId"];
-      if (id == user.customerProfile.firebaseId){
+      if (id == user.customerProfile.firebaseId) {
         return TextChatWidget(
           textMessage: message,
         );
-      }else{
+      } else {
         return TextChatWidget(
           isReceivedMsg: true,
           textMessage: message,

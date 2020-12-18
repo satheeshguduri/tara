@@ -378,6 +378,12 @@ class Strings{
   static const shop_address = "shop_address";
   static const shop_name = "shop_name";
 
+  static const order_delivered = "order_delivered";
+  static const total_earning = "total_earning";
+  static const customers = "customers";
+  static const suppliers = "suppliers";
+
+
 }
 
 class NotificationSettingsStrings{

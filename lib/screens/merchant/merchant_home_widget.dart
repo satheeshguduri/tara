@@ -16,6 +16,7 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
+import 'package:tara_app/screens/Merchant/see_all_orders_screen.dart';
 import 'package:tara_app/screens/agent/balance_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
@@ -256,21 +257,18 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                           Stack(
                             alignment: Alignment.center,
                             children: [
-                              InkWell(
-                                child:Text(
-                                    getTranslation(Strings.SEE_ALL),
-                                    style: const TextStyle(
-                                        color:  AppColors.fareColor,
-                                        fontWeight: FontWeight.w700,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 14.0
-                                    ),
-                                    textAlign: TextAlign.right
-                                ),
-                                onTap: (){
-
-                                },
-                              ),
+                              Text(
+                                  getTranslation(Strings.SEE_ALL),
+                                  style: const TextStyle(
+                                      color:  AppColors.fareColor,
+                                      fontWeight: FontWeight.w700,
+                                      fontStyle:  FontStyle.normal,
+                                      fontSize: 14.0
+                                  ),
+                                  textAlign: TextAlign.right
+                              ).onTap(onPressed: (){
+                                push(SeeAllOrdersScreen());
+                              }),
                               Container(
                                   margin: EdgeInsets.only(top: 28),
                                   width: 54,
@@ -285,7 +283,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                       ) ,
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 16, right: 16,top: 16),
+                      margin: EdgeInsets.only(left: 16, right: 16,),
                       height: 48,
                       decoration: BoxDecoration(
                           borderRadius: Radii.border(24),
@@ -441,7 +439,9 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
             itemBuilder: (context,index){
               return Align(
                   alignment:Alignment.topCenter,
-                  child: getOrderCard(index)
+                  child: Container(
+                    child: getOrderCard(index),
+                  )
               );
             },
           ),
@@ -453,9 +453,8 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
 
   Widget getOrderCard(int index) {
     return Container(
-              margin: EdgeInsets.only(left: 16, right: 16),
-              padding: EdgeInsets.all(16),
-//                            height: 64,
+              margin: EdgeInsets.only(left: 16, right: 16,top: 4,bottom: 4),
+              padding: EdgeInsets.only(left:16,right:16,top:8,bottom: 8),
               decoration:
               BoxDecoration(
                   borderRadius: Radii.border(8),

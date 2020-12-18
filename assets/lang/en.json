@@ -349,6 +349,10 @@
   "shop_details": "Shop Details",
   "shop_category": "Shop Category",
   "shop_address": "Shop Address",
-  "shop_name": "Shop name"
+  "shop_name": "Shop name",
+  "order_delivered": "Order Delivered",
+  "total_earning": "Total Earning",
+  "customers": "Customers",
+  "suppliers": "Suppliers"
 
 }

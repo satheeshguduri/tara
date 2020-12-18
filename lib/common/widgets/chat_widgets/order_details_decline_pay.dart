@@ -4,12 +4,18 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/models/chat/order.dart';
+import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:tara_app/common/constants/values.dart';
 
 class OrderDetailsDeclinePay extends StatefulWidget {
+  final Function(String) onTapAction;
+  final Order order;
 
   const OrderDetailsDeclinePay(
-      {Key key,})
+      {Key key,this.onTapAction,this.order})
       : super(key: key);
 
   @override
@@ -18,10 +24,19 @@ class OrderDetailsDeclinePay extends StatefulWidget {
 
 class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
 
+  List<OrderItems> arrItems = [];
+
   @override
   BuildContext getContext() {
     // TODO: implement getContext
     return context;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    arrItems = widget.order.items;
   }
 
   @override
@@ -72,7 +87,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "4 Items",
+                                        (arrItems!=null&&arrItems.length>0)?"${(arrItems!=null&&arrItems.length>0)} Items":"Items",
                                         textAlign: TextAlign.left,
                                         style: BaseStyles.itemOrderCostTextStyle,
                                       ),
@@ -154,7 +169,9 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                                 style: BaseStyles
                                                     .declineButtonTextStyle),
                                           ),
-                                        ),
+                                        ).onTap(onPressed: (){
+                                          widget.onTapAction("Decline");
+                                        }),
                                       ),
                                       Expanded(
                                         flex: 5,
@@ -179,7 +196,9 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                                 style: BaseStyles
                                                     .chatItemButtonTextStyle),
                                           ),
-                                        ),
+                                        ).onTap(onPressed: (){
+                                          widget.onTapAction("Pay");
+                                        }),
                                       )
                                     ],
                                   ),
