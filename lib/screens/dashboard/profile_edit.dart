@@ -203,7 +203,7 @@ class _ProfileEditState extends BaseState<ProfileEdit> {
             if (widget.isFromHomeTopBar) {
               Get.offAll(Utils().getLandingScreen());
             } else {
-              Get.off(DashBoard());
+              pop();
             }
           }),
       title: Align(

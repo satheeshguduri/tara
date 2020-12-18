@@ -109,7 +109,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                         borderRadius:
                         BorderRadius.all(Radius.circular(8)),
                         border: Border.all(
-                            color: widget.selfOrder ? AppColors.light_grey_bg_color : (widget.isFromAcceptedOrder||widget.isFromCancelledOrder||widget.isFromCancelledOrderByStore)?const Color(0xfff1e4c6):const Color(0xffb2f7e2), width: 1),
+                            color: widget.selfOrder ? AppColors.light_grey_bg_color : widget.isFromAcceptedOrder?const Color(0xfff1e4c6):const Color(0xffb2f7e2), width: 1),
                         color: widget.selfOrder ? Colors.white : widget.isFromAcceptedOrder?const Color(0xfff1e4c6):const Color(0xffb2f7e2)),
                     child: Center(
                       child: Text(
