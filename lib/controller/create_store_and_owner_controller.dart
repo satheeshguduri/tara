@@ -47,16 +47,17 @@ class CreateStoreAndOwnerController extends GetxController {
   void createOwner() async {
 
     var data = await getIt.get<UserLocalDataStore>().getUser();
-    data.fold(
-            (l) => print,
-            (r) => {
-          if(r?.securityToken?.token!=null){
-            Get.put(r),
-            user = r,
-          }
-        });
+//    data.fold(
+//            (l) => print,
+//            (r) => {
+//          if(r?.securityToken?.token!=null){
+//            Get.put(r),
+//            user = r,
+//          }
+//        });
 
     var ownerName = "";
+    user = data;
     if (!GetUtils.isNullOrBlank(user?.customerProfile?.firstName)) {
       ownerName = user.customerProfile.firstName;
     }else if (!GetUtils.isNullOrBlank(user?.customerProfile?.lastName)) {

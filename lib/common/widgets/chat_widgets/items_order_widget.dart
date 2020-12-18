@@ -81,8 +81,9 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                 InkWell(
                   onTap: (){
                     if (widget.isFromAcceptedOrder==false){
-                      push(ReviewAndConfirm(orderId: widget.order.orderId,callBackToConfirmOrder: (val){
-                        widget.onTapAction(val);
+                      push(ReviewAndConfirm(orderId: widget.order.orderId,callBackToConfirmOrder: (){
+//                        widget.onTapAction(val);
+                      push(ReviewAndDeliver());
                       },));
                     }else{
                       widget.onTapAction(Strings.order_detail);
