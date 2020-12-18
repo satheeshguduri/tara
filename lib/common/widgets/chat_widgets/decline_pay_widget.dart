@@ -5,19 +5,23 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/enums.dart';
+import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
 class DeclinePay extends StatefulWidget {
   final bool isAgentUINCode;
   final bool isSender;
   final bool isDeclined;
+  final Order order;
   final Function(ChatAction) onTapAction;
 
   const DeclinePay(
       {Key key,
       this.isAgentUINCode = false,
       this.isSender = false,
-      this.isDeclined = false, this.onTapAction})
+      this.isDeclined = false, this.onTapAction,
+        this.order
+      })
       : super(key: key);
 
   @override

@@ -434,6 +434,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           );
         }
       } else if (widget.fromScreen == FromScreen.consumer) {
+
+        // CONSUMER CHAT
+
         if (order.orderStatus == describeEnum(Statuses.PENDING))
           return ItemsOrder(
             fromScreen: FromScreen.consumer,
@@ -451,9 +454,15 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           //return Pay and Decline Widget Here (i.e "Order confirmed by the Store")
           return OrderDetailsDeclinePay(
             order: order,
-            onTapAction: (btn) {
-              if (btn == "Decline") {
-              } else if (btn == "Decline") {}
+            onTapAction: (chatAction) async {
+              // make service call to get the order Details
+              var response = await controller.getOrderByOrderId(order.orderId);
+              response.fold(
+                      (l) => print(l.message),
+                      (r) => {
+                    customerOrder = r,
+                    consumerAcceptDeclineOrderPayment(chatAction)
+                  });
             },
           );
         } else if (order.orderStatus == describeEnum(Statuses.CANCELLED)) {
@@ -470,15 +479,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           return DeclinePay(
             isSender: true,
             isDeclined: true,
-            onTapAction: (chatAction) async {
-              // make service call to get the order Details
-              var response = await controller.getOrderByOrderId(order.orderId);
-              response.fold(
-                  (l) => print(l.message),
-                  (r) => {
-                        customerOrder = r,
-                        consumerAcceptDeclineOrderPayment(chatAction)
-                      });
+            onTapAction: (chatAction) {
+
             },
           );
         } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
