@@ -13,9 +13,12 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_order_detail.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_pln_payment_success.dart';
 import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
+import 'package:tara_app/common/widgets/chat_widgets/on_delivery.dart';
+import 'package:tara_app/common/widgets/chat_widgets/on_the_way.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_details_decline_pay.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_paid.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
@@ -486,7 +489,11 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           );
         } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
           //"payment paid By the User"
-//          return ChatOrderPaid(fromScreen: FromScreen.consumer,order: order,);
+          return ChatOrderPaid(fromScreen: FromScreen.consumer,order: order,);
+        }else if (order.orderStatus == describeEnum(Statuses.IN_TRANSIT)) {
+          //"payment paid By the User"
+          return OnDelivery(
+          );
         }
       } else {
         return Container();

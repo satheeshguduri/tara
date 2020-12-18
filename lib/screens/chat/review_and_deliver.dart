@@ -377,13 +377,12 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                         print(orderTemp.toJson().toString());
                         var response = await controller.updateOrder(orderTemp);
                         print("Order Status IN_TRANSIT and Updated");
-                        Navigator.pop(context, false);
+                        pop();
                       }else{
                         setState(() {
                           positionX = dragPos;
                         });
                       }
-
                     },
                     child:Container(
                       width: 56,
