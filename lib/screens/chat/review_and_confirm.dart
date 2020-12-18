@@ -34,6 +34,7 @@ class ReviewAndConfirm extends StatefulWidget {
 }
 
 class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
+
   OrderModel.Order order;
   OrderUpdateController controller = OrderUpdateController();
   FocusNode deliveryFocusNode = new FocusNode();

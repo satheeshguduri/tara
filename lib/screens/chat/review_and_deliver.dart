@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/radii.dart';
@@ -9,22 +10,40 @@ import 'package:tara_app/common/widgets/chat_widgets/chat_input_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_list_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/map_widget.dart';
+import 'package:tara_app/controller/order_update_controller.dart';
+import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/screens/Merchant/merchant_home_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/models/order_management/orders/order.dart'
+as OrderModel;
+import 'package:tara_app/common/constants/values.dart';
+
 
 class ReviewAndDeliver extends StatefulWidget {
+
+  String orderId;
+  ReviewAndDeliver({Key key, this.orderId})
+      : super(key: key);
   @override
   _ReviewAndDeliverState createState() => _ReviewAndDeliverState();
+
 }
 
 class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
 
-  List<String> itemOrderList = ["Nanas", "Bengkoang", "Minyak Bimoli", "Telor Ayam"];
-  List<String> itemOrderQuantityList = ["500gr", "200gr", "1", "0.5kg"];
-  List<String> itemOrderCostList = ["Rp 10.000", "Rp 25.000", "Rp 17.000", "Rp 9.000"];
-  List<ItemOrderModel> arrItems = [];
+  OrderUpdateController controller = OrderUpdateController();
+//  OrderModel.Order order = OrderModel.Order();
+//  List<OrderItems> arrItems = [];
 
   double positionX = 0;
+
+  @override
+  void init(){
+    // TODO: implement init
+    super.init();
+    controller.getOrderByOrderId(widget.orderId);
+  }
 
   @override
   BuildContext getContext() {
@@ -32,30 +51,21 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
     return context;
   }
 
-  void initState() {
+  void initState(){
     // TODO: implement initState
     super.initState();
-    loadData();
-  }
-
-  loadData()
-  {
-    arrItems = [];
-    for (var i = 0; i < itemOrderList.length; i++) {
-      var itemOrderModel = ItemOrderModel();
-      itemOrderModel.itemName = itemOrderList[i];
-      itemOrderModel.quantity = itemOrderQuantityList[i];
-      itemOrderModel.cost = itemOrderCostList[i];
-      arrItems.add(itemOrderModel);
-    }
+//    if(order == null){
+//      order =  controller.orderMerchat.value;
+//      arrItems = order.items;
+//    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Obx(() => SafeArea(
         top: false,
         child: Scaffold(
-          backgroundColor: Color(0xfff7f7fa),
+            backgroundColor: Color(0xfff7f7fa),
             appBar: _buildAppBar(context), // Custom app bar for chat screen
             body:SingleChildScrollView(
               child: Column(
@@ -67,7 +77,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
               ),
             )
         )
-    );
+    ).withProgressIndicator(showIndicator: controller.showProgress.value));
   }
 
   _buildAppBar(BuildContext context) {
@@ -120,10 +130,10 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
         margin:
         EdgeInsets.only(left: 16, right: 16,top: 8,bottom: 8),
         color: Colors.transparent,
-        height: (arrItems!=null&&arrItems.length>0)? (arrItems.length * 50).toDouble() + 20:0,
+        height: (controller.arrItems!=null&&controller.arrItems.length>0)? (controller.arrItems.length * 50).toDouble() + 20:0,
         child: ListView.builder(
-          itemBuilder: (context, index) => getOrderItemWidget(arrItems[index]),
-          itemCount: arrItems.length,
+          itemBuilder: (context, index) => getOrderItemWidget(controller.arrItems[index]),
+          itemCount: controller.arrItems.length,
           physics: NeverScrollableScrollPhysics(),
           padding:EdgeInsets.zero,
           primary: false,
@@ -131,7 +141,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
         ));
   }
 
-  getOrderItemWidget(ItemOrderModel itemOrderModel)
+  getOrderItemWidget(OrderItems itemOrderModel)
   {
     return Container(
         margin: EdgeInsets.only(top:4,bottom: 4,),
@@ -146,14 +156,14 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                     Container(
                       margin: EdgeInsets.only(bottom: 4,top: 4,right: 8),
                       child: Text(
-                          itemOrderModel.itemName,
+                          itemOrderModel.name ?? "",
                           style: BaseStyles.itemOrderTextStyle
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(bottom: 4,top: 4,right: 8),
                       child: Text(
-                          itemOrderModel.cost,
+                          "Rp " + itemOrderModel.price.toString() ?? "0.00",
                           style: BaseStyles.itemOrderCostTextStyle,
                           textAlign: TextAlign.right
                       ),
@@ -163,7 +173,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                 Container(
                   margin: EdgeInsets.only(bottom: 4,top: 4,right: 8),
                   child: Text(
-                      itemOrderModel.quantity,
+                      itemOrderModel.quantity.toString() ?? "",
                       style: BaseStyles.itemOrderQuantityTextStyle
                   ),
                 ),
@@ -201,12 +211,12 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  arrItems.length.toString() + " " + getTranslation(Strings.items),
+                  controller.arrItems.length.toString() + " " + getTranslation(Strings.items),
                   style: BaseStyles.itemOrderCostTextStyle,
                   textAlign: TextAlign.left,
                 ),
                 Text(
-                  "Rp 45.500",
+                 "Rp " + controller.orderMerchat.value.price.toString() ?? "0.0",
                   style: BaseStyles.itemOrderCostTextStyle,
                   textAlign: TextAlign.right,
                 ),
@@ -246,7 +256,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                   textAlign: TextAlign.right,
                 ),
                 Text(
-                  "Rp 53.500",
+                  "Rp " + controller.orderMerchat.value.price.toString() ?? "0.0",
                   style: BaseStyles.reviewAndConfirmHeaderTextStyle,
                   textAlign: TextAlign.right,
                 ),
@@ -317,7 +327,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
           Container(
             margin: EdgeInsets.only(top: 8,bottom: 8),
             child: Text(
-                "Jl. Kedoya Raya 4 Blok BC 2 No. 32 RT/RW 012/002, Kedoya Selatan, Jakarta Barat, DKI Jakarta 11520",
+                getOrderAddress(),
                 style: const TextStyle(
                     color:  AppColors.header_top_bar_color,
                     fontWeight: FontWeight.w400,
@@ -357,12 +367,17 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                 Positioned(
                   left: positionX,
                   child: GestureDetector(
-                    onHorizontalDragUpdate: (dragDetails){
+                    onHorizontalDragUpdate: (dragDetails) async{
                       double screenWidth = MediaQuery.of(context).size.width - 88;
                       double dragPos = dragDetails.globalPosition.dx;
                       if(dragPos >= screenWidth){
                         // push to confirm delivery
-                        pushAndRemoveUntil(MerchantHomeScreen());
+                        var orderTemp = controller.orderMerchat.value;
+                        orderTemp.status = Statuses.IN_TRANSIT;
+                        print(orderTemp.toJson().toString());
+                        var response = await controller.updateOrder(orderTemp);
+                        print("Order Status IN_TRANSIT and Updated");
+                        Navigator.pop(context, false);
                       }else{
                         setState(() {
                           positionX = dragPos;
@@ -400,6 +415,23 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
         ],
       ),
     );
+  }
+
+
+  String getOrderAddress() {
+    if (controller.orderMerchat != null && controller.orderMerchat.value.deliveryAddress != null) {
+      var address = controller.orderMerchat.value.deliveryAddress.first;
+      return address.dno +
+          "," +
+          address.streetName +
+          "," +
+          address.city +
+          "," +
+          address.zipcode.toString() +
+          "," +
+          address.country;
+    }
+    return "show addrss here";
   }
 
 }

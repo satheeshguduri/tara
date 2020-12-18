@@ -11,11 +11,15 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/models/chat/order.dart';
 
 class ChatOrderPaid extends StatefulWidget {
   final bool isFromOrderDelivered;
+  final Order order;
   final FromScreen fromScreen;
-  const ChatOrderPaid({Key key,this.isFromOrderDelivered=false,this.fromScreen,}) : super(key: key);
+  final Function onTapAction;
+  const ChatOrderPaid({Key key,this.isFromOrderDelivered=false,
+    this.fromScreen,this.order,this.onTapAction}) : super(key: key);
 
   @override
   _ChatOrderPaidState createState() => _ChatOrderPaidState();
@@ -98,7 +102,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                       Container(
                                         margin: EdgeInsets.only(top: 4),
                                         child: Text(
-                                            "TR005523",
+                                            widget.order.transactionId ?? "TS1001",
                                             style:BaseStyles.mobileNoTextStyle
                                         ),
                                       )
@@ -127,7 +131,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                       Container(
                                         margin: EdgeInsets.only(top: 4),
                                         child: Text(
-                                            "Rp 45.500",
+                                            "Rp " + widget.order.total.toString(),
                                             style:BaseStyles.mobileNoTextStyle
                                         ),
                                       )
@@ -156,7 +160,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                   style: BaseStyles.chatItemButtonTextStyle),
                             ),
                           ).onTap(onPressed: (){
-                            push(ReviewAndDeliver());
+                            push(ReviewAndDeliver(orderId: widget.order.orderId,));
                           }),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.end,

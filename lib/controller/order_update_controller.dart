@@ -19,6 +19,8 @@ class OrderUpdateController extends GetxController{
   var deliveryCharge = "".obs;
   var updatingextFields = false.obs;
 
+  var orderMerchat = order.Order().obs;
+
 
  double getTotal(){
    if(deliveryCharge.value != ""){
@@ -46,6 +48,12 @@ class OrderUpdateController extends GetxController{
     showProgress.value = true;
     Either<Failure,order.Order> response = await getIt.get<OrderRepository>().getOrderByOrderId(orderId);
     showProgress.value = false;
+    response.fold(
+            (l) => print(l.message),
+            (r) => {
+              orderMerchat.value  = r,
+              arrItems.value = r.items
+        });
     return response;
   }
 
