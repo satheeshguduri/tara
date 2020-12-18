@@ -15,10 +15,11 @@ import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/review_and_deliver.dart';
 import 'package:tara_app/services/error/failure.dart';
 
 class ReviewAndConfirm extends StatefulWidget {
-  Function(String) callBackToConfirmOrder;
+  Function callBackToConfirmOrder;
   String orderId;
   ReviewAndConfirm({Key key,this.callBackToConfirmOrder, this.orderId}) : super(key: key);
   @override
@@ -401,7 +402,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         Container(
           margin: EdgeInsets.only(top: 8, bottom: 8),
           child: Text(
-              "Jl. Kedoya Raya 4 Blok BC 2 No. 32 RT/RW 012/002, Kedoya Selatan, Jakarta Barat, DKI Jakarta 11520",
+              getOrderAddress(),//"Jl. Kedoya Raya 4 Blok BC 2 No. 32 RT/RW 012/002, Kedoya Selatan, Jakarta Barat, DKI Jakarta 11520",
               style: const TextStyle(
                   color: AppColors.header_top_bar_color,
                   fontWeight: FontWeight.w400,
@@ -616,8 +617,9 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                     print(order.toJson().toString());
                     await getIt.get<OrderRepository>().updateOrder(order);
                     print("Order Status ACCEPTED and Updated");*/
-                  widget.callBackToConfirmOrder(Strings.confirm_order);
-                  Navigator.pop(context, false);
+//                  widget.callBackToConfirmOrder();
+                  push(ReviewAndDeliver());
+//                  Navigator.pop(context, false);
                   },
                 )
 
@@ -658,4 +660,15 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
       ],
     ));
   }
+
+  String getOrderAddress(){
+    if(this.order != null && order.deliveryAddress != null){
+      var address = order.deliveryAddress.first;
+      return address.dno + address.streetName + address.city + address.zipcode.toString() + address.country;
+    }
+    return "show addrss here";
+  }
+
 }
+
+

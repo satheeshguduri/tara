@@ -47,7 +47,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
 
   OrderController controller = Get.find();
   AuthResponse user = Get.find();
-  List<OrderAddress> address;
+  List<OrderAddress> address = List<OrderAddress>();
 
   @override
   void init() {
@@ -105,6 +105,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
+              controller.showProgress.value = false;
               controller.items.clear();
               Navigator.pop(context, false);
             }),
@@ -410,7 +411,8 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
 //               orderExtra.data = data;
                orderReq.order_extra = orderExtra;
                Either<Failure,order.Order> response = await controller.createOrder(orderReq);
-                   response.fold((l) => print(l.message), (r) => {
+                   response.fold((l) => print(l.message),
+                           (r) => {
                    Navigator.pop(context, false)
                    });
              }
