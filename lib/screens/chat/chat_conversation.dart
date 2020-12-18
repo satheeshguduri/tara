@@ -486,7 +486,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           );
         } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
           //"payment paid By the User"
-          return ChatOrderPaid(fromScreen: FromScreen.consumer,order: order,);
+//          return ChatOrderPaid(fromScreen: FromScreen.consumer,order: order,);
         }
       } else {
         return Container();

@@ -102,7 +102,8 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                       Container(
                                         margin: EdgeInsets.only(top: 4),
                                         child: Text(
-                                            widget.order.transactionId ?? "TS1001",
+                                            "TS1001",
+                                            // widget.order != null ? widget.order.transactionId : "" ?? "TS1001",
                                             style:BaseStyles.mobileNoTextStyle
                                         ),
                                       )
@@ -131,7 +132,8 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                       Container(
                                         margin: EdgeInsets.only(top: 4),
                                         child: Text(
-                                            "Rp " + widget.order.total.toString(),
+                                            widget.order != null ?
+                                            "Rp " + widget.order.total.toString() : "Rp 0.00",
                                             style:BaseStyles.mobileNoTextStyle
                                         ),
                                       )
