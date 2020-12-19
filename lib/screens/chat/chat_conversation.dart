@@ -60,6 +60,7 @@ class ConversationPage extends StatefulWidget {
   final Store merchantStore;
   final FromScreen fromScreen;
 
+
   ConversationPage({
     this.canGoBack = true,
     this.isFromSend = false,
@@ -374,7 +375,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 //          reverse: false,
 //          controller: listScrollController,
 //        ))
+    animateToEnd();
     return new FirebaseAnimatedList(
+      controller: listScrollController,
         query: getIt.get<FirebaseRemoteService>().getDataStream(
             path: FirebasePath.getPath(
                 user?.customerProfile?.firebaseId, widget.custInfo.firebaseId)),
@@ -383,10 +386,24 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         reverse: false,
         itemBuilder:
             (_, DataSnapshot snapshot, Animation<double> animation, int x) {
-          return loadChatWidget(snapshot);
+        var data = loadChatWidget(snapshot);
+
+          return data;
         });
   }
+  animateToEnd(){
+    Timer(
+      Duration(milliseconds: 1000),
+          () {
+            listScrollController.animateTo(
+              listScrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.ease,
+            );
+      },
+    );
 
+  }
   Widget loadChatWidget(DataSnapshot snapshot) {
     print(snapshot.value.toString());
     String chatType = snapshot.value["messageType"];
@@ -536,6 +553,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         return Container();
       }
     }
+    listScrollController.position.maxScrollExtent;
   }
 
   showChatInboxWidgets() {

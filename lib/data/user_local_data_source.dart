@@ -12,7 +12,7 @@ import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/services/error/failure.dart';
 
 abstract class UserLocalDataStore{
-  void setUser(AuthResponse authResponse);
+  Future setUser(AuthResponse authResponse);
   void clear();
   bool isLoggedIn();
   Future<AuthResponse> getUser();
@@ -51,8 +51,9 @@ class UserLocalDataStoreImpl implements UserLocalDataStore{
   }
 
   @override
-  void setUser(AuthResponse authResponse) async{
+  Future setUser(AuthResponse authResponse) async{
+      Get.put<AuthResponse>(authResponse,permanent: true);
       await storage.write(USR_KEY, authResponse.toJson());
-      Get.put<AuthResponse>(authResponse);
+
   }
 }

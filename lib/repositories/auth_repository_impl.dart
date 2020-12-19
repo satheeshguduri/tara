@@ -73,7 +73,7 @@ class AuthRepositoryImpl implements AuthRepository{
       // AuthResponse user = Get.find();
       // var bearerToken = "Bearer "+user.securityToken.token.tara;
       // var response2 = await remoteDataSource.updateProfile(bearerToken, user.customerProfile);
-      userLocalDataSource.setUser(response);
+      await userLocalDataSource.setUser(response);
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));
