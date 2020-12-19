@@ -7,8 +7,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
-import 'package:tara_app/data/user_local_data_source.dart';
-import 'package:tara_app/injector.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -319,12 +318,14 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               ),
               Align(
                 alignment: Alignment.topRight,
-                child: Text(
-                  userName != "" ? userName : "Username",
-                  textAlign: TextAlign.right,
-                  style: BaseStyles.nameTextStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                child: Obx(
+                  ()=> Text(
+                    Get.find<AuthController>().user.value?.customerProfile?.firstName??"",
+                    textAlign: TextAlign.right,
+                    style: BaseStyles.nameTextStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ],

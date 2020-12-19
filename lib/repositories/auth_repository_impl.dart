@@ -5,6 +5,8 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 import 'package:dartz/dartz.dart';
+import 'package:get/get.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -102,6 +104,8 @@ class AuthRepositoryImpl implements AuthRepository{
       var response = await remoteDataSource.updateProfile(token, customerProfile);
       user.customerProfile = customerProfile;
       await userLocalDataSource.setUser(user);
+      var controller = Get.find<AuthController>();
+      controller.user.value = user;
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));

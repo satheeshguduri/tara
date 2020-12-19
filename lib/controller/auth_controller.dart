@@ -38,6 +38,7 @@ class AuthController extends GetxController {
   var isEnterAllTheFields = false.obs;
   var errorMessage = "".obs;
   var countDownTimeString = "02:00".obs;
+  var user = AuthResponse().obs;
 
   Timer timer;
   var seconds=120.obs;

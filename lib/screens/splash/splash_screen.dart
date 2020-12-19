@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/signin_screen.dart';
@@ -25,8 +26,12 @@ class SplashScreenState extends BaseState<SplashScreen> {
   @override
   void init() async{
     var data = await getIt.get<UserLocalDataStore>().getUser();
+    print("User data:"+data.toJson().toString());
     if(data?.securityToken?.token!=null){
       Get.put<AuthResponse>(data);
+      var controller = Get.find<AuthController>();
+      controller.user.value = data;
+      print(controller.user.value.toJson().toString());
       isLoggedIn = true;
     }
     Timer(Duration(seconds: 5),() async{

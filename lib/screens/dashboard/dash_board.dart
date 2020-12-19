@@ -5,6 +5,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -141,10 +142,12 @@ class _DashBoardState extends BaseState<DashBoard> {
                   ),
                   Center(
                     child: Container(
-                      child: Text(
-                        user?.customerProfile?.firstName??"",
-                        textAlign: TextAlign.center,
-                        style: BaseStyles.bankAccountHeaderTitleStyle,
+                      child: Obx(
+                        ()=> Text(
+                          Get.find<AuthController>().user.value?.customerProfile?.firstName??"",
+                          textAlign: TextAlign.center,
+                          style: BaseStyles.bankAccountHeaderTitleStyle,
+                        ),
                       ),
                     ),
                   ),
