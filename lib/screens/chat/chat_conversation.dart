@@ -43,7 +43,7 @@ import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
-import 'package:tara_app/models/order_management/orders/order.dart' as order;
+import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
 import 'package:tara_app/common/constants/values.dart';
 
 class ConversationPage extends StatefulWidget {
@@ -94,7 +94,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   AuthResponse user;
   OrderUpdateController controller = Get.put(OrderUpdateController());
 
-  order.Order customerOrder;
+  OrderModel.Order customerOrder;
 
   @override
   BuildContext getContext() {
@@ -501,11 +501,14 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             break;
           case Statuses.IN_TRANSIT:
             //"payment paid By the User"
-            return OnDelivery(order: order,isConfirmArrived: false,);
+            return OnDelivery(isConfirmArrived: true,order: order);
             break;
           case Statuses.DELIVERED:
           //"payment paid By the User"
-            return OnDelivery(order: order);
+            return ChatOrderPaid(
+              isFromOrderDelivered: true,
+              fromScreen: FromScreen.consumer,
+            );
             break;
           default:
             return Container();

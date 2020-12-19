@@ -78,7 +78,40 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
+                                Expanded(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)
+                                          ),
+                                          border: Border.all(
+                                              color: const Color(0xffe9ecef),
+                                              width: 1
+                                          ),
+                                          color: const Color(0xffffffff),
+                                      ),
+                                    padding: EdgeInsets.only(top: 4,right: 12,left: 6,bottom: 4),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            getTranslation(Strings.order_id),
+                                            style: BaseStyles.itemOrderQuantityTextStyle
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 4),
+                                          child: Text(
+                                              widget.order?.transactionId??"TS1001",
+                                              style:BaseStyles.mobileNoTextStyle
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: widget.fromScreen == FromScreen.merchant,
+                                  child: Expanded(child:Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8)
@@ -87,55 +120,27 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                             color: const Color(0xffe9ecef),
                                             width: 1
                                         ),
-                                        color: const Color(0xffffffff),
+                                        color: const Color(0xffffffff)
                                     ),
-                                  padding: EdgeInsets.only(top: 4,right: 12,left: 6,bottom: 4),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          getTranslation(Strings.order_id),
-                                          style: BaseStyles.itemOrderQuantityTextStyle
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 4),
-                                        child: Text(
-                                            widget.order?.transactionId??"TS1001",
-                                            style:BaseStyles.mobileNoTextStyle
+                                    padding: EdgeInsets.only(top: 4,right: 12,left: 6,bottom: 4),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            widget.isFromOrderDelivered?getTranslation(Strings.total_earning):getTranslation(Strings.amount_paid),
+                                            style: BaseStyles.itemOrderQuantityTextStyle
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8)
-                                      ),
-                                      border: Border.all(
-                                          color: const Color(0xffe9ecef),
-                                          width: 1
-                                      ),
-                                      color: const Color(0xffffffff)
-                                  ),
-                                  padding: EdgeInsets.only(top: 4,right: 12,left: 6,bottom: 4),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          widget.isFromOrderDelivered?getTranslation(Strings.total_earning):getTranslation(Strings.amount_paid),
-                                          style: BaseStyles.itemOrderQuantityTextStyle
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 4),
-                                        child: Text(
-                                            widget.order != null ?
-                                            "Rp " + widget.order.total.toString() : "Rp 0.00",
-                                            style:BaseStyles.mobileNoTextStyle
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 4),
+                                          child: Text(
+                                              widget.order != null ?
+                                              "Rp " + widget.order.total.toString() : "Rp 0.00",
+                                              style:BaseStyles.mobileNoTextStyle
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )),
                                 ),
                               ],
                             ),

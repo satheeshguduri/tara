@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,16 +9,21 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/controller/order_controller.dart';
-import 'package:tara_app/models/chat/order.dart';
+import 'package:tara_app/controller/order_update_controller.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/chat/order.dart' as ChatOrder;
+import 'package:tara_app/models/order_management/orders/order_status.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class OnDelivery extends StatefulWidget {
 
   final bool isConfirmArrived;
+  final ChatOrder.Order order;
 
   const OnDelivery({
     Key key,
-    Order order,
+    this.order,
     this.isConfirmArrived = false,
   }) : super(key: key);
 
@@ -27,7 +33,7 @@ class OnDelivery extends StatefulWidget {
 
 class _OnDeliveryState extends BaseState<OnDelivery> {
 
-  OrderController orderController = Get.find();
+  OrderUpdateController orderController = Get.find();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -97,10 +103,24 @@ class _OnDeliveryState extends BaseState<OnDelivery> {
                               child: Text(
                                   widget.isConfirmArrived?getTranslation(
                                       Strings.confirm_arrived):getTranslation(
-                                      Strings.confirm_arrived),// + " in 10:00",
+                                      Strings.order_delivered),// + " in 10:00",
                                   style:widget.isConfirmArrived?BaseStyles
                                       .chatItemButtonTextStyle:BaseStyles
-                                      .chatItemResendOtpButtonTextStyle),
+                                      .chatItemResendOtpButtonTextStyle).onTap(onPressed: () async{
+                                        if(widget.isConfirmArrived){
+                                          var response = await orderController.getOrderByOrderId(widget.order.orderId);
+                                          response.fold(
+                                                  (l) => print(l.message),
+                                                  (r) => {
+                                                    print("Got the order Info"),
+                                                    r.status = Statuses.DELIVERED,
+                                                    orderController.updateOrder(r)
+                                              });
+
+
+
+                                        }
+                              }),
                             ),
                           ),
                           Row(
