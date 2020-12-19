@@ -366,7 +366,8 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                 ),
                 Positioned(
                   left: positionX,
-                  child: GestureDetector(
+                  child:
+                  /*GestureDetector(
                     onHorizontalDragUpdate: (dragDetails) async{
                       double screenWidth = MediaQuery.of(context).size.width - 88;
                       double dragPos = dragDetails.globalPosition.dx;
@@ -384,7 +385,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                         });
                       }
                     },
-                    child:Container(
+                    child:*/Container(
                       width: 56,
                       height: 40,
                       decoration: BoxDecoration(
@@ -407,9 +408,16 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                       ),
                     ),
                   ),
-                )
+                // )
               ],
-            ),
+            ).onTap(onPressed: () async {
+              var orderTemp = controller.orderMerchat.value;
+              orderTemp.status = Statuses.IN_TRANSIT;
+              print(orderTemp.toJson().toString());
+              await controller.updateOrder(orderTemp);
+              print("Order Status IN_TRANSIT and Updated");
+              pop();
+            }),
           )
         ],
       ),

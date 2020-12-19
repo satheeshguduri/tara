@@ -36,11 +36,31 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
   Widget build(BuildContext context) {
 
       return Scaffold(
-        body: SafeArea(child: getRootContainer()),
+        appBar: _buildAppBar(context),
+        body: SafeArea(child: getAllOrdersWidget()),
       );
   }
-
- Widget  getRootContainer() {
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      elevation: 1,
+      centerTitle: false,
+      automaticallyImplyLeading: false, // hides leading widget
+      leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () =>
+              Navigator.pop(context, false) //Navigator.pop(context, false),
+      ),
+      title: Align(
+        alignment: Alignment.topLeft,
+        child: Text(
+          getTranslation(Strings.ORDERS),
+          textAlign: TextAlign.left,
+          style: BaseStyles.topBarTextStyle,
+        ),
+      ),
+    );
+  }
+ Widget  getOrdersFuture() {
    return FutureBuilder(
        future: getIt.get<OrderRepository>().getOrdersByConsumerId(user.customerProfile.id),
        builder: (context, AsyncSnapshot snapshot) {
@@ -50,7 +70,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
              Either<Failure, List<order.Order>> orders = snapshot.data;
              orders.fold((l) => Get.defaultDialog(content: Text(l.message)), (
                  r) => orderList = r);
-             return getAllOrdersWidget();
+             return getBottomView();
            }
            return Container();
          } else {
@@ -77,10 +97,11 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
             children: [
               tabsRow(),
-              Flexible(child: getBottomView(),fit: FlexFit.loose,)
+              getOrdersFuture()
+              // getAllOrdersWidget()
+              // Flexible(child: ,fit: FlexFit.loose,)
             ],
           ),
         )

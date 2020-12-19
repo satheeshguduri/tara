@@ -16,7 +16,7 @@ class MapWidgetState extends BaseState<MapWidget> {
 
   @override
   Widget build (BuildContext context) {
-    return Expanded(
+    return Container(
       child:GoogleMap(initialCameraPosition: CameraPosition(target:
       LatLng(-33.870840,151.206286),
           zoom: 12)
