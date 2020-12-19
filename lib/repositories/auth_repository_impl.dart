@@ -5,12 +5,10 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 import 'package:dartz/dartz.dart';
-import 'package:get/get.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
-import 'package:tara_app/models/auth/security_token.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
@@ -44,7 +42,7 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<Either<Failure, AuthResponse>> login(AuthRequest authRequest) async{
     try {
       var response = await remoteDataSource.login(authRequest);
-      userLocalDataSource.setUser(response);
+      await userLocalDataSource.setUser(response);
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));
@@ -96,13 +94,14 @@ class AuthRepositoryImpl implements AuthRepository{
 
   @override
   Future<Either<Failure, BaseResponse>> updateProfile(CustomerProfile customerProfile) async{
-
     try {
 //      AuthResponse user = Get.find();
 //      token = user.securityToken.token.tara.bearer();
       AuthResponse user = await userLocalDataSource.getUser();
       token = user.securityToken.token.tara.bearer();
       var response = await remoteDataSource.updateProfile(token, customerProfile);
+      user.customerProfile = customerProfile;
+      await userLocalDataSource.setUser(user);
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));

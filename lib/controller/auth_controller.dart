@@ -150,8 +150,6 @@ class AuthController extends GetxController {
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
               (r) =>{
                 Get.defaultDialog(content: Text(r.message)),
-                user.customerProfile = customerProfile,
-                getIt.get<UserLocalDataStore>().setUser(user)
               });
     }
 
