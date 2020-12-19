@@ -26,12 +26,10 @@ class SplashScreenState extends BaseState<SplashScreen> {
   @override
   void init() async{
     var data = await getIt.get<UserLocalDataStore>().getUser();
-    print("User data:"+data.toJson().toString());
     if(data?.securityToken?.token!=null){
       Get.put<AuthResponse>(data);
       var controller = Get.find<AuthController>();
       controller.user.value = data;
-      print(controller.user.value.toJson().toString());
       isLoggedIn = true;
     }
     Timer(Duration(seconds: 5),() async{

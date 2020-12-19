@@ -51,6 +51,10 @@ class AuthRepositoryImpl implements AuthRepository{
     }
   }
 
+  Future setAuthController(response) async{
+    var controller = await Get.find<AuthController>();
+    controller.user.value = response;
+  }
   @override
   Future<Either<Failure, BaseResponse>> refreshToken(String test) async{
     //TODO : implement refresh token call
@@ -74,6 +78,7 @@ class AuthRepositoryImpl implements AuthRepository{
       // var bearerToken = "Bearer "+user.securityToken.token.tara;
       // var response2 = await remoteDataSource.updateProfile(bearerToken, user.customerProfile);
       await userLocalDataSource.setUser(response);
+
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));
@@ -104,8 +109,6 @@ class AuthRepositoryImpl implements AuthRepository{
       var response = await remoteDataSource.updateProfile(token, customerProfile);
       user.customerProfile = customerProfile;
       await userLocalDataSource.setUser(user);
-      var controller = Get.find<AuthController>();
-      controller.user.value = user;
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));

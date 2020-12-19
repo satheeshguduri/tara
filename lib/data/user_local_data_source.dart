@@ -8,6 +8,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/services/error/failure.dart';
 
@@ -53,6 +54,8 @@ class UserLocalDataStoreImpl implements UserLocalDataStore{
   @override
   Future setUser(AuthResponse authResponse) async{
       Get.put<AuthResponse>(authResponse);
+      var controller = Get.find<AuthController>();
+      controller.user.value = authResponse;
       await storage.write(USR_KEY, authResponse.toJson());
 
   }

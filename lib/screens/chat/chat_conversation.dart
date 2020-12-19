@@ -92,7 +92,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   bool isSendReceiveConfirmed = false;
   ChatInboxInfo chatInboxInfoGlobal;
   bool isFromTaraOrder = false;
-  AuthResponse user;
+  AuthResponse user = Get.find<AuthResponse>();
   OrderUpdateController controller = Get.put(OrderUpdateController());
 
   OrderModel.Order customerOrder;
