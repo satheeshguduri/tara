@@ -28,7 +28,7 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends BaseState<ProfileEdit> {
 
   AuthController controller = Get.find();
-  AuthResponse user = Get.find<AuthResponse>();
+  AuthResponse user = Get.find<AuthController>().user.value;
   TextEditingController nameTextController = TextEditingController();
   TextEditingController addressTextController = TextEditingController();
   TextEditingController emailAddressController = TextEditingController();

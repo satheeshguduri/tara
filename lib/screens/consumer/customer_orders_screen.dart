@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 
 import 'package:tara_app/injector.dart';
@@ -30,7 +31,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
   bool isTapOnIndex1 = true;
   bool isTapOnIndex2 = false;
   bool isTapOnIndex3 = false;
-  AuthResponse user = Get.find<AuthResponse>();
+  AuthResponse user = Get.find<AuthController>().user.value;
 
   @override
   Widget build(BuildContext context) {
@@ -248,8 +249,8 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
       )
       ,
     ).onTap(onPressed: (){
-      if(filteredList[index]?.order_extra?.data?.customer_commid?.isNotEmpty??false){
-        var firID = filteredList[index].order_extra.data.customer_commid;
+      if(filteredList[index]?.order_extra?.data?.merchant_commid?.isNotEmpty??false){
+        var firID = filteredList[index].order_extra.data.merchant_commid;
         var customer = CustomerProfile();
         customer.firebaseId = firID;
         customer.firstName = "Customer Name";
