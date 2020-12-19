@@ -423,15 +423,14 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             );
             break;
           case Statuses.IN_TRANSIT:
-            //TODO: need to check
           //"payment paid By the User"
-            return ChatOrderDetail(
-              onTapAction: () {},
-            );
+            return OnDelivery(isConfirmArrived: true,order: order);
+            break;
           case Statuses.PAID:
-            return ChatOrderPaid(fromScreen: FromScreen.merchant,);
+            return ChatOrderPaid(fromScreen: FromScreen.merchant, order: order,);
           case Statuses.DELIVERED:
             return ChatOrderPaid(
+              order:order,
               isFromOrderDelivered: true,
               fromScreen: FromScreen.merchant,
             );
@@ -440,7 +439,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 
         };
 
-      } else if (widget.fromScreen == FromScreen.consumer) {
+      }
+      else if (widget.fromScreen == FromScreen.consumer) {
 
         // CONSUMER CHAT
         switch(order.orderStatus) {
@@ -506,6 +506,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           case Statuses.DELIVERED:
           //"payment paid By the User"
             return ChatOrderPaid(
+              order: order,
               isFromOrderDelivered: true,
               fromScreen: FromScreen.consumer,
             );

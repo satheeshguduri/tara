@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/helpers/enums.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
 import 'package:tara_app/models/chat/order.dart';
@@ -31,7 +32,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
       padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
       child: Container(
         child: Row(
-          mainAxisAlignment: widget.fromScreen == FromScreen.merchant?MainAxisAlignment.start:MainAxisAlignment.end,
+          mainAxisAlignment: widget.fromScreen == FromScreen.merchant?MainAxisAlignment.end:MainAxisAlignment.start,
           children: <Widget>[
             Container(
               child: Container(
@@ -110,7 +111,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                   ),
                                 ),
                                 Visibility(
-                                  visible: widget.fromScreen == FromScreen.merchant,
+                                  visible: (widget.fromScreen == FromScreen.merchant) && (widget.order.orderStatus == Statuses.PAID),
                                   child: Expanded(child:Container(
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(
@@ -216,7 +217,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
 
   Widget getReviewOrPaidWidget() {
       return Visibility(
-        visible: widget.fromScreen == FromScreen.merchant,
+        visible: widget.fromScreen == FromScreen.merchant && !widget.isFromOrderDelivered,
         child: Container(
           margin:
           EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),

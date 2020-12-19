@@ -8,11 +8,10 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/order_update_controller.dart';
-import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/chat/order.dart' as ChatOrder;
-import 'package:tara_app/models/order_management/orders/order_status.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
@@ -20,11 +19,13 @@ class OnDelivery extends StatefulWidget {
 
   final bool isConfirmArrived;
   final ChatOrder.Order order;
-
+  final FromScreen fromScreen;
   const OnDelivery({
     Key key,
     this.order,
+    this.fromScreen,
     this.isConfirmArrived = false,
+
   }) : super(key: key);
 
   @override
@@ -88,39 +89,42 @@ class _OnDeliveryState extends BaseState<OnDelivery> {
                                 style: BaseStyles.chatItemSubTextStyle
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.only(bottom: 8, top: 8),
-                            margin:
-                            EdgeInsets.only(bottom: 16, left: 16, right: 16,top: 8),
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
-                                border: Border.all(
-                                    color:widget.isConfirmArrived?Color(0xffb2f7e2):Color(0xffe9ecef),
-                                    width: 1),
-                                color: widget.isConfirmArrived?Color(0xffb2f7e2):Color(0xffe9ecef)),
-                            child: Center(
-                              child: Text(
-                                  widget.isConfirmArrived?getTranslation(
-                                      Strings.confirm_arrived):getTranslation(
-                                      Strings.order_delivered),// + " in 10:00",
-                                  style:widget.isConfirmArrived?BaseStyles
-                                      .chatItemButtonTextStyle:BaseStyles
-                                      .chatItemResendOtpButtonTextStyle).onTap(onPressed: () async{
-                                        if(widget.isConfirmArrived){
-                                          var response = await orderController.getOrderByOrderId(widget.order.orderId);
-                                          response.fold(
-                                                  (l) => print(l.message),
-                                                  (r) => {
-                                                    print("Got the order Info"),
-                                                    r.status = Statuses.DELIVERED,
-                                                    orderController.updateOrder(r)
-                                              });
+                          Visibility(
+                            visible:widget.fromScreen == FromScreen.consumer,
+                            child: Container(
+                              padding: EdgeInsets.only(bottom: 8, top: 8),
+                              margin:
+                              EdgeInsets.only(bottom: 16, left: 16, right: 16,top: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                                  border: Border.all(
+                                      color:widget.isConfirmArrived?Color(0xffb2f7e2):Color(0xffe9ecef),
+                                      width: 1),
+                                  color: widget.isConfirmArrived?Color(0xffb2f7e2):Color(0xffe9ecef)),
+                              child: Center(
+                                child: Text(
+                                    widget.isConfirmArrived?getTranslation(
+                                        Strings.confirm_arrived):getTranslation(
+                                        Strings.order_delivered),// + " in 10:00",
+                                    style:widget.isConfirmArrived?BaseStyles
+                                        .chatItemButtonTextStyle:BaseStyles
+                                        .chatItemResendOtpButtonTextStyle).onTap(onPressed: () async{
+                                          if(widget.isConfirmArrived){
+                                            var response = await orderController.getOrderByOrderId(widget.order.orderId);
+                                            response.fold(
+                                                    (l) => print(l.message),
+                                                    (r) => {
+                                                      print("Got the order Info"),
+                                                      r.status = Statuses.DELIVERED,
+                                                      orderController.updateOrder(r)
+                                                });
 
 
 
-                                        }
-                              }),
+                                          }
+                                }),
+                              ),
                             ),
                           ),
                           Row(
