@@ -19,17 +19,16 @@ import 'dash_board.dart';
 
 class ProfileEdit extends StatefulWidget {
   final bool isFromHomeTopBar;
-  final AuthResponse user;
-  ProfileEdit({Key key, this.isFromHomeTopBar = false,this.user}) : super(key: key);
+  ProfileEdit({Key key, this.isFromHomeTopBar = false}) : super(key: key);
 
   @override
   _ProfileEditState createState() => new _ProfileEditState();
 }
 
 class _ProfileEditState extends BaseState<ProfileEdit> {
-  AuthResponse user = Get.find();
-  AuthController controller = Get.find();
 
+  AuthController controller = Get.find();
+  AuthResponse user = Get.find<AuthResponse>();
   TextEditingController nameTextController = TextEditingController();
   TextEditingController addressTextController = TextEditingController();
   TextEditingController emailAddressController = TextEditingController();

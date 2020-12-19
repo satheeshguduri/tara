@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class OnDelivery extends StatefulWidget {
@@ -14,6 +17,7 @@ class OnDelivery extends StatefulWidget {
 
   const OnDelivery({
     Key key,
+    Order order,
     this.isConfirmArrived = false,
   }) : super(key: key);
 
@@ -22,12 +26,14 @@ class OnDelivery extends StatefulWidget {
 }
 
 class _OnDeliveryState extends BaseState<OnDelivery> {
+
+  OrderController orderController = Get.find();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
       padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-      child: Expanded(
+      child: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -91,7 +97,7 @@ class _OnDeliveryState extends BaseState<OnDelivery> {
                               child: Text(
                                   widget.isConfirmArrived?getTranslation(
                                       Strings.confirm_arrived):getTranslation(
-                                      Strings.confirm_arrived) + " in 10:00",
+                                      Strings.confirm_arrived),// + " in 10:00",
                                   style:widget.isConfirmArrived?BaseStyles
                                       .chatItemButtonTextStyle:BaseStyles
                                       .chatItemResendOtpButtonTextStyle),

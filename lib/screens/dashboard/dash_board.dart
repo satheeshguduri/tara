@@ -13,6 +13,7 @@ import 'package:tara_app/screens/dashboard/notification_settings.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/screens/signin_screen.dart';
 
 
 
@@ -23,7 +24,7 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends BaseState<DashBoard> {
 
-  AuthResponse user;
+  AuthResponse user = Get.find<AuthResponse>();
 
   List<String> dashBoardOptions = [ Strings.profile,
     Strings.notification_settings,
@@ -46,11 +47,11 @@ class _DashBoardState extends BaseState<DashBoard> {
   void init() async
   {
     super.init();
-    var data = await getIt.get<UserLocalDataStore>().getUser();
-    user = data;
-    setState(() {
-
-    });
+    // var data = await getIt.get<UserLocalDataStore>().getUser();
+    // user = data;
+    // setState(() {
+    //
+    // });
   }
 
   @override
@@ -240,28 +241,27 @@ class _DashBoardState extends BaseState<DashBoard> {
 
   getLogOutWidget()
   {
-    return InkWell(
-      onTap: (){
-
-      },
-      child: Container(
-        height: 48,
-        margin: EdgeInsets.only(bottom: 24,top: 24,left: 16,right: 16),
-        decoration: BoxDecoration(
-          border: Border.all(width: 1,color: Color(0xffb0b4c1)),
-            borderRadius: BorderRadius.all(
-                Radius.circular(8)
-            ),
-            color: Colors.white
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          getTranslation(Strings.logout),
-          textAlign: TextAlign.center,
-          style: BaseStyles.logoutTextStyle,
-        ),
+    return Container(
+      height: 48,
+      margin: EdgeInsets.only(bottom: 24,top: 24,left: 16,right: 16),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1,color: Color(0xffb0b4c1)),
+          borderRadius: BorderRadius.all(
+              Radius.circular(8)
+          ),
+          color: Colors.white
       ),
-    );
+      alignment: Alignment.center,
+      child: Text(
+        getTranslation(Strings.logout),
+        textAlign: TextAlign.center,
+        style: BaseStyles.logoutTextStyle,
+      ),
+    ).onTap(onPressed: (){
+      //confirmation dailog
+      getIt.get<UserLocalDataStore>().clear();
+      Get.offAll(SignInScreen());
+    });
   }
 
   @override

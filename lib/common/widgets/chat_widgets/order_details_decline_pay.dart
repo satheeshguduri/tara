@@ -7,6 +7,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
@@ -45,7 +46,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
     return Container(
         child: Container(
           padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-          child: Expanded(
+          child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -144,66 +145,7 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 16, right: 16, top: 8, bottom: 8),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 5,
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              bottom: 8, top: 8),
-                                          margin: EdgeInsets.only(right: 8),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(8)),
-                                              border: Border.all(
-                                                  color:
-                                                  const Color(0xffb0b4c1),
-                                                  width: 1),
-                                              color: const Color(0xffffffff)),
-                                          child: Center(
-                                            child: Text(
-                                                getTranslation(
-                                                    Strings.DECLINE),
-                                                style: BaseStyles
-                                                    .declineButtonTextStyle),
-                                          ),
-                                        ).onTap(onPressed: (){
-                                          widget.onTapAction(ChatAction.decline);
-                                        }),
-                                      ),
-                                      Expanded(
-                                        flex: 5,
-                                        child: Container(
-                                          padding: EdgeInsets.only(
-                                              bottom: 8, top: 8),
-                                          margin: EdgeInsets.only(
-                                            left: 8,
-                                          ),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(8)),
-                                              border: Border.all(
-                                                  color:
-                                                  const Color(0xffb2f7e2),
-                                                  width: 1),
-                                              color: const Color(0xffb2f7e2)),
-                                          child: Center(
-                                            child: Text(
-                                                getTranslation(
-                                                    Strings.Pay),
-                                                style: BaseStyles
-                                                    .chatItemButtonTextStyle),
-                                          ),
-                                        ).onTap(onPressed: (){
-                                          widget.onTapAction(ChatAction.pay);
-                                        }),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                getPayDeclineOrPaidWidget(this.widget.order),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
@@ -277,6 +219,93 @@ class _OrderDetailsDeclinePayState extends BaseState<OrderDetailsDeclinePay> {
           ),
           margin: EdgeInsets.only(bottom: 10.0),
         ));
+  }
+
+  Container getPayDeclineOrPaidWidget(Order order) {
+    print("Status:"+ order.orderStatus.toString());
+    if(order.orderStatus == Statuses.ACCEPTED) {
+      return Container(
+        margin: EdgeInsets.only(
+            left: 16, right: 16, top: 8, bottom: 8),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 5,
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: 8, top: 8),
+                margin: EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(8)),
+                    border: Border.all(
+                        color:
+                        const Color(0xffb0b4c1),
+                        width: 1),
+                    color: const Color(0xffffffff)),
+                child: Center(
+                  child: Text(
+                      getTranslation(
+                          Strings.DECLINE),
+                      style: BaseStyles
+                          .declineButtonTextStyle),
+                ),
+              ).onTap(onPressed: () {
+                widget.onTapAction(ChatAction.decline);
+              }),
+            ),
+            Expanded(
+              flex: 5,
+              child: Container(
+                padding: EdgeInsets.only(
+                    bottom: 8, top: 8),
+                margin: EdgeInsets.only(
+                  left: 8,
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(8)),
+                    border: Border.all(
+                        color:
+                        const Color(0xffb2f7e2),
+                        width: 1),
+                    color: const Color(0xffb2f7e2)),
+                child: Center(
+                  child: Text(
+                      getTranslation(
+                          Strings.Pay),
+                      style: BaseStyles
+                          .chatItemButtonTextStyle),
+                ),
+              ).onTap(onPressed: () {
+                widget.onTapAction(ChatAction.pay);
+              }),
+            )
+          ],
+        ),
+      );
+    }else{
+      return Container(
+        margin:
+        EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),
+        height: 36,
+        decoration: BoxDecoration(
+            borderRadius: Radii.border(8),
+            border: Border.all(
+                color: const Color(0xfff1e4c6),
+                width: 1
+            ),
+            color: const Color(0x80f1e4c6)
+        ),
+        child: Center(
+          child: Text(
+              getTranslation(
+                  Strings.trans_has_been_paid),
+              style: BaseStyles.chatItemSubTextStyle),
+        ),
+      );
+    }
+
   }
 
 

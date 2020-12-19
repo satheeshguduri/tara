@@ -9,8 +9,6 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/models/chat/order.dart';
 
 class ChatOrderPaid extends StatefulWidget {
@@ -31,7 +29,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
     // TODO: implement build
     return Container(
       padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-      child: Expanded(
+      child: Container(
         child: Row(
           mainAxisAlignment: widget.fromScreen == FromScreen.merchant?MainAxisAlignment.start:MainAxisAlignment.end,
           children: <Widget>[
@@ -102,8 +100,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                       Container(
                                         margin: EdgeInsets.only(top: 4),
                                         child: Text(
-                                            "TS1001",
-                                            // widget.order != null ? widget.order.transactionId : "" ?? "TS1001",
+                                            widget.order?.transactionId??"TS1001",
                                             style:BaseStyles.mobileNoTextStyle
                                         ),
                                       )
@@ -143,27 +140,7 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                               ],
                             ),
                           ),
-                          Container(
-                            margin:
-                            EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),
-                            height: 36,
-                            decoration: BoxDecoration(
-                                borderRadius: Radii.border(8),
-                                border: Border.all(
-                                    color: const Color(0xffb2f7e2),
-                                    width: 1
-                                ),
-                                color: const Color(0xffb2f7e2)
-                            ),
-                            child: Center(
-                              child: Text(
-                                  getTranslation(
-                                      Strings.review_and_deliver),
-                                  style: BaseStyles.chatItemButtonTextStyle),
-                            ),
-                          ).onTap(onPressed: (){
-                            push(ReviewAndDeliver(orderId: widget.order.orderId,));
-                          }),
+                          getReviewOrPaidWidget(),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
@@ -230,6 +207,33 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
       ),
       margin: EdgeInsets.only(bottom: 10.0),
     );
+  }
+
+  Widget getReviewOrPaidWidget() {
+      return Visibility(
+        visible: widget.fromScreen == FromScreen.merchant,
+        child: Container(
+          margin:
+          EdgeInsets.only(left: 16, right: 8, bottom: 8,top: 8),
+          height: 36,
+          decoration: BoxDecoration(
+              borderRadius: Radii.border(8),
+              border: Border.all(
+                  color: const Color(0xffb2f7e2),
+                  width: 1
+              ),
+              color: const Color(0xffb2f7e2)
+          ),
+          child: Center(
+            child: Text(
+                getTranslation(
+                    Strings.review_and_deliver),
+                style: BaseStyles.chatItemButtonTextStyle),
+          ),
+        ).onTap(onPressed: (){
+          push(ReviewAndDeliver(orderId: widget.order.orderId,));
+        }),
+      );
   }
 
   @override

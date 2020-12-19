@@ -28,7 +28,7 @@ class HomeTopBar extends StatefulWidget {
 }
 
 class _HomeTopBarState extends BaseState<HomeTopBar> {
-  AuthResponse user;
+  AuthResponse user = Get.find<AuthResponse>();
   var userName = "";
 
   @override
@@ -40,11 +40,11 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
   void init() async
   {
     super.init();
-    var data = await getIt.get<UserLocalDataStore>().getUser();
-    user = data;
-    setState(() {
-
-    });
+    // var data = await getIt.get<UserLocalDataStore>().getUser();
+    // user = data;
+    // setState(() {
+    //
+    // });
   }
 
   @override
@@ -385,7 +385,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                   Assets.PERSON_ICON,
                   fit: BoxFit.none,
                 ),
-              ).onTap(onPressed: () => Get.to(ProfileEdit(isFromHomeTopBar:true,user: user,))),
+              ).onTap(onPressed: () => Get.to(ProfileEdit(isFromHomeTopBar:true))),
             )
           ],
         )

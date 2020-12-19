@@ -92,7 +92,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   ChatInboxInfo chatInboxInfoGlobal;
   bool isFromTaraOrder = false;
   AuthResponse user;
-  OrderUpdateController controller = OrderUpdateController();
+  OrderUpdateController controller = Get.put(OrderUpdateController());
 
   order.Order customerOrder;
 
@@ -393,107 +393,123 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     if (chatType == describeEnum(MessageType.ORDER)) {
       Order order = Order.fromSnapshot(snapshot);
       if (widget.fromScreen == FromScreen.merchant) {
-        if (order.orderStatus == describeEnum(Statuses.PENDING))
-          return ItemsOrder(
-            fromScreen: FromScreen.merchant,
-            order: order,
-          );
-        else if (order.orderStatus == describeEnum(Statuses.ACCEPTED)) {
-          // "You have accepted the order."
-          return ItemsOrder(
-            isFromAcceptedOrder: true,
-            fromScreen: FromScreen.merchant,
-            order: order,
-            onTapAction: () {},
-          );
-        } else if (order.orderStatus == describeEnum(Statuses.CANCELLED)) {
-//          "You have canceled the order"
-          return ItemsOrder(
-            isFromCancelledOrder: true,
-            order: order,
-            fromScreen: FromScreen.merchant,
-            onTapAction: () {},
-          );
-        } else if (order.orderStatus ==
-            describeEnum(Statuses.ORDER_PAYMENT_DECLINED)) {
-          //"Payment Declined By the User"
-          return DeclinePay(
-            isSender: false,
-            isDeclined: true,
-            onTapAction: (chatAction) {},
-          );
-        } else if (order.orderStatus == describeEnum(Statuses.IN_TRANSIT)) {
+        switch(order.orderStatus){
+          case Statuses.PENDING:
+              return ItemsOrder(
+                fromScreen: FromScreen.merchant,
+                order: order,
+              );
+              break;
+          case Statuses.ACCEPTED:
+            return ItemsOrder(
+              isFromAcceptedOrder: true,
+              fromScreen: FromScreen.merchant,
+              order: order,
+              onTapAction: () {},
+            );
+            break;
+          case Statuses.CANCELLED:
+            return ItemsOrder(
+              isFromCancelledOrder: true,
+              order: order,
+              fromScreen: FromScreen.merchant,
+              onTapAction: () {},
+            );
+          case Statuses.ORDER_PAYMENT_DECLINED:
+            return DeclinePay(
+              isSender: false,
+              isDeclined: true,
+              onTapAction: (chatAction) {},
+            );
+            break;
+          case Statuses.IN_TRANSIT:
+            //TODO: need to check
           //"payment paid By the User"
-          return ChatOrderDetail(
-            onTapAction: () {},
-          );
-        } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
-          //"payment paid By the User"
-          return ChatOrderPaid(fromScreen: FromScreen.merchant,);
-        } else if (order.orderStatus == describeEnum(Statuses.DELIVERED)) {
-          //"payment paid By the User"
-          return ChatOrderPaid(
-            isFromOrderDelivered: true,
-            fromScreen: FromScreen.merchant,
-          );
-        }
+            return ChatOrderDetail(
+              onTapAction: () {},
+            );
+          case Statuses.PAID:
+            return ChatOrderPaid(fromScreen: FromScreen.merchant,);
+          case Statuses.DELIVERED:
+            return ChatOrderPaid(
+              isFromOrderDelivered: true,
+              fromScreen: FromScreen.merchant,
+            );
+          default:
+            break;
+
+        };
+
       } else if (widget.fromScreen == FromScreen.consumer) {
 
         // CONSUMER CHAT
-
-        if (order.orderStatus == describeEnum(Statuses.PENDING))
-          return ItemsOrder(
-            fromScreen: FromScreen.consumer,
-            order: order,
-            selfOrder: true,
-            onTapAction: () {
-              push(MakeAnOrder(
-                isFromShopHome: false,
-                merchantStore: widget.merchantStore,
-                merchantProfile: widget.custInfo,
-              ));
-            },
-          );
-        else if (order.orderStatus == describeEnum(Statuses.ACCEPTED)) {
+        switch(order.orderStatus) {
+          case Statuses.PENDING:
+            return ItemsOrder(
+              fromScreen: FromScreen.consumer,
+              order: order,
+              selfOrder: true,
+              onTapAction: () {
+                push(MakeAnOrder(
+                  isFromShopHome: false,
+                  merchantStore: widget.merchantStore,
+                  merchantProfile: widget.custInfo,
+                ));
+              },
+            );
+            break;
+          case Statuses.ACCEPTED:
           //return Pay and Decline Widget Here (i.e "Order confirmed by the Store")
-          return OrderDetailsDeclinePay(
-            order: order,
-            onTapAction: (chatAction) async {
-              // make service call to get the order Details
-              var response = await controller.getOrderByOrderId(order.orderId);
-              response.fold(
-                      (l) => print(l.message),
-                      (r) => {
-                    customerOrder = r,
-                    consumerAcceptDeclineOrderPayment(chatAction)
-                  });
-            },
-          );
-        } else if (order.orderStatus == describeEnum(Statuses.CANCELLED)) {
-          //          "Ordered declined by the Store"
-          return ItemsOrder(
-            isFromCancelledOrderByStore: true,
-            order: order,
-            onTapAction: () {},
-          );
-        } else if (order.orderStatus ==
-            describeEnum(Statuses.ORDER_PAYMENT_DECLINED)) {
-          //update the txt on Pay and decline widget, button should be replaced with text (i.e "You have declined the payment")
-          //"Payment Declined By the User"
-          return DeclinePay(
-            isSender: true,
-            isDeclined: true,
-            onTapAction: (chatAction) {
+              return OrderDetailsDeclinePay(
+                order: order,
+                onTapAction: (chatAction) async {
+                  // make service call to get the order Details
+                  var response = await controller.getOrderByOrderId(order.orderId);
+                  response.fold(
+                          (l) => print(l.message),
+                          (r) => {
+                        customerOrder = r,
+                        consumerAcceptDeclineOrderPayment(chatAction)
+                      });
+                },
+              );
+              break;
+          case Statuses.CANCELLED:
+              //"Ordered declined by the Store"
+              return ItemsOrder(
+                isFromCancelledOrderByStore: true,
+                order: order,
+                onTapAction: () {},
+              );
+              break;
+          case Statuses.ORDER_PAYMENT_DECLINED:
+            //update the txt on Pay and decline widget, button should be replaced with text (i.e "You have declined the payment")
+            //"Payment Declined By the User"
+              return DeclinePay(
+                isSender: true,
+                isDeclined: true,
+                onTapAction: (chatAction) {
+                },
+              );
+              break;
+          case Statuses.PAID:
+            //return the pay decline card with disable the button and add text says transaction paid
+            return ChatOrderPaid(
+              order: order,fromScreen: FromScreen.consumer);
+            //"payment paid By the User"
+           // return ChatOrderPaid(fromScreen: FromScreen.consumer,order: order,);
+            break;
+          case Statuses.IN_TRANSIT:
+            //"payment paid By the User"
+            return OnDelivery(order: order,isConfirmArrived: false,);
+            break;
+          case Statuses.DELIVERED:
+          //"payment paid By the User"
+            return OnDelivery(order: order);
+            break;
+          default:
+            return Container();
 
-            },
-          );
-        } else if (order.orderStatus == describeEnum(Statuses.PAID)) {
-          //"payment paid By the User"
-          return ChatOrderPaid(fromScreen: FromScreen.consumer,order: order,);
-        }else if (order.orderStatus == describeEnum(Statuses.IN_TRANSIT)) {
-          //"payment paid By the User"
-          return OnDelivery(
-          );
         }
       } else {
         return Container();

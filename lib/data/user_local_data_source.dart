@@ -53,6 +53,6 @@ class UserLocalDataStoreImpl implements UserLocalDataStore{
   @override
   void setUser(AuthResponse authResponse) async{
       await storage.write(USR_KEY, authResponse.toJson());
-      Get.put(authResponse);
+      Get.put<AuthResponse>(authResponse);
   }
 }

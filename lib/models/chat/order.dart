@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
 /*
 
 part 'order.g.dart';
@@ -24,7 +25,7 @@ class Order {
      String merchantId;
      int timestamp;
      String transactionId;
-     String orderStatus;
+     Statuses orderStatus;
 
      Order({this.type, this.orderId, this.items, this.total, this.customerId,
       this.merchantId, this.timestamp, this.transactionId, this.orderStatus});
