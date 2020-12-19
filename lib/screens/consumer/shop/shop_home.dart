@@ -13,6 +13,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/screens/consumer/customer_orders_screen.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/common/constants/values.dart';
 
@@ -344,7 +345,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                               ),
                             ),
                           ],
-                        )),
+                        )).onTap(onPressed:() =>Get.to(CustomerOrdersScreen())),
                   ),
                 ],
               ),
