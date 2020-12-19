@@ -23,6 +23,10 @@ mixin BaseWidgets {
     color: AppColors.secondaryBackground,
     size: 50.0,
   );
+  static const Widget getListIndicator = SpinKitFadingCircle(
+    color: AppColors.secondaryBackground,
+    size: 30.0,
+  );
   Divider getDivider() {
     return Divider(
       color: AppColors.primaryElement,

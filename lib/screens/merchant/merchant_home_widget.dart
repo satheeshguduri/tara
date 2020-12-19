@@ -10,18 +10,23 @@ import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/enums.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/Merchant/see_all_orders_screen.dart';
 import 'package:tara_app/screens/agent/balance_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as order;
+import 'package:tara_app/services/error/failure.dart';
+
+import '../../injector.dart';
 
 class MerchantHomeWidget extends StatefulWidget{
 
@@ -450,7 +455,35 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
       return Container();
 
   }
-
+  Widget getNameFuture(customerId) {
+    return FutureBuilder(
+        future: getIt.get<AuthRepository>().getCustomerInfoByCustomerId(customerId.toString()),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // If the Future is complete, display the preview.
+            if (snapshot.hasData) {
+              Either<Failure, CustomerProfile> customerProfile = snapshot.data;
+              var name = "";
+              customerProfile.fold((l) => Get.defaultDialog(content: Text(l.message)), (
+                  r) => name= r.firstName);
+              return Text(
+                  name??"-", //TODO:- Display Name Here
+                  style: const TextStyle(
+                      color:  AppColors.primaryText,
+                      fontWeight: FontWeight.w700,
+                      fontStyle:  FontStyle.normal,
+                      fontSize: 14.0
+                  )
+              );
+            }
+            return Container();
+          } else {
+            // Otherwise, display a loading indicator.
+            return const Center(child: BaseWidgets.getListIndicator);
+          }
+        }
+    );
+  }
   Widget getOrderCard(int index) {
     return Container(
               margin: EdgeInsets.only(left: 16, right: 16,top: 4,bottom: 4),
@@ -486,16 +519,16 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                     )
                                 ),
                                 Container(height: 6,),
-
-                                Text(
-                                    "Andi Ruhiyat", //TODO:- Display Name Here
-                                    style: const TextStyle(
-                                        color:  AppColors.primaryText,
-                                        fontWeight: FontWeight.w700,
-                                        fontStyle:  FontStyle.normal,
-                                        fontSize: 14.0
-                                    )
-                                ),
+                                getNameFuture(filteredList[index].customerId),
+                                // Text(
+                                //     "Andi Ruhiyat", //TODO:- Display Name Here
+                                //     style: const TextStyle(
+                                //         color:  AppColors.primaryText,
+                                //         fontWeight: FontWeight.w700,
+                                //         fontStyle:  FontStyle.normal,
+                                //         fontSize: 14.0
+                                //     )
+                                // ),
                                 Container(height: 6,),
                                 Text(
                                     getOrderItems(filteredList[index]),
