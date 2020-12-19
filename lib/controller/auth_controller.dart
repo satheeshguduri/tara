@@ -124,7 +124,7 @@ class AuthController extends GetxController {
       showProgress.value = false;
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
           (r) => {
-            Get.put(r),
+            Get.put<AuthResponse>(r),
             Get.to(CreateStoreScreen())
       });
       // Get.to(Consumer())); //navigate to consumer home screen

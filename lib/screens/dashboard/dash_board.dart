@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/customer_orders_screen.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/notification_settings.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
@@ -235,6 +236,10 @@ class _DashBoardState extends BaseState<DashBoard> {
       else if (title == Strings.MY_ACCOUNTS)
       {
         push(MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),));
+      }
+      else if (title == Strings.my_orders)
+      {
+        push(CustomerOrdersScreen());
       }
     });
   }
