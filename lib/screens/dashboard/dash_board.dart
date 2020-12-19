@@ -26,7 +26,7 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends BaseState<DashBoard> {
 
-  AuthResponse user = Get.find<AuthResponse>();
+  AuthResponse user = Get.find<AuthController>().user.value;
 
   List<String> dashBoardOptions = [ Strings.profile,
     Strings.notification_settings,

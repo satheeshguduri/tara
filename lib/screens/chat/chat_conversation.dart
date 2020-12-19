@@ -22,6 +22,7 @@ import 'package:tara_app/common/widgets/chat_widgets/on_the_way.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_details_decline_pay.dart';
 import 'package:tara_app/common/widgets/chat_widgets/order_paid.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/order_update_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
@@ -92,7 +93,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   bool isSendReceiveConfirmed = false;
   ChatInboxInfo chatInboxInfoGlobal;
   bool isFromTaraOrder = false;
-  AuthResponse user = Get.find<AuthResponse>();
+  AuthResponse user = Get.find<AuthController>().user.value;
   OrderUpdateController controller = Get.put(OrderUpdateController());
 
   OrderModel.Order customerOrder;

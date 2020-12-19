@@ -27,7 +27,7 @@ class HomeTopBar extends StatefulWidget {
 }
 
 class _HomeTopBarState extends BaseState<HomeTopBar> {
-  AuthResponse user = Get.find<AuthResponse>();
+  AuthResponse user = Get.find<AuthController>().user.value;
   var userName = "";
 
   @override
