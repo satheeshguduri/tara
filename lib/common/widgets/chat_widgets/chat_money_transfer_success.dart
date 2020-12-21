@@ -5,11 +5,13 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/models/chat/payment_success.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 class ChatMoneyTransferSuccess extends StatefulWidget {
   final String requestedAmount;
-  const ChatMoneyTransferSuccess({Key key,this.requestedAmount})
+  final PaymentSuccess paymentSuccess;
+  const ChatMoneyTransferSuccess({Key key,this.requestedAmount,this.paymentSuccess})
       : super(key: key);
   @override
   _ChatMoneyTransferSuccessState createState() =>
@@ -20,10 +22,9 @@ class _ChatMoneyTransferSuccessState
     extends BaseState<ChatMoneyTransferSuccess> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-      child: Expanded(
+      child: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -67,7 +68,8 @@ class _ChatMoneyTransferSuccessState
                           Container(
                             margin:
                                 EdgeInsets.only(left: 16, right: 8, bottom: 8),
-                            child: Text(widget.requestedAmount!=null?"Rp " + widget.requestedAmount + ".000":"Rp 450.000",
+                            child: Text("Rp "+widget?.paymentSuccess?.amount.toString(),
+                            // child: Text(widget.requestedAmount!=null?"Rp " + widget.requestedAmount + ".000":widget?.paymentSuccess?.amount??"-",
                                 style: BaseStyles.agentUIN_OTP_CODE_TextStyle),
                           ),
                           Container(
@@ -81,7 +83,7 @@ class _ChatMoneyTransferSuccessState
                             margin:
                                 EdgeInsets.only(left: 16, right: 16, top: 8),
                             child: Text(
-                                "“Sushi yg kemarin on me ya. Thanks udah nalangin!”",
+                                "“Money transferred!!”",
                                 style: BaseStyles.saveToMyContactTextStyle),
                           ),
                           Container(
@@ -166,7 +168,7 @@ class _ChatMoneyTransferSuccessState
                                   child: Text(
                                     DateFormat('dd MMM kk:mm').format(
                                         DateTime.fromMillisecondsSinceEpoch(
-                                            1565888474278)),
+                                            widget.paymentSuccess.timestamp)),
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 12.0,

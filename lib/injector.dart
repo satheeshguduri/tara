@@ -25,10 +25,12 @@ import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/repositories/order_repository_impl.dart';
 import 'package:tara_app/repositories/store_repository_impl.dart';
 import 'package:tara_app/repositories/stores_repository.dart';
+import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/services/dio_client.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
 import 'package:tara_app/services/order_rest_client.dart';
 import 'package:tara_app/services/rest_client.dart';
+import 'package:tara_app/services/transaction_rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 
 import 'models/order_management/store/store_type_model.dart';
@@ -40,9 +42,12 @@ Future<void> init() async{
   getIt.registerLazySingleton(() => sharedPreferences);
   getIt.registerLazySingleton<RestClient>(() => APIHelper().getDioClient());
   getIt.registerLazySingleton<OrderRestClient>(() => APIHelper().getDioOrderClient());
+  getIt.registerLazySingleton<TransactionRestClient>(() => APIHelper().getDioTransactionClient());
   getIt.registerLazySingleton(() => DataConnectionChecker());
   await GetStorage.init();
   getIt.registerLazySingleton<GetStorage>(() => GetStorage());
+  await FirebaseDatabase.instance.setPersistenceEnabled(true);
+  await FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
   getIt.registerLazySingleton<DatabaseReference>(() => FirebaseDatabase.instance.reference());
   getIt.registerLazySingleton<FirebaseRemoteService>(() => FirebaseRemoteService(getIt()));
   getIt.registerLazySingleton<UserLocalDataStore>(() => UserLocalDataStoreImpl(getIt()));
@@ -51,6 +56,7 @@ Future<void> init() async{
   getIt.registerLazySingleton<StoresRepository>(() => StoreRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(getIt(),getIt()));
+  getIt.registerLazySingleton<TransactionRepository>(() => TransactionRepositoryImpl(getIt(),getIt(),getIt()));
   Get.lazyPut(()=>CreateStoreAndOwnerController());
   Get.put(OrderController());
   Get.lazyPut(()=>StoreTypeResponse());

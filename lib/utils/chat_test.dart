@@ -39,7 +39,7 @@ class ChatTest extends StatelessWidget {
             child: Text("Submit").onTap(onPressed: (){
               var data = PaymentSuccess(amount: 400,
                 payerId: "CID-7231947ee8f5436fb193ec63721759fa",
-                payeeId: "MID-485bafe8600846e2966c88cbce3e0f40",status: "SUCCESS",timestamp: DateTime.now());
+                payeeId: "MID-485bafe8600846e2966c88cbce3e0f40",status: "SUCCESS",timestamp: DateTime.now().microsecondsSinceEpoch);
               getIt.get<FirebaseRemoteService>().setData(
                   path: FirebasePath.getPath("CID-7231947ee8f5436fb193ec63721759fa","MID-485bafe8600846e2966c88cbce3e0f40"),
                   data: data.toJson());

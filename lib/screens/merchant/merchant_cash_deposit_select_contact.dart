@@ -8,6 +8,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class CashDepositSelectContact extends StatefulWidget {
   final bool isFromSend;
@@ -30,14 +31,14 @@ class _CashDepositSelectContactState
   List<ContactInfo> arrTaraContactInfo = List();
   List<ContactInfo> arrFilterContactInfo = List();
   List<String> arrContactNames = [
-    "Kiran Kumar Y",
+    "Yakub Merchant New",
     "George G",
     "Simon S",
     "Yakub Y",
     "Harish H"
   ];
   List<String> arrContactPhoneNumbers = [
-    "+62 821 3422 4365",
+    "+91 88867 78633",
     "+62 821 3422 4366",
     "+62 821 3422 4367",
     "+62 821 3422 4368",
@@ -244,16 +245,16 @@ class _CashDepositSelectContactState
     return InkWell(
       onTap: (){
         if (widget.isFromSend != null && widget.isFromSend == true) {
-          push(ConversationPage(isFromSend: true,selectedContact: contactInfoTemp,));
+          push(ConversationPage(isFromSend: true,selectedContact: contactInfoTemp,custInfo: Utils().getCustomerProfile()));//YAKUB Dummy Profile
         }else  if (widget.isFromReceive != null && widget.isFromReceive == true) {
-          push(ConversationPage(isFromReceive: true,selectedContact: contactInfoTemp,));
+          push(ConversationPage(isFromReceive: true,selectedContact: contactInfoTemp,custInfo: Utils().getCustomerProfile()));//YAKUB Dummy Profile
         }
         else if (widget.isFromCashDeposit != null && widget.isFromCashDeposit == true) {
           widget.selectedContactCallback(contactInfoTemp);
           Navigator.pop(context, false);
         }
         else{
-          push(ConversationPage(selectedContact: contactInfoTemp,));
+          push(ConversationPage(selectedContact: contactInfoTemp,custInfo: Utils().getCustomerProfile(),));
         }
       },
       child: Container(

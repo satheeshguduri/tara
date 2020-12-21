@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tara_app/common/widgets/input_done_view.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
@@ -74,7 +75,9 @@ class Utils {
   }
 
 
-
+  CustomerProfile getCustomerProfile(){
+    return CustomerProfile(firebaseId:"MID-7272c9fa010b40398210e937b76b1e9a",customerType:"MERCHANT",mobileNumber:"+918886778633",id:60,firstName: "Yakub Merchant new");
+  }
   Widget getLandingScreen(){
     switch(F.appFlavor){
       case Flavor.CONSUMER:

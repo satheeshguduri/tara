@@ -12,8 +12,10 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_item_widget.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_money_transfer_success.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_order_detail.dart';
 import 'package:tara_app/common/widgets/chat_widgets/chat_pln_payment_success.dart';
+import 'package:tara_app/common/widgets/chat_widgets/chat_request_cash_deposit.dart';
 import 'package:tara_app/common/widgets/chat_widgets/decline_pay_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/chat_widgets/make_an_order_chat.dart';
@@ -31,6 +33,7 @@ import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/chat/message_type.dart';
 import 'package:tara_app/models/chat/order.dart';
+import 'package:tara_app/models/chat/payment_success.dart';
 import 'package:tara_app/models/chat/text_message.dart';
 import 'package:tara_app/models/order_management/orders/order_status.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
@@ -41,6 +44,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
 import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
@@ -60,6 +64,7 @@ class ConversationPage extends StatefulWidget {
   CustomerProfile custInfo;
   final Store merchantStore;
   final FromScreen fromScreen;
+  final bool showMakeAnOrder;
 
 
   ConversationPage({
@@ -76,6 +81,7 @@ class ConversationPage extends StatefulWidget {
     this.custInfo,
     this.merchantStore,
     this.fromScreen = FromScreen.consumer,
+    this.showMakeAnOrder = true
   }) : super(key: key);
 
   @override
@@ -143,6 +149,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => SafeArea(
+
             top: false,
             child: Scaffold(
                 backgroundColor: Color(0xfff7f7fa),
@@ -164,7 +171,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                       )
                     ],
                   ),
-                  widget.fromScreen == FromScreen.consumer
+                  widget.fromScreen == FromScreen.consumer && widget.showMakeAnOrder??true
                       ? Stack(
                           fit: StackFit.expand,
                           children: <Widget>[
@@ -250,7 +257,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             onPressed: () {
               if (widget.isFromShopHome == true) {
                 widget.callback();
-              } else {
+              } else if(arrStr.contains("chat_money_transfer_success")){
+                popToRootScreen(HomeCustomerScreen());
+              }else {
                 Navigator.pop(context, false);
               }
             }),
@@ -536,7 +545,20 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       } else {
         return Container();
       }
-    } else {
+    }
+    else if (chatType == describeEnum(MessageType.TRANSFER)) {
+      PaymentSuccess paymentSuccess = PaymentSuccess.fromSnapshot(snapshot);
+      return ChatMoneyTransferSuccess(paymentSuccess: paymentSuccess,);
+      /*return ChatRequestCashDeposit(requestedAmount: paymentSuccess.amount.toString(),onTapCancel: (val){
+
+      },);*/
+      return ChatMoneyTransferSuccess(paymentSuccess: paymentSuccess,);
+
+    }else if (chatType == describeEnum(MessageType.PAYMENT)) {
+      PaymentSuccess paymentSuccess = PaymentSuccess.fromSnapshot(snapshot);
+      return ChatMoneyTransferSuccess(paymentSuccess: paymentSuccess,);
+    }
+    else {
       String message = snapshot.value["text"];
       String id = snapshot.value["senderId"];
       if(message?.isNotEmpty??false) {

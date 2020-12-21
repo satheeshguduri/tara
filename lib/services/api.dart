@@ -12,6 +12,7 @@ class API{
 
   static const AUTH_ENDPOINT = "http://107.20.4.43:9001/";
   static const ORDER_ENDPOINT = "http://107.20.4.43:9002/";
+  static const TRANSACTION_ENDPOINT = "http://107.20.4.43:9000/";
   static const LIVE_ENDPOINT = "http://107.20.4.43:9002/";
   static const DEMO_ENDPOINT = "http://107.20.4.43:9002/";//DEMO endpoint should be replaced here
 
@@ -40,6 +41,7 @@ static const create_order = "v0.1/tara/erp/order";
 static const update_order = "v0.1/tara/erp/order/{orderId}";
 static const get_order = "v0.1/tara/erp/order/{orderId}";
 static const get_store_types = "v0.1/tara/erp/storetype";
+static const send_money = "v0.1/tara/erp/account";
 
 
 }

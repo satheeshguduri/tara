@@ -11,6 +11,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tara_app/services/order_rest_client.dart';
 import 'package:tara_app/services/rest_client.dart';
+import 'package:tara_app/services/transaction_rest_client.dart';
 
 import 'api.dart';
 
@@ -31,5 +32,8 @@ class APIHelper{
   }
   OrderRestClient getDioOrderClient(){
     return OrderRestClient(dio);
+  }
+  TransactionRestClient getDioTransactionClient(){
+    return TransactionRestClient(dio);
   }
 }

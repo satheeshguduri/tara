@@ -14,6 +14,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/shop_home.dart';
+import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 import 'package:tara_app/screens/create_account_screen.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/screens/notification_screen.dart';
@@ -112,9 +113,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               buttonText: getTranslation(Strings.SEND),
               image: Assets.SEND_ICON,
               onPressed: () {
-                push(CashDepositSelectContact(
-                  isFromSend: true,
-                ));
+                push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer_to_tara_user));
+                // push(CashDepositSelectContact(
+                //   isFromSend: true,
+                // ));
               },
             ),
             RoundedButton(
@@ -144,7 +146,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           ],
         ),
       );
-    } else if (widget.appName == "Agent") {
+    }
+    else if (widget.appName == "Agent") {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.only(top: 4),
@@ -182,7 +185,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           ],
         ),
       );
-    } else {
+    }
+    else {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.only(top: 4),
@@ -193,9 +197,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               buttonText: getTranslation(Strings.transfer),
               image: Assets.SEND_ICON,
               onPressed: () {
-                push(CashDepositSelectContact(
-                  isFromSend: true,
-                ));
+                push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added
+                // push(CashDepositSelectContact(
+                //   isFromSend: true,
+                // ));
               },
             ),
             RoundedButton(

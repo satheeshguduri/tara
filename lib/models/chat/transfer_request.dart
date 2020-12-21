@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/chat/message_type.dart';
 /*
 
 part 'transfer_request.g.dart';
@@ -13,13 +14,14 @@ part 'transfer_request.g.dart';
 
 @JsonSerializable()
 class TransferRequest {
+     MessageType messageType;
      String payeeId;
      String payerId;
      num amount;
      DateTime timestamp;
      String status;
 
-     TransferRequest({this.payeeId, this.payerId, this.amount, this.timestamp, this.status});
+     TransferRequest({this.payeeId, this.payerId, this.amount, this.timestamp, this.status,this.messageType});
 
      factory TransferRequest.fromJson(Map<String, dynamic> json) => _$TransferRequestFromJson(json);
 

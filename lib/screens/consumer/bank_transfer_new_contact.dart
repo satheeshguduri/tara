@@ -2,12 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
+import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
@@ -16,6 +20,9 @@ import 'package:tara_app/screens/consumer/enter_mpin.dart';
 import 'package:tara_app/screens/consumer/transaction_detail.dart';
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/utils/locale/utils.dart';
+
+import '../../injector.dart';
 
 class BankTransferNewContact extends StatefulWidget {
 
@@ -317,146 +324,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      appBar: PreferredSize(
-          child: _buildAppBar(context), preferredSize: Size.fromHeight(56.0)),
-      body: SafeArea(
-          child: Container(
-        color: AppColors.background_color,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                  margin: EdgeInsets.only(top: 8, bottom: 8),
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryBackground,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0xffe9ecef),
-                          offset: Offset(0, 1),
-                          blurRadius: 0,
-                          spreadRadius: 0)
-                    ],
-                  ),
-                  child: getRecepient()
-              ),
-              Container(
-                  margin: EdgeInsets.only(top: 8, bottom: 8),
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryBackground,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0xffe9ecef),
-                          offset: Offset(0, 1),
-                          blurRadius: 0,
-                          spreadRadius: 0)
-                    ],
-                  ),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(getTranslation(Strings.TRANSFER_DETAILS),
-                            style: const TextStyle(
-                                color: AppColors.fareColor,
-                                fontWeight: FontWeight.w700,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0)),
-                        textFormFieldContainer(
-                            getTranslation(Strings.TRANSFER_AMT),
-                            getTranslation(Strings.TRANSFER_AMT_HINT),
-                            TextInputType.text,
-                            txtCtrlTransferAmt),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 16, bottom: 4),
-                                child: Text(getTranslation(Strings.TRANSACTION_TYPE),
-                                    style: BaseStyles
-                                        .textFormFieldHeaderTitleTextStyle,
-                                    textAlign: TextAlign.left),
-                              ),
-                              _getDropDownList("transactionType"),
-                            ]),
-                        textFormFieldContainer(
-                            getTranslation(Strings.MESSAGE_OPT),
-                            getTranslation(Strings.MESSAGE_OPT_HINT),
-                            TextInputType.text,
-                            txtCtrlTransType),
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 16),
-                              decoration: BoxDecoration(
-                                  color: AppColors.pale_turquoise,
-                                  border: Border.all(
-                                    color: Colors.transparent,
-                                    width: 0,
-                                  ),
-                                  borderRadius: Radii.border(5)),
-                              width: 24,
-                              height: 24,
-                              child: Theme(
-                                data: ThemeData(
-                                  unselectedWidgetColor: Colors.transparent,
-                                ),
-                                child: Checkbox(
-                                  activeColor: Colors.transparent,
-                                  checkColor: AppColors.header_top_bar_color,
-                                  value: isToSaveContact,
-                                  tristate: false,
-                                  onChanged: (bool isChecked) {
-                                    setState(() {
-                                      isToSaveContact = isChecked;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin:
-                                  EdgeInsets.only(left: 16, right: 16, top: 16),
-                              child: Text(getTranslation(Strings.SET_RECURRING),
-                                  style: BaseStyles
-                                      .textFormFieldHeaderTitleTextStyle,
-                                  textAlign: TextAlign.left),
-                            ),
-                          ],
-                        ),
-                        isToSaveContact ? _getRecurringWidget() : Container()
-                      ])),
-              Container(
-                  padding: EdgeInsets.only(top: 16, left: 16, bottom: 16),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryBackground,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Color(0xffe9ecef),
-                          offset: Offset(0, 1),
-                          blurRadius: 0,
-                          spreadRadius: 0)
-                    ],
-                  ),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(getTranslation(Strings.PAYMENT_SOURCE),
-                            style: const TextStyle(
-                                color: AppColors.fareColor,
-                                fontWeight: FontWeight.w700,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16.0)),
-                        _getDropDownList("paymentSource")
-                      ])),
-              _getContinueWidget()
-            ],
-          ),
-        ),
-      )),
-    );
+    return Obx(() => SafeArea(
+        child: getRootContainer().withProgressIndicator(showIndicator: Get.find<TransactionController>().showProgress.value)));
   }
 
   _buildAppBar(BuildContext context) {
@@ -813,16 +682,162 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext bc) {
-        return EnterMPIN( onConfirmTransfer: (){
+        return EnterMPIN( onConfirmTransfer: () async{
         if(widget.selfTransfer){
           push(TransactionDetail());
         }else{
-          Navigator.pop(context);
-          push(ConversationPage(arrChats: ["chat_money_transfer_success"],));
+          pop();
+          CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;
+          Get.find<TransactionController>().sendMoney(Utils().getCustomerProfile(), fromUser, double.parse(txtCtrlTransferAmt.text), pop);
+         /* Navigator.pop(context);
+          push(ConversationPage(arrChats: ["chat_money_transfer_success"],custInfo: Utils().getCustomerProfile())); //YAKUB Dummy Profile*/
 
         }
         },);
       });
+
+  Widget getRootContainer() {
+    return Scaffold(
+      appBar: PreferredSize(
+          child: _buildAppBar(context), preferredSize: Size.fromHeight(56.0)),
+      body: SafeArea(
+          child: Container(
+            color: AppColors.background_color,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 8),
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryBackground,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xffe9ecef),
+                              offset: Offset(0, 1),
+                              blurRadius: 0,
+                              spreadRadius: 0)
+                        ],
+                      ),
+                      child: getRecepient()
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(top: 8, bottom: 8),
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryBackground,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xffe9ecef),
+                              offset: Offset(0, 1),
+                              blurRadius: 0,
+                              spreadRadius: 0)
+                        ],
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(getTranslation(Strings.TRANSFER_DETAILS),
+                                style: const TextStyle(
+                                    color: AppColors.fareColor,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 16.0)),
+                            textFormFieldContainer(
+                                getTranslation(Strings.TRANSFER_AMT),
+                                getTranslation(Strings.TRANSFER_AMT_HINT),
+                                TextInputType.text,
+                                txtCtrlTransferAmt),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 16, bottom: 4),
+                                    child: Text(getTranslation(Strings.TRANSACTION_TYPE),
+                                        style: BaseStyles
+                                            .textFormFieldHeaderTitleTextStyle,
+                                        textAlign: TextAlign.left),
+                                  ),
+                                  _getDropDownList("transactionType"),
+                                ]),
+                            textFormFieldContainer(
+                                getTranslation(Strings.MESSAGE_OPT),
+                                getTranslation(Strings.MESSAGE_OPT_HINT),
+                                TextInputType.text,
+                                txtCtrlTransType),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 16),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.pale_turquoise,
+                                      border: Border.all(
+                                        color: Colors.transparent,
+                                        width: 0,
+                                      ),
+                                      borderRadius: Radii.border(5)),
+                                  width: 24,
+                                  height: 24,
+                                  child: Theme(
+                                    data: ThemeData(
+                                      unselectedWidgetColor: Colors.transparent,
+                                    ),
+                                    child: Checkbox(
+                                      activeColor: Colors.transparent,
+                                      checkColor: AppColors.header_top_bar_color,
+                                      value: isToSaveContact,
+                                      tristate: false,
+                                      onChanged: (bool isChecked) {
+                                        setState(() {
+                                          isToSaveContact = isChecked;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin:
+                                  EdgeInsets.only(left: 16, right: 16, top: 16),
+                                  child: Text(getTranslation(Strings.SET_RECURRING),
+                                      style: BaseStyles
+                                          .textFormFieldHeaderTitleTextStyle,
+                                      textAlign: TextAlign.left),
+                                ),
+                              ],
+                            ),
+                            isToSaveContact ? _getRecurringWidget() : Container()
+                          ])),
+                  Container(
+                      padding: EdgeInsets.only(top: 16, left: 16, bottom: 16),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryBackground,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xffe9ecef),
+                              offset: Offset(0, 1),
+                              blurRadius: 0,
+                              spreadRadius: 0)
+                        ],
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(getTranslation(Strings.PAYMENT_SOURCE),
+                                style: const TextStyle(
+                                    color: AppColors.fareColor,
+                                    fontWeight: FontWeight.w700,
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 16.0)),
+                            _getDropDownList("paymentSource")
+                          ])),
+                  _getContinueWidget()
+                ],
+              ),
+            ),
+          )),
+    );
+  }
 }
 
 class PaymentSource {

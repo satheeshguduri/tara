@@ -5,6 +5,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
@@ -12,6 +13,8 @@ import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class TransferToTaraUser extends StatefulWidget {
   final bool isFromTaraUser;
@@ -31,14 +34,14 @@ class _TransferToTaraUserState
   List<ContactInfo> arrTaraContactInfo = List();
   List<ContactInfo> arrFilterTaraContactInfo = List();
   List<String> arrContactNames = [
-    "Kiran Kumar Y",
+    "Yakub Merchant New",
     "George G",
     "Simon S",
     "Yakub Y",
     "Harish H"
   ];
   List<String> arrContactPhoneNumbers = [
-    "**** **** **** 2345",
+    "**** **** **** 78633",
     "**** **** **** 2346",
     "**** **** **** 2347",
     "**** **** **** 2348",
@@ -358,7 +361,8 @@ class _TransferToTaraUserState
       ) ,
       onTap: (){
         if(index == 1){
-          push(ConversationPage(arrChats: ["decline_pay"],));
+          // AuthResponse resposne = AuthResponse(customerProfile:customerProfile);
+          push(ConversationPage(arrChats: ["decline_pay"],custInfo: Utils().getCustomerProfile(),));//YAKUB Dummy Profile
         }else{
           push(BankTransferNewContact(taraContact: contactInfo,));
         }
