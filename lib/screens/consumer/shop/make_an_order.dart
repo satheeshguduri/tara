@@ -8,6 +8,7 @@ import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
@@ -46,7 +47,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
   int selectedSegmentIndex = 0;
 
   OrderController controller = Get.find();
-  AuthResponse user = Get.find();
+  AuthResponse user = Get.find<AuthController>().user.value;
   List<OrderAddress> address = List<OrderAddress>();
 
   @override

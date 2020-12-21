@@ -1,7 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/chat/payment_success.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase_remote_service.dart';
@@ -12,7 +14,7 @@ import '../injector.dart';
 class ChatTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AuthResponse user = getIt.get<AuthResponse>();
+    AuthResponse user = Get.find<AuthController>().user.value;
     return new Scaffold(
       appBar: new AppBar(title: new Text("Firebase test"),),
       body: new Column(

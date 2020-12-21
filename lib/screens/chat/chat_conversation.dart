@@ -519,7 +519,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             break;
           case Statuses.IN_TRANSIT:
             //"payment paid By the User"
-            return OnDelivery(isConfirmArrived: true,order: order);
+            return OnDelivery(isConfirmArrived: true,order: order,fromScreen: FromScreen.consumer,);
             break;
           case Statuses.DELIVERED:
           //"payment paid By the User"

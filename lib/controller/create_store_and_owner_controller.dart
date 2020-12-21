@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/core/base_response.dart';
@@ -42,7 +43,7 @@ class CreateStoreAndOwnerController extends GetxController {
   var selectedStoreType = StoreTypeModel().obs;
   var selectedStoreTypeName = "".obs;
 
-  AuthResponse user = Get.find();
+  AuthResponse user = Get.find<AuthController>().user.value;
   ///on clicking on send otp
   void createOwner() async {
 
