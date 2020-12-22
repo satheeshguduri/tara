@@ -197,10 +197,10 @@ class AuthController extends GetxController {
     if (GetUtils.isNullOrBlank(mobileNumber.value)) {
       errorMessage.value = Strings.enter_phone_number;
       return false;
-    } else if (Validator().validateMobile(mobileNumber.value) != null) {
+    } /*else if (Validator().validateMobile(mobileNumber.value) != null) {
       errorMessage.value = Strings.invalid_number;
       return false;
-    } else if (GetUtils.isNullOrBlank(confirmPwd.value)) {
+    } */else if (GetUtils.isNullOrBlank(confirmPwd.value)) {
       errorMessage.value = Strings.enter_password;
       return false;
     }else{
@@ -213,10 +213,10 @@ class AuthController extends GetxController {
     if (GetUtils.isNullOrBlank(mobileNumber.value)) {
       errorMessage.value = Strings.enter_phone_number;
       return false;
-    } else if (Validator().validateMobile(mobileNumber.value) != null) {
+    } /*else if (Validator().validateMobile(mobileNumber.value) != null) {
       errorMessage.value = Strings.invalid_number;
       return false;
-    } else{
+    } */else{
       errorMessage.value = "";
     }
     return true;

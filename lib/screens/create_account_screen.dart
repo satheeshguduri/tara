@@ -201,6 +201,7 @@ class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
                           selectorConfig: SelectorConfig(
                             selectorType: PhoneInputSelectorType.DROPDOWN,
                           ),
+
                           ignoreBlank: false,
                           selectorTextStyle: TextStyle(color: Colors.black),
                           initialValue: number,
