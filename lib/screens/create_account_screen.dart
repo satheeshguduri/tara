@@ -40,7 +40,7 @@ class CreateAccountScreen extends StatefulWidget{
 class _CreateAccountScreenState extends BaseState<CreateAccountScreen>{
 
   AuthController controller = Get.find();
-  PhoneNumber number = PhoneNumber(isoCode: 'IN');
+  PhoneNumber number = PhoneNumber(isoCode: 'ID');
 
   @override
   Widget build(BuildContext context) {

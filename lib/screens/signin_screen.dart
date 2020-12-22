@@ -30,7 +30,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
   bool isFailedValidation = false;
 
   AuthController controller = Get.find();
-  PhoneNumber number = PhoneNumber(isoCode: 'IN');
+  PhoneNumber number = PhoneNumber(isoCode: 'ID');
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +178,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                         ),
                         child: InternationalPhoneNumberInput(
 //                          autoValidate:true,
+
                           onInputChanged: (PhoneNumber number) {
                             print(number.phoneNumber);
                             controller.errorMessage.value = "";
