@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:tara_app/services/biller_rest_client.dart';
 import 'package:tara_app/services/order_rest_client.dart';
 import 'package:tara_app/services/rest_client.dart';
 import 'package:tara_app/services/transaction_rest_client.dart';
@@ -35,5 +36,9 @@ class APIHelper{
   }
   TransactionRestClient getDioTransactionClient(){
     return TransactionRestClient(dio);
+  }
+
+  BillerRestClient getDioBillerClient(){
+    return BillerRestClient(dio);
   }
 }

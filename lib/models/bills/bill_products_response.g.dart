@@ -8,11 +8,9 @@ part of 'bill_products_response.dart';
 
 BillProductsResponse _$BillProductsResponseFromJson(Map<String, dynamic> json) {
   return BillProductsResponse(
-    responseCode: json['responseCode'] as num,
-    success: json['success'] as bool,
-    message: json['message'] == null
-        ? null
-        : MessageBean.fromJson(json['message'] as Map<String, dynamic>),
+    responseCode: json['responseCode'],
+    success: json['success'],
+    message: json['message'],
     data: (json['data'] as List)
         ?.map((e) => e == null
             ? null
@@ -58,17 +56,4 @@ Map<String, dynamic> _$BillProductDataBeanToJson(
       'category': instance.category,
       'active': instance.active,
       'type': instance.type,
-    };
-
-MessageBean _$MessageBeanFromJson(Map<String, dynamic> json) {
-  return MessageBean(
-    id: json['ID'] as String,
-    en: json['EN'] as String,
-  );
-}
-
-Map<String, dynamic> _$MessageBeanToJson(MessageBean instance) =>
-    <String, dynamic>{
-      'ID': instance.id,
-      'EN': instance.en,
     };

@@ -1,3 +1,6 @@
+
+
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'bill_product_request.g.dart';

@@ -13,6 +13,7 @@ class API{
   static const AUTH_ENDPOINT = "http://107.20.4.43:9001/";
   static const ORDER_ENDPOINT = "http://107.20.4.43:9002/";
   static const TRANSACTION_ENDPOINT = "http://107.20.4.43:9000/";
+  static const BILLER_ENDPOINT = "http://107.20.4.43/";
   static const LIVE_ENDPOINT = "http://107.20.4.43:9002/";
   static const DEMO_ENDPOINT = "http://107.20.4.43:9002/";//DEMO endpoint should be replaced here
 
@@ -24,7 +25,7 @@ class API{
   static const validate_otp = "v1/tara/auth/otp/validate";
   ///Sign in
   static const login = "v1/tara/auth/validate";
-  ///SignUP
+  ///SignUp
   static const signup = "v1/tara/auth";
   ///update profile
   static const update_profile = "v1/tara/crm/customer";
@@ -32,16 +33,26 @@ class API{
 
   //Order Related API's
 
-static const get_orders_consumers = "v0.1/tara/erp/consumer/{consumerId}/order";
-static const get_orders_merchants = "v0.1/tara/erp/merchant/{merchantId}/order";
-static const get_stores = "v0.1/tara/erp/store";
-static const create_store = "v0.1/tara/erp/store";
-static const create_owner = "v0.1/tara/erp/owner";
-static const create_order = "v0.1/tara/erp/order";
-static const update_order = "v0.1/tara/erp/order/{orderId}";
-static const get_order = "v0.1/tara/erp/order/{orderId}";
-static const get_store_types = "v0.1/tara/erp/storetype";
-static const send_money = "v0.1/tara/erp/account";
+  static const get_orders_consumers = "v0.1/tara/erp/consumer/{consumerId}/order";
+  static const get_orders_merchants = "v0.1/tara/erp/merchant/{merchantId}/order";
+  static const get_stores = "v0.1/tara/erp/store";
+  static const create_store = "v0.1/tara/erp/store";
+  static const create_owner = "v0.1/tara/erp/owner";
+  static const create_order = "v0.1/tara/erp/order";
+  static const update_order = "v0.1/tara/erp/order/{orderId}";
+  static const get_order = "v0.1/tara/erp/order/{orderId}";
+  static const get_store_types = "v0.1/tara/erp/storetype";
+
+  //Transfer API
+  static const send_money = "v0.1/tara/erp/account";
+
+  //BILLER API
+  static const get_bill_products = "v0.1/tara/erp/ayopop/partner/products";
+  static const get_bill_status = "v0.1/tara/erp/ayopop/bill/status";
+  static const check_bill = "v0.1/tara/erp/ayopop/bill/check";
+  static const pay_bill = "v0.1/tara/erp/ayopop/bill/payment";
+  static const get_bill_balance = "v0.1/tara/erp/ayopop/partner/balance";
+
 
 
 }

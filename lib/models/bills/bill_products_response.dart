@@ -1,20 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/bills/balance_data_response.dart';
+import 'package:tara_app/models/bills/base_bill_response.dart';
 
 part 'bill_products_response.g.dart';
 
 @JsonSerializable()
-class BillProductsResponse {
-  num responseCode;
-  bool success;
-  MessageBean message;
+class BillProductsResponse extends BaseBillResponse{
+
   List<BillProductDataBean> data;
 
-  BillProductsResponse({this.responseCode, this.success, this.message, this.data});
+  BillProductsResponse({responseCode, success, message, this.data});
 
   factory BillProductsResponse.fromJson(Map<String, dynamic> json) => _$BillProductsResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$BillProductsResponseToJson(this);
 }
+
 
 @JsonSerializable()
 class BillProductDataBean {
@@ -35,18 +36,3 @@ class BillProductDataBean {
 
   Map<String, dynamic> toJson() => _$BillProductDataBeanToJson(this);
 }
-
-@JsonSerializable()
-class MessageBean {
-  @JsonKey(name:"ID")
-  String id;
-  @JsonKey(name:"EN")
-  String en;
-
-  MessageBean({this.id, this.en});
-
-  factory MessageBean.fromJson(Map<String, dynamic> json) => _$MessageBeanFromJson(json);
-
-  Map<String, dynamic> toJson() => _$MessageBeanToJson(this);
-}
-
