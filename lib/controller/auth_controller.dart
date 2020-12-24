@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/helpers.dart';
+import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -101,7 +103,7 @@ class AuthController extends GetxController {
       showProgress.value = false;
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
           (r) => {
-            Get.offAll(Utils().getIntoCreateStoreScreen())
+            Get.offAll(Utils().getLandingScreen())
           });
       // Get.to(Consumer())); //navigate to consumer home screen
     }
@@ -126,7 +128,12 @@ class AuthController extends GetxController {
       response.fold((l) => Get.defaultDialog(content: Text(l.message)),
           (r) => {
             Get.put<AuthResponse>(r),
-            Get.to(CreateStoreScreen())
+            if(F.appFlavor == Flavor.MERCHANT){
+              Get.to(CreateStoreScreen())
+            }else{
+              Get.to(AccountConfirmationScreen())
+            },
+
       });
       // Get.to(Consumer())); //navigate to consumer home screen
     }
