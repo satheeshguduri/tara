@@ -114,6 +114,7 @@ dependencies:
   freezed: ^0.12.3
   intl_phone_number_input: ^0.5.2+2
   characters: ^1.0.0
+  darq: ^0.4.0+1
 
 dev_dependencies:
   flutter_test:
