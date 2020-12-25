@@ -1,24 +1,20 @@
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:tara_app/common/helpers/biller_helper.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/common_bills_products_list.dart';
 import '../../common/constants/values.dart';
 
 
-class CommonBillsPaymentListView extends StatefulWidget {
+class CommonBillsProductsListView extends StatefulWidget {
   final List<BillProductDataBean> data;
-  final BillProductsResponse response;
-  CommonBillsPaymentListView({Key key,this.data,this.response}) : super(key: key);
+  CommonBillsProductsListView({Key key,this.data}) : super(key: key);
 
   @override
-  CommonBillsPaymentListViewState createState() => CommonBillsPaymentListViewState();
+  CommonBillsProductsListViewState createState() => CommonBillsProductsListViewState();
 
 }
 
-class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListView>{
+class CommonBillsProductsListViewState extends BaseState<CommonBillsProductsListView>{
 
 
   @override
@@ -32,13 +28,11 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
               return Column(
                 children: [
                   ListTile(
-                    onTap: ()async{
-                      List<BillProductDataBean> data = BillerHelper().getProductsByBiller(widget.response, widget.data[index].category,widget.data[index].biller);
-                      Get.to(CommonBillsProductsListView(data:data));
-                    },
                     leading: Image.asset("assets/images/avatar-11.png",height: 32,width: 32),
-                    title: Text(widget.data[index].biller),
+                    title: Text(widget.data[index].name),
+                    subtitle: Text(widget.data[index].description),
                     trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[300],size: 24,),
+
                   ),
                   Divider()
                 ],
@@ -73,7 +67,7 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
         alignment: Alignment.centerLeft,
         child: Text(
           // getTranslation(Strings.profile),
-          widget.data[0].category,
+          widget.data[0].biller,
           textAlign: TextAlign.left,
           style: BaseStyles.topBarTextStyle,
         ),
