@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/common/helpers/biller_helper.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
+import 'package:tara_app/models/bills/bill_details_response.dart';
+import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/common_bills_payments_list.dart';
 import '../../common/constants/values.dart';
@@ -21,23 +25,22 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
   var postPaidTitleArray = ["BPJS","Pascabayar", "PLN\nPostpaid", "PDAM"];
   var postPaidIconsArray = [Assets.MOBILE_ICON,Assets.INTERNET_ICON, Assets.PLN_ICON, Assets.BJPS_ICON];
 
+  BillProductsResponse response;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(),
       body: SafeArea(
-          child: SingleChildScrollView(
-          child: Column(
-            children: [gridViewHeadingText(Strings.prepaid),
-                       Container(height: 180,child: paidGrid(prePaidTitleArray,prePaidIconsArray)),
-                       gridViewHeadingText(Strings.postpaid),
-                       paidGrid(postPaidTitleArray,postPaidIconsArray)],
-          ),
-        ),
+          child: getTypesWidget()
       ),
     );
   }
 
+
+  getFuture(){
+
+  }
   @override
   BuildContext getContext() => context;
 
@@ -63,29 +66,87 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
     );
 
   }
+  getData() async {
+    return BillerHelper().getCategories(response);
+  }
+
+  getTypes() async {
+    response = await BillerHelper().getData();
+    return BillerHelper().getTypes(response);
+  }
+  getCategories(String type) async {
+    return BillerHelper().getCategoriesByType(response, type);
+  }
+
+  Widget getCategoriesWidgets(type) {
+    return FutureBuilder(
+      future: getCategories(type),
+      builder: (context,snapshot){
+        if(snapshot.hasData){
+          List<BillProductDataBean> data = snapshot.data;
+          print(data.toList().toString());
+          return paidGrid(data);
+        }
+        return BaseWidgets.getIndicator;
+      },
+    );
+
+  }
+
+  Widget getTypesWidget() {
+      return FutureBuilder(
+        future: getTypes(),
+        builder: (context,snapshot){
+          if(snapshot.hasData){
+            List<BillProductDataBean> data = snapshot.data;
+            print(data.toList().toString());
+            return ListView(
+              children: data.map((e) => Column(
+                children: [
+                  gridViewHeadingText(e.type),
+                  getCategoriesWidgets(e.type)
+                ],
+              )).toList(),
+            );
+          }
+          return BaseWidgets.getIndicator;
+        },
+      );
+
+  }
 
 
+  getImage(String categoryName){
+    switch(categoryName){
+      case "Paket Data":
+        return Assets.BJPS_ICON;
+        break;
+      default:
+        return Assets.INTERNET_ICON;
+        break;
 
-
-  Widget paidGrid(List<String> titleList, List<String> iconList) {
+    }
+  }
+  Widget paidGrid(List<BillProductDataBean> categories) {
   return  Container(
      margin: EdgeInsets.only(left: 24,right: 24),
      child: GridView.builder(
-       primary: false,
+       primary: true,
        shrinkWrap: true,
        itemCount: 5,
        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
        crossAxisCount: 4,
        crossAxisSpacing: 12.0,
        mainAxisSpacing: 12.0,
-       childAspectRatio: (0.69)
+       childAspectRatio: (0.68)
        ),
        itemBuilder: (context, index) {
        return  RoundedCardButton(
-         buttonText: titleList[index],
-         image: iconList[index],
-         onPressed: (){
-         Get.to(CommonBillsPaymentListView(title: titleList[index]));
+         buttonText: categories[index].category,
+         image: getImage(categories[index].category),
+         onPressed: () async{
+           List<BillProductDataBean> data = BillerHelper().getBillersByCategory(response, categories[index].category);
+           Get.to(CommonBillsPaymentListView(data:data));
            }
          );
        }

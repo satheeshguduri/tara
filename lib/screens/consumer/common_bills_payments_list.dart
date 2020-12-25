@@ -1,12 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import '../../common/constants/values.dart';
 
 
 class CommonBillsPaymentListView extends StatefulWidget {
-  String title;
-  CommonBillsPaymentListView({Key key,this.title}) : super(key: key);
+  List<BillProductDataBean> data;
+  CommonBillsPaymentListView({Key key,this.data}) : super(key: key);
 
   @override
   CommonBillsPaymentListViewState createState() => CommonBillsPaymentListViewState();
@@ -22,13 +23,13 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
       appBar: getAppBar(),
       body: SafeArea(
           child: ListView.builder(
-            itemCount: 5,
+            itemCount: widget.data.length,
             itemBuilder: (context,index){
               return Column(
                 children: [
                ListTile(
               leading: Image.asset("assets/images/avatar-11.png",height: 32,width: 32),
-              title: Text("hello"),
+              title: Text(widget.data[index].biller),
               trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[300],size: 24,),
 
                 ),
@@ -69,7 +70,7 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
           alignment: Alignment.centerLeft,
           child: Text(
            // getTranslation(Strings.profile),
-            widget.title,
+            widget.data[0].category,
             textAlign: TextAlign.left,
             style: BaseStyles.topBarTextStyle,
           ),

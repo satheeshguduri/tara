@@ -9,18 +9,18 @@ import 'package:dio/dio.dart';
 import 'package:tara_app/models/bills/bill_product_request.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:darq/darq.dart';
+import 'package:tara_app/repositories/bill_repository.dart';
 import 'package:tara_app/services/biller_rest_client.dart';
-/*
+
 main() async
 {
 
-  var data = await BillerHelper._().getData();
-  var categories = BillerHelper._().getCategories(data);
-  var billers = BillerHelper._().getBillersByCategory(data,"Paket Data"); //pass the category id to get the billers
-  var products = BillerHelper._().getProductsByBiller(data,"Paket Data","Telkomsel");//pass the category id and biller id to get the producsts
-}*/
+  var data = await BillerHelper().getData();
+  var categories = BillerHelper().getCategories(data);
+  var billers = BillerHelper().getBillersByCategory(data,"Paket Data"); //pass the category id to get the billers
+  var products = BillerHelper().getProductsByBiller(data,"Paket Data","Telkomsel");//pass the category id and biller id to get the producsts
+}
 class BillerHelper{
-  BillerHelper._();
   List<BillProductDataBean> productsList;
 
   Future<BillProductsResponse> getData() async {
@@ -34,6 +34,14 @@ class BillerHelper{
     var categories = response.data.distinct((d)=>d.category).toList();
     print(categories.toString());
     return categories;
+  }
+  List<BillProductDataBean> getTypes(BillProductsResponse response){
+    var types = response.data.distinct((d)=>d.type).toList();
+    print(types.toString());
+    return types;
+  }
+  List<BillProductDataBean> getCategoriesByType(BillProductsResponse response, String type){
+    return response.data.where((element) => element.type == type).distinct((d)=> d.category).toList();
   }
   //gets the billers by categories
   List<BillProductDataBean> getBillersByCategory(BillProductsResponse response,  String category){
