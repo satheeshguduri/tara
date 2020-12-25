@@ -37,6 +37,9 @@ class AppColors {
   static const Color uncheck_color = Color(0xff889aac);
   static const DONE_KEYBOARD_BG_COLOR = Color(0xffececef);
   static const light_grey_bg_color = Color(0xffe9ecef);
+  static const Color productListPriceColor = Color.fromARGB(255, 178, 247, 226);
+
+
 
 
 }

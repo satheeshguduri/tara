@@ -898,4 +898,11 @@ class TextStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 16.0
   );
+  static const productsListDescTextStyle =  TextStyle(
+      color:  Colors.black12,
+      fontWeight: FontWeight.w400,
+      fontFamily: "Roboto",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
 }
