@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import '../../common/constants/values.dart';
+
 
 class RoundedCardButton extends StatefulWidget {
   final String buttonText;
@@ -26,11 +28,7 @@ class RoundedCardButton extends StatefulWidget {
 class _RoundedCardButtonState extends State<RoundedCardButton> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: (){
-
-      },
-      child: Container(
+    return  Container(
         width: 70,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,7 +69,9 @@ class _RoundedCardButtonState extends State<RoundedCardButton> {
             ),
           ],
         ),
-      ),
-    );
+      ).onTap(onPressed: (){
+        widget.onPressed();
+    });
+
   }
 }

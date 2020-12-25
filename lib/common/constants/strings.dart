@@ -384,6 +384,12 @@ class Strings{
   static const suppliers = "suppliers";
   static const you_have_cancelled_order = "you_have_cancelled_order";
   static const cancelled_order_by_store = "cancelled_order_by_store";
+  static const allbills = "allbills";
+  static const prepaid = "prepaid";
+  static const postpaid = "postpaid";
+
+
+
 
 }
 

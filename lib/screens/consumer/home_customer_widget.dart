@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -13,6 +14,9 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
+import '../../common/constants/values.dart';
+import 'bills_see_all_screen.dart';
+
 
 class HomeCustomerWidget extends StatefulWidget {
   HomeCustomerWidget({Key key}) : super(key: key);
@@ -51,7 +55,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     getMyAccountsWidget(),
-                    getTransferToWidget(),
+                   // getTransferToWidget(),
                     getPaymentWidget(),
                     getTransactionsWidget(),
                     Container(
@@ -75,50 +79,51 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
       child: Column(
         children: [
           Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 7.5.toInt(),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      getTranslation(Strings.MY_ACCOUNTS),
-                      textAlign: TextAlign.left,
-                      style: BaseStyles.homeScreenHeadersStyle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 2.5.toInt(),
-                  child: Container(
-                      padding: EdgeInsets.only(top: 8,bottom: 8),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 16),
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                getTranslation(Strings.SEE_ALL),
-                                textAlign: TextAlign.center,
-                                style: BaseStyles.seeAllTextStyle,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height:2 ,
-                            margin: EdgeInsets.only(top: 4,left: 4,right: 16),
-                            decoration: BoxDecoration(
-                              gradient: Gradients.primaryGradient,
-                            ),
-                          ),
-                        ],
-                      )
-                  ),
-                ),
-              ],
-            ),
+            child: getTitleAndSeeAllText(Strings.MY_ACCOUNTS),
+            // child: Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Expanded(
+            //       flex: 7.5.toInt(),
+            //       child: Align(
+            //         alignment: Alignment.topLeft,
+            //         child: Text(
+            //           getTranslation(Strings.MY_ACCOUNTS),
+            //           textAlign: TextAlign.left,
+            //           style: BaseStyles.homeScreenHeadersStyle,
+            //         ),
+            //       ),
+            //     ),
+            //     Expanded(
+            //       flex: 2.5.toInt(),
+            //       child: Container(
+            //           padding: EdgeInsets.only(top: 8,bottom: 8),
+            //           child: Column(
+            //             children: [
+            //               Container(
+            //                 margin: EdgeInsets.only(right: 16),
+            //                 child: Align(
+            //                   alignment: Alignment.topRight,
+            //                   child: Text(
+            //                     getTranslation(Strings.SEE_ALL),
+            //                     textAlign: TextAlign.center,
+            //                     style: BaseStyles.seeAllTextStyle,
+            //                   ),
+            //                 ),
+            //               ),
+            //               Container(
+            //                 height:2 ,
+            //                 margin: EdgeInsets.only(top: 4,left: 4,right: 16),
+            //                 decoration: BoxDecoration(
+            //                   gradient: Gradients.primaryGradient,
+            //                 ),
+            //               ),
+            //             ],
+            //           )
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ),
           Container(
             margin: EdgeInsets.only(top: 8),
@@ -334,34 +339,53 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   {
     return Container(
         height: 140,
-        margin: EdgeInsets.only(left: 16, top: 16, right: 16),
+       // height: 95,
+       // margin: EdgeInsets.only(left: 16, top: 16, right: 16),
+       // margin: EdgeInsets.only(left: 16),
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      getTranslation(Strings.PAYMENT),
-                      textAlign: TextAlign.left,
-                      style:BaseStyles.homeScreenHeadersStyle ,
-                    ),
-                  ),
-                ],
-              ),
+             // margin: EdgeInsets.only(left: 16),
+              margin: EdgeInsets.only(left:16,top: 2),
+              child: getTitleAndSeeAllText(Strings.bills),
+              // child: Row(
+              //   crossAxisAlignment: CrossAxisAlignment.stretch,
+              //   children: [
+              //     // Align(
+              //     //   alignment: Alignment.topLeft,
+              //     //   child: Text(
+              //     //     getTranslation(Strings.bills),
+              //     //     textAlign: TextAlign.left,
+              //     //     style:BaseStyles.homeScreenHeadersStyle ,
+              //     //   ),
+              //     // ),
+              //     Expanded(child: null),
+              //     Text(
+              //       getTranslation(Strings.SEE_ALL),
+              //       textAlign: TextAlign.center,
+              //       style: BaseStyles.seeAllTextStyle,
+              //     ),
+              //   ],
+              // ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 16),
+              //margin: EdgeInsets.only(top: 16),
               height: 100,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: paymentOptionsArray.length,
-                  itemBuilder: (context, index) {
-                    return RoundedCardButton(buttonText: paymentOptionsArray[index],image: paymentOptionsIconsArray[index],);
-                  }),
+              //height: 60,
+              // child: ListView.builder(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: paymentOptionsArray.length,
+              //     itemBuilder: (context, index) {
+              //       return RoundedCardButton(buttonText: paymentOptionsArray[index],image: paymentOptionsIconsArray[index],);
+              //     }),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [RoundedCardButton(buttonText: paymentOptionsArray[0],image: paymentOptionsIconsArray[0]),
+                           RoundedCardButton(buttonText: paymentOptionsArray[1],image: paymentOptionsIconsArray[1]),
+                           RoundedCardButton(buttonText: paymentOptionsArray[2],image: paymentOptionsIconsArray[2]),
+                           RoundedCardButton(buttonText: paymentOptionsArray[3],image: paymentOptionsIconsArray[3]),
+                           ],
+              ),
             )
           ],
         )
@@ -375,57 +399,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 7.5.toInt(),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        getTranslation(Strings.TRANSACTIONS),
-                        textAlign: TextAlign.left,
-                        style: BaseStyles.homeScreenHeadersStyle,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2.5.toInt(),
-                    child: InkWell(
-                      onTap: (){
-                        push(TransactionHistory());
-                      },
-                      child: Container(
-                          padding: EdgeInsets.only(top: 8,bottom: 8),
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 16),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text(
-                                    getTranslation(Strings.SEE_ALL),
-                                    textAlign: TextAlign.center,
-                                    style: BaseStyles.seeAllTextStyle,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                height:2 ,
-                                margin: EdgeInsets.only(top: 4,left: 4,right: 16),
-                                decoration: BoxDecoration(
-                                  gradient: Gradients.primaryGradient,
-                                ),
-                              ),
-                            ],
-                          )
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            Container(child:getTitleAndSeeAllText(Strings.TRANSACTIONS)),
             Container(
               child: ListView.builder(
                 padding:EdgeInsets.zero,
@@ -517,6 +491,71 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget getTitleAndSeeAllText(String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          flex: 7.5.toInt(),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              //getTranslation(Strings.TRANSACTIONS),
+              getTranslation(title),
+              textAlign: TextAlign.left,
+              style: BaseStyles.homeScreenHeadersStyle,
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 2.5.toInt(),
+                child: Container(
+                padding: EdgeInsets.only(top: 8,bottom: 8),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 16),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          getTranslation(Strings.SEE_ALL),
+                          textAlign: TextAlign.center,
+                          style: BaseStyles.seeAllTextStyle,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height:2 ,
+                    //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
+                        margin: EdgeInsets.only(right: 16),
+
+                      decoration: BoxDecoration(
+                        gradient: Gradients.primaryGradient,
+                      ),
+                    ),
+                  ],
+                )
+            ).onTap(onPressed: (){
+                  if (title == Strings.MY_ACCOUNTS)
+                  {
+                    // push to myaccounts
+                  }
+                  else if (title == Strings.bills)
+                  {
+                     Get.to(BillsPaymentScreen());
+                  }
+                  else if (title == Strings.TRANSACTIONS)
+                  {
+                    Get.to(TransactionHistory());
+                  }
+
+             }
+            ),
+          ),
+        ],
     );
   }
 }

@@ -355,6 +355,9 @@
   "customers": "Customers",
   "suppliers": "Suppliers",
   "you_have_cancelled_order" : "You have cancelled order",
-  "cancelled_order_by_store" : "Order cancelled by Store"
+  "cancelled_order_by_store" : "Order cancelled by Store",
+  "allbills": "All Bills",
+  "prepaid": "Prepaid",
+  "postpaid": "Postpaid"
 
 }
