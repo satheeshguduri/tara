@@ -32,7 +32,7 @@ class CommonBillsProductsListViewState extends BaseState<CommonBillsProductsList
                 children: [
                   customListTile(index).onTap(onPressed: (){
                  //  Get.dialog(CommonPurchaseWidget(),);
-                    Get.to(PacketDataMobileNumberEntryScreen(data:widget.data));
+                    Get.to(PacketDataMobileNumberEntryScreen(data:widget.data[index]));
                   }),
                   Divider()
                 ],

@@ -6,6 +6,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
 import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
@@ -14,7 +15,7 @@ import 'common_bills_products_list.dart';
 
 
 class PacketDataMobileNumberEntryScreen extends StatefulWidget {
-  final List<BillProductDataBean> data;
+  final BillProductDataBean data;
 
    PacketDataMobileNumberEntryScreen({ Key key, this.data }) : super(key: key);
 
@@ -31,7 +32,7 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(),
-      body: SafeArea(child: getContainer()),
+      body: Obx(() =>SafeArea(child: getContainer()).withProgressIndicator(showIndicator: Get.find<BillController>().showProgress.value)),
     );
   }
 
@@ -80,6 +81,19 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
     );
   }
 
+  getAccountNumberWidget(){
+
+  }
+  getCustomerIdWidget(){
+
+  }
+  getPhoneNumberWidget(){
+
+  }
+
+
+
+
   Widget bottomRow() {
     return Container(
       height: 48,
@@ -95,7 +109,8 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
       ),
     ).onTap(onPressed: () {
       //Get.to(CommonBillsProductsListView(data:widget.data));
-      Get.dialog(CommonPurchaseWidget(),);
+      // Get.dialog(CommonPurchaseWidget(),);
+      sendBottomSheet();
     });
   }
 
@@ -114,7 +129,8 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
     return Wrap(
      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        phoneNumberField(), myNumberField()
+        phoneNumberField(),
+        myNumberField()
       ],
     );
   }
@@ -184,6 +200,16 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
         height: 1,
       ),
     );
+  }
+  Future sendBottomSheet() {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return CommonPurchaseWidget();
+        });
   }
 
 }

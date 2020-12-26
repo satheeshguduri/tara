@@ -28,9 +28,9 @@ mixin BaseWidgets {
     color: AppColors.secondaryBackground,
     size: 30.0,
   );
-  Divider getDivider() {
+  Divider getDivider({Color color = AppColors.primaryElement}) {
     return Divider(
-      color: AppColors.primaryElement,
+      color: color,
       thickness: 1,
     );
   }

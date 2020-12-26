@@ -10,7 +10,7 @@ import 'package:tara_app/common/constants/values.dart';
 
 
 class CommonPurchaseWidget extends StatefulWidget {
-  const CommonPurchaseWidget({ Key key }) : super(key: key);
+  const CommonPurchaseWidget({ Key key,}) : super(key: key);
 
   @override
   CommonPurchaseWidgetState createState() => CommonPurchaseWidgetState();
@@ -23,11 +23,97 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      body:SafeArea(
-          child:  getYourPurchaseWidget())
+    return SafeArea(
+        top: false,
+        child: Container(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+            ),
+            child:Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width*0.90,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 20,right: 16,top: 8,bottom: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(8),
+                            topLeft: Radius.circular(8),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                                color: const Color(0x1f000000),
+                                offset: Offset(0, 4),
+                                blurRadius: 6,
+                                spreadRadius: 0),
+                            BoxShadow(
+                                color: const Color(0x14000000),
+                                offset: Offset(0, 0),
+                                blurRadius: 2,
+                                spreadRadius: 0)
+                          ],
+                          color: AppColors.primaryBackground),
+                      child:  Wrap(
+                        children: <Widget>[
+
+                          Row(
+                            children: [
+                              Expanded(child: TextWithBottomOverlay(titleStr: Strings.yourpurchase)),
+                              Container(
+                                  child: getSvgImage(imagePath: Assets.close_icon).onTap(onPressed: ()=> pop())
+                              ),
+                            ],
+                          ),
+                          getDivider(color: Colors.grey[200]),
+                          getProductDetailWidget(),
+                          Container(
+                            child: Column(
+                                children: [
+                                  billDetailsText(),
+                                  priceThreeRows(Strings.price,"255"),
+                                  priceThreeRows(Strings.adminfee,"9665"),
+                                  priceThreeRows(Strings.servicefee,"1234"),
+                                  dividerRow(),
+                                  totalRow()
+
+                                ]),
+                          ),
+                          getContinueWidget()
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+            )
+        )
     );
+  }
+
+  Container getProductDetailWidget() {
+    return Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.secondaryBackground,
+                              borderRadius: Radii.k8pxRadius
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              priceThreeRows(Strings.price,"255"),
+                              priceThreeRows(Strings.price,"255"),
+                              priceThreeRows(Strings.price,"255"),
+                            ],
+
+                          ),
+                        );
   }
 
 
