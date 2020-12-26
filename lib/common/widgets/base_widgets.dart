@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../constants/styles.dart';
 import '../constants/values.dart';
@@ -56,4 +57,18 @@ mixin BaseWidgets {
               child: widget,
             ));
   }
+
+  Widget getSvgImage({String imagePath,Color color, width = 24.0, height= 24.0}) {
+    return SvgPicture.asset(
+      imagePath,
+      fit: BoxFit.none,
+      width: width,
+      height: height,
+      semanticsLabel: 'svg',
+      color: color,
+    );
+
+
+  }
+
 }

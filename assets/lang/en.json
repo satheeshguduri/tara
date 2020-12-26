@@ -358,6 +358,11 @@
   "cancelled_order_by_store" : "Order cancelled by Store",
   "allbills": "All Bills",
   "prepaid": "Prepaid",
-  "postpaid": "Postpaid"
+  "postpaid": "Postpaid",
+  "yourpurchase": "Your Purchase",
+  "paynow": "Pay Now",
+  "adminfee":"Admin Fee",
+  "servicefee" : "Service Fee",
+  "mynumber": "MY NUMBER"
 
 }

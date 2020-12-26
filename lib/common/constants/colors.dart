@@ -38,6 +38,13 @@ class AppColors {
   static const DONE_KEYBOARD_BG_COLOR = Color(0xffececef);
   static const light_grey_bg_color = Color(0xffe9ecef);
   static const Color productListPriceColor = Color.fromARGB(255, 178, 247, 226);
+  static const Color yourPurchaseBillsDetailsText = Color.fromARGB(255, 18, 52, 86);
+  static const Color billerPaymentNextButtonColor = Color.fromARGB(255, 233, 236, 239);
+  static const Color billerPaymentDiviederColor = Color.fromARGB(255, 189, 176, 193);
+
+
+
+
 
 
 

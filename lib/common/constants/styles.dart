@@ -905,4 +905,20 @@ class TextStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
+  static const yourPurchaseBillsDetailsTextStyle =  TextStyle(
+      color:  AppColors.yourPurchaseBillsDetailsText,
+      fontWeight: FontWeight.w400,
+      fontFamily: "Roboto",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+  static const yourPurchaseBillsTotalTextStyle =  TextStyle(
+      color:  AppColors.yourPurchaseBillsDetailsText,
+      fontWeight: FontWeight.w700,
+      fontFamily: "Roboto",
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+
+
 }

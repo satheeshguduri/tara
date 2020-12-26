@@ -37,6 +37,8 @@ class Assets {
   static const INTERNET_ICON = "assets/images/ic_internet.png";
   static const PLN_ICON = "assets/images/ic_current_bill.png";
   static const BJPS_ICON = "assets/images/ic_bjps.png";
+  static const PULSA_ICON = "assets/images/pulsa.png";
+
 
   static const ic_cash_deposit = "assets/images/icon-52.png";
   static const ic_send = "assets/images/icon-52.png";
@@ -155,6 +157,8 @@ class Assets {
   static const avatar11 = "assets/images/oval-19.png";
 
   static const tara_logo = "assets/images/logo_tara.png";
+  static const close_icon = "assets/images/close.svg";
+
 
 
 

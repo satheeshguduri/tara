@@ -387,6 +387,11 @@ class Strings{
   static const allbills = "allbills";
   static const prepaid = "prepaid";
   static const postpaid = "postpaid";
+  static const yourpurchase = "yourpurchase";
+  static const paynow = "paynow";
+  static const adminfee = "adminfee";
+  static const servicefee = "servicefee";
+  static const mynumber = "mynumber";
 
 
 
