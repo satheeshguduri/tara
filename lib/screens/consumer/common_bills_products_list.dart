@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import '../../common/constants/values.dart';
+import 'billers_packet_data_number_entryform.dart';
 
 
 class CommonBillsProductsListView extends StatefulWidget {
@@ -27,7 +30,10 @@ class CommonBillsProductsListViewState extends BaseState<CommonBillsProductsList
             itemBuilder: (context,index){
               return Column(
                 children: [
-                  customListTile(index),
+                  customListTile(index).onTap(onPressed: (){
+                 //  Get.dialog(CommonPurchaseWidget(),);
+                    Get.to(PacketDataMobileNumberEntryScreen(data:widget.data));
+                  }),
                   Divider()
                 ],
               );
