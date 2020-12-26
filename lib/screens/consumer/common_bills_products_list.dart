@@ -27,13 +27,6 @@ class CommonBillsProductsListViewState extends BaseState<CommonBillsProductsList
             itemBuilder: (context,index){
               return Column(
                 children: [
-                  // ListTile(
-                  //   leading: Image.asset("assets/images/avatar-11.png",height: 32,width: 32),
-                  //   title: Text(widget.data[index].name),
-                  //   subtitle: Text(widget.data[index].description),
-                  //   trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[300],size: 24,),
-                  //
-                  // ),
                   customListTile(index),
                   Divider()
                 ],
@@ -107,32 +100,44 @@ class CommonBillsProductsListViewState extends BaseState<CommonBillsProductsList
                    ),
                    Container(
                        alignment: Alignment.centerLeft,
-                       child: Text(widget.data[index].description,
+                       child:  Text(widget.data[index].description,
                             style: TextStyles.productsListDescTextStyle))]
 
       ),
     );
   }
- Widget rightSideWidget(int index) {
-    return // Container
-      Container(
-          alignment: Alignment.center,
-          width: 88,
-          height: 24,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                  Radius.circular(6)
-              ),
-              color: AppColors.productListPriceColor
-          ),
-          child: Text(
-              widget.data[index].amount.toString(),
-          style: TextStyles.bUTTONSmallBlack222,
-          textAlign: TextAlign.center
-      ),
-      );
 
-  }
+
+Widget rightSideWidget(int index) {
+   return // Container
+     Container(
+       child: Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+         crossAxisAlignment: CrossAxisAlignment.center,
+         children: [
+             Container(
+           alignment: Alignment.center,
+            width: 88,
+            height: 24,
+            decoration: BoxDecoration(
+               borderRadius: BorderRadius.all(
+                   Radius.circular(6)
+               ),
+               color: AppColors.productListPriceColor
+           ),
+           child: Text(getTranslation(Strings.RP)+" "+
+               widget.data[index].amount.toString(),
+           style: TextStyles.bUTTONSmallBlack222,
+           textAlign: TextAlign.center
+         ),
+       ),
+
+       ]
+
+       ),
+     );
+
+ }
 
 
 
