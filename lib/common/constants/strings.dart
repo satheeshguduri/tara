@@ -144,6 +144,7 @@ class Strings{
   static const PLEASE_ENTER_MOBILE = "please_enter_mobile";
   static const SIGN_IN = "sign_in";
   static const already_have_account = "already_have_account";
+  static const TARA_SERVICES = "tara_services";
 
   static const MY_ACCOUNT = "my_account";
   static const ACCOUNT_SETTINGS = "account_settings";
@@ -392,8 +393,8 @@ class Strings{
   static const adminfee = "adminfee";
   static const servicefee = "servicefee";
   static const mynumber = "mynumber";
-
-
+  static const feature_title = "featureTitle";
+  static const feature_sub_title = "featureSubTitle";
 
 
 }

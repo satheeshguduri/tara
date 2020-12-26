@@ -31,6 +31,7 @@
   "error_verify_bank_account": "Can’t verify the account number, please check again",
   "wallet": "Wallet",
   "transfer_to": "Transfer to",
+  "tara_services": "Tara Services",
   "transactions": "Transactions",
   "tara_contacts": "TARA CONTACTS",
   "all_contacts": "ALL CONTACTS",
@@ -363,6 +364,9 @@
   "paynow": "Pay Now",
   "adminfee":"Admin Fee",
   "servicefee" : "Service Fee",
-  "mynumber": "MY NUMBER"
+  "mynumber": "MY NUMBER",
+  "postpaid": "Postpaid",
+  "featureTitle": "Feature Coming Soon",
+  "featureSubTitle": "This feature is currently under development. \nPlease check back later."
 
 }

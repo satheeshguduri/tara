@@ -125,7 +125,13 @@ class BaseStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
-
+  static TextStyle errorInfoSubtitleTextStyle = const TextStyle(
+  color:  Colors.black45,
+  fontWeight: FontWeight.w400,
+  // fontFamily: "Roboto",
+  fontStyle:  FontStyle.normal,
+  fontSize: 16.0
+  );
   static TextStyle resendDefaultTextStyle =  TextStyle(
       color: Color(0xffe9ecef),
       fontWeight: FontWeight.w700,

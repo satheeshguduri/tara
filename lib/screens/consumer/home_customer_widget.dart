@@ -7,6 +7,8 @@ import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/helpers/get_helper.dart';
+import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
 import 'package:tara_app/screens/agent/transaction_history.dart';
@@ -71,7 +73,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     );
   }
 
-  getMyAccountsWidget()
+  Widget getMyAccountsWidget()
   {
     return Container(
       height: 95,
@@ -79,7 +81,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
       child: Column(
         children: [
           Container(
-            child: getTitleAndSeeAllText(Strings.MY_ACCOUNTS),
+            child: getTitleAndSeeAllText(Strings.TARA_SERVICES),
             // child: Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //   children: [
@@ -185,7 +187,17 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                       ),
                     ],
                   ),
-                ),
+                ).onTap(onPressed: (){
+                  GetHelper().getDialog(content: ErrorStateInfoWidget(buttonText:"Okay",onTap:(){
+                    Get.back();
+                  },title:getTranslation(Strings.feature_title),desc:getTranslation(Strings.feature_sub_title),image:Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                      color: const Color(0xffd8d8d8)
+                  ))
+                  ));
+                }),
               ],
             ),
           ),
