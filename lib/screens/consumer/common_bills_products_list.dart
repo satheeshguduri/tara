@@ -108,7 +108,7 @@ class CommonBillsProductsListViewState extends BaseState<CommonBillsProductsList
                    Container(
                        alignment: Alignment.centerLeft,
                        child: Text(widget.data[index].description,
-                            style: BaseStyles.placeholderStyle))]
+                            style: TextStyles.productsListDescTextStyle))]
 
       ),
     );
