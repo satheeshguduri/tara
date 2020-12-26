@@ -18,8 +18,7 @@ class CommonPurchaseWidget extends StatefulWidget {
 
 class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
 
-  double parentHeight = 520;
-  double childHeight = 96;
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,84 +114,6 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
                           ),
                         );
   }
-
-
-
-  Widget getYourPurchaseWidget()
-  {
-    return Center(
-      child: Container(
-          height: parentHeight,
-          child:Stack(
-            children: [
-                Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  width: MediaQuery.of(context).size.width*0.90,
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20,right: 16,top: 8,bottom: 8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          topLeft: Radius.circular(8),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                              color: const Color(0x1f000000),
-                              offset: Offset(0, 4),
-                              blurRadius: 6,
-                              spreadRadius: 0),
-                          BoxShadow(
-                              color: const Color(0x14000000),
-                              offset: Offset(0, 0),
-                              blurRadius: 2,
-                              spreadRadius: 0)
-                        ],
-                        color: AppColors.primaryBackground),
-                    child: Wrap(
-                      children: <Widget>[
-
-                       Row(
-                         children: [
-                            Expanded(child: TextWithBottomOverlay(titleStr: Strings.yourpurchase)),
-                            Container(
-                              child: getSvgImage(imagePath: Assets.close_icon).onTap(onPressed: ()=> pop())
-                            ),
-                         ],
-                        ),
-                        Container(
-                          color: Colors.grey[200],
-                          height: 1,
-                        ),
-                        Container(
-                          height: childHeight,
-                          color: Colors.blue,
-                        ),
-                        Container(
-                              child: Column(
-                              children: [
-                                billDetailsText(),
-                                priceThreeRows(Strings.price,"255"),
-                                priceThreeRows(Strings.adminfee,"9665"),
-                                priceThreeRows(Strings.servicefee,"1234"),
-                                dividerRow(),
-                                totalRow()
-
-                              ]),
-                        ),
-                         getContinueWidget()
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          )),
-    );
-  }
-
-
-
 
 
 
