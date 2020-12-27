@@ -173,7 +173,12 @@ class BaseStyles {
   fontStyle:  FontStyle.normal,
   fontSize: 10.0
   );
-
+  static TextStyle nominalTextView =   TextStyle(
+      color:  AppColors.secondaryElement,
+      fontWeight: FontWeight.w700,
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
   static TextStyle contactsTextStyle =   TextStyle(
   color:  Color(0xffffffff),
   fontWeight: FontWeight.w700,

@@ -395,6 +395,8 @@ class Strings{
   static const mynumber = "mynumber";
   static const feature_title = "featureTitle";
   static const feature_sub_title = "featureSubTitle";
+  static const customer_id = "customer_id";
+  static const account_number = "account_number";
 
 
 }

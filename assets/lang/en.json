@@ -367,6 +367,8 @@
   "mynumber": "MY NUMBER",
   "postpaid": "Postpaid",
   "featureTitle": "Feature Coming Soon",
-  "featureSubTitle": "This feature is currently under development. \nPlease check back later."
+  "featureSubTitle": "This feature is currently under development. \nPlease check back later.",
+  "customer_id": "Customer Id",
+  "account_number": "Account Id"
 
 }

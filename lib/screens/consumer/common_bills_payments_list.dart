@@ -1,7 +1,9 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/helpers/biller_helper.dart';
+import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/common_bills_products_list.dart';
@@ -10,8 +12,7 @@ import '../../common/constants/values.dart';
 
 class CommonBillsPaymentListView extends StatefulWidget {
   final List<BillProductDataBean> data;
-  final BillProductsResponse response;
-  CommonBillsPaymentListView({Key key,this.data,this.response}) : super(key: key);
+  CommonBillsPaymentListView({Key key,this.data}) : super(key: key);
 
   @override
   CommonBillsPaymentListViewState createState() => CommonBillsPaymentListViewState();
@@ -20,7 +21,7 @@ class CommonBillsPaymentListView extends StatefulWidget {
 
 class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListView>{
 
-
+  BillController controller = Get.find<BillController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +34,7 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
                 children: [
                   ListTile(
                     onTap: ()async{
-                      List<BillProductDataBean> data = BillerHelper().getProductsByBiller(widget.response, widget.data[index].category,widget.data[index].biller);
+                      List<BillProductDataBean> data = controller.getProducts(widget.data[index]);
                       Get.to(CommonBillsProductsListView(data:data));
                     },
                     leading: Image.asset("assets/images/avatar-11.png",height: 32,width: 32),

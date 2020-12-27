@@ -24,6 +24,7 @@ class BillerHelper{
   List<BillProductDataBean> productsList;
 
   Future<BillProductsResponse> getData() async {
+
     BillProductRequest billProductRequest  = BillProductRequest(partnerId: "ALcTM9Yrztyh");
     BillProductsResponse response = await BillerRestClient(Dio()).getBillProducts("Bearer eyJhbGciOiJIUzI1NiJ9.eyJwYXJ0bmVySWQiOiJBTGNUTTlZcnp0eWgiLCJhY2NvdW50TnVtYmVyIjoiMDgxMjMwMDAwMCIsInByb2R1Y3RDb2RlIjoiUExUSzEwIn0._BF_32r4ol5HJzNZCW5pSvfP7Vv5jgc6jbKX9dTWbcI", billProductRequest);
     return response;

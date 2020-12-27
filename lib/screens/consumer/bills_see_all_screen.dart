@@ -151,7 +151,7 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
          image: getImage(categories[index].category),
          onPressed: () async{
            List<BillProductDataBean> data = BillerHelper().getBillersByCategory(response, categories[index].category);
-           Get.to(CommonBillsPaymentListView(data:data,response: response,));
+           Get.to(CommonBillsPaymentListView(data:data));
            }
          );
        }

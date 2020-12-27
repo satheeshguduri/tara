@@ -8,9 +8,12 @@ import 'package:tara_app/common/constants/shadows.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/get_helper.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
+import 'package:tara_app/controller/bill_controller.dart';
+import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
@@ -18,6 +21,7 @@ import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 import '../../common/constants/values.dart';
 import 'bills_see_all_screen.dart';
+import 'common_bills_payments_list.dart';
 
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -33,6 +37,8 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   var transferToArray = ["Tara\nUsers","Bank\nAccount", "E-Money", "My\nAccount"];
   var paymentOptionsArray = ["Mobile","Internet", "PLN", "BPJS"];
   var paymentOptionsIconsArray = [Assets.MOBILE_ICON,Assets.INTERNET_ICON, Assets.PLN_ICON, Assets.BJPS_ICON];
+
+  BillController controller = Get.find<BillController>();
 
   @override
   BuildContext getContext() {
@@ -58,7 +64,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   children: [
                     getMyAccountsWidget(),
                    // getTransferToWidget(),
-                    getPaymentWidget(),
+                    getBillPaymentFuture(),
                     getTransactionsWidget(),
                     Container(
                       height: 32,
@@ -347,56 +353,44 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         ));
   }
 
-  getPaymentWidget()
+  Widget getBillPaymentFuture(){
+    return FutureBuilder(
+      future: Get.find<BillController>().getCategories(),
+      builder: (context,snapshot){
+        if(snapshot.hasData){
+          List<BillProductDataBean> data = snapshot.data;
+          var parseData = data;
+          if(data.length>4) {
+             parseData = data.sublist(0, 4);
+          }
+          return getPaymentWidget(parseData);
+        }
+        return BaseWidgets.getIndicator;
+      },
+    );
+
+  }
+
+
+
+  getPaymentWidget(List<BillProductDataBean> data)
   {
     return Container(
         height: 140,
-       // height: 95,
-       // margin: EdgeInsets.only(left: 16, top: 16, right: 16),
-       // margin: EdgeInsets.only(left: 16),
         child: Column(
           children: [
             Container(
-             // margin: EdgeInsets.only(left: 16),
               margin: EdgeInsets.only(left:16,top: 2),
               child: getTitleAndSeeAllText(Strings.bills),
-              // child: Row(
-              //   crossAxisAlignment: CrossAxisAlignment.stretch,
-              //   children: [
-              //     // Align(
-              //     //   alignment: Alignment.topLeft,
-              //     //   child: Text(
-              //     //     getTranslation(Strings.bills),
-              //     //     textAlign: TextAlign.left,
-              //     //     style:BaseStyles.homeScreenHeadersStyle ,
-              //     //   ),
-              //     // ),
-              //     Expanded(child: null),
-              //     Text(
-              //       getTranslation(Strings.SEE_ALL),
-              //       textAlign: TextAlign.center,
-              //       style: BaseStyles.seeAllTextStyle,
-              //     ),
-              //   ],
-              // ),
             ),
             Container(
-              //margin: EdgeInsets.only(top: 16),
               height: 100,
-              //height: 60,
-              // child: ListView.builder(
-              //     scrollDirection: Axis.horizontal,
-              //     itemCount: paymentOptionsArray.length,
-              //     itemBuilder: (context, index) {
-              //       return RoundedCardButton(buttonText: paymentOptionsArray[index],image: paymentOptionsIconsArray[index],);
-              //     }),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [RoundedCardButton(buttonText: paymentOptionsArray[0],image: paymentOptionsIconsArray[0]),
-                           RoundedCardButton(buttonText: paymentOptionsArray[1],image: paymentOptionsIconsArray[1]),
-                           RoundedCardButton(buttonText: paymentOptionsArray[2],image: paymentOptionsIconsArray[2]),
-                           RoundedCardButton(buttonText: paymentOptionsArray[3],image: paymentOptionsIconsArray[3]),
-                           ],
+                children: data.map((e) => RoundedCardButton(buttonText: e.category,image: paymentOptionsIconsArray[0],onPressed: (){
+                  List<BillProductDataBean> data = controller.getBillers(e);
+                  Get.to(CommonBillsPaymentListView(data:data));
+                },)).toList(),
               ),
             )
           ],

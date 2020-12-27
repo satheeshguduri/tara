@@ -96,29 +96,41 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
         )
     );
   }
-  Widget getLabeledTextView(){
+  Widget getNominalTextView(){
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("nominal",style: BaseStyles.purchaseLabelTextStyle),
-        Text("${widget.billDetailsData.amount}",style: TextStyles.subtitle1222)
+        Text("Nominal",style: BaseStyles.purchaseLabelTextStyle),
+        Text("${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
       ],
-    );
+    ).withPad(padding: EdgeInsets.all(5));
+  }
+  Widget getCustomerIdTextView(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("Customer Id",style: BaseStyles.purchaseLabelTextStyle),
+        Text("${widget.billDetailsData.accountNumber}",style: TextStyles.bUTTONWhite2)
+      ],
+    ).withPad(padding: EdgeInsets.all(5));
   }
   Widget getProductCodeTextTextView(){
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Customer Id",style: BaseStyles.purchaseLabelTextStyle),
-        Text("${widget.billDetailsData.accountNumber}",style: TextStyles.subtitle1222)
+        Text("Code",style: BaseStyles.purchaseLabelTextStyle),
+        Text("${widget.billDetailsData.productCode}",style: TextStyles.bUTTONWhite2)
       ],
-    );
+    ).withPad(padding: EdgeInsets.all(5));
   }
   Widget getProductNameTextTextView(){
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Name",style: BaseStyles.purchaseLabelTextStyle),
-        Text("${widget.billDetailsData.productName}",style: TextStyles.subtitle1222)
+        Text("${widget.billDetailsData.productName}",style: TextStyles.bUTTONWhite2)
       ],
-    );
+    ).withPad(padding: EdgeInsets.all(5));;
   }
   getLabeledView(category){
     switch(category) {
@@ -127,16 +139,18 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
         case "Internet dan TV Kabel":
           return Column(
             children: [
-              getLabeledTextView()
+              getProductCodeTextTextView(),
+              getProductNameTextTextView(),
+              getNominalTextView()
             ],
           );
       case "BPJS":
       case "BPJS":
         return Column(
           children: [
-            getProductCodeTextTextView(),
             getProductNameTextTextView(),
-            getLabeledTextView()
+            getProductCodeTextTextView(),
+            getNominalTextView()
 
           ],
         );
@@ -157,10 +171,10 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
         children: [
           Row(
             children: [
-              Image.asset(Assets.BJPS_ICON),
+              Image.asset(Assets.BJPS_ICON,width: 24,height:24,),//TODO ICON TO LOAD FROM NETWORK
               Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle)
             ],
-          ),
+          ).withPad(padding: EdgeInsets.only(top:10,bottom:10,left:8,right:8)),
           getLabeledView(widget.billDetailsData.category),
         ],
       ),

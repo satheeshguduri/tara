@@ -104,12 +104,12 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
     });
   }
 
-  Widget hintTitle() {
+  Widget hintTitle({String title = Strings.PHONE_NUMBER}) {
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(top: 19, left: 16, right: 16),
       child: Text(
-          getTranslation(Strings.PHONE_NUMBER),
+          getTranslation(title),
           style: TextStyles.caption222
       ),
     );
@@ -279,49 +279,120 @@ Widget getTopRow(String category) {
 
 }
 
+
+getCustomerIdWidget(){
+
+}
   Widget getStreaming1Widget() {
-    return Container();
+    return Column(
+      children: [
+        hintTitle(),
+        mobileNUmberField(),
+        getTheDivider()
+      ],
+    );
   }
 
   Widget getVoucherDigitalWidget() {
-    return Container();
+    return Column(
+      children: [
+        hintTitle(),
+        mobileNUmberField(),
+        getTheDivider()
+      ],
+    );
 
   }
 
   Widget getPulsaWidget() {
-    return Container();
+    return Column(
+      children: [
+        hintTitle(),
+        mobileNUmberField(),
+        getTheDivider()
+      ],
+    );
 
   }
 
   Widget getGas1Widget() {
-    return Container();
+    return  Column(
+      children: [
+        hintTitle(),
+        mobileNUmberField(),
+        getTheDivider()
+      ],
+    );
 
   }
 
   Widget getBPJSWidget() {
-    return Column(children:
-    [  paymentUntilRow(),NIKBillingRow()
-    ],);
+    return Column(
+      children: [
+        hintTitle(title:Strings.customer_id),
+        TextFieldWidget(hint:getTranslation(Strings.customer_id),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+          setState(() {
+          });
+        }).withPad(padding: EdgeInsets.only(left:16,right:16)),
+        getTheDivider()
+      ],
+    );
 
   }
 
   Widget getPembayaranAngsuranWidget() {
-    return Container();
+    return Column(
+      children: [
+        hintTitle(title:Strings.account_number),
+        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+          setState(() {
+          });
+        }).withPad(padding: EdgeInsets.only(left:16,right:16)),
+        getTheDivider()
+      ],
+    );
 
   }
 
   Widget getPascabayarWidget() {
-    return Container();
+    return Column(
+      children: [
+        hintTitle(title:Strings.account_number),
+        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+          setState(() {
+          });
+        }).withPad(padding: EdgeInsets.only(left:16,right:16)),
+        getTheDivider()
+      ],
+    );
 
   }
 
   Widget getInternetdanTVKabelWidget() {
-    return Container();
+    return Column(
+      children: [
+        hintTitle(title:Strings.account_number),
+        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+          setState(() {
+          });
+        }).withPad(padding: EdgeInsets.only(left:16,right:16)),
+        getTheDivider()
+      ],
+    );
 
   }
 
   Widget getVoucherGameWidget() {
-    return Container();
+    return Column(
+      children: [
+        hintTitle(title:Strings.account_number),
+        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+          setState(() {
+          });
+        }).withPad(padding: EdgeInsets.only(left:16,right:16)),
+        getTheDivider()
+      ],
+    );
 
   }
 
