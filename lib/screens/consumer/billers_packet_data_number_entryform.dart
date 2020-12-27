@@ -25,8 +25,8 @@ class PacketDataMobileNumberEntryScreen extends StatefulWidget {
 
 class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileNumberEntryScreen> {
 
-  final TextEditingController controller = TextEditingController();
-  PhoneNumber number = PhoneNumber(isoCode: 'ID');
+  //final TextEditingController controller = TextEditingController();
+ // PhoneNumber number = PhoneNumber(isoCode: 'ID');
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
     return Container(
       child: Column(
           children: [
-            Expanded(child: topRow()),
+            Expanded(child: getTopRow(widget.data.category)),
             bottomRow()
           ]
       ),
@@ -62,7 +62,7 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
       title: Container(
         alignment: Alignment.centerLeft,
         child: Text(
-          "Telkomsel ",
+          widget.data.category,
           textAlign: TextAlign.left,
           style: BaseStyles.topBarTextStyle,
         ),
@@ -71,25 +71,17 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
   }
 
 
-  Widget topRow() {
-    return Column(
+  Widget getPaketDataWidget() {
+    return Row(
       children: [
-        hintTitle(),
+       // hintTitle(),
         mobileNUmberField(),
         getTheDivider()
       ],
     );
   }
 
-  getAccountNumberWidget(){
 
-  }
-  getCustomerIdWidget(){
-
-  }
-  getPhoneNumberWidget(){
-
-  }
 
 
 
@@ -126,41 +118,51 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
   }
 
   Widget mobileNUmberField() {
-    return Wrap(
+    return Row(
      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        phoneNumberField(),
+       // phoneNumberField(),
         myNumberField()
       ],
     );
   }
 
   Widget phoneNumberField() {
-    return InternationalPhoneNumberInput(
-      hintText: getTranslation(Strings.enter_phone_number),
-//      autoValidate:true,
-      onInputChanged: (PhoneNumber number) {
-        print(number.phoneNumber);
-        // controller.errorMessage.value = "";
-        // controller.mobileNumber.value = number.phoneNumber;
-      },
-      onInputValidated: (bool value) {
-        print(value);
-      },
-      selectorConfig: SelectorConfig(
-        selectorType: PhoneInputSelectorType.DROPDOWN,
+
+    return TextField(
+      decoration: InputDecoration(
+        hintText: getTranslation(Strings.enter_phone_number),
+        hintStyle: TextStyles.inputFieldOff222,
+        labelText: getTranslation(Strings.PHONE_NUMBER),
+        labelStyle: TextStyles.caption222
       ),
-      ignoreBlank: false,
-      selectorTextStyle: TextStyle(color: Colors.black),
-       initialValue: number,
-      // textFieldController: controller.mobileNumberTextEditController,
-      textFieldController: controller,
-      inputBorder: InputBorder.none,
-      inputDecoration: InputDecoration(
-        border: InputBorder.none,
-        //hintText: getTranslation(Strings.phone_number_2),
-      ),
+
     );
+//     return InternationalPhoneNumberInput(
+//       hintText: getTranslation(Strings.enter_phone_number),
+// //      autoValidate:true,
+//       onInputChanged: (PhoneNumber number) {
+//         print(number.phoneNumber);
+//         // controller.errorMessage.value = "";
+//         // controller.mobileNumber.value = number.phoneNumber;
+//       },
+//       onInputValidated: (bool value) {
+//         print(value);
+//       },
+//       selectorConfig: SelectorConfig(
+//         selectorType: PhoneInputSelectorType.DROPDOWN,
+//       ),
+//       ignoreBlank: false,
+//       selectorTextStyle: TextStyle(color: Colors.black),
+//        initialValue: number,
+//       // textFieldController: controller.mobileNumberTextEditController,
+//       textFieldController: controller,
+//       inputBorder: InputBorder.none,
+//       inputDecoration: InputDecoration(
+//         border: InputBorder.none,
+//         //hintText: getTranslation(Strings.phone_number_2),
+//       ),
+//     );
   }
 
 
@@ -211,5 +213,115 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
           return CommonPurchaseWidget();
         });
   }
+
+Widget getTopRow(String category) {
+
+      switch(category){
+
+      case "Paket Data": {
+        return getPaketDataWidget();
+      }
+      break;
+      case "Voucher Game":{
+        return getVoucherGameWidget();
+      }
+      break;
+        case "Streaming 1":{
+          return getStreaming1Widget();
+        }
+      break;
+        case "Voucher Digital":{
+         return getVoucherDigitalWidget();
+
+        }
+        break; case "Pulsa":{
+        return getPulsaWidget();
+
+      }
+      break; case "Gas 1":{
+        return getGas1Widget();
+
+      }
+      break; case "BPJS":{
+        return getBPJSWidget();
+
+      }
+      break; case "Pembayaran Angsuran":{
+        return getPembayaranAngsuranWidget();
+
+      }
+      break; case "Pascabayar":{
+        return getPascabayarWidget();
+
+      }
+      break; case "Internet dan TV Kabel":{
+        return getInternetdanTVKabelWidget();
+
+      }
+      break;
+
+    return Container();
+}
+
+}
+
+  Widget getStreaming1Widget() {
+    return Container();
+  }
+
+  Widget getVoucherDigitalWidget() {
+    return Container();
+
+  }
+
+  Widget getPulsaWidget() {
+    return Container();
+
+  }
+
+  Widget getGas1Widget() {
+    return Container();
+
+  }
+
+  Widget getBPJSWidget() {
+    return Column(children:
+    [  paymentUntilRow(),NIKBillingRow()
+    ],);
+
+  }
+
+  Widget getPembayaranAngsuranWidget() {
+    return Container();
+
+  }
+
+  Widget getPascabayarWidget() {
+    return Container();
+
+  }
+
+  Widget getInternetdanTVKabelWidget() {
+    return Container();
+
+  }
+
+  Widget getVoucherGameWidget() {
+    return Container();
+
+  }
+
+ Widget paymentUntilRow() {
+    return Container(
+      padding: EdgeInsets.only(),
+    );
+  }
+
+ Widget NIKBillingRow() {
+
+  }
+
+
+
 
 }
