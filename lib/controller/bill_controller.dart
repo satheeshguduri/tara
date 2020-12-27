@@ -7,6 +7,8 @@
 
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/models/bills/bill_product_request.dart';
@@ -23,18 +25,19 @@ class BillController extends GetxController{
   var inputField = "".obs;
   var selectedProduct = "".obs;
   var shouldShowBottomSheet = false.obs;
-  var productDetail;
+  var productDetail = BillDetailsData();
+  TextEditingController phoneNumberController = TextEditingController();
 
-
-  void check(BillProductDataBean product) async {
+  check(BillProductDataBean product,VoidCallback onComplete) async {
     showProgress.value = true;
 
-    BillProductRequest request = BillProductRequest(partnerId: "ALcTM9Yrztyh",accountNumber: inputField.value,productCode: product.code,);
+    BillProductRequest request = BillProductRequest(partnerId: "ALcTM9Yrztyh",accountNumber: phoneNumberController.text,productCode: product.code,);
     Either<Failure,BillDetailsResponse> response = await getIt.get<BillRepository>().checkBill(request);
     showProgress.value = false;
-    response.fold((l) => print, (r) => {
+    return response.fold((l) => print, (r) => {
       productDetail = r.data,
-      shouldShowBottomSheet.value = true
+      shouldShowBottomSheet.value = true,
+      onComplete
     });
   }
 

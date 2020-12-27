@@ -607,7 +607,12 @@ class BaseStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
-
+  static const purchaseLabelTextStyle = const TextStyle(
+      color:  Color(0xffb0b4c1),
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
   static const chatSubTitleTextStyle = const TextStyle(
   color:  Color(0xff697683),
   fontWeight: FontWeight.w400,

@@ -93,6 +93,9 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
 
   }
 
+
+
+
   Widget getTypesWidget() {
       return FutureBuilder(
         future: getTypes(),
@@ -121,10 +124,12 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
       case "Paket Data":
         return Assets.BJPS_ICON;
         break;
+      case "BPJS":
+        return Assets.BJPS_ICON;
+        break;
       default:
         return Assets.INTERNET_ICON;
         break;
-
     }
   }
   Widget paidGrid(List<BillProductDataBean> categories) {

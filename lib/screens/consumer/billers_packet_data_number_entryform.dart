@@ -5,8 +5,10 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
+import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/bill_controller.dart';
+import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
@@ -27,7 +29,7 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
 
   //final TextEditingController controller = TextEditingController();
  // PhoneNumber number = PhoneNumber(isoCode: 'ID');
-
+  BillController billController = Get.find<BillController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +41,10 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
 
   Widget getContainer() {
     return Container(
+      // color: Colors.pink,
       child: Column(
           children: [
-            Expanded(child: getTopRow(widget.data.category)),
+            Expanded(child:getTopRow(widget.data.category)),
             bottomRow()
           ]
       ),
@@ -72,19 +75,14 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
 
 
   Widget getPaketDataWidget() {
-    return Row(
+    return Column(
       children: [
-       // hintTitle(),
+        hintTitle(),
         mobileNUmberField(),
         getTheDivider()
       ],
     );
   }
-
-
-
-
-
 
   Widget bottomRow() {
     return Container(
@@ -99,10 +97,10 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
         textAlign: TextAlign.center,
         style: TextStyles.bUTTONGrey3222,
       ),
-    ).onTap(onPressed: () {
-      //Get.to(CommonBillsProductsListView(data:widget.data));
-      // Get.dialog(CommonPurchaseWidget(),);
-      sendBottomSheet();
+    ).onTap(onPressed: () async{
+      Get.find<BillController>().check(widget.data,(){
+        sendBottomSheet(Get.find<BillController>().productDetail);
+      });
     });
   }
 
@@ -119,24 +117,36 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
 
   Widget mobileNUmberField() {
     return Row(
-     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
       children: [
        // phoneNumberField(),
+        Expanded(
+          child: TextFieldWidget(hint:"Phone Number",inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+            setState(() {
+            });
+          }),
+        ),
         myNumberField()
       ],
-    );
+    ).withPad(padding: EdgeInsets.only(left:16,right:16));
   }
 
   Widget phoneNumberField() {
-
-    return TextField(
-      decoration: InputDecoration(
-        hintText: getTranslation(Strings.enter_phone_number),
-        hintStyle: TextStyles.inputFieldOff222,
-        labelText: getTranslation(Strings.PHONE_NUMBER),
-        labelStyle: TextStyles.caption222
+    return Container(
+      height:48,
+      width: MediaQuery.of(context).size.width-100,
+      child: TextField(
+        keyboardType: TextInputType.number,
+        maxLines: 1,
+        controller: billController.phoneNumberController,
+        decoration: InputDecoration(
+          hintText: getTranslation(Strings.enter_phone_number),
+          hintStyle: TextStyles.inputFieldOff222,
+          labelText: getTranslation(Strings.PHONE_NUMBER),
+          labelStyle: TextStyles.caption222
+        ),
       ),
-
     );
 //     return InternationalPhoneNumberInput(
 //       hintText: getTranslation(Strings.enter_phone_number),
@@ -167,27 +177,32 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
 
 
   Widget myNumberField() {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(right: 16),
-          child: Align(
-            alignment: Alignment.topRight,
-            child: Text(getTranslation(Strings.mynumber),
-              textAlign: TextAlign.center,
-              style: TextStyles.bUTTONSmallBlack222,
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(right: 16),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Text(getTranslation(Strings.mynumber),
+                textAlign: TextAlign.center,
+                style: TextStyles.bUTTONSmallBlack222,
+              ),
             ),
           ),
-        ),
-        Container(
-          height: 2,
-          //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
-          margin: EdgeInsets.only(right: 16),
-          decoration: BoxDecoration(
-            gradient: Gradients.primaryGradient,
+          Container(
+            height: 2,
+            width:60,
+            //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
+            margin: EdgeInsets.only(right: 16),
+            decoration: BoxDecoration(
+              gradient: Gradients.primaryGradient,
+              color: Colors.red
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -203,21 +218,20 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
       ),
     );
   }
-  Future sendBottomSheet() {
+  Future sendBottomSheet(BillDetailsData billDetailsData) {
     return showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return CommonPurchaseWidget();
+          return CommonPurchaseWidget(billDetailsData:billDetailsData);
         });
   }
 
 Widget getTopRow(String category) {
 
       switch(category){
-
       case "Paket Data": {
         return getPaketDataWidget();
       }

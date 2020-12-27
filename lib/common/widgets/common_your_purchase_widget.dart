@@ -3,22 +3,23 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
 
 
 class CommonPurchaseWidget extends StatefulWidget {
-  const CommonPurchaseWidget({ Key key,}) : super(key: key);
+  final BillDetailsData billDetailsData;
+  CommonPurchaseWidget({ Key key,this.billDetailsData}) : super(key: key);
 
   @override
   CommonPurchaseWidgetState createState() => CommonPurchaseWidgetState();
 }
 
 class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,6 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
                           color: AppColors.primaryBackground),
                       child:  Wrap(
                         children: <Widget>[
-
                           Row(
                             children: [
                               Expanded(child: TextWithBottomOverlay(titleStr: Strings.yourpurchase)),
@@ -78,9 +78,9 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
                             child: Column(
                                 children: [
                                   billDetailsText(),
-                                  priceThreeRows(Strings.price,"255"),
-                                  priceThreeRows(Strings.adminfee,"9665"),
-                                  priceThreeRows(Strings.servicefee,"1234"),
+                                  priceThreeRows(Strings.price,"${widget.billDetailsData.amount}"),
+                                  priceThreeRows(Strings.adminfee,"${widget.billDetailsData.totalAdmin}"),
+                                  priceThreeRows(Strings.servicefee,"${widget.billDetailsData.processingFee}"),
                                   dividerRow(),
                                   totalRow()
 
@@ -96,23 +96,75 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
         )
     );
   }
+  Widget getLabeledTextView(){
+    return Row(
+      children: [
+        Text("nominal",style: BaseStyles.purchaseLabelTextStyle),
+        Text("${widget.billDetailsData.amount}",style: TextStyles.subtitle1222)
+      ],
+    );
+  }
+  Widget getProductCodeTextTextView(){
+    return Row(
+      children: [
+        Text("Customer Id",style: BaseStyles.purchaseLabelTextStyle),
+        Text("${widget.billDetailsData.accountNumber}",style: TextStyles.subtitle1222)
+      ],
+    );
+  }
+  Widget getProductNameTextTextView(){
+    return Row(
+      children: [
+        Text("Name",style: BaseStyles.purchaseLabelTextStyle),
+        Text("${widget.billDetailsData.productName}",style: TextStyles.subtitle1222)
+      ],
+    );
+  }
+  getLabeledView(category){
+    switch(category) {
+        case "Pulsa":
+        case "Paket Data":
+        case "Internet dan TV Kabel":
+          return Column(
+            children: [
+              getLabeledTextView()
+            ],
+          );
+      case "BPJS":
+      case "BPJS":
+        return Column(
+          children: [
+            getProductCodeTextTextView(),
+            getProductNameTextTextView(),
+            getLabeledTextView()
+
+          ],
+        );
+
+    }
+
+  }
+
 
   Container getProductDetailWidget() {
     return Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.secondaryBackground,
-                              borderRadius: Radii.k8pxRadius
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              priceThreeRows(Strings.price,"255"),
-                              priceThreeRows(Strings.price,"255"),
-                              priceThreeRows(Strings.price,"255"),
-                            ],
-
-                          ),
-                        );
+      decoration: BoxDecoration(
+          color: AppColors.secondaryBackground,
+          borderRadius: Radii.k8pxRadius
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Image.asset(Assets.BJPS_ICON),
+              Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle)
+            ],
+          ),
+          getLabeledView(widget.billDetailsData.category),
+        ],
+      ),
+    );
   }
 
 
@@ -188,8 +240,6 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
 
  Widget totalRow() {
     return // Total
-
-
       Container(
         margin: EdgeInsets.only(top: 8,bottom: 8),
         child: Row(
@@ -201,7 +251,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
                 style:TextStyles.yourPurchaseBillsTotalTextStyle
             ),
             Text(
-                getTranslation(Strings.RP)+" "+"4252",
+                getTranslation(Strings.RP)+" "+"${widget.billDetailsData.amount}",
                 style:TextStyles.yourPurchaseBillsTotalTextStyle
             ),
 
