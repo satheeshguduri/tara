@@ -41,7 +41,7 @@
   "deposit_amount": "Deposit amount",
   "remarks_optional": "Remarks (optional)",
   "contact_name": "Contact name",
-  "phone_number": "Phone number",
+  "phone_number": "Phone Number",
   "rp": "Rp",
   "location_remarks_hint": "Enter your location remarks",
   "contact_name_hint": "Enter contact name",
@@ -367,6 +367,9 @@
   "mynumber": "MY NUMBER",
   "postpaid": "Postpaid",
   "featureTitle": "Feature Coming Soon",
-  "featureSubTitle": "This feature is currently under development. \nPlease check back later."
+  "featureSubTitle": "This feature is currently under development. \nPlease check back later.",
+  "customer_id": "Customer Id",
+  "account_number": "Account Number",
+  "token_number": "Token Number"
 
 }

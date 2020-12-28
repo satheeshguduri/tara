@@ -145,7 +145,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
             ],
           );
       case "BPJS":
-      case "BPJS":
+      case "default":
         return Column(
           children: [
             getProductNameTextTextView(),

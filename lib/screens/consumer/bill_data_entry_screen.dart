@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
-import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
 
-import 'common_bills_products_list.dart';
 
-
-class PacketDataMobileNumberEntryScreen extends StatefulWidget {
+class BillerDataEntryScreen extends StatefulWidget {
   final BillProductDataBean data;
 
-   PacketDataMobileNumberEntryScreen({ Key key, this.data }) : super(key: key);
+   BillerDataEntryScreen({ Key key, this.data }) : super(key: key);
 
   @override
-  PacketDataMobileNumberEntryScreenState createState() => PacketDataMobileNumberEntryScreenState();
+  BillerDataEntryScreenState createState() => BillerDataEntryScreenState();
 }
 
-class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileNumberEntryScreen> {
+class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
 
   //final TextEditingController controller = TextEditingController();
  // PhoneNumber number = PhoneNumber(isoCode: 'ID');
@@ -110,11 +106,14 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
   }
 
   Widget hintTitle({String title = Strings.PHONE_NUMBER}) {
+
+
+    String label = getTranslation(title) + " / " + getTranslation(Strings.account_number);
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(top: 19, left: 16, right: 16),
       child: Text(
-          getTranslation(title),
+          label,
           style: TextStyles.caption222
       ),
     );
