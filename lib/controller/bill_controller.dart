@@ -10,6 +10,8 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/common/constants/colors.dart';
+import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/biller_helper.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/models/bills/bill_product_request.dart';
@@ -28,6 +30,10 @@ class BillController extends GetxController{
   var inputField = "".obs;
   var selectedProduct = "".obs;
   var shouldShowBottomSheet = false.obs;
+  var btnColor = AppColors.billerPaymentNextButtonColor.obs;
+  var textStyle = TextStyles.bUTTONGrey3222.obs;
+  var clickable = false.obs;
+
   var productDetail = BillDetailsData();
 
   TextEditingController phoneNumberController = TextEditingController();

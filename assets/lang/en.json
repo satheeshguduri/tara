@@ -369,6 +369,7 @@
   "featureTitle": "Feature Coming Soon",
   "featureSubTitle": "This feature is currently under development. \nPlease check back later.",
   "customer_id": "Customer Id",
-  "account_number": "Account Id"
+  "account_number": "Account Id",
+  "token_number": "Token Number"
 
 }

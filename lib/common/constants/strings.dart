@@ -397,6 +397,9 @@ class Strings{
   static const feature_sub_title = "featureSubTitle";
   static const customer_id = "customer_id";
   static const account_number = "account_number";
+  static const token_number = "token_number";
+
+
 
 
 }

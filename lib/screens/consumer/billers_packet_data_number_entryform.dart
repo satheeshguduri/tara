@@ -29,6 +29,7 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
 
   //final TextEditingController controller = TextEditingController();
  // PhoneNumber number = PhoneNumber(isoCode: 'ID');
+
   BillController billController = Get.find<BillController>();
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,6 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
 
   Widget getContainer() {
     return Container(
-      // color: Colors.pink,
       child: Column(
           children: [
             Expanded(child:getTopRow(widget.data.category)),
@@ -90,18 +90,23 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
       margin: EdgeInsets.only(bottom: 16, left: 16,right: 16),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: AppColors.billerPaymentNextButtonColor),
+          color: billController.btnColor.value),
       alignment: Alignment.center,
       child: Text(
         getTranslation(Strings.next),
         textAlign: TextAlign.center,
-        style: TextStyles.bUTTONGrey3222,
+        style: billController.textStyle.value,
       ),
     ).onTap(onPressed: () async{
-      Get.find<BillController>().check(widget.data,(){
+        if(billController.clickable.value){
+        Get.find<BillController>().check(widget.data,(){
         sendBottomSheet(Get.find<BillController>().productDetail);
-      });
-    });
+          }
+         );
+       }
+     }
+
+    );
   }
 
   Widget hintTitle({String title = Strings.PHONE_NUMBER}) {
@@ -122,9 +127,18 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
       children: [
        // phoneNumberField(),
         Expanded(
-          child: TextFieldWidget(hint:"Phone Number",inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
-            setState(() {
-            });
+          child: TextFieldWidget(hint:getTranslation(Strings.enter_phone_number),
+              inputType: TextInputType.number,
+              textController: billController.phoneNumberController,
+              isIcon: false,
+              focusNode: FocusNode(),
+              onChanged:(value){
+                 if(value.length>0 && value.length>10){
+                   showIfTrue();
+                 }else{
+                   showIfFalse();
+                 }
+
           }),
         ),
         myNumberField()
@@ -132,48 +146,48 @@ class PacketDataMobileNumberEntryScreenState extends BaseState<PacketDataMobileN
     ).withPad(padding: EdgeInsets.only(left:16,right:16));
   }
 
-  Widget phoneNumberField() {
-    return Container(
-      height:48,
-      width: MediaQuery.of(context).size.width-100,
-      child: TextField(
-        keyboardType: TextInputType.number,
-        maxLines: 1,
-        controller: billController.phoneNumberController,
-        decoration: InputDecoration(
-          hintText: getTranslation(Strings.enter_phone_number),
-          hintStyle: TextStyles.inputFieldOff222,
-          labelText: getTranslation(Strings.PHONE_NUMBER),
-          labelStyle: TextStyles.caption222
-        ),
-      ),
-    );
-//     return InternationalPhoneNumberInput(
-//       hintText: getTranslation(Strings.enter_phone_number),
-// //      autoValidate:true,
-//       onInputChanged: (PhoneNumber number) {
-//         print(number.phoneNumber);
-//         // controller.errorMessage.value = "";
-//         // controller.mobileNumber.value = number.phoneNumber;
-//       },
-//       onInputValidated: (bool value) {
-//         print(value);
-//       },
-//       selectorConfig: SelectorConfig(
-//         selectorType: PhoneInputSelectorType.DROPDOWN,
-//       ),
-//       ignoreBlank: false,
-//       selectorTextStyle: TextStyle(color: Colors.black),
-//        initialValue: number,
-//       // textFieldController: controller.mobileNumberTextEditController,
-//       textFieldController: controller,
-//       inputBorder: InputBorder.none,
-//       inputDecoration: InputDecoration(
-//         border: InputBorder.none,
-//         //hintText: getTranslation(Strings.phone_number_2),
+//   Widget phoneNumberField() {
+//     return Container(
+//       height:48,
+//       width: MediaQuery.of(context).size.width-100,
+//       child: TextField(
+//         keyboardType: TextInputType.number,
+//         maxLines: 1,
+//         controller: billController.phoneNumberController,
+//         decoration: InputDecoration(
+//           hintText: getTranslation(Strings.enter_phone_number),
+//           hintStyle: TextStyles.inputFieldOff222,
+//           labelText: getTranslation(Strings.PHONE_NUMBER),
+//           labelStyle: TextStyles.caption222
+//         ),
 //       ),
 //     );
-  }
+// //     return InternationalPhoneNumberInput(
+// //       hintText: getTranslation(Strings.enter_phone_number),
+// // //      autoValidate:true,
+// //       onInputChanged: (PhoneNumber number) {
+// //         print(number.phoneNumber);
+// //         // controller.errorMessage.value = "";
+// //         // controller.mobileNumber.value = number.phoneNumber;
+// //       },
+// //       onInputValidated: (bool value) {
+// //         print(value);
+// //       },
+// //       selectorConfig: SelectorConfig(
+// //         selectorType: PhoneInputSelectorType.DROPDOWN,
+// //       ),
+// //       ignoreBlank: false,
+// //       selectorTextStyle: TextStyle(color: Colors.black),
+// //        initialValue: number,
+// //       // textFieldController: controller.mobileNumberTextEditController,
+// //       textFieldController: controller,
+// //       inputBorder: InputBorder.none,
+// //       inputDecoration: InputDecoration(
+// //         border: InputBorder.none,
+// //         //hintText: getTranslation(Strings.phone_number_2),
+// //       ),
+// //     );
+//   }
 
 
   Widget myNumberField() {
@@ -331,8 +345,11 @@ getCustomerIdWidget(){
       children: [
         hintTitle(title:Strings.customer_id),
         TextFieldWidget(hint:getTranslation(Strings.customer_id),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
-          setState(() {
-          });
+          if(value.length>0 && value.length>10){
+            showIfTrue();
+          }else{
+            showIfFalse();
+          };
         }).withPad(padding: EdgeInsets.only(left:16,right:16)),
         getTheDivider()
       ],
@@ -345,8 +362,11 @@ getCustomerIdWidget(){
       children: [
         hintTitle(title:Strings.account_number),
         TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
-          setState(() {
-          });
+          if(value.length>0 && value.length>10){
+            showIfTrue();
+          }else{
+            showIfFalse();
+          }
         }).withPad(padding: EdgeInsets.only(left:16,right:16)),
         getTheDivider()
       ],
@@ -359,8 +379,11 @@ getCustomerIdWidget(){
       children: [
         hintTitle(title:Strings.account_number),
         TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
-          setState(() {
-          });
+          if(value.length>0 && value.length>10){
+            showIfTrue();
+          }else{
+            showIfFalse();
+          }
         }).withPad(padding: EdgeInsets.only(left:16,right:16)),
         getTheDivider()
       ],
@@ -372,9 +395,16 @@ getCustomerIdWidget(){
     return Column(
       children: [
         hintTitle(title:Strings.account_number),
-        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
-          setState(() {
-          });
+        TextFieldWidget(hint:getTranslation(Strings.account_number),
+            inputType: TextInputType.number,
+            textController: billController.phoneNumberController,
+            isIcon: false,focusNode: FocusNode(),
+            onChanged:(value){
+              if(value.length>0 && value.length>10){
+                showIfTrue();
+              }else{
+                showIfFalse();
+              }
         }).withPad(padding: EdgeInsets.only(left:16,right:16)),
         getTheDivider()
       ],
@@ -386,9 +416,18 @@ getCustomerIdWidget(){
     return Column(
       children: [
         hintTitle(title:Strings.account_number),
-        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
-          setState(() {
-          });
+        TextFieldWidget(hint:getTranslation(Strings.account_number),
+            inputType: TextInputType.number,
+            textController: billController.phoneNumberController,
+            isIcon: false,
+            focusNode: FocusNode(),
+            onChanged:(value){
+              if(value.length>0 && value.length>10){
+                showIfTrue();
+              }else{
+                showIfFalse();
+              }
+
         }).withPad(padding: EdgeInsets.only(left:16,right:16)),
         getTheDivider()
       ],
@@ -406,6 +445,36 @@ getCustomerIdWidget(){
 
   }
 
+  Widget PLNTokenRow() {
+    return Column(
+      children: [
+        hintTitle(title:Strings.token_number),
+        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+          if(value.length>0 && value.length>10){
+            showIfTrue();
+          }else{
+            showIfFalse();
+          }
+        }).withPad(padding: EdgeInsets.only(left:16,right:16)),
+        getTheDivider()
+      ],
+    );
+
+  }
+
+
+
+  void showIfTrue() {
+    billController.clickable.value = true;
+    billController.btnColor.value = AppColors.bottom_border_color;
+    billController.textStyle.value = BaseStyles.addNewBankAccount;
+  }
+
+  void showIfFalse() {
+    billController.clickable.value = false;
+    billController.btnColor.value =  AppColors.billerPaymentNextButtonColor;
+    billController.textStyle.value = TextStyles.bUTTONGrey3222;
+  }
 
 
 
