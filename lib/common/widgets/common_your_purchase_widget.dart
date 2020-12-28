@@ -101,7 +101,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Nominal",style: BaseStyles.purchaseLabelTextStyle),
-        Text("${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
+        Text("Rp ${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
       ],
     ).withPad(padding: EdgeInsets.all(5));
   }
@@ -132,7 +132,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
       ],
     ).withPad(padding: EdgeInsets.all(5));;
   }
-  getLabeledView(category){
+  Widget getLabeledView(category){
     switch(category) {
         case "Pulsa":
         case "Paket Data":
@@ -144,8 +144,8 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
               getNominalTextView()
             ],
           );
-      case "BPJS":
-      case "default":
+          break;
+        default:
         return Column(
           children: [
             getProductNameTextTextView(),
@@ -154,6 +154,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
 
           ],
         );
+        break;
 
     }
 
@@ -175,7 +176,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
               Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle)
             ],
           ).withPad(padding: EdgeInsets.only(top:10,bottom:10,left:8,right:8)),
-          getLabeledView(widget.billDetailsData.category),
+          getLabeledView(widget.billDetailsData.category).withPad(padding: EdgeInsets.all(8)),
         ],
       ),
     );
