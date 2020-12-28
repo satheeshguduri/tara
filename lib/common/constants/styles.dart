@@ -935,6 +935,13 @@ class TextStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
+  static const plnTokenContainerTextStyle =  TextStyle(
+      color:  AppColors.accentText,
+      fontWeight: FontWeight.w500,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
 
 
 }

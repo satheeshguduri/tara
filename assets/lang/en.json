@@ -370,6 +370,8 @@
   "featureSubTitle": "This feature is currently under development. \nPlease check back later.",
   "customer_id": "Customer Id",
   "account_number": "Account Number",
-  "token_number": "Token Number"
+  "token_number": "Token Number",
+  "token_number_hint": "Enter Your Token Number",
+  "chooseNominal" : "Choose Nominal"
 
 }
