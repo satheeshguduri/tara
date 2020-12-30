@@ -19,7 +19,7 @@ class ErrorStateInfoWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            this.image,
+            this.image??Container(),
             Text(
                title,
                 style: BaseStyles.bottomSheetTitleStyle,
