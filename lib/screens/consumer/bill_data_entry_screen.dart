@@ -455,7 +455,25 @@ getCustomerIdWidget(){
             showIfFalse();
           }
         }).withPad(padding: EdgeInsets.only(left:16,right:16)),
-        getTheDivider()
+        getTheDivider(),
+        hintTitle(title:Strings.chooseNominal),
+        Container(
+          margin: EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              getNominalContainer(),getNominalContainer(),getNominalContainer()
+            ],),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 16,right: 16),
+
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              getNominalContainer(),getNominalContainer(),getNominalContainer()
+            ],),
+        )
       ],
     );
 
@@ -473,6 +491,31 @@ getCustomerIdWidget(){
     billController.clickable.value = false;
     billController.btnColor.value =  AppColors.billerPaymentNextButtonColor;
     billController.textStyle.value = TextStyles.bUTTONGrey3222;
+  }
+
+  Widget getNominalContainer() {
+
+    return Container(
+      width: 101,
+      height: 32,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+              Radius.circular(8)
+          ),
+          border: Border.all(
+              color: AppColors.accentText,
+              width: 1
+          )
+      ),
+      child:
+      Text(
+          "Rp 20.000",
+          style: TextStyles.plnTokenContainerTextStyle,
+          textAlign: TextAlign.center
+      ),
+    );
+
   }
 
 

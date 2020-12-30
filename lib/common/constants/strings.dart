@@ -398,7 +398,8 @@ class Strings{
   static const customer_id = "customer_id";
   static const account_number = "account_number";
   static const token_number = "token_number";
-
+  static const token_number_hint = "token_number_hint";
+  static const chooseNominal = "chooseNominal";
 
 
 
