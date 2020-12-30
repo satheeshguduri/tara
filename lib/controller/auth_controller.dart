@@ -96,8 +96,10 @@ class AuthController extends GetxController {
     //validate empty state here for the text fields
     if (isValidationSuccessInSignIn()) {
       showProgress.value = true;
+      var customerProfile = CustomerProfile(customerType: Utils().getCustomerType());
+      print(customerProfile.toJson().toString());
       AuthRequest request = AuthRequest(
-          mobileNumber: mobileNumber.value, password: confirmPwd.value);
+          mobileNumber: mobileNumber.value, password: confirmPwd.value,customerProfile: customerProfile);
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().login(request);
       showProgress.value = false;
