@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/custom_button.dart';
 
@@ -8,8 +9,9 @@ class ErrorStateInfoWidget extends StatelessWidget {
   final String desc;
   final String buttonText;
   final Function onTap;
+  final bool isDefault;
 
-  ErrorStateInfoWidget({this.image,this.title, this.desc,this.buttonText,this.onTap});
+  ErrorStateInfoWidget({this.image,this.title, this.desc,this.buttonText,this.onTap,this.isDefault = true});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,8 @@ class ErrorStateInfoWidget extends StatelessWidget {
                 style: BaseStyles.errorInfoSubtitleTextStyle,
                 textAlign: TextAlign.center
             ).withPad(padding: EdgeInsets.only(top:16)),
-            Visibility(visible:buttonText?.isNotEmpty??false,child:CustomButton(title:buttonText??"OK",onPressed: onTap).withPad(padding: EdgeInsets.only(top:16)))
+            Visibility(visible:isDefault,child: CustomButton(title:buttonText??"OK",onPressed: onTap??Get.back).withPad(padding: EdgeInsets.only(top:16))),
+            //Visibility(visible:buttonText?.isNotEmpty??false,child:CustomButton(title:buttonText??"OK",onPressed: onTap).withPad(padding: EdgeInsets.only(top:16)))
 
           ],
         ),
