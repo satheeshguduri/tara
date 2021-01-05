@@ -5,8 +5,8 @@ import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as order;
-import 'package:tara_app/services/order_rest_client.dart';
-import 'package:tara_app/services/rest_client.dart';
+import 'package:tara_app/services/rest/order_rest_client.dart';
+import 'package:tara_app/services/rest/rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 

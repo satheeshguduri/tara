@@ -12,7 +12,7 @@ import 'package:tara_app/models/order_management/orders/order.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
-import 'package:tara_app/services/api.dart';
+import 'package:tara_app/services/config/api.dart';
 
 part 'order_rest_client.g.dart';
 

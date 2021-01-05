@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:tara_app/main.dart';
 import 'package:tara_app/main_bindings.dart';
 import 'package:tara_app/screens/splash/splash_screen.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';

@@ -18,7 +18,7 @@ import 'package:tara_app/models/bills/bill_product_request.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/repositories/bill_repository.dart';
-import 'package:tara_app/services/biller_rest_client.dart';
+import 'package:tara_app/services/rest/biller_rest_client.dart';
 import 'package:tara_app/services/error/failure.dart';
 
 import '../injector.dart';

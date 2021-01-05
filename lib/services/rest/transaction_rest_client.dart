@@ -14,7 +14,7 @@ import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
 import 'package:tara_app/models/transactions/transaction_model.dart';
-import 'package:tara_app/services/api.dart';
+import 'package:tara_app/services/config/api.dart';
 
 part 'transaction_rest_client.g.dart';
 

@@ -9,7 +9,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:tara_app/models/chat/text_message.dart';
 import 'package:tara_app/repositories/chat_repository.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
-import 'package:tara_app/services/firebase_remote_service.dart';
+import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as order;
 

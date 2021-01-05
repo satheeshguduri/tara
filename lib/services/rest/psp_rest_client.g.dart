@@ -1,0 +1,263 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'psp_rest_client.dart';
+
+// **************************************************************************
+// RetrofitGenerator
+// **************************************************************************
+
+class _PSPRestClient implements PSPRestClient {
+  _PSPRestClient(this._dio, {this.baseUrl}) {
+    ArgumentError.checkNotNull(_dio, '_dio');
+    baseUrl ??= 'https://54.235.233.48:30443/';
+  }
+
+  final Dio _dio;
+
+  String baseUrl;
+
+  @override
+  Future<String> getAppToken(ki, request) async {
+    ArgumentError.checkNotNull(ki, 'ki');
+    ArgumentError.checkNotNull(request, 'request');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'ki': ki};
+    final _data = request;
+    final _result = await _dio.request<String>(
+        'psp-umps-adaptor/umps-login/app-login',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{r'Content-Type': 'text/plain'},
+            extra: _extra,
+            contentType: 'text/plain',
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<TokenResponse> getPrivateAccessToken(commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/issue-private-access-token',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TokenResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<RegisterResponse> register(commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/register',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = RegisterResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TrackRegistrationResponse> trackRegistration(
+      commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/track-registration',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TrackRegistrationResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<CustomerProfileDetailsResponse> getCustomerProfileDetails(
+      commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/customer-profile-details',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CustomerProfileDetailsResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<List<BankDetailsBean>> getBanksList(commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<List<dynamic>>(
+        'psp-umps-adaptor/umps-app/fetch-ecosystem-banklist',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => BankDetailsBean.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<TrackAccountDetailsResponse> trackAccountDetailsRequest(
+      commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/track-account-details-request-api',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TrackAccountDetailsResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TransactionResponse> initiatePreTransactionRequest(
+      preTransactionRequest) async {
+    ArgumentError.checkNotNull(preTransactionRequest, 'preTransactionRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(preTransactionRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/pre-transaction-request',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TransactionResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TransactionResponse> initiateTransactionRequest(
+      transactionRequest) async {
+    ArgumentError.checkNotNull(transactionRequest, 'transactionRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(transactionRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/initiate-transaction-request',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TransactionResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TransactionResponse> trackTransactionRequest(
+      transactionRequest) async {
+    ArgumentError.checkNotNull(transactionRequest, 'transactionRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(transactionRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/track-transaction-request',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TransactionResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TransactionResponse> getTxnHistory(transactionRequest) async {
+    ArgumentError.checkNotNull(transactionRequest, 'transactionRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(transactionRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/txn-history-details',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TransactionResponse.fromJson(_result.data);
+    return value;
+  }
+}

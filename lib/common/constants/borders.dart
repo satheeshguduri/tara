@@ -5,7 +5,10 @@
 *  Copyright © 2020 tara.id. All rights reserved.
 */
 
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'color_const.dart';
 
 
 class Borders {
@@ -19,4 +22,7 @@ class Borders {
     width: 1,
     style: BorderStyle.solid,
   );
+
+  static const textInputBorder = const UnderlineInputBorder(borderSide: const BorderSide(color: ColorConst.input_field_line_off_2_2_2));
+  static const errorTextInputBorder = const UnderlineInputBorder(borderSide: const BorderSide(color: Colors.red));
 }

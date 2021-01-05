@@ -47,7 +47,7 @@ import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
-import 'package:tara_app/services/firebase_remote_service.dart';
+import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
 import 'package:tara_app/common/constants/values.dart';
 

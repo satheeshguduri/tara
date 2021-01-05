@@ -6,7 +6,7 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/chat/payment_success.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
-import 'package:tara_app/services/firebase_remote_service.dart';
+import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 
 import '../injector.dart';

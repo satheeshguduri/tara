@@ -20,12 +20,12 @@ import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
 
-import 'api.dart';
+import '../config/api.dart';
 
-part 'rest_client.g.dart';
+  part 'rest_client.g.dart';
 
-@RestApi(baseUrl: API.baseUrl)
-abstract class RestClient {
+  @RestApi(baseUrl: API.baseUrl)
+  abstract class RestClient {
 
   factory RestClient(Dio dio,{String baseUrl}) = _RestClient;
 

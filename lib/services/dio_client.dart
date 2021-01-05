@@ -6,15 +6,18 @@
 */
 
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter/services.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:tara_app/services/biller_rest_client.dart';
-import 'package:tara_app/services/order_rest_client.dart';
-import 'package:tara_app/services/rest_client.dart';
-import 'package:tara_app/services/transaction_rest_client.dart';
-
-import 'api.dart';
+import 'package:tara_app/services/config/psp_config.dart';
+import 'package:tara_app/services/rest/biller_rest_client.dart';
+import 'package:tara_app/services/rest/order_rest_client.dart';
+import 'package:tara_app/services/rest/rest_client.dart';
+import 'package:tara_app/services/rest/transaction_rest_client.dart';
+import 'package:tara_app/services/rest/psp_rest_client.dart';
+import 'package:tara_app/services/rest/umps_core_rest_client.dart';
 
 class APIHelper{
   Dio dio;
@@ -28,17 +31,34 @@ class APIHelper{
       compact: false,
     ));
   }
-  RestClient getDioClient(){
-    return RestClient(dio);
-  }
-  OrderRestClient getDioOrderClient(){
-    return OrderRestClient(dio);
-  }
-  TransactionRestClient getDioTransactionClient(){
-    return TransactionRestClient(dio);
-  }
+  RestClient getDioClient() => RestClient(dio);
+  OrderRestClient getDioOrderClient() => OrderRestClient(dio);
+  TransactionRestClient getDioTransactionClient() => TransactionRestClient(dio);
+  BillerRestClient getDioBillerClient() => BillerRestClient(dio);
 
-  BillerRestClient getDioBillerClient(){
-    return BillerRestClient(dio);
+  Future<PSPRestClient> getSecurePSPRestClient() async{
+    Dio dio = await getSecureDio();
+    return PSPRestClient(dio,baseUrl: PSPConfig.PUBLIC_IP_PSP);
+  }
+  Future<UMPSCoreRestClient> getSecureUMPSCoreRestClient() async{
+    Dio dio = await getSecureDio();
+    return UMPSCoreRestClient(dio,baseUrl: PSPConfig.PUBLIC_IP_UMPS_CORE);
+  }
+  Future<Dio> getSecureDio() async {
+    dio = new Dio();
+    SecurityContext sc = new SecurityContext(withTrustedRoots: true);
+    String data = await rootBundle.loadString('assets/raw/common_crt_bkp.pem');
+    List bytes = utf8.encode(data);
+    sc.setTrustedCertificatesBytes(bytes);
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      HttpClient httpClient = new HttpClient(context: sc);
+      httpClient.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+      return httpClient;
+    };
+    return dio;
   }
 }

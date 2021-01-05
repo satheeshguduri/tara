@@ -14,7 +14,7 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
-import 'package:tara_app/services/rest_client.dart';
+import 'package:tara_app/services/rest/rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/common/constants/values.dart';
 

@@ -9,7 +9,7 @@ import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/models/transactions/transaction_model.dart';
 import 'package:tara_app/services/error/failure.dart';
-import 'package:tara_app/services/transaction_rest_client.dart';
+import 'package:tara_app/services/rest/transaction_rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/common/constants/values.dart';
@@ -34,6 +34,7 @@ class TransactionRepositoryImpl implements TransactionRepository{
   @override
   Future<Either<Failure,BaseResponse>> sendMoney(TransactionModel transactionModel) async {
     AuthResponse user = await userLocalDataSource.getUser();
+
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.sendMoney(token, transactionModel);

@@ -10,16 +10,16 @@ import 'package:tara_app/models/bills/bill_product_request.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:darq/darq.dart';
 import 'package:tara_app/repositories/bill_repository.dart';
-import 'package:tara_app/services/biller_rest_client.dart';
+import 'package:tara_app/services/rest/biller_rest_client.dart';
 
-main() async
-{
-
-  var data = await BillerHelper().getData();
-  var categories = BillerHelper().getCategories(data);
-  var billers = BillerHelper().getBillersByCategory(data,"Paket Data"); //pass the category id to get the billers
-  var products = BillerHelper().getProductsByBiller(data,"Paket Data","Telkomsel");//pass the category id and biller id to get the producsts
-}
+// main() async
+// {
+//
+//   var data = await BillerHelper().getData();
+//   var categories = BillerHelper().getCategories(data);
+//   var billers = BillerHelper().getBillersByCategory(data,"Paket Data"); //pass the category id to get the billers
+//   var products = BillerHelper().getProductsByBiller(data,"Paket Data","Telkomsel");//pass the category id and biller id to get the producsts
+// }
 class BillerHelper{
   List<BillProductDataBean> productsList;
 

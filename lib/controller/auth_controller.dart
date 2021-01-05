@@ -11,7 +11,9 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/strings.dart';
+import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/helpers/helpers.dart';
+import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/flavors.dart';
@@ -103,7 +105,7 @@ class AuthController extends GetxController {
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().login(request);
       showProgress.value = false;
-      response.fold((l) => Get.defaultDialog(content: Text(l.message)),
+      response.fold((l) => GetHelper().getDialog(content: ErrorStateInfoWidget(desc: l.message,)),
           (r) => {
             Get.offAll(Utils().getLandingScreen())
           });
