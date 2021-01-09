@@ -119,6 +119,8 @@ dependencies:
   flutter_sms: 2.1.1
   flutter_udid: ^1.0.1
   steel_crypt: ^2.2.2+1
+  device_info: ^1.0.0
+  wifi: ^0.1.5
 #  tuple: ^1.0.3
 #  flutter_aes_ecb_pkcs5: ^0.1.1
 #  encryptions: ^0.0.6
