@@ -1,3 +1,4 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -23,12 +24,13 @@ import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
 import '../../injector.dart';
+import 'my_account/otp_verification_screen.dart';
 
 class BankTransferNewContact extends StatefulWidget {
 
   final String title;
   BankAccountContactInfo bankAccInfo;
-  ContactInfo taraContact;
+  Contact taraContact;
   final bool selfTransfer;
 
   BankTransferNewContact({Key key, this.title,
@@ -41,7 +43,6 @@ class BankTransferNewContact extends StatefulWidget {
 class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   TextEditingController txtCtrlBankName = TextEditingController();
   TextEditingController txtCtrlBankAcc = TextEditingController();
-  TextEditingController txtCtrlTransferAmt = TextEditingController();
   TextEditingController txtCtrlTransType = TextEditingController();
   TextEditingController txtCtrlAccHolderName = TextEditingController();
 
@@ -57,6 +58,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   List<String> arrFrequency = [Strings.DAILY, Strings.MONTHLY, Strings.YEARLY];
 
   final TextEditingController _typeAheadController = TextEditingController();
+  TransactionController controller = Get.find();
+
 
   String frequencyType;
   String transType;
@@ -68,7 +71,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   bool isBankAccVerFailed = false;
   BankAccountContactInfo contactInfo;
 
-  ContactInfo taraContact;
+  Contact taraContact;
 
   @override
   BuildContext getContext() {
@@ -123,7 +126,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                         Container(
                           margin: EdgeInsets.only(top: 4),
                           child: Text(
-                            taraContact.name,
+                            contactNameValidation(taraContact.displayName),
                             textAlign: TextAlign.left,
                             style: BaseStyles.transactionItemPersonNameTextStyle,
                           ),
@@ -137,7 +140,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                       Container(
                         margin: EdgeInsets.only(top: 4),
                         child: Text(
-                          taraContact.phoneNumber,
+                          phoneNumberValidation(taraContact),
                           textAlign: TextAlign.left,
                           style: BaseStyles.transactionItemDateTextStyle,
                         ),
@@ -325,7 +328,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Obx(() => SafeArea(
-        child: getRootContainer().withProgressIndicator(showIndicator: Get.find<TransactionController>().showProgress.value)));
+        child: getRootContainer().withProgressIndicator(showIndicator: controller.showProgress.value)));
   }
 
   _buildAppBar(BuildContext context) {
@@ -333,8 +336,9 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       elevation: 1.0,
       centerTitle: false,
       leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () =>
+          //icon:Icon(Icons.arrow_back),
+            icon: getSvgImage(imagePath: Assets.assets_icon_b_back_arrow),
+    onPressed: () =>
               Navigator.pop(context, false) //Navigator.pop(context, false),
           ),
       title: Text("Transfer",
@@ -546,7 +550,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     return InkWell(
       onTap: () {
 
-        enterMPINBottomSheet();
+       // enterMPINBottomSheet();
+        goToOTPWidget();
       },
       child: Container(
         height: 48,
@@ -688,7 +693,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
         }else{
           pop();
           CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;
-          Get.find<TransactionController>().sendMoney(Utils().getCustomerProfile(), fromUser, double.parse(txtCtrlTransferAmt.text), pop);
+          Get.find<TransactionController>().sendMoney(Utils().getCustomerProfile(), fromUser, double.parse(controller.txtCtrlTransferAmt.text), pop);
          /* Navigator.pop(context);
           push(ConversationPage(arrChats: ["chat_money_transfer_success"],custInfo: Utils().getCustomerProfile())); //YAKUB Dummy Profile*/
 
@@ -747,8 +752,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                             textFormFieldContainer(
                                 getTranslation(Strings.TRANSFER_AMT),
                                 getTranslation(Strings.TRANSFER_AMT_HINT),
-                                TextInputType.text,
-                                txtCtrlTransferAmt),
+                                TextInputType.number,
+                                controller.txtCtrlTransferAmt),
                             Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -838,9 +843,27 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
           )),
     );
   }
+  String phoneNumberValidation(Contact contactInfo) {
+    try{
+      return contactInfo.phones.elementAt(0).value;
+    }catch(Exception){
+      return " ";
+    }
+  }
+  String contactNameValidation(String displayName) {
+    if(displayName!=null)
+      return displayName;
+    return "";
+  }
+
+  void goToOTPWidget() {
+    controller.getOtpForTransfer();
+
+  }
 }
 
 class PaymentSource {
   String image;
   String bankName;
 }
+

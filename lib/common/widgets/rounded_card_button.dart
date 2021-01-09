@@ -49,10 +49,11 @@ class _RoundedCardButtonState extends State<RoundedCardButton> {
                 child: Container(
                   height: 33,
                   margin: EdgeInsets.symmetric(horizontal: 12),
-                  child: Image.asset(
-                    widget.image,
-                    fit: BoxFit.none,
-                  ),
+                  // child: Image.asset(
+                  //   widget.image,
+                  //   fit: BoxFit.none,
+                  // ),
+                  child:  Image.network(imageUrlValidation(widget.image))
                 ),
               ),
             ),
@@ -72,6 +73,16 @@ class _RoundedCardButtonState extends State<RoundedCardButton> {
       ).onTap(onPressed: (){
         widget.onPressed();
     });
+
+  }
+
+  String imageUrlValidation(String imageUrl) {  /// TODO
+    if(imageUrl!=null && imageUrl.isNotEmpty){
+          return imageUrl;
+    }else{
+          return "https://picsum.photos/250?image=9";
+    }
+
 
   }
 }

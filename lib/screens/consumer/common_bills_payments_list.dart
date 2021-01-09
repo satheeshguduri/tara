@@ -12,7 +12,8 @@ import '../../common/constants/values.dart';
 
 class CommonBillsPaymentListView extends StatefulWidget {
   final List<BillProductDataBean> data;
-  CommonBillsPaymentListView({Key key,this.data}) : super(key: key);
+  final bool pulsaAndPaketData;
+  CommonBillsPaymentListView({Key key,this.data,this.pulsaAndPaketData}) : super(key: key);
 
   @override
   CommonBillsPaymentListViewState createState() => CommonBillsPaymentListViewState();
@@ -27,26 +28,8 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
     return Scaffold(
       appBar: getAppBar(),
       body: SafeArea(
-          child: ListView.builder(
-            itemCount: widget.data.length,
-            itemBuilder: (context,index){
-              return Column(
-                children: [
-                  ListTile(
-                    onTap: ()async{
-                      List<BillProductDataBean> data = controller.getProducts(widget.data[index]);
-                      Get.to(CommonBillsProductsListView(data:data));
-                    },
-                    leading: Image.asset("assets/images/avatar-11.png",height: 32,width: 32),
-                    title: Text(widget.data[index].biller),
-                    trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[300],size: 24,),
-                  ),
-                  Divider()
-                ],
-              );
-            },
-
-          )
+        // child:pulsaPaketDataTabsWithListViews(),
+          child: pulsaPaketDataOrCommonListView(widget.data),
 
       ),
     );
@@ -61,14 +44,10 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
       centerTitle: false,
       automaticallyImplyLeading: false, // hides leading widget
       leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+        //  icon: Icon(Icons.arrow_back),
+          icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
           onPressed: () {
-            // // Navigator.pop(context, false);
-            // if (widget.isFromHomeTopBar) {
-            //   Get.offAll(Utils().getLandingScreen());
-            // } else {
             pop();
-            // }
           }),
       title: Container(
         alignment: Alignment.centerLeft,
@@ -81,6 +60,31 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
       ),
     );
 
+  }
+
+ Widget pulsaPaketDataOrCommonListView(List<BillProductDataBean> data) {
+
+    return
+      ListView.builder(
+      itemCount: widget.data.length,
+      itemBuilder: (context,index){
+        return Column(
+          children: [
+            ListTile(
+              onTap: ()async{
+                List<BillProductDataBean> data = controller.getProducts(widget.data[index]);
+                Get.to(CommonBillsProductsListView(data:data));
+              },
+              leading: Image.asset("assets/images/avatar-11.png",height: 32,width: 32),
+              title: Text(widget.data[index].biller),
+              trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[300],size: 24,),
+            ),
+            Divider()
+          ],
+        );
+      },
+
+    );
   }
 
 }

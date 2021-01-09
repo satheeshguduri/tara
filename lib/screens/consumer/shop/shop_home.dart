@@ -109,7 +109,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
             Row(
               children: <Widget>[
                 IconButton(
-                    icon: Icon(Icons.arrow_back),
+                   // icon: Icon(Icons.arrow_back),
+                    icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
                     onPressed: () => Navigator.pop(
                         context, false) //Navigator.pop(context, false),
                     ),
@@ -122,10 +123,11 @@ class _ShopHomeState extends BaseState<ShopHome> {
                       children: <Widget>[
                         Text("Jl Kedoya Barat No. 20",
                             style: BaseStyles.cannotFindTextStyle),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                        )
+                        // Icon(
+                        //   Icons.arrow_forward_ios,
+                        //   size: 16,
+                        // )
+                        getSvgImage(imagePath: Assets.assets_icon_a_arrow_right,width: 24.0,height:24.0),
                       ],
                     ),
                   ],
@@ -135,13 +137,17 @@ class _ShopHomeState extends BaseState<ShopHome> {
             Row(
               children: [
                 IconButton(
-                    icon: Icon(Icons.favorite_border), onPressed: () => {}),
+                    //icon: Icon(Icons.favorite_border),
+                    icon:getSvgImage(imagePath: Assets.assets_icon_f_favorite,width: 24.0,height:24.0),
+                    onPressed: () => {}),
                 Container(
                   child: Stack(
                     alignment: Alignment.centerRight,
                     children: [
                       IconButton(
-                          icon: Icon(Icons.shopping_cart), onPressed: () => {}),
+                       //   icon: Icon(Icons.shopping_cart),
+                          icon:getSvgImage(imagePath: Assets.assets_icon_c_cart,width: 24.0,height:24.0,color: AppColors.header_top_bar_color),
+                          onPressed: () => {}),
                       Positioned(
                         top: 8,
                         right: 8,
@@ -193,7 +199,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
               width: 25,
               height: 25,
               margin: EdgeInsets.only(left: 8),
-              child: getTabImage(Assets.SEARCH_ICON),
+              //child: getTabImage(Assets.SEARCH_ICON),
+              child: getSvgImage(imagePath: Assets.assets_icon_s_search,width: 24.0,height:24.0),
             ),
             Container(
               margin: EdgeInsets.only(left: 8),

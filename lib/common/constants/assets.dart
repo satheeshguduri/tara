@@ -157,7 +157,52 @@ class Assets {
   static const avatar11 = "assets/images/oval-19.png";
 
   static const tara_logo = "assets/images/logo_tara.png";
+  //svg images
   static const close_icon = "assets/images/close.svg";
+  static const assets_logo_tara_agent_cash = "assets/images/assets_logo_tara_agent_cash.svg";
+  static const assets_icon_n_notification = "assets/images/assets_icon_n_notification.svg";
+  static const logo_tara = "assets/images/logo_tara.svg";
+  static const assets_icon_s_search = "assets/images/assets_icon_s_search.svg";
+  static const assets_icon_s_send = "assets/images/assets_icon_s_send.svg";
+  static const assets_icon_r_receive = "assets/images/assets_icon_r_receive.svg";
+  static const assets_icon_p_payment = "assets/images/assets_icon_p_payment.svg";
+  static const assets_icon_s_shop = "assets/images/assets_icon_s_shop.svg";
+  static const assets_icon_c_chat_inactive = "assets/images/assets_icon_c_chat_inactive.svg";
+  static const assets_icon_d_dashboard_inactive = "assets/images/assets_icon_d_dashboard_inactive.svg";
+  static const assets_icon_h_home_active = "assets/images/assets_icon_h_home_active.svg";
+  static const assets_icon_s_scan = "assets/images/assets_icon_s_scan.svg";
+  static const assets_icon_s_setting_inactive = "assets/images/assets_icon_s_setting_inactive.svg";
+  static const assets_icon_s_setting_active = "assets/images/assets_icon_s_setting_active.svg";
+  static const assets_icon_h_home_inactive = "assets/images/assets_icon_h_home_inactive.svg";
+  static const assets_icon_c_chat_active = "assets/images/assets_icon_c_chat_active.svg";
+  static const assets_icon_b_back_arrow = "assets/images/assets_icon_b_back_arrow.svg";
+  static const assets_icon_f_favorite = "assets/images/assets_icon_f_favorite.svg";
+  static const assets_icon_c_cart = "assets/images/assets_icon_c_cart.svg";
+  static const assets_icon_a_arrow_right = "assets/images/assets_icon_a_arrow_right.svg";
+  static const logo_tara_rewards = "assets/images/logo_tara_rewards.svg";
+  static const logo_tara_score = "assets/images/logo_tara_score.svg";
+  static const group = "assets/images/group.svg";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

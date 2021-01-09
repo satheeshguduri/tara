@@ -54,7 +54,8 @@ class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
       automaticallyImplyLeading: false,
       // hides leading widget
       leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+         // icon: Icon(Icons.arrow_back),
+          icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
           onPressed: () {
             pop();
           }),

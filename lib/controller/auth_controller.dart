@@ -15,9 +15,11 @@ import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/helpers/helpers.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/Merchant/create_store_screen.dart';
+import 'package:tara_app/screens/consumer/my_account/otp_verification_screen.dart';
 import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -93,7 +95,7 @@ class AuthController extends GetxController {
           (r) => Get.to(CompleteProfileScreen()));
     }
   }
-  // Login ==> CHECK DeviceRegistrationInfo =>
+
   void login() async {
     //validate empty state here for the text fields
     if (isValidationSuccessInSignIn()) {
@@ -129,7 +131,9 @@ class AuthController extends GetxController {
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().signUp(request);
       showProgress.value = false;
-      response.fold((l) => Get.defaultDialog(content: Text(l.message)),
+      response.fold((l) =>
+          getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(desc: l.message,)),
+          //Get.defaultDialog(content: Text(l.message)),
           (r) => {
             Get.put<AuthResponse>(r),
             if(F.appFlavor == Flavor.MERCHANT){

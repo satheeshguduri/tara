@@ -23,7 +23,7 @@ class ErrorStateInfoWidget extends StatelessWidget {
           children: [
             this.image??Container(),
             Text(
-               title,
+               title??"",
                 style: BaseStyles.bottomSheetTitleStyle,
                 textAlign: TextAlign.center
             ).withPad(padding: EdgeInsets.only(top:16)),

@@ -106,7 +106,9 @@ class _ChatInboxState extends BaseState<ChatInbox> {
               height: 60,
               child: Container(
                 padding: EdgeInsets.all(16),
-                child: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,color: AppColors.header_top_bar_color,width: 24,height: 24,),
+               // child: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,color: AppColors.header_top_bar_color,width: 24,height: 24,),
+                child: getSvgImage(imagePath:Assets.assets_icon_c_chat_inactive,color: AppColors.header_top_bar_color,width: 24.0,height: 24.0,),
+
               ),
               decoration: BoxDecoration(
                 gradient: Gradients.primaryGradient,

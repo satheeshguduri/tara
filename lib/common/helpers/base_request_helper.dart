@@ -29,6 +29,7 @@ class BaseRequestHelper{
     var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
     var splIdentifier = await getIt.get<SessionLocalDataStore>().getIdentifier();
 
+
     var commonRequestBean = CommonRequestBean(
       txnId:  sessionInfo?.transactionId,
       msgId: uuid.v1(),

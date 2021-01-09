@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
@@ -49,6 +50,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       height: 260,
       child: Stack(
@@ -111,7 +113,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(
               buttonText: getTranslation(Strings.SEND),
-              image: Assets.SEND_ICON,
+             // image: Assets.SEND_ICON,
+              svgImage: Assets.assets_icon_s_send,
               onPressed: () {
                 push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer_to_tara_user));
                 // push(CashDepositSelectContact(
@@ -121,7 +124,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.RECEIVE),
-              image: Assets.RECEIVE_ICON,
+             // image: Assets.RECEIVE_ICON,
+              svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
                 push(CashDepositSelectContact(
                   isFromReceive: true,
@@ -130,7 +134,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
                 buttonText: getTranslation(Strings.CASH_DEPOSIT),
-                image: Assets.ic_cash_deposit,
+               // image: Assets.ic_cash_deposit,
+                svgImage: Assets.assets_icon_p_payment,
                 onPressed: () {
                   var chatInboxInfo = ChatInboxInfo();
                   chatInboxInfo.chatTitle =
@@ -141,7 +146,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 }),
             RoundedButton(
               buttonText: getTranslation(Strings.RESTOCK),
-              image: Assets.ic_restock,
+             // image: Assets.ic_restock,
+              svgImage: Assets.assets_icon_s_shop,
             ),
           ],
         ),
@@ -156,7 +162,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(
               buttonText: getTranslation(Strings.SEND),
-              image: Assets.SEND_ICON,
+             // image: Assets.SEND_ICON,
+              svgImage: Assets.assets_icon_s_send,
               onPressed: () {
                 push(CashDepositSelectContact(
                   isFromSend: true,
@@ -165,7 +172,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.RECEIVE),
-              image: Assets.RECEIVE_ICON,
+              //image: Assets.RECEIVE_ICON,
+              svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
                 push(CashDepositSelectContact(
                   isFromReceive: true,
@@ -174,12 +182,14 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.PAYMENT),
-              image: Assets.ic_payment,
+             // image: Assets.ic_payment,
+              svgImage: Assets.assets_icon_p_payment,
               onPressed: () {},
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.CMS_TOP_UP),
-              image: Assets.ic_topup,
+              //image: Assets.ic_topup,
+              svgImage: Assets.assets_icon_s_shop,
               onPressed: () {},
             ),
           ],
@@ -195,7 +205,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(
               buttonText: getTranslation(Strings.transfer),
-              image: Assets.SEND_ICON,
+             // image: Assets.SEND_ICON,
+              svgImage: Assets.assets_icon_s_send,
               onPressed: () {
                 push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added
                 // push(CashDepositSelectContact(
@@ -205,7 +216,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.request),
-              image: Assets.RECEIVE_ICON,
+             // image: Assets.RECEIVE_ICON,
+              svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
                 push(CashDepositSelectContact(
                   isFromReceive: true,
@@ -214,12 +226,14 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.bills),
-              image: Assets.ic_payment,
+              //image: Assets.ic_payment,
+              svgImage: Assets.assets_icon_p_payment,
               onPressed: () {},
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.purchase),
-              image: Assets.SHOP_ICON,
+              //image: Assets.SHOP_ICON,
+              svgImage: Assets.assets_icon_s_shop,
               onPressed: () {
                 var chatInboxInfo = ChatInboxInfo();
                 chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
@@ -252,11 +266,12 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
       child: Row(
         children: [
           Container(
-            width: 25,
-            height: 25,
+            width: 24,
+            height: 24,
             margin: EdgeInsets.only(left: 8),
-            child: getTabImage(Assets.SEARCH_ICON),
-          ),
+            //child: getTabImage(Assets.SEARCH_ICON),
+              child: getSvgImage(imagePath: Assets.assets_icon_s_search)
+            ),
           Container(
             margin: EdgeInsets.only(left: 8),
             child: Text(
@@ -274,13 +289,23 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
     return Row(
       children: [
         Container(
-          width: 62,
+          width: 90,
           height: 24,
           margin: EdgeInsets.only(top: 8),
-          child: Image.asset(
-            "assets/images/combined-shape-5.png",
-            fit: BoxFit.none,
-          ),
+          child: getSvgImage(imagePath: Assets.logo_tara,width: 90.0,height: 24.0
+      // SvgPicture.asset(
+         //      Assets.logo_tara,
+         //      fit: BoxFit.fitHeight,
+         //     // color: Colors.white,
+         //      semanticsLabel: 'svg',
+             // height: 24,
+            //  width: 90,
+
+            )
+          // child: Image.asset(
+          //   "assets/images/combined-shape-5.png",
+          //   fit: BoxFit.none,
+          // ),
         ),
         Flexible(
           child: Text(widget.appName,
@@ -347,10 +372,20 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 children: [
                   Positioned(
                     right: 4,
-                    child: Image.asset(
-                      Assets.NOTIFICATION_ICON,
-                      fit: BoxFit.none,
+                     child: getSvgImage(imagePath:Assets.assets_icon_n_notification,height: 24.0,width: 24.0
+                     //SvgPicture.asset(
+                    //   Assets.assets_icon_n_notification,
+                    //   fit: BoxFit.fitHeight,
+                    //   //color: Colors.white,
+                    //   semanticsLabel: 'svg',
+                    //   height: 24,
+                    //   width: 24,
+
                     ),
+                    // child: Image.asset(
+                    //   Assets.NOTIFICATION_ICON,
+                    //   fit: BoxFit.none,
+                    // ),
                   ),
                   Positioned(
                     top: 0,
@@ -381,18 +416,18 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 ],
               ),
             ).onTap(onPressed: () => Get.to(NotificationScreen())),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                width: 32,
-                height: 32,
-                // margin: EdgeInsets.only(right: 16),
-                child: Image.asset(
-                  Assets.PERSON_ICON,
-                  fit: BoxFit.none,
-                ),
-              ).onTap(onPressed: () => Get.to(ProfileEdit(isFromHomeTopBar:true))),
-            )
+            // Align(
+            //   alignment: Alignment.centerRight,
+            //   child: Container(
+            //     width: 32,
+            //     height: 32,
+            //     // margin: EdgeInsets.only(right: 16),
+            //     child: Image.asset(
+            //       Assets.PERSON_ICON,
+            //       fit: BoxFit.none,
+            //     ),
+            //   ).onTap(onPressed: () => Get.to(ProfileEdit(isFromHomeTopBar:true))),
+            // )
           ],
         )
       ],

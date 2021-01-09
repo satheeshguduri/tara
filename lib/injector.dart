@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/controller/create_store_and_owner_controller.dart';
@@ -74,5 +75,7 @@ Future<void> init() async{
   Get.put(OrderController());
   Get.put(BillController());
   Get.lazyPut(()=>StoreTypeResponse());
+  getIt.registerLazySingleton<GetHelper>(() => GetHelper());
+
 
 }

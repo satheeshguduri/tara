@@ -372,6 +372,7 @@
   "account_number": "Account Number",
   "token_number": "Token Number",
   "token_number_hint": "Enter Your Token Number",
-  "chooseNominal" : "Choose Nominal"
+  "chooseNominal" : "Choose Nominal",
+  "inputOTP": "Input OTP"
 
 }

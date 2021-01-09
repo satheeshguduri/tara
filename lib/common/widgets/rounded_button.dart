@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/screens/base/base_state.dart';
 
 class RoundedButton extends StatefulWidget {
   final String buttonText;
   final Color buttonColor;
   final Color textColor;
   final String image;
+  final String svgImage;
+
+
   final VoidCallback onPressed;
 
   const RoundedButton({
@@ -15,13 +20,14 @@ class RoundedButton extends StatefulWidget {
     this.textColor = Colors.white,
     this.image,
     this.onPressed,
+    this.svgImage
   }) : super(key: key);
 
   @override
   _RoundedButtonState createState() => _RoundedButtonState();
 }
 
-class _RoundedButtonState extends State<RoundedButton> {
+class _RoundedButtonState extends BaseState<RoundedButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -47,12 +53,21 @@ class _RoundedButtonState extends State<RoundedButton> {
               child: Container(
                 alignment: Alignment.center,
                 child: Container(
-                  height: 33,
+                  height: 32,
+                  width: 32,
                   margin: EdgeInsets.symmetric(horizontal: 12),
-                  child: Image.asset(
-                    widget.image,
-                    fit: BoxFit.none,
-                  ),
+                  child: getSvgImage(imagePath: widget.svgImage,color: Colors.white,height: 32.0,width: 32.0)
+                  // SvgPicture.asset(
+                  // widget.svgImage,
+                  // fit: BoxFit.fitHeight,
+                  // color: Colors.white,
+                  // semanticsLabel: 'svg',
+                //)
+
+                  // child: Image.asset(
+                  //   widget.image,
+                  //   fit: BoxFit.none,
+                  // ),
                 ),
               ),
             ),
@@ -71,5 +86,11 @@ class _RoundedButtonState extends State<RoundedButton> {
         ),
       ),
     );
+  }
+
+  @override
+  BuildContext getContext() {
+    // TODO: implement getContext
+    context;
   }
 }

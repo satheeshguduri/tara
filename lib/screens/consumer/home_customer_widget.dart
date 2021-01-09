@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
@@ -13,6 +14,7 @@ import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
 import 'package:tara_app/controller/bill_controller.dart';
+import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -33,12 +35,14 @@ class HomeCustomerWidget extends StatefulWidget {
 
 class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
-  var myAccountArray = ["tara cash","tara reqards", "tara score"];
+ // var myAccountArray = ["tara cash","tara reqards", "tara score"];
+  var taraServicesImages = [Assets.assets_logo_tara_agent_cash,Assets.logo_tara_rewards, Assets.logo_tara_score];
   var transferToArray = ["Tara\nUsers","Bank\nAccount", "E-Money", "My\nAccount"];
   var paymentOptionsArray = ["Mobile","Internet", "PLN", "BPJS"];
   var paymentOptionsIconsArray = [Assets.MOBILE_ICON,Assets.INTERNET_ICON, Assets.PLN_ICON, Assets.BJPS_ICON];
 
   BillController controller = Get.find<BillController>();
+
 
   @override
   BuildContext getContext() {
@@ -138,9 +142,9 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
             height: 45,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: myAccountArray.length,
+                itemCount: taraServicesImages.length,
                 itemBuilder: (context, index) {
-                  return getMyAccountsGridItem(myAccountArray[index]);
+                  return getMyAccountsGridItem(taraServicesImages[index],index);
                 }),
           )
         ],
@@ -148,67 +152,106 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     );
   }
 
-  getMyAccountsGridItem(String accountName)
+  getMyAccountsGridItem(String imagePath,int index)
   {
 //    if (accountName == "tara wallet")
 //    {
-      return Container(
-        padding: EdgeInsets.only(right: 8,top: 2,bottom: 2),
-        child: Align(
-          alignment: Alignment.bottomLeft,
-          child: Container(
-            width: 115,
-            height: 50,
+      return // Container
+        Container(
+            margin: EdgeInsets.only(right: 8),
+            width: getParentWidth(index),
+            height:40.0,
             decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                    Radius.circular(8)
+                ),
               color: Color.fromARGB(255, 19, 53, 86),
-              borderRadius: Radii.k8pxRadius,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  height: 24,
-                  margin: EdgeInsets.symmetric(horizontal: 14),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          width: 46,
-                          height: 18,
-                          margin: EdgeInsets.only(left: 3),
-                          child: Image.asset(
-                            "assets/images/combined-shape-7.png",
-                            fit: BoxFit.none,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        accountName=="tara cash"?getTranslation(Strings.cash):accountName=="tara reqards"?getTranslation(Strings.rewards):getTranslation(Strings.score),
-                        textAlign: TextAlign.left,
-                        style: BaseStyles.taraWalletTextStyle,
-                      ),
-                    ],
-                  ),
-                ).onTap(onPressed: (){
-                  GetHelper().getDialog(content: ErrorStateInfoWidget(buttonText:"Okay",onTap:(){
-                    Get.back();
-                  },title:getTranslation(Strings.feature_title),desc:getTranslation(Strings.feature_sub_title),image:Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                      color: const Color(0xffd8d8d8)
-                  ))
-                  ));
-                }),
-              ],
-            ),
+          child: Center(child:getSvgImage(
+              imagePath: imagePath,
+              color: Colors.white,
+              height: getChildHeight(index),
+              width: getChildWidth(index)
+        )
           ),
-        ),
-      );
+        ).onTap(onPressed: (){
+          getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(buttonText:"Okay",onTap:(){
+                        Get.back();
+                      },title:getTranslation(Strings.feature_title),desc:getTranslation(Strings.feature_sub_title),image:Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                          color: const Color(0xffd8d8d8)
+                      )
+                   )
+                )
+              );
+            }
+          );
+      // return Container(
+      //   padding: EdgeInsets.only(right: 8,top: 2,bottom: 2),
+      //   child: Align(
+      //     alignment: Alignment.bottomLeft,
+      //     child: Container(
+      //       width: 115,
+      //       height: 50,
+      //       decoration: BoxDecoration(
+      //         color: Color.fromARGB(255, 19, 53, 86),
+      //         borderRadius: Radii.k8pxRadius,
+      //       ),
+      //       child: Column(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         crossAxisAlignment: CrossAxisAlignment.stretch,
+      //         children: [
+      //           Container(
+      //             height: 24,
+      //             margin: EdgeInsets.symmetric(horizontal: 14),
+      //             child: Row(
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               children: [
+      //                 Align(
+      //                   alignment: Alignment.centerLeft,
+      //                   child: Container(
+      //                     width: 46,
+      //                     height: 18,
+      //                     //alignment: Alignment.center,
+      //                     margin: EdgeInsets.only(left: 3),
+      //                     // child: Image.asset(
+      //                     //   "assets/images/combined-shape-7.png",
+      //                     //   fit: BoxFit.none,
+      //                     //   color: Colors.white,
+      //                     // ),
+      //                     // child: Center(child: SvgPicture.asset(
+      //                     //   imagePath:Assets.assets_logo_tara_agent,
+      //                     //   fit: BoxFit.none,
+      //                     //   semanticsLabel: 'svg',
+      //                     //    )),
+      //                    // child: getSvgImage(imagePath:Assets.close_icon),
+      //                   ),
+      //                 ),
+      //                 // Text(
+      //                 //   accountName=="tara cash"?getTranslation(Strings.cash):accountName=="tara reqards"?getTranslation(Strings.rewards):getTranslation(Strings.score),
+      //                 //   textAlign: TextAlign.left,
+      //                 //   style: BaseStyles.taraWalletTextStyle,
+      //                 // ),
+      //               ],
+      //             ),
+      //           ).onTap(onPressed: (){
+      //             GetHelper().getDialog(content: ErrorStateInfoWidget(buttonText:"Okay",onTap:(){
+      //               Get.back();
+      //             },title:getTranslation(Strings.feature_title),desc:getTranslation(Strings.feature_sub_title),image:Container(
+      //             width: 120,
+      //             height: 120,
+      //             decoration: BoxDecoration(
+      //                 color: const Color(0xffd8d8d8)
+      //             ))
+      //             ));
+      //           }),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // );
 //    }
 //    else{
 //
@@ -387,8 +430,13 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
               height: 100,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: data.map((e) => RoundedCardButton(buttonText: e.category,image: paymentOptionsIconsArray[0],onPressed: (){
-                  List<BillProductDataBean> data = controller.getBillers(e);
+                children: data.map((e) => RoundedCardButton(
+                  buttonText: e.category,
+                 // image: paymentOptionsIconsArray[0]
+                    image: e.logo,
+                  onPressed: (){
+                    print("logo address"+e.logo);
+                    List<BillProductDataBean> data = controller.getBillers(e);
                   Get.to(CommonBillsPaymentListView(data:data));
                 },)).toList(),
               ),
@@ -564,4 +612,37 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         ],
     );
   }
+
+
+
+ double getParentWidth(int index) {
+    if(index == 0){
+      return 103.0;
+    }
+    else if(index == 1){
+      return 112.0;
+    }
+    return 103.0;
+  }
+
+
+
+ double getChildHeight(int index) {
+
+   if(index == 0){
+     return 22.0;
+   }
+   return 18.0;
+  }
+
+ double getChildWidth(int index) {
+   if(index == 0){
+     return 88.0;
+   }
+   else if(index == 1){
+     return 103.0;
+   }
+   return 91.0;
+
+ }
 }

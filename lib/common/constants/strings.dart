@@ -400,6 +400,9 @@ class Strings{
   static const token_number = "token_number";
   static const token_number_hint = "token_number_hint";
   static const chooseNominal = "chooseNominal";
+  static const inputOTP = "inputOTP";
+
+
 
 
 

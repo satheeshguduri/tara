@@ -146,14 +146,27 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
        childAspectRatio: (0.68)
        ),
        itemBuilder: (context, index) {
-       return  RoundedCardButton(
-         buttonText: categories[index].category,
-         image: getImage(categories[index].category),
-         onPressed: () async{
-           List<BillProductDataBean> data = BillerHelper().getBillersByCategory(response, categories[index].category);
-           Get.to(CommonBillsPaymentListView(data:data));
-           }
-         );
+         if (categories[index].category != "Pulsa") {
+           return RoundedCardButton(
+
+               buttonText: categoryName(categories[index].category),
+               //image: getImage(categories[index].category),
+               image: categories[index].logo,
+               onPressed: () async {
+                 if (categories[index].category == "Paket Data") {
+                   List<BillProductDataBean> data = BillerHelper()
+                       .getBillersByCategory(
+                       response, categories[index].category, "Pulsa");
+                   Get.to(CommonBillsPaymentListView(data: data,pulsaAndPaketData:true));
+                 } else if ((categories[index].category != "Pulsa")) {
+                   List<BillProductDataBean> data = BillerHelper()
+                       .getBillersByCategory(
+                       response, categories[index].category);
+                   Get.to(CommonBillsPaymentListView(data: data,pulsaAndPaketData:false));
+                 }
+               }
+           );
+         }return Container();
        }
      ),
   );
@@ -169,5 +182,12 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
                 style: BaseStyles.topBarTextStyle,
               ),
     );
+  }
+
+ String categoryName(String category) {
+
+    if(category == "Paket Data")
+      return "Pulsa /\nPaket Data";
+    return category;
   }
 }

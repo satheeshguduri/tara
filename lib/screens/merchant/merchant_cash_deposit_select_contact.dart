@@ -101,8 +101,9 @@ class _CashDepositSelectContactState
         elevation: 0.5,
         centerTitle: false,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () =>
+            //icon: Icon(Icons.arrow_back),
+            icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
+        onPressed: () =>
                 Navigator.pop(context, false) //Navigator.pop(context, false),
         ),
         title: Container(
@@ -148,10 +149,14 @@ class _CashDepositSelectContactState
               }
             },
             decoration: new InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: Colors.black54,
-                size: 20,
+              // prefixIcon: Icon(
+              //   Icons.search,
+              //   color: Colors.black54,
+              //   size: 20,
+              // ),
+              prefixIcon:Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: getSvgImage(imagePath: Assets.assets_icon_s_search,width: 24.0,height:24.0),
               ),
               fillColor: Colors.white,
               enabledBorder: UnderlineInputBorder(

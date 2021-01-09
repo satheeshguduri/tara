@@ -637,6 +637,21 @@ class BaseStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
+  static const otpWithSMSTextStyle = const TextStyle(
+      color:  AppColors.yourPurchaseBillsDetailsText,
+      fontWeight: FontWeight.w500,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+  static const otpWithSMSCodeTextStyle = const TextStyle(
+      color:  AppColors.yourPurchaseBillsDetailsText,
+      fontWeight: FontWeight.w700,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
 }
 
 
