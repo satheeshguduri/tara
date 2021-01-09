@@ -9,6 +9,8 @@ import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/core/base_response.dart';
+import 'package:tara_app/models/core/device/common_registration_request.dart';
+import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/services/error/failure.dart';
 
 abstract class AuthRepository {
@@ -19,7 +21,7 @@ abstract class AuthRepository {
   Future<Either<Failure,BaseResponse>> refreshToken(String test);
   Future<Either<Failure,CustomerProfile>> getCustomerInfoByCustomerId(String customerId);
   Future<Either<Failure,BaseResponse>> updateProfile(CustomerProfile profile);
-
+  Future<Either<Failure,CustomerProfileDetailsResponse>> getCustomerProfile(CommonRegistrationRequest profile);
 
 }
 

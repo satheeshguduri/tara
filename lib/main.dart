@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:logging/logging.dart';
 import 'package:tara_app/common/constants/assets.dart';
+import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/common/helpers/pki_crypto_utils.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/injector.dart';
@@ -19,7 +20,10 @@ import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
 import 'package:tara_app/models/transfer/register_request.dart';
 import 'package:tara_app/models/transfer/track_transaction_request.dart';
+import 'package:tara_app/models/transfer/validate_mobile_request.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
+import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/services/config/psp_config.dart';
 import 'package:tara_app/services/dio_client.dart';
 import 'package:tara_app/services/rest/psp_rest_client.dart';
@@ -65,7 +69,7 @@ class TestWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text("Demo of components"),
+              /*Text("Demo of components"),
           TextField(
             decoration: const InputDecoration(
               hintText: 'What do people call you?',
@@ -80,14 +84,18 @@ class TestWidget extends StatelessWidget {
               floatingLabelBehavior: FloatingLabelBehavior.always,
 
               // floatingLabelBehavior: FloatingLabelBehavior.always,
-            )),
+            )),*/
               // Spacer(),
-              OutlineButton.icon(onPressed: (){}, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Initiate App Login")),
+              OutlineButton.icon(onPressed: ()async{
+                var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+                var resp = await getIt.get<AuthRepository>().getCustomerProfile(commonRequest);
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Validate mobile Number")),
               FlatButton(onPressed: ()async {
                 print("initiating the session");
 
-                var commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
-                var response= await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
+                // var commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
+                var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+                await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
 
 
                /*
@@ -100,7 +108,7 @@ class TestWidget extends StatelessWidget {
                 print("Response ==>> "+res);
                 final decryptionRes = await getDecryption(res, PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
                 print("Description String==>>"+decryptionRes);*/
-                String decryptedString = '';
+                // String decryptedString = '';
                // String encrypted = 'bU-I8rV9GAeFCh0bM_U2q1oy_hYGiQeavIcmFdE3Ecnl6AaqAXBy7saT9mKeImP5kvVVICZsrQ4-';
                 // String encrypted = 'VyexK5nZf3IBRi9AH46LjvWiJ4cisp1iMGeVriUj0VEkUDYiwOJv75h-iYJk5D9kXpH2eQLmd5XOG_bGgoieHRG4iqr';
                // var d = await getDecryption(encrypted,PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
@@ -174,6 +182,8 @@ class TestWidget extends StatelessWidget {
                        await getIt.get<DeviceRegisterRepository>().trackRegistration(trackRequest);
                      }
                    }
+                }else{
+
                 }
 
               },child: Text("Register"))

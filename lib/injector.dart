@@ -63,11 +63,11 @@ Future<void> init() async{
   getIt.registerLazySingleton<UserLocalDataStore>(() => UserLocalDataStoreImpl(getIt()));
   getIt.registerLazySingleton<SessionLocalDataStore>(() => SessionLocalDataStoreImpl(getIt()));
   Get.put(AuthController());
-  getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt(),getIt(),getIt()));
+  getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt(),getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<StoresRepository>(() => StoreRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(getIt(),getIt()));
-  getIt.registerLazySingleton<TransactionRepository>(() => TransactionRepositoryImpl(getIt(),getIt(),getIt()));
+  getIt.registerLazySingleton<TransactionRepository>(() => TransactionRepositoryImpl(getIt(),getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<BillRepository>(() => BillRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<DeviceRegisterRepository>(() => DeviceRegisterRepositoryImpl(getIt(),getIt(),getIt(),getIt()));
   Get.lazyPut(()=>CreateStoreAndOwnerController());

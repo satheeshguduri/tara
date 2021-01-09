@@ -56,7 +56,7 @@ class SessionLocalDataStoreImpl implements SessionLocalDataStore{
   @override
   Future<bool> isValidSession() async{
     var tokenResponse = await getToken();
-    if(tokenResponse.validTillMillis!=0) {
+    if(tokenResponse?.validTillMillis!=0) {
       var validityTime = DateTime.fromMillisecondsSinceEpoch(
           tokenResponse.validTillMillis);
       return DateTime.now().isBefore(validityTime);

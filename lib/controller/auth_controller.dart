@@ -93,7 +93,7 @@ class AuthController extends GetxController {
           (r) => Get.to(CompleteProfileScreen()));
     }
   }
-
+  // Login ==> CHECK DeviceRegistrationInfo =>
   void login() async {
     //validate empty state here for the text fields
     if (isValidationSuccessInSignIn()) {

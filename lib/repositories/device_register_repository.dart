@@ -104,44 +104,22 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
   @override
   Future<Either<Failure, UserRegistrationResponse>> registerUser(UserRegistrationRequest commonRegistrationRequest) async{
     try {
-      // generate AES KEY
-      // print(outputAsUint8List);
-      // var keyGen = CryptKey();
-      // var aesKey = keyGen.genFortuna(len: 16);
-      // print("AES KEY: ==>"+Key.fromBase64(aesKey).toString());
-      //get the SessionKey from db
       var sessionInfo = await sessionLocalDataStore.getSessionInfo();
-      // print("session KEY: ==>"+sessionInfo.sessionKey);
-      // //encrypt AES key with Session Key
-      // var  encryptedAesKey = await CryptoHelper().encryptAndEncode(aesKey, sessionInfo.sessionKey);
-      // // print("Encrypted AES KEY: ==>  "+encryptedAesKey);
-      // print(commonRegistrationRequest.toJson().toString());
-      // var encryptedBody = await CryptoHelper().encryptCustomKey(json.encode(commonRegistrationRequest.toJson()),aesKey);
       var data = await CryptoHelper().encryptDataWithRandomKey(json.encode(commonRegistrationRequest.toJson()),sessionInfo.sessionKey);
       var symmetricKey  = data['symmetricKey'];
       var encryptedBody  = data['encryptedData'];
-      print("Native Response::"+data.toString());
-     var encryptedRequest = SplRegistrationRequestEnc(msgId: uuid.v1(),
+     var encryptedRequest = SplRegistrationRequestEnc(
+         msgId: uuid.v1(),
         symmetricKey: symmetricKey,
         pspOrgId: PSPConfig.PSP_ORG_ID,
         splRegistrationRequestEnc:encryptedBody,
         txnId: sessionInfo.transactionId
       );
       var response = await umpsRemoteDataSource.registerUser(encryptedRequest);
-      var finalResponse;
       if(response?.commonResponse?.symmetricKey?.isNotEmpty??false) {
-        // print("SessionKey:==>"+sessionInfo.sessionKey);
-        // print("Symetric Key:==>"+response?.commonResponse?.symmetricKey);
-        // var symmetricKey = await CryptoHelper().decodeAndDecrypt(response?.commonResponse?.symmetricKey, sessionInfo.sessionKey);
-        // print("Decrypted AES KEY: ==>  "+symmetricKey);
         var decryptedBody = await CryptoHelper().decryptDataWithSymmetricKey(response.userRegistrationResponsePayloadEnc, response?.commonResponse?.symmetricKey, sessionInfo.sessionKey);
-        // var decryptedBody = await CryptoHelper().decryptCustomKey(response.userRegistrationResponsePayloadEnc,symmetricKey);
-        print(decryptedBody);
-        print("Final Data:===>"+decryptedBody);
-        finalResponse = UserRegistrationResponse.fromJson(getMap(decryptedBody));
+        var finalResponse = UserRegistrationResponse.fromJson(getMap(decryptedBody));
         sessionLocalDataStore.setDeviceRegInfo(finalResponse);
-        // print(finalResponse.toJson().toString());
-        // return Right(finalResponse);
       }
       return Left(Failure(message: "Failed to decrypt"));
     }catch(e ){
