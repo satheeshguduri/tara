@@ -11,12 +11,14 @@ class PSPConfig{
   static const PUBLIC_IP_UMPS_CORE = "https://54.235.233.48:10443/";
   static const PUBLIC_IP_CORE = "https://54.235.233.48:30443/";
   static const PUBLIC_IP_NOTI = "http://54.235.233.48:8081/";
-  static const MERCHANT_ID = "ZDRL8zC3Kvqv2h9";
+  // static const MERCHANT_ID = "ZDRL8zC3Kvqv2h9";
+  static const MERCHANT_ID = "AYOPOPMERCH";
   static const MERCHANT_ID_WALLET = "my-wallet";
-  static const MERCHANT_KEY = "fieUFW7L5k2FgTKA6Q5jqaoWqIS5TDtDoShGCZdBaSQ=";
+  // static const MERCHANT_KEY = "fieUFW7L5k2FgTKA6Q5jqaoWqIS5TDtDoShGCZdBaSQ=";
+  static const MERCHANT_KEY = "hM6jNmHffebw2xsPZowemke9L24sCiRFTzclQT+9MNc=";
   static const INITIAL_LOGIN_ENCRYPTION_KEY = "hM6jNmHffebw2xsPZowemke9L24sCiRFTzclQT+9MNc=";
   static const MERCHANT_KI = "aa94f596-aec7-4e70-b641-cc05c84ff1bc";
   static const APP_NAME = "com.inde.ayopop";//to check with the team for the
-  // static const APP_NAME = "app.ayopop.com";
   static const INITIATOR_PA = "merchant1@inde1";
+  static const PSP_ORG_ID = "INDE1";
 }

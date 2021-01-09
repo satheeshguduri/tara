@@ -46,6 +46,13 @@ class APIHelper{
   }
   Future<Dio> getSecureDio() async {
     dio = new Dio();
+    dio.interceptors.add(PrettyDioLogger(
+      requestHeader: true,
+      requestBody: true,
+      request: true,
+      responseBody: true,
+      compact: false,
+    ));
     SecurityContext sc = new SecurityContext(withTrustedRoots: true);
     String data = await rootBundle.loadString('assets/raw/common_crt_bkp.pem');
     List bytes = utf8.encode(data);

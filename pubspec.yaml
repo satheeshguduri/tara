@@ -115,6 +115,13 @@ dependencies:
   intl_phone_number_input: ^0.5.2+2
   characters: ^1.0.0
   darq: ^0.4.0+1
+  encrypt:
+  flutter_sms: 2.1.1
+  flutter_udid: ^1.0.1
+  steel_crypt: ^2.2.2+1
+#  tuple: ^1.0.3
+#  flutter_aes_ecb_pkcs5: ^0.1.1
+#  encryptions: ^0.0.6
 
 dev_dependencies:
   flutter_test:
@@ -198,6 +205,7 @@ flutter:
   assets:
     - assets/images/
     - assets/lang/
+    - assets/raw/
 
   fonts:
     - family: Scto Grotesk A

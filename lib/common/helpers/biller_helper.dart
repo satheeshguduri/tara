@@ -6,20 +6,49 @@
 */
 
 import 'package:dio/dio.dart';
+import 'package:encrypt/encrypt.dart';
 import 'package:tara_app/models/bills/bill_product_request.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:darq/darq.dart';
-import 'package:tara_app/repositories/bill_repository.dart';
+import 'package:tara_app/services/config/psp_config.dart';
 import 'package:tara_app/services/rest/biller_rest_client.dart';
+main() async
+{
+  print("strating the process");
 
-// main() async
-// {
+  String encrypted = 'VyemMYHIQQNrLS9UEteb0vy3KId56c88dwrDoG0vywl7CDwq1aN6q8x0noEz8nQnErHhKE3tZrjWer3LjZCYVlng0v2QDDrHkJ';
+
+// Key key = cipher.Key.fromBase64(PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
+   IV iv = IV.fromSecureRandom(16);
+
+  // var content =await Cipher2.decryptAesCbc128Padding7(encrypted, PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY,iv.toString());
 //
-//   var data = await BillerHelper().getData();
-//   var categories = BillerHelper().getCategories(data);
-//   var billers = BillerHelper().getBillersByCategory(data,"Paket Data"); //pass the category id to get the billers
-//   var products = BillerHelper().getProductsByBiller(data,"Paket Data","Telkomsel");//pass the category id and biller id to get the producsts
-// }
+//   cipher.Symmetry aes = cipher.Cipher.getSymmetryInstance(cipher.AES(key));
+//
+// var content = aes.decrypt2String(cipher.Encrypted.fromUtf8(encrypted),iv: iv);
+// var decryptAESCryptoJS = PKICryptoUtils.decodeQrCode(data);
+// var decryptAESCryptoJS = PKICryptoUtils().d(data, PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
+//   print(content);
+
+  // var data = await BillerHelper().getData();
+  // var categories = BillerHelper().getCategories(data);
+  // var billers = BillerHelper().getBillersByCategory(data,"Paket Data"); //pass the category id to get the billers
+  // var products = BillerHelper().getProductsByBiller(data,"Paket Data","Telkomsel");//pass the category id and biller id to get the producsts
+}
+
+
+class RegistrationHelper{
+
+  //app login
+
+  appLogin() async{
+
+    // CommonRegistrationRequest request = CommonRegistrationRequest();
+    // await PSPRestClient(Dio()).getAppToken(PSPConfig.MERCHANT_KI, request);
+
+  }
+
+}
 class BillerHelper{
   List<BillProductDataBean> productsList;
 

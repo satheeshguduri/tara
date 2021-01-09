@@ -14,8 +14,15 @@ class TransactionRequest extends CommonRegistrationRequest{
   dynamic timeTillExpireMins;
   String merchantTxnId;
   String feeTaxRefId;
+  String initiatorMobileNo;
+  String initiatorAppId;
+  String custRefId;
+  String subMerchantName;
+  String refId;
+  String refURL;
 
-  TransactionRequest({custPSPId, accessToken, transactionId, acquiringSource, merchantId, requestedLocale, this.type, this.payer, this.payees, this.initiatorAccountId, this.remarks, this.timeTillExpireMins, this.merchantTxnId, this.feeTaxRefId});
+
+  TransactionRequest({String custPSPId, String accessToken, String transactionId, AcquiringSourceBean acquiringSource, String merchantId, String requestedLocale, this.type, this.payer, this.payees, this.initiatorAccountId, this.remarks, this.timeTillExpireMins, this.merchantTxnId, this.feeTaxRefId,this.refId,this.custRefId,this.initiatorAppId,this.initiatorMobileNo,this.refURL,this.subMerchantName}) :super(custPSPId:custPSPId, accessToken:accessToken, transactionId:transactionId, acquiringSource: acquiringSource, merchantId:merchantId, requestedLocale:requestedLocale);
 
   factory TransactionRequest.fromJson(Map<String, dynamic> json) => _$TransactionRequestFromJson(json);
 

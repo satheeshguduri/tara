@@ -18,9 +18,6 @@ CommonRegistrationRequest _$CommonRegistrationRequestFromJson(
             json['acquiringSource'] as Map<String, dynamic>),
     merchantId: json['merchantId'] as String,
     requestedLocale: json['requestedLocale'] as String,
-    userName: json['userName'] as String,
-    bic: json['bic'] as String,
-    cardLast6Digits: json['cardLast6Digits'] as String,
   );
 }
 
@@ -33,9 +30,6 @@ Map<String, dynamic> _$CommonRegistrationRequestToJson(
       'acquiringSource': instance.acquiringSource,
       'merchantId': instance.merchantId,
       'requestedLocale': instance.requestedLocale,
-      'userName': instance.userName,
-      'bic': instance.bic,
-      'cardLast6Digits': instance.cardLast6Digits,
     };
 
 AcquiringSourceBean _$AcquiringSourceBeanFromJson(Map<String, dynamic> json) {

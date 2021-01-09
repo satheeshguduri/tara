@@ -15,10 +15,11 @@ import 'package:tara_app/main.dart';
 import 'package:tara_app/main_bindings.dart';
 import 'package:tara_app/screens/splash/splash_screen.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';
+import 'package:uuid/uuid.dart';
 
 import 'common/constants/app_theme.dart';
 import 'flavors.dart';
-
+var uuid = Uuid();
 class TaraApp extends StatefulWidget {
   @override
   _TaraAppState createState() => _TaraAppState();

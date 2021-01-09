@@ -7,7 +7,7 @@ part 'register_response.g.dart';
 class RegisterResponse {
   String transactionId;
   bool success;
-  dynamic errorCode;
+  String errorCode;
   String errorReason;
   String status;
   String sessionKey;

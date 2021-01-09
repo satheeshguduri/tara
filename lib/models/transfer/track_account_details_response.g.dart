@@ -11,8 +11,8 @@ TrackAccountDetailsResponse _$TrackAccountDetailsResponseFromJson(
   return TrackAccountDetailsResponse(
     transactionId: json['transactionId'] as String,
     success: json['success'] as bool,
-    errorCode: json['errorCode'],
-    errorReason: json['errorReason'],
+    errorCode: json['errorCode'] as String,
+    errorReason: json['errorReason'] as String,
     status: json['status'] as String,
     listOfMappedAccount: (json['listOfMappedAccount'] as List)
         ?.map((e) => e == null

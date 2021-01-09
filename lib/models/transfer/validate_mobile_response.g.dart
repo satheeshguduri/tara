@@ -1,28 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'register_response.dart';
+part of 'validate_mobile_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RegisterResponse _$RegisterResponseFromJson(Map<String, dynamic> json) {
-  return RegisterResponse(
-    transactionId: json['transactionId'] as String,
+ValidateMobileResponse _$ValidateMobileResponseFromJson(
+    Map<String, dynamic> json) {
+  return ValidateMobileResponse(
+    transactionId: json['transactionId'],
     success: json['success'] as bool,
     errorCode: json['errorCode'] as String,
     errorReason: json['errorReason'] as String,
     status: json['status'] as String,
-    sessionKey: json['sessionKey'] as String,
+    name: json['name'] as String,
   );
 }
 
-Map<String, dynamic> _$RegisterResponseToJson(RegisterResponse instance) =>
+Map<String, dynamic> _$ValidateMobileResponseToJson(
+        ValidateMobileResponse instance) =>
     <String, dynamic>{
       'transactionId': instance.transactionId,
       'success': instance.success,
       'errorCode': instance.errorCode,
       'errorReason': instance.errorReason,
       'status': instance.status,
-      'sessionKey': instance.sessionKey,
+      'name': instance.name,
     };

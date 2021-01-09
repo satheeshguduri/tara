@@ -63,18 +63,42 @@ class PSPApi{
   static const track_registration = 'psp-umps-adaptor/umps-app/track-registration';
 
   //Add account
-  static const customer_profile_details = 'psp-umps-adaptor/umps-app/customer-profile-details';
   static const fetch_ecosystem_bank_list = 'psp-umps-adaptor/umps-app/fetch-ecosystem-banklist';
   static const initiate_account_details_request_api = 'psp-umps-adaptor/umps-app/initiate-account-details-request-api';
 
   static const track_account_details_request_api = 'psp-umps-adaptor/umps-app/track-account-details-request-api';
-  static const map_account_to_profile = 'psp-umps-adaptor/umps-app/map-account-to-profile';
 
   static const pre_transaction_request = 'psp-umps-adaptor/umps-app/pre-transaction-request';
   static const initiate_transaction_request = 'psp-umps-adaptor/umps-app/initiate-transaction-request';
+  static const track_transaction_request = 'psp-umps-adaptor/umps-app/track-transaction-request';
+  //Merchant Pay
+  static const merchant_login = "psp-umps-adaptor/umps-login/merchant-login";
+  static const payer_collect_response = "psp-umps-adaptor/umps-app/payer-collect-response";
+
+  //transaction history
   static const txn_history_details = 'psp-umps-adaptor/umps-app/txn-history-details';
 
-  static const track_transaction_request = 'psp-umps-adaptor/umps-app/track-transaction-request';
+  //fetch bank logo
+  static const fetch_bank_logo = 'psp-umps-adaptor/umps-app/bank-logo';
+
+  //customer profile details
+  static const customer_profile_details = 'psp-umps-adaptor/umps-app/customer-profile-details';
+
+  //validate RTP user
+  static const validate_mobile_request = 'psp-umps-adaptor/umps-app/validate-mobile-request';
+
+  //add beneficiary
+  static const add_beneficiary = 'psp-umps-adaptor/umps-app/add-beneficiary';
+  static const map_beneficiary_detail = 'psp-umps-adaptor/umps-app/map-beneficiary-detail';
+
+  //Search beneficiary
+  static const search_beneficiary_detail = 'psp-umps-adaptor/umps-app/search-beneficiary-detail';
+
+
+
+
+
+  static const map_account_to_profile = 'psp-umps-adaptor/umps-app/map-account-to-profile';
 }
 class UMPSCoreApi{
   static const authorize = "umps-core/spl-sdk/urn:apiver:1.0/authorize";

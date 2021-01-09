@@ -15,6 +15,7 @@ part 'common_registration_request.g.dart';
  /// * umps-app/issue-private-access-token
  /// * umps-login/app-login  -- encrypted request of this payload
  /// * umps-app/track-registration
+ /// * umps-app/merchant-login  -- encrypted request of this payload
 
 @JsonSerializable()
 class CommonRegistrationRequest {
@@ -24,9 +25,10 @@ class CommonRegistrationRequest {
   AcquiringSourceBean acquiringSource;
   String merchantId;
   String requestedLocale;
-  String userName;
-  String bic;
-  String cardLast6Digits;
+  //
+  // String userName;
+  // String bic;
+  // String cardLast6Digits;
 
 
   CommonRegistrationRequest({
@@ -35,10 +37,11 @@ class CommonRegistrationRequest {
       this.transactionId,
       this.acquiringSource,
       this.merchantId,
-      this.requestedLocale,
-      this.userName,
-      this.bic,
-      this.cardLast6Digits});
+      this.requestedLocale = "en",
+      // this.userName,
+      // this.bic,
+      // this.cardLast6Digits
+  });
 
   factory CommonRegistrationRequest.fromJson(Map<String, dynamic> json) => _$CommonRegistrationRequestFromJson(json);
 

@@ -17,10 +17,7 @@ PreTransactionRequest _$PreTransactionRequestFromJson(
     requestedLocale: json['requestedLocale'],
     type: _$enumDecodeNullable(_$RequestTypeEnumMap, json['type']),
     amount: json['amount'] as String,
-  )
-    ..userName = json['userName'] as String
-    ..bic = json['bic'] as String
-    ..cardLast6Digits = json['cardLast6Digits'] as String;
+  );
 }
 
 Map<String, dynamic> _$PreTransactionRequestToJson(
@@ -32,9 +29,6 @@ Map<String, dynamic> _$PreTransactionRequestToJson(
       'acquiringSource': instance.acquiringSource,
       'merchantId': instance.merchantId,
       'requestedLocale': instance.requestedLocale,
-      'userName': instance.userName,
-      'bic': instance.bic,
-      'cardLast6Digits': instance.cardLast6Digits,
       'type': _$RequestTypeEnumMap[instance.type],
       'amount': instance.amount,
     };

@@ -6,8 +6,8 @@ part 'track_account_details_response.g.dart';
 class TrackAccountDetailsResponse {
   String transactionId;
   bool success;
-  dynamic errorCode;
-  dynamic errorReason;
+  String errorCode;
+  String errorReason;
   String status;
   List<ListOfMappedAccountBean> listOfMappedAccount;
   bool pending;

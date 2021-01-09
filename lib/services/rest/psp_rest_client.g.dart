@@ -60,13 +60,12 @@ class _PSPRestClient implements PSPRestClient {
   }
 
   @override
-  Future<RegisterResponse> register(commonRegistrationRequest) async {
-    ArgumentError.checkNotNull(
-        commonRegistrationRequest, 'commonRegistrationRequest');
+  Future<RegisterResponse> register(registerRequest) async {
+    ArgumentError.checkNotNull(registerRequest, 'registerRequest');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.addAll(registerRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/register',
@@ -101,29 +100,6 @@ class _PSPRestClient implements PSPRestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = TrackRegistrationResponse.fromJson(_result.data);
-    return value;
-  }
-
-  @override
-  Future<CustomerProfileDetailsResponse> getCustomerProfileDetails(
-      commonRegistrationRequest) async {
-    ArgumentError.checkNotNull(
-        commonRegistrationRequest, 'commonRegistrationRequest');
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request<Map<String, dynamic>>(
-        'psp-umps-adaptor/umps-app/customer-profile-details',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'POST',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = CustomerProfileDetailsResponse.fromJson(_result.data);
     return value;
   }
 
@@ -241,13 +217,54 @@ class _PSPRestClient implements PSPRestClient {
   }
 
   @override
-  Future<TransactionResponse> getTxnHistory(transactionRequest) async {
-    ArgumentError.checkNotNull(transactionRequest, 'transactionRequest');
+  Future<String> merchantLogin(ki, request) async {
+    ArgumentError.checkNotNull(ki, 'ki');
+    ArgumentError.checkNotNull(request, 'request');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'ki': ki};
+    final _data = request;
+    final _result = await _dio.request<String>(
+        'psp-umps-adaptor/umps-login/merchant-login',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{r'Content-Type': 'text/plain'},
+            extra: _extra,
+            contentType: 'text/plain',
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<TransactionResponse> payerCollectResponse(payerCollectRequest) async {
+    ArgumentError.checkNotNull(payerCollectRequest, 'payerCollectRequest');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(transactionRequest?.toJson() ?? <String, dynamic>{});
+    _data.addAll(payerCollectRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/payer-collect-response',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TransactionResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TransactionHistoryResponse> getTxnHistory(queries) async {
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/txn-history-details',
         queryParameters: queryParameters,
@@ -257,7 +274,135 @@ class _PSPRestClient implements PSPRestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = TransactionResponse.fromJson(_result.data);
+    final value = TransactionHistoryResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<String> getBankLogo(queries) async {
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<String>(
+        'psp-umps-adaptor/umps-app/bank-logo',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<CustomerProfileDetailsResponse> getCustomerProfileDetails(
+      commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/customer-profile-details',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CustomerProfileDetailsResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<ValidateMobileResponse> validateMobile(validateMobileRequest) async {
+    ArgumentError.checkNotNull(validateMobileRequest, 'validateMobileRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(validateMobileRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/validate-mobile-request',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = ValidateMobileResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<AddBeneficiaryResponse> addBeneficiary(addBeneficiaryRequest) async {
+    ArgumentError.checkNotNull(addBeneficiaryRequest, 'addBeneficiaryRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(addBeneficiaryRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/add-beneficiary',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = AddBeneficiaryResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<AddBeneficiaryResponse> mapBeneficiaryDetails(
+      commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/map-beneficiary-detail',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = AddBeneficiaryResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<SearchBeneficiaryResponse> searchBeneficiary(queries) async {
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/search-beneficiary-detail',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SearchBeneficiaryResponse.fromJson(_result.data);
     return value;
   }
 }

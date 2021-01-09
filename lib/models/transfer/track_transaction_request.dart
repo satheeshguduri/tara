@@ -8,7 +8,10 @@ class TrackTransactionRequest extends CommonRegistrationRequest{
   dynamic merchantTxnId;
   bool waitForCompletion;
 
-  TrackTransactionRequest({custPSPId, accessToken, transactionId, acquiringSource, merchantId, requestedLocale, this.merchantTxnId, this.waitForCompletion});
+  TrackTransactionRequest({String custPSPId,
+    String accessToken, String transactionId,
+    AcquiringSourceBean acquiringSource, String merchantId,
+    String requestedLocale, this.merchantTxnId, this.waitForCompletion}): super(custPSPId:custPSPId, accessToken:accessToken, transactionId:transactionId, acquiringSource: acquiringSource, merchantId:merchantId, requestedLocale:requestedLocale);
 
   factory TrackTransactionRequest.fromJson(Map<String, dynamic> json) => _$TrackTransactionRequestFromJson(json);
 

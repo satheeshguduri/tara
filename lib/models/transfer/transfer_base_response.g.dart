@@ -10,8 +10,8 @@ TransferBaseResponse _$TransferBaseResponseFromJson(Map<String, dynamic> json) {
   return TransferBaseResponse(
     transactionId: json['transactionId'] as String,
     success: json['success'] as bool,
-    errorCode: json['errorCode'],
-    errorReason: json['errorReason'],
+    errorCode: json['errorCode'] as String,
+    errorReason: json['errorReason'] as String,
     status: json['status'] as String,
   );
 }

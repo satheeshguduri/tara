@@ -17,7 +17,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
   String baseUrl;
 
   @override
-  Future<dynamic> registerUserTxn(userRegistrationTxnRequest) async {
+  Future<void> registerUserTxn(userRegistrationTxnRequest) async {
     ArgumentError.checkNotNull(
         userRegistrationTxnRequest, 'userRegistrationTxnRequest');
     const _extra = <String, dynamic>{};
@@ -25,7 +25,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final _data = <String, dynamic>{};
     _data.addAll(userRegistrationTxnRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
-    final _result = await _dio.request(
+    await _dio.request<void>(
         'umps-core/umps-sms/urn:apiver:1.0/user-registration-txn',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -34,8 +34,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = _result.data;
-    return value;
+    return null;
   }
 
   @override

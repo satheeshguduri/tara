@@ -10,8 +10,8 @@ TransactionResponse _$TransactionResponseFromJson(Map<String, dynamic> json) {
   return TransactionResponse(
     transactionId: json['transactionId'] as String,
     success: json['success'] as bool,
-    errorCode: json['errorCode'],
-    errorReason: json['errorReason'],
+    errorCode: json['errorCode'] as String,
+    errorReason: json['errorReason'] as String,
     status: json['status'] as String,
     bic: json['bic'],
     merchantTxnId: json['merchantTxnId'] as String,

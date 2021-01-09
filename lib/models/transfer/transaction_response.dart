@@ -7,8 +7,8 @@ part 'transaction_response.g.dart';
 class TransactionResponse {
   String transactionId;
   bool success;
-  dynamic errorCode;
-  dynamic errorReason;
+  String errorCode;
+  String errorReason;
   String status; //C, P
   dynamic bic;
   String merchantTxnId;

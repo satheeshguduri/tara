@@ -7,15 +7,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tara_app/injector.dart';
 
 import 'package:tara_app/main.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
+import 'package:tara_app/repositories/auth_repository_impl.dart';
 import 'package:tara_app/tara_app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(TaraApp());
-
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);

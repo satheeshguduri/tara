@@ -25,7 +25,7 @@ abstract class UMPSCoreRestClient {
   factory UMPSCoreRestClient(Dio dio, {String baseUrl}) = _UMPSCoreRestClient;
 
   @POST(UMPSCoreApi.user_registration_txn)
-  Future<dynamic> registerUserTxn(@Body() UserRegistrationTxnRequest userRegistrationTxnRequest);// empty response just with status code 200 to be checked
+  Future<void> registerUserTxn(@Body() UserRegistrationTxnRequest userRegistrationTxnRequest);// empty response just with status code 200 to be checked
 
   @POST(UMPSCoreApi.user_registration)
   Future<SplRegistrationResponseEnc> registerUser(@Body() SplRegistrationRequestEnc splRegistrationRequestEnc);//from this extract RegistrationResponse

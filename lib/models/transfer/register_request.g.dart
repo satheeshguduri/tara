@@ -1,14 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'track_transaction_request.dart';
+part of 'register_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TrackTransactionRequest _$TrackTransactionRequestFromJson(
-    Map<String, dynamic> json) {
-  return TrackTransactionRequest(
+RegisterRequest _$RegisterRequestFromJson(Map<String, dynamic> json) {
+  return RegisterRequest(
     custPSPId: json['custPSPId'] as String,
     accessToken: json['accessToken'] as String,
     transactionId: json['transactionId'] as String,
@@ -18,13 +17,11 @@ TrackTransactionRequest _$TrackTransactionRequestFromJson(
             json['acquiringSource'] as Map<String, dynamic>),
     merchantId: json['merchantId'] as String,
     requestedLocale: json['requestedLocale'] as String,
-    merchantTxnId: json['merchantTxnId'],
-    waitForCompletion: json['waitForCompletion'] as bool,
+    userName: json['userName'] as String,
   );
 }
 
-Map<String, dynamic> _$TrackTransactionRequestToJson(
-        TrackTransactionRequest instance) =>
+Map<String, dynamic> _$RegisterRequestToJson(RegisterRequest instance) =>
     <String, dynamic>{
       'custPSPId': instance.custPSPId,
       'accessToken': instance.accessToken,
@@ -32,6 +29,5 @@ Map<String, dynamic> _$TrackTransactionRequestToJson(
       'acquiringSource': instance.acquiringSource,
       'merchantId': instance.merchantId,
       'requestedLocale': instance.requestedLocale,
-      'merchantTxnId': instance.merchantTxnId,
-      'waitForCompletion': instance.waitForCompletion,
+      'userName': instance.userName,
     };

@@ -8,12 +8,15 @@ part of 'transaction_request.dart';
 
 TransactionRequest _$TransactionRequestFromJson(Map<String, dynamic> json) {
   return TransactionRequest(
-    custPSPId: json['custPSPId'],
-    accessToken: json['accessToken'],
-    transactionId: json['transactionId'],
-    acquiringSource: json['acquiringSource'],
-    merchantId: json['merchantId'],
-    requestedLocale: json['requestedLocale'],
+    custPSPId: json['custPSPId'] as String,
+    accessToken: json['accessToken'] as String,
+    transactionId: json['transactionId'] as String,
+    acquiringSource: json['acquiringSource'] == null
+        ? null
+        : AcquiringSourceBean.fromJson(
+            json['acquiringSource'] as Map<String, dynamic>),
+    merchantId: json['merchantId'] as String,
+    requestedLocale: json['requestedLocale'] as String,
     type: _$enumDecodeNullable(_$RequestTypeEnumMap, json['type']),
     payer: json['payer'] == null
         ? null
@@ -27,10 +30,13 @@ TransactionRequest _$TransactionRequestFromJson(Map<String, dynamic> json) {
     timeTillExpireMins: json['timeTillExpireMins'],
     merchantTxnId: json['merchantTxnId'] as String,
     feeTaxRefId: json['feeTaxRefId'] as String,
-  )
-    ..userName = json['userName'] as String
-    ..bic = json['bic'] as String
-    ..cardLast6Digits = json['cardLast6Digits'] as String;
+    refId: json['refId'] as String,
+    custRefId: json['custRefId'] as String,
+    initiatorAppId: json['initiatorAppId'] as String,
+    initiatorMobileNo: json['initiatorMobileNo'] as String,
+    refURL: json['refURL'] as String,
+    subMerchantName: json['subMerchantName'] as String,
+  );
 }
 
 Map<String, dynamic> _$TransactionRequestToJson(TransactionRequest instance) =>
@@ -41,9 +47,6 @@ Map<String, dynamic> _$TransactionRequestToJson(TransactionRequest instance) =>
       'acquiringSource': instance.acquiringSource,
       'merchantId': instance.merchantId,
       'requestedLocale': instance.requestedLocale,
-      'userName': instance.userName,
-      'bic': instance.bic,
-      'cardLast6Digits': instance.cardLast6Digits,
       'type': _$RequestTypeEnumMap[instance.type],
       'payer': instance.payer,
       'payees': instance.payees,
@@ -52,6 +55,12 @@ Map<String, dynamic> _$TransactionRequestToJson(TransactionRequest instance) =>
       'timeTillExpireMins': instance.timeTillExpireMins,
       'merchantTxnId': instance.merchantTxnId,
       'feeTaxRefId': instance.feeTaxRefId,
+      'initiatorMobileNo': instance.initiatorMobileNo,
+      'initiatorAppId': instance.initiatorAppId,
+      'custRefId': instance.custRefId,
+      'subMerchantName': instance.subMerchantName,
+      'refId': instance.refId,
+      'refURL': instance.refURL,
     };
 
 T _$enumDecode<T>(

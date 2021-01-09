@@ -6,8 +6,8 @@ part 'transfer_base_response.g.dart';
 class TransferBaseResponse {
   String transactionId;
   bool success;
-  dynamic errorCode;
-  dynamic errorReason;
+  String errorCode;
+  String errorReason;
   String status;
 
   TransferBaseResponse({this.transactionId, this.success, this.errorCode, this.errorReason, this.status});
