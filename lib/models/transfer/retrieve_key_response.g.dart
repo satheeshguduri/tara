@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'request_key_response.dart';
+part of 'retrieve_key_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RequestKeyResponse _$RequestKeyResponseFromJson(Map<String, dynamic> json) {
-  return RequestKeyResponse(
+RetrieveKeyResponse _$RetrieveKeyResponseFromJson(Map<String, dynamic> json) {
+  return RetrieveKeyResponse(
     sessionKey: json['sessionKey'] as String,
     bankKi: json['bankKi'] as String,
     publicKey: json['publicKey'] as String,
@@ -16,7 +16,8 @@ RequestKeyResponse _$RequestKeyResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$RequestKeyResponseToJson(RequestKeyResponse instance) =>
+Map<String, dynamic> _$RetrieveKeyResponseToJson(
+        RetrieveKeyResponse instance) =>
     <String, dynamic>{
       'sessionKey': instance.sessionKey,
       'bankKi': instance.bankKi,

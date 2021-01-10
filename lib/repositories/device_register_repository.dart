@@ -120,6 +120,7 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
         var decryptedBody = await CryptoHelper().decryptDataWithSymmetricKey(response.userRegistrationResponsePayloadEnc, response?.commonResponse?.symmetricKey, sessionInfo.sessionKey);
         var finalResponse = UserRegistrationResponse.fromJson(getMap(decryptedBody));
         sessionLocalDataStore.setDeviceRegInfo(finalResponse);
+        return Right(finalResponse);
       }
       return Left(Failure(message: "Failed to decrypt"));
     }catch(e ){

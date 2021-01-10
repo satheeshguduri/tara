@@ -6,7 +6,6 @@
 */
 
 
-import 'package:device_info/device_info.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
@@ -15,14 +14,14 @@ import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/core/device/common_request.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
 import 'package:tara_app/models/transfer/constants/transaction_type.dart';
+import 'package:tara_app/models/transfer/device_info.dart' as DeviceInfoWithPSP;
 import 'package:tara_app/services/config/psp_config.dart';
 import 'package:tara_app/tara_app.dart';
-import 'package:wifi/wifi.dart';
 
 class BaseRequestHelper{
   BaseRequestHelper();
 
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
   Future<CommonRequestBean> getCommonRequestBean(TransactionType transactionType, String symmetricKey) async{
     var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
@@ -43,8 +42,9 @@ class BaseRequestHelper{
 
   Future<AcquiringSourceBean> getCommonAcquiringSourceBean({String mobileNumber}) async{
     String ip = "";//await Wifi.;
+    var authResponse = await getIt.get<UserLocalDataStore>().getUser();
     return AcquiringSourceBean(
-      mobileNumber: mobileNumber,
+      mobileNumber: mobileNumber??authResponse?.customerProfile?.mobileNumber??"",
       geoCode: GeoCodeBean(latitude: "",longitude: ""),//TODO from geo_locator
       appName: PSPConfig.APP_NAME,
       sourceIPv4: ip,
@@ -83,6 +83,7 @@ class BaseRequestHelper{
   }
   Future<DeviceInfoBean> getDeviceInfoBean() async {
     var deviceId = await FlutterUdid.udid;
+    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
       return DeviceInfoBean(
         cpuArch: "64bit",
         deviceId: deviceId,
@@ -96,8 +97,26 @@ class BaseRequestHelper{
         screenResolution: "2220x1080",
         timezoneOffset: "GMT+7",
         userAgent: "JUNIT/Nilesh",
-
       );
+  }
+  Future<DeviceInfoWithPSP.DeviceInfoBean> getDeviceInfoBeanWithPSP() async {
+    var deviceId = await FlutterUdid.udid;
+    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+    return DeviceInfoWithPSP.DeviceInfoBean(
+        cpuArch: "64bit",
+        deviceId: deviceId,
+        appId: PSPConfig.APP_NAME,
+        hardwareTouchSupport: true,
+        imei1: "511845795493030",
+        imei2: "450714849660619",
+        languageSet: "english",
+        os: "android10",
+        maxTouchPoints: "10",
+        screenResolution: "2220x1080",
+        timezoneOffset: "GMT+7",
+        userAgent: "JUNIT/Nilesh",
+        pspIdentifier:deviceRegInfo?.pspIdentifier // CHECK HERE
+    );
   }
 
 

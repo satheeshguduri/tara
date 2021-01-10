@@ -13,13 +13,21 @@ import 'package:flutter_udid/flutter_udid.dart';
 import 'package:logging/logging.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
+import 'package:tara_app/common/helpers/crypto_helper.dart';
 import 'package:tara_app/common/helpers/pki_crypto_utils.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
+import 'package:tara_app/models/core/device/common_request.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
+import 'package:tara_app/models/transfer/constants/request_type.dart';
+import 'package:tara_app/models/transfer/constants/transaction_type.dart';
+import 'package:tara_app/models/transfer/payment_instrument.dart';
+import 'package:tara_app/models/transfer/pre_transaction_request.dart';
 import 'package:tara_app/models/transfer/register_request.dart';
+import 'package:tara_app/models/transfer/retrieve_key_request.dart';
 import 'package:tara_app/models/transfer/track_transaction_request.dart';
+import 'package:tara_app/models/transfer/transaction_request.dart';
 import 'package:tara_app/models/transfer/validate_mobile_request.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
@@ -86,6 +94,7 @@ class TestWidget extends StatelessWidget {
               // floatingLabelBehavior: FloatingLabelBehavior.always,
             )),*/
               // Spacer(),
+
               OutlineButton.icon(onPressed: ()async{
                 var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
                 var resp = await getIt.get<AuthRepository>().getCustomerProfile(commonRequest);
@@ -186,7 +195,96 @@ class TestWidget extends StatelessWidget {
 
                 }
 
-              },child: Text("Register"))
+              },child: Text("Register")),
+              OutlineButton.icon(onPressed: ()async{//  On contact Hit  ==> get the benId from the response
+                var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+                var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+                var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+                var toMobileNumber = "9865327410";
+                var queries = <String,dynamic>{
+                  "mobile":toMobileNumber,
+                  "appId":PSPConfig.APP_NAME,
+                  "accessToken": tokenResponse?.token,
+                  "pspId": deviceRegInfo?.pspIdentifier,
+                };
+                await getIt.get<TransactionRepository>().searchBeneficiary(queries);
+
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Get Beneficiary Details")),
+              OutlineButton.icon(onPressed: ()async{
+                //Base info required for the requests
+                var toMobileNumber = "+919161654647";
+                var amount= "100";
+                var remarks = "Test amount transfer";
+                var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transactionr equest.
+                var benId = 38; // get these from Search beneficiary call by passing the mobile number to the api
+                var bic = "CENAID00001"; // get these from Search beneficiary call by passing the mobile number to the api
+                var initiatorAccountId = -6848046393958140242; //
+
+
+                var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+                var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+                var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+                var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
+                var preTransactionRequest = PreTransactionRequest(type: RequestType.PAY,
+                  acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+                  requestedLocale: "en",
+                  merchantId: PSPConfig.MERCHANT_ID,
+                  accessToken: tokenResponse.token,
+                  transactionId: sessionInfo.transactionId,
+                  custPSPId: deviceRegInfo.pspIdentifier,
+                  amount: amount,
+                  );
+                var resp = await getIt.get<TransactionRepository>().initiatePreTransactionRequest(preTransactionRequest);
+                if(resp.isRight()){
+                  var preTransactionResponse = resp.getOrElse(() => null);
+                  if(preTransactionResponse.success){
+                    var payeeInfo = PayeesBean(
+                        amount: amount,
+                        mobileNo: toMobileNumber,
+                        // beneId: benId,//MIGHT NOT REQUIRED
+                        appId: PSPConfig.APP_NAME
+                    );
+                    var transactionRequest = TransactionRequest(type: RequestType.PAY,
+                      acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+                      requestedLocale: "en",
+                      merchantId: PSPConfig.MERCHANT_ID,
+                      accessToken: tokenResponse.token,
+                      transactionId: sessionInfo.transactionId,
+                      custPSPId: deviceRegInfo.pspIdentifier,
+                      remarks: remarks,
+                      payees: [payeeInfo],
+                      merchantTxnId: merchantTxnId,
+                      feeTaxRefId: preTransactionResponse.feeTaxRefId,
+                      initiatorAccountId: initiatorAccountId, //TODO CHANGE
+                    );
+
+                    var tResp = await getIt.get<TransactionRepository>().initiateTransactionRequest(transactionRequest);
+                    if(tResp.isRight()){
+                      var initiateTransactionResponse = tResp.getOrElse(() => null);
+                      if(initiateTransactionResponse.success){
+                          //Retrieve Key Request
+                        var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
+                        var retrieveKeyRequest = RetrieveKeyRequest(
+                          deviceInfo: deviceInfo,
+                          paymentInstrument: PaymentInstrumentBean(
+                            paymentInstrumentType: "ACCOUNT",
+                            bic:bic
+                          ),
+                          resetCredentialCall: false,
+                          startDateTime: DateTime.now().microsecondsSinceEpoch
+                        );
+
+                        await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest);
+                      }else{
+                        //Show Toast or dailog here..
+                      }
+
+
+                    }
+                  }
+
+                }
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Initiate Transaction"))
             ],
           ),
         ),

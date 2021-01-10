@@ -9,7 +9,7 @@ class PreTransactionRequest extends CommonRegistrationRequest{
   RequestType type;
   String amount;
 
-  PreTransactionRequest({custPSPId, accessToken, transactionId, acquiringSource, merchantId, requestedLocale, this.type, this.amount});
+  PreTransactionRequest({String custPSPId, String accessToken, String transactionId, AcquiringSourceBean acquiringSource, String merchantId, String requestedLocale, this.type, this.amount}):super(custPSPId:custPSPId, accessToken:accessToken, transactionId:transactionId, acquiringSource: acquiringSource, merchantId:merchantId, requestedLocale:requestedLocale);
 
   factory PreTransactionRequest.fromJson(Map<String, dynamic> json) => _$PreTransactionRequestFromJson(json);
 
