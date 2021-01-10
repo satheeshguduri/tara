@@ -29,7 +29,7 @@ import 'auth_controller.dart';
 
 class TransactionController extends GetxController{
   var showProgress = false.obs;
-  var mobileNumber = "".obs;
+  var userMobileNumber =  Get.find<AuthController>().user.value.customerProfile.mobileNumber;
   var otp = "".obs;
 
  // var user = AuthResponse().obs;
@@ -75,7 +75,8 @@ class TransactionController extends GetxController{
     //validate empty state here for the text fields
 
     showProgress.value = true;
-    AuthRequest request = AuthRequest(mobileNumber: "+919542829992");
+
+    AuthRequest request = AuthRequest(mobileNumber: userMobileNumber);
     print(request.toJson());
     Either<Failure, BaseResponse> response = await getIt
         .get<AuthRepository>()
@@ -94,22 +95,17 @@ class TransactionController extends GetxController{
     //validate empty state here for the text fields
     if (isValidationSuccessInOtp()) {
       showProgress.value = true;
-      AuthRequest request =
-      AuthRequest(mobileNumber: mobileNumber.value, otp: otp.value);
+      AuthRequest request = AuthRequest(mobileNumber: userMobileNumber, otp: otp.value);
       Either<Failure, BaseResponse> response = await getIt
           .get<AuthRepository>()
           .validateOtp(AuthRequestWithData(data: request));
       showProgress.value = false;
       response.fold(
-              (l) {
+              (l)
+                => Get.defaultDialog(content: Text(l.message)),
+              (r) {
                 CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;
                 sendMoney(Utils().getCustomerProfile(), fromUser, double.tryParse(txtCtrlTransferAmt.text)??0.0);
-          },
-          //=> Get.defaultDialog(content: Text(l.message)
-
-              (r) {
-            //CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;
-            // Get.find<TransactionController>().sendMoney(Utils().getCustomerProfile(), fromUser,double.parse("199"));
 
           }
       );
