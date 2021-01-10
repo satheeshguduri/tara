@@ -35,7 +35,6 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      resizeToAvoidBottomInset:false,
         appBar: buildAppBar(context),
       body: getRootContainer(),
     );
@@ -44,13 +43,16 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
 
   Widget getRootContainer() {
     return Obx(() => SafeArea(
-            child: getOtpWidget()
-            .withProgressIndicator(showIndicator: controller.showProgress.value)));
+            child: SingleChildScrollView(
+               child: getOtpWidget()
+              .withProgressIndicator(showIndicator: controller.showProgress.value),
+            )));
 
   }
 
   Widget getOtpWidget() {
     return Container(
+      height: Get.height,
       margin: EdgeInsets.only(left: 16,right: 16),
       child: Column(
          children: [
@@ -162,7 +164,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                 text: TextSpan(children: [
                   TextSpan(
                       style: BaseStyles.mobileSubTextStyle,
-                      text: getTranslation(Strings.mobile_verification_subtext)),
+                      text: getTranslation(Strings.mobile_verification_subtext)+" "),
                   TextSpan(
                       style: BaseStyles.mobileNoTextStyle,
                       text: controller.userMobileNumber)
