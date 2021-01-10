@@ -165,7 +165,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                       text: getTranslation(Strings.mobile_verification_subtext)),
                   TextSpan(
                       style: BaseStyles.mobileNoTextStyle,
-                      text: controller.userMobileNumber.value)
+                      text: controller.userMobileNumber)
                 ]))),
         Container(
             padding: EdgeInsets.only(left: 40,right: 40),
@@ -279,7 +279,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                         ),
                       ],
                     )).onTap(onPressed: () {
-                  if (controller.userMobileNumber.value.isNotEmpty && controller.countDownTimeString.value == "00:00") {
+                  if (controller.userMobileNumber.isNotEmpty && controller.countDownTimeString.value == "00:00") {
                     controller.startTimer();
                     controller.getOtpForTransfer(isFromResendOtp:true);
                   }
