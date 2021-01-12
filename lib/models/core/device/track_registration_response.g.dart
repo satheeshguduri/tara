@@ -9,11 +9,11 @@ part of 'track_registration_response.dart';
 TrackRegistrationResponse _$TrackRegistrationResponseFromJson(
     Map<String, dynamic> json) {
   return TrackRegistrationResponse(
-    transactionId: json['transactionId'],
-    success: json['success'],
-    errorCode: json['errorCode'],
-    errorReason: json['errorReason'],
-    status: json['status'],
+    transactionId: json['transactionId'] as String,
+    success: json['success'] as bool,
+    errorCode: json['errorCode'] as String,
+    errorReason: json['errorReason'] as String,
+    status: json['status'] as String,
     mobileNumber: json['mobileNumber'] as String,
     pspId: json['pspId'] as String,
   )..sessionKey = json['sessionKey'] as String;

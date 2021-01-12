@@ -35,7 +35,7 @@ class BaseRequestHelper{
       splIdentifier: splIdentifier,
       symmetricKey: symmetricKey,
       transactionType: transactionType,
-        pspIdentifier: deviceRegInfo?.pspIdentifier);
+      pspIdentifier: deviceRegInfo?.pspIdentifier);
     return Future.value(commonRequestBean);
 
   }
@@ -45,9 +45,9 @@ class BaseRequestHelper{
     var authResponse = await getIt.get<UserLocalDataStore>().getUser();
     return AcquiringSourceBean(
       mobileNumber: mobileNumber??authResponse?.customerProfile?.mobileNumber??"",
-      geoCode: GeoCodeBean(latitude: "",longitude: ""),//TODO from geo_locator
+      geoCode: GeoCodeBean(latitude: "77.086877",longitude: "28.502991"),//TODO from geo_locator
       appName: PSPConfig.APP_NAME,
-      sourceIPv4: ip,
+      // sourceIPv4: ip,
     );
   }
   Future<CommonRegistrationRequest> getCommonRegistrationRequest() async{
@@ -56,12 +56,13 @@ class BaseRequestHelper{
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
     var splIdentifier = await getIt.get<SessionLocalDataStore>().getIdentifier();
-    var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber??"");
+    var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:"9542829992");
+    // var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber??"");
 
     var commonRequestBean = CommonRegistrationRequest(
         transactionId:  sessionInfo?.transactionId,
         accessToken:  tokenResponse?.token,
-        merchantId: PSPConfig.MERCHANT_ID,
+        // merchantId: PSPConfig.MERCHANT_ID,
         custPSPId: deviceRegInfo?.pspIdentifier,
         requestedLocale: "en",
         acquiringSource:acquiringSource
@@ -99,7 +100,7 @@ class BaseRequestHelper{
         userAgent: "JUNIT/Nilesh",
       );
   }
-  Future<DeviceInfoWithPSP.DeviceInfoBean> getDeviceInfoBeanWithPSP() async {
+  Future<DeviceInfoWithPSP.DeviceInfoBean> getDeviceInfoBeanWithPSP({mobileNumber}) async {
     var deviceId = await FlutterUdid.udid;
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     return DeviceInfoWithPSP.DeviceInfoBean(
@@ -115,7 +116,8 @@ class BaseRequestHelper{
         screenResolution: "2220x1080",
         timezoneOffset: "GMT+7",
         userAgent: "JUNIT/Nilesh",
-        pspIdentifier:deviceRegInfo?.pspIdentifier // CHECK HERE
+        pspIdentifier:deviceRegInfo?.pspIdentifier,
+        mobileNo: "9542829992"// CHECK HERE
     );
   }
 

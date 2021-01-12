@@ -5,7 +5,7 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 
-enum Action{
+enum ActionType{
   CARD_REGISTRATION,
 
 }

@@ -9,7 +9,7 @@ part of 'psp_rest_client.dart';
 class _PSPRestClient implements PSPRestClient {
   _PSPRestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://54.235.233.48:30443/';
+    baseUrl ??= 'https://182.71.195.99:30443/';
   }
 
   final Dio _dio;
@@ -124,6 +124,29 @@ class _PSPRestClient implements PSPRestClient {
     var value = _result.data
         .map((dynamic i) => BankDetailsBean.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<TrackAccountDetailsResponse> initiateAccountDetailsRequest(
+      commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/initiate-account-details-request-api',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TrackAccountDetailsResponse.fromJson(_result.data);
     return value;
   }
 

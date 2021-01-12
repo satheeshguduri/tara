@@ -11,6 +11,7 @@ import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/core/device/register_response.dart';
 import 'package:tara_app/models/core/device/token_response.dart';
 import 'package:tara_app/models/core/device/track_registration_response.dart';
+import 'package:tara_app/models/transfer/account_details_request.dart';
 import 'package:tara_app/models/transfer/add_beneficiary_request.dart';
 import 'package:tara_app/models/transfer/add_beneficiary_response.dart';
 import 'package:tara_app/models/transfer/bank_details_bean.dart';
@@ -47,13 +48,15 @@ abstract class PSPRestClient {
   @POST(PSPApi.register)
   Future<RegisterResponse> register(@Body() RegisterRequest registerRequest);
 
-
   @POST(PSPApi.track_registration)
   Future<TrackRegistrationResponse> trackRegistration(@Body() CommonRegistrationRequest commonRegistrationRequest);
 
   // 2. Add Account
   @POST(PSPApi.fetch_ecosystem_bank_list)
   Future<List<BankDetailsBean>> getBanksList(@Body() CommonRegistrationRequest commonRegistrationRequest);
+
+  @POST(PSPApi.initiate_account_details_request_api)
+  Future<TrackAccountDetailsResponse> initiateAccountDetailsRequest(@Body() AccountDetailsRequest commonRegistrationRequest);
 
   @POST(PSPApi.track_account_details_request_api)
   Future<TrackAccountDetailsResponse> trackAccountDetailsRequest(@Body() CommonRegistrationRequest commonRegistrationRequest);

@@ -15,6 +15,7 @@ class CommonResponse {
   String encryptionKeyRetrievalResponsePayloadEnc;
   String registerCardDetailResponsePayloadEnc;
   String fetchOtpCodeResponsePayloadEnc;
+  String validateOtpApiPayloadEnc;
 
   CommonResponse({this.commonResponse, this.encryptionKeyRetrievalResponsePayloadEnc,this.registerCardDetailResponsePayloadEnc,this.fetchOtpCodeResponsePayloadEnc});
 

@@ -16,12 +16,13 @@ class CommonRequest {
   String credentialKeysRetrievalPayloadEnc; //for RetrieveKey API
   String registerCardDetailPayloadEnc;
   String confirmAccountRegPayloadEnc; // for confirm Account
+  String fetchOtpCodePayloadEnc; // for confirm Account
   String refreshOtpApiPayloadEnc; // for refresh otp
   String validateOtpApiPayloadEnc; // for validate otp
   String credentialSubmissionPayloadEnc; // for authorize
 
 
-  CommonRequest({this.commonRequest, this.credentialKeysRetrievalPayloadEnc,this.registerCardDetailPayloadEnc,this.confirmAccountRegPayloadEnc,this.refreshOtpApiPayloadEnc,this.credentialSubmissionPayloadEnc,this.validateOtpApiPayloadEnc});
+  CommonRequest({this.commonRequest, this.credentialKeysRetrievalPayloadEnc,this.registerCardDetailPayloadEnc,this.confirmAccountRegPayloadEnc,this.refreshOtpApiPayloadEnc,this.credentialSubmissionPayloadEnc,this.validateOtpApiPayloadEnc,this.fetchOtpCodePayloadEnc});
 
   factory CommonRequest.fromJson(Map<String, dynamic> json) => _$CommonRequestFromJson(json);
 

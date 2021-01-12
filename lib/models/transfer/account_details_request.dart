@@ -8,7 +8,8 @@ class AccountDetailsRequest extends CommonRegistrationRequest{
   String bic;
   String cardLast6Digits;
 
-  AccountDetailsRequest({custPSPId, accessToken, transactionId, acquiringSource, merchantId, requestedLocale, this.bic, this.cardLast6Digits});
+  AccountDetailsRequest({String custPSPId, String accessToken, String transactionId, AcquiringSourceBean acquiringSource, String merchantId, String requestedLocale, this.bic, this.cardLast6Digits}):
+      super(custPSPId:custPSPId,accessToken:accessToken,transactionId:transactionId,acquiringSource:acquiringSource,merchantId:merchantId,requestedLocale:requestedLocale);
 
   factory AccountDetailsRequest.fromJson(Map<String, dynamic> json) => _$AccountDetailsRequestFromJson(json);
 

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/transfer/constants/action.dart';
 import 'package:tara_app/models/transfer/device_info.dart';
 
 part 'refresh_otp_request.g.dart';
@@ -7,7 +8,7 @@ part 'refresh_otp_request.g.dart';
 class RefreshOtpRequest {
   String bic;
   String referenceId;
-  String action;
+  ActionType action;
   DeviceInfoBean deviceInfo;
 
   RefreshOtpRequest({this.bic, this.referenceId, this.action, this.deviceInfo});

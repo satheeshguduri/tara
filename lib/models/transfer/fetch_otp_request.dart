@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/transfer/constants/action.dart';
 import 'package:tara_app/models/transfer/device_info.dart';
 import 'package:tara_app/models/transfer/payment_instrument.dart';
 
@@ -7,7 +8,7 @@ part 'fetch_otp_request.g.dart';
 @JsonSerializable()
 class FetchOtpRequest {
   PaymentInstrumentBean paymentInstrument;
-  String action;
+  ActionType action;
   DeviceInfoBean deviceInfo;
 
   FetchOtpRequest({this.paymentInstrument, this.action, this.deviceInfo});

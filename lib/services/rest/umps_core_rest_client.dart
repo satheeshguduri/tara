@@ -14,6 +14,11 @@ import 'package:tara_app/models/core/device/common_response.dart';
 import 'package:tara_app/models/core/device/spl_registration_request_enc.dart';
 import 'package:tara_app/models/core/device/user_registration_response.dart';
 import 'package:tara_app/models/core/device/user_registration_txn_request.dart';
+import 'package:tara_app/models/transfer/account_details_request.dart';
+import 'package:tara_app/models/transfer/confirm_account_registration_common_request.dart';
+import 'package:tara_app/models/transfer/fetch_otp_common_request.dart';
+import 'package:tara_app/models/transfer/fetch_otp_response.dart';
+import 'package:tara_app/models/transfer/track_account_details_response.dart';
 import 'package:tara_app/services/config/api.dart';
 import 'package:tara_app/services/config/psp_config.dart';
 
@@ -37,10 +42,10 @@ abstract class UMPSCoreRestClient {
   Future<CommonResponse> registerCardDetail(@Body() CommonRequest commonRequest);//from this extract RegisterCardResponse and pass RegisterCardRequest
 
   @POST(UMPSCoreApi.confirm_account_registration)
-  Future<CommonResponse> confirmAccountRegistration(@Body() CommonRequest commonRequest);// pass ConfirmAccountRegistrationRequest
+  Future<CommonResponse> confirmAccountRegistration(@Body() ConfirmAccountRegistrationCommonRequest commonRequest);// pass ConfirmAccountRegistrationRequest
 
   @POST(UMPSCoreApi.fetch_otp_challenge_code)
-  Future<CommonResponse> fetchOtp(@Body() CommonRequest commonRequest);// pass FetchOTPRequest and extract FetchOTP Response
+  Future<CommonResponse> fetchOtp(@Body() FetchOtpCommonRequest commonRequest);// pass FetchOTPRequest and extract FetchOTP Response
 
   @POST(UMPSCoreApi.refresh_otp_api)
   Future<CommonResponse> refreshOtp(@Body() CommonRequest commonRequest);// pass RefreshOTPRequest and extract FetchOTPResponse

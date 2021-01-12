@@ -21,6 +21,7 @@ CommonRequest _$CommonRequestFromJson(Map<String, dynamic> json) {
     credentialSubmissionPayloadEnc:
         json['credentialSubmissionPayloadEnc'] as String,
     validateOtpApiPayloadEnc: json['validateOtpApiPayloadEnc'] as String,
+    fetchOtpCodePayloadEnc: json['fetchOtpCodePayloadEnc'] as String,
   );
 }
 
@@ -31,6 +32,7 @@ Map<String, dynamic> _$CommonRequestToJson(CommonRequest instance) =>
           instance.credentialKeysRetrievalPayloadEnc,
       'registerCardDetailPayloadEnc': instance.registerCardDetailPayloadEnc,
       'confirmAccountRegPayloadEnc': instance.confirmAccountRegPayloadEnc,
+      'fetchOtpCodePayloadEnc': instance.fetchOtpCodePayloadEnc,
       'refreshOtpApiPayloadEnc': instance.refreshOtpApiPayloadEnc,
       'validateOtpApiPayloadEnc': instance.validateOtpApiPayloadEnc,
       'credentialSubmissionPayloadEnc': instance.credentialSubmissionPayloadEnc,

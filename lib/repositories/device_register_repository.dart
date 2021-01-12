@@ -10,6 +10,7 @@ import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:steel_crypt/steel_crypt.dart';
+import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/common/helpers/crypto_helper.dart';
 import 'package:tara_app/common/helpers/pki_crypto_utils.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
@@ -29,6 +30,8 @@ import 'package:tara_app/services/rest/umps_core_rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/tara_app.dart';
 
+import '../injector.dart';
+
 abstract class DeviceRegisterRepository {
   Future<Either<Failure,TokenResponse>> initiateSession(CommonRegistrationRequest commonRegistrationRequest);
   Future<Either<Failure,TokenResponse>> getAppToken(CommonRegistrationRequest commonRegistrationRequest);
@@ -37,6 +40,7 @@ abstract class DeviceRegisterRepository {
   Future<Either<Failure,void>> registerUserTxn(UserRegistrationTxnRequest registerRequest);
   Future<Either<Failure,UserRegistrationResponse>> registerUser(UserRegistrationRequest userRegistrationRequest);
   Future<Either<Failure,TrackRegistrationResponse>> trackRegistration(CommonRegistrationRequest commonRegistrationRequest);
+  Future<bool> checkAndInitiateSession();
 }
 
 class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
@@ -105,7 +109,7 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
   Future<Either<Failure, UserRegistrationResponse>> registerUser(UserRegistrationRequest commonRegistrationRequest) async{
     try {
       var sessionInfo = await sessionLocalDataStore.getSessionInfo();
-      var data = await CryptoHelper().encryptDataWithRandomKey(json.encode(commonRegistrationRequest.toJson()),sessionInfo.sessionKey);
+      var data = await CryptoHelper().encryptDataWithRandomKey(json.encode(commonRegistrationRequest.toJson()),sessionInfo.sessionKey,true);
       var symmetricKey  = data['symmetricKey'];
       var encryptedBody  = data['encryptedData'];
      var encryptedRequest = SplRegistrationRequestEnc(
@@ -117,7 +121,7 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
       );
       var response = await umpsRemoteDataSource.registerUser(encryptedRequest);
       if(response?.commonResponse?.symmetricKey?.isNotEmpty??false) {
-        var decryptedBody = await CryptoHelper().decryptDataWithSymmetricKey(response.userRegistrationResponsePayloadEnc, response?.commonResponse?.symmetricKey, sessionInfo.sessionKey);
+        var decryptedBody = await CryptoHelper().decryptDataWithSymmetricKey(response.userRegistrationResponsePayloadEnc, response?.commonResponse?.symmetricKey, sessionInfo.sessionKey,true);
         var finalResponse = UserRegistrationResponse.fromJson(getMap(decryptedBody));
         sessionLocalDataStore.setDeviceRegInfo(finalResponse);
         return Right(finalResponse);
@@ -159,6 +163,19 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
       return response;
     }
 
+  }
+
+
+  Future<bool> checkAndInitiateSession() async{
+    var isValidSession = await sessionLocalDataStore.isValidSession();
+    if(!isValidSession){
+      var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+      var initiateSessionResponse = await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
+      if(initiateSessionResponse.isRight()){
+        return true;
+      }
+    }
+    return isValidSession;
   }
 
 }

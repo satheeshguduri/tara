@@ -5,6 +5,7 @@
 *  Copyright © 2020 tara.id. All rights reserved.
 */
 import 'dart:async';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -20,15 +21,21 @@ import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/core/device/common_request.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
+import 'package:tara_app/models/transfer/account_details_request.dart';
+import 'package:tara_app/models/transfer/confirm_account_registration_request.dart';
+import 'package:tara_app/models/transfer/constants/action.dart';
 import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/models/transfer/constants/transaction_type.dart';
+import 'package:tara_app/models/transfer/fetch_otp_request.dart';
 import 'package:tara_app/models/transfer/payment_instrument.dart';
 import 'package:tara_app/models/transfer/pre_transaction_request.dart';
+import 'package:tara_app/models/transfer/register_card_request.dart';
 import 'package:tara_app/models/transfer/register_request.dart';
 import 'package:tara_app/models/transfer/retrieve_key_request.dart';
 import 'package:tara_app/models/transfer/track_transaction_request.dart';
 import 'package:tara_app/models/transfer/transaction_request.dart';
 import 'package:tara_app/models/transfer/validate_mobile_request.dart';
+import 'package:tara_app/models/transfer/validate_otp_request.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
 import 'package:tara_app/repositories/transaction_repository.dart';
@@ -77,70 +84,24 @@ class TestWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              /*Text("Demo of components"),
-          TextField(
-            decoration: const InputDecoration(
-              hintText: 'What do people call you?',
-              hintStyle: TextStyle(height:5, fontWeight: FontWeight.bold,color: Colors.red),
-              labelText: 'Name *',
-              labelStyle: TextStyle(height:5, fontWeight: FontWeight.bold,color:Colors.grey),
-            )),
-
-            TextField(textAlignVertical:TextAlignVertical.bottom,decoration: InputDecoration(
-              hintText: "Test",
-              labelText: "Phone Number",
-              floatingLabelBehavior: FloatingLabelBehavior.always,
-
-              // floatingLabelBehavior: FloatingLabelBehavior.always,
-            )),*/
-              // Spacer(),
 
               OutlineButton.icon(onPressed: ()async{
-                var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
-                var resp = await getIt.get<AuthRepository>().getCustomerProfile(commonRequest);
-              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Validate mobile Number")),
+              var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+              if(isSessionInitiated) {
+                var commonRequest = await BaseRequestHelper()
+                    .getCommonRegistrationRequest();
+
+                var resp = await getIt.get<AuthRepository>().getCustomerProfile(
+                    commonRequest);
+              }
+
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Get MyAccounts")),
               FlatButton(onPressed: ()async {
                 print("initiating the session");
 
                 // var commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
                 var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
                 await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
-
-
-               /*
-                final encryptionRes = await getEncryption(json.encode(dataObj.toJson()), PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
-                print('final encrypted string: $encryptionRes');
-                var data = await getDecryption(encryptionRes, PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
-                print("decrypted String:"+ data);
-                var client = await APIHelper().getSecurePSPRestClient();
-                var res = await client.getAppToken(PSPConfig.MERCHANT_KI, encryptionRes);
-                print("Response ==>> "+res);
-                final decryptionRes = await getDecryption(res, PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
-                print("Description String==>>"+decryptionRes);*/
-                // String decryptedString = '';
-               // String encrypted = 'bU-I8rV9GAeFCh0bM_U2q1oy_hYGiQeavIcmFdE3Ecnl6AaqAXBy7saT9mKeImP5kvVVICZsrQ4-';
-                // String encrypted = 'VyexK5nZf3IBRi9AH46LjvWiJ4cisp1iMGeVriUj0VEkUDYiwOJv75h-iYJk5D9kXpH2eQLmd5XOG_bGgoieHRG4iqr';
-               // var d = await getDecryption(encrypted,PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
-               //  print(d);
-                // Uint8List iv = hex.decode("c1f6fd873e14050697c168b3e9da5db2");
-                // Uint8List plain = utf8.encode("test data");
-                //
-                // AES aes = AES.ofCBC(base64Decode(PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY), iv, PaddingScheme.PKCS5Padding);
-                // Uint8List enc = await aes.encrypt(plain);
-                // print(utf8.decode(enc));
-                // Uint8List decrypted = await aes.decrypt(base64Encode(utf8.decode(enc))));
-                // print(decrypted.toString());
-                // var key = utf8.encode(PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY).toString();
-                // print(key);
-                //
-                // IV iv = IV.fromSecureRandom(16);
-                // var decryptText  = await FlutterAesEcbPkcs5.decryptString(encrypted, PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY);
-
-                // print(decryptText);
-                // var content = decodeQrCode(encrypted);
-                // var content  = await Cipher2.decryptAesCbc128Padding7(encrypted, "Σ6a}fG\$EO70",iv);
-                // print(content);
-
 
               }, child: Text("Submit")),
               RaisedButton(onPressed: ()async{
@@ -150,7 +111,8 @@ class TestWidget extends StatelessWidget {
                   var request = RegisterRequest(userName: "USER: 9542829992",
                       accessToken: tokenResponse.token,
                       acquiringSource: AcquiringSourceBean(mobileNumber: "9542829992"));
-                  print(request.toJson().toString());
+                  print(jsonEncode(request.toJson()));
+                  print(jsonEncode(request.acquiringSource.toJson()));
                    var data = await getIt.get<DeviceRegisterRepository>().register(request);
                    if(data.isRight()){
                      var registerResponse = data.orElse(() => null);
@@ -163,8 +125,10 @@ class TestWidget extends StatelessWidget {
                      );
                      await getIt.get<DeviceRegisterRepository>().registerUserTxn(txnRequest);
                      var deviceId = await FlutterUdid.udid;
+                     await getIt.get<SessionLocalDataStore>().setIdentifier(uuid.v1());
+                     var splIdentifier = await getIt.get<SessionLocalDataStore>().getIdentifier();
                      var userRegistrationRequest = UserRegistrationRequest(
-                       splIdentifier: uuid.v1(),
+                       splIdentifier: splIdentifier,
                        deviceInfo: DeviceInfoBean(
                          cpuArch: "64bit",
                          deviceId: deviceId,
@@ -226,17 +190,24 @@ class TestWidget extends StatelessWidget {
                 var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
                 var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
                 var preTransactionRequest = PreTransactionRequest(type: RequestType.PAY,
-                  acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+                  acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
                   requestedLocale: "en",
-                  merchantId: PSPConfig.MERCHANT_ID,
+                  // merchantId: PSPConfig.MERCHANT_ID,
                   accessToken: tokenResponse.token,
-                  transactionId: sessionInfo.transactionId,
+                  // transactionId: sessionInfo.transactionId,
                   custPSPId: deviceRegInfo.pspIdentifier,
                   amount: amount,
                   );
+
+                var customerProfileResp = await getIt.get<AuthRepository>().getCustomerProfile(commonRequest);
+                if(customerProfileResp.isRight()){
+                  var customerProfile =customerProfileResp.getOrElse(() => null);
+                  print(jsonEncode(customerProfile.toJson()));
+                }
                 var resp = await getIt.get<TransactionRepository>().initiatePreTransactionRequest(preTransactionRequest);
                 if(resp.isRight()){
                   var preTransactionResponse = resp.getOrElse(() => null);
+                  print(jsonEncode(preTransactionResponse.toJson()));
                   if(preTransactionResponse.success){
                     var payeeInfo = PayeesBean(
                         amount: amount,
@@ -245,11 +216,11 @@ class TestWidget extends StatelessWidget {
                         appId: PSPConfig.APP_NAME
                     );
                     var transactionRequest = TransactionRequest(type: RequestType.PAY,
-                      acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+                      acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
                       requestedLocale: "en",
-                      merchantId: PSPConfig.MERCHANT_ID,
+                      // merchantId: PSPConfig.MERCHANT_ID,
                       accessToken: tokenResponse.token,
-                      transactionId: sessionInfo.transactionId,
+                      // transactionId: sessionInfo.transactionId,
                       custPSPId: deviceRegInfo.pspIdentifier,
                       remarks: remarks,
                       payees: [payeeInfo],
@@ -261,9 +232,10 @@ class TestWidget extends StatelessWidget {
                     var tResp = await getIt.get<TransactionRepository>().initiateTransactionRequest(transactionRequest);
                     if(tResp.isRight()){
                       var initiateTransactionResponse = tResp.getOrElse(() => null);
+                      print(jsonEncode(initiateTransactionResponse.toJson()));
                       if(initiateTransactionResponse.success){
                           //Retrieve Key Request
-                        var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
+                        var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992");
                         var retrieveKeyRequest = RetrieveKeyRequest(
                           deviceInfo: deviceInfo,
                           paymentInstrument: PaymentInstrumentBean(
@@ -274,7 +246,7 @@ class TestWidget extends StatelessWidget {
                           startDateTime: DateTime.now().microsecondsSinceEpoch
                         );
 
-                        await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest);
+                        await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.FINANCIAL_TXN,initiateTransactionResponse.transactionId);
                       }else{
                         //Show Toast or dailog here..
                       }
@@ -284,7 +256,150 @@ class TestWidget extends StatelessWidget {
                   }
 
                 }
-              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Initiate Transaction"))
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Initiate Transaction")),
+              ///GET BANK LIST API CALL =========================== =========================== =========================== ===========================
+              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+
+                var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+                if(isSessionInitiated) {
+                  var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+                  var bankListR = await getIt.get<TransactionRepository>().getBanksList(commonRequest);
+                  if(bankListR.isRight()){
+                    var response = bankListR.getOrElse(() => null);
+
+                  }
+                }
+
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Get Banks List")),
+              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+                var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+                var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+                if(isSessionInitiated){
+                  var bankResp = await getIt.get<TransactionRepository>().getBanksList(commonRequest);
+                  if(bankResp.isRight()){
+                    var banksList = bankResp.getOrElse(() => null);
+                    var bic = banksList[1].bic;
+                    var accountDetailsRequest = AccountDetailsRequest(custPSPId: commonRequest.custPSPId,
+                    accessToken: commonRequest.accessToken,
+                    bic: bic,
+                    // transactionId: commonRequest.transactionId,
+                    requestedLocale: commonRequest.requestedLocale,
+                    cardLast6Digits: "012345",//"140008",
+                    acquiringSource: commonRequest.acquiringSource);
+                    print(jsonEncode(accountDetailsRequest.toJson()));
+                    var accInitResp = await getIt.get<TransactionRepository>().initiateAccountDetailsRequest(accountDetailsRequest);
+                    var startTime = DateTime.now().microsecondsSinceEpoch;
+                    if(accInitResp.isRight()){
+
+                        var accInitiateResponse = accInitResp.getOrElse(() => null);
+                        var txnId = accInitiateResponse.transactionId;
+                        if(accInitiateResponse.success){
+                          var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992");
+                          var retrieveKeyRequest = RetrieveKeyRequest(
+                              deviceInfo: deviceInfo,
+                              paymentInstrument: PaymentInstrumentBean(
+                                  paymentInstrumentType: "ACCOUNT",
+                                  bic:bic
+                              ),
+                              resetCredentialCall: false,
+                              startDateTime: startTime
+                          );
+                          print(jsonEncode(retrieveKeyRequest.toJson()));
+                          var respo = await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,accInitiateResponse.transactionId);
+                          if(respo.isRight()){
+                            var d = respo.getOrElse(() => null);
+                            print(jsonEncode(d.toJson()));
+                            var fullName = await CryptoHelper().encryptBankData("$txnId|YAKUB PASHA|${Random.secure()}",d.bankKi,d.publicKey);
+                            var number = await CryptoHelper().encryptBankData("$txnId|4111111111111111|${Random.secure()}",d.bankKi,d.publicKey);
+                            var cvv = await CryptoHelper().encryptBankData("$txnId|123|${Random.secure()}",d.bankKi,d.publicKey);
+                            var expMM = await CryptoHelper().encryptBankData("$txnId|02|${Random.secure()}",d.bankKi,d.publicKey);
+                            var expYY = await CryptoHelper().encryptBankData("$txnId|25|${Random.secure()}",d.bankKi,d.publicKey);
+                            var accountNumber = await CryptoHelper().encryptBankData("$txnId|1010101010101010|${Random.secure()}",d.bankKi,d.publicKey);
+                            var registerRequest = RegisterCardRequest(
+                                card: CardBean(
+                                  cvv: cvv,
+                                  number: number,
+                                  expiryMonth: expMM,
+                                  expiryYear: expYY,
+                                  fullName: fullName
+                                ),
+                              bic: bic,
+                              startDateTime: startTime,
+                              deviceInfo: deviceInfo,
+                              accountInfo: AccountInfoBean(
+                                bic: bic,
+                                accountNo: accountNumber,
+                              )
+                            );
+                            print(jsonEncode(registerRequest.toJson()));
+                            var resp = await getIt.get<TransactionRepository>().registerCardDetail(registerRequest,d.sessionKey,txnId,d.publicKey);
+                            if(resp.isRight()){
+                              var registerCardResponse = resp.getOrElse(() => null);
+                              print(jsonEncode(registerCardResponse.toJson()));
+                              var confirmAccountRegistrationRequest= ConfirmAccountRegistrationRequest(
+                                bic: bic,
+                                accepted: true,
+                                deviceInfo: deviceInfo
+                              );
+                              print(jsonEncode(confirmAccountRegistrationRequest.toJson()));
+                              var confirmResp = await getIt.get<TransactionRepository>().confirmAccountRegistration(confirmAccountRegistrationRequest,d.sessionKey,txnId);
+                              if(confirmResp.isRight()){
+                                var res = confirmResp.getOrElse(() => null);
+                                if(res.commonResponse.success){
+                                  var fetchOtpRequest = FetchOtpRequest(
+                                    deviceInfo: deviceInfo,
+                                    paymentInstrument: PaymentInstrumentBean(
+                                      bic: bic,
+                                      paymentInstrumentType: "ACCOUNT"
+                                    ),
+                                    action: ActionType.CARD_REGISTRATION,
+                                  );
+                                  print(jsonEncode(fetchOtpRequest.toJson()));
+                                  var fetchOTPR = await getIt.get<TransactionRepository>().fetchOtp(fetchOtpRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
+                                  if(fetchOTPR.isRight()){
+                                    var fetchOTPResponse = fetchOTPR.getOrElse(() => null);
+                                    print(jsonEncode(fetchOTPResponse.toJson()));
+                                    var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
+                                    var validateOtpRequest = ValidateOtpRequest(
+                                      deviceInfo: deviceInfo,
+                                      bic:bic,
+                                      action: ActionType.CARD_REGISTRATION,
+                                      referenceId: fetchOTPResponse.referenceId,
+                                      otp: encValid
+                                    );
+                                    print(jsonEncode(validateOtpRequest.toJson()));
+                                    var validateOTPR = await getIt.get<TransactionRepository>().validateOtp(validateOtpRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
+                                    if(validateOTPR.isRight()){
+                                      var validateOTPResponse = validateOTPR.getOrElse(() => null);
+                                      print(jsonEncode(validateOTPResponse.toJson()));
+
+                                      var req = await BaseRequestHelper().getCommonRegistrationRequest();
+                                      req.transactionId = txnId;
+                                      print(jsonEncode(req.toJson()));
+                                      var trackAccountR = await getIt.get<TransactionRepository>().trackAccountDetailsRequest(req,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
+                                      if(trackAccountR.isRight()){
+                                        var trackAccountResponse = trackAccountR.getOrElse(() => null);
+                                        print(jsonEncode(trackAccountResponse.toJson()));
+                                      }
+                                    }
+                                  }
+                                  
+                                }
+                              }
+                            }else{
+
+                            }
+                          }
+
+                        }
+                    }
+                  }
+                }
+
+
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add bank Account")),
+
+
             ],
           ),
         ),

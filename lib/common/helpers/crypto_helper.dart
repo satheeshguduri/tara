@@ -83,20 +83,38 @@ class CryptoHelper{
     }
   }
 
-  Future<Map<String,dynamic>> encryptDataWithRandomKey(data,sessionKey) async {
+  Future<Map<String,dynamic>> encryptDataWithRandomKey(data,sessionKey,isUserRegistration) async {
     try {
       final dynamic result = await platform
-          .invokeMethod("encryptWithAutoRandomKey",<String, dynamic>{'data': data, 'sessionKey': sessionKey});
+          .invokeMethod("encryptWithAutoRandomKey",<String, dynamic>{'data': data, 'sessionKey': sessionKey,'isUserRegistration':isUserRegistration});
       print(result.toString());
       return Map<String, dynamic>.from(result);
     } on PlatformException catch (e) {
       throw e;
     }
   }
-  Future<String> decryptDataWithSymmetricKey(data,symmetricKey,sessionKey) async {
+  Future<String> decryptDataWithSymmetricKey(data,symmetricKey,sessionKey,isUserRegistration) async {
     try {
       final dynamic result = await platform
-          .invokeMethod("decryptWithSymmetricKey",<String, dynamic>{'data': data, 'sessionKey': sessionKey,'symmetricKey':symmetricKey});
+          .invokeMethod("decryptWithSymmetricKey",<String, dynamic>{'data': data, 'sessionKey': sessionKey,'symmetricKey':symmetricKey,'isUserRegistration':isUserRegistration});
+      return result;
+    } on PlatformException catch (e) {
+      throw e;
+    }
+  }
+  Future<String> decryptDataWithPublicKey(data,symmetricKey,sessionKey,isUserRegistration,publicKey) async {
+    try {
+      final dynamic result = await platform
+          .invokeMethod("decryptWithSymmetricKey",<String, dynamic>{'data': data, 'sessionKey': sessionKey,'symmetricKey':symmetricKey,'isUserRegistration':isUserRegistration,'publicKey':publicKey});
+      return result;
+    } on PlatformException catch (e) {
+      throw e;
+    }
+  }
+  Future<String> encryptBankData(data,bankKi,bankKey) async {
+    try {
+      final dynamic result = await platform
+          .invokeMethod("encryptBankData",<String, dynamic>{'data': data, 'bankKi': bankKi,'bankKey':bankKey});
       return result;
     } on PlatformException catch (e) {
       throw e;

@@ -18,7 +18,7 @@ CommonResponse _$CommonResponseFromJson(Map<String, dynamic> json) {
         json['registerCardDetailResponsePayloadEnc'] as String,
     fetchOtpCodeResponsePayloadEnc:
         json['fetchOtpCodeResponsePayloadEnc'] as String,
-  );
+  )..validateOtpApiPayloadEnc = json['validateOtpApiPayloadEnc'] as String;
 }
 
 Map<String, dynamic> _$CommonResponseToJson(CommonResponse instance) =>
@@ -29,6 +29,7 @@ Map<String, dynamic> _$CommonResponseToJson(CommonResponse instance) =>
       'registerCardDetailResponsePayloadEnc':
           instance.registerCardDetailResponsePayloadEnc,
       'fetchOtpCodeResponsePayloadEnc': instance.fetchOtpCodeResponsePayloadEnc,
+      'validateOtpApiPayloadEnc': instance.validateOtpApiPayloadEnc,
     };
 
 CommonResponseBean _$CommonResponseBeanFromJson(Map<String, dynamic> json) {

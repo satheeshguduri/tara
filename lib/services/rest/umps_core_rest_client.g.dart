@@ -9,7 +9,7 @@ part of 'umps_core_rest_client.dart';
 class _UMPSCoreRestClient implements UMPSCoreRestClient {
   _UMPSCoreRestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://54.235.233.48:10443/';
+    baseUrl ??= 'https://182.71.195.99:30443/';
   }
 
   final Dio _dio;
