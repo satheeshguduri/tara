@@ -4,6 +4,8 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/drop_down_list.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -75,18 +77,18 @@ class _ConnectNewAccountSelectBankState
     return Scaffold(
       backgroundColor: Colors.white,
       key: key,
-      appBar: _buildAppBar(context),
-      body: SafeArea(child: loadWidgets(),),
+      appBar:CustomAppBarWidget(title: getTranslation(Strings.connect_new_account),addNewWidgetShow: false,),
+      body: SafeArea(child: loadWidgets()),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    loadData();
+   // loadData();
   }
 
-  void loadData() {
+  Future<List<BankInfo>>  loadData() async {
     arrBankInfo = [];
 
     for (var i = 0; i < arrBankNames.length; i++) {
@@ -107,6 +109,7 @@ class _ConnectNewAccountSelectBankState
       }
       arrBankInfo.add(bank);
     }
+    return arrBankInfo;
   }
 
   AppBar _buildAppBar(BuildContext context) {
@@ -137,7 +140,7 @@ class _ConnectNewAccountSelectBankState
         children: [
           headerViewContainer(""),
           Expanded(
-            child: (_searchText.toString().isNotEmpty && arrFilterBankInfo.isEmpty)?errorWidget():listViewContainer(),
+            child: (_searchText.toString().isNotEmpty && arrFilterBankInfo.isEmpty)?errorWidget():getListOfBanks(),
           )
         ],
       ),
@@ -145,7 +148,7 @@ class _ConnectNewAccountSelectBankState
   }
 
 
-  listViewContainer() {
+  listViewContainer(arrBankInfo) {
     return Container(
       margin: EdgeInsets.only(top:8),
       height: (arrFilterBankInfo!=null && arrFilterBankInfo.isNotEmpty)?(arrFilterBankInfo.length * 50).toDouble():
@@ -394,5 +397,22 @@ class _ConnectNewAccountSelectBankState
       ),
     );
   }
+
+  getListOfBanks() {
+    return FutureBuilder(
+        future: loadData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              arrBankInfo = snapshot.data;
+              return  listViewContainer(arrBankInfo);
+            }
+          }
+          return const Center(child: BaseWidgets.getIndicator);
+        }
+    );
+  }
+
+
 }
 

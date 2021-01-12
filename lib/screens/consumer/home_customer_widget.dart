@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -24,6 +25,7 @@ import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 import '../../common/constants/values.dart';
 import 'bills_see_all_screen.dart';
 import 'common_bills_payments_list.dart';
+import 'my_account/myaccounts_see_all_screen.dart';
 
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -66,8 +68,9 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    getMyAccountsWidget(),
+                    getTaraServicesWidget(),
                    // getTransferToWidget(),
+                    getMyAccountsWidget(),
                     getBillPaymentFuture(),
                     getTransactionsWidget(),
                     Container(
@@ -83,7 +86,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     );
   }
 
-  Widget getMyAccountsWidget()
+  Widget getTaraServicesWidget()
   {
     return Container(
       height: 95,
@@ -149,6 +152,34 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           )
         ],
       )
+    );
+  }
+
+  Widget  getMyAccountsWidget() {
+    return Container(
+        height: 95,
+        margin: EdgeInsets.only(left: 16,),
+        child: Column(
+          children: [
+            Container(
+              child: getTitleAndSeeAllText(Strings.myAccounts),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 8),
+              height: 44,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    if(index == 0){
+                      return addNewAccountIcon();
+                    }else{
+                      return  myAccountBankCard();
+                    }
+                  }),
+            )
+          ],
+        )
     );
   }
 
@@ -605,8 +636,13 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   {
                     Get.to(TransactionHistory());
                   }
+                  else if (title == Strings.myAccounts)
+                  {
+                    Get.to(MyAccountsSeeAllScreen());
+                  }
 
-             }
+
+                }
             ),
           ),
         ],
@@ -645,4 +681,110 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
    return 91.0;
 
  }
+
+  Widget addNewAccountIcon() {
+    return Container(
+      margin: EdgeInsets.only(right: 8),
+      child: DottedBorder(
+        borderType: BorderType.RRect,
+        radius: Radius.circular(12),
+        color: AppColors.input_field_line_off_2_2_2,
+        strokeWidth: 5,
+        dashPattern: [4,4],
+
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          child: Container(
+            height: 44,
+            width: 44,
+            color: AppColors.grey3,
+            child: getSvgImage(imagePath: Assets.assets_icon_p_plus,
+                width: 24.0,
+                height: 24.0),
+          ),
+        ),
+      ),
+    );
+
+  }
+
+  Widget myAccountBankCard(){
+    {
+    return  Container(
+          width: 172,
+          height: 44,
+          margin: EdgeInsets.only(right: 8),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                  Radius.circular(8)
+              ),
+              boxShadow: [BoxShadow(
+                  color: const Color(0x2307c9cf),
+                  offset: Offset(0,4),
+                  blurRadius: 4,
+                  spreadRadius: 0
+              )] ,
+              gradient: LinearGradient(
+                  begin: Alignment(1, 1),
+                  end: Alignment(0, 0),
+                  colors: [AppColors.myAccountGradientFirstColor, AppColors.color_mint_100_2_2_2])
+          ),
+         child: Row(
+           crossAxisAlignment: CrossAxisAlignment.center,
+           mainAxisAlignment: MainAxisAlignment.start,
+           children: [
+             getBankLogo(),getBankNumber()
+           ],
+         ),
+      ).onTap(onPressed: (){
+          getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(buttonText:"Okay",onTap:(){
+            Get.back();
+          },title:getTranslation(Strings.feature_title),desc:getTranslation(Strings.feature_sub_title),image:Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                  color: const Color(0xffd8d8d8)
+              )
+          )
+          )
+          );
+        }
+        );
+
+    }
+  }
+
+Widget getBankLogo() {
+
+  return Container(
+      width: 60,
+      height: 20,
+      margin: EdgeInsets.only(left: 8,right: 8),
+      padding: EdgeInsets.all(2),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+              Radius.circular(3)
+          ),
+          boxShadow: [BoxShadow(
+              color: const Color(0x17000000),
+              offset: Offset(0,2),
+              blurRadius: 4,
+              spreadRadius: 0
+          )] ,
+          color: AppColors.elevation_off_2_2_2
+      ),
+    child: getSvgImage(imagePath: Assets.logo_tara, width: 34.0,height: 13.0),
+  );
+  }
+
+  Widget getBankNumber() {
+    return Container(
+      // 4*** 1234
+     child: Text(
+            "4*** 1234",
+            style: TextStyles.subtitle1222
+        )
+    );
+  }
+
 }

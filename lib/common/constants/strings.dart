@@ -401,6 +401,28 @@ class Strings{
   static const token_number_hint = "token_number_hint";
   static const chooseNominal = "chooseNominal";
   static const inputOTP = "inputOTP";
+  static const myAccounts = "myAccounts";
+  static const debitCards = "debitCards";
+  static const creditCards = "creditCards";
+  static const taraCash = "taraCash";
+  static const defaultString = "defaultString";
+  static const addNewAccount = "addNewAccount";
+  static const addDebitCard = "addDebitCard";
+  static const addCreditCard = "addCreditCard";
+  static const addNew = "addNew";
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

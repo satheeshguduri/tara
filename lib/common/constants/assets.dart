@@ -182,6 +182,13 @@ class Assets {
   static const logo_tara_rewards = "assets/images/logo_tara_rewards.svg";
   static const logo_tara_score = "assets/images/logo_tara_score.svg";
   static const group = "assets/images/group.svg";
+  static const assets_icon_c_check_outline = "assets/images/assets_icon_c_check_outline.svg";
+  static const assets_icon_p_plus = "assets/images/assets_icon_p_plus.svg";
+
+
+
+
+
 
 
 

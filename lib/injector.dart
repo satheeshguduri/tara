@@ -16,6 +16,7 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/controller/create_store_and_owner_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
@@ -64,6 +65,8 @@ Future<void> init() async{
   getIt.registerLazySingleton<UserLocalDataStore>(() => UserLocalDataStoreImpl(getIt()));
   getIt.registerLazySingleton<SessionLocalDataStore>(() => SessionLocalDataStoreImpl(getIt()));
   Get.put(AuthController());
+ // Get.lazyPut(()=>TransactionController());
+  Get.put(TransactionController());
   getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(getIt(),getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<StoresRepository>(() => StoreRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(getIt(),getIt(),getIt()));

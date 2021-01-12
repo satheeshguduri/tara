@@ -13,6 +13,6 @@ class MainBindings implements Bindings{
   @override
   void dependencies() {
     Get.lazyPut<AuthResponse>(() => AuthResponse());
-    Get.lazyPut(()=>TransactionController());
+   // Get.lazyPut(()=>TransactionController());
   }
 }

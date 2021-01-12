@@ -24,6 +24,7 @@ import 'package:tara_app/utils/locale/utils.dart';
 import 'package:tara_app/common/constants/values.dart';
 
 import '../../injector.dart';
+import 'my_account/myaccounts_see_all_screen.dart';
 import 'my_account/otp_verification_screen.dart';
 
 
@@ -79,7 +80,6 @@ class _TransferToTaraUserState
   @override
   void initState() {
     super.initState();
-   // checkPermissionForContacts();
   }
 
   // void loadData() {
@@ -449,7 +449,8 @@ class _TransferToTaraUserState
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 4),
-                      child: Text(phoneNumberValidation(contactInfo),
+                      child: Text(
+                        phoneNumberValidation(contactInfo),
                         textAlign: TextAlign.left,
                         style: BaseStyles.transactionItemDateTextStyle,
                       ),
@@ -462,24 +463,22 @@ class _TransferToTaraUserState
         ),
       ),
       onTap: () {
-        if (index == 1) {
-          // AuthResponse resposne = AuthResponse(customerProfile:customerProfile);
-          push(ConversationPage(arrChats: ["decline_pay"],
-            custInfo: Utils().getCustomerProfile(),)); //YAKUB Dummy Profile
-        } else {
-          push(BankTransferNewContact(taraContact: contactInfo,));
+        // if (index == 1) {
+        //   // AuthResponse resposne = AuthResponse(customerProfile:customerProfile);
+        //   push(ConversationPage(arrChats: ["decline_pay"],
+        //     custInfo: Utils().getCustomerProfile(),)); //YAKUB Dummy Profile
+        // } else {
+
+          if(contactInfo.phones.elementAt(0).value!=null)
+          Get.to(BankTransferNewContact(taraContact: contactInfo,));
          // Get.to(OTPVerificationScreen());
+
         }
-      },
+     // },
     );
   }
 
-  void checkPermissionForContacts() async {
-    var status = await Permission.contacts.status;
-    if (!status.isGranted) {
-      PermissionStatus permissionStatus = await Permission.contacts.request();
-    }
-  }
+
 
   String phoneNumberValidation(Contact contactInfo) {
     try{
@@ -487,11 +486,6 @@ class _TransferToTaraUserState
     }catch(Exception){
       return " ";
     }
-  }
-  String contactNameValidation(String displayName) {
-    if(displayName!=null)
-      return displayName;
-    return "";
   }
 
 }

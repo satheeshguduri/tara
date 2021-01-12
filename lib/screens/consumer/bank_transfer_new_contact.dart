@@ -58,7 +58,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   List<String> arrFrequency = [Strings.DAILY, Strings.MONTHLY, Strings.YEARLY];
 
   final TextEditingController _typeAheadController = TextEditingController();
-  TransactionController controller = Get.find();
+ // TransactionController controller = Get.find<TransactionController>();
+   TransactionController controller = TransactionController();
 
 
   String frequencyType;

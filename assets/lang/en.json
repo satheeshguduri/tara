@@ -373,6 +373,15 @@
   "token_number": "Token Number",
   "token_number_hint": "Enter Your Token Number",
   "chooseNominal" : "Choose Nominal",
-  "inputOTP": "Input OTP"
+  "inputOTP": "Input OTP",
+  "myAccounts": "My Accounts",
+  "debitCards": "Debit Cards",
+  "creditCards" : "Credit Cards",
+  "taraCash": "Tara Cash",
+  "defaultString": "Default",
+  "addNewAccount": "Add New Account",
+  "addDebitCard": "Add a Debit Card",
+  "addCreditCard": "Add a Credit Card",
+  "addNew": "Add New"
 
 }

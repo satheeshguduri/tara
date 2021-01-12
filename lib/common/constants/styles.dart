@@ -957,6 +957,32 @@ class TextStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
+  static const myAccountsDefaultTextStyle =   TextStyle(
+      color: AppColors.yourPurchaseBillsDetailsText,
+      fontWeight: FontWeight.w500,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 10.0
+  );
+  static const bottomSheetCardTextStyle =  TextStyle(
+      color:  AppColors.fareColor,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+  static const myAccountsCardTextStyle =  TextStyle(
+          color:  AppColors.fareColor,
+          fontWeight: FontWeight.w700,
+          fontStyle:  FontStyle.normal,
+          fontSize: 20.0
+  );
+  static const caption222WithHeight2 = const TextStyle(
+      color:  Color(0xff123456),
+      fontWeight: FontWeight.w500,
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0,
+      height:2.0
+  );
 
 
 }
