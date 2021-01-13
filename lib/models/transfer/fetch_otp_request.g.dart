@@ -60,4 +60,5 @@ T _$enumDecodeNullable<T>(
 
 const _$ActionTypeEnumMap = {
   ActionType.CARD_REGISTRATION: 'CARD_REGISTRATION',
+  ActionType.PURCHASE: 'PURCHASE',
 };

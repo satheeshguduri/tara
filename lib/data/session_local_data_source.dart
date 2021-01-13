@@ -80,7 +80,7 @@ class SessionLocalDataStoreImpl implements SessionLocalDataStore{
       var data = await storage.read(IDENTIFIER_KEY);
       return data;
     }else{
-      return Future.value();
+      return Future.value(null);
     }
   }
 
@@ -95,7 +95,7 @@ class SessionLocalDataStoreImpl implements SessionLocalDataStore{
        var data = await storage.read(SESSION_KEY);
        return RegisterResponse.fromJson(data);
      }else{
-       return Future.value();
+       return Future.value(null);
      }
    }
 
@@ -110,7 +110,7 @@ class SessionLocalDataStoreImpl implements SessionLocalDataStore{
        var data = await storage.read(DEVICE_REG_KEY);
        return UserRegistrationResponse.fromJson(data);
      }else{
-       return Future.value();
+       return Future.value(null);
      }
    }
 

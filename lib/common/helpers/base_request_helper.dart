@@ -56,7 +56,7 @@ class BaseRequestHelper{
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
     var splIdentifier = await getIt.get<SessionLocalDataStore>().getIdentifier();
-    var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:"9542829992");
+    var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber??"9542829992");
     // var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber??"");
 
     var commonRequestBean = CommonRegistrationRequest(
@@ -103,6 +103,7 @@ class BaseRequestHelper{
   Future<DeviceInfoWithPSP.DeviceInfoBean> getDeviceInfoBeanWithPSP({mobileNumber}) async {
     var deviceId = await FlutterUdid.udid;
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+    var authResponse = await getIt.get<UserLocalDataStore>().getUser();
     return DeviceInfoWithPSP.DeviceInfoBean(
         cpuArch: "64bit",
         deviceId: deviceId,
@@ -117,7 +118,7 @@ class BaseRequestHelper{
         timezoneOffset: "GMT+7",
         userAgent: "JUNIT/Nilesh",
         pspIdentifier:deviceRegInfo?.pspIdentifier,
-        mobileNo: "9542829992"// CHECK HERE
+        mobileNo: mobileNumber??authResponse?.customerProfile?.mobileNumber??""// CHECK HERE
     );
   }
 

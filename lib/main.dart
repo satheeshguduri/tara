@@ -18,10 +18,12 @@ import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
 import 'package:tara_app/models/transfer/account_details_request.dart';
+import 'package:tara_app/models/transfer/authorize_request.dart';
 import 'package:tara_app/models/transfer/confirm_account_registration_request.dart';
 import 'package:tara_app/models/transfer/constants/action.dart';
 import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/models/transfer/constants/transaction_type.dart';
+import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/models/transfer/device_info.dart' as d;
 import 'package:tara_app/models/transfer/fetch_otp_request.dart';
 import 'package:tara_app/models/transfer/fetch_otp_response.dart';
@@ -87,6 +89,8 @@ class TestWidget extends StatelessWidget {
 
               }, child: Text("Submit")),
               RaisedButton(onPressed: ()async{
+                var commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
+                await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
                 await registerDevice();
 
               },child: Text("Register")),
@@ -217,7 +221,44 @@ class TestWidget extends StatelessWidget {
       }
     }
   }
+  Future validateOtpAndTrackTransaction(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic) async {
+    var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
+    var validateOtpRequest = ValidateOtpRequest(
+        deviceInfo: deviceInfo,
+        bic:bic,
+        action: ActionType.PURCHASE,
+        referenceId: fetchOTPResponse.referenceId,
+        otp: encValid
+    );
+    print(jsonEncode(validateOtpRequest.toJson()));
+    var validateOTPR = await getIt.get<TransactionRepository>().validateOtp(validateOtpRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
+    if(validateOTPR.isRight()){
+      var validateOTPResponse = validateOTPR.getOrElse(() => null);
+      print(jsonEncode(validateOTPResponse.toJson()));
 
+      var req = await BaseRequestHelper().getCommonRegistrationRequest();
+      req.transactionId = txnId;
+      print(jsonEncode(req.toJson()));
+      var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+      var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+      var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+      var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
+      var rr = TrackTransactionRequest(
+        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
+        requestedLocale: "en",
+        accessToken: tokenResponse.token,
+        transactionId: txnId,
+        custPSPId: deviceRegInfo.pspIdentifier,
+        waitForCompletion: true
+      );
+
+      var trackAccountR = await getIt.get<TransactionRepository>().trackTransactionRequest(rr);
+      if(trackAccountR.isRight()){
+        var trackAccountResponse = trackAccountR.getOrElse(() => null);
+        print(jsonEncode(trackAccountResponse.toJson()));
+      }
+    }
+  }
   Future validateOtpAndTrack(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic) async {
      var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
     var validateOtpRequest = ValidateOtpRequest(
@@ -257,8 +298,8 @@ class TestWidget extends StatelessWidget {
   }
 
   Future registerDevice() async {
-    var isValidSession = await getIt.get<SessionLocalDataStore>().isValidSession();
-    if(isValidSession){
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+    if(isSessionInitiated){
       var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
       var request = RegisterRequest(userName: "USER: 9542829992",
           accessToken: tokenResponse.token,
@@ -268,7 +309,6 @@ class TestWidget extends StatelessWidget {
        var data = await getIt.get<DeviceRegisterRepository>().register(request);
        if(data.isRight()){
          var registerResponse = data.orElse(() => null);
-         print(registerResponse);
          print("======================== Register user Transaction ========================================");
          var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
          var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
@@ -298,10 +338,12 @@ class TestWidget extends StatelessWidget {
            )
     
          );
-         print(userRegistrationRequest.toJson().toString());
+         print(jsonEncode(userRegistrationRequest.toJson()));
          var userRegResponseEither = await getIt.get<DeviceRegisterRepository>().registerUser(userRegistrationRequest);
          if(userRegResponseEither.isRight()){
            var userRegResponse = userRegResponseEither.getOrElse(() => null);
+           print("======================== Register user Transaction Response========================================");
+           print(jsonEncode(userRegResponse.toJson()));
            var trackRequest=  TrackTransactionRequest(accessToken:tokenResponse.token,transactionId: sessionInfo.transactionId,
                acquiringSource: AcquiringSourceBean(mobileNumber: "9542829992"));
            await getIt.get<DeviceRegisterRepository>().trackRegistration(trackRequest);
@@ -312,7 +354,7 @@ class TestWidget extends StatelessWidget {
     }
   }
 
-  Future getCustomerProfile2() async {
+  Future<CustomerProfileDetailsResponse> getCustomerProfile2() async {
      var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
       var commonRequest = await BaseRequestHelper()
@@ -320,6 +362,7 @@ class TestWidget extends StatelessWidget {
 
       var resp = await getIt.get<AuthRepository>().getCustomerProfile(
           commonRequest);
+      return resp.getOrElse(() => null);
     }
   }
 
@@ -342,89 +385,124 @@ class TestWidget extends StatelessWidget {
     return getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
   }
 
-  getCustomerProfile(){
-
-  }
   payNow() async {
-    var toMobileNumber = "+919161654647";
-    var amount= "100";
-    var remarks = "Test amount transfer";
-    var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transactionr equest.
-    //var benId = 38; // get these from Search beneficiary call by passing the mobile number to the api
-    var bic = "CENAID00001"; // get these from Search beneficiary call by passing the mobile number to the api
-    var initiatorAccountId = -6848046393958140242; //
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+    if(isSessionInitiated) {
+      var toMobileNumber = "8368951368";//"8106170677";//"9295909790";  should be without country code
+      var amount= "100";
+      var remarks = "Test amount transfer";
+      var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transaction request.
+      //var benId = 38; // get these from Search beneficiary call by passing the mobile number to the api
+      var bic = "CENAID00001"; // get these from Search beneficiary call by passing the mobile number to the api
+      var cvvValue = "123";
+
+      var customerProfile = await getCustomerProfile2();
+
+      var initiatorAccountId = customerProfile.mappedBankAccounts[0].accountTokenId;
+
+      var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+      var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+      var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+      var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
+      var preTransactionRequest = PreTransactionRequest(
+        type: RequestType.PAY,
+        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
+        requestedLocale: "en",
+        accessToken: tokenResponse.token,
+        custPSPId: deviceRegInfo.pspIdentifier,
+        amount: amount,
+      );
+
+      var resp = await getIt.get<TransactionRepository>().initiatePreTransactionRequest(preTransactionRequest);
+      if(resp.isRight()){
+        var preTransactionResponse = resp.getOrElse(() => null);
+        print("=====================Pre Transaction Request======================");
+        print(jsonEncode(preTransactionResponse.toJson()));
+        if(preTransactionResponse.success){
+          var payeeInfo = PayeesBean(
+              amount: amount,
+              mobileNo: toMobileNumber,
+              // beneId: benId,//MIGHT NOT REQUIRED
+              appId: PSPConfig.APP_NAME
+          );
+          var transactionRequest = TransactionRequest(type: RequestType.PAY,
+            acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
+            requestedLocale: "en",
+            accessToken: tokenResponse.token,
+            custPSPId: deviceRegInfo.pspIdentifier,
+            remarks: remarks,
+            payees: [payeeInfo],
+            merchantTxnId: merchantTxnId,
+            feeTaxRefId: preTransactionResponse.feeTaxRefId,
+            initiatorAccountId: initiatorAccountId, //TODO CHANGE
+          );
+          print("=====================Transaction Request======================");
+          print(jsonEncode(transactionRequest.toJson()));
+          var tResp = await getIt.get<TransactionRepository>().initiateTransactionRequest(transactionRequest);
+          if(tResp.isRight()){
+            var initiateTransactionResponse = tResp.getOrElse(() => null);
+            print("=====================Transaction Resposne======================");
+            print(jsonEncode(initiateTransactionResponse.toJson()));
+            if(initiateTransactionResponse.success){
+              //Retrieve Key Request
+              var txnId = initiateTransactionResponse.transactionId;
+              var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992");
+              var retrieveKeyRequest = RetrieveKeyRequest(
+                  deviceInfo: deviceInfo,
+                  paymentInstrument: PaymentInstrumentBean(
+                      paymentInstrumentType: "ACCOUNT",
+                      bic:bic
+                  ),
+                  resetCredentialCall: false,
+                  startDateTime: DateTime.now().microsecondsSinceEpoch
+              );
+              var respo = await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.FINANCIAL_TXN,txnId);
+              if(respo.isRight()) {
+                var retriveKeyResponse = respo.getOrElse(() => null);
+                print(jsonEncode(retriveKeyResponse.toJson()));
+                var cvv = await CryptoHelper().encryptBankData("$txnId|$cvvValue|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+                var authorizeReq = AuthorizeRequest(deviceInfo: await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992"),
+                    authorizePINCred: AuthorizePINCredBean(
+                        credType: "MPIN",
+                        credValue:cvv
+                    ));
+                var respo2 = await getIt.get<TransactionRepository>().authorize(authorizeReq,TransactionType.FINANCIAL_TXN,retriveKeyResponse.sessionKey,
+                    txnId);
+                if(respo2.isRight()){
+                  var res = respo2.getOrElse(() => null);
+                  if(res.commonResponse.success){
+                    var fetchOtpRequest = FetchOtpRequest(
+                      deviceInfo: deviceInfo,
+                      paymentInstrument: PaymentInstrumentBean(
+                          bic: bic,
+                          paymentInstrumentType: "ACCOUNT"
+                      ),
+                      action: ActionType.PURCHASE,
+                    );
+                    print(jsonEncode(fetchOtpRequest.toJson()));
+                    Timer(Duration(seconds: 2), ()async{
+                      var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+                      print(jsonEncode(deviceRegInfo.toJson()));
+                      var fetchOTPR = await getIt.get<TransactionRepository>().fetchOtp(fetchOtpRequest,TransactionType.FINANCIAL_TXN,retriveKeyResponse.sessionKey,txnId);
+                      if(fetchOTPR.isRight()){
+                        var fetchOTPResponse = fetchOTPR.getOrElse(() => null);
+                        print(jsonEncode(fetchOTPResponse.toJson()));
+                        var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
+                      }
+                    });
 
 
-    var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
-    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
-    var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
-    var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
-    var preTransactionRequest = PreTransactionRequest(type: RequestType.PAY,
-      acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
-      requestedLocale: "en",
-      // merchantId: PSPConfig.MERCHANT_ID,
-      accessToken: tokenResponse.token,
-      // transactionId: sessionInfo.transactionId,
-      custPSPId: deviceRegInfo.pspIdentifier,
-      amount: amount,
-    );
-
-    var customerProfileResp = await getIt.get<AuthRepository>().getCustomerProfile(commonRequest);
-    if(customerProfileResp.isRight()){
-      var customerProfile =customerProfileResp.getOrElse(() => null);
-      print(jsonEncode(customerProfile.toJson()));
-    }
-    var resp = await getIt.get<TransactionRepository>().initiatePreTransactionRequest(preTransactionRequest);
-    if(resp.isRight()){
-      var preTransactionResponse = resp.getOrElse(() => null);
-      print(jsonEncode(preTransactionResponse.toJson()));
-      if(preTransactionResponse.success){
-        var payeeInfo = PayeesBean(
-            amount: amount,
-            mobileNo: toMobileNumber,
-            // beneId: benId,//MIGHT NOT REQUIRED
-            appId: PSPConfig.APP_NAME
-        );
-        var transactionRequest = TransactionRequest(type: RequestType.PAY,
-          acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
-          requestedLocale: "en",
-          accessToken: tokenResponse.token,
-          // transactionId: sessionInfo.transactionId,
-          custPSPId: deviceRegInfo.pspIdentifier,
-          remarks: remarks,
-          payees: [payeeInfo],
-          merchantTxnId: merchantTxnId,
-          feeTaxRefId: preTransactionResponse.feeTaxRefId,
-          initiatorAccountId: initiatorAccountId, //TODO CHANGE
-        );
-
-        var tResp = await getIt.get<TransactionRepository>().initiateTransactionRequest(transactionRequest);
-        if(tResp.isRight()){
-          var initiateTransactionResponse = tResp.getOrElse(() => null);
-          print(jsonEncode(initiateTransactionResponse.toJson()));
-          if(initiateTransactionResponse.success){
-            //Retrieve Key Request
-            var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992");
-            var retrieveKeyRequest = RetrieveKeyRequest(
-                deviceInfo: deviceInfo,
-                paymentInstrument: PaymentInstrumentBean(
-                    paymentInstrumentType: "ACCOUNT",
-                    bic:bic
-                ),
-                resetCredentialCall: false,
-                startDateTime: DateTime.now().microsecondsSinceEpoch
-            );
-
-            await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.FINANCIAL_TXN,initiateTransactionResponse.transactionId);
-          }else{
-            //Show Toast or dailog here..
+                  }
+                }
+              }
+            }else{
+              //Show Toast or dailog here..
+            }
           }
-
-
         }
       }
-
     }
+
   }
 
 

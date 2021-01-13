@@ -38,6 +38,7 @@ import 'package:tara_app/models/transfer/retrieve_key_response.dart';
 import 'package:tara_app/models/transfer/retrieve_key_request.dart';
 import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
 import 'package:tara_app/models/transfer/track_account_details_response.dart';
+import 'package:tara_app/models/transfer/track_transaction_request.dart';
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/models/transfer/transaction_request.dart';
 import 'package:tara_app/models/transfer/transaction_response.dart';
@@ -67,7 +68,7 @@ abstract class TransactionRepository {
 
   Future<Either<Failure,TransactionResponse>> initiatePreTransactionRequest(PreTransactionRequest preTransactionRequest);
   Future<Either<Failure,TransactionResponse>> initiateTransactionRequest(TransactionRequest transactionRequest);
-  Future<Either<Failure,TransactionResponse>> trackTransactionRequest(TransactionRequest transactionRequest);
+  Future<Either<Failure,TransactionResponse>> trackTransactionRequest(TrackTransactionRequest transactionRequest);
 
   Future<Either<Failure,SearchBeneficiaryResponse>> searchBeneficiary(Map<String, dynamic> queries);
   Future<Either<Failure,ValidateMobileResponse>> validateMobile(ValidateMobileRequest validateMobileRequest);
@@ -88,7 +89,7 @@ abstract class TransactionRepository {
 
   Future<Either<Failure,RetrieveKeyResponse>> retrieveKey(RetrieveKeyRequest retrieveKeyRequest,TransactionType transactionType, String transactionId);//from this extract RetrieveKey Response and pass RetrieveKey request
 
-  Future<Either<Failure,CommonResponse>> authorize(AuthorizeRequest authorizeRequest);// pass ValidateOTPRequest
+  Future<Either<Failure,CommonResponse>> authorize(AuthorizeRequest authorizeRequest,TransactionType transactionType,String sessionKey,String transactionId);// pass ValidateOTPRequest
 
   Future<Either<Failure,FetchOtpResponse>> fetchOtp(FetchOtpRequest fetchOtpRequest,TransactionType transactionType, String sessionKey,String transactionId);// pass FetchOTPRequest and extract FetchOTP Response
 
@@ -244,30 +245,28 @@ class TransactionRepositoryImpl implements TransactionRepository{
   }
 
   @override
-  Future<Either<Failure, CommonResponse>> authorize(AuthorizeRequest authorizeRequest) async{
+  Future<Either<Failure, CommonResponse>> authorize(AuthorizeRequest authorizeRequest,TransactionType transactionType,String sessionKey,String transactionId) async{
     try{
-      var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
       var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
-      var data = await CryptoHelper().encryptDataWithRandomKey(json.encode(authorizeRequest.toJson()),deviceRegInfo.splKey,false);
+      var data = await CryptoHelper().encryptDataWithRandomKey(json.encode(authorizeRequest.toJson()),sessionKey,false);
       var symmetricKey  = data['symmetricKey'];
       var encryptedBody  = data['encryptedData'];
-      var commonRequestBean  = await BaseRequestHelper().getCommonRequestBean(TransactionType.FINANCIAL_TXN, symmetricKey);
+      var commonRequestBean  = await BaseRequestHelper().getCommonRequestBean(transactionType, symmetricKey);
+      commonRequestBean.txnId = transactionId;
       var commonRequest = CommonRequest(
           commonRequest: commonRequestBean,
-          credentialSubmissionPayloadEnc: encryptedBody
+          credentialSubmissionPayloadEnc:  encryptedBody
       );
-      print(jsonEncode(authorizeRequest.toJson()));
-      print(jsonEncode(commonRequest.toJson()));
       var response = await umpsRemoteDataSource.authorize(commonRequest);
-      print(jsonEncode(response.toJson()));
-      /*f(response?.commonResponse?.symmetricKey?.isNotEmpty??false) {
-        var decryptedBody = await CryptoHelper().decryptDataWithSymmetricKey(response., response?.commonResponse?.symmetricKey, sessionInfo.sessionKey);
-        var finalResponse = CommonResponse.fromJson(jsonDecode(decryptedBody));
+      print(jsonEncode(response));
+      return Right(response);
+      /*if(response?.commonResponse?.symmetricKey?.isNotEmpty??false) {
+        var decryptedBody = await CryptoHelper().decryptDataWithPublicKey(response.registerCardDetailResponsePayloadEnc, response?.commonResponse?.symmetricKey, deviceRegInfo.splKey,false,publickKey);
+        var finalResponse = RegisterCardResponse.fromJson(jsonDecode(decryptedBody));
         return Right(finalResponse);
       }*/
 
-      return Right(response);
-
+      return Left(Failure(message: "Something went wrong"));
     }catch(e){
       return Left(Failure.fromServerError(e));
     }
@@ -404,9 +403,13 @@ class TransactionRepositoryImpl implements TransactionRepository{
   }
 
   @override
-  Future<Either<Failure, TransactionResponse>> trackTransactionRequest(TransactionRequest transactionRequest) {
-    // TODO: implement trackTransactionRequest
-    throw UnimplementedError();
+  Future<Either<Failure, TransactionResponse>> trackTransactionRequest(TrackTransactionRequest transactionRequest) async{
+    try {
+      var response = await pspRemoteDataSource.trackTransactionRequest(transactionRequest);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
   }
 
   @override

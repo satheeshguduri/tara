@@ -7,5 +7,5 @@
 
 enum ActionType{
   CARD_REGISTRATION,
-
+  PURCHASE,
 }

@@ -21,6 +21,7 @@ import 'package:tara_app/models/transfer/pre_transaction_request.dart';
 import 'package:tara_app/models/transfer/register_request.dart';
 import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
 import 'package:tara_app/models/transfer/track_account_details_response.dart';
+import 'package:tara_app/models/transfer/track_transaction_request.dart';
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/models/transfer/transaction_request.dart';
 import 'package:tara_app/models/transfer/transaction_response.dart';
@@ -69,7 +70,7 @@ abstract class PSPRestClient {
   Future<TransactionResponse> initiateTransactionRequest(@Body() TransactionRequest transactionRequest);
 
   @POST(PSPApi.track_transaction_request)
-  Future<TransactionResponse> trackTransactionRequest(@Body() TransactionRequest transactionRequest);
+  Future<TransactionResponse> trackTransactionRequest(@Body() TrackTransactionRequest transactionRequest);
 
   ///4. Merchant Pay Request
   @POST(PSPApi.merchant_login)
