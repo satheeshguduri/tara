@@ -118,105 +118,108 @@ class TestWidget extends StatelessWidget {
     );
   }
 
-  Future addBankAccount() async {
+  Future addBankAccount(String bicValue, String last6Digits,String name, String cardNumber,String cvvData, String expM,String expY,String accountNum) async {
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
     if(isSessionInitiated){
-      var bankResp = await getIt.get<TransactionRepository>().getBanksList(commonRequest);
-      if(bankResp.isRight()){
-        var banksList = bankResp.getOrElse(() => null);
-        var bic = banksList[1].bic;
-        var accountDetailsRequest = AccountDetailsRequest(custPSPId: commonRequest.custPSPId,
-        accessToken: commonRequest.accessToken,
-        bic: bic,
-        // transactionId: commonRequest.transactionId,
-        requestedLocale: commonRequest.requestedLocale,
-        cardLast6Digits: "012345",//"140008",
-        acquiringSource: commonRequest.acquiringSource);
-        print(jsonEncode(accountDetailsRequest.toJson()));
-        var accInitResp = await getIt.get<TransactionRepository>().initiateAccountDetailsRequest(accountDetailsRequest);
-        var startTime = DateTime.now().microsecondsSinceEpoch;
-        if(accInitResp.isRight()){
-    
-            var accInitiateResponse = accInitResp.getOrElse(() => null);
-            var txnId = accInitiateResponse.transactionId;
-            if(accInitiateResponse.success){
-              var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992");
-              var retrieveKeyRequest = RetrieveKeyRequest(
-                  deviceInfo: deviceInfo,
-                  paymentInstrument: PaymentInstrumentBean(
-                      paymentInstrumentType: "ACCOUNT",
-                      bic:bic
-                  ),
-                  resetCredentialCall: false,
-                  startDateTime: startTime
-              );
-              print(jsonEncode(retrieveKeyRequest.toJson()));
-              var respo = await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,accInitiateResponse.transactionId);
-              if(respo.isRight()){
-                var retriveKeyResponse = respo.getOrElse(() => null);
-                print(jsonEncode(retriveKeyResponse.toJson()));
-                var fullName = await CryptoHelper().encryptBankData("$txnId|YAKUB PASHA|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var number = await CryptoHelper().encryptBankData("$txnId|4111111111111111|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var cvv = await CryptoHelper().encryptBankData("$txnId|123|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var expMM = await CryptoHelper().encryptBankData("$txnId|02|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var expYY = await CryptoHelper().encryptBankData("$txnId|25|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var accountNumber = await CryptoHelper().encryptBankData("$txnId|1010101010101010|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var registerRequest = RegisterCardRequest(
-                    card: CardBean(
-                      cvv: cvv,
-                      number: number,
-                      expiryMonth: expMM,
-                      expiryYear: expYY,
-                      fullName: fullName
-                    ),
+      var bic = bicValue;//"CENAID00001";
+      var accountDetailsRequest = AccountDetailsRequest(custPSPId: commonRequest.custPSPId,
+          accessToken: commonRequest.accessToken,
+          bic: bic,
+          // transactionId: commonRequest.transactionId,
+          requestedLocale: commonRequest.requestedLocale,
+          cardLast6Digits: last6Digits,//"012345",
+          acquiringSource: commonRequest.acquiringSource);
+      print(jsonEncode(accountDetailsRequest.toJson()));
+      var accInitResp = await getIt.get<TransactionRepository>().initiateAccountDetailsRequest(accountDetailsRequest);
+      var startTime = DateTime.now().microsecondsSinceEpoch;
+      if(accInitResp.isRight()){
+
+        var accInitiateResponse = accInitResp.getOrElse(() => null);
+        var txnId = accInitiateResponse.transactionId;
+        if(accInitiateResponse.success){
+          var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992");
+          var retrieveKeyRequest = RetrieveKeyRequest(
+              deviceInfo: deviceInfo,
+              paymentInstrument: PaymentInstrumentBean(
+                  paymentInstrumentType: "ACCOUNT",
+                  bic:bic
+              ),
+              resetCredentialCall: false,
+              startDateTime: startTime
+          );
+          print(jsonEncode(retrieveKeyRequest.toJson()));
+          var respo = await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,accInitiateResponse.transactionId);
+          if(respo.isRight()){
+            var retriveKeyResponse = respo.getOrElse(() => null);
+            print(jsonEncode(retriveKeyResponse.toJson()));
+            var fullName = await CryptoHelper().encryptBankData("$txnId|$name|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+            //Card Number  == 16 digit Number
+            var number = await CryptoHelper().encryptBankData("$txnId|$cardNumber|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+            //CVV == 123
+            var cvv = await CryptoHelper().encryptBankData("$txnId|$cvvData|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+            //exp Month == 02
+            var expMM = await CryptoHelper().encryptBankData("$txnId|$expM|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+            //exp Year == 25
+            var expYY = await CryptoHelper().encryptBankData("$txnId|$expY|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+            //1010101010101010 ==> Account Number
+            var accountNumber = await CryptoHelper().encryptBankData("$txnId|$accountNum|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+            var registerRequest = RegisterCardRequest(
+                card: CardBean(
+                    cvv: cvv,
+                    number: number,
+                    expiryMonth: expMM,
+                    expiryYear: expYY,
+                    fullName: fullName
+                ),
+                bic: bic,
+                startDateTime: startTime,
+                deviceInfo: deviceInfo,
+                accountInfo: AccountInfoBean(
                   bic: bic,
-                  startDateTime: startTime,
-                  deviceInfo: deviceInfo,
-                  accountInfo: AccountInfoBean(
-                    bic: bic,
-                    accountNo: accountNumber,
-                  )
-                );
-                print(jsonEncode(registerRequest.toJson()));
-                var resp = await getIt.get<TransactionRepository>().registerCardDetail(registerRequest,retriveKeyResponse.sessionKey,txnId,retriveKeyResponse.publicKey);
-                if(resp.isRight()){
-                  var registerCardResponse = resp.getOrElse(() => null);
-                  print(jsonEncode(registerCardResponse.toJson()));
-                  var confirmAccountRegistrationRequest= ConfirmAccountRegistrationRequest(
-                    bic: bic,
-                    accepted: true,
-                    deviceInfo: deviceInfo
+                  accountNo: accountNumber,
+                )
+            );
+            print(jsonEncode(registerRequest.toJson()));
+            var resp = await getIt.get<TransactionRepository>().registerCardDetail(registerRequest,retriveKeyResponse.sessionKey,txnId,retriveKeyResponse.publicKey);
+            if(resp.isRight()){
+              var registerCardResponse = resp.getOrElse(() => null);
+              print(jsonEncode(registerCardResponse.toJson()));
+              var confirmAccountRegistrationRequest= ConfirmAccountRegistrationRequest(
+                  bic: bic,
+                  accepted: true,
+                  deviceInfo: deviceInfo
+              );
+              print(jsonEncode(confirmAccountRegistrationRequest.toJson()));
+              var confirmResp = await getIt.get<TransactionRepository>().confirmAccountRegistration(confirmAccountRegistrationRequest,retriveKeyResponse.sessionKey,txnId);
+              if(confirmResp.isRight()){
+                var res = confirmResp.getOrElse(() => null);
+                if(res.commonResponse.success){
+                  var fetchOtpRequest = FetchOtpRequest(
+                    deviceInfo: deviceInfo,
+                    paymentInstrument: PaymentInstrumentBean(
+                        bic: bic,
+                        paymentInstrumentType: "ACCOUNT"
+                    ),
+                    action: ActionType.CARD_REGISTRATION,
                   );
-                  print(jsonEncode(confirmAccountRegistrationRequest.toJson()));
-                  var confirmResp = await getIt.get<TransactionRepository>().confirmAccountRegistration(confirmAccountRegistrationRequest,retriveKeyResponse.sessionKey,txnId);
-                  if(confirmResp.isRight()){
-                    var res = confirmResp.getOrElse(() => null);
-                    if(res.commonResponse.success){
-                      var fetchOtpRequest = FetchOtpRequest(
-                        deviceInfo: deviceInfo,
-                        paymentInstrument: PaymentInstrumentBean(
-                          bic: bic,
-                          paymentInstrumentType: "ACCOUNT"
-                        ),
-                        action: ActionType.CARD_REGISTRATION,
-                      );
-                      print(jsonEncode(fetchOtpRequest.toJson()));
-                      var fetchOTPR = await getIt.get<TransactionRepository>().fetchOtp(fetchOtpRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,retriveKeyResponse.sessionKey,txnId);
-                      if(fetchOTPR.isRight()){
-                        var fetchOTPResponse = fetchOTPR.getOrElse(() => null);
-                        print(jsonEncode(fetchOTPResponse.toJson()));
-                        await validateOtpAndTrack(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
-                      }
-                      
-                    }
+                  print(jsonEncode(fetchOtpRequest.toJson()));
+                  var fetchOTPR = await getIt.get<TransactionRepository>().fetchOtp(fetchOtpRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,retriveKeyResponse.sessionKey,txnId);
+                  if(fetchOTPR.isRight()){
+                    var fetchOTPResponse = fetchOTPR.getOrElse(() => null);
+                    print(jsonEncode(fetchOTPResponse.toJson()));
+
+                    // call in OTP validation Screen
+                    //await validateOtpAndTrack(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
                   }
-                }else{
-    
+
                 }
               }
-    
+            }else{
+
             }
+          }
+
         }
       }
     }
@@ -259,6 +262,7 @@ class TestWidget extends StatelessWidget {
       }
     }
   }
+
   Future validateOtpAndTrack(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic) async {
      var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
     var validateOtpRequest = ValidateOtpRequest(
