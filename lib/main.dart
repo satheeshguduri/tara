@@ -107,7 +107,7 @@ class TestWidget extends StatelessWidget {
                 await getBanksList();
               }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Get Banks List")),
               OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
-                await addBankAccount();
+                // await addBankAccount();
               }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add bank Account")),
 
 
@@ -277,7 +277,7 @@ class TestWidget extends StatelessWidget {
     if(validateOTPR.isRight()){
       var validateOTPResponse = validateOTPR.getOrElse(() => null);
       print(jsonEncode(validateOTPResponse.toJson()));
-        
+
       var req = await BaseRequestHelper().getCommonRegistrationRequest();
       req.transactionId = txnId;
       print(jsonEncode(req.toJson()));
@@ -296,7 +296,7 @@ class TestWidget extends StatelessWidget {
       var bankListR = await getIt.get<TransactionRepository>().getBanksList(commonRequest);
       if(bankListR.isRight()){
         var response = bankListR.getOrElse(() => null);
-    
+
       }
     }
   }
@@ -338,9 +338,9 @@ class TestWidget extends StatelessWidget {
              screenResolution: "2220x1080",
              timezoneOffset: "GMT+7",
              userAgent: "JUNIT/Nilesh",
-    
+
            )
-    
+
          );
          print(jsonEncode(userRegistrationRequest.toJson()));
          var userRegResponseEither = await getIt.get<DeviceRegisterRepository>().registerUser(userRegistrationRequest);
@@ -354,10 +354,11 @@ class TestWidget extends StatelessWidget {
          }
        }
     }else{
-    
+
     }
   }
 
+  //on Launch transfer amount entery screen
   Future<CustomerProfileDetailsResponse> getCustomerProfile2() async {
      var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
@@ -491,6 +492,7 @@ class TestWidget extends StatelessWidget {
                       if(fetchOTPR.isRight()){
                         var fetchOTPResponse = fetchOTPR.getOrElse(() => null);
                         print(jsonEncode(fetchOTPResponse.toJson()));
+                        //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
                         var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
                       }
                     });
