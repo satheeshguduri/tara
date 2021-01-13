@@ -6,6 +6,7 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
+import java.lang.Exception
 import java.nio.charset.StandardCharsets
 import java.security.Key
 import java.security.PublicKey
@@ -91,46 +92,66 @@ class MainActivity: FlutterActivity() {
                     TODO("VERSION.SDK_INT < O")
                 }
                 result.success(responseString)
-            }else if (call.method.equals("generateAes")) {
-
-                val responseString = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    PKIEncryptionDecryptionUtils.generateAes()
-
-                } else {
-                    TODO("VERSION.SDK_INT < O")
-                }
-                 println("AES GENERSTED:"+responseString);
+            }else if (call.method == "generateAes") {
+                val responseString = PKIEncryptionDecryptionUtils.generateAes()
                 result.success(responseString)
             } else if (call.method == "encryptWithAutoRandomKey") {
                  val data: String?  = call.argument("data")
                  val sessionKey: String?  = call.argument("sessionKey")
+                 val isUserRegistration: Boolean?  = call.argument("isUserRegistration")
                  val response:HashMap<String,Any> = HashMap();
-                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                     val randomAesKey = PKIEncryptionDecryptionUtils.generateAes();
-                     val encryptedData = String(PKIEncryptionDecryptionUtils.encryptAndEncodeByAes(data!!.toByteArray(StandardCharsets.UTF_8), randomAesKey), StandardCharsets.UTF_8)
-                     val symmetricKey = String(PKIEncryptionDecryptionUtils.encryptAndEncode(randomAesKey, PKIEncryptionDecryptionUtils.convertPublicKey(Base64.getDecoder().decode(sessionKey)))!!)
-                     response["encryptedData"] = encryptedData
-                     response["symmetricKey"] = symmetricKey
+                 val randomAesKey = PKIEncryptionDecryptionUtils.generateAes();
+                 val encryptedData = String(PKIEncryptionDecryptionUtils.encryptAndEncodeByAes(data!!.toByteArray(StandardCharsets.UTF_8), randomAesKey), StandardCharsets.UTF_8)
+                 val decodeKey= if(isUserRegistration!!){
+                     Base64.getDecoder().decode(sessionKey)
+                 }else{
+                     Base64.getUrlDecoder().decode(sessionKey)
                  }
+                 val symmetricKey = String(PKIEncryptionDecryptionUtils.encryptAndEncode(randomAesKey, PKIEncryptionDecryptionUtils.convertPublicKey(decodeKey))!!)
+                 response["encryptedData"] = encryptedData
+                 response["symmetricKey"] = symmetricKey
                  result.success(response)
              }else if (call.method == "decryptWithSymmetricKey") {
-                 val data: String?  = call.argument("data")
-                 val symmetricKey: String?  = call.argument("symmetricKey")
-                 val sessionKey: String?  = call.argument("sessionKey")
-                 var response:String? = "";
-                 val decSymmetricKey = PKIEncryptionDecryptionUtils.decodeAndDecrypt(symmetricKey!!.toByteArray(StandardCharsets.UTF_8),
-                         PKIEncryptionDecryptionUtils.convertPublicKey(Base64.getDecoder().decode(sessionKey)))
-                 println(data);
-                 println(decSymmetricKey);
-                 response = String(PKIEncryptionDecryptionUtils.decodeAndDecryptByAes(data!!.toByteArray(StandardCharsets.UTF_8), decSymmetricKey),StandardCharsets.UTF_8)
-//                 response["symmetricKey"] = symmetricKey
-                 print("Android Response:"+ response);
+                 try {
+                     val data: String? = call.argument("data")
+                     val symmetricKey: String? = call.argument("symmetricKey")
+                     val sessionKey: String? = call.argument("sessionKey")
+                     val publicKey: String? = call.argument("publicKey")
+                     val isUserRegistration: Boolean? = call.argument("isUserRegistration")
+                     println("data: $data")
+                     println("symmetricKey: $symmetricKey")
+                     println("sessionKey: $sessionKey")
+
+                     var decodeKey = if (isUserRegistration!!) {
+                         Base64.getDecoder().decode(sessionKey)
+                     } else {
+                         Base64.getUrlDecoder().decode(sessionKey)
+                     }
+                     /*if(publicKey!=null){
+                         decodeKey = Base64.getUrlDecoder().decode(Base64.getUrlDecoder().decode(publicKey));
+                     }*/
+
+
+                     println("decodeKey: $decodeKey")
+                     val decSymmetricKey = PKIEncryptionDecryptionUtils.decodeAndDecrypt(symmetricKey!!.toByteArray(StandardCharsets.UTF_8),
+                             PKIEncryptionDecryptionUtils.convertPublicKey(decodeKey))
+                 println("decSymmetricKey: $decSymmetricKey")
+                     val response = String(PKIEncryptionDecryptionUtils.decodeAndDecryptByAes(data!!.toByteArray(StandardCharsets.UTF_8), decSymmetricKey), StandardCharsets.UTF_8)
+                     print("Android Response:" + response);
+
                  result.success(response)
+                 }catch (e: Exception){
+                     e.printStackTrace()
+                 }
+             }else if (call.method == "encryptBankData") {
+                 val data: String?  = call.argument("data")
+                 val bankKi: String?  = call.argument("bankKi")
+                 val bankKey: String?  = call.argument("bankKey")
+                 val encryptedAccountData = PKIEncryptionDecryptionUtils.encryptAndEncode(data, PKIEncryptionDecryptionUtils.convertPublicKey(Base64.getUrlDecoder().decode(Base64.getUrlDecoder().decode(bankKey))))!!
+                 val encodedData = "$bankKi:$encryptedAccountData"
+                 result.success(encodedData)
              }
         }
 
-    }
-    private fun helloFromNativeCode(): String {
-        return "Hello from Native Android Code"
     }
 }
