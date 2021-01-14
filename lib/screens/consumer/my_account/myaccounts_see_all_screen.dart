@@ -4,7 +4,10 @@ import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
 import 'connect_new_account_select_ank.dart';
@@ -20,10 +23,11 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: CustomAppBarWidget(title: getTranslation(Strings.myAccounts),onPressed: (){
+    return Scaffold(
+      appBar: CustomAppBarWidget(
+        title: getTranslation(Strings.myAccounts), onPressed: () {
         showBottomSheet(context);
-      },addNewWidgetShow: true,),
+      }, addNewWidgetShow: true,),
       body: SafeArea(child: getRootContainer()),
     );
   }
@@ -39,34 +43,42 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
     );
   }
 
-  Widget  debitCardsHeadingWidget() {
+  Widget debitCardsHeadingWidget() {
     return Container(
-      margin: EdgeInsets.only(left: 16,top: 16),
-      child: Text(getTranslation(Strings.debitCards),style:TextStyles.myAccountsCardTextStyle),
+      margin: EdgeInsets.only(left: 16, top: 16),
+      child: Text(getTranslation(Strings.debitCards),
+          style: TextStyles.myAccountsCardTextStyle),
     );
   }
-  Widget  debitCardsListView() {
-    return ListView.builder(
-        physics:  ScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: 4,
-        itemBuilder: (context,index){
-          return customListTile();
-        });
-  }
-  Widget  creditCardsHeadingWidget() {
-    return Container(
-      margin: EdgeInsets.only(left: 16,top: 16),
-      child: Text(getTranslation(Strings.creditCards),style:TextStyles.myAccountsCardTextStyle),
+
+  Widget debitCardsListView() {
+    return FutureBuilder(
+      future: Get.find<TransactionController>().getCustomerProfile2(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          CustomerProfileDetailsResponse data = snapshot.data;
+          return showList(data.mappedBankAccounts);
+        }
+        return BaseWidgets.getIndicator;
+      },
     );
   }
-  Widget  creditCardsListView() {
+
+  Widget creditCardsHeadingWidget() {
+    return Container(
+      margin: EdgeInsets.only(left: 16, top: 16),
+      child: Text(getTranslation(Strings.creditCards),
+          style: TextStyles.myAccountsCardTextStyle),
+    );
+  }
+
+  Widget creditCardsListView() {
     return ListView.builder(
-        physics:  ScrollPhysics(),
+        physics: ScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 1,
-        itemBuilder: (context,index){
-          return customListTile();
+        itemCount: 0,
+        itemBuilder: (context, index) {
+          return Container();
         });
   }
 
@@ -74,7 +86,7 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
   BuildContext getContext() => context;
 
 
-  Widget customListTile() {
+  Widget customListTile(MappedBankAccountsBean mappedBankAccountsBean) {
     return Container(
       height: 64,
       margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -84,64 +96,70 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
           ),
           boxShadow: [BoxShadow(
               color: const Color(0x2307c9cf),
-              offset: Offset(0,4),
+              offset: Offset(0, 4),
               blurRadius: 4,
               spreadRadius: 0
-          )] ,
+          )
+          ],
           gradient: LinearGradient(
               begin: Alignment(1, 1),
               end: Alignment(0, 0),
-              colors: [AppColors.myAccountGradientFirstColor, AppColors.productListPriceColor])
+              colors: [
+                AppColors.myAccountGradientFirstColor,
+                AppColors.productListPriceColor
+              ])
       ),
       child:
       //Center(
       // child:
       Row(
-           children: [
-            Expanded(child: Row(children: [getLogo(),getCardNumber()
+          children: [
+            Expanded(child: Row(children: [getLogo(), getCardNumber(mappedBankAccountsBean)
             ],)
             ),
-            Row(children: [getDefault(),getArrow()],)
+            Row(children: [getDefault(), getArrow()],)
           ]),
       //),
 
     );
   }
 
-  Widget  getLogo() {
-    return  Container(
+  Widget getLogo() {
+    return Container(
       margin: EdgeInsets.only(left: 16),
-      padding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 4.0),
+      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 4.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
             Radius.circular(3)
         ),
         boxShadow: [BoxShadow(
             color: const Color(0x17000000),
-            offset: Offset(0,2),
+            offset: Offset(0, 2),
             blurRadius: 4,
             spreadRadius: 0
-        )] ,
+        )
+        ],
         color: AppColors.primaryElement,
       ),
-      child: getSvgImage(imagePath: Assets.logo_tara, width: 55.0,height: 21.0),
+      child: getSvgImage(
+          imagePath: Assets.logo_tara, width: 55.0, height: 21.0),
     );
-
   }
-  Widget getCardNumber() {
+
+  Widget getCardNumber(MappedBankAccountsBean mappedBankAccountsBean) {
     return Container(
       margin: EdgeInsets.only(left: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [cardNumberOnly(),bankNameOnly()
+        children: [cardNumberOnly(mappedBankAccountsBean.maskedAccountNumber), bankNameOnly()
         ],),
 
     );
-
   }
+
   Widget getDefault() {
-    return  Container(
+    return Container(
       height: 16,
       width: 67,
       margin: EdgeInsets.only(right: 12),
@@ -152,34 +170,31 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
         color: AppColors.primaryElement,
       ),
       child: Row(
-        children: [getCheckIcon(),getDefaultText()],
+        children: [getCheckIcon(), getDefaultText()],
       ),
     );
-
   }
-  Widget  getArrow() {
-    return  Container(
+
+  Widget getArrow() {
+    return Container(
       margin: EdgeInsets.only(right: 16),
       child: getSvgImage(imagePath: Assets.assets_icon_a_arrow_right,
           width: 20.0,
           height: 20.0),
     );
-
   }
 
-  Widget  cardNumberOnly() {
-
+  Widget cardNumberOnly(String maskedAccountNumber) {
     return Container(
-        child: Text("4*** 1234",
+        child: Text(
+            getMaskedAccountNumber(maskedAccountNumber),
             style: TextStyles.subtitle1222
         )
     );
-
-
   }
 
   Widget bankNameOnly() {
-    return  Container(
+    return Container(
       child: Text(
         getTranslation(Strings.taraCash),
         style: TextStyles.caption222WithHeight2,
@@ -188,8 +203,8 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
   }
 
   Widget getCheckIcon() {
-    return  Container(
-      margin: EdgeInsets.only(left:8,right: 4),
+    return Container(
+      margin: EdgeInsets.only(left: 8, right: 4),
       child: getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,
           width: 12.0,
           height: 12.0),
@@ -200,12 +215,12 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
     return // Default
       Text(
           getTranslation(Strings.defaultString),
-          style:TextStyles.myAccountsDefaultTextStyle
+          style: TextStyles.myAccountsDefaultTextStyle
       );
   }
 
 
-  Future  showBottomSheet(BuildContext context) {
+  Future showBottomSheet(BuildContext context) {
     return showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
@@ -220,7 +235,8 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
     return Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight: Radius.circular(8)),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8), topRight: Radius.circular(8)),
             color: Colors.white
         ),
         child: Wrap(
@@ -241,11 +257,14 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
               ),
               Text(
                   getTranslation(Strings.addNewAccount),
-                  style:TextStyles.myAccountsCardTextStyle
+                  style: TextStyles.myAccountsCardTextStyle
               ),
               Container(
-                child:Column(
-                  children: [ getCardTextWidget(getTranslation(Strings.addDebitCard)),getDivider(color: AppColors.light_grey_bg_color),getCardTextWidget(getTranslation(Strings.addCreditCard))
+                child: Column(
+                  children: [
+                    getCardTextWidget(getTranslation(Strings.addDebitCard)),
+                    getDivider(color: AppColors.light_grey_bg_color),
+                    getCardTextWidget(getTranslation(Strings.addCreditCard))
 
 
                   ],
@@ -256,34 +275,38 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
     );
   }
 
-  Widget  getCardTextWidget(String cardType) {
-    return   Container(
-      padding: EdgeInsets.only(top: 8,bottom: 8),
+  Widget getCardTextWidget(String cardType) {
+    return Container(
+      padding: EdgeInsets.only(top: 8, bottom: 8),
       child: Row(
         children: [
           Expanded(
             flex: 12,
-            child:Text(
+            child: Text(
                 cardType,
-                style:TextStyles.bottomSheetCardTextStyle
-            ) ,
+                style: TextStyles.bottomSheetCardTextStyle
+            ),
           )
         ],
       ),
-    ).onTap(onPressed: (){
-     Get.to(ConnectNewAccountSelectBank());
+    ).onTap(onPressed: () {
+      Get.to(ConnectNewAccountSelectBank());
     }
     );
-
-
   }
 
+  Widget showList(List<MappedBankAccountsBean> mappedBankAccounts) {
+    return ListView.builder(
+        physics: ScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: mappedBankAccounts.length,
+        itemBuilder: (context, index) {
+          return customListTile(mappedBankAccounts[index]);
+        });
+  }
 
-
-
-
-
-
-
+  String getMaskedAccountNumber(String fullString) {
+    List<String> list = fullString.split('#').toList();
+    return "****"+ list[0].substring(list[0].length - 4);
+  }
 }
-

@@ -163,14 +163,11 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         builder: (context,snapshot){
           if(snapshot.hasData){
             CustomerProfileDetailsResponse data = snapshot.data;
-            var parseData = data;
             return getMyAccountsWidget(data.mappedBankAccounts);
           }
           return BaseWidgets.getIndicator;
         },
       );
-
-
    }
 
   getMyAccountsGridItem(String imagePath,int index)
