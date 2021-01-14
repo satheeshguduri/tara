@@ -679,7 +679,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         borderType: BorderType.RRect,
         radius: Radius.circular(12),
         color: AppColors.input_field_line_off_2_2_2,
-        strokeWidth: 5,
+        strokeWidth: 2,
         dashPattern: [4,4],
 
         child: ClipRRect(
@@ -769,7 +769,6 @@ Widget getBankLogo() {
 
   Widget getBankNumber(MappedBankAccountsBean data) {
     return Container(
-      // 4*** 1234
      child: Text(
             getMaskedAccountNumber(data.maskedAccountNumber),
             style: TextStyles.subtitle1222
