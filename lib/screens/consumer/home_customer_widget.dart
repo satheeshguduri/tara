@@ -15,8 +15,10 @@ import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/common/widgets/home_top_bar_widget.dart';
 import 'package:tara_app/common/widgets/rounded_card_button.dart';
 import 'package:tara_app/controller/bill_controller.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
+import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
@@ -70,7 +72,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   children: [
                     getTaraServicesWidget(),
                    // getTransferToWidget(),
-                    getMyAccountsWidget(),
+                    getMyAccountsFuture(),
                     getBillPaymentFuture(),
                     getTransactionsWidget(),
                     Container(
@@ -155,33 +157,21 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     );
   }
 
-  Widget  getMyAccountsWidget() {
-    return Container(
-        height: 95,
-        margin: EdgeInsets.only(left: 16,),
-        child: Column(
-          children: [
-            Container(
-              child: getTitleAndSeeAllText(Strings.myAccounts),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 8),
-              height: 44,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    if(index == 0){
-                      return addNewAccountIcon();
-                    }else{
-                      return  myAccountBankCard();
-                    }
-                  }),
-            )
-          ],
-        )
-    );
-  }
+  Widget  getMyAccountsFuture() {
+      return FutureBuilder(
+        future: Get.find<TransactionController>().getCustomerProfile2(),
+        builder: (context,snapshot){
+          if(snapshot.hasData){
+            CustomerProfileDetailsResponse data = snapshot.data;
+            var parseData = data;
+            return getMyAccountsWidget(data.mappedBankAccounts);
+          }
+          return BaseWidgets.getIndicator;
+        },
+      );
+
+
+   }
 
   getMyAccountsGridItem(String imagePath,int index)
   {
@@ -708,7 +698,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
   }
 
-  Widget myAccountBankCard(){
+  Widget myAccountBankCard(MappedBankAccountsBean data){
     {
     return  Container(
           width: 172,
@@ -733,7 +723,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
            crossAxisAlignment: CrossAxisAlignment.center,
            mainAxisAlignment: MainAxisAlignment.start,
            children: [
-             getBankLogo(),getBankNumber()
+             getBankLogo(),getBankNumber(data)
            ],
          ),
       ).onTap(onPressed: (){
@@ -777,14 +767,44 @@ Widget getBankLogo() {
   );
   }
 
-  Widget getBankNumber() {
+  Widget getBankNumber(MappedBankAccountsBean data) {
     return Container(
       // 4*** 1234
      child: Text(
-            "4*** 1234",
+            //"4*** 1234",
+            data.maskedAccountNumber,
             style: TextStyles.subtitle1222
         )
     );
+  }
+
+  Widget getMyAccountsWidget(List<MappedBankAccountsBean> parseData) {
+    return Container(
+        height: 95,
+        margin: EdgeInsets.only(left: 16,),
+        child: Column(
+          children: [
+            Container(
+              child: getTitleAndSeeAllText(Strings.myAccounts),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 8),
+              height: 44,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: parseData.length+1,
+                  itemBuilder: (context, index) {
+                    if(index == 0){
+                      return addNewAccountIcon();
+                    }else{
+                      return  myAccountBankCard(parseData[index-1]);
+                    }
+                  }),
+            )
+          ],
+        )
+    );
+
   }
 
 }

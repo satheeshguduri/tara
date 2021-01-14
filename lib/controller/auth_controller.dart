@@ -15,7 +15,9 @@ import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/helpers/helpers.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
+import 'package:tara_app/controller/device_register_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/flavors.dart';
 import 'package:tara_app/screens/Merchant/create_store_screen.dart';
@@ -96,7 +98,7 @@ class AuthController extends GetxController {
     }
   }
 
-  void login() async {
+     void login() async {
     //validate empty state here for the text fields
     if (isValidationSuccessInSignIn()) {
       showProgress.value = true;
@@ -106,11 +108,17 @@ class AuthController extends GetxController {
           mobileNumber: mobileNumber.value, password: confirmPwd.value,customerProfile: customerProfile);
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().login(request);
-      showProgress.value = false;
       response.fold((l) => GetHelper().getDialog(content: ErrorStateInfoWidget(desc: l.message,)),
-          (r) => {
-            Get.offAll(Utils().getLandingScreen())
-          });
+          (r) async => {
+          if(await getIt.get<SessionLocalDataStore>().getDeviceRegInfo() != null)
+         {
+           showProgress.value = false,
+          Get.offAll(Utils().getLandingScreen()),
+          }else{
+          await DeviceRegisterController().registerDevice(),
+           }
+          }
+        );
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }
@@ -284,4 +292,8 @@ class AuthController extends GetxController {
   String formatTime(int timeNum) {
     return timeNum < 10 ? "0" + timeNum.toString() : timeNum.toString();
   }
+
+
+
+  registerDevice() {}
 }

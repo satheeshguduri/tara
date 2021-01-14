@@ -10,16 +10,24 @@ import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/core/device/user_registration_request.dart';
+import 'package:tara_app/models/transfer/fetch_otp_response.dart';
+import 'package:tara_app/models/transfer/retrieve_key_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/models/transfer/device_info.dart' as device;
+
 
 class OTPVerificationScreen extends StatefulWidget {
-
-  const OTPVerificationScreen({Key key,})
-      : super(key: key);
+ final String txnId;
+ final FetchOtpResponse fetchOtpResponse;
+ final RetrieveKeyResponse retrieveKeyResponse;
+ final device.DeviceInfoBean deviceInfoBean;
+ final String bic;
+ const OTPVerificationScreen({this.txnId,this.fetchOtpResponse,this.retrieveKeyResponse,this.deviceInfoBean,this.bic});
 
   @override
   OTPVerificationScreenState createState() =>  OTPVerificationScreenState();
@@ -30,6 +38,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
   bool isOtpEntered = false;
 
   TransactionController controller = Get.find();
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +53,10 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
   Widget getRootContainer() {
     return Obx(() => SafeArea(
             child: SingleChildScrollView(
-               child: getOtpWidget()
+               child: getOtpWidget())
               .withProgressIndicator(showIndicator: controller.showProgress.value),
-            )));
+         )
+    );
 
   }
 
@@ -99,6 +109,8 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       ),
     ).onTap(onPressed: () {
       if (isOtpEntered) {
+        ((widget.fetchOtpResponse.otpChallengeCode)!=null)?
+        controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic):
         controller.validateOtpForTransfer();
         // pop();
        }
@@ -179,7 +191,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                       text: "Enter the OTP code from the SMS with Challenge Code:"),
                   TextSpan(
                       style: BaseStyles.otpWithSMSCodeTextStyle,
-                      text:"182932")
+                      text:widget?.fetchOtpResponse?.otpChallengeCode??"000000")
                 ]))),
 
         Column(
@@ -283,7 +295,9 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                     )).onTap(onPressed: () {
                   if (controller.userMobileNumber.isNotEmpty && controller.countDownTimeString.value == "00:00") {
                     controller.startTimer();
-                    controller.getOtpForTransfer(isFromResendOtp:true);
+                    ((widget.fetchOtpResponse.otpChallengeCode)!=null)?
+                     controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic):
+                     controller.getOtpForTransfer(isFromResendOtp:true);
                   }
                 }),
               ),

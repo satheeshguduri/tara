@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
@@ -8,8 +9,12 @@ import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/drop_down_list.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/models/transfer/bank_details_bean.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/my_account/enter_card_details.dart';
+import 'package:tara_app/common/constants/values.dart';
+
 
 class ConnectNewAccountSelectBank extends StatefulWidget {
   ConnectNewAccountSelectBank({Key key}) : super(key: key);
@@ -21,12 +26,14 @@ class ConnectNewAccountSelectBank extends StatefulWidget {
 
 class _ConnectNewAccountSelectBankState
     extends BaseState<ConnectNewAccountSelectBank> {
+  TransactionController controller = Get.find();
+
   final TextEditingController _searchQuery = TextEditingController();
   String _searchText = "";
   final key = GlobalKey<ScaffoldState>();
 
-  List<BankInfo> arrBankInfo = [];
-  List<BankInfo> arrFilterBankInfo = [];
+  List<BankDetailsBean> arrBankInfo = [];
+  List<BankDetailsBean> arrFilterBankInfo = [];
   List<String> arrBankNames = [
     "Bank BCA",
     "Bank BNI",
@@ -82,35 +89,44 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
+  // Widget getRootContainer() {
+  //   return Obx(() => SafeArea(
+  //         child: loadWidgets()).withProgressIndicator(showIndicator: controller.showProgress.value)
+  //
+  //   );
+
+ // }
+
+
   @override
   void initState() {
     super.initState();
    // loadData();
   }
 
-  Future<List<BankInfo>>  loadData() async {
-    arrBankInfo = [];
-
-    for (var i = 0; i < arrBankNames.length; i++) {
-      var bank = BankInfo();
-      bank.bankName = arrBankNames[i];
-      bank.bankIcon = arrBankIcons[i];
-      if (bank.bankName=="Bank BCA"){
-        bank.cardTypeIcons = arrBankBCACardTypesIcons;
-      }
-      else if (bank.bankName=="Bank BNI"){
-        bank.cardTypeIcons = arrBankBNICardTypesIcons;
-      }
-      else if (bank.bankName=="Bank BRI"){
-        bank.cardTypeIcons = arrBankBRICardTypesIcons;
-      }
-      else if (bank.bankName=="Bank BTN"){
-        bank.cardTypeIcons = arrBankBtnCardTypesIcons;
-      }
-      arrBankInfo.add(bank);
-    }
-    return arrBankInfo;
-  }
+  // Future<List<BankInfo>>  loadData() async {
+  //   arrBankInfo = [];
+  //
+  //   for (var i = 0; i < arrBankNames.length; i++) {
+  //     var bank = BankInfo();
+  //     bank.bankName = arrBankNames[i];
+  //     bank.bankIcon = arrBankIcons[i];
+  //     if (bank.bankName=="Bank BCA"){
+  //       bank.cardTypeIcons = arrBankBCACardTypesIcons;
+  //     }
+  //     else if (bank.bankName=="Bank BNI"){
+  //       bank.cardTypeIcons = arrBankBNICardTypesIcons;
+  //     }
+  //     else if (bank.bankName=="Bank BRI"){
+  //       bank.cardTypeIcons = arrBankBRICardTypesIcons;
+  //     }
+  //     else if (bank.bankName=="Bank BTN"){
+  //       bank.cardTypeIcons = arrBankBtnCardTypesIcons;
+  //     }
+  //     arrBankInfo.add(bank);
+  //   }
+  //   return arrBankInfo;
+  // }
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
@@ -162,6 +178,7 @@ class _ConnectNewAccountSelectBankState
           getBankItemWidget(arrFilterBankInfo[index]):
           getBankItemWidget(arrBankInfo[index]);
         },
+
       ) ,
     );
   }
@@ -216,7 +233,7 @@ class _ConnectNewAccountSelectBankState
                 arrFilterBankInfo = [];
                 if (arrBankInfo.isNotEmpty) {
                   arrFilterBankInfo = arrBankInfo
-                      .where((contact) => contact.bankName
+                      .where((contact) => contact.name
                       .toLowerCase()
                       .contains(_searchText.toLowerCase()))
                       .toList();
@@ -267,25 +284,30 @@ class _ConnectNewAccountSelectBankState
       ],
     );
   }
-  getBankItemWidget(BankInfo bankInfo) {
+  getBankItemWidget(BankDetailsBean bankInfo) {
     return Container(
       child:Column(
         children: [
           ListTile(
             onTap: (){
-         push(EnterCardDetails());
+         Get.to(EnterCardDetails(bankInfo.bic));
             },
-            title: Container(child:Text(bankInfo.bankName, style: BaseStyles.bankNameTextStyle)),
-            leading:(bankInfo.bankIcon!=null&&bankInfo.bankIcon!="")? Container(child:ConstrainedBox(
+            title: Container(child:Text(bankInfo.name, style: BaseStyles.bankNameTextStyle)),
+            leading:
+            //(bankInfo.bankIcon!=null&&bankInfo.bankIcon!="")?
+            Container(child:ConstrainedBox(
               constraints: BoxConstraints(
                 minWidth: 50,
                 minHeight: 24,
                 maxWidth: 50,
                 maxHeight: 24,
               ),
-              child: Image.asset(bankInfo.bankIcon, fit: BoxFit.cover),
-            )):Container(),
-            trailing: cardTypesWidget(bankInfo),
+              child: Image.asset(Assets.ic_bca,
+                  fit: BoxFit.cover),
+            )
+            )
+            //:Container(),
+            //trailing: cardTypesWidget(bankInfo),
           ),
           Container(
             height: 0.5,
@@ -297,54 +319,54 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
-  cardTypesWidget(BankInfo bankInfo)
-  {
-    if (bankInfo.cardTypeIcons!=null&&bankInfo.cardTypeIcons.isNotEmpty){
-      if (bankInfo.cardTypeIcons.length==3) {
-        return Wrap(
-          spacing: 8,
-          children: [
-            Image.asset(bankInfo.cardTypeIcons[0], fit: BoxFit.cover,
-              width: 24,
-              height: 24,),
-            Image.asset(bankInfo.cardTypeIcons[1], fit: BoxFit.cover,
-              width: 24,
-              height: 20,),
-            Image.asset(bankInfo.cardTypeIcons[2], fit: BoxFit.cover,
-              width: 24,
-              height: 24,)
-          ],
-        );
-      }
-      else if (bankInfo.cardTypeIcons.length==2) {
-        return  Wrap(
-          spacing: 8,
-          children: [
-            Image.asset(bankInfo.cardTypeIcons[0], fit: BoxFit.cover,
-              width: 24,
-              height: 24,),
-            Image.asset(bankInfo.cardTypeIcons[1], fit: BoxFit.cover,
-              width: 24,
-              height: 24,),
-          ],
-        );
-      }
-      else {
-        return  Wrap(
-          spacing: 8,
-          children: [
-            Image.asset(bankInfo.cardTypeIcons[0], fit: BoxFit.cover,
-              width: 24,
-              height: 24,),
-          ],
-        );
-      }
-    }
-    return Container(
-      width: 20,
-      height: 20,
-    );
-  }
+  // cardTypesWidget(BankDetailsBean bankInfo)
+  // {
+  //   if (bankInfo.cardTypeIcons!=null&&bankInfo.cardTypeIcons.isNotEmpty){
+  //     if (bankInfo.cardTypeIcons.length==3) {
+  //       return Wrap(
+  //         spacing: 8,
+  //         children: [
+  //           Image.asset(bankInfo.cardTypeIcons[0], fit: BoxFit.cover,
+  //             width: 24,
+  //             height: 24,),
+  //           Image.asset(bankInfo.cardTypeIcons[1], fit: BoxFit.cover,
+  //             width: 24,
+  //             height: 20,),
+  //           Image.asset(bankInfo.cardTypeIcons[2], fit: BoxFit.cover,
+  //             width: 24,
+  //             height: 24,)
+  //         ],
+  //       );
+  //     }
+  //     else if (bankInfo.cardTypeIcons.length==2) {
+  //       return  Wrap(
+  //         spacing: 8,
+  //         children: [
+  //           Image.asset(bankInfo.cardTypeIcons[0], fit: BoxFit.cover,
+  //             width: 24,
+  //             height: 24,),
+  //           Image.asset(bankInfo.cardTypeIcons[1], fit: BoxFit.cover,
+  //             width: 24,
+  //             height: 24,),
+  //         ],
+  //       );
+  //     }
+  //     else {
+  //       return  Wrap(
+  //         spacing: 8,
+  //         children: [
+  //           Image.asset(bankInfo.cardTypeIcons[0], fit: BoxFit.cover,
+  //             width: 24,
+  //             height: 24,),
+  //         ],
+  //       );
+  //     }
+  //   }
+  //   return Container(
+  //     width: 20,
+  //     height: 20,
+  //   );
+  // }
 
   errorWidget()
   {
@@ -400,7 +422,7 @@ class _ConnectNewAccountSelectBankState
 
   getListOfBanks() {
     return FutureBuilder(
-        future: loadData(),
+        future: Get.find<TransactionController>().getBanksList(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData) {
@@ -411,6 +433,9 @@ class _ConnectNewAccountSelectBankState
           return const Center(child: BaseWidgets.getIndicator);
         }
     );
+
+
+
   }
 
 

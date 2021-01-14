@@ -7,12 +7,15 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/my_account/enter_card_details_controller.dart';
 import 'package:tara_app/screens/consumer/my_account/otp_verification_screen.dart';
 
 
 class EnterCardDetails extends StatefulWidget {
+  final String bic;
+  EnterCardDetails(this.bic);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -22,6 +25,7 @@ class EnterCardDetails extends StatefulWidget {
 
 class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
   EnterCardDetailsController controller = EnterCardDetailsController();
+  TransactionController progressController = Get.find();
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
@@ -49,7 +53,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
       backgroundColor: Colors.white,
       appBar: CustomAppBarWidget(title: getTranslation(Strings.connect_new_account),addNewWidgetShow: false,),
       //_buildAppBar(context),
-      body: Obx(() =>SafeArea(child: getRootContainer())),
+      body: Obx(() =>SafeArea(child: getRootContainer()).withProgressIndicator(showIndicator: progressController.showProgress.value)),
     );
   }
 
@@ -68,7 +72,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
               margin: EdgeInsets.only(left: 16, right: 16, top: 8),
               child: textFormFieldContainer(
                   getTranslation(Strings.card_number),
-                  getTranslation(Strings.card_number_ex),
+                  Strings.card_number_ex,
                   TextInputType.number,
                   controller.txtCtrlBankAcc),
             ),
@@ -98,7 +102,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                                         child: Container(
                                           child: textFormFieldContainer(
                                               "",
-                                              getTranslation(Strings.mm),
+                                              Strings.mm,
                                               TextInputType.number,
                                               controller.txtCtrlExpMonth),
                                         )),
@@ -118,7 +122,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                                         child: Container(
                                           child: textFormFieldContainer(
                                               "",
-                                              getTranslation(Strings.yy),
+                                              Strings.yy,
                                               TextInputType.number,
                                               controller.txtCtrlExpYear),
                                         )),
@@ -145,7 +149,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                                 Container(
                                   child: textFormFieldContainer(
                                       "",
-                                      getTranslation(Strings.cvv),
+                                      Strings.cvv,
                                       TextInputType.number,
                                       controller.txtCtrlCvv),
                                 ),
@@ -160,7 +164,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
               margin: EdgeInsets.only(left: 16, right: 16, top: 8),
               child: textFormFieldContainer(
                   getTranslation(Strings.name_on_card),
-                  getTranslation(Strings.name_on_card),
+                  Strings.name_on_card,
                   TextInputType.text,
                   controller.txtCtrlNameOnCard),
             ),
@@ -191,7 +195,16 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
             ).onTap(onPressed: (){
               print(controller.isCompleteValidate.value);
               if(controller.isCompleteValidate.value){
-                Get.to(OTPVerificationScreen());
+                controller.addNewCard(widget.bic,
+                                          getLast6Numbers(controller.txtCtrlBankAcc.text),
+                    controller.txtCtrlNameOnCard.text,
+                    controller.txtCtrlBankAcc.text,
+                    controller.txtCtrlCvv.text,
+                    controller.txtCtrlExpMonth.text,
+                    controller.txtCtrlExpYear.text,
+                    "1234567891234567",
+
+                );
               }
             })
 
@@ -227,7 +240,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                       flex: 1,
                       child: TextFieldWidget(
                         placeHolderStyle: BaseStyles.placeholderStyle,
-                        hint: hint,
+                        hint: getTranslation(hint),
                         inputType: inputType,
                         textController: textEditingController,
                         isIcon: false,
@@ -257,6 +270,10 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
     // TODO: implement getContext
     return context;
   }
+
+ String getLast6Numbers(String cardNumber) {
+    return cardNumber.substring(cardNumber.length - 6);
+ }
 
 
 

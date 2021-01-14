@@ -167,7 +167,8 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
 
 
   Future<bool> checkAndInitiateSession() async{
-    var isValidSession = await sessionLocalDataStore.isValidSession();
+   // var isValidSession = await sessionLocalDataStore.isValidSession();
+     var isValidSession = false;
     if(!isValidSession){
       var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
       var initiateSessionResponse = await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);

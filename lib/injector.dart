@@ -40,6 +40,7 @@ import 'package:tara_app/services/rest/psp_rest_client.dart';
 import 'package:tara_app/services/rest/umps_core_rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 
+import 'controller/device_register_controller.dart';
 import 'models/order_management/store/store_type_model.dart';
 
 var getIt = GetIt.I;
@@ -77,6 +78,7 @@ Future<void> init() async{
   Get.lazyPut(()=>CreateStoreAndOwnerController());
   Get.put(OrderController());
   Get.put(BillController());
+  Get.put(DeviceRegisterController());
   Get.lazyPut(()=>StoreTypeResponse());
   getIt.registerLazySingleton<GetHelper>(() => GetHelper());
 

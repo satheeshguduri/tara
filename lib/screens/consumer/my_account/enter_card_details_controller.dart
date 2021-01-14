@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 
 class EnterCardDetailsController extends GetxController{
-
   bool isValidateCardNumber = false;
   bool isValidateMM = false;
   bool isValidateYY = false;
@@ -27,8 +27,8 @@ class EnterCardDetailsController extends GetxController{
   void validateCardDetails(String hint,String value ){
 
     switch(hint){
-      case "Ex : 1234 5678 9012 3456":{
-          if(value.length>0 && value.length>16){
+      case Strings.card_number_ex:{
+          if(value.length>0 && value.length==16){
             isValidateCardNumber = true;
             }else{
             isValidateCardNumber = false;
@@ -37,7 +37,7 @@ class EnterCardDetailsController extends GetxController{
       }
       break;
 
-      case "mm":{
+      case Strings.mm:{
         if (value.length>0 && int.parse(value) > 0 && int.parse(value) < 13) {
           isValidateMM = true;
         } else {
@@ -46,7 +46,7 @@ class EnterCardDetailsController extends GetxController{
         }
       break;
 
-      case "yy": {
+      case  Strings.yy: {
         if (value.length>0 && int.parse(value) > 16 && int.parse(value) < 26) {
           isValidateYY = true;
         } else {
@@ -55,7 +55,7 @@ class EnterCardDetailsController extends GetxController{
         }
       }
       break;
-      case "CVV": {
+      case Strings.cvv: {
         if (value.length>0&&int.parse(value) > 99 && int.parse(value) < 999) {
           isValidateCVV = true;
         } else {
@@ -64,7 +64,7 @@ class EnterCardDetailsController extends GetxController{
         }
       }
       break;
-      case "Name On Card": {
+      case Strings.name_on_card: {
         if (value.length > 0 ) {
           isValidateName = true;
         } else {
@@ -97,6 +97,11 @@ class EnterCardDetailsController extends GetxController{
   void showIfFalse() {
     btnColor.value =  AppColors.billerPaymentNextButtonColor;
     textStyle.value = TextStyles.bUTTONGrey3222;
+  }
+
+  void addNewCard(bicValue, last6Digits, name, cardNumber, cvvData, expM, expY, accountNum) async{
+    await Get.find<TransactionController>().addBankAccount(bicValue, last6Digits, name, cardNumber, cvvData, expM, expY, accountNum);
+
   }
 
 
