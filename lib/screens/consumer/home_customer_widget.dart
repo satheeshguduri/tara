@@ -771,8 +771,7 @@ Widget getBankLogo() {
     return Container(
       // 4*** 1234
      child: Text(
-            //"4*** 1234",
-            data.maskedAccountNumber,
+            getMaskedAccountNumber(data.maskedAccountNumber),
             style: TextStyles.subtitle1222
         )
     );
@@ -804,6 +803,12 @@ Widget getBankLogo() {
           ],
         )
     );
+
+  }
+
+  String getMaskedAccountNumber(String fullString) {
+    List<String> list = fullString.split('#').toList();
+    return "******"+ list[0].substring(list[0].length - 4);
 
   }
 
