@@ -3,8 +3,10 @@ import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class TransactionHistory extends StatefulWidget {
   @override
@@ -182,7 +184,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
     );
   }
 
-  _buildAppBar(BuildContext context) {
+  Widget _buildAppBar(BuildContext context) {
     return AppBar(
         elevation: 0,
         centerTitle: false,
@@ -212,7 +214,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
         ));
   }
 
-  headerViewContainer() {
+  Widget headerViewContainer() {
     return (_searchText.toString().isNotEmpty && filterTransactionHistory.isEmpty)
         ? Container(
       child: Center(
@@ -222,7 +224,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
         : Container();
   }
 
-  headerViewContainerWithSection(int section) {
+  Widget headerViewContainerWithSection(int section) {
     return Container(
       margin: EdgeInsets.only(left: 16, right: 8, top: 12, bottom: 12),
       child: Text(
@@ -233,7 +235,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
     );
   }
 
-  errorTitleTextWidget() {
+  Widget errorTitleTextWidget() {
     return Container(
       margin: EdgeInsets.only(
         top: 16,
@@ -362,14 +364,16 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
               filterTransactionHistory.isEmpty) {
             return Container();
           } else {
-            if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
+            return Container();
+            //TODO: need to uncomment the whole code once the changes done!!
+           /* if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
               return geTransactionInfoItemWidget(
                   arrAllTransactionItems[section].transactionHistory[row],row);
             }
             //search applied
             else {
               return geTransactionInfoItemWidget(filterTransactionHistory[row],row);
-            }
+            }*/
           }
         },
 
@@ -392,7 +396,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
     );
   }
 
-  geTransactionInfoItemWidget(TransactionInfo transactionInfo,int row) {
+  geTransactionInfoItemWidget(TransactionListBean transactionInfo,int row) {
     return InkWell(
         child: Stack(children: [
           Container(
@@ -417,8 +421,8 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                       flex: 6.5.toInt(),
                       child: Row(
                         children: [
-                          (transactionInfo.isTaraContact != null &&
-                              transactionInfo.isTaraContact)
+                          (transactionInfo.counterpartMobile != null &&
+                              transactionInfo.success)//TODO  --- to check if tara user or not
                               ? Container(
                             margin: EdgeInsets.only(
                               left: 10,
@@ -433,7 +437,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                               margin: EdgeInsets.only(
                                 left: 10,
                               ),
-                              child: bigCircle(transactionInfo.source)),
+                              child: bigCircle(transactionInfo.counterpartAccountNumber)),//SOURCE
                           Container(
                             margin: EdgeInsets.only(left: 16),
                             child: Column(
@@ -444,7 +448,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                   child: Text(
                                     transactionInfo.transactionId +
                                         ' • ' +
-                                        transactionInfo.dateTime,
+                                        Utils().getDefaultFormattedDate(DateTime.fromMillisecondsSinceEpoch(transactionInfo.timestamp)),
                                     textAlign: TextAlign.left,
                                     style: BaseStyles.itemOrderQuantityTextStyle,
                                   ),
@@ -452,7 +456,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                 Container(
                                   margin: EdgeInsets.only(top: 4),
                                   child: Text(
-                                    transactionInfo.transactionDesc,
+                                    transactionInfo.remarks,
                                     textAlign: TextAlign.left,
                                     style: TextStyles.bUTTONBlack2,
                                   ),
@@ -460,7 +464,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                 Container(
                                   margin: EdgeInsets.only(top: 4),
                                   child: Text(
-                                    transactionInfo.source,
+                                    transactionInfo.selfAccountNumber, //SOURCE
                                     textAlign: TextAlign.left,
                                     style: BaseStyles.saveToMyContactTextStyle,
                                   ),
@@ -495,10 +499,10 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
               child: Opacity(
                 opacity: 0.6,
                 child: Container(
-                  width: transactionInfo.isSuccess?84:70,
+                  width: transactionInfo.success?84:70,
                   height: 20,
                   decoration: BoxDecoration(
-                      gradient: transactionInfo.isSuccess?LinearGradient(
+                      gradient: transactionInfo.success?LinearGradient(
                           begin: Alignment(0.9999999999999998, 0.49999999999999983),
                           end: Alignment(-2.220446049250313e-16, 0.5000000000000002),
                           colors: [Color(0xffb2f7e2), const Color(0xffa1f0f8)]):
@@ -518,7 +522,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                       child: Container(
                         margin: EdgeInsets.only(top: 4,left: 8),
                         child: Text(
-                          transactionInfo.isSuccess?getTranslation(Strings.success):getTranslation(Strings.failed),
+                          transactionInfo.success?getTranslation(Strings.success):getTranslation(Strings.failed),
                           textAlign: TextAlign.right,
                           style: TextStyles.caption222,
                         ),

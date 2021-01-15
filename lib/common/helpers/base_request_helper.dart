@@ -44,7 +44,7 @@ class BaseRequestHelper{
     String ip = "";//await Wifi.;
     var authResponse = await getIt.get<UserLocalDataStore>().getUser();
     return AcquiringSourceBean(
-      mobileNumber: mobileNumber??authResponse?.customerProfile?.mobileNumber??"",
+      mobileNumber: mobileNumber?.substring(3)??authResponse?.customerProfile?.mobileNumber?.substring(3),
       geoCode: GeoCodeBean(latitude: "77.086877",longitude: "28.502991"),//TODO from geo_locator
       appName: PSPConfig.APP_NAME,
       // sourceIPv4: ip,
@@ -56,7 +56,7 @@ class BaseRequestHelper{
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
     var splIdentifier = await getIt.get<SessionLocalDataStore>().getIdentifier();
-    var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber??"9542829992");
+    var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber);
     // var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber??"");
 
     var commonRequestBean = CommonRegistrationRequest(
@@ -87,11 +87,11 @@ class BaseRequestHelper{
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
       return DeviceInfoBean(
         cpuArch: "64bit",
-        deviceId: deviceId,
+        deviceId: deviceId+"1",
         appId: PSPConfig.APP_NAME,
         hardwareTouchSupport: true,
-        imei1: "511845795493030",
-        imei2: "450714849660619",
+        imei1: "5118457954930301",
+        imei2: "4507148496606191",
         languageSet: "english",
         os: "android10",
         maxTouchPoints: "10",
@@ -100,17 +100,17 @@ class BaseRequestHelper{
         userAgent: "JUNIT/Nilesh",
       );
   }
-  Future<DeviceInfoWithPSP.DeviceInfoBean> getDeviceInfoBeanWithPSP({mobileNumber}) async {
+  Future<DeviceInfoWithPSP.DeviceInfoBean> getDeviceInfoBeanWithPSP({String mobileNumber}) async {
     var deviceId = await FlutterUdid.udid;
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     var authResponse = await getIt.get<UserLocalDataStore>().getUser();
     return DeviceInfoWithPSP.DeviceInfoBean(
         cpuArch: "64bit",
-        deviceId: deviceId,
+        deviceId: deviceId+"1",
         appId: PSPConfig.APP_NAME,
         hardwareTouchSupport: true,
-        imei1: "511845795493030",
-        imei2: "450714849660619",
+        imei1: "5118457954930301",
+        imei2: "4507148496606191",
         languageSet: "english",
         os: "android10",
         maxTouchPoints: "10",
@@ -118,7 +118,7 @@ class BaseRequestHelper{
         timezoneOffset: "GMT+7",
         userAgent: "JUNIT/Nilesh",
         pspIdentifier:deviceRegInfo?.pspIdentifier,
-        mobileNo: mobileNumber??authResponse?.customerProfile?.mobileNumber??""// CHECK HERE
+        mobileNo:authResponse?.customerProfile?.mobileNumber?.substring(3)// CHECK HERE
     );
   }
 

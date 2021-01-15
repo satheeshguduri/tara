@@ -49,7 +49,14 @@ class Utils {
   void hideKeyBoard(BuildContext mContext) {
     FocusScope.of(mContext).requestFocus(FocusNode());
   }
-
+  String getDefaultFormattedDate(DateTime date)
+  {
+    return getStringFromDate(date,"EEE, MMM dd yyyy - HH:mm");
+//    final DateTime now = DateTime.now();
+//     final DateFormat formatter = DateFormat(format); //'yyyy-MM-dd'
+//     final String formatted = formatter.format(date);
+//     return formatted;
+  }
   String getStringFromDate(DateTime date, String format)
   {
 //    final DateTime now = DateTime.now();

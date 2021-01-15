@@ -1,4 +1,7 @@
+import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'constants/request_type.dart';
 
 part 'transaction_history_response.g.dart';
 
@@ -22,7 +25,7 @@ class TransactionListBean {
   String errorCode;
   String errorReason;
   String status;
-  String txnType;
+  RequestType txnType;
   bool selfInitiated;
   bool waitingForApproval;
   String selfAccountNumber;

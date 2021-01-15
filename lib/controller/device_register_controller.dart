@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/core/device/token_response.dart';
@@ -20,16 +21,14 @@ import 'auth_controller.dart';
 class DeviceRegisterController extends GetxController{
   Future registerDevice() async
   {
-    var userInfo = Get.find<AuthController>().user.value.customerProfile;
+    var userInfo = Get.find<AuthController>().user?.value?.customerProfile;
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
       if(isSessionInitiated){
       var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
-    //  var request = RegisterRequest(userName: "USER: 9542829992",
-        var request = RegisterRequest(userName: userInfo.firstName,
-
-      accessToken: tokenResponse.token,
-         // acquiringSource: AcquiringSourceBean(mobileNumber: "9542829992"));
-            acquiringSource: AcquiringSourceBean(mobileNumber: userInfo.mobileNumber));
+        var request = RegisterRequest(
+            userName: userInfo.firstName,
+            accessToken: tokenResponse.token,
+            acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean());
       print(jsonEncode(request.toJson()));
       print(jsonEncode(request.acquiringSource.toJson()));
       var data = await getIt.get<DeviceRegisterRepository>().register(request);
@@ -39,9 +38,10 @@ class DeviceRegisterController extends GetxController{
         print("======================== Register user Transaction ========================================");
         var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
         var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
-        var txnRequest = UserRegistrationTxnRequest(txnId: sessionInfo.transactionId,
+        var txnRequest = UserRegistrationTxnRequest(
+          txnId: sessionInfo.transactionId,
          // mobileNumber: "9542829992",
-          mobileNumber: userInfo.mobileNumber,
+          mobileNumber: userInfo?.mobileNumber?.substring(3),
         );
         await getIt.get<DeviceRegisterRepository>().registerUserTxn(txnRequest);
         var deviceId = await FlutterUdid.udid;
@@ -54,8 +54,8 @@ class DeviceRegisterController extends GetxController{
               deviceId: deviceId,
               appId: PSPConfig.APP_NAME,
               hardwareTouchSupport: true,
-              imei1: "511845795493030",
-              imei2: "450714849660619",
+              imei1: "511845795493031",
+              imei2: "450714849660610",
               languageSet: "english",
               os: "android10",
               maxTouchPoints: "10",
@@ -70,17 +70,19 @@ class DeviceRegisterController extends GetxController{
         var userRegResponseEither = await getIt.get<DeviceRegisterRepository>().registerUser(userRegistrationRequest);
         if(userRegResponseEither.isRight()){
           var userRegResponse = userRegResponseEither.getOrElse(() => null);
-          var trackRequest=  TrackTransactionRequest(accessToken:tokenResponse.token,transactionId: sessionInfo.transactionId,
-              acquiringSource: AcquiringSourceBean(mobileNumber:  userInfo.mobileNumber));
+          var trackRequest=  TrackTransactionRequest(
+              accessToken:tokenResponse.token,
+              transactionId: sessionInfo.transactionId,
+              acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean());
          var response =  await getIt.get<DeviceRegisterRepository>().trackRegistration(trackRequest);
 
          if(response.isRight()){
             var result= response.getOrElse(() => null);
             if(result.success){
-              print("fourth");
               Get.find<AuthController>().showProgress.value = false;
+              await getIt.get<SessionLocalDataStore>().clear();
               Get.offAll(Utils().getLandingScreen());
-              await getIt.get<SessionLocalDataStore>().setToken(TokenResponse());
+
             }
 
           }

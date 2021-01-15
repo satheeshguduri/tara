@@ -166,7 +166,6 @@ class TransactionController extends GetxController{
       }
     });
   }
-
   Future getCustomerProfile2() async {
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
@@ -174,6 +173,16 @@ class TransactionController extends GetxController{
           .getCommonRegistrationRequest();
 
       var resp = await getIt.get<AuthRepository>().getCustomerProfile(commonRequest);
+      return resp.getOrElse(() => null);
+    }
+  }
+  Future getTransactions() async {
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+    if(isSessionInitiated) {
+      var queries = await BaseRequestHelper()
+          .getCustomerDataQueryParam();
+
+      var resp = await getIt.get<TransactionRepository>().getTxnHistory(queries);
       return resp.getOrElse(() => null);
     }
   }
@@ -339,12 +348,12 @@ class TransactionController extends GetxController{
       var remarks = remarks1;
       var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transaction request.
       //var benId = 38; // get these from Search beneficiary call by passing the mobile number to the api
-      var bic = bic1; // get these from Search beneficiary call by passing the mobile number to the api
+      var bic = "CENAID00001";//bic1; // get these from Search beneficiary call by passing the mobile number to the api
       var cvvValue = cvv1;
 // These below two lines has to be removed
-    //  var customerProfile = await getCustomerProfile2();
-    //  var initiatorAccountId = customerProfile.mappedBankAccounts[0].accountTokenId;
-      var initiatorAccountId = initiatorAccountId1;
+     var customerProfile = await getCustomerProfile2();
+     var initiatorAccountId = customerProfile.mappedBankAccounts[0].accountTokenId;
+      // var initiatorAccountId = initiatorAccountId1;
 
       var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
       var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
@@ -354,7 +363,7 @@ class TransactionController extends GetxController{
 
       var preTransactionRequest = PreTransactionRequest(
         type: RequestType.PAY,
-        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9295909790"),
+        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
         requestedLocale: "en",
         accessToken: tokenResponse.token,
         custPSPId: deviceRegInfo.pspIdentifier,
@@ -376,7 +385,7 @@ class TransactionController extends GetxController{
               appId: PSPConfig.APP_NAME
           );
           var transactionRequest = TransactionRequest(type: RequestType.PAY,
-            acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9295909790"),
+            acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
             requestedLocale: "en",
             accessToken: tokenResponse.token,
             custPSPId: deviceRegInfo.pspIdentifier,
@@ -396,7 +405,7 @@ class TransactionController extends GetxController{
             if(initiateTransactionResponse.success){
               //Retrieve Key Request
               var txnId = initiateTransactionResponse.transactionId;
-              var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9295909790");
+              var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
               var retrieveKeyRequest = RetrieveKeyRequest(
                   deviceInfo: deviceInfo,
                   paymentInstrument: PaymentInstrumentBean(
@@ -406,12 +415,14 @@ class TransactionController extends GetxController{
                   resetCredentialCall: false,
                   startDateTime: DateTime.now().microsecondsSinceEpoch
               );
+              print("=====================Transaction Resposne======================");
+              print(jsonEncode(retrieveKeyRequest.toJson()));
               var respo = await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.FINANCIAL_TXN,txnId);
               if(respo.isRight()) {
                 var retriveKeyResponse = respo.getOrElse(() => null);
                 print(jsonEncode(retriveKeyResponse.toJson()));
                 var cvv = await CryptoHelper().encryptBankData("$txnId|$cvvValue|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var authorizeReq = AuthorizeRequest(deviceInfo: await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9295909790"),
+                var authorizeReq = AuthorizeRequest(deviceInfo: await BaseRequestHelper().getDeviceInfoBeanWithPSP(),
                     authorizePINCred: AuthorizePINCredBean(
                         credType: "MPIN",
                         credValue:cvv

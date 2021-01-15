@@ -17,7 +17,7 @@ import 'package:tara_app/services/error/failure.dart';
 
 abstract class SessionLocalDataStore{
   Future setToken(TokenResponse tokenResponse);
-  void clear();
+  Future clear();
   Future<bool> isValidSession();
   Future<TokenResponse> getToken();
   Future setIdentifier(String identifier);
@@ -39,7 +39,7 @@ class SessionLocalDataStoreImpl implements SessionLocalDataStore{
    SessionLocalDataStoreImpl(this.storage);
 
   @override
-  void clear() async{
+  Future clear() async{
       await storage.remove(TOKEN_KEY);
   }
 
@@ -55,12 +55,14 @@ class SessionLocalDataStoreImpl implements SessionLocalDataStore{
 
   @override
   Future<bool> isValidSession() async{
-    var tokenResponse = await getToken();
-    if(tokenResponse?.validTillMillis!=0) {
-      var validityTime = DateTime.fromMillisecondsSinceEpoch(
-          tokenResponse.validTillMillis);
-      return DateTime.now().isBefore(validityTime);
-    }
+     if(storage?.hasData(TOKEN_KEY)??false){
+       var tokenResponse = await getToken();
+       if(tokenResponse?.validTillMillis!=0) {
+         var validityTime = DateTime.fromMillisecondsSinceEpoch(
+             tokenResponse.validTillMillis);
+         return DateTime.now().isBefore(validityTime);
+       }
+     }
     return Future.value(false);
 
    // return storage?.hasData(TOKEN_KEY)??false;
@@ -117,5 +119,10 @@ class SessionLocalDataStoreImpl implements SessionLocalDataStore{
    @override
    Future setDeviceRegInfo(UserRegistrationResponse userRegistrationResponse) async{
      await storage.write(DEVICE_REG_KEY, userRegistrationResponse.toJson());
+     print("========================= DATA CLEARED======================");
+     print("========================= SESSIONVALID======================");
+     var isValid = await isValidSession();
+     print("********************** $isValid ******************");
+     print("========================= SESSIONVALID======================");
    }
 }
