@@ -9,15 +9,18 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
+import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
+import 'package:tara_app/screens/consumer/transfer_details_entry_widget.dart';
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/utils/locale/utils.dart';
@@ -470,8 +473,8 @@ class _TransferToTaraUserState
         // } else {
 
           if(contactInfo.phones.elementAt(0).value!=null)
-          Get.to(BankTransferNewContact(taraContact: contactInfo,));
-         // Get.to(OTPVerificationScreen());
+         // Get.to(BankTransferNewContact(taraContact: contactInfo,));
+            sendBottomSheet();
 
         }
      // },
@@ -486,6 +489,17 @@ class _TransferToTaraUserState
     }catch(Exception){
       return " ";
     }
+  }
+
+  Future sendBottomSheet() {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return TransferDetailsEntryWidget();
+        });
   }
 
 }

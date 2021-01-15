@@ -38,7 +38,8 @@ class TextWithBottomOverlay extends StatelessWidget {
             top: 0.0,
             child: Container(
               child: Text(
-                Utils().getTranslation(titleStr,context),
+                //Utils().getTranslation(titleStr,context),
+                titleStr??"",
                 textAlign: TextAlign.left,
                 style: BaseStyles.bankAccountHeaderTitleStyle,
               ),

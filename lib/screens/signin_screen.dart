@@ -153,7 +153,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                           ),
                         ],
                       ),*/
-                      TextWithBottomOverlay(titleStr: Strings.login,),
+                      TextWithBottomOverlay(titleStr: getTranslation(Strings.login),),
                       Container(
                         color: Colors.grey[200],
                         height: 1,

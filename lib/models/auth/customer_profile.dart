@@ -18,6 +18,7 @@ class CustomerProfile extends BaseRequest {
    int id;
    String lastName;
    String mobileNumber;
+   String plainMobileNumber;
    String country;
    String dateOfBirth;
    bool isKyc;

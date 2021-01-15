@@ -382,6 +382,7 @@
   "addNewAccount": "Add New Account",
   "addDebitCard": "Add a Debit Card",
   "addCreditCard": "Add a Credit Card",
-  "addNew": "Add New"
+  "addNew": "Add New",
+  "transfer": "Transfer"
 
 }

@@ -66,7 +66,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
                         children: <Widget>[
                           Row(
                             children: [
-                              Expanded(child: TextWithBottomOverlay(titleStr: Strings.yourpurchase)),
+                              Expanded(child: TextWithBottomOverlay(titleStr: getTranslation(Strings.yourpurchase))),
                               Container(
                                   child: getSvgImage(imagePath: Assets.close_icon).onTap(onPressed: ()=> pop())
                               ),
