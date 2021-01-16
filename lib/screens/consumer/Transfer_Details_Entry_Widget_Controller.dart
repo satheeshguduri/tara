@@ -4,8 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 
 class TransferDetailsEntryWidgetController extends GetxController{
+
+  var showProgress = false.obs;
+ // var customerProfile = CustomerProfileDetailsResponse().obs;
+  var mappedItems = List<MappedBankAccountsBean>().obs;
 
   TextEditingController amountController = TextEditingController();
   TextEditingController messageController = TextEditingController();
@@ -54,7 +59,7 @@ class TransferDetailsEntryWidgetController extends GetxController{
 
   }
 
-  String validateCvveWidget(String value) {
+  String validateCvvWidget(String value) {
 
     if(value.length>0){
       return null;
@@ -68,4 +73,12 @@ class TransferDetailsEntryWidgetController extends GetxController{
     await Get.find<TransactionController>().payNow(amountController.text,messageController.text,bic,cvvController.text,accountTokenId);
 
   }
+
+  void getCustomerProfile2() async{
+   CustomerProfileDetailsResponse response = await Get.find<TransactionController>().getCustomerProfile2();
+   mappedItems.value = response.mappedBankAccounts;
+   print("bankname"+mappedItems.value[0].bankName);
+
+  }
+
 }

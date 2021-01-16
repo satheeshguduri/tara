@@ -188,7 +188,7 @@ class _ConnectNewAccountSelectBankState
       children: [
         Container(
           margin: EdgeInsets.only(left: 16,right: 16,top: 8),
-          child:TextWithBottomOverlay(titleStr: Strings.select_bank_e_money,),
+          child:TextWithBottomOverlay(titleStr: getTranslation(Strings.select_bank_e_money,)),
         ),
         Container(
           margin: EdgeInsets.only(left: 16,right: 16,bottom: 8),

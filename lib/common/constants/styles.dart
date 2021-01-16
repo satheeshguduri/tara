@@ -998,11 +998,21 @@ class TextStyles {
       fontSize: 12.0
   );
   static const serviceFeeAmountTextStyle = const TextStyle(
+      color:  AppColors.color_black_80_2_2_2,
+      fontWeight: FontWeight.w500,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0
+
+  );
+
+  static const caption222TextStyle = const TextStyle(
       color:  AppColors.color_black_100_2_2_2,
       fontWeight: FontWeight.w500,
       fontFamily: "SctoGroteskA",
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
+
   );
 
 

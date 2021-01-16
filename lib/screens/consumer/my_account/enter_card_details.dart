@@ -66,7 +66,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
             Container(
               margin: EdgeInsets.only(left: 16, right: 16, top: 8),
               child:
-              TextWithBottomOverlay(titleStr: Strings.enter_card_details),
+              TextWithBottomOverlay(titleStr: getTranslation(Strings.enter_card_details)),
             ),
             Container(
               margin: EdgeInsets.only(left: 16, right: 16, top: 8),
@@ -202,7 +202,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                     controller.txtCtrlCvv.text,
                     controller.txtCtrlExpMonth.text,
                     controller.txtCtrlExpYear.text,
-                    "1234567891234567",
+                    "1111111111111111",
 
                 );
               }

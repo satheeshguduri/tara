@@ -31,10 +31,15 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   String bic;
   num accountTokenId;
 
+  @override
+  void initState() {
+    super.initState();
+        controller.getCustomerProfile2() ;
+  }
 
   @override
   Widget build(BuildContext context)  {
-      return SafeArea(
+      return Obx(() =>SafeArea(
           top: false,
           child: Container(
               margin: EdgeInsets.only(top: 30),
@@ -45,19 +50,19 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
               ),
               child:Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height,                                                                                                                                     
                   alignment: Alignment.centerRight,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                   ),
                   child: Align(
-                    alignment: Alignment.topRight,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width*0.90,
+                    alignment: Alignment.centerRight,
+                    child: Container(                                                                                                               
+                      width: MediaQuery.of(context).size.width*0.90,             
                       child: Container(
-                        padding: EdgeInsets.only(left: 20,right: 16,top: 8,bottom: 8),
+                        padding: EdgeInsets.only(left: 20,right: 16,top:                           8,bottom: 8),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                                                                                                                                                       borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(8),
                               topLeft: Radius.circular(8),
                             ),
@@ -111,9 +116,9 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
                     ),
                   )
               )
-          )
-      );
-
+          ).withProgressIndicator(showIndicator: controller.showProgress.value),
+      )
+     );
   }
 
 
@@ -166,7 +171,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   Widget commonTextWidget(String text) {
     return Text(
         text,
-        style: TextStyles.caption222WithHeight2
+        style: TextStyles.caption222TextStyle
     );
 
   }
@@ -193,7 +198,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
           )
           ,Text(
    "+ Rp 4.500",
-   style: TextStyles.serviceFeeAmountTextStyle
+   style: TextStyles.caption222TextStyle
           ),
         ],
       ),
@@ -202,9 +207,12 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   }
 
  Widget getMessageWidget() {
-    return  Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [commonTextWidget("Message"),messageTextField()],
+    return  Container(
+      margin: EdgeInsets.only(top: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [commonTextWidget("Message"),messageTextField()],
+      ),
     );
 
 
@@ -221,11 +229,14 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   }
 
   categoryTransferWidget()  {
-    return  Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [commonTextWidget("Category Transfer"),
-       // categoryTextField(),
-        getCategoryDropDownList(),],
+    return  Container(
+      margin: EdgeInsets.only(top: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [commonTextWidget("Category Transfer"),
+         // categoryTextField(),
+          getCategoryDropDownList(),],
+      ),
     );
 
 
@@ -242,12 +253,16 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   }
 
  Widget paymentSourceWidget() {
-    return  Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [commonTextWidget("Payment Source"),
-        //paymentSourceTextField(),
-        getPaymentsDropDownList()
-      ],
+    return  Container(
+      margin: EdgeInsets.only(top: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [commonTextWidget("Payment Source"),
+         // paymentSourceTextField(),
+         // getPaymentsDropDownList()
+          getDropdown()
+        ],
+      ),
     );
 
 
@@ -264,9 +279,12 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   }
 
  Widget cvvWidget() {
-    return  Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [commonTextWidget("CVV"),cvvTextField()],
+    return  Container(
+      margin: EdgeInsets.only(top: 16,bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [commonTextWidget("CVV"),cvvTextField()],
+      ),
     );
 
 
@@ -274,26 +292,33 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
 
  Widget cvvTextField() {
     return  TextFormField(
+      obscureText: true,
+      obscuringCharacter: "*",
       controller: controller.cvvController,
       keyboardType: TextInputType.number,
       validator: (value) {
-        return controller.validateCvveWidget(value);
+        return controller.validateCvvWidget(value);
       },
     );
   }
 
-  Widget getPaymentsDropDownList() {
-    return FutureBuilder(
-      future: Get.find<TransactionController>().getCustomerProfile2(),
-      builder: (context,snapshot){
-        if(snapshot.hasData){
-          CustomerProfileDetailsResponse data = snapshot.data;
-          return getDropdown(data.mappedBankAccounts);
-        }
-        return BaseWidgets.getIndicator;
-      },
-    );
-  }
+  // Widget getPaymentsDropDownList() {
+  //   return FutureBuilder(
+  //     future: Get.find<TransactionController>().getCustomerProfile2(),
+  //     builder: (context,snapshot){
+  //       if(snapshot.hasData){
+  //         CustomerProfileDetailsResponse data = snapshot.data;
+  //         return getDropdown(data.mappedBankAccounts);
+  //       }
+  //       return BaseWidgets.getIndicator;
+  //     },
+  //   );
+  // }
+  // Widget getPaymentsDropDownList() {
+  //
+  //   //return getDropdown(controller.customerProfile.value?.mappedBankAccounts??[]);
+  //
+  // }
 
   Divider getTheDivider() {
     return Divider(
@@ -344,26 +369,43 @@ InputDecoration  getUnderLineBorder() {
          .map<DropdownMenuItem<String>>((String value) {
        return DropdownMenuItem<String>(
          value: value,
-         child: Text(value),
+         child:
+        // getCustomItemWidget(value),
+         Text(value),
        );
      }).toList(),
    );
  }
 
-  Widget getDropdown(List<MappedBankAccountsBean> mappedBankAccounts) {
-  return  DropdownButtonFormField(
+  Widget getDropdown() {
+  return
+    //Obx(()=>
+     DropdownButtonFormField(
+        icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
+        isExpanded: true,
+        items:// controller.customerProfile.value?.mappedBankAccounts??[]{
+        (controller.mappedItems.value)?.map((MappedBankAccountsBean item) {
+          return DropdownMenuItem<String>(
+            child: getCustomItemWidget(item.bankName),
+            //Text(item.bankName),
+            onTap: (){
+              bic = item.bic;
+              accountTokenId = item.accountTokenId;
+            },
+          );
+        })?.toList()??[],
+      );
+ // );
+  }
 
-      icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
-      isExpanded: true,
-      items: mappedBankAccounts.map((MappedBankAccountsBean item) {
-        return DropdownMenuItem<String>(
-          child: Text(item.bankName),
-          onTap: (){
-            bic = item.bic;
-            accountTokenId = item.accountTokenId;
-          },
-        );
-      }).toList(),
+ Widget getCustomItemWidget(String bankname) {
+    return Row(
+      children: [
+        Container(margin: EdgeInsets.only(right: 8),
+          child: Image.asset(Assets.ic_bca,)),
+          Text(bankname,style: TextStyles.inputFieldOn222
+          )],
     );
+
   }
 }

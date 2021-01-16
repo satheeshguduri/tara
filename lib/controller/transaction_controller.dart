@@ -228,8 +228,7 @@ class TransactionController extends GetxController{
         var accInitiateResponse = accInitResp.getOrElse(() => null);
         var txnId = accInitiateResponse.transactionId;
         if(accInitiateResponse.success){
-          var userInfo = Get.find<AuthController>().user.value.customerProfile;
-          var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:userInfo?.mobileNumber??"");
+          var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
           var retrieveKeyRequest = RetrieveKeyRequest(
               deviceInfo: deviceInfo,
               paymentInstrument: PaymentInstrumentBean(
