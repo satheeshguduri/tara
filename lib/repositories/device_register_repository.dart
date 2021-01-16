@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:logging/logging.dart';
 import 'package:steel_crypt/steel_crypt.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/common/helpers/crypto_helper.dart';
@@ -154,7 +155,7 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
     if(response.isRight()){
       var appLoginToken = response.getOrElse(() => null);
       commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
-      print("For Private Access ==> "+jsonEncode(commonRegistrationRequest.toJson()));
+     print("For Private Access ==> "+jsonEncode(commonRegistrationRequest.toJson()));
       commonRegistrationRequest.accessToken = appLoginToken.token;
       var privateAccessTokenResponse = await pspRemoteDataSource.getPrivateAccessToken(commonRegistrationRequest);
       if(privateAccessTokenResponse?.token?.isNotEmpty??false){

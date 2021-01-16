@@ -64,7 +64,14 @@ class Utils {
     final String formatted = formatter.format(date);
     return formatted;
   }
+  String getMaskedAccountNumber(String fullString) {
+    if(fullString?.isEmpty??false) return "*****";
+    List<String> list = fullString?.split('#')?.toList();
+    if(list?.isEmpty??false)
+      return "*****";
+    else return "******"+ list[0].substring(list[0].length - 4);
 
+  }
   Widget getIntoCreateStoreScreen(){
     switch(F.appFlavor){
       case Flavor.CONSUMER:

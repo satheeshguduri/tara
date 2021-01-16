@@ -21,7 +21,7 @@ CustomerProfile _$CustomerProfileFromJson(Map<String, dynamic> json) {
     credential: json['credential'] as String,
     token: json['token'] as String,
     address: json['address'],
-  );
+  )..plainMobileNumber = json['plainMobileNumber'] as String;
 }
 
 Map<String, dynamic> _$CustomerProfileToJson(CustomerProfile instance) =>
@@ -30,6 +30,7 @@ Map<String, dynamic> _$CustomerProfileToJson(CustomerProfile instance) =>
       'id': instance.id,
       'lastName': instance.lastName,
       'mobileNumber': instance.mobileNumber,
+      'plainMobileNumber': instance.plainMobileNumber,
       'country': instance.country,
       'dateOfBirth': instance.dateOfBirth,
       'isKyc': instance.isKyc,

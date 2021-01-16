@@ -43,8 +43,9 @@ class TransactionListBean {
   String remarks;
   dynamic expiringAt;
   num timestamp;
+  String month;
 
-  TransactionListBean({this.transactionId, this.success, this.errorCode, this.errorReason, this.status, this.txnType, this.selfInitiated, this.waitingForApproval, this.selfAccountNumber, this.selfBIC, this.selfMobileNumber, this.counterpartName, this.counterpartMobile, this.counterpartAppName, this.counterpartAccountNumber, this.counterpartBIC, this.counterpartContactMobile, this.counterpartSelf, this.amount, this.minimumAmount, this.remarks, this.expiringAt, this.timestamp});
+  TransactionListBean({this.transactionId, this.success, this.errorCode, this.errorReason, this.status, this.txnType, this.selfInitiated, this.waitingForApproval, this.selfAccountNumber, this.selfBIC, this.selfMobileNumber, this.counterpartName, this.counterpartMobile, this.counterpartAppName, this.counterpartAccountNumber, this.counterpartBIC, this.counterpartContactMobile, this.counterpartSelf, this.amount, this.minimumAmount, this.remarks, this.expiringAt, this.timestamp,this.month});
 
   factory TransactionListBean.fromJson(Map<String, dynamic> json) => _$TransactionListBeanFromJson(json);
 

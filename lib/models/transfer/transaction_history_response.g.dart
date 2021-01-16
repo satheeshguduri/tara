@@ -52,6 +52,7 @@ TransactionListBean _$TransactionListBeanFromJson(Map<String, dynamic> json) {
     remarks: json['remarks'] as String,
     expiringAt: json['expiringAt'],
     timestamp: json['timestamp'] as num,
+    month: json['month'] as String,
   );
 }
 
@@ -81,6 +82,7 @@ Map<String, dynamic> _$TransactionListBeanToJson(
       'remarks': instance.remarks,
       'expiringAt': instance.expiringAt,
       'timestamp': instance.timestamp,
+      'month': instance.month,
     };
 
 T _$enumDecode<T>(

@@ -754,6 +754,12 @@ class TextStyles {
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
   );
+  static const caption2222 = const TextStyle(
+      color:  Color(0xff123456),
+      fontWeight: FontWeight.w500,
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0
+  );
   static const caption222 = const TextStyle(
       color:  Color(0xff123456),
       fontWeight: FontWeight.w500,

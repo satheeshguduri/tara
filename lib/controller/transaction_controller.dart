@@ -12,6 +12,7 @@ import 'dart:math';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/common/helpers/crypto_helper.dart';
@@ -35,6 +36,7 @@ import 'package:tara_app/models/transfer/pre_transaction_request.dart';
 import 'package:tara_app/models/transfer/register_card_request.dart';
 import 'package:tara_app/models/transfer/retrieve_key_request.dart';
 import 'package:tara_app/models/transfer/retrieve_key_response.dart';
+import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/models/transfer/transaction_request.dart';
 import 'package:tara_app/models/transfer/validate_otp_request.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
@@ -183,7 +185,14 @@ class TransactionController extends GetxController{
           .getCustomerDataQueryParam();
 
       var resp = await getIt.get<TransactionRepository>().getTxnHistory(queries);
-      return resp.getOrElse(() => null);
+      var transactionResp = resp.getOrElse(() => null);
+      var transactionsListUpdated = <TransactionListBean>[];
+      transactionResp.transactionList.forEach((element) {
+        element.month = Jiffy.unix(element.timestamp).MMMM;
+        transactionsListUpdated.add(element);
+      });
+      transactionResp.transactionList = transactionsListUpdated;
+      return transactionResp;
     }
   }
 

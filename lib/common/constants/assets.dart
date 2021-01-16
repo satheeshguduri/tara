@@ -185,6 +185,7 @@ class Assets {
   static const assets_icon_c_check_outline = "assets/images/assets_icon_c_check_outline.svg";
   static const assets_icon_p_plus = "assets/images/assets_icon_p_plus.svg";
   static const assets_icon_a_arrow_down = "assets/images/assets_icon_a_arrow_down.svg";
+  static const assets_icon_no_trans = "assets/images/no_trans.svg";
 
 
 

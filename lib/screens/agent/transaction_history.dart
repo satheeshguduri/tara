@@ -1,12 +1,22 @@
+import 'dart:convert';
+
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
+import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
+import 'package:tara_app/common/widgets/error_state_info_widget.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:darq/darq.dart';
 
 class TransactionHistory extends StatefulWidget {
   @override
@@ -110,8 +120,106 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
   void initState() {
     super.initState();
     loadData();
+    getTransactionsFuture();
+  }
+  Widget  getTransactionsFuture() {
+    return FutureBuilder(
+      future: Get.find<TransactionController>().getTransactions(),
+      builder: (context,snapshot){
+        if(snapshot.hasData){
+          if(snapshot.connectionState == ConnectionState.done) {
+            TransactionHistoryResponse data = snapshot.data;
+            var transactionsListTemp = data.transactionList;
+            var months = transactionsListTemp.distinct((d) => d.month).toList();
+            var sectionRows = <List<TransactionListBean>>[];
+            months.forEach((element) {
+              var list = transactionsListTemp.where((e) =>
+              e.month == element.month).toList();
+              sectionRows.add(list);
+            });
+            return getTransactionListWidget(months, sectionRows);
+          }else if(snapshot.hasError){
+            return ErrorStateInfoWidget(title: "No Transaction History Yet",
+              desc: "You have not made any transaction yet. Your transactions including transfers, requests and payments will be listed here",
+              image: getSvgImage(imagePath:Assets.assets_icon_no_trans,width: 192.0,height:192.0),); //TODO String to json file}
+          }
+
+          // print(months.toString());
+
+
+        }
+        return BaseWidgets.getIndicator;
+      },
+    );
   }
 
+  Container getTransactionListWidget(List<TransactionListBean> months, List<List<TransactionListBean>> sectionRows) {
+    return Container(
+          margin: EdgeInsets.only(bottom:16),
+          child: SectionTableView(
+            sectionCount:months.length,
+            // ((!(_searchText?.isNotEmpty??false)) ? months.length : (_searchText.isNotEmpty && filterTransactionHistory.isEmpty) ? 1 : 1),
+            //for recent search, popular search and user search
+            numOfRowInSection: (section) {
+            return sectionRows[section].length;
+             /* if (_searchText.isNotEmpty && filterTransactionHistory.isEmpty) {
+                return 0;
+              } else {
+                return sectionRows[section].length;*/
+                /*var count = transactionsListTemp.where((d)=>d.month == months[section].month).toList()?.length;
+                return count;*/
+                // return arrAllTransactionItems[section].transactionHistory.length;
+                //default state when search not applied
+               /* if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
+
+                  return arrAllTransactionItems[section].transactionHistory.length;
+                }*/
+                //search applied
+               /* else {
+                  return filterTransactionHistory.length;
+                }*/
+              // }
+            },
+
+            cellAtIndexPath: (section, row) {
+              return geTransactionInfoItemWidget(sectionRows[section][row],row);
+              /*if (_searchText.toString().isNotEmpty &&
+                  filterTransactionHistory.isEmpty) {
+                return Container();
+              } else {
+                // return Container();
+                //TODO: need to uncomment the whole code once the changes done!!
+                 if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
+                   transactionsListTemp.where((d)=>d.month == months[section].month).toList()?.length;
+              return geTransactionInfoItemWidget(sectionRows[section][row],row);
+                  // transactionsListTemp[section].transactionHistory[row],row);
+            }
+            //search applied
+            else {
+              return geTransactionInfoItemWidget(filterTransactionHistory[row],row);
+            }
+              }*/
+            },
+
+            headerInSection: (section) {
+              return headerViewContainerWithSection(months[section].month);
+              /*if (_searchText.toString().isNotEmpty &&
+                  filterTransactionHistory.isEmpty) {
+                return headerViewContainer();
+              } else {
+                if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
+                  return headerViewContainerWithSection(months[section].month);
+                }
+                //search applied
+                else {
+                  return headerViewContainer();
+                  ;
+                }
+              }*/
+            },
+          ),
+        );
+  }
   loadData() {
     allTransactionHistory = [];
     arrRecentItems = [];
@@ -179,7 +287,8 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: _buildAppBar(context),
-        body: listViewContainer(),
+        body: getTransactionsFuture(),
+        // body: listViewContainer(),
       ),
     );
   }
@@ -224,11 +333,11 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
         : Container();
   }
 
-  Widget headerViewContainerWithSection(int section) {
+  Widget headerViewContainerWithSection(String monthName) {
     return Container(
       margin: EdgeInsets.only(left: 16, right: 8, top: 12, bottom: 12),
       child: Text(
-        arrAllTransactionItems[section].monthName,
+        monthName,
         style: TextStyles.subtitle2222,
         textAlign: TextAlign.left,
       ),
@@ -331,7 +440,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
     );
   }
 
-  Widget listViewContainer() {
+  /*Widget listViewContainer() {
     return Container(
       margin: EdgeInsets.only(bottom: 16),
       child: SectionTableView(
@@ -366,14 +475,15 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
           } else {
             return Container();
             //TODO: need to uncomment the whole code once the changes done!!
-           /* if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
+            geTransactionInfoItemWidget()
+           *//* if (!(_searchText != null && _searchText.toString().isNotEmpty)) {
               return geTransactionInfoItemWidget(
                   arrAllTransactionItems[section].transactionHistory[row],row);
             }
             //search applied
             else {
               return geTransactionInfoItemWidget(filterTransactionHistory[row],row);
-            }*/
+            }*//*
           }
         },
 
@@ -394,7 +504,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
         },
       ),
     );
-  }
+  }*/
 
   geTransactionInfoItemWidget(TransactionListBean transactionInfo,int row) {
     return InkWell(
@@ -418,9 +528,11 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 6.5.toInt(),
+                      flex: 7.toInt(),
                       child: Row(
                         children: [
+                          // (transactionInfo.isTaraContact != null &&
+                          //     transactionInfo.isTaraContact)
                           (transactionInfo.counterpartMobile != null &&
                               transactionInfo.success)//TODO  --- to check if tara user or not
                               ? Container(
@@ -437,7 +549,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                               margin: EdgeInsets.only(
                                 left: 10,
                               ),
-                              child: bigCircle(transactionInfo.counterpartAccountNumber)),//SOURCE
+                              child: bigCircle(transactionInfo.counterpartName??"")),//SOURCE
                           Container(
                             margin: EdgeInsets.only(left: 16),
                             child: Column(
@@ -446,9 +558,9 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                 Container(
                                   margin: EdgeInsets.only(top: 4),
                                   child: Text(
-                                    transactionInfo.transactionId +
+                                    transactionInfo.transactionId.substring(0,4) +
                                         ' • ' +
-                                        Utils().getDefaultFormattedDate(DateTime.fromMillisecondsSinceEpoch(transactionInfo.timestamp)),
+                                        Jiffy.unix(transactionInfo.timestamp).format("dd MMM, HH:mm"),//Utils().getDefaultFormattedDate(DateTime.fromMillisecondsSinceEpoch(transactionInfo.timestamp)),
                                     textAlign: TextAlign.left,
                                     style: BaseStyles.itemOrderQuantityTextStyle,
                                   ),
@@ -459,14 +571,19 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                     transactionInfo.remarks,
                                     textAlign: TextAlign.left,
                                     style: TextStyles.bUTTONBlack2,
+                                    maxLines: 2,
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 4),
-                                  child: Text(
-                                    transactionInfo.selfAccountNumber, //SOURCE
-                                    textAlign: TextAlign.left,
-                                    style: BaseStyles.saveToMyContactTextStyle,
+                                  child: ClipRect(
+                                    clipBehavior: Clip.hardEdge,
+                                    child: Text(
+                                      "${transactionInfo?.selfBIC??""} ${transactionInfo?.selfAccountNumber?.split("#")[0]?.substring(10)??""}",//Utils().getMaskedAccountNumber(transactionInfo.counterpartAccountNumber??"), //SOURCE
+                                      textAlign: TextAlign.left,
+                                      style: BaseStyles.saveToMyContactTextStyle,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 )
                               ],
@@ -476,7 +593,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                       ),
                     ),
                     Expanded(
-                      flex: 3.5.toInt(),
+                      flex: 3.toInt(),
                       child: Container(
                         alignment: Alignment.topRight,
                         margin: EdgeInsets.only(right: 16),
@@ -518,13 +635,15 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                       right: 8,
                       bottom: 4,
                     ),
+
                     child: Align(
                       child: Container(
                         margin: EdgeInsets.only(top: 4,left: 8),
                         child: Text(
+                          // "Test",
                           transactionInfo.success?getTranslation(Strings.success):getTranslation(Strings.failed),
                           textAlign: TextAlign.right,
-                          style: TextStyles.caption222,
+                          style: TextStyles.caption222.copyWith(height: 1),
                         ),
                       ),
                     ),
