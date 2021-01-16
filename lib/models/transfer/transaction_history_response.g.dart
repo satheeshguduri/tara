@@ -34,7 +34,7 @@ TransactionListBean _$TransactionListBeanFromJson(Map<String, dynamic> json) {
     errorCode: json['errorCode'] as String,
     errorReason: json['errorReason'] as String,
     status: json['status'] as String,
-    txnType: json['txnType'] as String,
+    txnType: _$enumDecodeNullable(_$RequestTypeEnumMap, json['txnType']),
     selfInitiated: json['selfInitiated'] as bool,
     waitingForApproval: json['waitingForApproval'] as bool,
     selfAccountNumber: json['selfAccountNumber'] as String,
@@ -63,7 +63,7 @@ Map<String, dynamic> _$TransactionListBeanToJson(
       'errorCode': instance.errorCode,
       'errorReason': instance.errorReason,
       'status': instance.status,
-      'txnType': instance.txnType,
+      'txnType': _$RequestTypeEnumMap[instance.txnType],
       'selfInitiated': instance.selfInitiated,
       'waitingForApproval': instance.waitingForApproval,
       'selfAccountNumber': instance.selfAccountNumber,
@@ -82,3 +82,40 @@ Map<String, dynamic> _$TransactionListBeanToJson(
       'expiringAt': instance.expiringAt,
       'timestamp': instance.timestamp,
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$RequestTypeEnumMap = {
+  RequestType.PAY: 'PAY',
+  RequestType.COLLECT: 'COLLECT',
+};

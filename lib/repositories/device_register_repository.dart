@@ -40,7 +40,7 @@ abstract class DeviceRegisterRepository {
   Future<Either<Failure,void>> registerUserTxn(UserRegistrationTxnRequest registerRequest);
   Future<Either<Failure,UserRegistrationResponse>> registerUser(UserRegistrationRequest userRegistrationRequest);
   Future<Either<Failure,TrackRegistrationResponse>> trackRegistration(CommonRegistrationRequest commonRegistrationRequest);
-  Future<bool> checkAndInitiateSession();
+  Future<bool> checkAndInitiateSession({bool isNewUser});
 }
 
 class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
@@ -55,6 +55,8 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
   @override
   Future<Either<Failure, TokenResponse>> getAppToken(CommonRegistrationRequest commonRegistrationRequest) async{
 
+    commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
+    print("For App Token==> "+jsonEncode(commonRegistrationRequest.toJson()));
     try {
       var encryptedBody = await CryptoHelper().encrypt(json.encode(commonRegistrationRequest.toJson()));
       var response = await pspRemoteDataSource.getAppToken(PSPConfig.MERCHANT_KI,encryptedBody);
@@ -78,6 +80,7 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
   @override
   Future<Either<Failure, TokenResponse>> getPrivateAccessToken(CommonRegistrationRequest commonRegistrationRequest) async{
     try {
+
       var response = await pspRemoteDataSource.getPrivateAccessToken(commonRegistrationRequest);
       return Right(response);
     }catch(e){
@@ -150,6 +153,8 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
 
     if(response.isRight()){
       var appLoginToken = response.getOrElse(() => null);
+      commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+      print("For Private Access ==> "+jsonEncode(commonRegistrationRequest.toJson()));
       commonRegistrationRequest.accessToken = appLoginToken.token;
       var privateAccessTokenResponse = await pspRemoteDataSource.getPrivateAccessToken(commonRegistrationRequest);
       if(privateAccessTokenResponse?.token?.isNotEmpty??false){
@@ -166,11 +171,15 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
   }
 
 
-  Future<bool> checkAndInitiateSession() async{
+  Future<bool> checkAndInitiateSession({bool isNewUser =false}) async{
    var isValidSession = await sessionLocalDataStore.isValidSession();
      // var isValidSession = false;
     if(!isValidSession){
       var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+      if(isNewUser){
+        commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
+      }
+      print(jsonEncode(commonRegistrationRequest.toJson()));
       var initiateSessionResponse = await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
       if(initiateSessionResponse.isRight()){
         return true;

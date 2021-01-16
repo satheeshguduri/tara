@@ -43,20 +43,23 @@ class BaseRequestHelper{
   Future<AcquiringSourceBean> getCommonAcquiringSourceBean({String mobileNumber}) async{
     String ip = "";//await Wifi.;
     var authResponse = await getIt.get<UserLocalDataStore>().getUser();
+    mobileNumber = mobileNumber?.substring(3)??authResponse?.customerProfile?.mobileNumber?.substring(3);
     return AcquiringSourceBean(
-      mobileNumber: mobileNumber?.substring(3)??authResponse?.customerProfile?.mobileNumber?.substring(3),
+      mobileNumber: mobileNumber,
       geoCode: GeoCodeBean(latitude: "77.086877",longitude: "28.502991"),//TODO from geo_locator
       appName: PSPConfig.APP_NAME,
       // sourceIPv4: ip,
     );
   }
-  Future<CommonRegistrationRequest> getCommonRegistrationRequest() async{
+  Future<CommonRegistrationRequest> getCommonRegistrationRequest({mobileNumber}) async{
+
     var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
     var authResponse = await getIt.get<UserLocalDataStore>().getUser();
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
     var splIdentifier = await getIt.get<SessionLocalDataStore>().getIdentifier();
-    var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber);
+    mobileNumber = mobileNumber??authResponse?.customerProfile?.mobileNumber;
+    var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:mobileNumber);
     // var acquiringSource = await getCommonAcquiringSourceBean(mobileNumber:authResponse?.customerProfile?.mobileNumber??"");
 
     var commonRequestBean = CommonRegistrationRequest(
@@ -87,11 +90,11 @@ class BaseRequestHelper{
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
       return DeviceInfoBean(
         cpuArch: "64bit",
-        deviceId: deviceId+"1",
+        deviceId: deviceId,
         appId: PSPConfig.APP_NAME,
         hardwareTouchSupport: true,
-        imei1: "5118457954930301",
-        imei2: "4507148496606191",
+        imei1: "511845795493030",
+        imei2: "450714849660619",
         languageSet: "english",
         os: "android10",
         maxTouchPoints: "10",
@@ -104,13 +107,16 @@ class BaseRequestHelper{
     var deviceId = await FlutterUdid.udid;
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     var authResponse = await getIt.get<UserLocalDataStore>().getUser();
+    mobileNumber = mobileNumber?.substring(3)??authResponse?.customerProfile?.mobileNumber?.substring(3);
+
+
     return DeviceInfoWithPSP.DeviceInfoBean(
         cpuArch: "64bit",
-        deviceId: deviceId+"1",
+        deviceId: deviceId,
         appId: PSPConfig.APP_NAME,
         hardwareTouchSupport: true,
-        imei1: "5118457954930301",
-        imei2: "4507148496606191",
+        imei1: "511845795493030",
+        imei2: "450714849660619",
         languageSet: "english",
         os: "android10",
         maxTouchPoints: "10",
@@ -118,7 +124,8 @@ class BaseRequestHelper{
         timezoneOffset: "GMT+7",
         userAgent: "JUNIT/Nilesh",
         pspIdentifier:deviceRegInfo?.pspIdentifier,
-        mobileNo:authResponse?.customerProfile?.mobileNumber?.substring(3)// CHECK HERE
+        // mobileNo:authResponse?.customerProfile?.mobileNumber?.substring(3)// CHECK HERE
+        mobileNo:mobileNumber// CHECK HERE
     );
   }
 

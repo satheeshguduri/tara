@@ -21,8 +21,10 @@ import 'auth_controller.dart';
 class DeviceRegisterController extends GetxController{
   Future registerDevice() async
   {
+    var commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
+    await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
     var userInfo = Get.find<AuthController>().user?.value?.customerProfile;
-    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession(isNewUser: true);
       if(isSessionInitiated){
       var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
         var request = RegisterRequest(
@@ -49,21 +51,7 @@ class DeviceRegisterController extends GetxController{
         var splIdentifier = await getIt.get<SessionLocalDataStore>().getIdentifier();
         var userRegistrationRequest = UserRegistrationRequest(
             splIdentifier: splIdentifier,
-            deviceInfo: DeviceInfoBean(
-              cpuArch: "64bit",
-              deviceId: deviceId,
-              appId: PSPConfig.APP_NAME,
-              hardwareTouchSupport: true,
-              imei1: "511845795493031",
-              imei2: "450714849660610",
-              languageSet: "english",
-              os: "android10",
-              maxTouchPoints: "10",
-              screenResolution: "2220x1080",
-              timezoneOffset: "GMT+7",
-              userAgent: "JUNIT/Nilesh",
-
-            )
+            deviceInfo: await BaseRequestHelper().getDeviceInfoBean()
 
         );
         print(userRegistrationRequest.toJson().toString());
@@ -82,9 +70,7 @@ class DeviceRegisterController extends GetxController{
               Get.find<AuthController>().showProgress.value = false;
               await getIt.get<SessionLocalDataStore>().clear();
               Get.offAll(Utils().getLandingScreen());
-
             }
-
           }
         }
       }

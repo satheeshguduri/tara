@@ -84,7 +84,7 @@ class TestWidget extends StatelessWidget {
                 print("initiating the session");
 
                 // var commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
-                var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+                var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest(mobileNumber: "+919542829992");
                 await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
 
               }, child: Text("Submit")),
@@ -242,12 +242,10 @@ class TestWidget extends StatelessWidget {
       var req = await BaseRequestHelper().getCommonRegistrationRequest();
       req.transactionId = txnId;
       print(jsonEncode(req.toJson()));
-      var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
       var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
       var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
-      var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
       var rr = TrackTransactionRequest(
-        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
+        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
         requestedLocale: "en",
         accessToken: tokenResponse.token,
         transactionId: txnId,
@@ -391,6 +389,10 @@ class TestWidget extends StatelessWidget {
   }
 
   payNow() async {
+    // var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest(mobileNumber: "+919542829992");
+    var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest();
+    print(jsonEncode(commonRegistrationRequest.toJson()));
+    await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
       var toMobileNumber = "8368951368";//"8106170677";//"9295909790";  should be without country code
@@ -411,13 +413,14 @@ class TestWidget extends StatelessWidget {
       var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
       var preTransactionRequest = PreTransactionRequest(
         type: RequestType.PAY,
-        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
+        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+        // acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "+919542829992"),
         requestedLocale: "en",
         accessToken: tokenResponse.token,
         custPSPId: deviceRegInfo.pspIdentifier,
         amount: amount,
       );
-
+      print(jsonEncode(preTransactionRequest.toJson()));
       var resp = await getIt.get<TransactionRepository>().initiatePreTransactionRequest(preTransactionRequest);
       if(resp.isRight()){
         var preTransactionResponse = resp.getOrElse(() => null);
@@ -431,7 +434,8 @@ class TestWidget extends StatelessWidget {
               appId: PSPConfig.APP_NAME
           );
           var transactionRequest = TransactionRequest(type: RequestType.PAY,
-            acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "9542829992"),
+            acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+            // acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(mobileNumber: "+919542829992"),
             requestedLocale: "en",
             accessToken: tokenResponse.token,
             custPSPId: deviceRegInfo.pspIdentifier,
@@ -451,7 +455,8 @@ class TestWidget extends StatelessWidget {
             if(initiateTransactionResponse.success){
               //Retrieve Key Request
               var txnId = initiateTransactionResponse.transactionId;
-              var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992");
+              var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
+              // var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"+919542829992");
               var retrieveKeyRequest = RetrieveKeyRequest(
                   deviceInfo: deviceInfo,
                   paymentInstrument: PaymentInstrumentBean(
@@ -466,7 +471,9 @@ class TestWidget extends StatelessWidget {
                 var retriveKeyResponse = respo.getOrElse(() => null);
                 print(jsonEncode(retriveKeyResponse.toJson()));
                 var cvv = await CryptoHelper().encryptBankData("$txnId|$cvvValue|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var authorizeReq = AuthorizeRequest(deviceInfo: await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"9542829992"),
+                var authorizeReq = AuthorizeRequest(
+                    deviceInfo: deviceInfo,
+                    // deviceInfo: await BaseRequestHelper().getDeviceInfoBeanWithPSP(mobileNumber:"+919542829992"),
                     authorizePINCred: AuthorizePINCredBean(
                         credType: "MPIN",
                         credValue:cvv
