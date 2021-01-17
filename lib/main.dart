@@ -35,6 +35,7 @@ import 'package:tara_app/models/transfer/retrieve_key_request.dart';
 import 'package:tara_app/models/transfer/retrieve_key_response.dart';
 import 'package:tara_app/models/transfer/track_transaction_request.dart';
 import 'package:tara_app/models/transfer/transaction_request.dart';
+import 'package:tara_app/models/transfer/validate_mobile_request.dart';
 import 'package:tara_app/models/transfer/validate_otp_request.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
@@ -44,6 +45,7 @@ import 'package:tara_app/tara_app.dart';
 import 'dart:convert';
 
 import 'models/core/device/user_registration_txn_request.dart';
+import 'models/transfer/add_beneficiary_request.dart';
 
 
 void main() async{
@@ -109,6 +111,12 @@ class TestWidget extends StatelessWidget {
               OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
                 // await addBankAccount();
               }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add bank Account")),
+              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+                await validateMobile("9542829992");
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Validate Mobile")),
+              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+                await addBeneficiary(mobile:"9542829992",accountNo: "12345667789",bic: "CINA00001",name:"Yakub Pasha");
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add Beneficiary"))
 
 
             ],
@@ -116,6 +124,62 @@ class TestWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+  Future validateMobile(String mobileNumber,) async {
+    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+    var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+    var validationRequest = ValidateMobileRequest(
+        acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+    requestedLocale: "en",
+    accessToken: tokenResponse.token,
+    custPSPId: deviceRegInfo.pspIdentifier,
+    validationAppName: PSPConfig.APP_NAME,
+    validationMobile: mobileNumber,
+    );
+    var response = getIt.get<TransactionRepository>().validateMobile(validationRequest);
+  }
+
+  Future addBeneficiary({String mobile,String accountNo,String bic,String name,String accountType = "SAVINGS"}) async {
+    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+    var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+    var addBeneficiaryRequest = AddBeneficiaryRequest(
+      acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+      requestedLocale: "en",
+      accessToken: tokenResponse.token,
+      custPSPId: deviceRegInfo.pspIdentifier,
+      beneAccountNo: accountNo,
+      beneAppName: PSPConfig.APP_NAME,
+      beneMobile: mobile,
+      beneBic: bic,
+      beneName: name,
+      beneType: "ACCOUNT",
+      accountType: accountType
+    );
+    var response = await getIt.get<TransactionRepository>().addBeneficiary(addBeneficiaryRequest);
+    if(response.isRight()){
+      var addBeneResp = response.getOrElse(() => null);
+      var mapBeneficiaryRequest = MapBeneficiaryRequest(
+          acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+          requestedLocale: "en",
+          accessToken: tokenResponse.token,
+          custPSPId: deviceRegInfo.pspIdentifier,
+          transactionId: addBeneResp.transactionId,
+          accepted: true
+      );
+      var resp2 = await getIt.get<TransactionRepository>().mapBeneficiaryDetails(mapBeneficiaryRequest);
+      if(resp2.isRight()){
+        var finalResp = resp2.getOrElse(() => null);
+        if(finalResp.success){
+          //Pop the Screen and display toast to say the mapping is successful
+        }
+
+
+      }
+
+    }
+
+
+
   }
 
   Future addBankAccount(String bicValue, String last6Digits,String name, String cardNumber,String cvvData, String expM,String expY,String accountNum) async {

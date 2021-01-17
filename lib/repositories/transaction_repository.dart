@@ -73,7 +73,7 @@ abstract class TransactionRepository {
   Future<Either<Failure,SearchBeneficiaryResponse>> searchBeneficiary(Map<String, dynamic> queries);
   Future<Either<Failure,ValidateMobileResponse>> validateMobile(ValidateMobileRequest validateMobileRequest);
   Future<Either<Failure,AddBeneficiaryResponse>> addBeneficiary(AddBeneficiaryRequest addBeneficiaryRequest);
-  Future<Either<Failure,AddBeneficiaryResponse>> mapBeneficiaryDetails(CommonRegistrationRequest commonRegistrationRequest);
+  Future<Either<Failure,AddBeneficiaryResponse>> mapBeneficiaryDetails(MapBeneficiaryRequest mapBeneficiaryRequest);
 
   Future<Either<Failure,String>> merchantLogin(String ki, String request);
 
@@ -139,8 +139,13 @@ class TransactionRepositoryImpl implements TransactionRepository{
   }
 
   @override
-  Future<Either<Failure, AddBeneficiaryResponse>> addBeneficiary(AddBeneficiaryRequest addBeneficiaryRequest) {
-    throw UnimplementedError();
+  Future<Either<Failure, AddBeneficiaryResponse>> addBeneficiary(AddBeneficiaryRequest addBeneficiaryRequest) async{
+    try {
+      var response = await pspRemoteDataSource.addBeneficiary(addBeneficiaryRequest);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
   }
 
   @override
@@ -426,9 +431,13 @@ class TransactionRepositoryImpl implements TransactionRepository{
 
 
   @override
-  Future<Either<Failure, AddBeneficiaryResponse>> mapBeneficiaryDetails(CommonRegistrationRequest commonRegistrationRequest) {
-    // TODO: implement mapBeneficiaryDetails
-    throw UnimplementedError();
+  Future<Either<Failure, AddBeneficiaryResponse>> mapBeneficiaryDetails(MapBeneficiaryRequest mapBeneficiaryRequest) async{
+    try {
+      var response = await pspRemoteDataSource.mapBeneficiaryDetails(mapBeneficiaryRequest);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
   }
 
   @override

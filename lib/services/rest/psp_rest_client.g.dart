@@ -388,13 +388,12 @@ class _PSPRestClient implements PSPRestClient {
 
   @override
   Future<AddBeneficiaryResponse> mapBeneficiaryDetails(
-      commonRegistrationRequest) async {
-    ArgumentError.checkNotNull(
-        commonRegistrationRequest, 'commonRegistrationRequest');
+      mapBeneficiaryRequest) async {
+    ArgumentError.checkNotNull(mapBeneficiaryRequest, 'mapBeneficiaryRequest');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.addAll(mapBeneficiaryRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/map-beneficiary-detail',

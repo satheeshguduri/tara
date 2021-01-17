@@ -108,7 +108,7 @@ abstract class PSPRestClient {
   Future<AddBeneficiaryResponse> addBeneficiary(@Body() AddBeneficiaryRequest addBeneficiaryRequest);
 
   @POST(PSPApi.map_beneficiary_detail)
-  Future<AddBeneficiaryResponse> mapBeneficiaryDetails(@Body() CommonRegistrationRequest commonRegistrationRequest);
+  Future<AddBeneficiaryResponse> mapBeneficiaryDetails(@Body() MapBeneficiaryRequest mapBeneficiaryRequest);
 
   ///12.Get beneficiary details by account number
   ///BY Account

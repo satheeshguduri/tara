@@ -5,7 +5,7 @@ part 'add_beneficiary_request.g.dart';
 
 @JsonSerializable()
 class AddBeneficiaryRequest extends CommonRegistrationRequest{
-  dynamic beneId;
+  String beneId;
   String beneAccountNo;
   String beneBic;
   String beneName;
@@ -15,9 +15,21 @@ class AddBeneficiaryRequest extends CommonRegistrationRequest{
   String accountType;
   dynamic crtnTs;
 
-  AddBeneficiaryRequest({custPSPId, accessToken, transactionId, acquiringSource, merchantId, requestedLocale, this.beneId, this.beneAccountNo, this.beneBic, this.beneName, this.beneMobile, this.beneAppName, this.beneType, this.accountType, this.crtnTs});
+  AddBeneficiaryRequest({String custPSPId, String accessToken, String transactionId, AcquiringSourceBean acquiringSource, String merchantId, String requestedLocale, this.beneId, this.beneAccountNo, this.beneBic, this.beneName, this.beneMobile, this.beneAppName, this.beneType, this.accountType, this.crtnTs}):super(custPSPId:custPSPId, accessToken:accessToken, transactionId:transactionId, acquiringSource: acquiringSource, merchantId:merchantId, requestedLocale:requestedLocale);
 
   factory AddBeneficiaryRequest.fromJson(Map<String, dynamic> json) => _$AddBeneficiaryRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$AddBeneficiaryRequestToJson(this);
+}
+
+
+@JsonSerializable()
+class MapBeneficiaryRequest extends CommonRegistrationRequest{
+  bool accepted;
+
+  MapBeneficiaryRequest({String custPSPId, String accessToken, String transactionId, AcquiringSourceBean acquiringSource, String merchantId, String requestedLocale, this.accepted}):super(custPSPId:custPSPId, accessToken:accessToken, transactionId:transactionId, acquiringSource: acquiringSource, merchantId:merchantId, requestedLocale:requestedLocale);
+
+  factory MapBeneficiaryRequest.fromJson(Map<String, dynamic> json) => _$MapBeneficiaryRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MapBeneficiaryRequestToJson(this);
 }
