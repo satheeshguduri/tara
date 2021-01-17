@@ -5,6 +5,7 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/circle_shape.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
 import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
@@ -44,7 +45,8 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        appBar: buildAppBar(context),
+        // appBar: buildAppBar(context),
+      appBar: CustomAppBarWidget(title: getTranslation(Strings.inputOTP),addNewWidgetShow: false,),
       body: getRootContainer(),
     );
   }
@@ -53,7 +55,8 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
   Widget getRootContainer() {
     return Obx(() => SafeArea(
             child: SingleChildScrollView(
-               child: getOtpWidget())
+                reverse: true,
+                child: getOtpWidget())
               .withProgressIndicator(showIndicator: controller.showProgress.value),
          )
     );
@@ -62,13 +65,17 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
 
   Widget getOtpWidget() {
     return Container(
-      height: Get.height,
-      margin: EdgeInsets.only(left: 16,right: 16),
+      height: Get.height-88,
+
+    margin: EdgeInsets.only(left: 16,right: 16),
       child: Column(
-         children: [
-           Flexible(flex:4,child:otpIconWidget()),
-           Flexible(flex:5,child:otpEntryWidget()),
-           Flexible(flex:1,child:otpConfirmWidget()),
+       // mainAxisSize: MainAxisSize.min,
+
+        children: [
+          Flexible(flex:4,child:otpIconWidget()),
+          Flexible(flex:5,child:otpEntryWidget()),
+          Flexible(flex:1,child:otpConfirmWidget()),
+
          ],
       ),
     );
@@ -81,7 +88,6 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            //                   <--- left side
               color: controller.errorMessage.value.isNotEmpty
                   ? Colors.pink
                   : isOtpEntered ? Color(0xffb2f7e2) : Color(0xffb0b4c1),
@@ -95,6 +101,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
 
   Widget otpConfirmWidget() {
     return Container(
+      //margin: EdgeInsets.only(bottom: 16),
       height: 48,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -160,7 +167,8 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       alignment: Alignment.center,
       child:  getSvgImage(imagePath: Assets.group,
           width: 123.0,
-          height: 135.0),
+          height: 135.0
+      ),
 
     );
  }

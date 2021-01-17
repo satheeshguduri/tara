@@ -24,10 +24,7 @@ class CustomAppBarWidget extends StatefulWidget implements PreferredSizeWidget {
 class CustomAppBarWidgetState extends BaseState<CustomAppBarWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: getRootContainer()),
-    );
+    return SafeArea(child: getRootContainer());
   }
 
   @override
