@@ -1012,8 +1012,41 @@ class TextStyles {
       fontFamily: "SctoGroteskA",
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
-
   );
+
+  static const verifyCodeTextStyle = const TextStyle(
+      color:  AppColors.black90,
+      fontWeight: FontWeight.w400,
+      fontFamily: "Roboto",
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+
+  static const otpRecieverMobileTextStyle = const TextStyle(
+      color:  AppColors.color_black_100_2_2_2,
+      fontWeight: FontWeight.w700,
+      fontFamily: "Roboto",
+      fontStyle:  FontStyle.normal,
+      fontSize: 16.0
+  );
+  static const otpWithSMSTextStyle = const TextStyle(
+      color:  AppColors.color_black_100_2_2_2,
+      fontWeight: FontWeight.w500,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static const challengeCodeTextStyle = const TextStyle(
+      color:  AppColors.color_black_100_2_2_2,
+      fontWeight: FontWeight.w700,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+
+
 
 
 

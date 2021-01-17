@@ -55,7 +55,7 @@ import 'auth_controller.dart';
 
 class TransactionController extends GetxController{
   var showProgress = false.obs;
-  var userMobileNumber;
+  var userMobileNumber ="".obs;
  // =  Get.find<AuthController>().user.value.customerProfile.mobileNumber;
   var otp = "".obs;
 
@@ -102,8 +102,8 @@ class TransactionController extends GetxController{
     //validate empty state here for the text fields
 
     showProgress.value = true;
-    userMobileNumber = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
-    AuthRequest request = AuthRequest(mobileNumber: userMobileNumber);
+    userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
+    AuthRequest request = AuthRequest(mobileNumber: userMobileNumber.value);
     print(request.toJson());
     Either<Failure, BaseResponse> response = await getIt
         .get<AuthRepository>()
@@ -122,8 +122,8 @@ class TransactionController extends GetxController{
     //validate empty state here for the text fields
     if (isValidationSuccessInOtp()) {
       showProgress.value = true;
-      userMobileNumber = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
-      AuthRequest request = AuthRequest(mobileNumber: userMobileNumber, otp: otp.value);
+      userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
+      AuthRequest request = AuthRequest(mobileNumber: userMobileNumber.value, otp: otp.value);
       Either<Failure, BaseResponse> response = await getIt
           .get<AuthRepository>()
           .validateOtp(AuthRequestWithData(data: request));

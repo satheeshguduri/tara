@@ -178,29 +178,30 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 40,right: 40),
+            padding: EdgeInsets.only(left: 24,right: 24),
             margin: EdgeInsets.only(top: 1),
             child: RichText(
                 text: TextSpan(children: [
                   TextSpan(
-                      style: BaseStyles.mobileSubTextStyle,
+                      style: TextStyles.verifyCodeTextStyle,
                       text: getTranslation(Strings.mobile_verification_subtext)+" "),
                   TextSpan(
-                      style: BaseStyles.mobileNoTextStyle,
-                      text: controller.userMobileNumber)
+                      style: TextStyles.otpRecieverMobileTextStyle,
+                      text: controller.userMobileNumber.value??"")
                 ]))),
         Container(
-            padding: EdgeInsets.only(left: 40,right: 40),
+            padding: EdgeInsets.only(left: 24,right: 24),
             margin: EdgeInsets.only(top: 10),
             child: RichText(
                 text: TextSpan(children: [
                   TextSpan(
-                      style: BaseStyles.otpWithSMSTextStyle,
+                      style: TextStyles.otpWithSMSTextStyle,
                       text: "Enter the OTP code from the SMS with Challenge Code:"),
                   TextSpan(
-                      style: BaseStyles.otpWithSMSCodeTextStyle,
+                      style: TextStyles.challengeCodeTextStyle,
                       text:widget?.fetchOtpResponse?.otpChallengeCode??"000000")
-                ]))),
+                ]))
+        ),
 
         Column(
           children: [
@@ -301,7 +302,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                         ),
                       ],
                     )).onTap(onPressed: () {
-                  if (controller.userMobileNumber.isNotEmpty && controller.countDownTimeString.value == "00:00") {
+                  if (controller.userMobileNumber.value.isNotEmpty && controller.countDownTimeString.value == "00:00") {
                     controller.startTimer();
                     ((widget.fetchOtpResponse.otpChallengeCode)!=null)?
                      controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic):
