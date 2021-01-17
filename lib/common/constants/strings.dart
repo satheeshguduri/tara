@@ -410,6 +410,17 @@ class Strings{
   static const addDebitCard = "addDebitCard";
   static const addCreditCard = "addCreditCard";
   static const addNew = "addNew";
+  static const categorytransfer = "categorytransfer";
+  static const entertheamount = "entertheamount";
+  static const typeyourmessage = "typeyourmessage";
+  static const enterthecvv = "enterthecvv";
+  static const enterthevalidcvv = "enterthevalidcvv";
+
+
+
+
+
+
 
 
 

@@ -383,6 +383,10 @@
   "addDebitCard": "Add a Debit Card",
   "addCreditCard": "Add a Credit Card",
   "addNew": "Add New",
-  "transfer": "Transfer"
-
+  "transfer": "Transfer",
+  "categorytransfer": "Category Transfer",
+  "entertheamount": "Enter the Amount",
+  "typeyourmessage": "Type Your Message",
+  "enterthecvv": "Enter the CVV",
+  "enterthevalidcvv": "Enter the Valid CVV"
 }

@@ -30,7 +30,6 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   var formKey = GlobalKey<FormState>();
   String bic;
   num accountTokenId;
-
   @override
   void initState() {
     super.initState();
@@ -95,16 +94,16 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
                                 child: Column(
                                     children: [
                                       getAmountWidget(),
-                                     // getTheDivider(),
+                                      getTheDivider(),
                                       serviceFeeWidget(),
                                       getMessageWidget(),
                                       getTheDivider(),
                                       categoryTransferWidget(),
-                                      //getTheDivider(),
+                                      getTheDivider(),
                                       paymentSourceWidget(),
-                                     // getTheDivider(),
+                                      getTheDivider(),
                                       cvvWidget(),
-                                     // getTheDivider(),
+                                      getTheDivider(),
 
                                     ]),
                               ),
@@ -127,7 +126,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   Widget getContinueWidget() {
     return Container(
       height: 48,
-      margin: EdgeInsets.only(bottom: 16,top: 8),
+      margin: EdgeInsets.only(bottom: 24,top: 16),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: AppColors.bottom_border_color),
@@ -151,18 +150,10 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   }
 
 
-
-  Widget dividerRow() {
-    return Container(
-      color: Colors.grey[200],
-      height: 1,
-    );
-  }
-
  Widget getAmountWidget() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: [commonTextWidget("Amount"),amountTextField()],
+    children: [commonTextWidget(getTranslation(Strings.AMOUNT)),amountTextField()],
 
   );
 
@@ -177,13 +168,18 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   }
 
   Widget amountTextField() {
-    return  TextFormField(
-       controller: controller.amountController,
-       keyboardType: TextInputType.number,
-       validator: (value) {
-         return controller.validateAmountWidget(value);
-       },
-     );
+    return  Container(
+      height: 48,
+      child: TextFormField(
+         controller: controller.amountController,
+         decoration:  removeUnderlineAndShowHint(getTranslation(Strings.entertheamount)),
+         keyboardType: TextInputType.number,
+         style: TextStyles.inputFieldOn222,
+         validator: (value) {
+           return getTranslation(controller.validateAmountWidget(value));
+         },
+       ),
+    );
   }
 
  Widget serviceFeeWidget() {
@@ -193,7 +189,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [// Service fee
           Text(
-              "Service fee ",
+              getTranslation(Strings.servicefee),
               style:TextStyles.serviceFeeTextStyle
           )
           ,Text(
@@ -211,7 +207,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
       margin: EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [commonTextWidget("Message"),messageTextField()],
+        children: [commonTextWidget(getTranslation(Strings.message)),messageTextField()],
       ),
     );
 
@@ -219,12 +215,19 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   }
 
  Widget messageTextField() {
-    return  TextFormField(
-      controller: controller.messageController,
-      keyboardType: TextInputType.text,
-      validator: (value) {
-        return controller.validateMessageWidget(value);
-      },
+    return  Container(
+      height: 62,
+      margin: EdgeInsets.only(bottom: 11),
+      child: TextFormField(
+        controller: controller.messageController,
+        decoration:  removeUnderlineAndShowHint(getTranslation(Strings.typeyourmessage)),
+        keyboardType: TextInputType.text,
+        maxLines: 2,
+        style: TextStyles.inputFieldOn222,
+          validator: (value) {
+          return getTranslation(controller.validateMessageWidget(value));
+        },
+      ),
     );
   }
 
@@ -233,8 +236,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
       margin: EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [commonTextWidget("Category Transfer"),
-         // categoryTextField(),
+        children: [commonTextWidget(getTranslation(Strings.categorytransfer)),
           getCategoryDropDownList(),],
       ),
     );
@@ -242,25 +244,15 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
 
   }
 
- Widget categoryTextField() {
-    return  TextFormField(
-      controller: controller.categoryController,
-      keyboardType: TextInputType.number,
-      validator: (value) {
-        return controller.validateCategoryWidget(value);
-      },
-    );
-  }
+
 
  Widget paymentSourceWidget() {
     return  Container(
       margin: EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [commonTextWidget("Payment Source"),
-         // paymentSourceTextField(),
-         // getPaymentsDropDownList()
-          getDropdown()
+        children: [commonTextWidget(getTranslation(Strings.PAYMENT_SOURCE)),
+          getPaymentsDropDownList(),
         ],
       ),
     );
@@ -268,22 +260,14 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
 
   }
 
- Widget paymentSourceTextField() {
-    return  TextFormField(
-      controller: controller.paymentSourceController,
-      // keyboardType: TextInputType.number,
-      validator: (value) {
-        return controller.validatePaymentSourceWidget(value);
-      },
-    );
-  }
+
 
  Widget cvvWidget() {
     return  Container(
-      margin: EdgeInsets.only(top: 16,bottom: 16),
+      margin: EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [commonTextWidget("CVV"),cvvTextField()],
+        children: [commonTextWidget(getTranslation(Strings.cvv)),cvvTextField()],
       ),
     );
 
@@ -291,34 +275,22 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   }
 
  Widget cvvTextField() {
-    return  TextFormField(
-      obscureText: true,
-      obscuringCharacter: "*",
-      controller: controller.cvvController,
-      keyboardType: TextInputType.number,
-      validator: (value) {
-        return controller.validateCvvWidget(value);
-      },
+    return  Container(
+      height: 48,
+      child: TextFormField(
+        decoration:  removeUnderlineAndShowHint(getTranslation(Strings.enterthecvv)),
+        style: TextStyles.inputFieldOn222,
+        obscureText: true,
+        obscuringCharacter: "*",
+        controller: controller.cvvController,
+        keyboardType: TextInputType.number,
+        validator: (value) {
+          return getTranslation(controller.validateCvvWidget(value));
+        },
+      ),
     );
   }
 
-  // Widget getPaymentsDropDownList() {
-  //   return FutureBuilder(
-  //     future: Get.find<TransactionController>().getCustomerProfile2(),
-  //     builder: (context,snapshot){
-  //       if(snapshot.hasData){
-  //         CustomerProfileDetailsResponse data = snapshot.data;
-  //         return getDropdown(data.mappedBankAccounts);
-  //       }
-  //       return BaseWidgets.getIndicator;
-  //     },
-  //   );
-  // }
-  // Widget getPaymentsDropDownList() {
-  //
-  //   //return getDropdown(controller.customerProfile.value?.mappedBankAccounts??[]);
-  //
-  // }
 
   Divider getTheDivider() {
     return Divider(
@@ -340,72 +312,77 @@ InputDecoration  getUnderLineBorder() {
   }
 
  Widget getCategoryDropDownList() {
-   return DropdownButtonFormField(
+   return Container(
+     height: 48,
+     child: DropdownButtonFormField(
+       decoration:  removeUnderlineAndShowHint(""),
+       icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
+       style: TextStyles.inputFieldOn222,
+       value: controller.currentSelectedCategory.value,
+       isExpanded: true,
 
-     icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
+       onChanged: (String selectedCategory)
+       {
+         controller.currentSelectedCategory.value = selectedCategory;
+       },
 
-     // underline: Container(height: 1,color: AppColors.input_field_line_off_2_2_2),
+       items: <String>['Gift', 'Credit', 'Shopping']
+           .map<DropdownMenuItem<String>>((String value) {
+         return DropdownMenuItem<String>(
+           value: value,
+           child: Text(value),
+         );
+       }).toList(),
 
-     // value: _getDropDownVal(type),
-     // hint: _getDropDownHint(type),
-
-     isExpanded: true,
-     itemHeight: 48,
-     // underline: Container(
-     //     //margin: EdgeInsets.only(top: 32, right: type == "paymentSource" ? 16 : 0),
-     //     decoration: BoxDecoration(
-     //       border: Border(
-     //         bottom: BorderSide(
-     //           color: Colors.grey,
-     //           width: 1.0,
-     //         ),
-     //       ),
-     //     )),
-     onChanged: (val)
-     {
-
-     },
-     items: <String>['Gift', 'Credit', 'Shopping']
-         .map<DropdownMenuItem<String>>((String value) {
-       return DropdownMenuItem<String>(
-         value: value,
-         child:
-        // getCustomItemWidget(value),
-         Text(value),
-       );
-     }).toList(),
+     ),
    );
  }
 
-  Widget getDropdown() {
+  Widget getPaymentsDropDownList() {
   return
     //Obx(()=>
-     DropdownButtonFormField(
-        icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
-        isExpanded: true,
-        items:// controller.customerProfile.value?.mappedBankAccounts??[]{
-        (controller.mappedItems.value)?.map((MappedBankAccountsBean item) {
-          return DropdownMenuItem<String>(
-            child: getCustomItemWidget(item.bankName),
-            //Text(item.bankName),
-            onTap: (){
-              bic = item.bic;
-              accountTokenId = item.accountTokenId;
-            },
-          );
-        })?.toList()??[],
-      );
+     Container(
+       height: 48,
+       child: DropdownButtonFormField(
+          decoration: removeUnderlineAndShowHint(""),
+          icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
+           style: TextStyles.inputFieldOn222,
+           isExpanded: true,
+          items:// controller.customerProfile.value?.mappedBankAccounts??[]{
+          (controller.mappedItems.value)?.map((MappedBankAccountsBean item) {
+            return DropdownMenuItem<String>(
+              child: getCustomItemWidget(item.bankName,item.maskedAccountNumber),
+              //Text(item.bankName),
+              onTap: (){
+                bic = item.bic;
+                accountTokenId = item.accountTokenId;
+              },
+            );
+          })?.toList()??[],
+         onChanged: (val){
+         }
+
+        ),
+     );
  // );
   }
 
- Widget getCustomItemWidget(String bankname) {
+ Widget getCustomItemWidget(String bankname, String maskedAccountNumber) {
     return Row(
       children: [
         Container(margin: EdgeInsets.only(right: 8),
           child: Image.asset(Assets.ic_bca,)),
-          Text(bankname,style: TextStyles.inputFieldOn222
+          Text(bankname+" - "+controller.getAccountNumberOnly(maskedAccountNumber),style: TextStyles.inputFieldOn222
           )],
     );
 
   }
+
+  InputDecoration removeUnderlineAndShowHint(String hint) {
+    return InputDecoration(border: InputBorder.none,hintText: hint);
+  }
+
+
+
+
 }

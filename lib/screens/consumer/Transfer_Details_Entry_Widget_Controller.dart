@@ -3,14 +3,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 
 class TransferDetailsEntryWidgetController extends GetxController{
 
   var showProgress = false.obs;
- // var customerProfile = CustomerProfileDetailsResponse().obs;
   var mappedItems = List<MappedBankAccountsBean>().obs;
+  var currentSelectedCategory="Gift".obs;
+
 
   TextEditingController amountController = TextEditingController();
   TextEditingController messageController = TextEditingController();
@@ -24,7 +26,7 @@ class TransferDetailsEntryWidgetController extends GetxController{
     if(value.length>0){
       return null;
     }else{
-     return "Please Enter the Amount";
+     return Strings.entertheamount;
     }
 
   }
@@ -34,37 +36,23 @@ class TransferDetailsEntryWidgetController extends GetxController{
     if(value.length>0){
       return null;
     }else{
-      return "Please Enter the Message";
+      return Strings.typeyourmessage;
     }
 
   }
 
-  String validateCategoryWidget(String value) {
 
-    if(value.length>0){
-      return null;
-    }else{
-      return "Please Enter the Category";
-    }
 
-  }
-
-  String validatePaymentSourceWidget(String value) {
-
-    if(value.length>0){
-      return null;
-    }else{
-      return "Please Enter the Category";
-    }
-
-  }
 
   String validateCvvWidget(String value) {
-
     if(value.length>0){
-      return null;
+      if(value.length==3) {
+         return null;
+        }else{
+       return Strings.enterthevalidcvv;
+      }
     }else{
-      return "Please Enter the Category";
+      return Strings.enterthecvv;
     }
 
   }
@@ -81,4 +69,9 @@ class TransferDetailsEntryWidgetController extends GetxController{
 
   }
 
+  String getAccountNumberOnly(String fullString) {
+    List<String> list = fullString.split('#').toList();
+    return "**** **** **"+ list[0].substring(list[0].length - 2);
+
+  }
 }
