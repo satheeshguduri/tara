@@ -14,7 +14,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
 
-import 'Transfer_Details_Entry_Widget_Controller.dart';
+import 'transfer_details_entry_widget_controller.dart';
 
 
 class TransferDetailsEntryWidget extends StatefulWidget {
