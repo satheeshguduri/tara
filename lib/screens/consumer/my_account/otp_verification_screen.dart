@@ -28,7 +28,8 @@ class OTPVerificationScreen extends StatefulWidget {
  final RetrieveKeyResponse retrieveKeyResponse;
  final device.DeviceInfoBean deviceInfoBean;
  final String bic;
- const OTPVerificationScreen({this.txnId,this.fetchOtpResponse,this.retrieveKeyResponse,this.deviceInfoBean,this.bic});
+ final String from;
+ const OTPVerificationScreen({this.txnId,this.fetchOtpResponse,this.retrieveKeyResponse,this.deviceInfoBean,this.bic,this.from});
 
   @override
   OTPVerificationScreenState createState() =>  OTPVerificationScreenState();
@@ -69,7 +70,6 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
 
     margin: EdgeInsets.only(left: 16,right: 16),
       child: Column(
-       // mainAxisSize: MainAxisSize.min,
 
         children: [
           Flexible(flex:4,child:otpIconWidget()),
@@ -116,13 +116,21 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       ),
     ).onTap(onPressed: () {
       if (isOtpEntered) {
-        ((widget.fetchOtpResponse.otpChallengeCode)!=null)?
-        controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic):
-        controller.validateOtpForTransfer();
-        // pop();
-       }
-    });
-  }
+        if (widget.fetchOtpResponse.otpChallengeCode != null) {
+          if (widget.from == "addaccount") {
+            controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+            pop();
+          } else if (widget.from == "transfer") {
+             controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+             pop();
+          }
+
+            }
+          }
+        }
+      );
+
+ }
 
   @override
   BuildContext getContext() {
@@ -181,6 +189,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
             padding: EdgeInsets.only(left: 24,right: 24),
             margin: EdgeInsets.only(top: 1),
             child: RichText(
+                textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
                       style: TextStyles.verifyCodeTextStyle,
@@ -193,6 +202,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
             padding: EdgeInsets.only(left: 24,right: 24),
             margin: EdgeInsets.only(top: 10),
             child: RichText(
+                textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
                       style: TextStyles.otpWithSMSTextStyle,
@@ -263,7 +273,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
           style: BaseStyles.error_text_style,
         ),),
         Container(
-          margin: EdgeInsets.only(top: 20),
+          margin: EdgeInsets.only(top: 19),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -302,13 +312,16 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                         ),
                       ],
                     )).onTap(onPressed: () {
-                  if (controller.userMobileNumber.value.isNotEmpty && controller.countDownTimeString.value == "00:00") {
-                    controller.startTimer();
-                    ((widget.fetchOtpResponse.otpChallengeCode)!=null)?
-                     controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic):
-                     controller.getOtpForTransfer(isFromResendOtp:true);
-                  }
-                }),
+                      /// todo
+                  // if (controller.userMobileNumber.value.isNotEmpty && controller.countDownTimeString.value == "00:00") {
+                  //   controller.startTimer();
+                  //   ((widget.fetchOtpResponse.otpChallengeCode)!=null)?
+                  //    controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic):
+                  //    controller.getOtpForTransfer(isFromResendOtp:true);
+                  // }
+                }
+
+                ),
               ),
             ],
           ),
