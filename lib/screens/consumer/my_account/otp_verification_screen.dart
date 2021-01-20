@@ -116,13 +116,14 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       ),
     ).onTap(onPressed: () {
       if (isOtpEntered) {
-        if (widget.fetchOtpResponse.otpChallengeCode != null) {
+          if (widget.fetchOtpResponse.otpChallengeCode != null) {
           if (widget.from == "addaccount") {
             controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-            pop();
+           // pop();
           } else if (widget.from == "transfer") {
-             controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-             pop();
+            controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+            //  controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+             //pop();
           }
 
             }
@@ -142,7 +143,9 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
   void initState() {
     super.initState();
     controller.startTimer();
+
   }
+
 
   buildAppBar(BuildContext context) {
     return AppBar(
@@ -167,7 +170,6 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       ),
     );
   }
-
 
 
  Widget otpIconWidget() {

@@ -1045,6 +1045,15 @@ class TextStyles {
       fontSize: 14.0
   );
 
+  static const transferDetailsHeadingTextStyle =  const TextStyle(
+    color: AppColors.fareColor,
+    fontWeight: FontWeight.w700,
+    fontStyle: FontStyle.normal,
+    fontSize: 16.0
+  );
+
+
+
 
 
 

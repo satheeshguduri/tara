@@ -27,6 +27,7 @@ class TransferDetailsEntryWidget extends StatefulWidget {
 class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidget> {
 
   TransferDetailsEntryWidgetController controller = TransferDetailsEntryWidgetController();
+  TransactionController transactionController = Get.find();
   var formKey = GlobalKey<FormState>();
   String bic;
   num accountTokenId;
@@ -115,7 +116,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
                     ),
                   )
               )
-          ).withProgressIndicator(showIndicator: controller.showProgress.value),
+          ).withProgressIndicator(showIndicator: transactionController.showProgress.value),
       )
      );
   }

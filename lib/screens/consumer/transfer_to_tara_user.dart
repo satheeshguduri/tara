@@ -10,6 +10,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
@@ -20,6 +21,7 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
+import 'package:tara_app/screens/consumer/transfer_details_entry_screen.dart';
 import 'package:tara_app/screens/consumer/transfer_details_entry_widget.dart';
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -74,7 +76,8 @@ class _TransferToTaraUserState
     return Scaffold(
       backgroundColor: Colors.white,
       key: key,
-      appBar: _buildAppBar(context),
+      appBar: CustomAppBarWidget(title:  getTranslation(widget.navBarTitle),addNewWidgetShow: false,),
+      //appBar: _buildAppBar(context),
       body: SafeArea(
         child: _buildTaraAndAllContactsList(),), //bottom: true,top: false,
     );
@@ -107,11 +110,11 @@ class _TransferToTaraUserState
       }else{
 
         getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(desc:"Please enable contacts access permission in system settings",
-        onTap: (){
-          pop();
-          pop();
-          // sendBottomSheet();
-        },),
+          onTap: (){
+            pop();
+            pop();
+            // sendBottomSheet();
+          },),
         );
 
       }
@@ -244,7 +247,8 @@ class _TransferToTaraUserState
                 if (arrTaraContactInfo.isNotEmpty) {
                   arrFilterTaraContactInfo = arrTaraContactInfo
                       .where((contact) =>
-                       contact?.displayName??""
+                  //  contact?.displayNameValidation(contact.displayName)??""
+                  displayNameValidation(contact.displayName)
                       .toLowerCase()
                       .contains(_searchText.toLowerCase()))
                       .toList();
@@ -380,105 +384,109 @@ class _TransferToTaraUserState
 
   getTaraContactItemWidget(Contact contactInfo, int index) {
     return InkWell(
-      child: Container(
-        margin: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
-        padding: EdgeInsets.all(8),
-        height: 64,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0x1f000000),
-                  offset: Offset(0, 4),
-                  blurRadius: 6,
-                  spreadRadius: 0),
-              BoxShadow(
-                  color: const Color(0x14000000),
-                  offset: Offset(0, 0),
-                  blurRadius: 2,
-                  spreadRadius: 0)
-            ],
-            color: AppColors.primaryBackground),
-        child: Center(
-          child: Row(
-            children: [
-              // Image.asset(
-              //   "assets/images/avatar-11.png",
-              //   height: 32,
-              //   width: 32,
-              // ),
-              Container(
-                  padding: EdgeInsets.all(4),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
+        child: Container(
+          margin: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),
+          padding: EdgeInsets.all(8),
+          height: 64,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x1f000000),
+                    offset: Offset(0, 4),
+                    blurRadius: 6,
+                    spreadRadius: 0),
+                BoxShadow(
+                    color: const Color(0x14000000),
+                    offset: Offset(0, 0),
+                    blurRadius: 2,
+                    spreadRadius: 0)
+              ],
+              color: AppColors.primaryBackground),
+          child: Center(
+            child: Row(
+              children: [
+                // Image.asset(
+                //   "assets/images/avatar-11.png",
+                //   height: 32,
+                //   width: 32,
+                // ),
+                Container(
+                    padding: EdgeInsets.all(4),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(
                           Radius.circular(4)
                       ),
                       color: Colors.blue,
-                  ),
-                  height: 32,
-                  width: 32,
-                  child: Text(contactInfo.initials())),
-              Container(
-                margin: EdgeInsets.only(left: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 4),
-                          child: Text(
-                            contactInfo?.displayName ?? "Un Known",
-                            textAlign: TextAlign.left,
-                            style: BaseStyles
-                                .transactionItemPersonNameTextStyle,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(8)),
-                            ),
-                            child: Image.asset(
-                              Assets.tara_contacts,
-                              height: 24,
-                              width: 32,
-                            ),
-                          ),
-                        )
-                      ],
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 4),
-                      child: Text(
-                        phoneNumberValidation(contactInfo),
-                        textAlign: TextAlign.left,
-                        style: BaseStyles.transactionItemDateTextStyle,
+                    height: 32,
+                    width: 32,
+                    child: Text(contactInfo.initials())),
+                Container(
+                  margin: EdgeInsets.only(left: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                           // width:200,
+                            margin: EdgeInsets.only(top: 4),
+                            child: Text(
+                              contactInfo?.displayName ?? "Un Known",
+                              textAlign: TextAlign.left,
+                              style: BaseStyles
+                                  .transactionItemPersonNameTextStyle,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(8)),
+                              ),
+                              child: Image.asset(
+                                Assets.tara_contacts,
+                                height: 24,
+                                width: 32,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    ),
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(top: 4),
+                        child: Text(
+                          phoneNumberValidation(contactInfo),
+                          textAlign: TextAlign.left,
+                          style: BaseStyles.transactionItemDateTextStyle,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      onTap: () {
-        // if (index == 1) {
-        //   // AuthResponse resposne = AuthResponse(customerProfile:customerProfile);
-        //   push(ConversationPage(arrChats: ["decline_pay"],
-        //     custInfo: Utils().getCustomerProfile(),)); //YAKUB Dummy Profile
-        // } else {
+        onTap: () {
+          // if (index == 1) {
+          //   // AuthResponse resposne = AuthResponse(customerProfile:customerProfile);
+          //   push(ConversationPage(arrChats: ["decline_pay"],
+          //     custInfo: Utils().getCustomerProfile(),)); //YAKUB Dummy Profile
+          // } else {
 
-          if(contactInfo.phones.elementAt(0).value!=null)
-         // Get.to(BankTransferNewContact(taraContact: contactInfo,));
-            sendBottomSheet();
+          if(contactInfo.displayName!=null && contactInfo.phones.elementAt(0).value!=null)
+            //Get.to(BankTransferNewContact(taraContact: contactInfo,));
+            Get.to(TransferDetailsEntryScreen(taraContact: contactInfo,));
+
+          // sendBottomSheet();
 
         }
-     // },
+      // },
     );
   }
 
@@ -487,6 +495,14 @@ class _TransferToTaraUserState
   String phoneNumberValidation(Contact contactInfo) {
     try{
       return contactInfo.phones.elementAt(0).value;
+    }catch(Exception){
+      return " ";
+    }
+  }
+
+  String displayNameValidation(String contactInfo) {
+    try{
+      return contactInfo??"";
     }catch(Exception){
       return " ";
     }

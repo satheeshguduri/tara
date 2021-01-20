@@ -20,6 +20,10 @@ class TransferDetailsEntryWidgetController extends GetxController{
   TextEditingController paymentSourceController = TextEditingController();
   TextEditingController cvvController = TextEditingController();
 
+  // new screen controller
+   TextEditingController txtCtrlTransferAmt = TextEditingController();
+
+
 
   String validateAmountWidget(String value) {
 
@@ -58,14 +62,13 @@ class TransferDetailsEntryWidgetController extends GetxController{
   }
 
   void confirmToPay(String bic,num accountTokenId) async{
-    await Get.find<TransactionController>().payNow(amountController.text,messageController.text,bic,cvvController.text,accountTokenId);
+    await Get.find<TransactionController>().payNow(txtCtrlTransferAmt.text,messageController.text,bic,cvvController.text,accountTokenId);
 
   }
 
   void getCustomerProfile2() async{
    CustomerProfileDetailsResponse response = await Get.find<TransactionController>().getCustomerProfile2();
    mappedItems.value = response.mappedBankAccounts;
-   print("bankname"+mappedItems.value[0].bankName);
 
   }
 

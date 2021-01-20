@@ -30,6 +30,7 @@ import 'package:tara_app/utils/locale/utils.dart';
 import '../../common/constants/values.dart';
 import 'bills_see_all_screen.dart';
 import 'common_bills_payments_list.dart';
+import 'my_account/connect_new_account_select_ank.dart';
 import 'my_account/myaccounts_see_all_screen.dart';
 
 
@@ -74,7 +75,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     getTaraServicesWidget(),
-                   // getTransferToWidget(),
+                    getTransferToWidget(),
                     getMyAccountsFuture(),
                     //getBillPaymentFuture(),
                     getTransactionsFuture(),
@@ -703,7 +704,9 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           ),
         ),
       ),
-    );
+    ).onTap(onPressed: (){
+      Get.to(ConnectNewAccountSelectBank());
+    });
 
   }
 
