@@ -431,7 +431,7 @@ class _TransferToTaraUserState
                       Row(
                         children: [
                           Container(
-                           // width:200,
+                            width:getWidth(contactInfo?.displayName ?? "Un Known"),
                             margin: EdgeInsets.only(top: 4),
                             child: Text(
                               contactInfo?.displayName ?? "Un Known",
@@ -517,6 +517,13 @@ class _TransferToTaraUserState
         builder: (BuildContext context) {
           return TransferDetailsEntryWidget();
         });
+  }
+
+  double getWidth(String s) {
+    if(s.length>30)
+      return Get.width*0.6;
+
+
   }
 
 }
