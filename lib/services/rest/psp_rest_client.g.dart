@@ -387,6 +387,26 @@ class _PSPRestClient implements PSPRestClient {
   }
 
   @override
+  Future<GetBeneficiariesResponse> getBeneficiaries(queries) async {
+    ArgumentError.checkNotNull(queries, 'queries');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/get-beneficiaries',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = GetBeneficiariesResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   Future<AddBeneficiaryResponse> mapBeneficiaryDetails(
       mapBeneficiaryRequest) async {
     ArgumentError.checkNotNull(mapBeneficiaryRequest, 'mapBeneficiaryRequest');

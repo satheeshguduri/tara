@@ -205,6 +205,24 @@ class TransactionController extends GetxController{
     }
   }
 
+  Future getBeneficiaries() async {
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+    if(isSessionInitiated) {
+      var queries = await BaseRequestHelper()
+          .getCustomerDataQueryParam();
+
+      var resp = await getIt.get<TransactionRepository>().getTxnHistory(queries);
+      var transactionResp = resp.getOrElse(() => null);
+      var transactionsListUpdated = <TransactionListBean>[];
+      transactionResp.transactionList.forEach((element) {
+        element.month = Jiffy.unix(element.timestamp).MMMM;
+        transactionsListUpdated.add(element);
+      });
+      transactionResp.transactionList = transactionsListUpdated;
+      return transactionResp;
+    }
+  }
+
   Future getBanksList() async {
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {

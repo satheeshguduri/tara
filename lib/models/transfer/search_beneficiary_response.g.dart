@@ -31,6 +31,33 @@ Map<String, dynamic> _$SearchBeneficiaryResponseToJson(
       'beneDetail': instance.beneDetail,
     };
 
+GetBeneficiariesResponse _$GetBeneficiariesResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetBeneficiariesResponse(
+    transactionId: json['transactionId'] as String,
+    success: json['success'] as bool,
+    errorCode: json['errorCode'] as String,
+    errorReason: json['errorReason'] as String,
+    status: json['status'] as String,
+    beneDetail: (json['beneDetail'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BeneDetailBean.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$GetBeneficiariesResponseToJson(
+        GetBeneficiariesResponse instance) =>
+    <String, dynamic>{
+      'transactionId': instance.transactionId,
+      'success': instance.success,
+      'errorCode': instance.errorCode,
+      'errorReason': instance.errorReason,
+      'status': instance.status,
+      'beneDetail': instance.beneDetail,
+    };
+
 BeneDetailBean _$BeneDetailBeanFromJson(Map<String, dynamic> json) {
   return BeneDetailBean(
     custPSPId: json['custPSPId'] as String,

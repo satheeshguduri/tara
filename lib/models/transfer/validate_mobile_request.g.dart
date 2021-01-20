@@ -9,12 +9,15 @@ part of 'validate_mobile_request.dart';
 ValidateMobileRequest _$ValidateMobileRequestFromJson(
     Map<String, dynamic> json) {
   return ValidateMobileRequest(
-    custPSPId: json['custPSPId'],
-    accessToken: json['accessToken'],
-    transactionId: json['transactionId'],
-    acquiringSource: json['acquiringSource'],
-    merchantId: json['merchantId'],
-    requestedLocale: json['requestedLocale'],
+    custPSPId: json['custPSPId'] as String,
+    accessToken: json['accessToken'] as String,
+    transactionId: json['transactionId'] as String,
+    acquiringSource: json['acquiringSource'] == null
+        ? null
+        : AcquiringSourceBean.fromJson(
+            json['acquiringSource'] as Map<String, dynamic>),
+    merchantId: json['merchantId'] as String,
+    requestedLocale: json['requestedLocale'] as String,
     validationMobile: json['validationMobile'] as String,
     validationAppName: json['validationAppName'] as String,
   );

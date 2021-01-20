@@ -89,6 +89,7 @@ class PSPApi{
 
   //add beneficiary
   static const add_beneficiary = 'psp-umps-adaptor/umps-app/add-beneficiary';
+  static const get_beneficiaries = 'psp-umps-adaptor/umps-app/get-beneficiaries';
   static const map_beneficiary_detail = 'psp-umps-adaptor/umps-app/map-beneficiary-detail';
 
   //Search beneficiary

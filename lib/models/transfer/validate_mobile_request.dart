@@ -9,7 +9,7 @@ ValidateMobileRequest extends CommonRegistrationRequest {
   String validationMobile;
   String validationAppName;
 
-  ValidateMobileRequest({custPSPId, accessToken, transactionId, acquiringSource, merchantId, requestedLocale, this.validationMobile, this.validationAppName});
+  ValidateMobileRequest({String custPSPId, String accessToken, String transactionId, AcquiringSourceBean acquiringSource, String merchantId, String requestedLocale, this.validationMobile, this.validationAppName}):super(custPSPId:custPSPId, accessToken:accessToken, transactionId:transactionId, acquiringSource: acquiringSource, merchantId:merchantId, requestedLocale:requestedLocale);
 
   factory ValidateMobileRequest.fromJson(Map<String, dynamic> json) => _$ValidateMobileRequestFromJson(json);
 

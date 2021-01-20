@@ -82,6 +82,10 @@ class TestWidget extends StatelessWidget {
               await getCustomerProfile2();
 
               }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Get MyAccounts")),
+              OutlineButton.icon(onPressed: ()async{
+                await getBeneficiaries();
+
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Get Beneficiaries")),
               FlatButton(onPressed: ()async {
                 print("initiating the session");
 
@@ -112,10 +116,11 @@ class TestWidget extends StatelessWidget {
                 // await addBankAccount();
               }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add bank Account")),
               OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
-                await validateMobile("9542829992");
+                await validateMobile("9295909790");
               }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Validate Mobile")),
               OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
-                await addBeneficiary(mobile:"9542829992",accountNo: "12345667789",bic: "CINA00001",name:"Yakub Pasha");
+                await addBeneficiary(mobile:"9295909790",accountNo: "333333333333333",bic: "CENAID00001",name:"satheesh");
+                // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
               }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add Beneficiary"))
 
 
@@ -125,58 +130,82 @@ class TestWidget extends StatelessWidget {
       ),
     );
   }
+
+   getBeneficiaries() async {
+     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+
+     if(isSessionInitiated){
+       var queries =  await BaseRequestHelper().getCustomerDataQueryParam();
+       var response = getIt.get<TransactionRepository>().getBeneficiaries(queries);
+       print(response);
+     }
+  }
   Future validateMobile(String mobileNumber,) async {
-    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
-    var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
-    var validationRequest = ValidateMobileRequest(
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+
+    if(isSessionInitiated){
+      var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+      var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+      var validationRequest = ValidateMobileRequest(
         acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
-    requestedLocale: "en",
-    accessToken: tokenResponse.token,
-    custPSPId: deviceRegInfo.pspIdentifier,
-    validationAppName: PSPConfig.APP_NAME,
-    validationMobile: mobileNumber,
-    );
-    var response = getIt.get<TransactionRepository>().validateMobile(validationRequest);
+        requestedLocale: "en",
+        accessToken: tokenResponse.token,
+        custPSPId: deviceRegInfo.pspIdentifier,
+        validationAppName: PSPConfig.APP_NAME,
+        validationMobile: mobileNumber,
+      );
+      var response = getIt.get<TransactionRepository>().validateMobile(validationRequest);
+    }
+
   }
 
   Future addBeneficiary({String mobile,String accountNo,String bic,String name,String accountType = "SAVINGS"}) async {
-    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
-    var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
-    var addBeneficiaryRequest = AddBeneficiaryRequest(
-      acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
-      requestedLocale: "en",
-      accessToken: tokenResponse.token,
-      custPSPId: deviceRegInfo.pspIdentifier,
-      beneAccountNo: accountNo,
-      beneAppName: PSPConfig.APP_NAME,
-      beneMobile: mobile,
-      beneBic: bic,
-      beneName: name,
-      beneType: "ACCOUNT",
-      accountType: accountType
-    );
-    var response = await getIt.get<TransactionRepository>().addBeneficiary(addBeneficiaryRequest);
-    if(response.isRight()){
-      var addBeneResp = response.getOrElse(() => null);
-      var mapBeneficiaryRequest = MapBeneficiaryRequest(
+
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+
+    if(isSessionInitiated){
+      var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+      var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+      var addBeneficiaryRequest = AddBeneficiaryRequest(
           acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
           requestedLocale: "en",
           accessToken: tokenResponse.token,
           custPSPId: deviceRegInfo.pspIdentifier,
-          transactionId: addBeneResp.transactionId,
-          accepted: true
+          beneAccountNo: accountNo,
+          beneAppName: PSPConfig.APP_NAME,
+          beneMobile: mobile,
+          beneBic: bic,
+          beneName: name,
+          beneType: "ACCOUNT",
+          accountType: accountType
       );
-      var resp2 = await getIt.get<TransactionRepository>().mapBeneficiaryDetails(mapBeneficiaryRequest);
-      if(resp2.isRight()){
-        var finalResp = resp2.getOrElse(() => null);
-        if(finalResp.success){
-          //Pop the Screen and display toast to say the mapping is successful
+      var response = await getIt.get<TransactionRepository>().addBeneficiary(addBeneficiaryRequest);
+      if(response.isRight()){
+        var addBeneResp = response.getOrElse(() => null);
+
+        if(addBeneResp.success){
+          var mapBeneficiaryRequest = MapBeneficiaryRequest(
+              acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+              requestedLocale: "en",
+              accessToken: tokenResponse.token,
+              custPSPId: deviceRegInfo.pspIdentifier,
+              transactionId: addBeneResp.transactionId,
+              accepted: true
+          );
+          var resp2 = await getIt.get<TransactionRepository>().mapBeneficiaryDetails(mapBeneficiaryRequest);
+          if(resp2.isRight()){
+            var finalResp = resp2.getOrElse(() => null);
+            if(finalResp.success){
+              //Pop the Screen and display toast to say the mapping is successful
+            }
+          }
+        }else{
+          // return failure
         }
 
-
       }
-
     }
+
 
 
 

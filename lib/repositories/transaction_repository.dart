@@ -73,6 +73,7 @@ abstract class TransactionRepository {
   Future<Either<Failure,SearchBeneficiaryResponse>> searchBeneficiary(Map<String, dynamic> queries);
   Future<Either<Failure,ValidateMobileResponse>> validateMobile(ValidateMobileRequest validateMobileRequest);
   Future<Either<Failure,AddBeneficiaryResponse>> addBeneficiary(AddBeneficiaryRequest addBeneficiaryRequest);
+  Future<Either<Failure,GetBeneficiariesResponse>> getBeneficiaries(Map<String, dynamic> queries);
   Future<Either<Failure,AddBeneficiaryResponse>> mapBeneficiaryDetails(MapBeneficiaryRequest mapBeneficiaryRequest);
 
   Future<Either<Failure,String>> merchantLogin(String ki, String request);
@@ -461,6 +462,17 @@ class TransactionRepositoryImpl implements TransactionRepository{
   Future<Either<Failure, TrackAccountDetailsResponse>> initiateAccountDetailsRequest(AccountDetailsRequest accountDetailsRequest) async{
     try {
       var response = await pspRemoteDataSource.initiateAccountDetailsRequest(accountDetailsRequest);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetBeneficiariesResponse>> getBeneficiaries(Map<String, dynamic> queries) async{
+    try {
+      var response = await pspRemoteDataSource.getBeneficiaries(queries);
+      print(response.toString());
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));

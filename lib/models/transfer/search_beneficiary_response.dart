@@ -18,7 +18,21 @@ class SearchBeneficiaryResponse {
 
   Map<String, dynamic> toJson() => _$SearchBeneficiaryResponseToJson(this);
 }
+@JsonSerializable()
+class GetBeneficiariesResponse {
+  String transactionId;
+  bool success;
+  String errorCode;
+  String errorReason;
+  String status;
+  List<BeneDetailBean> beneDetail;
 
+  GetBeneficiariesResponse({this.transactionId, this.success, this.errorCode, this.errorReason, this.status, this.beneDetail});
+
+  factory GetBeneficiariesResponse.fromJson(Map<String, dynamic> json) => _$GetBeneficiariesResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetBeneficiariesResponseToJson(this);
+}
 @JsonSerializable()
 class BeneDetailBean {
   String custPSPId;

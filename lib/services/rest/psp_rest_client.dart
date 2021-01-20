@@ -107,6 +107,10 @@ abstract class PSPRestClient {
   @POST(PSPApi.add_beneficiary)
   Future<AddBeneficiaryResponse> addBeneficiary(@Body() AddBeneficiaryRequest addBeneficiaryRequest);
 
+  //custPSPId=31adc4b1-02f2-4924-a13f-2aee8e6845ae&appName=com.inde.ayopop&accessToken=103601d9-9414-4a87-81f5-600cb083e505
+  @GET(PSPApi.get_beneficiaries)
+  Future<GetBeneficiariesResponse> getBeneficiaries(@Queries() Map<String, dynamic> queries);
+
   @POST(PSPApi.map_beneficiary_detail)
   Future<AddBeneficiaryResponse> mapBeneficiaryDetails(@Body() MapBeneficiaryRequest mapBeneficiaryRequest);
 
