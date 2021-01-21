@@ -13,6 +13,8 @@ import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
+import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/controller/contacts_transfer_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -39,31 +41,15 @@ class TransferToTaraUser extends StatefulWidget {
   TransferToTaraUser({Key key,this.isFromTaraUser=false, this.navBarTitle}) : super(key: key);
 
   @override
-  _TransferToTaraUserState createState() =>
-      _TransferToTaraUserState();
+  _TransferToTaraUserState createState() =>   _TransferToTaraUserState();
 }
 
-class _TransferToTaraUserState
-    extends BaseState<TransferToTaraUser> {
-  TextEditingController _searchQuery = TextEditingController();
-  String _searchText = "";
+class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
+
+ // contactsController contactsController = Get.find();
+  ContactsTransferController contactsController = ContactsTransferController();
   final key = new GlobalKey<ScaffoldState>();
-  List<Contact> arrTaraContactInfo = List();
-  List<Contact> arrFilterTaraContactInfo = List();
-  List<String> arrContactNames = [
-    "Yakub Merchant New",
-    "George G",
-    "Simon S",
-    "Yakub Y",
-    "Harish H"
-  ];
-  List<String> arrContactPhoneNumbers = [
-    "**** **** **** 78633",
-    "**** **** **** 2346",
-    "**** **** **** 2347",
-    "**** **** **** 2348",
-    "**** **** **** 2349"
-  ];
+
 
   @override
   BuildContext getContext() {
@@ -78,73 +64,52 @@ class _TransferToTaraUserState
       key: key,
       appBar: CustomAppBarWidget(title:  getTranslation(widget.navBarTitle),addNewWidgetShow: false,),
       //appBar: _buildAppBar(context),
-      body: SafeArea(
-        child: _buildTaraAndAllContactsList(),), //bottom: true,top: false,
+      body: Obx(()=> SafeArea(
+        child: buildTaraAndAllContactsList().withProgressIndicator(showIndicator: contactsController.showProgress.value),
+      ),
+      ), //bottom: true,top: false,
     );
   }
 
   @override
   void initState() {
     super.initState();
+    contactsController.loadData();
   }
 
-  // void loadData() {
-  //   arrTaraContactInfo = List();
-  //   for (var i = 0; i < arrContactNames.length; i++) {
-  //     var taraContact = ContactInfo();
-  //     taraContact.name = arrContactNames[i];
-  //     taraContact.phoneNumber = arrContactPhoneNumbers[i];
-  //     taraContact.isTaraContact = true;
-  //     arrTaraContactInfo.add(taraContact);
+
+
+  // void loadData() async {
+  //   contactsController.showProgress.value = true;
+  //   var status = await Permission.contacts.status;
+  //   if (!status.isGranted) {
+  //     PermissionStatus permissionStatus = await Permission.contacts.request();
+  //     if(permissionStatus.isGranted) {
+  //       contactsController.contactList.value = (await ContactsService.getContacts( withThumbnails: false)).toList();
+  //     }else{
+  //       getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(desc:"Please enable contacts access permission in system settings",
+  //         onTap: (){
+  //           pop();
+  //           pop();
+  //         },),
+  //       );
+  //     }
+  //   }else{
+  //     contactsController.contactList.value = (await ContactsService.getContacts(withThumbnails: false)).toList();
+  //
   //   }
+  //   contactsController.showProgress.value = false;
   // }
 
-  Future<List<Contact>> loadData() async {
-    var status = await Permission.contacts.status;
-    if (!status.isGranted) {
-      PermissionStatus permissionStatus = await Permission.contacts.request();
-      if(permissionStatus.isGranted) {
-        List<Contact> _contacts = (await ContactsService.getContacts(
-            withThumbnails: false)).toList();
-        return _contacts;
-      }else{
-
-        getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(desc:"Please enable contacts access permission in system settings",
-          onTap: (){
-            pop();
-            pop();
-            // sendBottomSheet();
-          },),
-        );
-
-      }
-    }else{
-      List<Contact> _contacts = (await ContactsService.getContacts(withThumbnails: false)).toList();
-      return _contacts;
-    }
-
-  }
-
-  _buildTaraAndAllContactsList() {
-    return FutureBuilder(
-        future: loadData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              arrTaraContactInfo = snapshot.data;
+  Widget buildTaraAndAllContactsList() {
               return Container(
                   height: MediaQuery
                       .of(context)
                       .size
                       .height - 16,
-                  child: listViewContainer());
-            }
-            return Container();
-          } else {
-            return const Center(child: BaseWidgets.getIndicator);
-          }
-        }
-    );
+                  child: listViewContainer()
+
+              );
   }
 
   _buildAppBar(BuildContext context) {
@@ -185,9 +150,9 @@ class _TransferToTaraUserState
               push(ConnectNewAccountSelectBank());
             },),
         ) : Container(margin: EdgeInsets.only(bottom: 8, top: 8),),
-        (_searchText
+        (contactsController.searchText
             .toString()
-            .isNotEmpty && arrFilterTaraContactInfo.isEmpty) ? Container(
+            .isNotEmpty && contactsController.filteredContactList.value.isEmpty) ? Container(
           child: Center(
             child: errorTitleTextWidget(),
           ),
@@ -201,7 +166,7 @@ class _TransferToTaraUserState
       margin: EdgeInsets.only(top: 16,),
       child: Text(
         getTranslation(Strings.we_cannot_find_anything) +
-            "\"${_searchText.toString()}\"",
+            "\"${contactsController.searchText.toString()}\"",
         style: BaseStyles.cannotFindTextStyle,
         textAlign: TextAlign.center,
       ),
@@ -221,58 +186,21 @@ class _TransferToTaraUserState
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: Border.all(color: (_searchText
+            border: Border.all(color: (contactsController.searchText
                 .toString()
                 .isNotEmpty) ? AppColors.header_top_bar_color : Colors
                 .grey[400], width: 1),
           ),
           child: TextField(
-            controller: _searchQuery,
+            controller: contactsController.searchQuery,
             keyboardType: TextInputType.text,
             style: BaseStyles.baseTextStyle,
             cursorColor: Colors.black,
             autofocus: false,
             onChanged: (value) {
-              _searchText = value;
-              if (_searchText != null &&
-                  _searchText
-                      .toString()
-                      .trim()
-                      .isNotEmpty &&
-                  _searchText
-                      .toString()
-                      .trim()
-                      .length > 2) {
-                arrFilterTaraContactInfo = [];
-                if (arrTaraContactInfo.isNotEmpty) {
-                  arrFilterTaraContactInfo = arrTaraContactInfo
-                      .where((contact) =>
-                  //  contact?.displayNameValidation(contact.displayName)??""
-                  displayNameValidation(contact.displayName)
-                      .toLowerCase()
-                      .contains(_searchText.toLowerCase()))
-                      .toList();
-                }
-
-                setState(() {
-
-                });
-              } else {
-                if (_searchQuery.text == "") {
-                  setState(() {
-                    _searchText = "";
-                    _searchQuery.text = "";
-                    arrFilterTaraContactInfo.clear();
-                  });
-                }
-              }
+            contactsController.filterTheContacts(value);
             },
             decoration: InputDecoration(
-              // prefixIcon: Icon(
-              //   Icons.search,
-              //   color: Colors.black54,
-              //   size: 20,
-              // ),
               prefixIcon: Padding(
                 padding: EdgeInsets.all(6.0),
                 child: getSvgImage(imagePath: Assets.assets_icon_s_search,
@@ -292,38 +220,22 @@ class _TransferToTaraUserState
                   child: getSvgImage(imagePath: Assets.close_icon,
                       width: 24.0,
                       height: 24.0,
-                      color: (_searchText != null &&
-                          _searchText
+                      color: (contactsController.searchText != null &&
+                          contactsController.searchText
                               .toString()
                               .isNotEmpty)
                           ? Colors.black54
                           : Colors.transparent)).onTap(onPressed: () {
-                setState(() {
-                  _searchText = "";
-                  _searchQuery.text = "";
-                  arrFilterTaraContactInfo.clear();
-                });
+
+                  contactsController.searchText = "";
+                  contactsController.searchQuery.text = "";
+                  contactsController.filteredContactList.value.clear();
+
               },
               ),
 
 
-              //IconButton(
-              // icon: Icon(
-              //     Icons.clear,
-              //     color: (_searchText != null &&
-              //         _searchText
-              //             .toString()
-              //             .isNotEmpty)
-              //         ? Colors.black54
-              //         : Colors.transparent),
-              //   onPressed: () {
-              //     setState(() {
-              //       _searchText = "";
-              //       _searchQuery.text = "";
-              //       arrFilterTaraContactInfo.clear();
-              //     });
-              //   },
-              // ),
+
             ),
           ),
         ),
@@ -337,40 +249,40 @@ class _TransferToTaraUserState
         sectionCount: 1,
         //for recent search, popular search and user search
         numOfRowInSection: (section) {
-          if (_searchText
+          if (contactsController.searchText
               .toString()
-              .isNotEmpty && arrFilterTaraContactInfo.isEmpty) {
+              .isNotEmpty && contactsController.filteredContactList.value.isEmpty) {
             return 0;
           }
           else {
             //default state when search not applied
-            if (!(_searchText != null && _searchText
+            if (!(contactsController.searchText != null && contactsController.searchText
                 .toString()
                 .isNotEmpty)) {
-              return arrTaraContactInfo.length;
+              return contactsController.contactList.value.length;
             }
             //search applied
             else {
-              return arrFilterTaraContactInfo.length;
+              return contactsController.filteredContactList.value.length;
             }
           }
         },
 
         cellAtIndexPath: (section, row) {
-          if (_searchText
+          if (contactsController.searchText
               .toString()
-              .isNotEmpty && arrFilterTaraContactInfo.isEmpty) {
+              .isNotEmpty && contactsController.filteredContactList.value.isEmpty) {
             return Container();
           }
           else {
-            if (!(_searchText != null && _searchText
+            if (!(contactsController.searchText != null && contactsController.searchText
                 .toString()
                 .isNotEmpty)) {
-              return getTaraContactItemWidget(arrTaraContactInfo[row], row);
+              return getTaraContactItemWidget(contactsController.contactList.value[row], row);
             }
             //search applied
             else {
-              return getTaraContactItemWidget(arrFilterTaraContactInfo[row], row);
+              return getTaraContactItemWidget(contactsController.filteredContactList.value[row], row);
             }
           }
         },
@@ -473,18 +385,9 @@ class _TransferToTaraUserState
           ),
         ),
         onTap: () {
-          // if (index == 1) {
-          //   // AuthResponse resposne = AuthResponse(customerProfile:customerProfile);
-          //   push(ConversationPage(arrChats: ["decline_pay"],
-          //     custInfo: Utils().getCustomerProfile(),)); //YAKUB Dummy Profile
-          // } else {
-
-          if(contactInfo.displayName!=null && contactInfo.phones.elementAt(0).value!=null)
+            if(contactInfo.displayName!=null && contactInfo.phones.elementAt(0).value!=null)
             //Get.to(BankTransferNewContact(taraContact: contactInfo,));
             Get.to(TransferDetailsEntryScreen(taraContact: contactInfo,));
-
-          // sendBottomSheet();
-
         }
       // },
     );
@@ -500,13 +403,7 @@ class _TransferToTaraUserState
     }
   }
 
-  String displayNameValidation(String contactInfo) {
-    try{
-      return contactInfo??"";
-    }catch(Exception){
-      return " ";
-    }
-  }
+
 
   Future sendBottomSheet() {
     return showModalBottomSheet(
@@ -525,6 +422,8 @@ class _TransferToTaraUserState
 
 
   }
+
+
 
 }
 
