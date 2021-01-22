@@ -46,15 +46,18 @@ class TransferToTaraUser extends StatefulWidget {
 
 class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
 
- // contactsController contactsController = Get.find();
   ContactsTransferController contactsController = ContactsTransferController();
   final key = new GlobalKey<ScaffoldState>();
 
 
+
+
   @override
-  BuildContext getContext() {
-    return context;
+  void initState() {
+    super.initState();
+    contactsController.loadData();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,19 +66,15 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
       backgroundColor: Colors.white,
       key: key,
       appBar: CustomAppBarWidget(title:  getTranslation(widget.navBarTitle),addNewWidgetShow: false,),
+
       //appBar: _buildAppBar(context),
       body: Obx(()=> SafeArea(
-        child: buildTaraAndAllContactsList().withProgressIndicator(showIndicator: contactsController.showProgress.value),
+        child: buildTaraAndAllContactsList()).withProgressIndicator(showIndicator: contactsController.showProgress.value),
       ),
-      ), //bottom: true,top: false,
+      //), //bottom: true,top: false,
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    contactsController.loadData();
-  }
 
 
 
@@ -102,14 +101,33 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
   // }
 
   Widget buildTaraAndAllContactsList() {
-              return Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height - 16,
-                  child: listViewContainer()
 
-              );
+               return Column(
+                 children: [
+                   Visibility(child: Text(contactsController.title.value),visible: false,), // state is getting updated if we add this widget otherwise not.
+                  Expanded(
+                    child: Container(
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height - 16,
+                        child: listViewContainer()
+
+                    ),
+                  )
+                 ],
+               );
+
+
+              // return  Container(
+              //     height: MediaQuery
+              //         .of(context)
+              //         .size
+              //         .height - 16,
+              //     child: listViewContainer()
+              //
+              // );
+
   }
 
   _buildAppBar(BuildContext context) {
@@ -198,9 +216,10 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
             cursorColor: Colors.black,
             autofocus: false,
             onChanged: (value) {
-            contactsController.filterTheContacts(value);
+              contactsController.filterTheContacts(value);
+
             },
-            decoration: InputDecoration(
+           decoration: InputDecoration(
               prefixIcon: Padding(
                 padding: EdgeInsets.all(6.0),
                 child: getSvgImage(imagePath: Assets.assets_icon_s_search,
@@ -227,6 +246,7 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
                           ? Colors.black54
                           : Colors.transparent)).onTap(onPressed: () {
 
+                contactsController.title.value = "";
                   contactsController.searchText = "";
                   contactsController.searchQuery.text = "";
                   contactsController.filteredContactList.value.clear();
@@ -419,11 +439,12 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
   double getWidth(String s) {
     if(s.length>30)
       return Get.width*0.6;
-
-
   }
 
-
+  @override
+  BuildContext getContext() {
+    return context;
+  }
 
 }
 

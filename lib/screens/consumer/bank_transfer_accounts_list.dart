@@ -1,30 +1,47 @@
+import 'dart:convert';
+
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
+import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/controller/contacts_transfer_controller.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
+import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
+import 'package:tara_app/common/constants/values.dart';
+
 
 class BankTransferAccountsList extends StatefulWidget {
+
 
   BankTransferAccountsList({Key key,}) : super(key: key);
 
   @override
-  _BankTransferAccountsListState createState() =>
-      _BankTransferAccountsListState();
+  BankTransferAccountsListState createState() =>
+      BankTransferAccountsListState();
+
 }
 
-class _BankTransferAccountsListState
-    extends BaseState<BankTransferAccountsList> {
+class BankTransferAccountsListState extends BaseState<BankTransferAccountsList> {
+
   final TextEditingController _searchQuery = TextEditingController();
-  String _searchText = "";
+  TransactionController controller = Get.find();
+  ContactsTransferController contactsController = ContactsTransferController();
+
+
   final key = GlobalKey<ScaffoldState>();
-  List<BankAccountContactInfo> arrContactInfo = [];
-  List<BankAccountContactInfo> arrRecentlyAddedContactInfo = [];
-  List<BankAccountContactInfo> arrFilterContactInfo = [];
+ // List<BankAccountContactInfo> contactsController.contactList = [];
+  //List<Contact> arrRecentlyAddedContactInfo = [];
+ // List<BankAccountContactInfo> contactsController.filteredContactList = [];
   List<String> arrContactNames = [
     "Kiran Kumar Y",
     "George G",
@@ -40,6 +57,7 @@ class _BankTransferAccountsListState
     "BNI....1231"
   ];
 
+
   @override
   BuildContext getContext() {
     return context;
@@ -50,35 +68,50 @@ class _BankTransferAccountsListState
     return Scaffold(
       backgroundColor: Colors.white,
       key: key,
-      appBar: _buildAppBar(context),
-      body: SafeArea(child: _buildTaraAndAllContactsList(),),
+     // appBar: _buildAppBar(context),
+      appBar: CustomAppBarWidget(title:getTranslation(Strings.TRANSFER_TO_BANK_ACCOUNT),addNewWidgetShow: false,),
+
+      body: Obx(()=>SafeArea(child: _buildTaraAndAllContactsList().withProgressIndicator(showIndicator: contactsController.showProgress.value))),
     );
   }
 
+
+
+
+
+
+
+
+
+
+
+
   @override
-  void initState() {
+  void initState()  {
     super.initState();
-    loadData();
+    contactsController.loadData();
+    // loadData();
+    contactsController.getBeneficiaries();
   }
 
-  void loadData() {
-    arrContactInfo = [];
-    for (var i = 0; i < arrContactNames.length; i++) {
-      var taraContact = BankAccountContactInfo();
-      taraContact.name = arrContactNames[i];
-      taraContact.accountNumber = arrContactBankAccounts[i];
-      taraContact.isRecentlyContact = true;
-      arrRecentlyAddedContactInfo.add(taraContact);
-    }
-
-    for (var i = 0; i < arrContactNames.length; i++) {
-      var contact = BankAccountContactInfo();
-      contact.name = arrContactNames[i];
-      contact.accountNumber = arrContactBankAccounts[i];
-      contact.isRecentlyContact = false;
-      arrContactInfo.add(contact);
-    }
-  }
+  // void loadData() {
+  //   contactsController.contactList = [];
+  //   for (var i = 0; i < arrContactNames.length; i++) {
+  //     var taraContact = BankAccountContactInfo();
+  //     taraContact.name = arrContactNames[i];
+  //     taraContact.accountNumber = arrContactBankAccounts[i];
+  //     taraContact.isRecentlyContact = true;
+  //     arrRecentlyAddedContactInfo.add(taraContact);
+  //   }
+  //
+  //   for (var i = 0; i < arrContactNames.length; i++) {
+  //     var contact = BankAccountContactInfo();
+  //     contact.name = arrContactNames[i];
+  //     contact.accountNumber = arrContactBankAccounts[i];
+  //     contact.isRecentlyContact = false;
+  //     contactsController.contactList.add(contact);
+  //   }
+  // }
 
   Widget _buildTaraAndAllContactsList() {
     return listViewContainer();
@@ -107,36 +140,38 @@ class _BankTransferAccountsListState
 
   Widget contactListTitleWidget()
   {
-    return Container(
-      margin: EdgeInsets.only(top: 16,left: 16,right: 16),
-      height: 50,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 8.0,
-            child:Container(
-              height:16,
-              width: 85,
-              margin: EdgeInsets.only(top: 8),
-              decoration: BoxDecoration(
-                color: AppColors.bottom_border_color,
-              ),
-              child: Container(),
-            ),
-          ),
-          Positioned(
-            top: 0.0,
-            child: Container(
-              child: Text(
-                getTranslation(Strings.CONTACT_LIST),
-                textAlign: TextAlign.left,
-                style: BaseStyles.bankAccountHeaderTitleStyle,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    // return Container(
+    //   margin: EdgeInsets.only(top: 16,left: 16,right: 16),
+    //   height: 50,
+    //   child: Stack(
+    //     children: <Widget>[
+    //       Positioned(
+    //         top: 8.0,
+    //         child:Container(
+    //           height:16,
+    //           width: 85,
+    //           margin: EdgeInsets.only(top: 8),
+    //           decoration: BoxDecoration(
+    //             color: AppColors.bottom_border_color,
+    //           ),
+    //           child: Container(),
+    //         ),
+    //       ),
+    //       Positioned(
+    //         top: 0.0,
+    //         child: Container(
+    //           child: Text(
+    //             getTranslation(Strings.CONTACT_LIST),
+    //             textAlign: TextAlign.left,
+    //             style: BaseStyles.bankAccountHeaderTitleStyle,
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
+  return  Container(margin:EdgeInsets.only(left: 16),child: TextWithBottomOverlay(titleStr: getTranslation(Strings.CONTACT_LIST)));
+
   }
 
   Widget listViewContainer() {
@@ -144,70 +179,70 @@ class _BankTransferAccountsListState
       height: MediaQuery.of(context).size.height,
       child: SectionTableView(
         sectionCount:
-        (_searchText != null && _searchText.toString().isNotEmpty) ? 1 : 2,
+        (contactsController.searchText != null && contactsController.searchText.toString().isNotEmpty) ? 1 : 2,
         //for recent search, popular search and user search
         numOfRowInSection: (section) {
-          if (_searchText
+          if (contactsController.searchText
               .toString()
-              .isNotEmpty && arrFilterContactInfo.isEmpty)
+              .isNotEmpty && contactsController.filteredContactList.isEmpty)
           {
             return 0;
           }
           else {
             //default state when search not applied
-            if (!(_searchText != null && _searchText
+            if (!(contactsController.searchText != null && contactsController.searchText
                 .toString()
                 .isNotEmpty)) {
               if (section == 0) {
-                return arrRecentlyAddedContactInfo.length;
+                return contactsController.arrRecentlyAddedContactInfo.length;
               } else {
-                return arrContactInfo.length;
+                return contactsController.contactList.length;
               }
             }
             //search applied
             else {
-              return arrFilterContactInfo.length;
+              return contactsController.filteredContactList.length;
             }
           }
         },
 
         cellAtIndexPath: (section, row) {
-          if (_searchText
+          if (contactsController.searchText
               .toString()
-              .isNotEmpty && arrFilterContactInfo.isEmpty)
+              .isNotEmpty && contactsController.filteredContactList.isEmpty)
           {
             return Container();
           }
           else {
-            if (!(_searchText != null && _searchText
+            if (!(contactsController.searchText != null && contactsController.searchText
                 .toString()
                 .isNotEmpty)) {
-              if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
-                return getContactItemWidget(arrRecentlyAddedContactInfo[row]);
+              if (contactsController.arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
+                return getContactItemWidget(null,contactsController.arrRecentlyAddedContactInfo[row]);
               } else {
-                return getContactItemWidget(arrContactInfo[row]);
+                return getContactItemWidget(contactsController.contactList[row],null);
               }
             }
             //search applied
             else {
-              return getContactItemWidget(arrFilterContactInfo[row]);
+              return getContactItemWidget(contactsController.filteredContactList[row],null);
             }
           }
         },
 
         headerInSection: (section) {
-          if (_searchText
+          if (contactsController.searchText
               .toString()
-              .isNotEmpty && arrFilterContactInfo.isEmpty)
+              .isNotEmpty && contactsController.filteredContactList.isEmpty)
           {
             return headerViewContainer(
                 getTranslation(Strings.SEARCHED_ACCOUNTS));
           }
           else {
-            if (!(_searchText != null && _searchText
+            if (!(contactsController.searchText != null && contactsController.searchText
                 .toString()
                 .isNotEmpty)) {
-              if (arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
+              if (contactsController.arrRecentlyAddedContactInfo.isNotEmpty && section == 0) {
                 return headerViewContainer(
                     getTranslation(Strings.RECENTLY_ADDED));
               } else {
@@ -242,9 +277,9 @@ class _BankTransferAccountsListState
               alignment: Alignment.centerLeft,
               child: Text(headerTitle, style: BaseStyles.backAccountHeaderTextStyle),
             )),
-        (_searchText
+        (contactsController.searchText
             .toString()
-            .isNotEmpty && arrFilterContactInfo.isEmpty)?Container(
+            .isNotEmpty && contactsController.filteredContactList.isEmpty)?Container(
           child: Center(
             child: errorTitleTextWidget(),
           ),
@@ -266,39 +301,40 @@ class _BankTransferAccountsListState
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: Border.all(color: (_searchText.toString().isNotEmpty)?AppColors.header_top_bar_color:Colors.grey[400], width: 1),
+            border: Border.all(color: (contactsController.searchText.toString().isNotEmpty)?AppColors.header_top_bar_color:Colors.grey[400], width: 1),
           ),
           child: TextField(
-            controller: _searchQuery,
+            controller: contactsController.searchQuery,
             keyboardType: TextInputType.text,
             style: BaseStyles.baseTextStyle,
             cursorColor: Colors.black,
             autofocus: false,
             onChanged: (value) {
-              _searchText = value;
-              if (_searchText != null &&
-                  _searchText.toString().trim().isNotEmpty &&
-                  _searchText.toString().trim().length > 2) {
-                arrFilterContactInfo = [];
-                if (arrContactInfo.isNotEmpty) {
-                  arrFilterContactInfo = arrContactInfo
-                      .where((contact) => contact.name
-                      .toLowerCase()
-                      .contains(_searchText.toLowerCase()))
-                      .toList();
-                }
-                setState(() {
-
-                });
-              } else {
-                if (_searchQuery.text == "") {
-                  setState(() {
-                    _searchText = "";
-                    _searchQuery.text = "";
-                    arrFilterContactInfo.clear();
-                  });
-                }
-              }
+              contactsController.filterTheContacts(value);
+              // contactsController.searchText = value;
+              // if (contactsController.searchText != null &&
+              //     contactsController.searchText.toString().trim().isNotEmpty &&
+              //     contactsController.searchText.toString().trim().length > 2) {
+              //   contactsController.filteredContactList = [];
+              //   if (contactsController.contactList.isNotEmpty) {
+              //     contactsController.filteredContactList = contactsController.contactList
+              //         .where((contact) => contact.name
+              //         .toLowerCase()
+              //         .contains(contactsController.searchText.toLowerCase()))
+              //         .toList();
+              //   }
+              //   setState(() {
+              //
+              //   });
+              // } else {
+              //   if (_searchQuery.text == "") {
+              //     setState(() {
+              //       contactsController.searchText = "";
+              //       _searchQuery.text = "";
+              //       contactsController.filteredContactList.clear();
+              //     });
+              //   }
+              // }
             },
 
             decoration: InputDecoration(
@@ -314,18 +350,21 @@ class _BankTransferAccountsListState
               hintStyle: BaseStyles.hintTextStyle,
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent)),
-              suffixIcon:  IconButton(
-                icon: Icon(Icons.clear,
-                    color: (_searchText != null &&
-                        _searchText.toString().isNotEmpty)
-                        ? Colors.black54
-                        : Colors.transparent),
-                onPressed: (){
-                  setState(() {
-                    _searchText = "";
-                    _searchQuery.text = "";
-                    arrFilterContactInfo.clear();
-                  });
+              suffixIcon:  Padding(
+                padding: EdgeInsets.all(6.0),
+              child: getSvgImage(imagePath: Assets.close_icon,
+                  width: 24.0,
+                  height: 24.0,
+                  color: (contactsController.searchText != null &&
+                      contactsController.searchText
+                          .toString()
+                          .isNotEmpty)
+                      ? Colors.black54
+                      : Colors.transparent)).onTap(onPressed: () {
+
+            contactsController.searchText = "";
+            contactsController.searchQuery.text = "";
+            contactsController.filteredContactList.value.clear();
                 },
               ),
             ),
@@ -339,7 +378,7 @@ class _BankTransferAccountsListState
       ],
     );
   }
-  Widget getContactItemWidget(BankAccountContactInfo contactInfo) {
+  Widget getContactItemWidget([Contact contactInfo,BeneDetailBean recentContactInfo]) {
     return InkWell(
       child: Container(
         margin: EdgeInsets.only(left: 16, right: 16, top: 8),
@@ -375,17 +414,23 @@ class _BankTransferAccountsListState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
+                      width:getWidth(contactInfo?.displayName ?? "Un Known"),
                       margin: EdgeInsets.only(top: 4),
                       child: Text(
-                        contactInfo.name,
+                       // contactInfo?.displayName ?? "Un Known",
+                        contactInfo!=null?contactInfo?.displayName ?? "Un Known":recentContactInfo?.beneName ?? "Un Known",
+                        //contactInfo.name,
                         textAlign: TextAlign.left,
                         style: BaseStyles.transactionItemPersonNameTextStyle,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 4),
                       child: Text(
-                        contactInfo.accountNumber,
+                       // phoneNumberValidation(contactInfo),
+                        contactInfo!=null?phoneNumberValidation(contactInfo):recentContactInfo?.beneMobile ?? "0000",
+                        //contactInfo.accountNumber,
                         textAlign: TextAlign.left,
                         style: BaseStyles.transactionItemDateTextStyle,
                       ),
@@ -398,7 +443,7 @@ class _BankTransferAccountsListState
         ),
       ),
       onTap: () {
-          push(BankTransferNewContact(bankAccInfo: contactInfo,));
+        //  push(BankTransferNewContact(bankAccInfo: contactInfo,));
       }
     );
   }
@@ -408,12 +453,27 @@ class _BankTransferAccountsListState
       margin: EdgeInsets.only(top: 16,),
       child: Text(
         getTranslation(Strings.we_cannot_find_anything) +
-            "\"${_searchText.toString()}\"",
+            "\"${contactsController.searchText.toString()}\"",
         style: BaseStyles.cannotFindTextStyle,
         textAlign: TextAlign.center,
       ),
     );
   }
+
+  String phoneNumberValidation(Contact contactInfo) {
+    try{
+      return contactInfo.phones.elementAt(0).value;
+    }catch(Exception){
+      return " ";
+    }
+  }
+
+  double getWidth(String s) {
+    if(s.length>30)
+      return Get.width*0.6;
+  }
+
+
 
 }
 

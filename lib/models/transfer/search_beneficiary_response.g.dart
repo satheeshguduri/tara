@@ -39,7 +39,7 @@ GetBeneficiariesResponse _$GetBeneficiariesResponseFromJson(
     errorCode: json['errorCode'] as String,
     errorReason: json['errorReason'] as String,
     status: json['status'] as String,
-    beneDetail: (json['beneDetail'] as List)
+    beneDetails: (json['beneDetails'] as List)
         ?.map((e) => e == null
             ? null
             : BeneDetailBean.fromJson(e as Map<String, dynamic>))
@@ -55,7 +55,7 @@ Map<String, dynamic> _$GetBeneficiariesResponseToJson(
       'errorCode': instance.errorCode,
       'errorReason': instance.errorReason,
       'status': instance.status,
-      'beneDetail': instance.beneDetail,
+      'beneDetails': instance.beneDetails,
     };
 
 BeneDetailBean _$BeneDetailBeanFromJson(Map<String, dynamic> json) {

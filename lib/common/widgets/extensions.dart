@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
 
 extension PaddedWidget on Widget {
@@ -50,6 +51,7 @@ extension ProgressIndicator on Widget {
     return ModalProgressHUD(
         progressIndicator: progressIndicator,
         inAsyncCall: showIndicator,
+        color: AppColors.primaryElement,
         child: this);
   }
 }

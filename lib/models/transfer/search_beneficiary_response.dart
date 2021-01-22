@@ -25,9 +25,9 @@ class GetBeneficiariesResponse {
   String errorCode;
   String errorReason;
   String status;
-  List<BeneDetailBean> beneDetail;
+  List<BeneDetailBean> beneDetails;
 
-  GetBeneficiariesResponse({this.transactionId, this.success, this.errorCode, this.errorReason, this.status, this.beneDetail});
+  GetBeneficiariesResponse({this.transactionId, this.success, this.errorCode, this.errorReason, this.status, this.beneDetails});
 
   factory GetBeneficiariesResponse.fromJson(Map<String, dynamic> json) => _$GetBeneficiariesResponseFromJson(json);
 

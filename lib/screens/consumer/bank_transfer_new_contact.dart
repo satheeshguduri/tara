@@ -58,8 +58,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   List<String> arrFrequency = [Strings.DAILY, Strings.MONTHLY, Strings.YEARLY];
 
   final TextEditingController _typeAheadController = TextEditingController();
- // TransactionController controller = Get.find<TransactionController>();
-   TransactionController controller = TransactionController();
+  // TransactionController controller = Get.find<TransactionController>();
+  TransactionController controller = TransactionController();
 
 
   String frequencyType;
@@ -337,11 +337,11 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       elevation: 1.0,
       centerTitle: false,
       leading: IconButton(
-          //icon:Icon(Icons.arrow_back),
-            icon: getSvgImage(imagePath: Assets.assets_icon_b_back_arrow),
-    onPressed: () =>
+        //icon:Icon(Icons.arrow_back),
+          icon: getSvgImage(imagePath: Assets.assets_icon_b_back_arrow),
+          onPressed: () =>
               Navigator.pop(context, false) //Navigator.pop(context, false),
-          ),
+      ),
       title: Text("Transfer",
           style: const TextStyle(
               color: AppColors.fareColor,
@@ -359,9 +359,9 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
           border: Border(
             bottom: BorderSide(
               color:
-                  textEditingController == txtCtrlBankAcc && isBankAccVerFailed
-                      ? AppColors.badge_color
-                      : Colors.grey,
+              textEditingController == txtCtrlBankAcc && isBankAccVerFailed
+                  ? AppColors.badge_color
+                  : Colors.grey,
               width: 1.0,
             ),
           ),
@@ -374,7 +374,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                 margin: EdgeInsets.only(top: 4, bottom: 4),
                 child: Text(headerTitle,
                     style: textEditingController == txtCtrlBankAcc &&
-                            isBankAccVerFailed
+                        isBankAccVerFailed
                         ? BaseStyles.error_text_style
                         : BaseStyles.textFormFieldHeaderTitleTextStyle,
                     textAlign: TextAlign.left),
@@ -403,34 +403,34 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
                       ),
                     ),
                     textEditingController == txtCtrlBankAcc &&
-                            txtCtrlBankAcc.text.length > 9
+                        txtCtrlBankAcc.text.length > 9
                         ? Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              InkWell(
-                                child: Text(getTranslation(Strings.VERIFY),
-                                    style: const TextStyle(
-                                        color: AppColors.fareColor,
-                                        fontWeight: FontWeight.w700,
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 14.0),
-                                    textAlign: TextAlign.right),
-                                onTap: () {
-                                  // verify failure
-                                  setState(() {
-                                    isBankAccVerFailed = false;
-                                    txtCtrlAccHolderName.text = "M. AGUS RAHMADI";
-                                  });
-                                },
-                              ),
-                              Container(
-                                  margin: EdgeInsets.only(top: 28),
-                                  width: 54,
-                                  height: 2,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffb2f7e2)))
-                            ],
-                          )
+                      alignment: Alignment.center,
+                      children: [
+                        InkWell(
+                          child: Text(getTranslation(Strings.VERIFY),
+                              style: const TextStyle(
+                                  color: AppColors.fareColor,
+                                  fontWeight: FontWeight.w700,
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                              textAlign: TextAlign.right),
+                          onTap: () {
+                            // verify failure
+                            setState(() {
+                              isBankAccVerFailed = false;
+                              txtCtrlAccHolderName.text = "M. AGUS RAHMADI";
+                            });
+                          },
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(top: 28),
+                            width: 54,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                color: const Color(0xffb2f7e2)))
+                      ],
+                    )
                         : Container()
                   ],
                 ),
@@ -520,7 +520,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       itemHeight: 60,
       underline: Container(
           margin:
-              EdgeInsets.only(top: 32, right: type == "paymentSource" ? 16 : 0),
+          EdgeInsets.only(top: 32, right: type == "paymentSource" ? 16 : 0),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -538,7 +538,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
           }else if (type == "bankAccount") {
             bankAccount = val;
           }else
-         {
+          {
             source = val;
           }
         });
@@ -551,7 +551,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     return InkWell(
       onTap: () {
 
-       // enterMPINBottomSheet();
+        // enterMPINBottomSheet();
         goToOTPWidget();
       },
       child: Container(
@@ -689,16 +689,16 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       context: context,
       builder: (BuildContext bc) {
         return EnterMPIN( onConfirmTransfer: () async{
-        if(widget.selfTransfer){
-          push(TransactionDetail());
-        }else{
-          pop();
-          CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;
-          Get.find<TransactionController>().sendMoney(Utils().getCustomerProfile(), fromUser, double.parse(controller.txtCtrlTransferAmt.text), pop);
-         /* Navigator.pop(context);
+          if(widget.selfTransfer){
+            push(TransactionDetail());
+          }else{
+            pop();
+            CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;
+            Get.find<TransactionController>().sendMoney(Utils().getCustomerProfile(), fromUser, double.parse(controller.txtCtrlTransferAmt.text), pop);
+            /* Navigator.pop(context);
           push(ConversationPage(arrChats: ["chat_money_transfer_success"],custInfo: Utils().getCustomerProfile())); //YAKUB Dummy Profile*/
 
-        }
+          }
         },);
       });
 

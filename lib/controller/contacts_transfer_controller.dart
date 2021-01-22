@@ -40,6 +40,7 @@ import 'package:tara_app/models/transfer/pre_transaction_request.dart';
 import 'package:tara_app/models/transfer/register_card_request.dart';
 import 'package:tara_app/models/transfer/retrieve_key_request.dart';
 import 'package:tara_app/models/transfer/retrieve_key_response.dart';
+import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
 import 'package:tara_app/models/transfer/track_transaction_request.dart';
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/models/transfer/transaction_request.dart';
@@ -62,6 +63,13 @@ class ContactsTransferController extends GetxController{
   var showProgress = false.obs;
   var contactList = List<Contact>().obs;
   var filteredContactList = List<Contact>().obs;
+//transfer list
+ // var arrContactInfo = List<Contact>().obs;
+//  var arrFilterContactInfo = List<Contact>().obs;
+  var arrRecentlyAddedContactInfo = List<BeneDetailBean>().obs;
+
+ var title = "abc".obs;
+
   String searchText = "";
 
   TextEditingController searchQuery = TextEditingController();
@@ -90,6 +98,7 @@ class ContactsTransferController extends GetxController{
     }
 
   void filterTheContacts(String value) {
+    title.value = value;
     searchText = value;
     if (searchText != null &&searchText.toString().trim().isNotEmpty &&searchText.toString().trim().length > 2) {
       filteredContactList.value=[];
@@ -102,10 +111,9 @@ class ContactsTransferController extends GetxController{
             .toList();
 
       }
-
-
     } else {
       if (searchQuery.text == "") {
+        title.value = "";
         searchText = "";
         searchQuery.text = "";
         filteredContactList.value.clear();
@@ -122,6 +130,22 @@ class ContactsTransferController extends GetxController{
     }
   }
 
+ void getBeneficiaries() async {
+  // showProgress.value = true;
+   var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+
+    if(isSessionInitiated){
+      var queries =  await BaseRequestHelper().getCustomerDataQueryParam();
+      var benresponse =  await getIt.get<TransactionRepository>().getBeneficiaries(queries);
+      if(benresponse.isRight()){
+        var response = benresponse.getOrElse(() => null);
+        arrRecentlyAddedContactInfo.value = response.beneDetails;
+
+      }
+    //  showProgress.value = false;
+
+    }
+  }
 
 
 }
