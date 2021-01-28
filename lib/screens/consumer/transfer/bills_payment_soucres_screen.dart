@@ -180,7 +180,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             children: [
               Image.asset(Assets.ic_bca, width: 48, height: 24,),
               //TODO ICON TO LOAD FROM NETWORK
-                Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle)
+                Container(width:Get.width*0.7,child: Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,
+
+                ))
 
 
             ],
@@ -319,7 +321,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Name", style: BaseStyles.purchaseLabelTextStyle),
-         Text("${widget.billDetailsData.productName}",style: TextStyles.bUTTONWhite2)
+         Container(width:Get.width*0.6,child: Text("${widget.billDetailsData.productName}",style: TextStyles.bUTTONWhite2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.right,
+
+         ))
       ],
     ).withPad(padding: EdgeInsets.all(5));;
   }

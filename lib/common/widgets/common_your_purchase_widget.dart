@@ -130,9 +130,14 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Name",style: BaseStyles.purchaseLabelTextStyle),
-        Text("${widget.billDetailsData.productName}",style: TextStyles.bUTTONWhite2)
+        Container(width:Get.width*0.5,child: Text("${widget.billDetailsData.productName}",
+            style: TextStyles.bUTTONWhite2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.right,
+        ),
+         )
       ],
-    ).withPad(padding: EdgeInsets.all(5));;
+    ).withPad(padding: EdgeInsets.all(5));
   }
   Widget getLabeledView(category){
     switch(category) {
@@ -175,7 +180,13 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
           Row(
             children: [
               Image.asset(Assets.BJPS_ICON,width: 24,height:24,),//TODO ICON TO LOAD FROM NETWORK
-              Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle)
+              Container( width: Get.width*0.6,
+                  child: Text(widget.billDetailsData.productName,
+                      style: BaseStyles.contactsTextStyle,
+                       overflow: TextOverflow.ellipsis,
+                       textAlign: TextAlign.center,
+                  ),
+                       )
             ],
           ).withPad(padding: EdgeInsets.only(top:10,bottom:10,left:8,right:8)),
           getLabeledView(widget.billDetailsData.category).withPad(padding: EdgeInsets.all(8)),
