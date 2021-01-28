@@ -61,8 +61,8 @@ class TransferDetailsEntryWidgetController extends GetxController{
 
   }
 
-  void confirmToPay(String bic,num accountTokenId) async{
-    await Get.find<TransactionController>().payNow(txtCtrlTransferAmt.text,messageController.text,bic,cvvController.text,accountTokenId);
+  void confirmToPay({String mobile,String amount,String remarks,String bic,String cvv,num accountTokenId,num beneId}) async{
+    await Get.find<TransactionController>().payNow(mobileNumber: mobile,amount1:txtCtrlTransferAmt.text,remarks1:messageController.text,bic1: bic,cvv1:cvvController.text,initiatorAccountId1: accountTokenId,benId1: beneId);
 
   }
 

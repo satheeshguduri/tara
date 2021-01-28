@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
@@ -9,6 +10,7 @@ import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/screens/consumer/transfer/bills_payment_soucres_screen.dart';
 
 
 class CommonPurchaseWidget extends StatefulWidget {
@@ -198,7 +200,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: (){
-
+        Get.to(BillsPaymentsSourcesScreen(billDetailsData: widget.billDetailsData));
     });
   }
 

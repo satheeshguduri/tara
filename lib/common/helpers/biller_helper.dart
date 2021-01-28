@@ -74,18 +74,10 @@ class BillerHelper{
     return response.data.where((element) => element.type == type).distinct((d)=> d.category).toList();
   }
   //gets the billers by categories
-  List<BillProductDataBean> getBillersByCategory(BillProductsResponse response,  String category,[String secondCategory]){
-    if(secondCategory==null) {
-      return response.data.where((element) => element.category == category)
+  List<BillProductDataBean> getBillersByCategory(BillProductsResponse response,  String category){
+      return response.data.where((element) => element.category == category )
           .distinct((d) => d.biller)
           .toList();
-
-    }else {
-      return response.data.where((element) =>
-      element.category == category || element.category == secondCategory)
-          .distinct((d) => d.biller)
-          .toList();
-    }
   }
   //gets the products by categories
   List<BillProductDataBean> getProductsByBiller(BillProductsResponse response, String category, String biller){

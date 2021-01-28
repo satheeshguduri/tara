@@ -1052,6 +1052,31 @@ class TextStyles {
       fontSize: 16.0
   );
 
+  static const cardAmountTextStyle =  const TextStyle(
+      color:  AppColors.elevation_off_2_2_2,
+      fontWeight: FontWeight.w700,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 20.0
+  );
+
+  static const cardNumberTextStyle =   const TextStyle(
+      color:  AppColors.elevation_off_2_2_2,
+      fontWeight: FontWeight.w500,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static const pulsaUnSelectedTextStyle =    const TextStyle(
+      color:  AppColors.color_black_80_2_2_2,
+      fontWeight: FontWeight.w500,
+      fontFamily: "SctoGroteskA",
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+
 
 
 

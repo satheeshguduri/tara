@@ -18,6 +18,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/screens/consumer/transfer_details_entry_screen.dart';
 
 
 class BankTransferAccountsList extends StatefulWidget {
@@ -379,73 +380,72 @@ class BankTransferAccountsListState extends BaseState<BankTransferAccountsList> 
     );
   }
   Widget getContactItemWidget([Contact contactInfo,BeneDetailBean recentContactInfo]) {
-    return InkWell(
-      child: Container(
-        margin: EdgeInsets.only(left: 16, right: 16, top: 8),
-        padding: EdgeInsets.all(8),
-        height: 64,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0x1f000000),
-                  offset: Offset(0, 4),
-                  blurRadius: 6,
-                  spreadRadius: 0),
-              BoxShadow(
-                  color: const Color(0x14000000),
-                  offset: Offset(0, 0),
-                  blurRadius: 2,
-                  spreadRadius: 0)
-            ],
-            color: AppColors.primaryBackground),
-        child: Center(
-          child:
-          Row(
-            children: [
-              Image.asset(
-                "assets/images/avatar-11.png",
-                height: 32,
-                width: 32,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width:getWidth(contactInfo?.displayName ?? "Un Known"),
-                      margin: EdgeInsets.only(top: 4),
-                      child: Text(
-                       // contactInfo?.displayName ?? "Un Known",
-                        contactInfo!=null?contactInfo?.displayName ?? "Un Known":recentContactInfo?.beneName ?? "Un Known",
-                        //contactInfo.name,
-                        textAlign: TextAlign.left,
-                        style: BaseStyles.transactionItemPersonNameTextStyle,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+    return Container(
+      margin: EdgeInsets.only(left: 16, right: 16, top: 8),
+      padding: EdgeInsets.all(8),
+      height: 64,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          boxShadow: [
+            BoxShadow(
+                color: const Color(0x1f000000),
+                offset: Offset(0, 4),
+                blurRadius: 6,
+                spreadRadius: 0),
+            BoxShadow(
+                color: const Color(0x14000000),
+                offset: Offset(0, 0),
+                blurRadius: 2,
+                spreadRadius: 0)
+          ],
+          color: AppColors.primaryBackground),
+      child: Center(
+        child:
+        Row(
+          children: [
+            Image.asset(
+              "assets/images/avatar-11.png",
+              height: 32,
+              width: 32,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width:getWidth(contactInfo?.displayName ?? "Un Known"),
+                    margin: EdgeInsets.only(top: 4),
+                    child: Text(
+                     // contactInfo?.displayName ?? "Un Known",
+                      contactInfo!=null?contactInfo?.displayName ?? "Un Known":recentContactInfo?.beneName ?? "Un Known",
+                      //contactInfo.name,
+                      textAlign: TextAlign.left,
+                      style: BaseStyles.transactionItemPersonNameTextStyle,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 4),
-                      child: Text(
-                       // phoneNumberValidation(contactInfo),
-                        contactInfo!=null?phoneNumberValidation(contactInfo):recentContactInfo?.beneMobile ?? "0000",
-                        //contactInfo.accountNumber,
-                        textAlign: TextAlign.left,
-                        style: BaseStyles.transactionItemDateTextStyle,
-                      ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 4),
+                    child: Text(
+                     // phoneNumberValidation(contactInfo),
+                      contactInfo!=null?phoneNumberValidation(contactInfo):recentContactInfo?.beneMobile ?? "0000",
+                      //contactInfo.accountNumber,
+                      textAlign: TextAlign.left,
+                      style: BaseStyles.transactionItemDateTextStyle,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-      onTap: () {
-        //  push(BankTransferNewContact(bankAccInfo: contactInfo,));
-      }
-    );
+    ).onTap(onPressed: (){
+      Contact  taraContactParam =  contactInfo!=null?contactInfo:null;
+      BeneDetailBean  beneContactParam =  recentContactInfo!=null?recentContactInfo:null;
+       Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam));
+    });
   }
 
   errorTitleTextWidget() {

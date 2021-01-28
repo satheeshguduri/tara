@@ -415,6 +415,17 @@ class Strings{
   static const typeyourmessage = "typeyourmessage";
   static const enterthecvv = "enterthecvv";
   static const enterthevalidcvv = "enterthevalidcvv";
+  static const transactionDetails = "transactionDetails";
+  static const paywith = "paywith";
+  static const pulsa = "pulsa";
+  static const paketdata = "paketdata";
+  static const pulsaandpaketdata = "pulsaandpaketdata";
+
+
+
+
+
+
 
 
 

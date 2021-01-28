@@ -139,7 +139,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
       ),
     ).onTap(onPressed: (){
       if(formKey.currentState.validate()){
-        controller.confirmToPay(bic,accountTokenId);
+       // controller.confirmToPay("",bic,accountTokenId,0);
       }
     });
   }

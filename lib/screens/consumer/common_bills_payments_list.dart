@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/helpers/biller_helper.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -13,7 +14,7 @@ import '../../common/constants/values.dart';
 class CommonBillsPaymentListView extends StatefulWidget {
   final List<BillProductDataBean> data;
   final bool pulsaAndPaketData;
-  CommonBillsPaymentListView({Key key,this.data,this.pulsaAndPaketData}) : super(key: key);
+  CommonBillsPaymentListView({Key key,this.data,this.pulsaAndPaketData=false}) : super(key: key);
 
   @override
   CommonBillsPaymentListViewState createState() => CommonBillsPaymentListViewState();
@@ -26,10 +27,11 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(),
+      //  appBar: getAppBar(),
+        appBar: CustomAppBarWidget(title: widget.data[0].category,addNewWidgetShow: false,),
+
       body: SafeArea(
-        // child:pulsaPaketDataTabsWithListViews(),
-          child: pulsaPaketDataOrCommonListView(widget.data),
+        child: pulsaPaketDataOrCommonListView(widget.data),
 
       ),
     );
@@ -62,29 +64,29 @@ class CommonBillsPaymentListViewState extends BaseState<CommonBillsPaymentListVi
 
   }
 
- Widget pulsaPaketDataOrCommonListView(List<BillProductDataBean> data) {
+  Widget pulsaPaketDataOrCommonListView(List<BillProductDataBean> dataBean) {
 
     return
       ListView.builder(
-      itemCount: widget.data.length,
-      itemBuilder: (context,index){
-        return Column(
-          children: [
-            ListTile(
-              onTap: ()async{
-                List<BillProductDataBean> data = controller.getProducts(widget.data[index]);
-                Get.to(CommonBillsProductsListView(data:data));
-              },
-              leading: Image.asset("assets/images/avatar-11.png",height: 32,width: 32),
-              title: Text(widget.data[index].biller),
-              trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[300],size: 24,),
-            ),
-            Divider()
-          ],
-        );
-      },
+        itemCount:dataBean.length,
+        itemBuilder: (context,index){
+          return Column(
+            children: [
+              ListTile(
+                onTap: ()async{
+                  List<BillProductDataBean> data = controller.getProducts(dataBean[index]);
+                  Get.to(CommonBillsProductsListView(data:data));
+                },
+                leading: Image.asset("assets/images/avatar-11.png",height: 32,width: 32),
+                title: Text(dataBean[index].biller),
+                trailing: Icon(Icons.keyboard_arrow_right,color: Colors.grey[300],size: 24,),
+              ),
+              Divider()
+            ],
+          );
+        },
 
-    );
+      );
   }
 
 }

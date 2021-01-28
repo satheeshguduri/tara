@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import '../../common/constants/values.dart';
@@ -23,7 +24,8 @@ class CommonBillsProductsListViewState extends BaseState<CommonBillsProductsList
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(),
+   //   appBar: getAppBar(),
+      appBar: CustomAppBarWidget(title: widget.data[0].biller,addNewWidgetShow: false,),
       body: SafeArea(
           child: ListView.builder(
             itemCount: widget.data.length,
@@ -48,29 +50,29 @@ class CommonBillsProductsListViewState extends BaseState<CommonBillsProductsList
   @override
   BuildContext getContext() => context;
 
-  AppBar getAppBar() {
-    return AppBar(
-      elevation: 1,
-      centerTitle: false,
-      automaticallyImplyLeading: false, // hides leading widget
-      leading: IconButton(
-         // icon: Icon(Icons.arrow_back),
-          icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
-          onPressed: () {
-            pop();
-          }),
-      title: Container(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          // getTranslation(Strings.profile),
-          widget.data[0].biller,
-          textAlign: TextAlign.left,
-          style: BaseStyles.topBarTextStyle,
-        ),
-      ),
-    );
-
-  }
+  // AppBar getAppBar() {
+  //   return AppBar(
+  //     elevation: 1,
+  //     centerTitle: false,
+  //     automaticallyImplyLeading: false, // hides leading widget
+  //     leading: IconButton(
+  //        // icon: Icon(Icons.arrow_back),
+  //         icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
+  //         onPressed: () {
+  //           pop();
+  //         }),
+  //     title: Container(
+  //       alignment: Alignment.centerLeft,
+  //       child: Text(
+  //         // getTranslation(Strings.profile),
+  //         widget.data[0].biller,
+  //         textAlign: TextAlign.left,
+  //         style: BaseStyles.topBarTextStyle,
+  //       ),
+  //     ),
+  //   );
+  //
+  // }
 
   Widget customListTile(int index) {
     return Container(

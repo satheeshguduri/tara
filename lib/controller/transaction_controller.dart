@@ -23,6 +23,7 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/models/transactions/transaction_model.dart';
 import 'package:tara_app/models/transfer/account_details_request.dart';
+import 'package:tara_app/models/transfer/add_beneficiary_request.dart';
 import 'package:tara_app/models/transfer/authorize_request.dart';
 import 'package:tara_app/models/transfer/confirm_account_registration_request.dart';
 import 'package:tara_app/models/transfer/constants/action.dart';
@@ -376,15 +377,16 @@ class TransactionController extends GetxController{
     }
   }
 
- Future payNow(String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1) async {
+ Future payNow({String mobileNumber,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1,num benId1}) async {
    showProgress.value = true;
    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
-      var toMobileNumber = "8368951368";//"8106170677";//"9295909790";  should be without country code
+    //  var toMobileNumber = "8368951368";//"8106170677";//"9295909790";  should be without country code
+      var toMobileNumber = mobileNumber;
       var amount= amount1;
       var remarks = remarks1;
       var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transaction request.
-      //var benId = 38; // get these from Search beneficiary call by passing the mobile number to the api
+      var benId = benId1; // get these from Search beneficiary call by passing the mobile number to the api
       var bic = "CENAID00001";//bic1; // get these from Search beneficiary call by passing the mobile number to the api
       var cvvValue = cvv1;
 // These below two lines has to be removed
@@ -418,7 +420,7 @@ class TransactionController extends GetxController{
           var payeeInfo = PayeesBean(
               amount: amount,
               mobileNo: toMobileNumber,
-              // beneId: benId,//MIGHT NOT REQUIRED
+               beneId: benId,//MIGHT NOT REQUIRED
               appId: PSPConfig.APP_NAME
           );
           var transactionRequest = TransactionRequest(type: RequestType.PAY,
@@ -546,6 +548,68 @@ class TransactionController extends GetxController{
       }
     }
   }
+
+  Future addBeneficiary({String mobile,String accountNo,String bic,String name,String accountType = "SAVINGS"}) async {
+
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+
+    if(isSessionInitiated){
+      var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+      var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+      var addBeneficiaryRequest = AddBeneficiaryRequest(
+          acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+          requestedLocale: "en",
+          accessToken: tokenResponse.token,
+          custPSPId: deviceRegInfo.pspIdentifier,
+          beneAccountNo: accountNo,
+          beneAppName: PSPConfig.APP_NAME,
+          beneMobile: mobile,
+          beneBic: bic,
+          beneName: name,
+          beneType: "ACCOUNT",
+          accountType: accountType
+      );
+      var response = await getIt.get<TransactionRepository>().addBeneficiary(addBeneficiaryRequest);
+      print("fffffffffffffffffffffffffffffffffffff");
+      if(response.isRight()){
+        var addBeneResp = response.getOrElse(() => null);
+        print("sssssssssssssssssssssssssssssssssss");
+
+        if(addBeneResp.success){
+          print("ttttttttttttttttttttttttttttttttttt");
+
+          var mapBeneficiaryRequest = MapBeneficiaryRequest(
+              acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+              requestedLocale: "en",
+              accessToken: tokenResponse.token,
+              custPSPId: deviceRegInfo.pspIdentifier,
+              transactionId: addBeneResp.transactionId,
+              accepted: true
+          );
+          var resp2 = await getIt.get<TransactionRepository>().mapBeneficiaryDetails(mapBeneficiaryRequest);
+          print("fffffffffffffffffffffffffffffffffffff");
+
+          if(resp2.isRight()){
+            var finalResp = resp2.getOrElse(() => null);
+            if(finalResp.success){
+              //Pop the Screen and display toast to say the mapping is successful
+              print("successfully added the beneficiary@@@@@");
+            //  payNow("","222", "gift", "", "123", 44);
+              payNow(mobileNumber: "8368957368",amount1: "100",remarks1: "Gift",benId1: 44,cvv1: "123",initiatorAccountId1: 44,);
+            }
+          }
+        }else{
+          // return failure
+        }
+
+      }
+    }
+
+
+
+
+  }
+
 
 
 

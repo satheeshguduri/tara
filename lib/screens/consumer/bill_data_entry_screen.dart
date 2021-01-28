@@ -4,6 +4,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
@@ -30,8 +31,9 @@ class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(),
-      body: Obx(() =>SafeArea(child: getContainer()).withProgressIndicator(showIndicator: Get.find<BillController>().showProgress.value)),
+   //   appBar: getAppBar(),
+        appBar: CustomAppBarWidget(title:widget.data.category,addNewWidgetShow: false),
+    body: Obx(() =>SafeArea(child: getContainer()).withProgressIndicator(showIndicator: Get.find<BillController>().showProgress.value)),
     );
   }
 
@@ -47,28 +49,28 @@ class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
     );
   }
 
-  AppBar getAppBar() {
-    return AppBar(
-      elevation: 1,
-      centerTitle: false,
-      automaticallyImplyLeading: false,
-      // hides leading widget
-      leading: IconButton(
-         // icon: Icon(Icons.arrow_back),
-          icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
-          onPressed: () {
-            pop();
-          }),
-      title: Container(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          widget.data.category,
-          textAlign: TextAlign.left,
-          style: BaseStyles.topBarTextStyle,
-        ),
-      ),
-    );
-  }
+  // AppBar getAppBar() {
+  //   return AppBar(
+  //     elevation: 1,
+  //     centerTitle: false,
+  //     automaticallyImplyLeading: false,
+  //     // hides leading widget
+  //     leading: IconButton(
+  //        // icon: Icon(Icons.arrow_back),
+  //         icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
+  //         onPressed: () {
+  //           pop();
+  //         }),
+  //     title: Container(
+  //       alignment: Alignment.centerLeft,
+  //       child: Text(
+  //         widget.data.category,
+  //         textAlign: TextAlign.left,
+  //         style: BaseStyles.topBarTextStyle,
+  //       ),
+  //     ),
+  //   );
+  // }
 
 
   Widget getPaketDataWidget() {
@@ -112,10 +114,10 @@ class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
     String label = getTranslation(title) + " / " + getTranslation(Strings.account_number);
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 19, left: 16, right: 16),
+      margin: EdgeInsets.only(top:19, left: 16, right: 16),
       child: Text(
           label,
-          style: TextStyles.caption222
+          style: TextStyles.caption222TextStyle
       ),
     );
   }
@@ -207,7 +209,7 @@ class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
           ),
           Container(
             height: 2,
-            width:60,
+            width:80,
             //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
             margin: EdgeInsets.only(right: 16),
             decoration: BoxDecoration(

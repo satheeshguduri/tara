@@ -77,7 +77,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                     getTaraServicesWidget(),
                     getTransferToWidget(),
                     getMyAccountsFuture(),
-                    //getBillPaymentFuture(),
+                    getBillPaymentFuture(),
                     getTransactionsFuture(),
                     Container(
                       height: 32,
@@ -453,6 +453,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
   getPaymentWidget(List<BillProductDataBean> data)
   {
+    int index = 0;
     return Container(
         height: 148,//YAKUB: 140
         child: Column(
@@ -466,14 +467,15 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: data.map((e) => RoundedCardButton(
-                  buttonText: e.category,
+                   imageIndex:index++,
+                   buttonText: e.category,
                  // image: paymentOptionsIconsArray[0]
-                    image: e.logo,
+                    imageURL: e.logo,
                   onPressed: (){
-                    print("logo address"+e.logo);
                     List<BillProductDataBean> data = controller.getBillers(e);
                   Get.to(CommonBillsPaymentListView(data:data));
-                },)).toList(),
+                },)
+                ).toList(),
               ),
             )
           ],

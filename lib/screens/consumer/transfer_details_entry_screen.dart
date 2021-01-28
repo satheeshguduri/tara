@@ -15,6 +15,7 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
+import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
@@ -31,13 +32,20 @@ import 'my_account/otp_verification_screen.dart';
 
 class TransferDetailsEntryScreen extends StatefulWidget {
 
-  final String title;
-  final BankAccountContactInfo bankAccInfo;
-  final Contact taraContact;
-  final bool selfTransfer;
+  // final String title;
+  // final BankAccountContactInfo bankAccInfo;
+  // final Contact taraContact;
+  // final bool selfTransfer;
+  //
+  // TransferDetailsEntryScreen({Key key, this.title,
+  //   this.bankAccInfo,this.taraContact, this.selfTransfer = false}) : super(key: key);
 
-  TransferDetailsEntryScreen({Key key, this.title,
-    this.bankAccInfo,this.taraContact, this.selfTransfer = false}) : super(key: key);
+  final Contact taraContact;
+  final BeneDetailBean beneContact;
+
+  TransferDetailsEntryScreen({Key key,this.taraContact,this.beneContact}) : super(key: key);
+
+
 
   @override
   TransferDetailsEntryScreenState createState() => TransferDetailsEntryScreenState();
@@ -69,7 +77,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   final TextEditingController _typeAheadController = TextEditingController();
 
   // TransactionController controller = Get.find<TransactionController>();
-  TransactionController controller = Get.find();
+ // TransactionController controller = Get.find();
 
 
   String frequencyType;
@@ -145,7 +153,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       Container(
                         margin: EdgeInsets.only(top: 4),
                         child: Text(
-                          contactNameValidation(widget.taraContact.displayName),
+                          checkContactInfo(),
                           textAlign: TextAlign.left,
                           style: BaseStyles.transactionItemPersonNameTextStyle,
                         ),
@@ -294,7 +302,23 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
       ),
     ).onTap(onPressed: () {
       if(formKey.currentState.validate()){
-        uiController.confirmToPay(bic,accountTokenId);
+
+      // print("amount"+ uiController.txtCtrlTransferAmt.text);
+        // print("message"+uiController.messageController.text);
+        // print("bic"+bic.toString());
+        // print("cvv"+uiController.cvvController.text);
+        // print("accountTokenId"+accountTokenId.toString());
+        // print("beneId"+widget.beneContact.beneId.toString());
+
+        uiController.confirmToPay(
+            mobile: widget.taraContact!=null?phoneNumberValidation(widget.taraContact,null):phoneNumberValidation(null,widget.beneContact),
+            amount: uiController.amountController.text,
+            remarks: uiController.messageController.text,
+            bic: bic,
+            cvv: uiController.cvvController.text,
+            accountTokenId: accountTokenId,
+            beneId: getBenId(widget.beneContact)
+        );
       }
     });
   }
@@ -536,11 +560,10 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     );
   }
 
-  String phoneNumberValidation(Contact contactInfo) {
+  String phoneNumberValidation([Contact contactInfo,BeneDetailBean beneContactInfo]) {
+
     try {
-      return contactInfo.phones
-          .elementAt(0)
-          .value;
+      return contactInfo!=null?contactInfo.phones.elementAt(0).value:beneContactInfo.beneMobile;
     } catch (Exception) {
       return " ";
     }
@@ -729,9 +752,10 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
             isExpanded: true,
             items:// controller.customerProfile.value?.mappedBankAccounts??[]{
             (uiController.mappedItems.value)?.map((MappedBankAccountsBean item) {
+              bic = item.bic;
+              accountTokenId = item.accountTokenId;
               return DropdownMenuItem<String>(
                 child: getCustomItemWidget(item.bankName,item.maskedAccountNumber),
-                //Text(item.bankName),
                 onTap: (){
                   bic = item.bic;
                   accountTokenId = item.accountTokenId;
@@ -778,8 +802,19 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     );
   }
 
+  String checkContactInfo() {
+    if(widget.taraContact!=null)
+     return contactNameValidation(widget.taraContact.displayName);
+    else{
+      return contactNameValidation(widget.beneContact.beneName);
 
+    }
 
+  }
+
+ num getBenId(BeneDetailBean beneContact) {
+   return  beneContact!=null? beneContact.beneId:null;
+ }
 }
 
   class PaymentSource {

@@ -29,8 +29,8 @@ import 'my_account/otp_verification_screen.dart';
 class BankTransferNewContact extends StatefulWidget {
 
   final String title;
-  BankAccountContactInfo bankAccInfo;
-  Contact taraContact;
+  final BankAccountContactInfo bankAccInfo;
+  final Contact taraContact;
   final bool selfTransfer;
 
   BankTransferNewContact({Key key, this.title,
@@ -58,8 +58,8 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   List<String> arrFrequency = [Strings.DAILY, Strings.MONTHLY, Strings.YEARLY];
 
   final TextEditingController _typeAheadController = TextEditingController();
-  // TransactionController controller = Get.find<TransactionController>();
-  TransactionController controller = TransactionController();
+   TransactionController controller = Get.find();
+  //TransactionController controller = TransactionController();
 
 
   String frequencyType;
@@ -548,13 +548,15 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
   }
 
   _getContinueWidget() {
-    return InkWell(
-      onTap: () {
-
-        // enterMPINBottomSheet();
-        goToOTPWidget();
-      },
-      child: Container(
+    return
+      // InkWell(
+      // onTap: () {
+      //
+      //   // enterMPINBottomSheet();
+      //   goToOTPWidget();
+      // },
+      // child:
+      Container(
         height: 48,
         margin: EdgeInsets.only(bottom: 16, top: 24, left: 16, right: 16),
         decoration: BoxDecoration(
@@ -566,8 +568,10 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
           textAlign: TextAlign.center,
           style: BaseStyles.addNewBankAccount,
         ),
-      ),
-    );
+      ).onTap(onPressed: (){
+        controller.addBeneficiary(mobile:"9295909790",accountNo: "4545454545454545",bic: "CENAID00001",name:"satheesh");
+      });
+   // );
   }
 
   getFrequencyStartTitle() {
