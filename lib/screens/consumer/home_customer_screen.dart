@@ -159,9 +159,9 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
         ),
         BottomNavigationBarItem(
          // icon: getTabImage(Assets.MY_ORDERS_ACTIVE),
-          icon: getSvgImage(imagePath: Assets.assets_icon_d_dashboard_inactive,width: 24.0,height: 24.0),
+          icon: getSvgImage(imagePath: Assets.assets_icon_a_accounts_inactive,width: 24.0,height: 24.0),
          // activeIcon: getTabImage(Assets.MY_ORDERS_IN_ACTIVE),
-          activeIcon: getTabImage(Assets.MY_ORDERS_IN_ACTIVE),
+          activeIcon:getSvgImage(imagePath:  Assets.assets_icon_a_accounts_active,width: 24.0,height: 24.0),
           title: getTabText(TabTitle.DASHBOARD)
         ),
         BottomNavigationBarItem(

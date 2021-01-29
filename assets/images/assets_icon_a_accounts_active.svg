@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>85CE2B80-F1C2-4913-9226-3541D3076392</title>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Assets-/-Icon-/-A-/-Accounts-/-Active">
+            <rect id="Bound" x="0" y="0" width="24" height="24"></rect>
+            <path d="M22,8 L22,16 L21,16 L21,19 L3,19 L3,15 L13.3552593,15.0009561 C12.5242106,14.2679883 12,13.1952121 12,12 C12,9.790861 13.790861,8 16,8 L22,8 Z" id="Combined-Shape" fill="#B2F7E2"></path>
+            <path d="M21,8.6 L21,15.4 L15.4,15.4 C14.4611159,15.4 13.6111159,15.019442 12.9958369,14.4041631 C12.380558,13.7888841 12,12.9388841 12,12 C12,11.0611159 12.380558,10.2111159 12.9958369,9.59583694 C13.6111159,8.98055796 14.4611159,8.6 15.4,8.6 L15.4,8.6 L21,8.6 Z" id="Rectangle" stroke="#123456" stroke-width="2"></path>
+            <circle id="Oval" fill="#123456" cx="16" cy="12" r="1"></circle>
+            <rect id="Rectangle" stroke="#123456" stroke-width="2" x="3" y="4" width="18" height="16" rx="2"></rect>
+        </g>
+    </g>
+</svg>

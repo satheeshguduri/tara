@@ -187,6 +187,12 @@ class Assets {
   static const assets_icon_a_arrow_down = "assets/images/assets_icon_a_arrow_down.svg";
   static const assets_icon_no_trans = "assets/images/no_trans.svg";
   static const assets_icon_c_check_solid = "assets/images/assets_icon_c_check_solid.svg";
+  static const assets_icon_a_accounts_active = "assets/images/assets_icon_a_accounts_active.svg";
+  static const assets_icon_a_accounts_inactive = "assets/images/assets_icon_a_accounts_inactive.svg";
+
+
+
+
 
 
 
