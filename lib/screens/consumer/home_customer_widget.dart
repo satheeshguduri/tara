@@ -162,7 +162,6 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   }
   Widget  getTransactionsFuture() {
 
-
     return FutureBuilder(
       future: Get.find<TransactionController>().getTransactions(),
       builder: (context,snapshot){
@@ -178,7 +177,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           }
         }else{
           return BaseWidgets.getIndicator;
-        } return Container();
+        }
 
       },
     );
@@ -200,7 +199,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
               }
             }else{
                    return BaseWidgets.getIndicator;
-          } return Container();
+          }
 
         },
       );
@@ -471,7 +470,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
             }
           }else{
             return BaseWidgets.getIndicator;
-          } return Container();
+          }
 
         },
       );

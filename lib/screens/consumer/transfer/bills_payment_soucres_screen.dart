@@ -92,29 +92,28 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonRowTitle(getTranslation(Strings.paywith)),
-      FutureBuilder(
-      future: Get.find<TransactionController>().getCustomerProfile2(),
-      builder: (context, snapshot) {
-      if (snapshot.hasData) {
+    FutureBuilder(
+    future: Get.find<TransactionController>().getCustomerProfile2(),
+    builder: (context,snapshot){
+    if(snapshot.connectionState==ConnectionState.done)
+    {
+    if(snapshot.hasData){
       CustomerProfileDetailsResponse data = snapshot.data;
-       return secondRowContainer(data.mappedBankAccounts);
-      }
-      return BaseWidgets.getIndicator;
-      },
-      )
+      return secondRowContainer(data.mappedBankAccounts);
+    }else if (snapshot.hasError){
+    return Container();
+    }else{
+    return Container();
+    }
+    }else{
+    return BaseWidgets.getIndicator;
+    }
 
-
-
-
-
-
-
-
-
-        ],
-      ),
-
-    );
+       },
+    )
+    ],
+   ),
+ );
   }
 
 
