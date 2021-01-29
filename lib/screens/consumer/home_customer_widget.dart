@@ -161,28 +161,47 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     );
   }
   Widget  getTransactionsFuture() {
+
+
     return FutureBuilder(
       future: Get.find<TransactionController>().getTransactions(),
       builder: (context,snapshot){
-        if(snapshot.hasData){
-          TransactionHistoryResponse data = snapshot.data;
-          return getTransactionsWidget(data);
-        }
-        return BaseWidgets.getIndicator;
+        if(snapshot.connectionState==ConnectionState.done)
+        {
+          if(snapshot.hasData){
+            TransactionHistoryResponse data = snapshot.data;
+            return getTransactionsWidget(data);
+          }else if (snapshot.hasError){
+            return Container();
+          }else{
+            return Container();
+          }
+        }else{
+          return BaseWidgets.getIndicator;
+        } return Container();
+
       },
     );
+
   }
   Widget  getMyAccountsFuture() {
       return FutureBuilder(
         future: Get.find<TransactionController>().getCustomerProfile2(),
         builder: (context,snapshot){
-          if(snapshot.hasData){
-            CustomerProfileDetailsResponse data = snapshot.data;
-            return getMyAccountsWidget(data.mappedBankAccounts);
-          }else if (snapshot.hasError){
-            return Container();
-          }
-          return BaseWidgets.getIndicator;
+          if(snapshot.connectionState==ConnectionState.done)
+            {
+              if(snapshot.hasData){
+                CustomerProfileDetailsResponse data = snapshot.data;
+                return getMyAccountsWidget(data.mappedBankAccounts);
+              }else if (snapshot.hasError){
+                return Container();
+              }else{
+                return Container();
+              }
+            }else{
+                   return BaseWidgets.getIndicator;
+          } return Container();
+
         },
       );
    }
@@ -432,21 +451,30 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   }
 
   Widget getBillPaymentFuture(){
-    return FutureBuilder(
-      future: Get.find<BillController>().getCategories(),
-      builder: (context,snapshot){
-        if(snapshot.hasData){
-          List<BillProductDataBean> data = snapshot.data;
-          var parseData = data;
-          if(data.length>4) {
-             parseData = data.sublist(0, 4);
-          }
-          return getPaymentWidget(parseData);
-        }
-        return BaseWidgets.getIndicator;
-      },
-    );
 
+      return FutureBuilder(
+        future: Get.find<BillController>().getCategories(),
+        builder: (context,snapshot){
+          if(snapshot.connectionState==ConnectionState.done)
+          {
+            if(snapshot.hasData){
+              List<BillProductDataBean> data = snapshot.data;
+              var parseData = data;
+              if(data.length>4) {
+                parseData = data.sublist(0, 4);
+              }
+              return getPaymentWidget(parseData);
+            }else if (snapshot.hasError){
+              return Container();
+            }else{
+              return Container();
+            }
+          }else{
+            return BaseWidgets.getIndicator;
+          } return Container();
+
+        },
+      );
   }
 
 
