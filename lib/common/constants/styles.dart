@@ -1077,7 +1077,21 @@ class TextStyles {
   );
 
 
+  static const labelSelectedTextStyle =    const  TextStyle(
+          //color:  AppColors.color_black_100_2_2_2,
+          fontWeight: FontWeight.w700,
+          fontFamily: "Roboto",
+          fontStyle:  FontStyle.normal,
+          fontSize: 12.0
+  );
 
+  static const labelUnSelectedTextStyle =    const   TextStyle(
+     // color:  AppColors.color_black_80_2_2_2,
+      fontWeight: FontWeight.w400,
+      fontFamily: "Roboto",
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0
+  );
 
 
 

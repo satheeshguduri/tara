@@ -393,6 +393,10 @@
   "paywith": "Pay With",
   "pulsa": "Pulsa",
   "paketdata": "Paket Data",
-  "pulsaandpaketdata": "Pulsa/Paket Data"
+  "pulsaandpaketdata": "Pulsa/Paket Data",
+  "scan": "Scan",
+  "accounts": "Accounts",
+  "settings": "Settings",
+  "dashboard": "Dashboard"
 
 }

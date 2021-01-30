@@ -420,6 +420,17 @@ class Strings{
   static const pulsa = "pulsa";
   static const paketdata = "paketdata";
   static const pulsaandpaketdata = "pulsaandpaketdata";
+  static const scan = "scan";
+  static const accounts = "accounts";
+  static const settings = "settings";
+  static const dashboard = "dashboard";
+  static const home = "home";
+
+
+
+
+
+
 
 
 
