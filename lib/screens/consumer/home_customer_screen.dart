@@ -76,7 +76,6 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
         child: Container(
           width: 60,
           height: 60,
-         // child: getTabImage(Assets.SCAN_IN_ACTIVE,),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: getSvgImage(imagePath: Assets.assets_icon_s_scan),
@@ -132,10 +131,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
       items: [
         BottomNavigationBarItem(
             icon:getSvgImage(imagePath: Assets.assets_icon_h_home_inactive,width: 24.0,height: 24.0),
-           // icon: getSvgImage(imagePath:Assets.assets_icon_s_search,width: 24.0,height: 24.0),
-            //activeIcon: getTabImage(Assets.HOME_ACTIVE),
             activeIcon: getSvgImage(imagePath: Assets.assets_icon_h_home_active,width: 24.0,height: 24.0),
-           // title: getTabText(TabTitle.HOME)
             label: getTranslation(Strings.home),
 
     ),
@@ -145,33 +141,24 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
             width: 24,
             height: 24,
             child: getSvgImage(imagePath: Assets.assets_icon_c_chat_inactive),
-          ), //getTabImage(Assets.CHAT_IN_ACTIVE),
+          ),
           activeIcon: Container(
             width: 24,
             height: 24,
             child: getSvgImage(imagePath: Assets.assets_icon_c_chat_active),
-          ), //getTabImage(Assets.CHAT_ACTIVE),
+          ),
             label: getTranslation(Strings.chat)
-          // title: Text(
-          //   TabTitle.CHAT,
-          //   style: BaseStyles.navigationTextStyle,
-          // ),
         ),
 
         BottomNavigationBarItem(
           icon: Container(margin: EdgeInsets.only(bottom: 24),),
           activeIcon: Container(margin: EdgeInsets.only(bottom: 24),),
             label: getTranslation(Strings.scan)
-          // title: Padding(
-          //   padding: EdgeInsets.only(top: 24),
-          //   child: getTabText(TabTitle.SCAN)
-          // ),
         ),
         BottomNavigationBarItem(
           icon: getSvgImage(imagePath: Assets.assets_icon_a_accounts_inactive,width: 24.0,height: 24.0),
           activeIcon:getSvgImage(imagePath:  Assets.assets_icon_a_accounts_active,width: 24.0,height: 24.0),
-         // title:getTabText(TabTitle.DASHBOARD),
-            label: getTranslation(Strings.dashboard)
+          label: getTranslation(Strings.dashboard)
 
         ),
         BottomNavigationBarItem(
@@ -179,13 +166,10 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
             width: 24.0,
             height: 24.0,
             child:getSvgImage(imagePath: Assets.assets_icon_s_setting_inactive)),
-            //SvgPicture.asset(Assets.SETTINGS_IN_ACTIVE,) ,),//getTabImage(Assets.SETTINGS_IN_ACTIVE),
           activeIcon: Container(
             width: 24.0,
             height: 24.0,
             child:getSvgImage(imagePath: Assets.assets_icon_s_setting_active)),
-            //SvgPicture.asset(Assets.SETTINGS_ACTIVE,width: 24,) ,), //getTabImage(Assets.SETTINGS_ACTIVE),
-         // title: getTabText(TabTitle.SETTINGS),
           label: getTranslation(Strings.settings)
           ),
       ],
