@@ -19,6 +19,7 @@ import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 import 'package:tara_app/screens/create_account_screen.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/screens/notification_screen.dart';
+import 'package:tara_app/shop/shopping_home_page.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
@@ -239,7 +240,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
                 chatInboxInfo.chatCardTitle = "tara_shop_received_text";
 //              push(ConversationPage(chatInboxInfo: chatInboxInfo,));
-                push(ShopHome());
+               // push(ShopHome());
+                Get.to(ShoppingHomePage());
               },
             ),
           ],
