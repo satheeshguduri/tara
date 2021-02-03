@@ -72,6 +72,7 @@ class CustomAppBarWidgetState extends BaseState<CustomAppBarWidget> {
 
   Widget titleWidget() {
     return Text( widget.title,
+      overflow: TextOverflow.ellipsis,
       style: BaseStyles.topBarTextStyle,
     );
 

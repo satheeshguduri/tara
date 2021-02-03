@@ -53,7 +53,7 @@ class _TaraAppState extends State<TaraApp> {
             const Locale('en', ''), // English, no country code
             const Locale('id', ''), // Spanish, no country code
           ],
-          home: TestWidget(),
+          home: SplashScreen(),
           title: "Tara",
           theme: themeData
       ),

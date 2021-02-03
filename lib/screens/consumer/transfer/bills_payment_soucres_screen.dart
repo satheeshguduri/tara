@@ -384,6 +384,10 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   }
 
   creditCardsRowContainer(List<CardData> creditCards) {
+
+    //filter the cards only with response success
+    creditCards = creditCards.where((element) => element.status == "success").toList();
+
     return Container(
         height: 119,
         child: ListView.builder(

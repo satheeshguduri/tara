@@ -652,12 +652,13 @@ class TransactionController extends GetxController{
       return_url: "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback",
       token: maskedCardNumber, // need to pass masked card number here
     );
-
+    // showProgress.value = true;
     var response = await getIt.get<McPaymentRepository>().payWithCreditCard(request);
+    // showProgress.value = false;
     if(response.isRight()){
       var finalResponse = response.getOrElse(() => null);
       if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
-        Get.to(CommonWebViewScreen(title: "Paying with Registered Credit card",
+        Get.to(CommonWebViewScreen(title: "Paying with Credit card",
             type: WebViewType.PAYMENT,
             url: finalResponse.data.seamless_url));
       }

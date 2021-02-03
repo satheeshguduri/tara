@@ -75,7 +75,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     getTaraServicesWidget(),
-                    getTransferToWidget(),
+                    // getTransferToWidget(),
                     getMyAccountsFuture(),
                     getBillPaymentFuture(),
                     getTransactionsFuture(),
