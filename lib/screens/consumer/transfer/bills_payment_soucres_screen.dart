@@ -62,9 +62,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
                 child: Column(
                   children: [transactionDetailRow(),
                              SizedBox(height: 16),
-                             debitCardsRow(),
+                             creditCardsRow(),
                              SizedBox(height: 16),
-                             creditCardsRow()],
+                             debitCardsRow(),],
 
                 )
             ),
