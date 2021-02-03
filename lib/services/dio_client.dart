@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tara_app/services/config/psp_config.dart';
 import 'package:tara_app/services/rest/biller_rest_client.dart';
+import 'package:tara_app/services/rest/mcpayment_rest_client.dart';
 import 'package:tara_app/services/rest/order_rest_client.dart';
 import 'package:tara_app/services/rest/rest_client.dart';
 import 'package:tara_app/services/rest/transaction_rest_client.dart';
@@ -35,6 +36,7 @@ class APIHelper{
   OrderRestClient getDioOrderClient() => OrderRestClient(dio);
   TransactionRestClient getDioTransactionClient() => TransactionRestClient(dio);
   BillerRestClient getDioBillerClient() => BillerRestClient(dio);
+  McPaymentRestClient getDioMcClient() => McPaymentRestClient(dio);
 
   Future<PSPRestClient> getSecurePSPRestClient() async{
     Dio dio = await getSecureDio();
