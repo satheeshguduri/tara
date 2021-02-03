@@ -60,34 +60,38 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
           children: [
             Expanded(
                 child: Column(
-                  children: [firstRow(), secondRow()],
+                  children: [transactionDetailRow(),
+                             SizedBox(height: 16),
+                             debitCardsRow(),
+                             SizedBox(height: 16),
+                             creditCardsRow()],
 
                 )
             ),
-            bottomRow()
+            nextButtonWidget()
           ]
       ),
     );
   }
 
 
-  Widget firstRow() {
+  Widget transactionDetailRow() {
     return Container(
       margin: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonRowTitle(getTranslation(Strings.transactionDetails)),
-          firstRowContainer()
+          transactionDetailRowContainer()
         ],
       ),
 
     );
   }
 
-  Widget secondRow() {
+  Widget debitCardsRow() {
     return Container(
-      margin: EdgeInsets.only(bottom: 16, left: 16),
+      margin: EdgeInsets.only(left: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -99,7 +103,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         {
         if(snapshot.hasData){
           CustomerProfileDetailsResponse data = snapshot.data;
-          return secondRowContainer(data.mappedBankAccounts);
+          return debitCardsRowContainer(data.mappedBankAccounts);
         }else if (snapshot.hasError){
         return Container();
         }else{
@@ -117,7 +121,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   }
 
 
-  Widget bottomRow() {
+  Widget nextButtonWidget() {
     return Container(
       height: 48,
       margin: EdgeInsets.only(bottom: 16, left: 16, right: 16),
@@ -166,7 +170,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-  Widget firstRowContainer() {
+  Widget transactionDetailRowContainer() {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.secondaryBackground,
@@ -195,21 +199,21 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-  secondRowContainer(List<MappedBankAccountsBean> mappedBankAccounts) {
+  debitCardsRowContainer(List<MappedBankAccountsBean> mappedBankAccounts) {
     return Container(
-        height: 137,
+        height: 119,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: mappedBankAccounts.length,
             itemBuilder: (context, index) {
-              return getListTile(mappedBankAccounts[index]); // Container
+              return getDebitCardListTile(mappedBankAccounts[index]); // Container
 
 
             })
     );
   }
 
-  Widget getListTile(MappedBankAccountsBean mappedBankAccounts) {
+  Widget getDebitCardListTile(MappedBankAccountsBean mappedBankAccounts) {
     return Container(
       width: 208,
       margin: EdgeInsets.only(right: 16),
@@ -231,9 +235,13 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       ),
       child: Column(
         children: [
-          cardFirstRow(),
-          cardSecondRow(),
-          cardThirdRow(mappedBankAccounts)
+          SizedBox(height: 12),
+          debitCardtransactionDetailRow(),
+          SizedBox(height: 16),
+          debitCardAmountRow(),
+          SizedBox(height: 12),
+          debitCardNumberRow(mappedBankAccounts),
+          SizedBox(height: 16),
         ],
       ),
 
@@ -241,15 +249,15 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-  Widget cardFirstRow() {
+  Widget debitCardtransactionDetailRow() {
     return Container(
-      height: 54,
+      height: 24,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             width: 48,
-            height: 24,
+           // height: 24,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
                     Radius.circular(6)
@@ -258,14 +266,14 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             ),
             child: Image.asset(Assets.ic_bca),
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(left: 19, top: 8),
+            margin: EdgeInsets.only(left: 19),
           ),
           // Expanded(child: SizedBox()),
           Container(width: 50,
             child: getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
                 height: 24.0,
                 width: 24.0),
-            margin: EdgeInsets.only(top: 8),
+           // margin: EdgeInsets.only(top: 8),
 
           )
         ],
@@ -274,9 +282,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-  Widget cardSecondRow() {
+  Widget debitCardAmountRow() {
     return Container(
-        margin: EdgeInsets.only(left: 16, top: 14, bottom: 12),
+        margin: EdgeInsets.only(left: 16),
         alignment: Alignment.centerLeft,
         child: Text(
             "Rp 12.500.000",
@@ -285,9 +293,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-  Widget cardThirdRow(MappedBankAccountsBean mappedBankAccounts) {
+  Widget debitCardNumberRow(MappedBankAccountsBean mappedBankAccounts) {
     return Container(
-        margin: EdgeInsets.only(left: 16, bottom: 16),
+        margin: EdgeInsets.only(left: 16,),
         alignment: Alignment.centerLeft,
         child:
         Text(
@@ -343,4 +351,133 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return "**** **** **"+ list[0].substring(list[0].length - 2);
   }
 
+  creditCardsRow() {
+    return Container(
+      margin: EdgeInsets.only(left: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          commonRowTitle(getTranslation(Strings.creditCards)),
+          FutureBuilder(
+            future: transferController.getCustomerProfile2(),
+            builder: (context,snapshot){
+              if(snapshot.connectionState==ConnectionState.done)
+              {
+                if(snapshot.hasData){
+                  CustomerProfileDetailsResponse data = snapshot.data;
+                  return creditCardsRowContainer();
+                }else if (snapshot.hasError){
+                  return Container();
+                }else{
+                  return Container();
+                }
+              }else{
+                return BaseWidgets.getIndicator;
+              }
+
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  creditCardsRowContainer() {
+    return Container(
+        height: 119,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return getCreditCardListTile(); // Container
+
+
+            })
+    );
+  }
+
+ Widget getCreditCardListTile() {
+    return Container(
+      width: 208,
+      margin: EdgeInsets.only(right: 16),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+              Radius.circular(12)
+          ),
+          boxShadow: [BoxShadow(
+              color: const Color(0x23000000),
+              offset: Offset(0, 4),
+              blurRadius: 4,
+              spreadRadius: 0
+          )
+          ],
+          gradient: LinearGradient(
+              begin: Alignment(1, 1),
+              end: Alignment(0.008085664335664378, 0.008085664335664378),
+              colors: [const Color(0xff0060af), const Color(0xffb2dcff)])
+      ),
+      child: Column(
+        children: [
+          SizedBox(height: 12),
+          creditCardtransactionDetailRow(),
+          SizedBox(height: 16),
+          creditCardNumberRow(),
+          SizedBox(height: 12),
+          creditCardNameRow(),
+          SizedBox(height: 16),
+        ],
+      ),
+
+
+    );
+  }
+
+Widget  creditCardtransactionDetailRow() {
+  return Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: 48,
+          height: 24,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                  Radius.circular(6)
+              ),
+              color: AppColors.elevation_off_2_2_2
+          ),
+          child: Image.asset(Assets.ic_bca),
+          alignment: Alignment.centerLeft,
+          margin: EdgeInsets.only(left: 19,),
+        ),
+
+      ],
+
+    ),
+  );
+}
+
+ Widget creditCardNumberRow() {
+   return Container(
+       margin: EdgeInsets.only(left: 16),
+       alignment: Alignment.centerLeft,
+       child: Text(
+           "1234 5678 3652 ",
+           style: TextStyles.cardAmountTextStyle
+       )
+   );
+ }
+
+
+ Widget creditCardNameRow() {
+    return Container(
+        margin: EdgeInsets.only(left: 16,),
+        alignment: Alignment.centerLeft,
+        child:
+        Text(
+            "SATHEESH",
+            style: TextStyles.cardNumberTextStyle
+        )
+    );
+  }
 }
