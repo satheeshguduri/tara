@@ -13,6 +13,7 @@ import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
+import 'package:tara_app/models/mcpayment/card_data.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
@@ -359,13 +360,13 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         children: [
           commonRowTitle(getTranslation(Strings.creditCards)),
           FutureBuilder(
-            future: transferController.getCustomerProfile2(),
+            future: transferController.getCards(),
             builder: (context,snapshot){
               if(snapshot.connectionState==ConnectionState.done)
               {
                 if(snapshot.hasData){
-                  CustomerProfileDetailsResponse data = snapshot.data;
-                  return creditCardsRowContainer();
+                  List<CardData> data = snapshot.data;
+                  return creditCardsRowContainer(data);
                 }else if (snapshot.hasError){
                   return Container();
                 }else{
@@ -382,21 +383,23 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-  creditCardsRowContainer() {
+  creditCardsRowContainer(List<CardData> creditCards) {
     return Container(
         height: 119,
         child: ListView.builder(
+
             scrollDirection: Axis.horizontal,
-            itemCount: 5,
+            itemCount: creditCards.length,
             itemBuilder: (context, index) {
-              return getCreditCardListTile(); // Container
 
+              return getCreditCardListTile(creditCards[index]); // Container
+            }
+            )
 
-            })
     );
   }
 
- Widget getCreditCardListTile() {
+ Widget getCreditCardListTile(CardData creditCardData) {
     return Container(
       width: 208,
       margin: EdgeInsets.only(right: 16),
@@ -419,36 +422,35 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       child: Column(
         children: [
           SizedBox(height: 12),
-          creditCardtransactionDetailRow(),
+          creditCardtransactionDetailRow(creditCardData),
           SizedBox(height: 16),
-          creditCardNumberRow(),
+          creditCardNumberRow(creditCardData),
           SizedBox(height: 12),
-          creditCardNameRow(),
+          creditCardNameRow(creditCardData),
           SizedBox(height: 16),
         ],
       ),
 
 
-    );
+    ).onTap(onPressed: (){
+      transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
+    });
   }
 
-Widget  creditCardtransactionDetailRow() {
+Widget  creditCardtransactionDetailRow(CardData creditCardData) {
   return Container(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          width: 48,
-          height: 24,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                  Radius.circular(6)
-              ),
-              color: AppColors.elevation_off_2_2_2
+          width: 180,
+           child:  Text(
+              creditCardData.bankIssuer,
+              style: TextStyles.cardAmountTextStyle,
+              overflow: TextOverflow.ellipsis
           ),
-          child: Image.asset(Assets.ic_bca),
           alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(left: 19,),
+          margin: EdgeInsets.only(left: 16,),
         ),
 
       ],
@@ -457,25 +459,25 @@ Widget  creditCardtransactionDetailRow() {
   );
 }
 
- Widget creditCardNumberRow() {
+ Widget creditCardNumberRow(CardData creditCardData) {
    return Container(
        margin: EdgeInsets.only(left: 16),
        alignment: Alignment.centerLeft,
        child: Text(
-           "1234 5678 3652 ",
+           creditCardData.maskedCardNumber,
            style: TextStyles.cardAmountTextStyle
        )
    );
  }
 
 
- Widget creditCardNameRow() {
+ Widget creditCardNameRow(CardData creditCardData) {
     return Container(
         margin: EdgeInsets.only(left: 16,),
         alignment: Alignment.centerLeft,
         child:
         Text(
-            "SATHEESH",
+            creditCardData.cardHolderName,
             style: TextStyles.cardNumberTextStyle
         )
     );

@@ -9,6 +9,9 @@ import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/common_webview.dart';
+import 'package:tara_app/models/mcpayment/create_card_or_payment_response.dart';
+
 
 import 'connect_new_account_select_ank.dart';
 
@@ -21,14 +24,27 @@ class MyAccountsSeeAllScreen  extends StatefulWidget {
 
 class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
 
+  TransactionController transactionController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: getTranslation(Strings.myAccounts), onPressed: () {
+        transactionController.opacityValue.value = 0.0;
         showBottomSheet(context);
       }, addNewWidgetShow: true,),
-      body: SafeArea(child: getRootContainer()),
+      body: SafeArea(child: getRootContainer())
+
+
+
+      // Obx(()=> SafeArea(
+      //     child: getRootContainer().withProgressIndicator(showIndicator: transactionController.showProgress.value)),
+      // ),
+
+
+
+
+
     );
   }
 
@@ -53,7 +69,7 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
 
   Widget debitCardsListView() {
     return FutureBuilder(
-      future: Get.find<TransactionController>().getCustomerProfile2(),
+      future: transactionController.getCustomerProfile2(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           CustomerProfileDetailsResponse data = snapshot.data;
@@ -227,7 +243,7 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return bottomSheetWidget();
+          return Obx(()=>bottomSheetWidget());
         });
   }
 
@@ -264,7 +280,9 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
                   children: [
                     getCardTextWidget(getTranslation(Strings.addDebitCard)),
                     getDivider(color: AppColors.light_grey_bg_color),
-                    getCardTextWidget(getTranslation(Strings.addCreditCard))
+                    getCardTextWidget(getTranslation(Strings.addCreditCard)),
+                    Opacity(opacity: transactionController.opacityValue.value,child: CircularProgressIndicator(strokeWidth: 5.0,),)
+
 
 
                   ],
@@ -290,7 +308,15 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
         ],
       ),
     ).onTap(onPressed: () {
-      Get.to(ConnectNewAccountSelectBank());
+      if(cardType == getTranslation(Strings.addDebitCard)){
+         Get.to(ConnectNewAccountSelectBank());
+      }else{
+        transactionController.opacityValue.value = 0.5;
+         transactionController.addCard();
+
+
+      }
+
     }
     );
   }

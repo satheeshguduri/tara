@@ -32,6 +32,7 @@ import 'package:tara_app/models/transfer/constants/transaction_type.dart';
 import 'package:tara_app/models/transfer/device_info.dart';
 import 'package:tara_app/models/transfer/fetch_otp_request.dart';
 import 'package:tara_app/models/transfer/fetch_otp_response.dart';
+import 'package:tara_app/models/transfer/transaction_response.dart';
 import 'package:tara_app/models/transfer/payment_instrument.dart';
 import 'package:tara_app/models/transfer/pre_transaction_request.dart';
 import 'package:tara_app/models/transfer/register_card_request.dart';
@@ -43,6 +44,7 @@ import 'package:tara_app/models/transfer/transaction_request.dart';
 import 'package:tara_app/models/transfer/validate_otp_request.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
+import 'package:tara_app/repositories/mc_payment_repository.dart';
 import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
@@ -50,6 +52,12 @@ import 'package:tara_app/screens/consumer/my_account/otp_verification_screen.dar
 import 'package:tara_app/services/config/psp_config.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/models/mcpayment/create_card_or_pay_request.dart' as cards;
+import 'package:tara_app/screens/consumer/common_webview.dart';
+import 'package:tara_app/models/mcpayment/pay_card_request.dart';
+
+
+
 
 import '../injector.dart';
 import '../tara_app.dart';
@@ -58,16 +66,18 @@ import 'auth_controller.dart';
 class TransactionController extends GetxController{
   var showProgress = false.obs;
   var userMobileNumber ="".obs;
- // =  Get.find<AuthController>().user.value.customerProfile.mobileNumber;
+  // =  Get.find<AuthController>().user.value.customerProfile.mobileNumber;
   var otp = "".obs;
 
- // var user = AuthResponse().obs;
+  // var user = AuthResponse().obs;
   var errorMessage = "".obs;
   var countDownTimeString = "02:00".obs;
 
 
   Timer timer;
   var seconds=120.obs;
+
+  var opacityValue = 0.0.obs;
 
   TextEditingController txtCtrlTransferAmt = TextEditingController();
 
@@ -90,11 +100,11 @@ class TransactionController extends GetxController{
     Either<Failure, BaseResponse> responseDa = await getIt.get<TransactionRepository>().sendMoney(transactionModel);
     showProgress.value = false;
     responseDa.fold(
-          (l) => print(l.message),
-          (r) => {
-           // pop,
+            (l) => print(l.message),
+            (r) => {
+          // pop,
           Get.to(ConversationPage(showMakeAnOrder:false,arrChats: ["chat_money_transfer_success"],custInfo: Utils().getCustomerProfile())) //YAKUB Dummy Profile
-          }
+        }
     );
 
 
@@ -132,10 +142,10 @@ class TransactionController extends GetxController{
       showProgress.value = false;
       response.fold(
               (l)
-                => Get.defaultDialog(content: Text(l.message)),
+          => Get.defaultDialog(content: Text(l.message)),
               (r) {
-                CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;
-                sendMoney(Utils().getCustomerProfile(), fromUser, double.tryParse(txtCtrlTransferAmt.text)??0.0);
+            CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;
+            sendMoney(Utils().getCustomerProfile(), fromUser, double.tryParse(txtCtrlTransferAmt.text)??0.0);
 
           }
       );
@@ -175,7 +185,7 @@ class TransactionController extends GetxController{
         constructTime(seconds.value);
       }
 
-     }
+    }
     );
   }
   Future getCustomerProfile2() async {
@@ -332,7 +342,7 @@ class TransactionController extends GetxController{
                       print(jsonEncode(fetchOTPResponse.toJson()));
                       userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
                       showProgress.value = false;
-                       Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from: "addaccount",));
+                      Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from: "addaccount",));
 
                       //  Get.to(OTPVerificationScreen(txnId,fetchOTPResponse,retriveKeyResponse,deviceInfo,bic));
                       // call in OTP validation Screen
@@ -377,11 +387,11 @@ class TransactionController extends GetxController{
     }
   }
 
- Future payNow({String mobileNumber,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1,num benId1}) async {
-   showProgress.value = true;
-   var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+  Future payNow({String mobileNumber,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1,num benId1}) async {
+    showProgress.value = true;
+    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
-    //  var toMobileNumber = "8368951368";//"8106170677";//"9295909790";  should be without country code
+      //  var toMobileNumber = "8368951368";//"8106170677";//"9295909790";  should be without country code
       var toMobileNumber = mobileNumber;
       var amount= amount1;
       var remarks = remarks1;
@@ -390,8 +400,8 @@ class TransactionController extends GetxController{
       var bic = "CENAID00001";//bic1; // get these from Search beneficiary call by passing the mobile number to the api
       var cvvValue = cvv1;
 // These below two lines has to be removed
-     var customerProfile = await getCustomerProfile2();
-     var initiatorAccountId = customerProfile.mappedBankAccounts[0].accountTokenId;
+      var customerProfile = await getCustomerProfile2();
+      var initiatorAccountId = customerProfile.mappedBankAccounts[0].accountTokenId;
       // var initiatorAccountId = initiatorAccountId1;
 
       var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
@@ -420,7 +430,7 @@ class TransactionController extends GetxController{
           var payeeInfo = PayeesBean(
               amount: amount,
               mobileNo: toMobileNumber,
-               beneId: benId,//MIGHT NOT REQUIRED
+              beneId: benId,//MIGHT NOT REQUIRED
               appId: PSPConfig.APP_NAME
           );
           var transactionRequest = TransactionRequest(type: RequestType.PAY,
@@ -492,7 +502,7 @@ class TransactionController extends GetxController{
                         Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from:"transfer"));
 
                         //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
-                       // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
+                        // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
                       }
                     });
 
@@ -594,7 +604,7 @@ class TransactionController extends GetxController{
             if(finalResp.success){
               //Pop the Screen and display toast to say the mapping is successful
               print("successfully added the beneficiary@@@@@");
-            //  payNow("","222", "gift", "", "123", 44);
+              //  payNow("","222", "gift", "", "123", 44);
               payNow(mobileNumber: "8368957368",amount1: "100",remarks1: "Gift",benId1: 44,cvv1: "123",initiatorAccountId1: 44,);
             }
           }
@@ -610,9 +620,50 @@ class TransactionController extends GetxController{
 
   }
 
+  Future getCards() async{
+    var response = await getIt.get<McPaymentRepository>().getCards();
+    print(response);
+    if(response.isRight()) {
+      return response.getOrElse(() => null);
+    }
+  }
+
+  Future addCard() async{
+    var request = cards.CreateCardOrPayRequest();
+    var response = await getIt.get<McPaymentRepository>().createCardOrPay(request);
+    if(response.isRight()){
+      var finalResponse = response.getOrElse(() => null);
+      if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
+        opacityValue.value=0.0;
+        Get.to(CommonWebViewScreen(title: "Add Credit Card",
+            type: WebViewType.ADD_CREDIT_CARD,
+            url: finalResponse.data.seamless_url));
+      }
+    }
+    print(response);
+  }
 
 
 
+  Future payViaCreditCard(String mcPaymentCardId,num transactionAmount,String description,String maskedCardNumber) async{
+    var request = PayCardRequest(register_id: mcPaymentCardId,
+      amount: transactionAmount,
+      description: description,
+      return_url: "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback",
+      token: maskedCardNumber, // need to pass masked card number here
+    );
+
+    var response = await getIt.get<McPaymentRepository>().payWithCreditCard(request);
+    if(response.isRight()){
+      var finalResponse = response.getOrElse(() => null);
+      if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
+        Get.to(CommonWebViewScreen(title: "Paying with Registered Credit card",
+            type: WebViewType.PAYMENT,
+            url: finalResponse.data.seamless_url));
+      }
+
+    }
+  }
 
   void cancelTimer() {
     if (timer != null) {
@@ -635,3 +686,4 @@ class TransactionController extends GetxController{
   }
 
 }
+
