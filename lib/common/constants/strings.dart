@@ -425,6 +425,9 @@ class Strings{
   static const settings = "settings";
   static const dashboard = "dashboard";
   static const home = "home";
+  static const meatandseafood = "meatandseafood";
+
+
 
 
 

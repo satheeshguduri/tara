@@ -26,20 +26,22 @@ class _ShopHomeState extends BaseState<ShopHome> {
 
   int _current = 0;
   OrderController controller = Get.find();
+
   @override
-  void init() async{
+  void init() async {
     // TODO: implement init
     super.init();
     controller.getConsumerOrders();
     controller.getAllStore();
     print(controller.storeTypesList);
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
+
   @override
   BuildContext getContext() {
     // TODO: implement getContext
@@ -55,42 +57,14 @@ class _ShopHomeState extends BaseState<ShopHome> {
     );
   }
 
-  Widget getRootContainer(){
-    return Obx(()=>
+  Widget getRootContainer() {
+    return Obx(() =>
         SafeArea(
           top: false,
           child: Stack(
             children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 240,
-                  decoration: BoxDecoration(
-                      gradient: Gradients.primaryGradient,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: const Radius.circular(16.0),
-                        bottomRight: const Radius.circular(16.0),
-                      )),
-                  child: Column(
-                    children: [
-                      buildNavBar(),
-                      getSearchWidget(),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 180,
-                left: 0,
-                right: 0,
-                height: MediaQuery.of(context).size.height - 188,
-                child: SingleChildScrollView(
-                  physics: ScrollPhysics(),
-                  child: loadContent(),
-                ),
-              )
+              headingTopBar(),
+              getBodyWidget()
             ],
           ),
         ).withProgressIndicator(showIndicator: controller.showProgress.value));
@@ -109,11 +83,15 @@ class _ShopHomeState extends BaseState<ShopHome> {
             Row(
               children: <Widget>[
                 IconButton(
-                   // icon: Icon(Icons.arrow_back),
-                    icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
-                    onPressed: () => Navigator.pop(
-                        context, false) //Navigator.pop(context, false),
-                    ),
+                  // icon: Icon(Icons.arrow_back),
+                    icon: getSvgImage(
+                        imagePath: Assets.assets_icon_b_back_arrow,
+                        width: 24.0,
+                        height: 24.0),
+                    onPressed: () =>
+                       // Navigator.pop(context, false) //Navigator.pop(context, false),
+                      Get.back(),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -127,7 +105,9 @@ class _ShopHomeState extends BaseState<ShopHome> {
                         //   Icons.arrow_forward_ios,
                         //   size: 16,
                         // )
-                        getSvgImage(imagePath: Assets.assets_icon_a_arrow_right,width: 24.0,height:24.0),
+                        getSvgImage(imagePath: Assets.assets_icon_a_arrow_right,
+                            width: 24.0,
+                            height: 24.0),
                       ],
                     ),
                   ],
@@ -137,16 +117,22 @@ class _ShopHomeState extends BaseState<ShopHome> {
             Row(
               children: [
                 IconButton(
-                    //icon: Icon(Icons.favorite_border),
-                    icon:getSvgImage(imagePath: Assets.assets_icon_f_favorite,width: 24.0,height:24.0),
+                  //icon: Icon(Icons.favorite_border),
+                    icon: getSvgImage(imagePath: Assets.assets_icon_f_favorite,
+                        width: 24.0,
+                        height: 24.0),
                     onPressed: () => {}),
                 Container(
                   child: Stack(
                     alignment: Alignment.centerRight,
                     children: [
                       IconButton(
-                       //   icon: Icon(Icons.shopping_cart),
-                          icon:getSvgImage(imagePath: Assets.assets_icon_c_cart,width: 24.0,height:24.0,color: AppColors.header_top_bar_color),
+                        //   icon: Icon(Icons.shopping_cart),
+                          icon: getSvgImage(
+                              imagePath: Assets.assets_icon_c_cart,
+                              width: 24.0,
+                              height: 24.0,
+                              color: AppColors.header_top_bar_color),
                           onPressed: () => {}),
                       Positioned(
                         top: 8,
@@ -200,7 +186,9 @@ class _ShopHomeState extends BaseState<ShopHome> {
               height: 25,
               margin: EdgeInsets.only(left: 8),
               //child: getTabImage(Assets.SEARCH_ICON),
-              child: getSvgImage(imagePath: Assets.assets_icon_s_search,width: 24.0,height:24.0),
+              child: getSvgImage(imagePath: Assets.assets_icon_s_search,
+                  width: 24.0,
+                  height: 24.0),
             ),
             Container(
               margin: EdgeInsets.only(left: 8),
@@ -218,76 +206,9 @@ class _ShopHomeState extends BaseState<ShopHome> {
 
   loadContent() {
     return Column(
-      children: <Widget>[
-        CarouselSlider(
-          items: loadCards(),
-          options: CarouselOptions(
-              // autoPlay: true,
-              enableInfiniteScroll: false,
-              aspectRatio: 3.0,
-              enlargeCenterPage: true,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              }),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 16, right: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 7.5.toInt(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: loadCards().map((url) {
-                    int index = loadCards().indexOf(url);
-                    return Container(
-                      width: 6.0,
-                      height: 6.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 16.0, horizontal: 2.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _current == index
-                            ? AppColors.fareColor
-                            : AppColors.light_grey_blue,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Expanded(
-                flex: 4.toInt(),
-                child: Container(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
-                    child: Column(
-                      children: [
-                        Container(
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              getTranslation(Strings.see_all_promo),
-                              textAlign: TextAlign.center,
-                              style: BaseStyles.seeAllTextStyle,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 2,
-                          margin: EdgeInsets.only(top: 4, left: 20),
-                          decoration: BoxDecoration(
-                            gradient: Gradients.primaryGradient,
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
-            ],
-          ),
-        ),
-
+      children: [
+        getCarouselWidget() ,
+        getCarouselSelectionWidget(),
         loadPreviousOrders(),
         loadMerchantNearYou(),
       ],
@@ -307,82 +228,101 @@ class _ShopHomeState extends BaseState<ShopHome> {
     return arrList;
   }
 
-  loadPreviousOrders(){
-    if( controller.orderList.length != 0){
+  loadPreviousOrders() {
+    if (controller.orderList.length != 0) {
       return Container(
           margin: EdgeInsets.only(left: 16, right: 16, top: 16),
           child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 7.5.toInt(),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        getTranslation(Strings.past_purchase),
-                        textAlign: TextAlign.left,
-                        style: BaseStyles.bottomSheetTitleStyle,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2.5.toInt(),
-                    child: Container(
-                        padding: EdgeInsets.only(top: 8, bottom: 8),
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 16),
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  getTranslation(Strings.SEE_ALL),
-                                  textAlign: TextAlign.center,
-                                  style: BaseStyles.seeAllTextStyle,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 2,
-                              margin: EdgeInsets.only(top: 4, left: 4, right: 16),
-                              decoration: BoxDecoration(
-                                gradient: Gradients.primaryGradient,
-                              ),
-                            ),
-                          ],
-                        )).onTap(onPressed:() =>Get.to(CustomerOrdersScreen())),
-                  ),
-                ],
-              ),
+            children: [
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Expanded(
+              //       flex: 7.5.toInt(),
+              //       child: Align(
+              //         alignment: Alignment.topLeft,
+              //         child: Text(
+              //           getTranslation(Strings.past_purchase),
+              //           textAlign: TextAlign.left,
+              //           style: BaseStyles.bottomSheetTitleStyle,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(
+              //       flex: 2.5.toInt(),
+              //       child: Container(
+              //           padding: EdgeInsets.only(top: 8, bottom: 8),
+              //           child: Column(
+              //             children: [
+              //               Container(
+              //                // margin: EdgeInsets.only(right: 16),
+              //                 child: Align(
+              //                   alignment: Alignment.topRight,
+              //                   child: Text(
+              //                     getTranslation(Strings.SEE_ALL),
+              //                     textAlign: TextAlign.center,
+              //                     style: BaseStyles.seeAllTextStyle,
+              //                   ),
+              //                 ),
+              //               ),
+              //               Container(
+              //                 height: 2,
+              //                 width: 59,
+              //                 margin: EdgeInsets.only(
+              //                     top: 4, ),
+              //                 decoration: BoxDecoration(
+              //                   gradient: Gradients.primaryGradient,
+              //                 ),
+              //               ),
+              //             ],
+              //           )).onTap(
+              //           onPressed: () => Get.to(CustomerOrdersScreen())),
+              //     ),
+              //   ],
+              // ),
+           Container(
+         // margin: EdgeInsets.only(left: 16,right: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            getHeadingText(getTranslation(Strings.past_purchase),),
+            getSeeAllText(),
+          ],
+        ),
+      ),
               Container(
                   height: 120,
-                  margin: EdgeInsets.only(left: 0, right: 0,top: 16),
+                  margin: EdgeInsets.only(left: 0, right: 0, top: 16),
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.orderList.length,
-                      itemBuilder: (context,index){
+                      itemBuilder: (context, index) {
                         var order = controller.orderList.value[index];
                         return Container(
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          margin:EdgeInsets.only(left:8,right: 8,top: 16,bottom: 8),
-                          padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.7,
+                          margin: EdgeInsets.only(
+                              right: 8, top: 16, bottom: 8),
+                          padding: EdgeInsets.only(
+                              left: 16, right: 16, top: 8, bottom: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
                                   Radius.circular(8)
                               ),
                               boxShadow: [BoxShadow(
                                   color: Color(0x1f000000),
-                                  offset: Offset(0,4),
+                                  offset: Offset(0, 4),
                                   blurRadius: 6,
                                   spreadRadius: 0
                               ), BoxShadow(
                                   color: Color(0x14000000),
-                                  offset: Offset(0,0),
+                                  offset: Offset(0, 0),
                                   blurRadius: 2,
                                   spreadRadius: 0
-                              )] ,
+                              )
+                              ],
                               color: AppColors.primaryBackground
                           ),
                           child: Column(
@@ -391,27 +331,31 @@ class _ShopHomeState extends BaseState<ShopHome> {
                             children: [
 
                               Text(
-                                DateFormat('dd MMM yyyy • kk:mm').format(order.orderDate),
-                                  style:  TextStyle(
-                                      color:  AppColors.light_grey_blue,
+                                  DateFormat('dd MMM yyyy • kk:mm').format(order
+                                      .orderDate),
+                                  style: TextStyle(
+                                      color: AppColors.light_grey_blue,
                                       fontWeight: FontWeight.w500,
-                                      fontStyle:  FontStyle.normal,
+                                      fontStyle: FontStyle.normal,
                                       fontSize: 10.0
                                   )
                               ),
                               Text(
-                                   order.storeId.name,
+                                  order.storeId.name,
                                   style: BaseStyles.bottomSheetTitleStyle
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
                                 children: [
                                   Text(
-                                      order.items.length.toString() + " Items - Rp " + order.price.toString(),
+                                      order.items.length.toString() +
+                                          " Items - Rp " +
+                                          order.price.toString(),
                                       style: TextStyle(
-                                          color:  AppColors.light_grey_blue,
+                                          color: AppColors.light_grey_blue,
                                           fontWeight: FontWeight.w500,
-                                          fontStyle:  FontStyle.normal,
+                                          fontStyle: FontStyle.normal,
                                           fontSize: 10.0
                                       )
                                   ),
@@ -428,10 +372,11 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                       ),
                                       child: Text(
                                           getTranslation(Strings.order_again),
-                                          style: BaseStyles.shopPreviousOrderAgain
+                                          style: BaseStyles
+                                              .shopPreviousOrderAgain
                                       ),
                                     ),
-                                    onTap: (){
+                                    onTap: () {
 //                                  push(MakeAnOrder(isFromShopHome: true,callBack: (arr){
 //                                    Navigator.pop(
 //                                        context, false);
@@ -448,18 +393,49 @@ class _ShopHomeState extends BaseState<ShopHome> {
             ],
           )
       );
-    }
-    return Container();
 
+    }
+    return Container(height: 50,width: 50,color: Colors.blue,);
   }
 
-  loadMerchantNearYou(){
+  Widget  getHeadingText(String title) {
+    return Text(
+      title,
+      textAlign: TextAlign.left,
+      style: BaseStyles.bottomSheetTitleStyle,
+    );
+  }
+
+  Widget getSeeAllText() {
+    return Column(
+        children: [
+          Container(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Text(
+                getTranslation(Strings.SEE_ALL),
+                textAlign: TextAlign.center,
+                style: BaseStyles.seeAllTextStyle,
+              ),
+            ),
+          ),
+          Container(
+            height: 2,
+            width: 60,
+            decoration: BoxDecoration( gradient: Gradients.primaryGradient,                    ),
+          )
+        ]
+    );
+  }
+
+  loadMerchantNearYou() {
     return Column(
       children: [
-        controller.storeTypesList != null && controller.storeTypesList.length != 0?
+        controller.storeTypesList != null &&
+            controller.storeTypesList.length != 0 ?
         Container(
             height: 120,
-            margin: EdgeInsets.only(left: 16, right: 16,top: 16),
+            margin: EdgeInsets.only(left: 16, right: 16, top: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -472,25 +448,28 @@ class _ShopHomeState extends BaseState<ShopHome> {
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.storeTypesList.length,
-                      itemBuilder: (context,index){
+                      itemBuilder: (context, index) {
                         return Container(
-                          margin:EdgeInsets.only(left: 8, right: 8,top: 16,bottom: 8),
-                          padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+                          margin: EdgeInsets.only(
+                               right: 8, top: 16, bottom: 8),
+                          padding: EdgeInsets.only(
+                              left: 16, right: 16, top: 8, bottom: 8),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
                                   Radius.circular(8)
                               ),
                               boxShadow: [BoxShadow(
                                   color: const Color(0x1f000000),
-                                  offset: Offset(0,4),
+                                  offset: Offset(0, 4),
                                   blurRadius: 6,
                                   spreadRadius: 0
                               ), BoxShadow(
                                   color: const Color(0x14000000),
-                                  offset: Offset(0,0),
+                                  offset: Offset(0, 0),
                                   blurRadius: 2,
                                   spreadRadius: 0
-                              )] ,
+                              )
+                              ],
                               color: AppColors.primaryBackground
                           ),
                           child: Row(
@@ -508,7 +487,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                               Text(
                                   controller.storeTypesList[index].type,
                                   style: const TextStyle(
-                                      color:  AppColors.fareColor,
+                                      color: AppColors.fareColor,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14.0
                                   )
@@ -520,7 +499,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                 ),
               ],
             )
-        ) :  Container(),
+        ) : Container(),
         controller.arrStores != null && controller.arrStores.length != 0 ?
         Container(
 //          height: 72,
@@ -529,26 +508,29 @@ class _ShopHomeState extends BaseState<ShopHome> {
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: controller.arrStores.length,
-                itemBuilder: (context,index){
+                itemBuilder: (context, index) {
                   return InkWell(
                     child: Container(
-                      margin:EdgeInsets.only(left: 16, right: 16,top: 4,bottom:4),
-                      padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+                      margin: EdgeInsets.only(
+                          left: 16, right: 16, top: 4, bottom: 4),
+                      padding: EdgeInsets.only(
+                          left: 16, right: 16, top: 8, bottom: 8),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(
                               Radius.circular(8)
                           ),
                           boxShadow: [BoxShadow(
                               color: const Color(0x1f000000),
-                              offset: Offset(0,4),
+                              offset: Offset(0, 4),
                               blurRadius: 6,
                               spreadRadius: 0
                           ), BoxShadow(
                               color: const Color(0x14000000),
-                              offset: Offset(0,0),
+                              offset: Offset(0, 0),
                               blurRadius: 2,
                               spreadRadius: 0
-                          )] ,
+                          )
+                          ],
                           color: AppColors.primaryBackground
                       ),
                       child: Row(
@@ -559,25 +541,27 @@ class _ShopHomeState extends BaseState<ShopHome> {
                             children: [
                               Container(
                                 margin: EdgeInsets.only(right: 16),
-                                child: Image.asset(Assets.PERSON_ICON,width: 40,height: 40,),
+                                child: Image.asset(
+                                  Assets.PERSON_ICON, width: 40, height: 40,),
                               ),
                               Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                       controller.arrStores[index].name,
                                       style: const TextStyle(
-                                          color:  AppColors.fareColor,
+                                          color: AppColors.fareColor,
                                           fontWeight: FontWeight.w700,
                                           fontSize: 16.0
                                       )
                                   ),
                                   Container(height: 8,),
                                   Text(
-                                    controller.getStoreType(controller.arrStores[index]) +
-                                      " • 1.5 km",
+                                      controller.getStoreType(
+                                          controller.arrStores[index]) +
+                                          " • 1.5 km",
                                       style: const TextStyle(
-                                          color:  AppColors.light_grey_blue,
+                                          color: AppColors.light_grey_blue,
                                           fontWeight: FontWeight.w500,
                                           fontSize: 14.0
                                       )
@@ -593,13 +577,15 @@ class _ShopHomeState extends BaseState<ShopHome> {
                         ],
                       ),
                     ),
-                    onTap: () async{
-                      if (controller.arrStores.length>0)
-                      {
-                        int integrationID = controller.arrStores[index].owner.integrationId;
-                        if(integrationID != null){
-                          var response = await controller.getCustomerInfo(integrationID.toString());
-                          response.fold((l) => print(l.message), (r) => {
+                    onTap: () async {
+                      if (controller.arrStores.length > 0) {
+                        int integrationID = controller.arrStores[index].owner
+                            .integrationId;
+                        if (integrationID != null) {
+                          var response = await controller.getCustomerInfo(
+                              integrationID.toString());
+                          response.fold((l) => print(l.message), (r) =>
+                          {
                             if(r.firebaseId != null){
                               push(ConversationPage(arrChats: ["make_an_order"],
                                 custInfo: r,
@@ -616,4 +602,118 @@ class _ShopHomeState extends BaseState<ShopHome> {
     );
   }
 
+  Widget headingTopBar() {
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        height: 240,
+        decoration:getTopBarDecoration(),
+        child: Column(
+          children: [
+            buildNavBar(),
+            getSearchWidget(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  BoxDecoration getTopBarDecoration() {
+   return  BoxDecoration(
+        gradient: Gradients.primaryGradient,
+        borderRadius: BorderRadius.only(
+          bottomLeft: const Radius.circular(16.0),
+          bottomRight: const Radius.circular(16.0),
+        ));
+  }
+
+  Widget getCarouselWidget() {
+  return CarouselSlider(
+      items: loadCards(),
+      options: CarouselOptions(
+        // autoPlay: true,
+          enableInfiniteScroll: false,
+          aspectRatio: 3.0,
+          enlargeCenterPage: true,
+          onPageChanged: (index, reason) {
+            setState(() {
+              _current = index;
+            });
+          }),
+    );
+  }
+
+ Widget getCarouselSelectionWidget() {
+ return   Container(
+      margin: EdgeInsets.only(left: 16, right: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 7.5.toInt(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: loadCards().map((url) {
+                int index = loadCards().indexOf(url);
+                return Container(
+                  width: 6.0,
+                  height: 6.0,
+                  margin:
+                  EdgeInsets.symmetric(vertical: 16.0, horizontal: 2.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _current == index
+                        ? AppColors.fareColor
+                        : AppColors.light_grey_blue,
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          Expanded(
+            flex: 4.toInt(),
+            child: Container(
+                padding: EdgeInsets.only(top: 8, bottom: 8),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          getTranslation(Strings.see_all_promo),
+                          textAlign: TextAlign.center,
+                          style: BaseStyles.seeAllTextStyle,
+                        ),
+                      ),
+                    ),
+                    Container(
+                    //  width: 99,
+                      height: 2,
+                      margin: EdgeInsets.only(top: 1,),
+                      decoration: BoxDecoration(
+                        gradient: Gradients.primaryGradient,
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        ],
+      ),
+    );
+  }
+
+ Widget getBodyWidget() {
+   return Positioned(
+      top: 180,
+      left: 0,
+      right: 0,
+      height: Get.height- 188,
+      child: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: loadContent(),
+      ),
+    );
+  }
 }

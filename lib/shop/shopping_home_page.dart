@@ -18,6 +18,8 @@ import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/constants/color_const.dart';
 import 'package:tara_app/common/constants/fonts.dart';
+import 'package:tara_app/shop/shop_category_details_screen.dart';
+
 
 
 class ShoppingHomePage extends StatefulWidget {
@@ -745,7 +747,9 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       ),
 
 
-    );
+    ).onTap(onPressed: (){
+      Get.to(ShopCategoryDetailsScreen());
+    });
   }
 
   Widget tileFirstRow() {

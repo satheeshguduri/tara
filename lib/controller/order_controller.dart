@@ -47,7 +47,7 @@ class OrderController extends GetxController{
     AuthResponse user = await getIt.get<UserLocalDataStore>().getUser(); //Get.find();
     Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByConsumerId(user.customerProfile.id);
     showProgress.value = false;
-    response.fold((l) => print, (r) => {
+    response.fold((l) => print(l.message), (r) => {
       orderList.value = r,
       print(r.toString())
     });
@@ -59,6 +59,7 @@ class OrderController extends GetxController{
     showProgress.value = false;
     response.fold((l) => print(l.message), (r) => {
       arrStores.value = r,
+      print(r.toString())
     });
   }
 

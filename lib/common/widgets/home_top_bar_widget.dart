@@ -240,8 +240,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
                 chatInboxInfo.chatCardTitle = "tara_shop_received_text";
 //              push(ConversationPage(chatInboxInfo: chatInboxInfo,));
-               // push(ShopHome());
-                Get.to(ShoppingHomePage());
+                Get.to(ShopHome());
+                //Get.to(ShoppingHomePage());
               },
             ),
           ],
