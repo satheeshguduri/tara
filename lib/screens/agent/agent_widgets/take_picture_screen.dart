@@ -1,11 +1,9 @@
-
 import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
@@ -14,7 +12,8 @@ class TakePictureScreen extends StatefulWidget {
 
   const TakePictureScreen({
     Key key,
-    @required this.camera,this.imagePathCallback,
+    @required this.camera,
+    this.imagePathCallback,
   }) : super(key: key);
 
   @override
@@ -86,13 +85,12 @@ class TakePictureScreenState extends BaseState<TakePictureScreen> {
             );
 
             // Attempt to take a picture and log where it's been saved.
-            await _controller.takePicture(path);
+            // await _controller.takePicture(path);
 
             Navigator.pop(context);
 
             // If the picture was taken, display it on a new screen.
             widget.imagePathCallback(path);
-
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);
@@ -105,6 +103,6 @@ class TakePictureScreenState extends BaseState<TakePictureScreen> {
   @override
   BuildContext getContext() {
     // TODO: implement getContext
-   return context;
+    return context;
   }
 }

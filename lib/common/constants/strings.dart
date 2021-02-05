@@ -8,7 +8,7 @@ class TabTitle {
   static const DASHBOARD = "Dashboard";
 }
 
-class Strings{
+class Strings {
   Strings._();
   static const SEND = "send";
   static const RECEIVE = "receive";
@@ -128,7 +128,6 @@ class Strings{
   static const Pay = "pay";
   static const Done = "done";
 
-
   static const YOU_REQUESTED = "you_requested";
   static const YOU_TRANSFERED = "you_transferred";
   static const REQUEST_DECLINED = "request_declined";
@@ -157,10 +156,10 @@ class Strings{
   static const connect_new_account = "connect_new_account";
   static const select_bank_e_money_subtext = "select_bank_e_money_subtext";
   static const search_bank_e_money_hint = "search_bank_e_money_hint";
-  static const we_cannot_find_anything ="we_cannot_find_anything";
-  static const maybe_try_other_items ="maybe_try_other_items";
-  static const transfer_to_tara_user ="transfer_to_tara_user";
-  static const transfer_to_e_money ="transfer_to_e_money";
+  static const we_cannot_find_anything = "we_cannot_find_anything";
+  static const maybe_try_other_items = "maybe_try_other_items";
+  static const transfer_to_tara_user = "transfer_to_tara_user";
+  static const transfer_to_e_money = "transfer_to_e_money";
 
   static const add_bank_or_e_money_account = "add_bank_or_e_money_account";
 
@@ -262,7 +261,8 @@ class Strings{
   static const transaction = "transaction";
   static const receive_cash_merchant = "receive_cash_merchant";
   static const requested_amount = "requested_amount";
-  static const agent_in_progress_transaction_msg = "agent_in_progress_transaction_msg";
+  static const agent_in_progress_transaction_msg =
+      "agent_in_progress_transaction_msg";
   static const describe_issue = "describe_issue";
   static const send_report = "send_report";
   static const decline_trans_heading = "decline_trans_heading";
@@ -294,6 +294,8 @@ class Strings{
   static const name = "name";
   static const email_address = "email_address";
   static const phone_number_2 = "phone_number_2";
+  static const terms_condition = "terms_condition";
+  static const privacy_policy = "privacy_policy";
 
   static const enter_name = "enter_name";
   static const enter_address = "enter_address";
@@ -372,7 +374,7 @@ class Strings{
   static const create_store = "create_store";
   static const owner_name = "owner_name";
   static const store_name = "store_name";
-  static const submit  = "submit";
+  static const submit = "submit";
 
   static const shop_details = "shop_details";
   static const shop_category = "shop_category";
@@ -425,59 +427,21 @@ class Strings{
   static const settings = "settings";
   static const dashboard = "dashboard";
   static const home = "home";
-  static const meatandseafood = "meatandseafood";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
-class NotificationSettingsStrings{
-
+class NotificationSettingsStrings {
   static const push_notification = "Push Notification";
-  static const receive_notification_push_subtext = "Receive notification from the app";
+  static const receive_notification_push_subtext =
+      "Receive notification from the app";
   static const email = "Email";
-  static const receive_notification_email_subtext = "Receive notification to your email";
+  static const receive_notification_email_subtext =
+      "Receive notification to your email";
   static const whats_app = "Whatsapp";
-  static const receive_notification_whatsapp_subtext = "Receive notification to your Whatsapp";
-
+  static const receive_notification_whatsapp_subtext =
+      "Receive notification to your Whatsapp";
 }
 
-class SharedPreferencesStrings{
+class SharedPreferencesStrings {
   SharedPreferencesStrings._();
   static const merchant_id = "merchant_id";
   static const isCreatedOwner = "isCreatedOwner";

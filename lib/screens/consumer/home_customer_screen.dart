@@ -20,6 +20,7 @@ import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/consumer/home_customer_widget.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/dash_board.dart';
+import 'package:tara_app/screens/dashboard/settings_screen.dart';
 import 'package:tara_app/screens/scan_qr_code.dart';
 import '../../common/constants/values.dart';
 import '../base/base_state.dart';
@@ -39,10 +40,10 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     HomeCustomerWidget(),
-    ChatInbox(),//ConversationPage(canGoBack: false,),
+    ChatInbox(), //ConversationPage(canGoBack: false,),
     ScanQRCode(),
     DashBoard(),
-    MyAccount(),
+    SettingsScreen(),
   ];
 
   @override
@@ -53,13 +54,11 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
-
   @override
-  init(){
+  init() {
     getIt.get<StoresRepository>().getStoreTypes();
   }
 
@@ -67,12 +66,14 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
   void dispose() {
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: getBottomNavigation(),
       floatingActionButton: FloatingActionButton(
-        elevation: 0, highlightElevation: 0,
+        elevation: 0,
+        highlightElevation: 0,
         child: Container(
           width: 60,
           height: 60,
@@ -92,7 +93,11 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: SafeArea(child: getRootContainer(),top: false,bottom: true,),
+      body: SafeArea(
+        child: getRootContainer(),
+        top: false,
+        bottom: true,
+      ),
     );
   }
 
@@ -119,8 +124,8 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
     return BottomNavigationBar(
       selectedLabelStyle: TextStyles.labelSelectedTextStyle,
       unselectedLabelStyle: TextStyles.labelUnSelectedTextStyle,
-      selectedItemColor:  AppColors.color_black_100_2_2_2,
-      unselectedItemColor:  AppColors.color_black_80_2_2_2,
+      selectedItemColor: AppColors.color_black_100_2_2_2,
+      unselectedItemColor: AppColors.color_black_80_2_2_2,
       currentIndex: _currentIndex,
       onTap: (index) {
         setState(() {
@@ -130,55 +135,63 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
-            icon:getSvgImage(imagePath: Assets.assets_icon_h_home_inactive,width: 24.0,height: 24.0),
-            activeIcon: getSvgImage(imagePath: Assets.assets_icon_h_home_active,width: 24.0,height: 24.0),
-            label: getTranslation(Strings.home),
-
-    ),
-
-        BottomNavigationBarItem(
-          icon: Container(
-            width: 24,
-            height: 24,
-            child: getSvgImage(imagePath: Assets.assets_icon_c_chat_inactive),
-          ),
-          activeIcon: Container(
-            width: 24,
-            height: 24,
-            child: getSvgImage(imagePath: Assets.assets_icon_c_chat_active),
-          ),
-            label: getTranslation(Strings.chat)
-        ),
-
-        BottomNavigationBarItem(
-          icon: Container(margin: EdgeInsets.only(bottom: 24),),
-          activeIcon: Container(margin: EdgeInsets.only(bottom: 24),),
-            label: getTranslation(Strings.scan)
+          icon: getSvgImage(
+              imagePath: Assets.assets_icon_h_home_inactive,
+              width: 24.0,
+              height: 24.0),
+          activeIcon: getSvgImage(
+              imagePath: Assets.assets_icon_h_home_active,
+              width: 24.0,
+              height: 24.0),
+          label: getTranslation(Strings.home),
         ),
         BottomNavigationBarItem(
-          icon: getSvgImage(imagePath: Assets.assets_icon_a_accounts_inactive,width: 24.0,height: 24.0),
-          activeIcon:getSvgImage(imagePath:  Assets.assets_icon_a_accounts_active,width: 24.0,height: 24.0),
-          label: getTranslation(Strings.dashboard)
-
-        ),
+            icon: Container(
+              width: 24,
+              height: 24,
+              child: getSvgImage(imagePath: Assets.assets_icon_c_chat_inactive),
+            ),
+            activeIcon: Container(
+              width: 24,
+              height: 24,
+              child: getSvgImage(imagePath: Assets.assets_icon_c_chat_active),
+            ),
+            label: getTranslation(Strings.chat)),
         BottomNavigationBarItem(
-          icon: Container(
-            width: 24.0,
-            height: 24.0,
-            child:getSvgImage(imagePath: Assets.assets_icon_s_setting_inactive)),
-          activeIcon: Container(
-            width: 24.0,
-            height: 24.0,
-            child:getSvgImage(imagePath: Assets.assets_icon_s_setting_active)),
-          label: getTranslation(Strings.settings)
-          ),
+            icon: Container(
+              margin: EdgeInsets.only(bottom: 24),
+            ),
+            activeIcon: Container(
+              margin: EdgeInsets.only(bottom: 24),
+            ),
+            label: getTranslation(Strings.scan)),
+        BottomNavigationBarItem(
+            icon: getSvgImage(
+                imagePath: Assets.assets_icon_a_accounts_inactive,
+                width: 24.0,
+                height: 24.0),
+            activeIcon: getSvgImage(
+                imagePath: Assets.assets_icon_a_accounts_active,
+                width: 24.0,
+                height: 24.0),
+            label: getTranslation(Strings.dashboard)),
+        BottomNavigationBarItem(
+            icon: Container(
+                width: 24.0,
+                height: 24.0,
+                child: getSvgImage(
+                    imagePath: Assets.assets_icon_s_setting_inactive)),
+            activeIcon: Container(
+                width: 24.0,
+                height: 24.0,
+                child: getSvgImage(
+                    imagePath: Assets.assets_icon_s_setting_active)),
+            label: getTranslation(Strings.settings)),
       ],
     );
   }
 
-
   getPageContainer() {
     return _children[_currentIndex];
   }
-
 }

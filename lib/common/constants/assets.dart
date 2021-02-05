@@ -34,7 +34,6 @@ class Assets {
   static const BJPS_ICON = "assets/images/ic_bjps.png";
   static const PULSA_ICON = "assets/images/pulsa.png";
 
-
   static const ic_cash_deposit = "assets/images/icon-52.png";
   static const ic_send = "assets/images/icon-52.png";
   static const ic_restock = "assets/images/icon-45.png";
@@ -52,16 +51,12 @@ class Assets {
   static const tara_contacts = "assets/images/tara_contacts.png";
   static const ic_dropdown = "assets/images/icon-43.png";
 
-
-  static const ic_bank1= "assets/images/bank-central-asia.png";
+  static const ic_bank1 = "assets/images/bank-central-asia.png";
   static const ic_bank2 = "assets/images/bank-mandiri.png";
   static const ic_bank3 = "assets/images/bank-bri-logo.png";
   static const ic_bank4 = "assets/images/group-2.png";
 
   static const ic_back_long = "assets/images/icon-5.png";
-
-
-
 
   static const ic_bca = "assets/images/ic_bca.png";
   static const ic_bni = "assets/images/ic_bni.png";
@@ -81,25 +76,25 @@ class Assets {
 
   static const ic_Login_flow_bg = "assets/images/rectangle-10.png";
 
-
-  static const ic_australia_flag= "assets/images/ic_australia_flag.png";
+  static const ic_australia_flag = "assets/images/ic_australia_flag.png";
   static const ic_brazil_flag = "assets/images/ic_brazil_flag.png";
   static const ic_canada_flag = "assets/images/ic_canada_flag.png";
   static const ic_france_flag = "assets/images/ic_france_flag.png";
-  static const ic_germany_flag= "assets/images/ic_germany_flag.png";
+  static const ic_germany_flag = "assets/images/ic_germany_flag.png";
   static const ic_india_flag = "assets/images/ic_india_flag.png";
   static const ic_indonesia_flag = "assets/images/ic_indonesia_flag.png";
   static const ic_ireland_flag = "assets/images/ic_ireland_flag.png";
-  static const ic_uk_flag= "assets/images/ic_uk_flag.png";
+  static const ic_uk_flag = "assets/images/ic_uk_flag.png";
   static const ic_usa_flag = "assets/images/ic_usa_flag.png";
-  static const ic_arrow_right = "assets/images/assets---icon---a---arrow---right.png";
+  static const ic_arrow_right =
+      "assets/images/assets---icon---a---arrow---right.png";
 
   static const ic_gpn_logo = "assets/images/ic_gpn_logo.png";
   static const ic_visa = "assets/images/ic_visa.png";
-  static const ic_master_card= "assets/images/ic_master_card.jpg";
+  static const ic_master_card = "assets/images/ic_master_card.jpg";
   static const ic_jcb = "assets/images/ic_jcb.jpg";
 
-  static const ic_dana= "assets/images/ic_dana.png";
+  static const ic_dana = "assets/images/ic_dana.png";
   static const ic_go_pay = "assets/images/ic_gopay.png";
   static const ic_success = "assets/images/ic_success.png";
   static const ic_lock = "assets/images/icon-40.png";
@@ -116,20 +111,23 @@ class Assets {
   static const ic_chat_plus = "assets/images/icon-31.png";
   static const ic_chat_cross = "assets/images/icon-21.png";
   static const ic_back_arrow = "assets/images/icon-44.png";
-  static const ic_chat_text_bubble_right = "assets/images/combined-shape-22.png";
+  static const ic_chat_text_bubble_right =
+      "assets/images/combined-shape-22.png";
   static const ic_chat_text_bubble_left = "assets/images/chat-4.png";
   static const ic_right_arrow_long = "assets/images/icon-49.png";
   static const ic_location1 = "assets/images/icon-41.png";
   static const ic_handshake = "assets/images/handshake.svg";
   static const ic_download_1 = "assets/images/icon-26.png";
   static const ic_handshake_active = "assets/images/handshake_active.svg";
-  static const ic_check_solid = "assets/images/assets---icon---c---check---solid-2.png";
+  static const ic_check_solid =
+      "assets/images/assets---icon---c---check---solid-2.png";
 
   static const ic_current_location = "assets/images/icon-50.png";
   static const ic_location_place = "assets/images/icon-53.png";
   static const ic_camera = "assets/images/icon-32.png";
   static const ic_portrait_person_pic = "assets/images/illu.png";
-  static const ic_un_check_grey = "assets/images/assets---icon---c---checkbox---off.png";
+  static const ic_un_check_grey =
+      "assets/images/assets---icon---c---checkbox---off.png";
   static const ic_check_quare = "assets/images/On.png";
   static const ic_check_filled = "assets/images/check_filled.svg";
   static const ic_check_un_select = "assets/images/check_unselect.svg";
@@ -150,78 +148,59 @@ class Assets {
   static const tara_logo = "assets/images/logo_tara.png";
   //svg images
   static const close_icon = "assets/images/close.svg";
-  static const assets_logo_tara_agent_cash = "assets/images/assets_logo_tara_agent_cash.svg";
-  static const assets_icon_n_notification = "assets/images/assets_icon_n_notification.svg";
+  static const assets_logo_tara_agent_cash =
+      "assets/images/assets_logo_tara_agent_cash.svg";
+  static const assets_icon_n_notification =
+      "assets/images/assets_icon_n_notification.svg";
   static const logo_tara = "assets/images/logo_tara.svg";
   static const assets_icon_s_search = "assets/images/assets_icon_s_search.svg";
   static const assets_icon_s_send = "assets/images/assets_icon_s_send.svg";
-  static const assets_icon_r_receive = "assets/images/assets_icon_r_receive.svg";
-  static const assets_icon_p_payment = "assets/images/assets_icon_p_payment.svg";
+  static const assets_icon_r_receive =
+      "assets/images/assets_icon_r_receive.svg";
+  static const assets_icon_p_payment =
+      "assets/images/assets_icon_p_payment.svg";
   static const assets_icon_s_shop = "assets/images/assets_icon_s_shop.svg";
-  static const assets_icon_c_chat_inactive = "assets/images/assets_icon_c_chat_inactive.svg";
-  static const assets_icon_d_dashboard_inactive = "assets/images/assets_icon_d_dashboard_inactive.svg";
-  static const assets_icon_h_home_active = "assets/images/assets_icon_h_home_active.svg";
+  static const assets_icon_c_chat_inactive =
+      "assets/images/assets_icon_c_chat_inactive.svg";
+  static const assets_icon_d_dashboard_inactive =
+      "assets/images/assets_icon_d_dashboard_inactive.svg";
+  static const assets_icon_h_home_active =
+      "assets/images/assets_icon_h_home_active.svg";
   static const assets_icon_s_scan = "assets/images/assets_icon_s_scan.svg";
-  static const assets_icon_s_setting_inactive = "assets/images/assets_icon_s_setting_inactive.svg";
-  static const assets_icon_s_setting_active = "assets/images/assets_icon_s_setting_active.svg";
-  static const assets_icon_h_home_inactive = "assets/images/assets_icon_h_home_inactive.svg";
-  static const assets_icon_c_chat_active = "assets/images/assets_icon_c_chat_active.svg";
-  static const assets_icon_b_back_arrow = "assets/images/assets_icon_b_back_arrow.svg";
-  static const assets_icon_f_favorite = "assets/images/assets_icon_f_favorite.svg";
+  static const assets_icon_s_setting_inactive =
+      "assets/images/assets_icon_s_setting_inactive.svg";
+  static const assets_icon_s_setting_active =
+      "assets/images/assets_icon_s_setting_active.svg";
+  static const assets_icon_h_home_inactive =
+      "assets/images/assets_icon_h_home_inactive.svg";
+  static const assets_icon_c_chat_active =
+      "assets/images/assets_icon_c_chat_active.svg";
+  static const assets_icon_b_back_arrow =
+      "assets/images/assets_icon_b_back_arrow.svg";
+  static const assets_icon_f_favorite =
+      "assets/images/assets_icon_f_favorite.svg";
   static const assets_icon_c_cart = "assets/images/assets_icon_c_cart.svg";
-  static const assets_icon_a_arrow_right = "assets/images/assets_icon_a_arrow_right.svg";
+  static const assets_icon_a_arrow_right =
+      "assets/images/assets_icon_a_arrow_right.svg";
   static const logo_tara_rewards = "assets/images/logo_tara_rewards.svg";
   static const logo_tara_score = "assets/images/logo_tara_score.svg";
   static const group = "assets/images/group.svg";
-  static const assets_icon_c_check_outline = "assets/images/assets_icon_c_check_outline.svg";
+  static const assets_icon_c_check_outline =
+      "assets/images/assets_icon_c_check_outline.svg";
   static const assets_icon_p_plus = "assets/images/assets_icon_p_plus.svg";
-  static const assets_icon_a_arrow_down = "assets/images/assets_icon_a_arrow_down.svg";
+  static const assets_icon_a_arrow_down =
+      "assets/images/assets_icon_a_arrow_down.svg";
   static const assets_icon_no_trans = "assets/images/no_trans.svg";
-  static const assets_icon_c_check_solid = "assets/images/assets_icon_c_check_solid.svg";
-  static const assets_icon_a_accounts_active = "assets/images/assets_icon_a_accounts_active.svg";
-  static const assets_icon_a_accounts_inactive = "assets/images/assets_icon_a_accounts_inactive.svg";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  static const assets_icon_c_check_solid =
+      "assets/images/assets_icon_c_check_solid.svg";
+  static const assets_icon_a_accounts_active =
+      "assets/images/assets_icon_a_accounts_active.svg";
+  static const assets_icon_a_accounts_inactive =
+      "assets/images/assets_icon_a_accounts_inactive.svg";
+  static const assets_icon_p_profile =
+      "assets/images/assets_icon_p_profile.svg";
+  static const assets_icon_h_help = "assets/images/assets_icon_h_help.svg";
+  static const assets_icon_p_paper = "assets/images/assets_icon_p_paper.svg";
+  static const assets_icon_l_lock_outline =
+      "assets/images/assets_icon_l_lock_outline.svg";
 }
