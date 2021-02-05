@@ -44,6 +44,7 @@ import 'package:tara_app/models/transfer/validate_otp_request.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
 import 'package:tara_app/repositories/mc_payment_repository.dart';
+import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/screens/consumer/common_webview.dart';
 import 'package:tara_app/services/config/psp_config.dart';
@@ -149,7 +150,17 @@ class TestWidget extends StatelessWidget {
               OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
                 await payViaCreditCard("35f6363c72d7410bbcf62efd19cdde9d",100, "test payment","498765******8769");
                 // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
-              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Pay with Card"))
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Pay with Card")),
+              RaisedButton(onPressed: () async{
+                await getBanners();
+              }, child: Text("Get Banners")),
+              RaisedButton(onPressed: () async{
+                await getCategories();
+              }, child: Text("Get Categories")),
+              RaisedButton(onPressed: () async{
+                await getItems();
+              }, child: Text("Get Items"))
+
 
 
 
@@ -159,7 +170,18 @@ class TestWidget extends StatelessWidget {
       ),
     );
   }
-
+  getBanners() async{
+    var response = await getIt.get<OrderRepository>().getBanners("41825412");
+    print(response);
+  }
+  getItems() async{
+    var response = await getIt.get<OrderRepository>().getItemsByCatalogue("215");
+    print(response);
+  }
+  getCategories() async{
+    var response = await getIt.get<OrderRepository>().getCategories();
+    print(response);
+  }
   getCards() async{
     var response = await getIt.get<McPaymentRepository>().getCards();
     print(response);

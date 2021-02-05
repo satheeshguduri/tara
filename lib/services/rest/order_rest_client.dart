@@ -7,8 +7,12 @@
 
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
+import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/models/order_management/catalogue_category/catalogue.dart';
+import 'package:tara_app/models/order_management/catalogue_category/category.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/models/order_management/orders/order.dart';
+import 'package:tara_app/models/order_management/store/banner_data.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
@@ -91,8 +95,14 @@ abstract class OrderRestClient {
 
   // CATALOGUE api's
 
-  // @GET(API.create_order)
-  // Future<List<Catalogue>> getAll(@Header("Authorization") String token);
+  @GET(API.get_banners)
+  Future<List<BannerData>> getBanners(@Header("Authorization") String token, @Queries() Map<String, dynamic> queries);
+
+  @GET(API.get_items_by_catalogue)
+  Future<List<Item>> getItemsByCatalogue(@Header("Authorization") String token, @Queries() Map<String, dynamic> queries);
+
+  @GET(API.get_categories)
+  Future<List<Category>> getCategories(@Header("Authorization") String token);
 
   // @GET(API.create_order)
   // Future<Catalogue> getCatalogueById(@Header("Authorization") String token,@Body() double id);

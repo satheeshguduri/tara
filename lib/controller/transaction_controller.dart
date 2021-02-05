@@ -11,8 +11,11 @@ import 'dart:math';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/common/helpers/crypto_helper.dart';
@@ -658,6 +661,7 @@ class TransactionController extends GetxController{
     if(response.isRight()){
       var finalResponse = response.getOrElse(() => null);
       if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
+        //_launchURL(finalResponse.data.seamless_url);
         Get.to(CommonWebViewScreen(title: "Paying with Credit card",
             type: WebViewType.PAYMENT,
             url: finalResponse.data.seamless_url));
@@ -665,7 +669,30 @@ class TransactionController extends GetxController{
 
     }
   }
+  void _launchURL(url) async {
+    try {
+      await launch(
+        url,
+        option: new CustomTabsOption(
+          toolbarColor: AppColors.primaryBackground,
+          enableDefaultShare: true,
+          enableUrlBarHiding: true,
+          showPageTitle: true,
+          animation: new CustomTabsAnimation.slideIn(),
 
+          extraCustomTabs: <String>[
+            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
+            'org.mozilla.firefox',
+            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
+            'com.microsoft.emmx',
+          ],
+        ),
+      );
+    } catch (e) {
+      // An exception is thrown if browser app is not installed on Android device.
+      debugPrint(e.toString());
+    }
+  }
   void cancelTimer() {
     if (timer != null) {
       timer.cancel();

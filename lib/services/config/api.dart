@@ -43,6 +43,13 @@ class API{
   static const update_order = "v0.1/tara/erp/order/{orderId}";
   static const get_order = "v0.1/tara/erp/order/{orderId}";
   static const get_store_types = "v0.1/tara/erp/storetype";
+  static const get_banners = "v0.1/tara/erp/banner";
+  static const get_items_by_catalogue = "v0.1/tara/erp/item/list";
+  static const get_categories = "v0.1/tara/erp/category";
+  static const get_catalogues = "v0.1/tara/erp/catalogue";
+
+
+
 
   //mc payyment
   static const create_or_pay_with_tokenized_card = "v0.1/mcpayment/request/tokenization";

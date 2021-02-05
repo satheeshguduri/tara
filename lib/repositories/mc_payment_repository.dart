@@ -42,9 +42,9 @@ class McPaymentRepositoryImpl extends McPaymentRepository{
   Future<Either<Failure, CreateCardOrPaymentResponse>> createCardOrPay(CreateCardOrPayRequest createCardOrPayRequest) async{
     AuthResponse user = await userLocalDataSource.getUser();
 
-    token = user.securityToken.token.tara.bearer();
+    token = user?.securityToken?.token?.tara?.bearer()??"";
     var customerId = user?.customerProfile?.id?.toString();
-
+    customerId = "39";
     if(customerId?.isEmpty??false){
       return Left(Failure(message: "Please login"));
     }
