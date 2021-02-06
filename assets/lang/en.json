@@ -397,6 +397,11 @@
   "terms_condition": "Terms & Condition",
   "privacy_policy": "Privacy Policy"
   "dashboard": "Dashboard",
-  "meatandseafood": "Meat & Seafood"
+  "meatandseafood": "Meat & Seafood",
+  "categories": "Categories",
+  "todaysdeal" : "Today's Deal",
+  "plusadd": "+ Add",
+  "allcategories": "All Categories"
+
 
 }

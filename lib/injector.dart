@@ -44,6 +44,8 @@ import 'package:tara_app/services/util/network_info.dart';
 
 import 'controller/device_register_controller.dart';
 import 'models/order_management/store/store_type_model.dart';
+import 'package:tara_app/controller/store_controller.dart';
+
 
 var getIt = GetIt.I;
 Future<void> init() async{
@@ -81,6 +83,7 @@ Future<void> init() async{
   getIt.registerLazySingleton<McPaymentRepository>(() => McPaymentRepositoryImpl(getIt(),getIt(),getIt()));
   Get.lazyPut(()=>CreateStoreAndOwnerController());
   Get.put(OrderController());
+  Get.put(StoreController());
   Get.put(BillController());
   Get.put(DeviceRegisterController());
   Get.lazyPut(()=>StoreTypeResponse());

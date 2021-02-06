@@ -36,7 +36,7 @@ abstract class McPaymentRestClient {
   @POST(API.create_or_pay_with_tokenized_card)
   Future<CreateCardOrPaymentResponse> createCardOrPay(@Header("Authorization") String token,@Body() CreateCardOrPayRequest createCardOrPayRequest);
 
-  @POST(API.create_or_pay_with_tokenized_card)
+  @POST(API.get_mc_payment)
   Future<CreateCardOrPaymentResponse> payWithCard(@Header("Authorization") String token,@Body() PayCardRequest payCardRequest);
 
   @DELETE(API.delete_tokenization_card)

@@ -8,7 +8,7 @@ part of 'category.dart';
 
 Category _$CategoryFromJson(Map<String, dynamic> json) {
   return Category(
-    id: (json['id'] as num)?.toDouble(),
+    id: json['id'] as int,
     name: json['name'] as String,
     items: (json['items'] as List)
         ?.map(

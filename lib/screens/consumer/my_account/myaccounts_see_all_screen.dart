@@ -10,9 +10,7 @@ import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/mcpayment/card_data.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/common_webview.dart';
-import 'package:tara_app/models/mcpayment/create_card_or_payment_response.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'connect_new_account_select_ank.dart';
 
@@ -32,6 +30,8 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
       appBar: CustomAppBarWidget(
         title: getTranslation(Strings.myAccounts), onPressed: () {
         transactionController.opacityValue.value = 0.0;
+       // transactionController.loadingColor.value = Colors.transparent;
+
         showBottomSheet(context);
       }, addNewWidgetShow: true,),
       body: SafeArea(child: getRootContainer())
@@ -398,6 +398,9 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
                     getDivider(color: AppColors.light_grey_bg_color),
                     getCardTextWidget(getTranslation(Strings.addCreditCard)).paddingOnly(top:10),
                     Opacity(opacity: transactionController.opacityValue.value,child: CircularProgressIndicator(strokeWidth: 5.0,),)
+                   //  SpinKitDoubleBounce(
+                   //    color: transactionController.loadingColor.value,
+                   //    size: 50.0,)
 
 
 
@@ -428,7 +431,8 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
          Get.to(ConnectNewAccountSelectBank());
       }else{
         transactionController.opacityValue.value = 0.5;
-         transactionController.addCard();
+       transactionController.addCard();
+       // transactionController.loadingColor.value = Colors.transparent;
 
 
       }

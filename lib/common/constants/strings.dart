@@ -427,6 +427,56 @@ class Strings {
   static const settings = "settings";
   static const dashboard = "dashboard";
   static const home = "home";
+  static const meatandseafood = "meatandseafood";
+  static const categories = "categories";
+  static const todaysdeal = "todaysdeal";
+  static const plusadd = "plusadd";
+  static const allcategories = "allcategories";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 class NotificationSettingsStrings {

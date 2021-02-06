@@ -16,6 +16,10 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/customer_orders_screen.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/controller/store_controller.dart';
+import 'package:tara_app/shop/shopping_home_page.dart';
+
+
 
 class ShopHome extends StatefulWidget {
   @override
@@ -26,6 +30,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
 
   int _current = 0;
   OrderController controller = Get.find();
+  StoreController storeController = Get.find();
+
 
   @override
   void init() async {
@@ -395,7 +401,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
       );
 
     }
-    return Container(height: 50,width: 50,color: Colors.blue,);
+    return Container();
   }
 
   Widget  getHeadingText(String title) {
@@ -579,20 +585,23 @@ class _ShopHomeState extends BaseState<ShopHome> {
                     ),
                     onTap: () async {
                       if (controller.arrStores.length > 0) {
-                        int integrationID = controller.arrStores[index].owner
-                            .integrationId;
-                        if (integrationID != null) {
-                          var response = await controller.getCustomerInfo(
-                              integrationID.toString());
-                          response.fold((l) => print(l.message), (r) =>
-                          {
-                            if(r.firebaseId != null){
-                              push(ConversationPage(arrChats: ["make_an_order"],
-                                custInfo: r,
-                                merchantStore: controller.arrStores[index],
-                              ))}
-                          });
-                        }
+                        storeController.catalogueId.value =controller.arrStores[index].catalogue.id.toString();
+                        Get.to(ShoppingHomePage());
+
+                        // int integrationID = controller.arrStores[index].owner
+                        //     .integrationId;
+                        // if (integrationID != null) {
+                        //   var response = await controller.getCustomerInfo(
+                        //       integrationID.toString());
+                        //   response.fold((l) => print(l.message), (r) =>
+                        //   {
+                        //     if(r.firebaseId != null){
+                        //       push(ConversationPage(arrChats: ["make_an_order"],
+                        //         custInfo: r,
+                        //         merchantStore: controller.arrStores[index],
+                        //       ))}
+                        //   });
+                        // }
                       }
                     },
                   );

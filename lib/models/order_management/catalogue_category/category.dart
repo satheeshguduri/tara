@@ -5,7 +5,7 @@ part 'category.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Category{
  
-   double id;
+   int id;
    String name;
    String imageUrl;
    List<Item> items;

@@ -4,7 +4,7 @@ part 'catalogue.g.dart';
 
 @JsonSerializable()
 class Catalogue{
-  double id;
+  int id;
   String name;
   Store storeId;
 

@@ -8,7 +8,7 @@ part of 'catalogue.dart';
 
 Catalogue _$CatalogueFromJson(Map<String, dynamic> json) {
   return Catalogue(
-    id: (json['id'] as num)?.toDouble(),
+    id: json['id'] as int,
     name: json['name'] as String,
     storeId: json['storeId'] == null
         ? null

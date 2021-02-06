@@ -12,27 +12,31 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/chat_conversation.dart';
-import 'package:tara_app/screens/consumer/customer_orders_screen.dart';
-import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/constants/color_const.dart';
 import 'package:tara_app/common/constants/fonts.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
+import 'package:tara_app/controller/store_controller.dart';
+
+
 
 
 
 class ShopCategoryDetailsScreen extends StatefulWidget {
-  @override
+
+  final  int categoryId;
+  ShopCategoryDetailsScreen({Key key,this.categoryId}) : super(key: key);  @override
   ShopCategoryDetailsScreenState createState() => ShopCategoryDetailsScreenState();
 }
 
 class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen> {
 
 
-  List<String> listItems = ["one","two","three","four","five","two","three","four","one","two","three","four","one","two","three","four"];
+//  List<String> listItems = ["one","two","three","four","five","two","three","four","one","two","three","four","one","two","three","four"];
   var counter = 0;
+  StoreController storeController = Get.find();
+ List<Item> listItems;
 
   @override
   BuildContext getContext() {
@@ -40,40 +44,49 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    storeController.showProgress.value = true;
+    getTheFilteredData();
+    storeController.showProgress.value = false;
+
+
+  }
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    print("build method");
+    counter = 0;
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(56.0), // here the desired height
           child: SafeArea(child: getAppBar()),
       ),
-      body: getRootContainer(),
+      body: Obx(() =>getRootContainer().withProgressIndicator(showIndicator: storeController.showProgress.value))
+
     );
   }
 
     Widget  getRootContainer() {
     return GridView.count(crossAxisCount: 2,
-
-           shrinkWrap: true,
-           childAspectRatio: 0.7,
-            children: listItems.map((e) => getCategoryListTile()).toList()
-
+            shrinkWrap: true,
+            childAspectRatio: 0.7,
+            children: listItems.map((categoryItem) => getCategoryListTile(categoryItem)).toList()
         );
 }
 
-  Widget getCategoryListTile() {
+  Widget getCategoryListTile(Item categoryItem) {
     counter++;
     return Container(
       width: 148,
-      //margin: EdgeInsets.only(left:16,right: 16,bottom: 24),
       margin: getTheMargins(counter),
       decoration: getDealsDecoration(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
-          dealsTileFirstRow(),
-          dealsTileSecondRow(),
+          dealsTileFirstRow(categoryItem),
+          dealsTileSecondRow(categoryItem),
         ],
       ),
 
@@ -102,14 +115,14 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
   }
 
-  Widget dealsTileFirstRow() {
+  Widget dealsTileFirstRow(Item categoryItem) {
 
     return Column(
       children: [
-        getStackWidget(),
+        getStackWidget(categoryItem),
         SizedBox(height: 12),
         Text(
-            "Buncis (250gr)",
+            categoryItem.itemName,
             style: TextStyles.body2222
         )
       ],
@@ -117,13 +130,11 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
   }
 
-  Widget  dealsTileSecondRow() {
+  Widget  dealsTileSecondRow(Item categoryItem) {
     return Column(
       children: [
-        //  250gr
-        // Text
         Text(
-            "Medicine",
+            categoryItem.category[0].name,
             style: const TextStyle(
                 color:  ColorConst.input_field_line_off_2_2_2,
                 fontWeight: FontWeight.w500,
@@ -136,7 +147,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
         SizedBox(height: 6),
         // Rp 5.300-6.600
         Text(
-            "Rp 5.300-6.600",
+            categoryItem.price.toString(),
             style: BaseTextStyles.subtitle3222
         ),
         SizedBox(height: 8),
@@ -151,18 +162,10 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
           ),
           alignment: Alignment.center,
           child: // Text
-          RichText(
-              text: TextSpan(
-                  children: [
-                    TextSpan(
-                        style: BaseTextStyles.bUTTONBlack222,
-                        text: "+ "),
-                    TextSpan(
-                        style: BaseTextStyles.bUTTONBlack222,
-                        text: "Add")
-                  ]
-              )
-          ),
+          Text("+ Add",
+            style: BaseTextStyles.bUTTONBlack222,)).onTap(onPressed: (){
+
+        }
         ).onTap(onPressed: (){
 
         }
@@ -171,13 +174,13 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
     );
   }
 
-  Widget getStackWidget() {
+  Widget getStackWidget(Item categoryItem) {
 
     return  Stack(children: [
       Container(
         width: 148,
         height: 100,
-        color: Colors.blue,
+        child: Image.network(categoryItem.category[0].imageUrl),
       ),
       Positioned(
         top: 8,
@@ -214,12 +217,24 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   }
 
   EdgeInsetsGeometry getTheMargins(int counter) {
+     print("counter value"+counter.toString());
+
+
     if(counter%2==0){
-      print("even"+counter.toString());
-     return EdgeInsets.fromLTRB(8, 8, 16, 8);
-    }else{
-      print("odd"+counter.toString());
-      return EdgeInsets.fromLTRB(16, 8, 8, 8);
+          if(counter == 2) {
+            print("coming at 0");
+            return EdgeInsets.fromLTRB(8, 16, 16, 8);
+          }else {
+            return EdgeInsets.fromLTRB(8, 8, 16, 8);
+               }
+     }else{
+            if(counter == 1){
+              print("coming at 0");
+              return EdgeInsets.fromLTRB(16, 16, 8, 8);
+            }else{
+              return EdgeInsets.fromLTRB(16, 8, 8, 8);
+            }
+
     }
   }
 
@@ -246,20 +261,17 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
   Widget iconsWidget() {
       return  Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [searchIcon(), cartIcon()]);
-
-
   }
 
   Widget searchIcon() {
     return Container(
       margin: EdgeInsets.only(right: 16),
-      height: 20,
-      width: 20,
-      child: getSvgImage(imagePath: Assets.assets_icon_s_search,
-          width: 13.0,
-          height: 13.0),
+      height: 24,
+      width: 24,
+      child: getSvgImage(imagePath: Assets.assets_icon_s_search,color:ColorConst.color_black_100_2_2_2,
+          width: 18.0,
+          height: 18.0),
     ).onTap(onPressed: (){
 
     });
@@ -268,11 +280,11 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   Widget cartIcon() {
     return Container(
       margin: EdgeInsets.only(right: 16),
-      height: 20,
-      width: 20,
-      child: getSvgImage(imagePath: Assets.assets_icon_s_search,
-          width: 13.0,
-          height: 13.0),
+      height: 24,
+      width: 24,
+      child: getSvgImage(imagePath: Assets.assets_icon_c_cart,color:ColorConst.color_black_100_2_2_2,
+          width: 18.0,
+          height: 18.0),
     ).onTap(onPressed: (){
 
     });
@@ -280,6 +292,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
  Widget getAppBar() {
   return Container(
+
     decoration: BoxDecoration(
       boxShadow: [BoxShadow(
           color: AppColors.billerPaymentNextButtonColor,
@@ -305,6 +318,11 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
     ),
   );
 }
+
+  void getTheFilteredData() {
+     listItems = storeController.itemsList.where((element) => element.category[0].id==widget.categoryId).toList();
+
+  }
 
 
 

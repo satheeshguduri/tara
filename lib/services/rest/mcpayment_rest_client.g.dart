@@ -72,7 +72,7 @@ class _McPaymentRestClient implements McPaymentRestClient {
     _data.addAll(payCardRequest?.toJson() ?? <String, dynamic>{});
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
-        'v0.1/mcpayment/request/tokenization',
+        'v0.1/mcpayment/request/payment',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
