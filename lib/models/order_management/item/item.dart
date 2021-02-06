@@ -6,7 +6,7 @@ part 'item.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Item{
  
-   double id;
+   int id;
    String sku;
    String itemName;
    double price;
