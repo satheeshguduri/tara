@@ -432,51 +432,6 @@ class Strings {
   static const todaysdeal = "todaysdeal";
   static const plusadd = "plusadd";
   static const allcategories = "allcategories";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 class NotificationSettingsStrings {
@@ -489,6 +444,12 @@ class NotificationSettingsStrings {
   static const whats_app = "Whatsapp";
   static const receive_notification_whatsapp_subtext =
       "Receive notification to your Whatsapp";
+
+  static const allow_all_notifications = "Allow All Notifications";
+  static const chat = "Chat";
+  static const payment_requests = "Payment Requests";
+  static const deals_and_discounts = "Deals and Discounts";
+  static const promotions = "Promotions";
 }
 
 class SharedPreferencesStrings {

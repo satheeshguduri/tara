@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
+import 'package:tara_app/screens/dashboard/notification_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -27,7 +28,9 @@ class _SettingsScreenState extends BaseState<SettingsScreen> {
           getDivider(color: AppColors.light_grey_bg_color),
           //? Notification Settings
           buildListTile(
-            onTap: () {},
+            onTap: () {
+              push(NotificationSettingsScreen());
+            },
             leadingIconPath: Assets.assets_icon_n_notification,
             title: Strings.notification_settings,
             trailingIconPath: Assets.assets_icon_a_arrow_right,
