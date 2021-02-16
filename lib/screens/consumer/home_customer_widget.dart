@@ -32,6 +32,8 @@ import 'bills_see_all_screen.dart';
 import 'common_bills_payments_list.dart';
 import 'my_account/connect_new_account_select_ank.dart';
 import 'my_account/myaccounts_see_all_screen.dart';
+import 'package:tara_app/common/widgets/see_all_widget.dart';
+
 
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -151,10 +153,10 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
               }else if (snapshot.hasError){
                 return Container();
               }else{
-                return Container();
+                return addNewAccountIcon();
               }
             }else{
-                   return BaseWidgets.getIndicator;
+                return BaseWidgets.getIndicator;
           }
 
         },
@@ -475,30 +477,31 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           flex: 2.5.toInt(),
                 child: Container(
                 padding: EdgeInsets.only(top: 8,bottom: 8),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 16),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          getTranslation(Strings.SEE_ALL),
-                          textAlign: TextAlign.center,
-                          style: BaseStyles.seeAllTextStyle,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height:2 ,
-                    //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
-                        margin: EdgeInsets.only(right: 16),
-
-                      decoration: BoxDecoration(
-                        gradient: Gradients.primaryGradient,
-                      ),
-                    ),
-                  ],
-                )
+                child: SeeAllWidget(),
+                // child: Column(
+                //   children: [
+                //     Container(
+                //       margin: EdgeInsets.only(right: 16),
+                //       child: Align(
+                //         alignment: Alignment.topRight,
+                //         child: Text(
+                //           getTranslation(Strings.SEE_ALL),
+                //           textAlign: TextAlign.center,
+                //           style: BaseStyles.seeAllTextStyle,
+                //         ),
+                //       ),
+                //     ),
+                //     Container(
+                //       height:2 ,
+                //     //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
+                //         margin: EdgeInsets.only(right: 16),
+                //
+                //       decoration: BoxDecoration(
+                //         gradient: Gradients.primaryGradient,
+                //       ),
+                //     ),
+                //   ],
+                // )
             ).onTap(onPressed: (){
                   if (title == Strings.MY_ACCOUNTS)
                   {
@@ -559,30 +562,38 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
  }
 
   Widget addNewAccountIcon() {
-    return Container(
-      margin: EdgeInsets.only(right: 8),
-      child: DottedBorder(
-        borderType: BorderType.RRect,
-        radius: Radius.circular(12),
-        color: AppColors.input_field_line_off_2_2_2,
-        strokeWidth: 2,
-        dashPattern: [4,4],
+    return Row(
 
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          child: Container(
-            height: 44,
-            width: 44,
-            color: AppColors.grey3,
-            child: getSvgImage(imagePath: Assets.assets_icon_p_plus,
-                width: 24.0,
-                height: 24.0),
+      children: [
+        Container(
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            radius: Radius.circular(12),
+            color: AppColors.input_field_line_off_2_2_2,
+            strokeWidth: 2,
+            dashPattern: [4,4],
+
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+              child: Container(
+                height: 44,
+                width: 44,
+                color: AppColors.grey3,
+                child: getSvgImage(imagePath: Assets.assets_icon_p_plus,
+                    width: 24.0,
+                    height: 24.0),
+              ),
+            ),
           ),
-        ),
-      ),
-    ).onTap(onPressed: (){
-      Get.to(ConnectNewAccountSelectBank());
-    });
+        ).onTap(onPressed: (){
+          Get.to(ConnectNewAccountSelectBank());
+        }),
+        SizedBox(width: 8,)
+      ],
+
+
+
+    );
 
   }
 
