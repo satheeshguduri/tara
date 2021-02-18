@@ -427,7 +427,6 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
         ],
       ),
     ).onTap(onPressed: () {
-      Get.back();
       if(cardType == getTranslation(Strings.addDebitCard)){
          Get.to(ConnectNewAccountSelectBank());
       }else{

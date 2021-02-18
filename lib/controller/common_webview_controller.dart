@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/screens/consumer/common_webview.dart';
 
+
 class CommonWevViewController extends GetxController{
 
 
@@ -24,17 +25,18 @@ class CommonWevViewController extends GetxController{
 
 
 
-  onLoadStart(String currentUrl,WebViewType type){
-    showProgress.value = true;
-      if(type == WebViewType.ADD_CREDIT_CARD && currentUrl.contains(addCreditCardCallback)){
-        var callback = Uri.dataFromString(currentUrl);
-        Map<String, String> params = callback.queryParameters;
-        var isSuccess = params['success']??false;
-      }else if(type == WebViewType.ADD_CREDIT_CARD && currentUrl.contains(addCreditCardCallback)){
-
-      }
-
-  }
+  // onLoadStart(String currentUrl,WebViewType type){
+  //
+  //   showProgress.value = true;
+  //     if(type == WebViewType.ADD_CREDIT_CARD && currentUrl.contains(addCreditCardCallback)){
+  //       var callback = Uri.dataFromString(currentUrl);
+  //       Map<String, String> params = callback.queryParameters;
+  //       var isSuccess = params['success']??false;
+  //     }else if(type == WebViewType.ADD_CREDIT_CARD && currentUrl.contains(addCreditCardCallback)){
+  //
+  //     }
+  //
+  // }
 
   onLoadStop(){
     showProgress.value = false;

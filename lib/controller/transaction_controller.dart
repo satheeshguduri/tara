@@ -638,7 +638,7 @@ class TransactionController extends GetxController{
       var finalResponse = response.getOrElse(() => null);
       if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
         opacityValue.value=0.0;
-        Get.to(CommonWebViewScreen(title: "Add Credit Card",
+        Get.off(CommonWebViewScreen(title: "Add Credit Card",
             type: WebViewType.ADD_CREDIT_CARD,
             url: finalResponse.data.seamless_url));
       }

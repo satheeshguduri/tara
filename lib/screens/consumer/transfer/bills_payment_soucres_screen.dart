@@ -23,8 +23,6 @@ class BillsPaymentsSourcesScreen extends StatefulWidget {
 
   final BillDetailsData billDetailsData;
   BillsPaymentsSourcesScreen({ Key key,this.billDetailsData }) : super(key: key);
-
-
   @override
   BillsPaymentsSourcesScreenState createState() => BillsPaymentsSourcesScreenState();
 }
@@ -32,15 +30,14 @@ class BillsPaymentsSourcesScreen extends StatefulWidget {
 class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScreen> {
 
 
-  BillController billController = Get.find<BillController>();
-
+  BillController billController = Get.find();
   TransactionController transferController = Get.find();
 
 
   @override
   Widget build(BuildContext context) {
+    showIfFalse();
     return Scaffold(
-      //   appBar: getAppBar(),
       appBar: CustomAppBarWidget(
           title: getTranslation(Strings.PAYMENT), addNewWidgetShow: false),
       body: Obx(() =>
@@ -50,13 +47,15 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
           ).withProgressIndicator(showIndicator: transferController
               .showProgress
               .value)),
+
+      bottomNavigationBar: Obx(()=>nextButtonWidget()),
     );
   }
 
 
   Widget getContainer() {
     return Container(
-      height: Get.height - 88,
+      height: Get.height - 120,
       child: Column(
           children: [
             Expanded(
@@ -69,7 +68,8 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
                 )
             ),
-            nextButtonWidget()
+
+
           ]
       ),
     );
@@ -128,17 +128,31 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       margin: EdgeInsets.only(bottom: 16, left: 16, right: 16),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: billController.btnColor.value),
+          color: billController.paymentNextColor.value),
       alignment: Alignment.center,
       child: Text(
         getTranslation(Strings.next),
         textAlign: TextAlign.center,
-        style: billController.textStyle.value,
+        style:  billController.paymentTextStyle.value,
       ),
     ).onTap(onPressed: () async {
 
-      transferController.payNow(mobileNumber: "8368951368",amount1: "100",remarks1: "from bills",bic1: "CENAID00001",cvv1: "123",initiatorAccountId1:44);
-     //   transferController.payNow();
+      if(billController.paymentClickable.value) {
+            showIfFalse();
+            if(billController.isDebitCard.value){
+               transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
+            }else{
+               transferController.payViaCreditCard(billController.creditCardId, billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
+            }
+
+
+      }
+
+
+
+
+
+
 
     }
 
@@ -152,15 +166,16 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
 
   void showIfTrue() {
-    billController.clickable.value = true;
-    billController.btnColor.value = AppColors.bottom_border_color;
-    billController.textStyle.value = BaseStyles.addNewBankAccount;
+
+    billController.paymentClickable.value = true;
+    billController.paymentNextColor.value = AppColors.bottom_border_color;
+    billController.paymentTextStyle.value = BaseStyles.addNewBankAccount;
   }
 
   void showIfFalse() {
-    billController.clickable.value = false;
-    billController.btnColor.value = AppColors.billerPaymentNextButtonColor;
-    billController.textStyle.value = TextStyles.bUTTONGrey3222;
+    billController.paymentClickable.value = false;
+    billController.paymentNextColor.value = AppColors.billerPaymentNextButtonColor;
+    billController.paymentTextStyle.value = TextStyles.bUTTONGrey3222;
   }
 
   Widget commonRowTitle(String title) {
@@ -247,7 +262,23 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       ),
 
 
-    );
+    ).onTap(onPressed: (){
+      showIfTrue();
+      billController.isDebitCard.value = true;
+      billController.isCreditCard.value = false;
+
+      billController.mobileNumber = "8368951368";
+      billController.debitCardAmount =  "100";
+      billController.debitCardDesc = "from bills";
+      billController.debitCardBic = "CENAID00001";
+      billController.debitCardCvv = "123";
+      billController.debitCardAccountId = 44;
+      billController.debitCardBenId = 44;
+
+      //  transferController.payNow(mobileNumber: "8368951368",amount1: "100",remarks1: "from bills",bic1: "CENAID00001",cvv1: "123",initiatorAccountId1:44,benId1: 44);
+
+
+    });
   }
 
   Widget debitCardtransactionDetailRow() {
@@ -437,7 +468,16 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
 
     ).onTap(onPressed: (){
-      transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
+      showIfTrue();
+      billController.isDebitCard.value = false;
+      billController.isCreditCard.value = true;
+      billController.creditCardId = creditCardData.id.mcPaymentCardId;
+      billController.creditCardAmount =  widget.billDetailsData.amount;
+      billController.creditCardDesc = "Gift Only";
+      billController.creditCardMaskedCardNumber = creditCardData.maskedCardNumber;
+
+
+    //  transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
     });
   }
 
