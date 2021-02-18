@@ -65,37 +65,27 @@ class CommonWebViewScreen extends StatefulWidget {
                   initialOptions: InAppWebViewGroupOptions(
                       crossPlatform: InAppWebViewOptions()),
                   onLoadStart: (InAppWebViewController controller, url) {
+                  commonWevViewController.onLoadStart(url, widget.type);
 
-              print("url is  = "+url);
-              commonWevViewController.showProgress.value = true;
-              if(widget.type == WebViewType.ADD_CREDIT_CARD && url.contains(addCreditCardCallback)){
+                  //for adding card
+                  if(commonWevViewController.isCardAddedSuccess.value.isNotEmpty){
+                      if(commonWevViewController.isCardAddedSuccess.value=="1"){
+                      showToast(message: "Card Added Successfully");
+                      }else{
+                      showToast(message: "Card Not Added");
+                      }
 
-              var callback = Uri.dataFromString(url);
-              Map<String, String> params = callback.queryParameters;
-              var isSuccess = params['success']??"0";
-              if(isSuccess=="1"){
-              showToast(message: "Card Added Successfully");
-              }else{
-                showToast(message: "Card Not Added");
-              }
-
-                Get.back();
-              }else if(widget.type == WebViewType.PAYMENT && url.contains(paymentCallback)){
-                var callback = Uri.dataFromString(url);
-                Map<String, String> params = callback.queryParameters;
-                var isSuccess = params['success']??"0";
-                if(isSuccess=="1"){
-                  showToast(message: "Payment has done successfully");
-                }else{
-                  showToast(message: "Payment Failed");
-                }
-
-                Get.back();
-
+                 }
+                  // for payment
+                  if(commonWevViewController.isPaymentSuccess.value.isNotEmpty){
+                    if(commonWevViewController.isPaymentSuccess.value=="1"){
+                      showToast(message: "Payment has done successfully");
+                    }else{
+                      showToast(message: "Payment Failed");
+                    }
               }
 
               },
-                     // commonWevViewController.onLoadStart(url, type),
                   onLoadStop: (InAppWebViewController controller, url) =>
                       commonWevViewController.onLoadStop()),
             ),

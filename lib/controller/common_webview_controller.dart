@@ -16,6 +16,9 @@ class CommonWevViewController extends GetxController{
 
   var url = "".obs;
   var showProgress = false.obs;
+  var isCardAddedSuccess = "".obs;
+  var isPaymentSuccess = "".obs;
+
 
   // var addCreditCardCallback = "http://107.20.4.43:9005/v0.1/mcpayment/tokenization/callback?token=1&success=1&register_id=a10603a9782841ec805133f7d894c8ed";
   // var paymentCallback = "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback?transaction=1&success=1&register_id=35f6363c72d7410bbcf62efd19cdde9d";
@@ -25,18 +28,25 @@ class CommonWevViewController extends GetxController{
 
 
 
-  // onLoadStart(String currentUrl,WebViewType type){
-  //
-  //   showProgress.value = true;
-  //     if(type == WebViewType.ADD_CREDIT_CARD && currentUrl.contains(addCreditCardCallback)){
-  //       var callback = Uri.dataFromString(currentUrl);
-  //       Map<String, String> params = callback.queryParameters;
-  //       var isSuccess = params['success']??false;
-  //     }else if(type == WebViewType.ADD_CREDIT_CARD && currentUrl.contains(addCreditCardCallback)){
-  //
-  //     }
-  //
-  // }
+  onLoadStart(String currentUrl,WebViewType type){
+       print(currentUrl);
+       showProgress.value = true;
+      if(type == WebViewType.ADD_CREDIT_CARD && currentUrl.contains(addCreditCardCallback)){
+        isPaymentSuccess.value ="";
+        var callback = Uri.dataFromString(currentUrl);
+        Map<String, String> params = callback.queryParameters;
+        isCardAddedSuccess.value = params['success']??"0";
+        Get.back();
+      }else if(type == WebViewType.PAYMENT && currentUrl.contains(paymentCallback)){
+        isCardAddedSuccess.value = "";
+        var callback = Uri.dataFromString(currentUrl);
+        Map<String, String> params = callback.queryParameters;
+        isPaymentSuccess.value = params['success']??"0";
+        Get.back();
+
+      }
+
+  }
 
   onLoadStop(){
     showProgress.value = false;
