@@ -73,16 +73,24 @@ class CommonWebViewScreen extends StatefulWidget {
               var callback = Uri.dataFromString(url);
               Map<String, String> params = callback.queryParameters;
               var isSuccess = params['success']??"0";
-              print("####"+isSuccess);
               if(isSuccess=="1"){
               showToast(message: "Card Added Successfully");
               }else{
                 showToast(message: "Card Not Added");
-              print("failure message");
               }
 
-                        Get.back();
-              }else if(widget.type == WebViewType.ADD_CREDIT_CARD && url.contains(addCreditCardCallback)){
+                Get.back();
+              }else if(widget.type == WebViewType.PAYMENT && url.contains(paymentCallback)){
+                var callback = Uri.dataFromString(url);
+                Map<String, String> params = callback.queryParameters;
+                var isSuccess = params['success']??"0";
+                if(isSuccess=="1"){
+                  showToast(message: "Payment has done successfully");
+                }else{
+                  showToast(message: "Payment Failed");
+                }
+
+                Get.back();
 
               }
 
