@@ -100,7 +100,7 @@ class TransactionController extends GetxController{
       status: "INITIATED",
       transactionDate: DateTime.now().toIso8601String(),);
     showProgress.value = true;
-    Either<Failure, BaseResponse> responseDa = await getIt.get<TransactionRepository>().sendMoney(transactionModel);
+    Either<Failure, BaseResponse> responseDa = await getIt.get<TransactionRepository>().initiateTaraTransaction(transactionModel);
     showProgress.value = false;
     responseDa.fold(
             (l) => print(l.message),

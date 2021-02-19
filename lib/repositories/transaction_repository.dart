@@ -59,8 +59,8 @@ import '../injector.dart';
 
 abstract class TransactionRepository {
 
-  Future<Either<Failure,BaseResponse>> sendMoney(TransactionModel transactionModel);
-  Future<Either<Failure,BaseResponse>> updateSendRequest(TransactionModel transactionModel);
+  Future<Either<Failure,BaseResponse>> initiateTaraTransaction(TransactionModel transactionModel);//while initiating the transaction
+  Future<Either<Failure,BaseResponse>> updateTaraTransaction(TransactionModel transactionModel);//on Successful transaction
 
   Future<Either<Failure,List<BankDetailsBean>>> getBanksList(CommonRegistrationRequest commonRegistrationRequest);
   Future<Either<Failure,TrackAccountDetailsResponse>> trackAccountDetailsRequest(CommonRegistrationRequest commonRegistrationRequest,TransactionType transactionType, String sessionKey,String transactionId);
@@ -115,7 +115,7 @@ class TransactionRepositoryImpl implements TransactionRepository{
   TransactionRepositoryImpl(this.userLocalDataSource,this.networkInfo,this.remoteDataSource,this.pspRemoteDataSource,this.umpsRemoteDataSource);
 
   @override
-  Future<Either<Failure,BaseResponse>> sendMoney(TransactionModel transactionModel) async {
+  Future<Either<Failure,BaseResponse>> initiateTaraTransaction(TransactionModel transactionModel) async {
     AuthResponse user = await userLocalDataSource.getUser();
 
     token = user.securityToken.token.tara.bearer();
@@ -128,7 +128,7 @@ class TransactionRepositoryImpl implements TransactionRepository{
   }
 
   @override
-  Future<Either<Failure,BaseResponse>> updateSendRequest(TransactionModel transactionModel) async{
+  Future<Either<Failure,BaseResponse>> updateTaraTransaction(TransactionModel transactionModel) async{
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
