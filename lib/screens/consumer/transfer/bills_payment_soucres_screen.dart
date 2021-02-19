@@ -17,6 +17,7 @@ import 'package:tara_app/models/mcpayment/card_data.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:async/async.dart';
 
 
 class BillsPaymentsSourcesScreen extends StatefulWidget {
@@ -32,6 +33,8 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
   BillController billController = Get.find();
   TransactionController transferController = Get.find();
+  final AsyncMemoizer dCMemorizer = AsyncMemoizer();
+  final AsyncMemoizer cCMemorizer = AsyncMemoizer();
 
 
   @override
@@ -98,7 +101,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         children: [
           commonRowTitle(getTranslation(Strings.paywith)),
     FutureBuilder(
-    future: transferController.getCustomerProfile2(),
+    future: this.dCMemorizer.runOnce(()=>transferController.getCustomerProfile2()),
     builder: (context,snapshot){
         if(snapshot.connectionState==ConnectionState.done)
         {
@@ -142,6 +145,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             if(billController.isDebitCard.value){
                transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
             }else{
+
                transferController.payViaCreditCard(billController.creditCardId, billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
             }
 
@@ -391,7 +395,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         children: [
           commonRowTitle(getTranslation(Strings.creditCards)),
           FutureBuilder(
-            future: transferController.getCards(),
+            future:  this.cCMemorizer.runOnce(()=>transferController.getCards()),
             builder: (context,snapshot){
               if(snapshot.connectionState==ConnectionState.done)
               {

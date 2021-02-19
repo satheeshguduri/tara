@@ -649,15 +649,15 @@ class TransactionController extends GetxController{
 
 
   Future payViaCreditCard(String mcPaymentCardId,num transactionAmount,String description,String maskedCardNumber) async{
-    var request = PayCardRequest(register_id: mcPaymentCardId,
+     var request = PayCardRequest(register_id: mcPaymentCardId,
       amount: transactionAmount,
       description: description,
       return_url: "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback",
       token: maskedCardNumber, // need to pass masked card number here
     );
-    // showProgress.value = true;
+     showProgress.value = true;
     var response = await getIt.get<McPaymentRepository>().payWithCreditCard(request);
-    // showProgress.value = false;
+     showProgress.value = false;
     if(response.isRight()){
       var finalResponse = response.getOrElse(() => null);
       if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
