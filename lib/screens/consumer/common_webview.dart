@@ -74,10 +74,8 @@ class CommonWebViewScreen extends StatefulWidget {
                       }else{
                       showToast(message: "Card Not Added");
                       }
-
-                 }
-                  // for payment
-                  if(commonWevViewController.isPaymentSuccess.value.isNotEmpty){
+                    // for payment
+                 }else if(commonWevViewController.isPaymentSuccess.value.isNotEmpty){
                     if(commonWevViewController.isPaymentSuccess.value=="1"){
                       showToast(message: "Payment has done successfully");
                     }else{

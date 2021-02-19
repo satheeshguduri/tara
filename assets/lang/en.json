@@ -401,7 +401,11 @@
   "categories": "Categories",
   "todaysdeal" : "Today's Deal",
   "plusadd": "+ Add",
-  "allcategories": "All Categories"
+  "allcategories": "All Categories",
+  "code" : "Code",
+  "nominal": "Nominal"
+
+
 
 
 }

@@ -55,7 +55,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
   Widget getContainer() {
     return Container(
-      height: Get.height - 120,
+      height: Get.height-120,
       child: Column(
           children: [
             Expanded(
@@ -349,7 +349,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Code", style: BaseStyles.purchaseLabelTextStyle),
+        Text(getTranslation(Strings.code), style: BaseStyles.purchaseLabelTextStyle),
         Text("${widget.billDetailsData.productCode}",style: TextStyles.bUTTONWhite2)
       ],
     ).withPad(padding: EdgeInsets.all(5));
@@ -359,7 +359,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Name", style: BaseStyles.purchaseLabelTextStyle),
+        Text(getTranslation(Strings.name), style: BaseStyles.purchaseLabelTextStyle),
          Container(width:Get.width*0.6,child: Text("${widget.billDetailsData.productName}",style: TextStyles.bUTTONWhite2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.right,
 
          ))
@@ -371,8 +371,8 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Nominal", style: BaseStyles.purchaseLabelTextStyle),
-        Text("Rp ${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
+        Text(getTranslation(Strings.nominal), style: BaseStyles.purchaseLabelTextStyle),
+        Text(getTranslation(Strings.RP)+" "+"${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
 
       ],
     ).withPad(padding: EdgeInsets.all(5));

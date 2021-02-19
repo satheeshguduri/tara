@@ -432,6 +432,11 @@ class Strings {
   static const todaysdeal = "todaysdeal";
   static const plusadd = "plusadd";
   static const allcategories = "allcategories";
+  static const code = "code";
+  static const nominal = "nominal";
+
+
+
 }
 
 class NotificationSettingsStrings {
