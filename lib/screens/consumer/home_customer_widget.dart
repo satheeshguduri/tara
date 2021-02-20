@@ -586,7 +586,8 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
             ),
           ),
         ).onTap(onPressed: (){
-          Get.to(ConnectNewAccountSelectBank());
+          //Get.to(ConnectNewAccountSelectBank());
+          Get.to(MyAccountsSeeAllScreen());
         }),
         SizedBox(width: 8,)
       ],
