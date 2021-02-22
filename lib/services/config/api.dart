@@ -62,6 +62,7 @@ class API{
 
   //Transfer API
   static const send_money = "v0.1/tara/erp/account";
+  static const update_tara_transaction = "v0.1/tara/erp/account/{transactionId}";
 
   //BILLER API
   static const get_bill_products = "v0.1/tara/erp/ayopop/partner/products";

@@ -18,6 +18,10 @@ import 'package:tara_app/models/transfer/customer_profile_details_response.dart'
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:async/async.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
+
+
+
 
 
 class BillsPaymentsSourcesScreen extends StatefulWidget {
@@ -35,6 +39,8 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   TransactionController transferController = Get.find();
   final AsyncMemoizer dCMemorizer = AsyncMemoizer();
   final AsyncMemoizer cCMemorizer = AsyncMemoizer();
+
+
 
 
   @override
@@ -139,24 +145,15 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         style:  billController.paymentTextStyle.value,
       ),
     ).onTap(onPressed: () async {
-
       if(billController.paymentClickable.value) {
             showIfFalse();
             if(billController.isDebitCard.value){
                transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
             }else{
-
-               transferController.payViaCreditCard(billController.creditCardId, billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
+               transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
+              // transferController.payViaCreditCard();
             }
-
-
-      }
-
-
-
-
-
-
+       }
 
     }
 

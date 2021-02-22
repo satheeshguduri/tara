@@ -57,19 +57,18 @@ import 'package:tara_app/utils/locale/utils.dart';
 import 'package:tara_app/models/mcpayment/create_card_or_pay_request.dart' as cards;
 import 'package:tara_app/screens/consumer/common_webview.dart';
 import 'package:tara_app/models/mcpayment/pay_card_request.dart';
-
-
-
+import 'package:tara_app/controller/bill_controller.dart';
+import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/models/transactions/payment_response.dart';
 
 
 import '../injector.dart';
 import '../tara_app.dart';
-import 'auth_controller.dart';
+
 
 class TransactionController extends GetxController{
   var showProgress = false.obs;
   var userMobileNumber ="".obs;
-  // =  Get.find<AuthController>().user.value.customerProfile.mobileNumber;
   var otp = "".obs;
 
   // var user = AuthResponse().obs;
@@ -83,8 +82,8 @@ class TransactionController extends GetxController{
   var opacityValue = 0.0.obs;
 
   TextEditingController txtCtrlTransferAmt = TextEditingController();
-
-
+  double payAmount;
+  String payTransId;
 
 
   void sendMoney(CustomerProfile to,CustomerProfile from,double amount,[pop]) async{
@@ -95,18 +94,80 @@ class TransactionController extends GetxController{
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
       toData: toData,
-      paid: false,transactionType: "paid",
+      paid: false,
+      transactionType: "paid",
       subType: "Grocery",
       status: "INITIATED",
       transactionDate: DateTime.now().toIso8601String(),);
     showProgress.value = true;
-    Either<Failure, BaseResponse> responseDa = await getIt.get<TransactionRepository>().initiateTaraTransaction(transactionModel);
+    Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().initiateTaraTransaction(transactionModel);
     showProgress.value = false;
     responseDa.fold(
             (l) => print(l.message),
             (r) => {
           // pop,
           Get.to(ConversationPage(showMakeAnOrder:false,arrChats: ["chat_money_transfer_success"],custInfo: Utils().getCustomerProfile())) //YAKUB Dummy Profile
+        }
+    );
+
+
+  }
+
+  //payment initiation
+  void paymentInitiation(String cardId,double amount,String desc,String maskAcNum ) async{
+    print("firebaseid "+ Get.find<AuthController>().user.value.customerProfile.firebaseId);
+    payAmount=amount;
+    var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
+    var toData = ToDataBean(toContactNumber: null,toAccount:null,toUserFirebaseId: null);
+    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext: "Bill_Payment",amount: amount));
+    var transactionModel=  TransactionModel(optionalData: optionalDataBean,
+      fromData: fromData,
+      toData: toData,
+      paid: false,
+      transactionType: "paid",
+      subType: "Grocery",
+      status: "INITIATED",
+      transactionDate: DateTime.now().toIso8601String(),
+      toType: null);
+    showProgress.value = true;
+    Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().initiateTaraTransaction(transactionModel);
+   // showProgress.value = false;
+    print("@@@@@@@");
+
+    responseDa.fold(
+            (l) => print(l.message),
+            (r) => {
+              payTransId = r.transactionId,
+              payViaCreditCard(cardId, amount, desc, maskAcNum)
+
+         }
+    );
+
+
+  }
+  // payment done
+  void paymentCompleted() async{
+    var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
+    var toData = ToDataBean(toContactNumber: null,toAccount:null,toUserFirebaseId: null);
+    var optionalDataBean = OptionalDataBean(data: DataBean(createFirebaseEntry: "true",amount: payAmount));
+    var transactionModel=  TransactionModel(optionalData: optionalDataBean,
+      transactionId: payTransId ,
+      fromData: fromData,
+      toData: toData,
+      paid: true,
+      transactionType: "paid",
+      subType: "Grocery",
+      status: "paid",
+      transactionDate: DateTime.now().toIso8601String(),
+      toType: null);
+   // showProgress.value = true;
+    Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().updateTaraTransaction(transactionModel);
+    showProgress.value = false;
+
+    responseDa.fold(
+            (l) => print(l.message),
+            (r) => {
+
         }
     );
 
@@ -648,7 +709,7 @@ class TransactionController extends GetxController{
 
 
 
-  Future payViaCreditCard(String mcPaymentCardId,num transactionAmount,String description,String maskedCardNumber) async{
+  Future payViaCreditCard(String mcPaymentCardId,double transactionAmount,String description,String maskedCardNumber) async{
      var request = PayCardRequest(register_id: mcPaymentCardId,
       amount: transactionAmount,
       description: description,

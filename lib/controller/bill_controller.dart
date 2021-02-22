@@ -92,7 +92,7 @@ class BillController extends GetxController{
   //credit card
    var isCreditCard = false.obs;
    String creditCardId;
-   num creditCardAmount;
+   double creditCardAmount;
    String creditCardDesc;
    String creditCardMaskedCardNumber;
 
