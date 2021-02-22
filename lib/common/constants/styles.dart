@@ -99,7 +99,7 @@ class BaseStyles {
   fontWeight: FontWeight.w700,
 //  fontFamily: "",
   fontStyle:  FontStyle.normal,
-  fontSize: 20.0
+  fontSize: 16.0
   );
 
   static TextStyle bottomSheetSubTitleStyle = TextStyle(

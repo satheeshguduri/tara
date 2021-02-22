@@ -17,6 +17,8 @@ import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/screens/signin_screen.dart';
+import 'package:tara_app/screens/dashboard/my_orders_screen.dart';
+
 
 
 
@@ -244,7 +246,8 @@ class _DashBoardState extends BaseState<DashBoard> {
       }
       else if (title == Strings.my_orders)
       {
-        push(CustomerOrdersScreen());
+      //  push(CustomerOrdersScreen());
+        Get.to(MyOrderScreen());
       }
     });
   }

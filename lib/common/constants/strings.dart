@@ -434,6 +434,9 @@ class Strings {
   static const allcategories = "allcategories";
   static const code = "code";
   static const nominal = "nominal";
+  static const itemrp = "itemrp";
+
+
 
 
 

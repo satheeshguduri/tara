@@ -314,4 +314,21 @@ class BaseTextStyles {
     fontStyle:  FontStyle.normal,
     fontSize: 10.0
 );
+  static const myOrdersItemsTextStyle = const   TextStyle(
+      color: AppColors.light_grey_blue,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+      fontSize: 14.0
+
+  );
+  static const myOrdersDateTextStyle = const   TextStyle(
+      color: AppColors.light_grey_blue,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+      fontSize: 10.0
+
+  );
+
+
+
 }

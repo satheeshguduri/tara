@@ -18,6 +18,8 @@ import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/shop/shopping_home_page.dart';
+import 'package:tara_app/common/constants/fonts.dart';
+
 
 
 
@@ -339,12 +341,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                               Text(
                                   DateFormat('dd MMM yyyy • kk:mm').format(order
                                       .orderDate),
-                                  style: TextStyle(
-                                      color: AppColors.light_grey_blue,
-                                      fontWeight: FontWeight.w500,
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 10.0
-                                  )
+                                  style: BaseTextStyles.myOrdersDateTextStyle
                               ),
                               Text(
                                   order.storeId.name,
@@ -354,17 +351,12 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                 mainAxisAlignment: MainAxisAlignment
                                     .spaceBetween,
                                 children: [
-                                  Text(
-                                      order.items.length.toString() +
-                                          " Items - Rp " +
-                                          order.price.toString(),
-                                      style: TextStyle(
-                                          color: AppColors.light_grey_blue,
-                                          fontWeight: FontWeight.w500,
-                                          fontStyle: FontStyle.normal,
-                                          fontSize: 10.0
-                                      )
-                                  ),
+                                      Text(
+                                      order.items.length.toString() + " "+
+                                      getTranslation(Strings.itemrp)+" " +
+                                      order.price.toString(),
+                                      style: BaseTextStyles.myOrdersItemsTextStyle
+                                      ),
                                   InkWell(
                                     child: Container(
                                       width: 88,
