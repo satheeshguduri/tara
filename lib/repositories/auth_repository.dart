@@ -22,6 +22,8 @@ abstract class AuthRepository {
   Future<Either<Failure,CustomerProfile>> getCustomerInfoByCustomerId(String customerId);
   Future<Either<Failure,BaseResponse>> updateProfile(CustomerProfile profile);
   Future<Either<Failure,CustomerProfileDetailsResponse>> getCustomerProfile(CommonRegistrationRequest profile);
+  Future<Either<Failure,CustomerProfile>>  getToAddress();
+
 
 }
 

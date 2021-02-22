@@ -150,7 +150,13 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             if(billController.isDebitCard.value){
                transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
             }else{
-               transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
+              // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
+               transferController.paymentInitiation(
+                   cardId: billController.creditCardId,
+                   amount: billController.creditCardAmount,
+                   desc: billController.creditCardDesc,
+                   maskAcNum: billController.creditCardMaskedCardNumber,
+                   isFromCreditCard: true);
               // transferController.payViaCreditCard();
             }
        }

@@ -84,6 +84,7 @@ class TransactionController extends GetxController{
   TextEditingController txtCtrlTransferAmt = TextEditingController();
   double payAmount;
   String payTransId;
+  CustomerProfile toAddress;
 
 
   void sendMoney(CustomerProfile to,CustomerProfile from,double amount,[pop]) async{
@@ -114,11 +115,12 @@ class TransactionController extends GetxController{
   }
 
   //payment initiation
-  void paymentInitiation(String cardId,double amount,String desc,String maskAcNum ) async{
+  Future paymentInitiation({String cardId,double amount,String desc,String maskAcNum,CustomerProfile toAddress,bool isFromCreditCard=false}) async{
     print("firebaseid "+ Get.find<AuthController>().user.value.customerProfile.firebaseId);
+   // print("to firebaseid "+ toAddress.firebaseId);
     payAmount=amount;
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
-    var toData = ToDataBean(toContactNumber: null,toAccount:null,toUserFirebaseId: null);
+    var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.firebaseId);
     var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext: "Bill_Payment",amount: amount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
@@ -138,7 +140,9 @@ class TransactionController extends GetxController{
             (l) => print(l.message),
             (r) => {
               payTransId = r.transactionId,
-              payViaCreditCard(cardId, amount, desc, maskAcNum)
+              if(isFromCreditCard){
+                payViaCreditCard(cardId, amount, desc, maskAcNum)
+              }
 
          }
     );
@@ -146,9 +150,9 @@ class TransactionController extends GetxController{
 
   }
   // payment done
-  void paymentCompleted() async{
+  void paymentCompleted({CustomerProfile toAddress}) async{
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
-    var toData = ToDataBean(toContactNumber: null,toAccount:null,toUserFirebaseId: null);
+    var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.firebaseId);
     var optionalDataBean = OptionalDataBean(data: DataBean(createFirebaseEntry: "true",amount: payAmount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       transactionId: payTransId ,
@@ -444,6 +448,12 @@ class TransactionController extends GetxController{
       var trackAccountR = await getIt.get<TransactionRepository>().trackAccountDetailsRequest(req,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
       if(trackAccountR.isRight()){
         var trackAccountResponse = trackAccountR.getOrElse(() => null);
+        if(trackAccountResponse.success){
+
+          paymentCompleted(toAddress: toAddress);
+        }else{
+          print("transaction failed");
+        }
         showProgress.value = false;
         print(jsonEncode(trackAccountResponse.toJson()));
         Get.offAll(Utils().getLandingScreen());
@@ -516,8 +526,15 @@ class TransactionController extends GetxController{
             print("=====================Transaction Resposne======================");
             print(jsonEncode(initiateTransactionResponse.toJson()));
             if(initiateTransactionResponse.success){
+
+             toAddress = await Get.find<AuthController>().getToAddressForPayment();
+             print("awaiting....");
+            await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress);
+             print("!!!!!!!!!!!!");
+
               //Retrieve Key Request
               var txnId = initiateTransactionResponse.transactionId;
+             print("22222222222222");
               var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
               var retrieveKeyRequest = RetrieveKeyRequest(
                   deviceInfo: deviceInfo,
@@ -567,6 +584,8 @@ class TransactionController extends GetxController{
 
                         //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
                         // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
+                      }else{
+                        print("no otp found");
                       }
                     });
 
@@ -575,6 +594,7 @@ class TransactionController extends GetxController{
                 }
               }
             }else{
+              print("error occured");
               //Show Toast or dailog here..
             }
           }
@@ -730,6 +750,8 @@ class TransactionController extends GetxController{
 
     }
   }
+
+
 
 
   // void _launchURL(url) async {
