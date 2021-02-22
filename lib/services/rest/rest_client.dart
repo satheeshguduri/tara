@@ -136,7 +136,8 @@ import '../config/api.dart';
   Future<Catalogue> updateCatalogue(@Header("Authorization") String token,@Body() Catalogue catalogue);
 
 
-
+  @GET(API.get_toaddress)
+  Future<CustomerProfile> getToAddress(@Header("Authorization") String token);
 
 
 

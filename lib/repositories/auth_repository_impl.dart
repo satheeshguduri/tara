@@ -145,5 +145,18 @@ class AuthRepositoryImpl implements AuthRepository{
 
   }
 
+  @override
+  Future<Either<Failure, CustomerProfile>> getToAddress() async{
+    try {
+      AuthResponse user = await userLocalDataSource.getUser();
+      token = user.securityToken.token.tara.bearer();
+      var response = await remoteDataSource.getToAddress(token);
+      print(response.toString());
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
 
 }

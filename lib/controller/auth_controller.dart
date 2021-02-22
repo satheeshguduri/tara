@@ -258,6 +258,20 @@ class AuthController extends GetxController {
     return true;
   }
 
+
+
+  Future getToAddressForPayment() async{
+
+    Either<Failure, CustomerProfile> response = await getIt.get<AuthRepository>().getToAddress();
+  //  showProgress.value = false;
+    print(response);
+    if(response.isRight()) {
+      return response.getOrElse(() => null);
+    }
+
+  }
+
+
   void  startTimer() {
     // Set 1 second callback
     const period = const Duration(seconds: 1);
