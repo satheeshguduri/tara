@@ -11,6 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';
 import 'package:toast/toast.dart';
+
 ////CommonMixin
 /// @author Yakub Pasha.
 ///
@@ -20,7 +21,8 @@ mixin CommonMixin {
   BuildContext getContext();
 
 //  String getTranslation(var context,String key) => AppLocalizations.of(context).translate(key);
-  String getTranslation(String key) => AppLocalizations.of(getContext()).translate(key);
+  String getTranslation(String key) =>
+      AppLocalizations.of(getContext()).translate(key);
 
   ///logs firebase event with [data] provided
   void logEvent({@required String eventName, Map<String, dynamic> params}) {
@@ -67,8 +69,8 @@ mixin CommonMixin {
       buildMaterialPageRoute(screen: screen),
       (Route<dynamic> route) => false);
 
-  void popToRootScreen(Widget screen) => Navigator.of(getContext()).popUntil((route) => route.isFirst);
-
+  void popToRootScreen(Widget screen) =>
+      Navigator.of(getContext()).popUntil((route) => route.isFirst);
 
   ///Remove the latest screen in the navigation stack
   void pop() {

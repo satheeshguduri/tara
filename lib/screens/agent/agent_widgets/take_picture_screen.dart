@@ -86,7 +86,9 @@ class TakePictureScreenState extends BaseState<TakePictureScreen> {
             );
 
             // Attempt to take a picture and log where it's been saved.
-            await _controller.takePicture(path);
+            ///TODO uncomment this line
+            // await _controller.takePicture(path);
+            await _controller.takePicture();
 
             Navigator.pop(context);
 

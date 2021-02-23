@@ -426,6 +426,8 @@ class Strings{
   static const dashboard = "dashboard";
   static const home = "home";
 
+  static const all_categories = "All Categories";
+
 
 
 

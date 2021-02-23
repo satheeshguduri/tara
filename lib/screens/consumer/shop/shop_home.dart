@@ -14,6 +14,7 @@ import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/customer_orders_screen.dart';
+import 'package:tara_app/screens/consumer/shop/all_categories_sheet.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/common/constants/values.dart';
 
@@ -23,41 +24,37 @@ class ShopHome extends StatefulWidget {
 }
 
 class _ShopHomeState extends BaseState<ShopHome> {
-
   int _current = 0;
   OrderController controller = Get.find();
   @override
-  void init() async{
+  void init() async {
     // TODO: implement init
     super.init();
     controller.getConsumerOrders();
     controller.getAllStore();
     print(controller.storeTypesList);
   }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
   }
+
   @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: getRootContainer(),
     );
   }
 
-  Widget getRootContainer(){
-    return Obx(()=>
-        SafeArea(
+  Widget getRootContainer() {
+    return Obx(() => SafeArea(
           top: false,
           child: Stack(
             children: [
@@ -93,7 +90,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
               )
             ],
           ),
-        ).withProgressIndicator(showIndicator: controller.showProgress.value));
+        ).withProgressIndicator(showIndicator: false));
   }
 
   buildNavBar() {
@@ -109,8 +106,11 @@ class _ShopHomeState extends BaseState<ShopHome> {
             Row(
               children: <Widget>[
                 IconButton(
-                   // icon: Icon(Icons.arrow_back),
-                    icon:getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,width: 24.0,height:24.0),
+                    // icon: Icon(Icons.arrow_back),
+                    icon: getSvgImage(
+                        imagePath: Assets.assets_icon_b_back_arrow,
+                        width: 24.0,
+                        height: 24.0),
                     onPressed: () => Navigator.pop(
                         context, false) //Navigator.pop(context, false),
                     ),
@@ -127,7 +127,10 @@ class _ShopHomeState extends BaseState<ShopHome> {
                         //   Icons.arrow_forward_ios,
                         //   size: 16,
                         // )
-                        getSvgImage(imagePath: Assets.assets_icon_a_arrow_right,width: 24.0,height:24.0),
+                        getSvgImage(
+                            imagePath: Assets.assets_icon_a_arrow_right,
+                            width: 24.0,
+                            height: 24.0),
                       ],
                     ),
                   ],
@@ -138,15 +141,22 @@ class _ShopHomeState extends BaseState<ShopHome> {
               children: [
                 IconButton(
                     //icon: Icon(Icons.favorite_border),
-                    icon:getSvgImage(imagePath: Assets.assets_icon_f_favorite,width: 24.0,height:24.0),
+                    icon: getSvgImage(
+                        imagePath: Assets.assets_icon_f_favorite,
+                        width: 24.0,
+                        height: 24.0),
                     onPressed: () => {}),
                 Container(
                   child: Stack(
                     alignment: Alignment.centerRight,
                     children: [
                       IconButton(
-                       //   icon: Icon(Icons.shopping_cart),
-                          icon:getSvgImage(imagePath: Assets.assets_icon_c_cart,width: 24.0,height:24.0,color: AppColors.header_top_bar_color),
+                          //   icon: Icon(Icons.shopping_cart),
+                          icon: getSvgImage(
+                              imagePath: Assets.assets_icon_c_cart,
+                              width: 24.0,
+                              height: 24.0,
+                              color: AppColors.header_top_bar_color),
                           onPressed: () => {}),
                       Positioned(
                         top: 8,
@@ -200,7 +210,10 @@ class _ShopHomeState extends BaseState<ShopHome> {
               height: 25,
               margin: EdgeInsets.only(left: 8),
               //child: getTabImage(Assets.SEARCH_ICON),
-              child: getSvgImage(imagePath: Assets.assets_icon_s_search,width: 24.0,height:24.0),
+              child: getSvgImage(
+                  imagePath: Assets.assets_icon_s_search,
+                  width: 24.0,
+                  height: 24.0),
             ),
             Container(
               margin: EdgeInsets.only(left: 8),
@@ -264,13 +277,18 @@ class _ShopHomeState extends BaseState<ShopHome> {
                     padding: EdgeInsets.only(top: 8, bottom: 8),
                     child: Column(
                       children: [
-                        Container(
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              getTranslation(Strings.see_all_promo),
-                              textAlign: TextAlign.center,
-                              style: BaseStyles.seeAllTextStyle,
+                        InkWell(
+                          onTap: () {
+                            Get.to(MakeAnOrder());
+                          },
+                          child: Container(
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                getTranslation(Strings.see_all_promo),
+                                textAlign: TextAlign.center,
+                                style: BaseStyles.seeAllTextStyle,
+                              ),
                             ),
                           ),
                         ),
@@ -287,7 +305,20 @@ class _ShopHomeState extends BaseState<ShopHome> {
             ],
           ),
         ),
-
+        //TODO change this widget to something else
+        RaisedButton(
+          onPressed: () {
+            Get.bottomSheet(
+              AllCategorySheet(),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
+              ),
+            );
+          },
+          child: Text("Show All Categories"),
+        ),
         loadPreviousOrders(),
         loadMerchantNearYou(),
       ],
@@ -307,8 +338,8 @@ class _ShopHomeState extends BaseState<ShopHome> {
     return arrList;
   }
 
-  loadPreviousOrders(){
-    if( controller.orderList.length != 0){
+  loadPreviousOrders() {
+    if (controller.orderList.length != 0) {
       return Container(
           margin: EdgeInsets.only(left: 16, right: 16, top: 16),
           child: Column(
@@ -330,91 +361,91 @@ class _ShopHomeState extends BaseState<ShopHome> {
                   Expanded(
                     flex: 2.5.toInt(),
                     child: Container(
-                        padding: EdgeInsets.only(top: 8, bottom: 8),
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 16),
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: Text(
-                                  getTranslation(Strings.SEE_ALL),
-                                  textAlign: TextAlign.center,
-                                  style: BaseStyles.seeAllTextStyle,
+                            padding: EdgeInsets.only(top: 8, bottom: 8),
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 16),
+                                  child: Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      getTranslation(Strings.SEE_ALL),
+                                      textAlign: TextAlign.center,
+                                      style: BaseStyles.seeAllTextStyle,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              height: 2,
-                              margin: EdgeInsets.only(top: 4, left: 4, right: 16),
-                              decoration: BoxDecoration(
-                                gradient: Gradients.primaryGradient,
-                              ),
-                            ),
-                          ],
-                        )).onTap(onPressed:() =>Get.to(CustomerOrdersScreen())),
+                                Container(
+                                  height: 2,
+                                  margin: EdgeInsets.only(
+                                      top: 4, left: 4, right: 16),
+                                  decoration: BoxDecoration(
+                                    gradient: Gradients.primaryGradient,
+                                  ),
+                                ),
+                              ],
+                            ))
+                        .onTap(onPressed: () => Get.to(CustomerOrdersScreen())),
                   ),
                 ],
               ),
               Container(
                   height: 120,
-                  margin: EdgeInsets.only(left: 0, right: 0,top: 16),
+                  margin: EdgeInsets.only(left: 0, right: 0, top: 16),
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.orderList.length,
-                      itemBuilder: (context,index){
+                      itemBuilder: (context, index) {
                         var order = controller.orderList.value[index];
                         return Container(
                           width: MediaQuery.of(context).size.width * 0.7,
-                          margin:EdgeInsets.only(left:8,right: 8,top: 16,bottom: 8),
-                          padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
+                          margin: EdgeInsets.only(
+                              left: 8, right: 8, top: 16, bottom: 8),
+                          padding: EdgeInsets.only(
+                              left: 16, right: 16, top: 8, bottom: 8),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(8)
-                              ),
-                              boxShadow: [BoxShadow(
-                                  color: Color(0x1f000000),
-                                  offset: Offset(0,4),
-                                  blurRadius: 6,
-                                  spreadRadius: 0
-                              ), BoxShadow(
-                                  color: Color(0x14000000),
-                                  offset: Offset(0,0),
-                                  blurRadius: 2,
-                                  spreadRadius: 0
-                              )] ,
-                              color: AppColors.primaryBackground
-                          ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0x1f000000),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 6,
+                                    spreadRadius: 0),
+                                BoxShadow(
+                                    color: Color(0x14000000),
+                                    offset: Offset(0, 0),
+                                    blurRadius: 2,
+                                    spreadRadius: 0)
+                              ],
+                              color: AppColors.primaryBackground),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-
                               Text(
-                                DateFormat('dd MMM yyyy • kk:mm').format(order.orderDate),
-                                  style:  TextStyle(
-                                      color:  AppColors.light_grey_blue,
+                                  DateFormat('dd MMM yyyy • kk:mm')
+                                      .format(order.orderDate),
+                                  style: TextStyle(
+                                      color: AppColors.light_grey_blue,
                                       fontWeight: FontWeight.w500,
-                                      fontStyle:  FontStyle.normal,
-                                      fontSize: 10.0
-                                  )
-                              ),
-                              Text(
-                                   order.storeId.name,
-                                  style: BaseStyles.bottomSheetTitleStyle
-                              ),
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 10.0)),
+                              Text(order.storeId.name,
+                                  style: BaseStyles.bottomSheetTitleStyle),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                      order.items.length.toString() + " Items - Rp " + order.price.toString(),
+                                      order.items.length.toString() +
+                                          " Items - Rp " +
+                                          order.price.toString(),
                                       style: TextStyle(
-                                          color:  AppColors.light_grey_blue,
+                                          color: AppColors.light_grey_blue,
                                           fontWeight: FontWeight.w500,
-                                          fontStyle:  FontStyle.normal,
-                                          fontSize: 10.0
-                                      )
-                                  ),
+                                          fontStyle: FontStyle.normal,
+                                          fontSize: 10.0)),
                                   InkWell(
                                     child: Container(
                                       width: 88,
@@ -422,16 +453,14 @@ class _ShopHomeState extends BaseState<ShopHome> {
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(6)
-                                          ),
-                                          color: AppColors.pale_turquoise
-                                      ),
+                                              Radius.circular(6)),
+                                          color: AppColors.pale_turquoise),
                                       child: Text(
                                           getTranslation(Strings.order_again),
-                                          style: BaseStyles.shopPreviousOrderAgain
-                                      ),
+                                          style: BaseStyles
+                                              .shopPreviousOrderAgain),
                                     ),
-                                    onTap: (){
+                                    onTap: () {
 //                                  push(MakeAnOrder(isFromShopHome: true,callBack: (arr){
 //                                    Navigator.pop(
 //                                        context, false);
@@ -443,177 +472,183 @@ class _ShopHomeState extends BaseState<ShopHome> {
                             ],
                           ),
                         );
-                      })
-              ),
+                      })),
             ],
-          )
-      );
+          ));
     }
     return Container();
-
   }
 
-  loadMerchantNearYou(){
+  loadMerchantNearYou() {
     return Column(
       children: [
-        controller.storeTypesList != null && controller.storeTypesList.length != 0?
-        Container(
-            height: 120,
-            margin: EdgeInsets.only(left: 16, right: 16,top: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  getTranslation(Strings.merchant_near_u),
-                  textAlign: TextAlign.left,
-                  style: BaseStyles.bottomSheetTitleStyle,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.storeTypesList.length,
-                      itemBuilder: (context,index){
-                        return Container(
-                          margin:EdgeInsets.only(left: 8, right: 8,top: 16,bottom: 8),
-                          padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(8)
-                              ),
-                              boxShadow: [BoxShadow(
-                                  color: const Color(0x1f000000),
-                                  offset: Offset(0,4),
-                                  blurRadius: 6,
-                                  spreadRadius: 0
-                              ), BoxShadow(
-                                  color: const Color(0x14000000),
-                                  offset: Offset(0,0),
-                                  blurRadius: 2,
-                                  spreadRadius: 0
-                              )] ,
-                              color: AppColors.primaryBackground
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                  width: 32,
-                                  height: 32,
-                                  margin: EdgeInsets.only(right: 16),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.light_grey_bg_color,
-                                      borderRadius: Radii.border(16)
-                                  )
-                              ),
-                              Text(
-                                  controller.storeTypesList[index].type,
-                                  style: const TextStyle(
-                                      color:  AppColors.fareColor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14.0
-                                  )
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                ),
-              ],
-            )
-        ) :  Container(),
-        controller.arrStores != null && controller.arrStores.length != 0 ?
-        Container(
-//          height: 72,
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: controller.arrStores.length,
-                itemBuilder: (context,index){
-                  return InkWell(
-                    child: Container(
-                      margin:EdgeInsets.only(left: 16, right: 16,top: 4,bottom:4),
-                      padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8)
-                          ),
-                          boxShadow: [BoxShadow(
-                              color: const Color(0x1f000000),
-                              offset: Offset(0,4),
-                              blurRadius: 6,
-                              spreadRadius: 0
-                          ), BoxShadow(
-                              color: const Color(0x14000000),
-                              offset: Offset(0,0),
-                              blurRadius: 2,
-                              spreadRadius: 0
-                          )] ,
-                          color: AppColors.primaryBackground
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 16),
-                                child: Image.asset(Assets.PERSON_ICON,width: 40,height: 40,),
-                              ),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+        controller.storeTypesList != null &&
+                controller.storeTypesList.length != 0
+            ? Container(
+                height: 120,
+                margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      getTranslation(Strings.merchant_near_u),
+                      textAlign: TextAlign.left,
+                      style: BaseStyles.bottomSheetTitleStyle,
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.storeTypesList.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: EdgeInsets.only(
+                                  left: 8, right: 8, top: 16, bottom: 8),
+                              padding: EdgeInsets.only(
+                                  left: 16, right: 16, top: 8, bottom: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: const Color(0x1f000000),
+                                        offset: Offset(0, 4),
+                                        blurRadius: 6,
+                                        spreadRadius: 0),
+                                    BoxShadow(
+                                        color: const Color(0x14000000),
+                                        offset: Offset(0, 0),
+                                        blurRadius: 2,
+                                        spreadRadius: 0)
+                                  ],
+                                  color: AppColors.primaryBackground),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
-                                      controller.arrStores[index].name,
+                                  Container(
+                                      width: 32,
+                                      height: 32,
+                                      margin: EdgeInsets.only(right: 16),
+                                      decoration: BoxDecoration(
+                                          color: AppColors.light_grey_bg_color,
+                                          borderRadius: Radii.border(16))),
+                                  Text(controller.storeTypesList[index].type,
                                       style: const TextStyle(
-                                          color:  AppColors.fareColor,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16.0
-                                      )
-                                  ),
-                                  Container(height: 8,),
-                                  Text(
-                                    controller.getStoreType(controller.arrStores[index]) +
-                                      " • 1.5 km",
-                                      style: const TextStyle(
-                                          color:  AppColors.light_grey_blue,
+                                          color: AppColors.fareColor,
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 14.0
-                                      )
-                                  )
+                                          fontSize: 14.0)),
                                 ],
                               ),
+                            );
+                          }),
+                    ),
+                  ],
+                ))
+            : Container(),
+        controller.arrStores != null && controller.arrStores.length != 0
+            ? Container(
+//          height: 72,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.arrStores.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: 16, right: 16, top: 4, bottom: 4),
+                          padding: EdgeInsets.only(
+                              left: 16, right: 16, top: 8, bottom: 8),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: const Color(0x1f000000),
+                                    offset: Offset(0, 4),
+                                    blurRadius: 6,
+                                    spreadRadius: 0),
+                                BoxShadow(
+                                    color: const Color(0x14000000),
+                                    offset: Offset(0, 0),
+                                    blurRadius: 2,
+                                    spreadRadius: 0)
+                              ],
+                              color: AppColors.primaryBackground),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(right: 16),
+                                    child: Image.asset(
+                                      Assets.PERSON_ICON,
+                                      width: 40,
+                                      height: 40,
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(controller.arrStores[index].name,
+                                          style: const TextStyle(
+                                              color: AppColors.fareColor,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16.0)),
+                                      Container(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                          controller.getStoreType(
+                                                  controller.arrStores[index]) +
+                                              " • 1.5 km",
+                                          style: const TextStyle(
+                                              color: AppColors.light_grey_blue,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14.0))
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(right: 16),
+                                child: Image.asset(
+                                  Assets.ic_chat,
+                                ),
+                              )
                             ],
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: 16),
-                            child: Image.asset(Assets.ic_chat,),
-                          )
-                        ],
-                      ),
-                    ),
-                    onTap: () async{
-                      if (controller.arrStores.length>0)
-                      {
-                        int integrationID = controller.arrStores[index].owner.integrationId;
-                        if(integrationID != null){
-                          var response = await controller.getCustomerInfo(integrationID.toString());
-                          response.fold((l) => print(l.message), (r) => {
-                            if(r.firebaseId != null){
-                              push(ConversationPage(arrChats: ["make_an_order"],
-                                custInfo: r,
-                                merchantStore: controller.arrStores[index],
-                              ))}
-                          });
-                        }
-                      }
-                    },
-                  );
-                })
-        ) : Container()
+                        ),
+                        onTap: () async {
+                          if (controller.arrStores.length > 0) {
+                            int integrationID =
+                                controller.arrStores[index].owner.integrationId;
+                            if (integrationID != null) {
+                              var response = await controller
+                                  .getCustomerInfo(integrationID.toString());
+                              response.fold(
+                                  (l) => print(l.message),
+                                  (r) => {
+                                        if (r.firebaseId != null)
+                                          {
+                                            push(ConversationPage(
+                                              arrChats: ["make_an_order"],
+                                              custInfo: r,
+                                              merchantStore:
+                                                  controller.arrStores[index],
+                                            ))
+                                          }
+                                      });
+                            }
+                          }
+                        },
+                      );
+                    }))
+            : Container()
       ],
     );
   }
-
 }

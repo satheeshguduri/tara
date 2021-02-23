@@ -416,7 +416,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
             ],
           )
       ) ,
-    ).withProgressIndicator(showIndicator: controller.showProgress.value));
+    ).withProgressIndicator(showIndicator: false));
   }
 
   @override

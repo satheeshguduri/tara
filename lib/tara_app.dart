@@ -19,6 +19,7 @@ import 'package:uuid/uuid.dart';
 
 import 'common/constants/app_theme.dart';
 import 'flavors.dart';
+import 'screens/splash/splash_screen.dart';
 var uuid = Uuid();
 class TaraApp extends StatefulWidget {
   @override
@@ -53,7 +54,7 @@ class _TaraAppState extends State<TaraApp> {
             const Locale('en', ''), // English, no country code
             const Locale('id', ''), // Spanish, no country code
           ],
-          home: TestWidget(),
+          home: SplashScreen(),
           title: "Tara",
           theme: themeData
       ),

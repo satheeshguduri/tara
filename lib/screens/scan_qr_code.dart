@@ -248,7 +248,9 @@ class _ScanQRCodeState extends BaseState<ScanQRCode> with TickerProviderStateMix
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        qrText = scanData;
+
+        ///TODO uncomment this
+        // qrText = scanData;
         print("qr  text is : {$qrText}");
       });
     });

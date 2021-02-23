@@ -13,6 +13,9 @@ import 'package:tara_app/utils/locale/utils.dart';
 import '../../injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 
+import '../../utils/locale/utils.dart';
+import '../signin_screen.dart';
+
 class SplashScreen extends StatefulWidget{
   @override
   SplashScreenState createState() {
@@ -34,7 +37,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
     }
     Timer(Duration(seconds: 5),() async{
       if(!isLoggedIn)
-        Get.off(SignInScreen());
+        Get.off(Utils().getLandingScreen());
       else
         Get.off(Utils().getLandingScreen());
     });
@@ -43,7 +46,6 @@ class SplashScreenState extends BaseState<SplashScreen> {
   }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         height: double.infinity,
