@@ -13,7 +13,7 @@ import 'package:tara_app/models/core/base_request.dart';
 part 'customer_profile.g.dart';
 
 @JsonSerializable()
-class CustomerProfile extends BaseRequest {
+class   CustomerProfile extends BaseRequest {
 
    String firstName;
    int id;
