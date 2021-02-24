@@ -71,6 +71,8 @@ import 'package:tara_app/models/auth/to_address_response.dart';
 import '../injector.dart';
 import '../tara_app.dart';
 
+enum TransactionContext {PAYMENT_REQUEST,BILL_PAYMENT}
+
 
 class TransactionController extends GetxController{
   var showProgress = false.obs;
@@ -91,6 +93,8 @@ class TransactionController extends GetxController{
   double payAmount;
   String payTransId;
   ToAddressResponse toAddress;
+
+
 
 
   void sendMoney(CustomerProfile to,CustomerProfile from,double amount,[pop]) async{
@@ -121,13 +125,13 @@ class TransactionController extends GetxController{
   }
 
   //payment initiation
-  Future paymentInitiation({String cardId,double amount,String desc,String maskAcNum,ToAddressResponse toAddress,bool isFromCreditCard=false}) async{
+  Future paymentInitiation({TransactionContext trContext,String cardId,double amount,String desc,String maskAcNum,ToAddressResponse toAddress,bool isFromCreditCard=false,}) async{
     print("firebaseid "+ Get.find<AuthController>().user.value.customerProfile.firebaseId);
     print("to firebaseid "+ toAddress.customerProfile.firebaseId);
     payAmount=amount;
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.customerProfile.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext: "Bill_Payment",amount: amount));
+    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:"PAYMENT_REQUEST",amount: amount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
       toData: toData,
@@ -157,10 +161,10 @@ class TransactionController extends GetxController{
 
   }
   // payment done
-  Future<Either<Failure, PaymentResponse>> paymentCompleted({ToAddressResponse toAddress}) async{
+  Future<Either<Failure, BaseResponse>> paymentCompleted({TransactionContext trContext,ToAddressResponse toAddress}) async{
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
-    var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.customerProfile.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(createFirebaseEntry: "true",amount: payAmount));
+    var toData = ToDataBean(toContactNumber: toAddress?.mobileNumber,toAccount:null,toUserFirebaseId: toAddress?.customerProfile?.firebaseId);
+    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:"PAYMENT_REQUEST",createFirebaseEntry: "true",amount: payAmount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       transactionId: payTransId ,
       fromData: fromData,
@@ -173,7 +177,7 @@ class TransactionController extends GetxController{
       toType: null);
    // showProgress.value = true;
     print(jsonEncode(transactionModel.toJson()));
-    Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().updateTaraTransaction(transactionModel);
+    Either<Failure, BaseResponse> responseDa = await getIt.get<TransactionRepository>().updateTaraTransaction(transactionModel);
     showProgress.value = false;
     return responseDa;
   }
@@ -527,7 +531,7 @@ class TransactionController extends GetxController{
 
                 print("to firebase id"+jsonEncode(toAddress.toJson()));
                 if(toAddress!=null){
-                  await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress);
+                  await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress,trContext: TransactionContext.PAYMENT_REQUEST);
                   //Retrieve Key Request
                   var txnId = initiateTransactionResponse.transactionId;
                   var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();

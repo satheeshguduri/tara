@@ -25,6 +25,6 @@ abstract class TransactionRestClient {
   Future<PaymentResponse> sendMoney(@Header("Authorization") String token,@Body() TransactionModel transactionModel);
 
   @PUT(API.update_tara_transaction)
-  Future<PaymentResponse> updateSendRequest(@Header("Authorization") String token,@Path() String transactionId,@Body() TransactionModel transactionModel);
+  Future<BaseResponse> updateSendRequest(@Header("Authorization") String token,@Path() String transactionId,@Body() TransactionModel transactionModel);
 
 }

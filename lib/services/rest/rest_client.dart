@@ -19,6 +19,8 @@ import 'package:tara_app/models/order_management/orders/order.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
+
 
 import '../config/api.dart';
 
@@ -137,7 +139,7 @@ import '../config/api.dart';
 
 
   @GET(API.get_toaddress)
-  Future<CustomerProfile> getToAddress(@Header("Authorization") String token);
+  Future<ToAddressResponse> getToAddress(@Header("Authorization") String token,@Query("mobile_number") String mobile);
 
 
 

@@ -33,7 +33,7 @@ BillDetailsData _$BillDetailsDataFromJson(Map<String, dynamic> json) {
     refNumber: json['refNumber'] as String,
     transactionId: json['transactionId'] as num,
     accountNumber: json['accountNumber'] as String,
-    amount: json['amount'] as num,
+    amount: (json['amount'] as num)?.toDouble(),
     totalAdmin: json['totalAdmin'] as num,
     processingFee: json['processingFee'] as num,
     denom: json['denom'] as String,

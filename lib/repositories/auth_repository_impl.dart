@@ -22,6 +22,8 @@ import 'package:tara_app/services/rest/psp_rest_client.dart';
 import 'package:tara_app/services/rest/rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
+
 
 import '../injector.dart';
 
@@ -146,11 +148,11 @@ class AuthRepositoryImpl implements AuthRepository{
   }
 
   @override
-  Future<Either<Failure, CustomerProfile>> getToAddress() async{
+  Future<Either<Failure, ToAddressResponse>> getToAddress(String mobileNumber) async{
     try {
       AuthResponse user = await userLocalDataSource.getUser();
       token = user.securityToken.token.tara.bearer();
-      var response = await remoteDataSource.getToAddress(token);
+      var response = await remoteDataSource.getToAddress(token,mobileNumber);
       print(response.toString());
       return Right(response);
     }catch(e){

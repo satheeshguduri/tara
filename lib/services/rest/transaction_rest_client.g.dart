@@ -38,7 +38,7 @@ class _TransactionRestClient implements TransactionRestClient {
   }
 
   @override
-  Future<PaymentResponse> updateSendRequest(
+  Future<BaseResponse> updateSendRequest(
       token, transactionId, transactionModel) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(transactionId, 'transactionId');
@@ -56,7 +56,7 @@ class _TransactionRestClient implements TransactionRestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = PaymentResponse.fromJson(_result.data);
+    final value = BaseResponse.fromJson(_result.data);
     return value;
   }
 }

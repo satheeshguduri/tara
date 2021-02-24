@@ -344,13 +344,13 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<CustomerProfile> getToAddress(token) async {
+  Future<ToAddressResponse> getToAddress(token, mobile) async {
     ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(mobile, 'mobile');
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'mobile_number': mobile};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        'v1/tara/auth?mobile_number=919908550322',
+    final _result = await _dio.request<Map<String, dynamic>>('v1/tara/auth',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -358,7 +358,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = CustomerProfile.fromJson(_result.data);
+    final value = ToAddressResponse.fromJson(_result.data);
     return value;
   }
 }

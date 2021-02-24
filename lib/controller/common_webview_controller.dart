@@ -50,7 +50,7 @@ class CommonWevViewController extends GetxController{
         var callback = Uri.dataFromString(currentUrl);
         Map<String, String> params = callback.queryParameters;
         isPaymentSuccess.value = params['success']??"0";
-        transactionController.paymentCompleted();
+        transactionController.paymentCompleted(trContext: TransactionContext.BILL_PAYMENT);
         Get.back();
 
 
