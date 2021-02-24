@@ -37,10 +37,7 @@ class TransferDetailsEntryScreen extends StatefulWidget {
   final BeneDetailBean beneContact;
   final List<BeneDetailBean> benList;
   final CustomerProfile customerProfile;
-  final bool showSelectAcDropDown;
-  final bool showAddNewAccountWidget;
-
-  TransferDetailsEntryScreen({Key key,this.taraContact,this.beneContact,this.benList,this.customerProfile,this.showSelectAcDropDown=false,this.showAddNewAccountWidget=false}) : super(key: key);
+  TransferDetailsEntryScreen({Key key,this.taraContact,this.beneContact,this.benList,this.customerProfile,}) : super(key: key);
 
 
 
@@ -774,8 +771,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
  }
 
 Widget  getSelectAccountWidget() {
-
-    if(widget.showSelectAcDropDown){
+    if(widget.benList.isNotEmpty){
       return   Container(
           color: AppColors.primaryBackground,
           // margin: EdgeInsets.only(top: 16, bottom: 4),
@@ -784,7 +780,7 @@ Widget  getSelectAccountWidget() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 commonTextWidget("Select Account"),
-                getTransactionDropDownList(),
+                getAccountsDropDownList(),
                 getTheDivider(),
               ]
           )
@@ -799,7 +795,7 @@ Widget  getSelectAccountWidget() {
 
 Widget getAddNewAccountWidget() {
 
-  if(widget.showAddNewAccountWidget){
+  if(widget.benList.isNotEmpty){
     return Container(
       color: AppColors.primaryBackground,
       alignment: Alignment.center,
@@ -826,28 +822,35 @@ Widget getAddNewAccountWidget() {
     return Container();
 
   }
+
+}
+
+  Widget getAccountsDropDownList() {
     return Container(
-      color: AppColors.primaryBackground,
-      alignment: Alignment.center,
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.only(bottom: 16),
-      child: Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(left: 16,right: 16),
-          padding: EdgeInsets.only(bottom: 12, top: 12),
-          decoration: BoxDecoration(
+      height: 48,
+      child: DropdownButtonFormField(
+        decoration: removeUnderlineAndShowHint(""),
+        icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,
+            width: 24.0,
+            height: 24.0),
+        style: TextStyles.inputFieldOn222,
+       // value: uiController.currentSelectedCategory.value,
+        isExpanded: true,
 
-            border: Border.all( color: Colors.grey,),
-            borderRadius: BorderRadius.all(Radius.circular(10))
-          ),
+        onChanged: (value) {
+          // controller.currentSelectedCategory.value = selectedCategory;
+        },
 
-        child: Text(" + Add New Bank Account"),
+    items: widget.benList.map((BeneDetailBean value) {
+          return DropdownMenuItem<String>(
+            value: value.beneAccountNo,
+            child:  getCustomItemWidget("",value.beneAccountNo),
+          );
+        }).toList(),
 
       ),
-    ).onTap(onPressed: (){
-
-    });
-}
+    );
+  }
 }
 
   class PaymentSource {
