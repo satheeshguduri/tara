@@ -136,18 +136,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     if (widget.arrChats != null && widget.arrChats.length != 0) {
       arrStr = widget.arrChats;
     }
+    // arrStr = widget?.arrChats??[];
   }
-
-//  @override
-//  void init() {
-//    // TODO: implement init
-//    super.init();
-//    setState(() {
-//
-//      arrStr = widget.arrChats;
-//    });
-
-//  }
 
   @override
   Widget build(BuildContext context) {

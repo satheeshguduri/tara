@@ -4,6 +4,8 @@ class FirebasePath {
   static String agent() => 'agent/';
   static String merchant() => 'merchant/';
   static String customer() => 'customer/';
+  static String customerOrders(String uId) => 'customer/orders/$uId';
+  static String customerChats(String uId) => 'customer/chat_history/$uId';
   static String agentMerchantChat(String uId) => 'agent_merchant_chat/$uId';
   static String merchantMerchantChat(String uId) => 'merchant_merchant_chat/$uId';
   static String customerMerchantChat(String uId) => 'customer_merchant_chat/$uId';
