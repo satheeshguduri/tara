@@ -723,6 +723,8 @@ class TransactionController extends GetxController{
             if(finalResp.success){
               //Pop the Screen and display toast to say the mapping is successful
               print("successfully added the beneficiary@@@@@");
+
+                //Create Dummy Account
               //  payNow("","222", "gift", "", "123", 44);
               payNow(mobileNumber: "8368957368",amount1: "100",remarks1: "Gift",benId1: 44,cvv1: "123",initiatorAccountId1: 44,);
             }

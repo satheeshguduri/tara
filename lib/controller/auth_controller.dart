@@ -21,7 +21,9 @@ import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/flavors.dart';
+import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/screens/Merchant/create_store_screen.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/my_account/otp_verification_screen.dart';
 import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -100,6 +102,14 @@ class AuthController extends GetxController {
           (r) => Get.to(CompleteProfileScreen()));
     }
   }
+
+    void createTempAccount(RegistrationStatus status, ContactInfo contactInfo) async{
+      AuthRequest request = AuthRequest(
+          mobileNumber: mobileNumber.value,customerProfile: CustomerProfile(customerType: "Consumer",registrationStatus: RegistrationStatus.BENEFICIARY));
+      print(jsonEncode(request.toJson()));
+      Either<Failure, AuthResponse> response =
+          await getIt.get<AuthRepository>().login(request);
+    }
 
      void login() async {
     //validate empty state here for the text fields
