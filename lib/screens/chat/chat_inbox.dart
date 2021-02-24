@@ -1,15 +1,24 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/services/config/firebase_path.dart';
+import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 import 'package:tara_app/utils/chat_test.dart';
+
+import '../../injector.dart';
 
 class ChatInbox extends StatefulWidget {
   @override
@@ -206,7 +215,24 @@ class _ChatInboxState extends BaseState<ChatInbox> {
       ),
     );
   }
-
+  getChatList(){
+    AuthResponse user = Get.find<AuthController>().user.value;
+    //add condition for customer and merchant separation
+    var chatHistoryPath = FirebasePath.customerChats(user.customerProfile.id.toString());
+    return new Flexible(
+      child: new FirebaseAnimatedList(
+          query: getIt.get<FirebaseRemoteService>().getDataStream(path:chatHistoryPath),
+          padding: new EdgeInsets.all(8.0),
+          reverse: false,
+          itemBuilder: (_, DataSnapshot snapshot,
+              Animation<double> animation, int x) {
+            return new ListTile(
+              subtitle: new Text(snapshot.value.toString()),
+            );
+          }
+      ),
+    );
+  }
   getChatItemWidget(ChatInboxInfo chatInboxInfo)
   {
     return InkWell(

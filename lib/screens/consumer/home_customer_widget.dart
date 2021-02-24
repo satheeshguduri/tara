@@ -23,7 +23,7 @@ import 'package:tara_app/models/transfer/customer_profile_details_response.dart'
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 import 'package:tara_app/utils/locale/utils.dart';
@@ -245,7 +245,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         onTap: (){
           if (accountName == "Bank\nAccount")
           {
-            push(BankTransferAccountsList());
+            push(TransferContactsSelectionScreen());
           }
           else if (accountName == "Tara\nUsers")
           {
