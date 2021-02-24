@@ -103,12 +103,23 @@ class AuthController extends GetxController {
     }
   }
 
-    void createTempAccount(RegistrationStatus status, ContactInfo contactInfo) async{
-      AuthRequest request = AuthRequest(
-          mobileNumber: mobileNumber.value,customerProfile: CustomerProfile(customerType: "Consumer",registrationStatus: RegistrationStatus.BENEFICIARY));
-      print(jsonEncode(request.toJson()));
+    void createTempAccount(RegistrationStatus status,String mobileNumber) async{
+      CustomerProfile customerProfile = CustomerProfile(
+          customerType: Utils().getCustomerType(),
+          registrationStatus: RegistrationStatus.BENEFICIARY);
+      SignUpRequest request = SignUpRequest(
+          customerProfile: customerProfile,
+          mobileNumber: mobileNumber,);
+      print(request.toJson());
       Either<Failure, AuthResponse> response =
-          await getIt.get<AuthRepository>().login(request);
+      await getIt.get<AuthRepository>().signUp(request);
+      if(response.isRight()){
+        var signUpResponse = response.getOrElse(() => null);
+        print(jsonEncode(signUpResponse.toJson()));
+      }else {
+        print("error while creating the user");
+      }
+
     }
 
      void login() async {
