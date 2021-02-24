@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -14,72 +13,84 @@ import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/repositories/stores_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
-import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
+import 'package:tara_app/models/order_management/orders/order.dart'
+    as OrderModel;
 
 import '../injector.dart';
 
-class OrderController extends GetxController{
-
+class OrderController extends GetxController {
   var showProgress = false.obs;
-  var orderList =  List<order.Order>().obs;
+  var orderList = List<order.Order>().obs;
 //  var storeTypeRes = StoreTypeResponse();
   List<StoreTypeModel> storeTypesList;
   var arrStores = List<Store>().obs;
   // for create order
   var items = List<OrderItems>().obs;
 
-
   //Example to get the orders this need to be called in future builder
   Future getMerchantOrders() async {
     showProgress.value = true;
     AuthResponse user = await getIt.get<UserLocalDataStore>().getUser();
-    Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByMerchantId(user.customerProfile.id);
+    Either<Failure, List<order.Order>> response = await getIt
+        .get<OrderRepository>()
+        .getOrdersByMerchantId(user.customerProfile.id);
     showProgress.value = false;
-    response.fold((l) => print, (r) => {
-      orderList.value = r,
-    });
-
+    response.fold(
+        (l) => print,
+        (r) => {
+              orderList.value = r,
+            });
   }
 
   //Example to get the orders this need to be called in future builder
   Future getConsumerOrders() async {
+    print("getting consumer's order");
     showProgress.value = true;
-    AuthResponse user = await getIt.get<UserLocalDataStore>().getUser(); //Get.find();
-    Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByConsumerId(user.customerProfile.id);
+    AuthResponse user =
+        await getIt.get<UserLocalDataStore>().getUser(); //Get.find();
+    Either<Failure, List<order.Order>> response = await getIt
+        .get<OrderRepository>()
+        .getOrdersByConsumerId(user.customerProfile.id);
     showProgress.value = false;
-    response.fold((l) => print, (r) => {
-      orderList.value = r,
-      print(r.toString())
-    });
+    print("response ${response}");
+    response.fold(
+        (l) => print, (r) => {orderList.value = r, print(r.toString())});
   }
 
-  Future getAllStore() async{
+  Future getAllStore() async {
+    print("fetching all stores");
     showProgress.value = true;
-    Either<Failure,List<Store>> response = await getIt.get<StoresRepository>().getAllStores();
+    Either<Failure, List<Store>> response =
+        await getIt.get<StoresRepository>().getAllStores();
+    print("getting the repsonse : ${response}");
     showProgress.value = false;
-    response.fold((l) => print(l.message), (r) => {
-      arrStores.value = r,
-    });
+    response.fold(
+        (l) => print(l.message),
+        (r) => {
+              arrStores.value = r,
+            });
   }
 
-  Future<Either<Failure,CustomerProfile>> getCustomerInfo(String custId) async{
+  Future<Either<Failure, CustomerProfile>> getCustomerInfo(
+      String custId) async {
     showProgress.value = true;
-    Either<Failure,CustomerProfile> response = await getIt.get<AuthRepository>().getCustomerInfoByCustomerId(custId);
+    Either<Failure, CustomerProfile> response =
+        await getIt.get<AuthRepository>().getCustomerInfoByCustomerId(custId);
     showProgress.value = false;
 //    response.fold((l) => print(l.message), (r) => {
 //    });
-  return response;
+    return response;
   }
 
-
-  Future<Either<Failure,order.Order>> createOrder(order.Order orderReq) async{
+  Future<Either<Failure, order.Order>> createOrder(order.Order orderReq) async {
     showProgress.value = true;
-    Either<Failure,order.Order> response = await getIt.get<OrderRepository>().createOrder(orderReq);
+    Either<Failure, order.Order> response =
+        await getIt.get<OrderRepository>().createOrder(orderReq);
     showProgress.value = false;
 //    response.fold((l) => print(l.message), (r) => {
 //
 //    });
-  return response;
+    return response;
   }
 //  Future getOrderByOrderId(String orderId) async{
 //    showProgress.value = true;
@@ -91,21 +102,21 @@ class OrderController extends GetxController{
 //
 //  }
 
-  String getStoreType(Store store){
-    var storeName = "";
-    for(StoreTypeModel storeType in storeTypesList){
-      if(store.storeTypeId != null){
-        if(store.storeTypeId.contains(storeType.id)){
-          storeName = storeType.type;
-        }
-//        for(int id in store.storeTypeId){
-//          if(id == storeType.id){
-//            storeName += storeType.type.toString() + ",";
-//          }
-//        }
-      }
-
-    }
-    return storeName;
+  String getStoreType(Store store) {
+    //uncommmer
+//     var storeName = "";
+//     for (StoreTypeModel storeType in storeTypesList) {
+//       if (store.storeTypeId != null) {
+//         if (store.storeTypeId.contains(storeType.id)) {
+//           storeName = storeType.type;
+//         }
+// //        for(int id in store.storeTypeId){
+// //          if(id == storeType.id){
+// //            storeName += storeType.type.toString() + ",";
+// //          }
+// //        }
+//       }
+//     }
+    return "Something";
   }
 }

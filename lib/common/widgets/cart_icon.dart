@@ -23,18 +23,29 @@ class CartButton extends StatelessWidget {
         alignment: Alignment.centerRight,
         children: [
           IconButton(
-              icon: SvgPicture.asset(Assets.assets_icon_c_cart,
-                  width: 24.0,
-                  height: 24.0,
-                  color: iconColor ?? AppColors.header_top_bar_color),
-              onPressed: () => {
-                    isClickable
-                        ? Get.bottomSheet(MyCartSheet(),
-                            backgroundColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)))
-                        : null
-                  }),
+            icon: SvgPicture.asset(Assets.assets_icon_c_cart,
+                width: 24.0,
+                height: 24.0,
+                color: iconColor ?? AppColors.header_top_bar_color),
+            onPressed: () => {
+              isClickable
+                  ? Get.bottomSheet(
+                      Container(
+                        color: Colors.transparent,
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: MyCartSheet(),
+                        // color: Colors.red,
+                      ),
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(8)),
+                      ),
+                    )
+                  : null
+            },
+          ),
           Positioned(
             top: 8,
             right: 8,

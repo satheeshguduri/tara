@@ -13,6 +13,7 @@ class PrimaryButton extends StatelessWidget {
   final IconData icon;
   final bool isPrimary;
   final IconAffinity iconAffinity;
+  final MainAxisAlignment alignment;
 
   const PrimaryButton(
       {Key key,
@@ -22,7 +23,8 @@ class PrimaryButton extends StatelessWidget {
       this.width,
       this.isPrimary = true,
       this.icon,
-      this.iconAffinity = IconAffinity.leading})
+      this.iconAffinity = IconAffinity.leading,
+      this.alignment})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class PrimaryButton extends StatelessWidget {
                 ),
               )
             : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: alignment ?? MainAxisAlignment.center,
                 children: [
                   if (icon != null && iconAffinity == IconAffinity.leading)
                     iconM,

@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/primary_button.dart';
 
 import '../../screens/base/base_state.dart';
@@ -46,47 +47,43 @@ class _CounterState extends BaseState<Counter> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _decrement(),
-                      child: Container(
-                        height: 42,
-                        color: ColorConst.mint100,
-                        child: Icon(
-                          Icons.remove,
-                          size: 24,
-                          color: ColorConst.black100,
-                        ),
-                      ).borderRadiusAll(8),
-                    ),
+                  GestureDetector(
+                    onTap: () => _decrement(),
+                    child: Container(
+                      height: 42,
+                      width: 42,
+                      color: ColorConst.mint100,
+                      child: Icon(
+                        Icons.remove,
+                        size: 24,
+                        color: ColorConst.black100,
+                      ),
+                    ).borderRadiusAll(6),
                   ),
                   Expanded(
                     child: Container(
                       height: 42,
+                      constraints: BoxConstraints(minWidth: 36),
                       alignment: Alignment.center,
                       child: Text(
                         '$_count',
                         key: ValueKey<int>(_count),
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .copyWith(fontSize: 16),
+                        style: TextStyles.bUTTONBlack222,
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () => _increment(),
-                      child: Container(
-                        height: 42,
-                        color: ColorConst.mint100,
-                        child: Icon(
-                          Icons.add,
-                          size: 24,
-                          color: ColorConst.black100,
-                        ),
-                      ).borderRadiusAll(8),
-                    ),
+                  GestureDetector(
+                    onTap: () => _increment(),
+                    child: Container(
+                      height: 42,
+                      width: 42,
+                      color: ColorConst.mint100,
+                      child: Icon(
+                        Icons.add,
+                        size: 24,
+                        color: ColorConst.black100,
+                      ),
+                    ).borderRadiusAll(6),
                   ),
                 ],
               ),

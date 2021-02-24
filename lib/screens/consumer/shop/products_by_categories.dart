@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/screens/consumer/shop/product_item.dart';
 
 import '../../../common/constants/assets.dart';
@@ -72,7 +73,7 @@ class _ProductsByCategoryState extends BaseState<ProductsByCategory> {
       body: GridView.count(
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
-        childAspectRatio: 2.1/ 3,
+        childAspectRatio: Get.width * 0.5 / 296,
         padding: EdgeInsets.all(16),
         crossAxisCount: 2,
         children: List.generate(100, (index) => ProductItem()),

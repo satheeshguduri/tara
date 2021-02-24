@@ -6,6 +6,7 @@ import 'package:tara_app/common/widgets/cart_icon.dart';
 import 'package:tara_app/common/widgets/counter_button.dart';
 import 'package:tara_app/common/widgets/page_indicator.dart';
 import 'package:tara_app/common/widgets/primary_button.dart';
+import 'package:tara_app/common/widgets/underline_text.dart';
 import 'package:tara_app/models/transfer/register_card_request.dart';
 import 'package:tara_app/screens/consumer/shop/product_item.dart';
 import '../../../common/constants/styles.dart';
@@ -153,10 +154,12 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
                     child: Container(
                       child: Align(
                         alignment: Alignment.topRight,
-                        child: Text(
-                          "SEE ALL",
-                          textAlign: TextAlign.center,
-                          style: BaseStyles.seeAllTextStyle,
+                        child: UnderlineText(
+                          text: Text(
+                            "SEE ALL",
+                            textAlign: TextAlign.center,
+                            style: BaseStyles.seeAllTextStyle,
+                          ),
                         ),
                       ),
                     ),
@@ -241,28 +244,63 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.circular(8)),
-            child: ListTile(
-              // contentPadding: EdgeInsets.zero,
-              title: Text(
-                "Price / Ikat",
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              subtitle: Text(
-                "Rp 5.300-6.600",
-                style: TextStyles.subtitle1222,
-              ),
-              trailing: SizedBox(
-                width: Get.width * 0.5,
-                child: Counter(
-                  title: "+ Add to Cart",
-                  onChange: (count) {},
-                ),
-              ),
-            ),
-          ).paddingSymmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(8)),
+              padding: EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Price / Ikat",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.input_field_line_off_2_2_2,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          "Rp 5.300-6.600",
+                          style: TextStyles.subtitle1222,
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 42,
+                      child: Counter(
+                        title: "+ Add to Cart",
+                        onChange: (count) {},
+                      ),
+                    ),
+                  ),
+                ],
+              )
+              // child: ListTile(
+              //   // contentPadding: EdgeInsets.zero,
+              //   title: Text(
+              //     "Price / Ikat",
+              //     style: Theme.of(context).textTheme.subtitle1,
+              //   ),
+              //   subtitle: Text(
+              //     "Rp 5.300-6.600",
+              //     style: TextStyles.subtitle1222,
+              //   ),
+              //   trailing: SizedBox(
+              //     width: Get.width * 0.5,
+              //     child: Counter(
+              //       title: "+ Add to Cart",
+              //       onChange: (count) {},
+              //     ),
+              //   ),
+              // ),
+              ).paddingSymmetric(horizontal: 16),
         ],
       ),
     ).paddingOnly(top: 12, bottom: 16);

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_section_table_view/flutter_section_table_view.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/assets.dart';
@@ -10,6 +11,8 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/page_indicator.dart';
+import 'package:tara_app/common/widgets/underline_text.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
@@ -54,43 +57,43 @@ class _ShopHomeState extends BaseState<ShopHome> {
   }
 
   Widget getRootContainer() {
-    return Obx(() => SafeArea(
-          top: false,
-          child: Stack(
-            children: [
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 240,
-                  decoration: BoxDecoration(
-                      gradient: Gradients.primaryGradient,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: const Radius.circular(16.0),
-                        bottomRight: const Radius.circular(16.0),
-                      )),
-                  child: Column(
-                    children: [
-                      buildNavBar(),
-                      getSearchWidget(),
-                    ],
-                  ),
-                ),
+    return SafeArea(
+      top: false,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 240,
+              decoration: BoxDecoration(
+                  gradient: Gradients.primaryGradient,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: const Radius.circular(16.0),
+                    bottomRight: const Radius.circular(16.0),
+                  )),
+              child: Column(
+                children: [
+                  buildNavBar(),
+                  getSearchWidget(),
+                ],
               ),
-              Positioned(
-                top: 180,
-                left: 0,
-                right: 0,
-                height: MediaQuery.of(context).size.height - 188,
-                child: SingleChildScrollView(
-                  physics: ScrollPhysics(),
-                  child: loadContent(),
-                ),
-              )
-            ],
+            ),
           ),
-        ).withProgressIndicator(showIndicator: false));
+          Positioned(
+            top: 180,
+            left: 0,
+            right: 0,
+            height: MediaQuery.of(context).size.height - 188,
+            child: SingleChildScrollView(
+              physics: ScrollPhysics(),
+              child: loadContent(),
+            ),
+          )
+        ],
+      ),
+    ).withProgressIndicator(showIndicator: controller.showProgress.value);
   }
 
   buildNavBar() {
@@ -230,99 +233,61 @@ class _ShopHomeState extends BaseState<ShopHome> {
   }
 
   loadContent() {
-    return Column(
-      children: <Widget>[
-        CarouselSlider(
-          items: loadCards(),
-          options: CarouselOptions(
-              // autoPlay: true,
-              enableInfiniteScroll: false,
-              aspectRatio: 3.0,
-              enlargeCenterPage: true,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              }),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 16, right: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 7.5.toInt(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: loadCards().map((url) {
-                    int index = loadCards().indexOf(url);
-                    return Container(
-                      width: 6.0,
-                      height: 6.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 16.0, horizontal: 2.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _current == index
-                            ? AppColors.fareColor
-                            : AppColors.light_grey_blue,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Expanded(
-                flex: 4.toInt(),
-                child: Container(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Get.to(MakeAnOrder());
-                          },
-                          child: Container(
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                getTranslation(Strings.see_all_promo),
-                                textAlign: TextAlign.center,
-                                style: BaseStyles.seeAllTextStyle,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 2,
-                          margin: EdgeInsets.only(top: 4, left: 20),
-                          decoration: BoxDecoration(
-                            gradient: Gradients.primaryGradient,
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
-            ],
+    return ValueBuilder<int>(builder: (data, updateFn) {
+      return Column(
+        children: <Widget>[
+          CarouselSlider(
+            items: loadCards(),
+            options: CarouselOptions(
+                enableInfiniteScroll: false,
+                aspectRatio: 3.0,
+                enlargeCenterPage: true,
+                onPageChanged: (index, reason) {
+                  updateFn(index);
+                }),
           ),
-        ),
-        //TODO change this widget to something else
-        RaisedButton(
-          onPressed: () {
-            Get.bottomSheet(
-              AllCategorySheet(),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(16),
-                ),
-              ),
-            );
-          },
-          child: Text("Show All Categories"),
-        ),
-        loadPreviousOrders(),
-        loadMerchantNearYou(),
-      ],
-    );
+          Container(
+            margin: EdgeInsets.only(left: 16, right: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DotsIndicator(data, 4),
+                Container(
+                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    child: InkWell(
+                      onTap: () {
+                        Get.to(MakeAnOrder());
+                      },
+                      child: UnderlineText(
+                        text: Text(
+                          getTranslation(Strings.see_all_promo),
+                          textAlign: TextAlign.center,
+                          style: BaseStyles.seeAllTextStyle,
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          ),
+          //  change this widget to something TODOelse
+          // RaisedButton(
+          //   onPressed: () {
+          //     Get.bottomSheet(
+          //       AllCategorySheet(),
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.vertical(
+          //           top: Radius.circular(16),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          //   child: Text("Show All Categories"),
+          // ),
+          loadPreviousOrders(),
+          loadMerchantNearYou(),
+        ],
+      );
+    });
   }
 
   List<Widget> loadCards() {

@@ -34,13 +34,13 @@ class ProductItem extends StatelessWidget {
                             elevation: 2,
                             borderRadius: BorderRadius.circular(24),
                             child: CircleAvatar(
-                              radius: 16,
+                              radius: 14,
                               backgroundColor: Colors.white,
                               child: InkWell(
                                 onTap: () => updateFn(!value),
                                 child: Icon(value
                                     ? Icons.favorite
-                                    : Icons.favorite_border),
+                                    : Icons.favorite_border,size: 18,color: AppColors.black100,),
                               ),
                             ),
                           );
@@ -72,8 +72,9 @@ class ProductItem extends StatelessWidget {
             ),
             Spacer(),
             SizedBox(
-              height: 42,
+              height: 36,
               child: Counter(
+                title: "+ Add",
                 onChange: (count) {},
               ),
             )
