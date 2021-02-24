@@ -131,7 +131,7 @@ class TransactionController extends GetxController{
     payAmount=amount;
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.customerProfile.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:"PAYMENT_REQUEST",amount: amount));
+    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
       toData: toData,
@@ -465,7 +465,7 @@ class TransactionController extends GetxController{
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
       //  var toMobileNumber = "8368951368";//"8106170677";//"9295909790";  should be without country code
-      var toMobileNumber = mobileNumber;
+      var toMobileNumber = mobileNumber.removeAllWhitespace;
       var amount= amount1;
       var remarks = remarks1;
       var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transaction request.
@@ -525,7 +525,7 @@ class TransactionController extends GetxController{
             print("=====================Transaction Resposne======================");
             print(jsonEncode(initiateTransactionResponse.toJson()));
             if(initiateTransactionResponse.success){
-             var toAddressResp = await Get.find<AuthController>().getToAddressForPayment("91"+mobileNumber);
+             var toAddressResp = await Get.find<AuthController>().getToAddressForPayment("91"+toMobileNumber);
               if(toAddressResp.isRight()){
                 toAddress = toAddressResp.getOrElse(() => null);
 

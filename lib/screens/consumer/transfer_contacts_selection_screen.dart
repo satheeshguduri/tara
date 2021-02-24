@@ -198,30 +198,6 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
             autofocus: false,
             onChanged: (value) {
               contactsController.filterTheContacts(value);
-              // contactsController.searchText = value;
-              // if (contactsController.searchText != null &&
-              //     contactsController.searchText.toString().trim().isNotEmpty &&
-              //     contactsController.searchText.toString().trim().length > 2) {
-              //   contactsController.filteredContactList = [];
-              //   if (contactsController.contactList.isNotEmpty) {
-              //     contactsController.filteredContactList = contactsController.contactList
-              //         .where((contact) => contact.name
-              //         .toLowerCase()
-              //         .contains(contactsController.searchText.toLowerCase()))
-              //         .toList();
-              //   }
-              //   setState(() {
-              //
-              //   });
-              // } else {
-              //   if (_searchQuery.text == "") {
-              //     setState(() {
-              //       contactsController.searchText = "";
-              //       _searchQuery.text = "";
-              //       contactsController.filteredContactList.clear();
-              //     });
-              //   }
-              // }
             },
 
             decoration: InputDecoration(
@@ -328,8 +304,10 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
         ),
       ),
     ).onTap(onPressed: (){
-      Contact  taraContactParam =  contactInfo!=null?contactInfo:null;
-      BeneDetailBean  beneContactParam =  recentContactInfo!=null?recentContactInfo:null;
+      Contact  taraContactParam =  contactInfo;
+      BeneDetailBean  beneContactParam =  recentContactInfo;
+
+
       Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam));
     });
   }
