@@ -10,8 +10,12 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/contacts_transfer_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -303,12 +307,38 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
           ],
         ),
       ),
-    ).onTap(onPressed: (){
+    ).onTap(onPressed: () async{
       Contact  taraContactParam =  contactInfo;
       BeneDetailBean  beneContactParam =  recentContactInfo;
+      var selectedMobile = contactInfo?.phones?.elementAt(0)?.value?.removeAllWhitespace;
+      var selectedContactName = contactInfo?.displayName;
+      if(selectedMobile?.isNotEmpty??false){
+        var beneficiaryAccountList = contactsController.arrRecentlyAddedContactInfo?.value?.where((element) => element.beneMobile?.contains(selectedMobile))?.toList();
+        // Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,list:beneficiaryAccountList));
+        // arrRecentlyAddedContactInfo == benficiearies
+        //{"mobile":"999999999",account:"1234467890"}
+        //
+
+        if(beneficiaryAccountList?.isNotEmpty??false){ // if benefecialries exists
+          var benDetails = beneficiaryAccountList[0];
+          var customerInfo = CustomerProfile(mobileNumber: benDetails.beneMobile, firstName:benDetails.beneName);
+          Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,benList: beneficiaryAccountList,customerProfile: customerInfo));
+        }else{ // check for Tara user
+          var toAddrResp = await getIt.get<AuthController>().getToAddressForPayment(contactInfo.phones.elementAt(0).value);
+          if(toAddrResp.isRight()){
+            var toContactInfo = toAddrResp.getOrElse(() => null);
+            Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: toContactInfo.customerProfile));
+          }else{
+            //user doesnot exist
+            var customerInfo = CustomerProfile(mobileNumber: selectedMobile, firstName:selectedContactName,registrationStatus: RegistrationStatus.INACTIVE);
+            Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: customerInfo));
+          }
+        }
+      }else{
+        //Alert no accociated mobile
+      }
 
 
-      Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam));
     });
   }
 

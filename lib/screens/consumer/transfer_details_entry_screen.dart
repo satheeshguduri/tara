@@ -42,8 +42,10 @@ class TransferDetailsEntryScreen extends StatefulWidget {
 
   final Contact taraContact;
   final BeneDetailBean beneContact;
+  final List<BeneDetailBean> benList;
+  final CustomerProfile customerProfile;
 
-  TransferDetailsEntryScreen({Key key,this.taraContact,this.beneContact}) : super(key: key);
+  TransferDetailsEntryScreen({Key key,this.taraContact,this.beneContact,this.benList,this.customerProfile}) : super(key: key);
 
 
 
@@ -104,8 +106,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     uiController.getCustomerProfile2();
   }
 
-  getRecepient() {
-    // if(taraContact != null){
+  Widget getRecepient() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -403,9 +404,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
       ),
     ));
   }
-
-
-
 
   Widget getRootContainer() {
     return Scaffold(
