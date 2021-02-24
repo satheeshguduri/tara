@@ -12,7 +12,7 @@ PayCardRequest _$PayCardRequestFromJson(Map<String, dynamic> json) {
     callback_url: json['callback_url'],
     return_url: json['return_url'] as String,
     token: json['token'] as String,
-    amount: json['amount'] as num,
+    amount: (json['amount'] as num)?.toDouble(),
     description: json['description'] as String,
   );
 }

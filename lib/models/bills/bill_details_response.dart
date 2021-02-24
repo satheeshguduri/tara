@@ -19,7 +19,7 @@ class BillDetailsData {
   String refNumber;
   num transactionId;
   String accountNumber;
-  num amount;
+  double amount;
   num totalAdmin;
   num processingFee;
   String denom;

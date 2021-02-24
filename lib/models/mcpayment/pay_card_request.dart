@@ -8,7 +8,7 @@ class PayCardRequest {
   dynamic callback_url;
   String return_url;
   String token;
-  num amount;
+  double amount;
   String description;
 
   PayCardRequest({this.register_id, this.callback_url, this.return_url, this.token, this.amount, this.description});

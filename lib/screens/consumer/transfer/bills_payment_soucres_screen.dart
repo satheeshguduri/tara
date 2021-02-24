@@ -156,7 +156,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
                    amount: billController.creditCardAmount,
                    desc: billController.creditCardDesc,
                    maskAcNum: billController.creditCardMaskedCardNumber,
-                   isFromCreditCard: true);
+                   isFromCreditCard: true,trContext: TransactionContext.BILL_PAYMENT);
               // transferController.payViaCreditCard();
             }
        }
