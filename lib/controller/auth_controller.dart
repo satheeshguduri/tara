@@ -31,6 +31,8 @@ import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/complete_profile_details.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
+
 
 import '../injector.dart';
 
@@ -260,14 +262,9 @@ class AuthController extends GetxController {
 
 
 
-  Future getToAddressForPayment() async{
+  Future<Either<Failure, ToAddressResponse>> getToAddressForPayment(String mobileNUmber) async{
 
-    Either<Failure, CustomerProfile> response = await getIt.get<AuthRepository>().getToAddress();
-  //  showProgress.value = false;
-    print(response);
-    if(response.isRight()) {
-      return response.getOrElse(() => null);
-    }
+    return await getIt.get<AuthRepository>().getToAddress(mobileNUmber);
 
   }
 
