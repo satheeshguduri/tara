@@ -322,16 +322,16 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
         if(beneficiaryAccountList?.isNotEmpty??false){ // if benefecialries exists
           var benDetails = beneficiaryAccountList[0];
           var customerInfo = CustomerProfile(mobileNumber: benDetails.beneMobile, firstName:benDetails.beneName);
-          Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,benList: beneficiaryAccountList,customerProfile: customerInfo));
+          Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,benList: beneficiaryAccountList,customerProfile: customerInfo,showSelectAcDropDown: true,showAddNewAccountWidget: true,));
         }else{ // check for Tara user
-          var toAddrResp = await getIt.get<AuthController>().getToAddressForPayment(contactInfo.phones.elementAt(0).value);
+          var toAddrResp = await Get.find<AuthController>().getToAddressForPayment(selectedMobile);
           if(toAddrResp.isRight()){
             var toContactInfo = toAddrResp.getOrElse(() => null);
-            Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: toContactInfo.customerProfile));
+            Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: toContactInfo.customerProfile,showSelectAcDropDown: false,showAddNewAccountWidget: false,));
           }else{
             //user doesnot exist
             var customerInfo = CustomerProfile(mobileNumber: selectedMobile, firstName:selectedContactName,registrationStatus: RegistrationStatus.INACTIVE);
-            Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: customerInfo));
+            Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: customerInfo,showSelectAcDropDown: false,showAddNewAccountWidget: true,));
           }
         }
       }else{

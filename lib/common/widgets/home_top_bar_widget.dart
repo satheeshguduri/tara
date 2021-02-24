@@ -211,7 +211,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-                push(TransferContactsSelectionScreen());
+                Get.to(TransferContactsSelectionScreen());
                 // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added
                 // push(CashDepositSelectContact(
                 //   isFromSend: true,
@@ -223,7 +223,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.RECEIVE_ICON,
               svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
-                push(CashDepositSelectContact(
+                Get.to(CashDepositSelectContact(
                   isFromReceive: true,
                 ));
               },

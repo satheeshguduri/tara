@@ -32,20 +32,15 @@ import 'my_account/otp_verification_screen.dart';
 
 class TransferDetailsEntryScreen extends StatefulWidget {
 
-  // final String title;
-  // final BankAccountContactInfo bankAccInfo;
-  // final Contact taraContact;
-  // final bool selfTransfer;
-  //
-  // TransferDetailsEntryScreen({Key key, this.title,
-  //   this.bankAccInfo,this.taraContact, this.selfTransfer = false}) : super(key: key);
 
   final Contact taraContact;
   final BeneDetailBean beneContact;
   final List<BeneDetailBean> benList;
   final CustomerProfile customerProfile;
+  final bool showSelectAcDropDown;
+  final bool showAddNewAccountWidget;
 
-  TransferDetailsEntryScreen({Key key,this.taraContact,this.beneContact,this.benList,this.customerProfile}) : super(key: key);
+  TransferDetailsEntryScreen({Key key,this.taraContact,this.beneContact,this.benList,this.customerProfile,this.showSelectAcDropDown=false,this.showAddNewAccountWidget=false}) : super(key: key);
 
 
 
@@ -65,21 +60,12 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   var formKey = GlobalKey<FormState>();
 
 
-  //List<PaymentSource> arrPaymentSource = List<PaymentSource>();
-  // List<String> bankList = ["Bank BCA", "BANK BRI", "BANK Mandiri", "Maybank"];
-  // List<String> imgList = [
-  //   Assets.ic_bank1,
-  //   Assets.ic_bank2,
-  //   Assets.ic_bank3,
-  //   Assets.ic_bank4
-  // ];
+
   List<String> transTypeList = ["Others", "Others1", "Others2"];
   List<String> arrFrequency = [Strings.DAILY, Strings.MONTHLY, Strings.YEARLY];
 
   final TextEditingController _typeAheadController = TextEditingController();
 
-  // TransactionController controller = Get.find<TransactionController>();
- // TransactionController controller = Get.find();
 
 
   String frequencyType;
@@ -281,14 +267,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
       ),
     ).onTap(onPressed: () {
       if(formKey.currentState.validate()){
-
-      // print("amount"+ uiController.txtCtrlTransferAmt.text);
-        // print("message"+uiController.messageController.text);
-        // print("bic"+bic.toString());
-        // print("cvv"+uiController.cvvController.text);
-        // print("accountTokenId"+accountTokenId.toString());
-        // print("beneId"+widget.beneContact.beneId.toString());
-
         uiController.confirmToPay(
             mobile: widget.taraContact!=null?phoneNumberValidation(widget.taraContact,null):phoneNumberValidation(null,widget.beneContact),
             amount: uiController.amountController.text,
@@ -418,6 +396,9 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   getRecipientWidget(),
+                  getSelectAccountWidget(),
+                  Container( color: AppColors.primaryBackground,height: 16,),
+                  getAddNewAccountWidget(),
                   Container(
                       margin: EdgeInsets.only(top: 8, bottom: 8),
                       padding: EdgeInsets.all(16),
@@ -573,7 +554,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
 
   Widget getRecipientWidget() {
     return Container(
-        margin: EdgeInsets.only(top: 8, bottom: 8),
+      //  margin: EdgeInsets.only(top: 8, bottom: 8),
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.primaryBackground,
@@ -791,6 +772,82 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
  num getBenId(BeneDetailBean beneContact) {
    return  beneContact!=null? beneContact.beneId:null;
  }
+
+Widget  getSelectAccountWidget() {
+
+    if(widget.showSelectAcDropDown){
+      return   Container(
+          color: AppColors.primaryBackground,
+          // margin: EdgeInsets.only(top: 16, bottom: 4),
+          padding: EdgeInsets.only(left:16,right:16,),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                commonTextWidget("Select Account"),
+                getTransactionDropDownList(),
+                getTheDivider(),
+              ]
+          )
+
+      );
+    }else{
+      return Container();
+    }
+
+
+}
+
+Widget getAddNewAccountWidget() {
+
+  if(widget.showAddNewAccountWidget){
+    return Container(
+      color: AppColors.primaryBackground,
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
+      child: Container(
+        alignment: Alignment.center,
+        margin: EdgeInsets.only(left: 16,right: 16),
+        padding: EdgeInsets.only(bottom: 12, top: 12),
+        decoration: BoxDecoration(
+
+            border: Border.all( color: Colors.grey,),
+            borderRadius: BorderRadius.all(Radius.circular(10))
+        ),
+
+        child: Text(" + Add New Bank Account"),
+
+      ),
+    ).onTap(onPressed: (){
+
+    });
+
+  }else{
+    return Container();
+
+  }
+    return Container(
+      color: AppColors.primaryBackground,
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16),
+      child: Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(left: 16,right: 16),
+          padding: EdgeInsets.only(bottom: 12, top: 12),
+          decoration: BoxDecoration(
+
+            border: Border.all( color: Colors.grey,),
+            borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+
+        child: Text(" + Add New Bank Account"),
+
+      ),
+    ).onTap(onPressed: (){
+
+    });
+}
 }
 
   class PaymentSource {
