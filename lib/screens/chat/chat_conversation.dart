@@ -407,11 +407,13 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     Timer(
       Duration(milliseconds: 1000),
           () {
-            listScrollController.animateTo(
-              listScrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.ease,
-            );
+            if(listScrollController.hasClients) {
+              listScrollController.animateTo(
+                listScrollController.position?.maxScrollExtent,
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.ease,
+              );
+            }
       },
     );
 

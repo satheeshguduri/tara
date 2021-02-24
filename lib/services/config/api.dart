@@ -31,7 +31,7 @@ class API{
   ///update profile
   static const update_profile = "v1/tara/crm/customer";
   static const customer_profile = "v1/tara/crm/customer/{customerId}";
-  static const get_toaddress = "v1/tara/auth?mobile_number=919908550322";
+  static const get_toaddress = "v1/tara/auth";
 
   //Order Related API's
 

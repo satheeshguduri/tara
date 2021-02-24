@@ -18,6 +18,8 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/common/helpers/crypto_helper.dart';
+import 'package:tara_app/common/helpers/get_helper.dart';
+import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -60,6 +62,10 @@ import 'package:tara_app/models/mcpayment/pay_card_request.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/transactions/payment_response.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
+
+
 
 
 import '../injector.dart';
@@ -84,7 +90,7 @@ class TransactionController extends GetxController{
   TextEditingController txtCtrlTransferAmt = TextEditingController();
   double payAmount;
   String payTransId;
-  CustomerProfile toAddress;
+  ToAddressResponse toAddress;
 
 
   void sendMoney(CustomerProfile to,CustomerProfile from,double amount,[pop]) async{
@@ -115,12 +121,12 @@ class TransactionController extends GetxController{
   }
 
   //payment initiation
-  Future paymentInitiation({String cardId,double amount,String desc,String maskAcNum,CustomerProfile toAddress,bool isFromCreditCard=false}) async{
+  Future paymentInitiation({String cardId,double amount,String desc,String maskAcNum,ToAddressResponse toAddress,bool isFromCreditCard=false}) async{
     print("firebaseid "+ Get.find<AuthController>().user.value.customerProfile.firebaseId);
-   // print("to firebaseid "+ toAddress.firebaseId);
+    print("to firebaseid "+ toAddress.customerProfile.firebaseId);
     payAmount=amount;
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
-    var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.firebaseId);
+    var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.customerProfile.firebaseId);
     var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext: "Bill_Payment",amount: amount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
@@ -131,6 +137,7 @@ class TransactionController extends GetxController{
       status: "INITIATED",
       transactionDate: DateTime.now().toIso8601String(),
       toType: null);
+      jsonEncode(transactionModel.toJson());
     showProgress.value = true;
     Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().initiateTaraTransaction(transactionModel);
    // showProgress.value = false;
@@ -150,9 +157,9 @@ class TransactionController extends GetxController{
 
   }
   // payment done
-  void paymentCompleted({CustomerProfile toAddress}) async{
+  Future<Either<Failure, PaymentResponse>> paymentCompleted({ToAddressResponse toAddress}) async{
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
-    var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.firebaseId);
+    var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.customerProfile.firebaseId);
     var optionalDataBean = OptionalDataBean(data: DataBean(createFirebaseEntry: "true",amount: payAmount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       transactionId: payTransId ,
@@ -161,21 +168,14 @@ class TransactionController extends GetxController{
       paid: true,
       transactionType: "paid",
       subType: "Grocery",
-      status: "paid",
+      status: "Success",
       transactionDate: DateTime.now().toIso8601String(),
       toType: null);
    // showProgress.value = true;
+    print(jsonEncode(transactionModel.toJson()));
     Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().updateTaraTransaction(transactionModel);
     showProgress.value = false;
-
-    responseDa.fold(
-            (l) => print(l.message),
-            (r) => {
-
-        }
-    );
-
-
+    return responseDa;
   }
 
   void getOtpForTransfer({bool isFromResendOtp = false}) async {
@@ -448,12 +448,7 @@ class TransactionController extends GetxController{
       var trackAccountR = await getIt.get<TransactionRepository>().trackAccountDetailsRequest(req,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
       if(trackAccountR.isRight()){
         var trackAccountResponse = trackAccountR.getOrElse(() => null);
-        if(trackAccountResponse.success){
 
-          paymentCompleted(toAddress: toAddress);
-        }else{
-          print("transaction failed");
-        }
         showProgress.value = false;
         print(jsonEncode(trackAccountResponse.toJson()));
         Get.offAll(Utils().getLandingScreen());
@@ -526,80 +521,105 @@ class TransactionController extends GetxController{
             print("=====================Transaction Resposne======================");
             print(jsonEncode(initiateTransactionResponse.toJson()));
             if(initiateTransactionResponse.success){
+             var toAddressResp = await Get.find<AuthController>().getToAddressForPayment("91"+mobileNumber);
+              if(toAddressResp.isRight()){
+                toAddress = toAddressResp.getOrElse(() => null);
 
-             toAddress = await Get.find<AuthController>().getToAddressForPayment();
-             print("awaiting....");
-            await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress);
-             print("!!!!!!!!!!!!");
-
-              //Retrieve Key Request
-              var txnId = initiateTransactionResponse.transactionId;
-             print("22222222222222");
-              var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
-              var retrieveKeyRequest = RetrieveKeyRequest(
-                  deviceInfo: deviceInfo,
-                  paymentInstrument: PaymentInstrumentBean(
-                      paymentInstrumentType: "ACCOUNT",
-                      bic:bic
-                  ),
-                  resetCredentialCall: false,
-                  startDateTime: DateTime.now().microsecondsSinceEpoch
-              );
-              print("=====================Transaction Resposne======================");
-              print(jsonEncode(retrieveKeyRequest.toJson()));
-              var respo = await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.FINANCIAL_TXN,txnId);
-              if(respo.isRight()) {
-                var retriveKeyResponse = respo.getOrElse(() => null);
-                print(jsonEncode(retriveKeyResponse.toJson()));
-                var cvv = await CryptoHelper().encryptBankData("$txnId|$cvvValue|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
-                var authorizeReq = AuthorizeRequest(deviceInfo: await BaseRequestHelper().getDeviceInfoBeanWithPSP(),
-                    authorizePINCred: AuthorizePINCredBean(
-                        credType: "MPIN",
-                        credValue:cvv
-                    ));
-                var respo2 = await getIt.get<TransactionRepository>().authorize(authorizeReq,TransactionType.FINANCIAL_TXN,retriveKeyResponse.sessionKey,
-                    txnId);
-                if(respo2.isRight()){
-                  var res = respo2.getOrElse(() => null);
-                  if(res.commonResponse.success){
-                    var fetchOtpRequest = FetchOtpRequest(
+                print("to firebase id"+jsonEncode(toAddress.toJson()));
+                if(toAddress!=null){
+                  await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress);
+                  //Retrieve Key Request
+                  var txnId = initiateTransactionResponse.transactionId;
+                  var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
+                  var retrieveKeyRequest = RetrieveKeyRequest(
                       deviceInfo: deviceInfo,
                       paymentInstrument: PaymentInstrumentBean(
-                          bic: bic,
-                          paymentInstrumentType: "ACCOUNT"
+                          paymentInstrumentType: "ACCOUNT",
+                          bic:bic
                       ),
-                      action: ActionType.PURCHASE,
-                    );
-                    print(jsonEncode(fetchOtpRequest.toJson()));
-                    Timer(Duration(seconds: 2), ()async{
-                      var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
-                      print(jsonEncode(deviceRegInfo.toJson()));
-                      var fetchOTPR = await getIt.get<TransactionRepository>().fetchOtp(fetchOtpRequest,TransactionType.FINANCIAL_TXN,retriveKeyResponse.sessionKey,txnId);
-                      if(fetchOTPR.isRight()){
-                        var fetchOTPResponse = fetchOTPR.getOrElse(() => null);
-                        print(jsonEncode(fetchOTPResponse.toJson()));
-                        userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
-                        showProgress.value = false;
-                        Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from:"transfer"));
+                      resetCredentialCall: false,
+                      startDateTime: DateTime.now().microsecondsSinceEpoch
+                  );
+                  print("=====================Transaction Resposne======================");
+                  print(jsonEncode(retrieveKeyRequest.toJson()));
+                  var respo = await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.FINANCIAL_TXN,txnId);
+                  if(respo.isRight()) {
+                    var retriveKeyResponse = respo.getOrElse(() => null);
+                    print(jsonEncode(retriveKeyResponse.toJson()));
+                    var cvv = await CryptoHelper().encryptBankData("$txnId|$cvvValue|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+                    var authorizeReq = AuthorizeRequest(deviceInfo: await BaseRequestHelper().getDeviceInfoBeanWithPSP(),
+                        authorizePINCred: AuthorizePINCredBean(
+                            credType: "MPIN",
+                            credValue:cvv
+                        ));
+                    var respo2 = await getIt.get<TransactionRepository>().authorize(authorizeReq,TransactionType.FINANCIAL_TXN,retriveKeyResponse.sessionKey,
+                        txnId);
+                    if(respo2.isRight()){
+                      var res = respo2.getOrElse(() => null);
+                      if(res.commonResponse.success){
+                        var fetchOtpRequest = FetchOtpRequest(
+                          deviceInfo: deviceInfo,
+                          paymentInstrument: PaymentInstrumentBean(
+                              bic: bic,
+                              paymentInstrumentType: "ACCOUNT"
+                          ),
+                          action: ActionType.PURCHASE,
+                        );
+                        print(jsonEncode(fetchOtpRequest.toJson()));
+                        Timer(Duration(seconds: 2), ()async{
+                          var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+                          if(deviceRegInfo!=null){
+                            print(jsonEncode(deviceRegInfo.toJson()));
+                            var fetchOTPR = await getIt.get<TransactionRepository>().fetchOtp(fetchOtpRequest,TransactionType.FINANCIAL_TXN,retriveKeyResponse.sessionKey,txnId);
+                            if(fetchOTPR.isRight()){
+                              var fetchOTPResponse = fetchOTPR.getOrElse(() => null);
+                              print(jsonEncode(fetchOTPResponse.toJson()));
+                              userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
+                              showProgress.value = false;
+                              Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from:"transfer"));
 
-                        //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
-                        // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
+                              //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
+                              // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
+                            }else{
+                              showDialogWithErrorMsg("Unable to fetch the otp");
+                            }
+                          }else{
+                            showDialogWithErrorMsg("Failed to get Device Reg Info");
+                          }
+
+                        }
+                        );
+
+
                       }else{
-                        print("no otp found");
+                        showDialogWithErrorMsg("Authroziation Failed");
                       }
-                    });
-
-
+                    }else{
+                      showDialogWithErrorMsg("Authorization Response Failed");
+                    }
+                  }else{
+                    showDialogWithErrorMsg("Retrieve key request failed");
                   }
+                }else{
+                  showDialogWithErrorMsg("Entered invalid mobile number");
                 }
+              }else{
+                showDialogWithErrorMsg("Failed to get To Address");
               }
-            }else{
-              print("error occured");
-              //Show Toast or dailog here..
+          }else{
+              showDialogWithErrorMsg("Pretransaction initiation Failed");
             }
-          }
+        }else{
+          showDialogWithErrorMsg("Pretransaction initiation Failed");
         }
+      }else{
+          showDialogWithErrorMsg("Pretransaction not initiated");
+        }
+      }else{
+        showDialogWithErrorMsg("Pretransaction Request Failed");
       }
+    }else{
+      showDialogWithErrorMsg("Session not initiated ");
     }
 
   }
@@ -637,7 +657,18 @@ class TransactionController extends GetxController{
       if(trackAccountR.isRight()){
         var trackAccountResponse = trackAccountR.getOrElse(() => null);
         print(jsonEncode(trackAccountResponse.toJson()));
-        Get.offAll(Utils().getLandingScreen());
+        if(trackAccountResponse.success){
+         var response = await paymentCompleted(toAddress: toAddress);
+        if(response.isRight()){
+          var paymentCompleteRes = trackAccountR.getOrElse(() => null);
+              if(paymentCompleteRes!=null){
+                Get.to(ConversationPage(selectedContact: ContactInfo(),custInfo: toAddress.customerProfile,));
+              }
+         }
+        }else{
+          print("transaction failed");
+        }
+      //  Get.offAll(Utils().getLandingScreen());
 
       }
     }
@@ -754,30 +785,7 @@ class TransactionController extends GetxController{
 
 
 
-  // void _launchURL(url) async {
-  //   try {
-  //     await launch(
-  //       url,
-  //       option: new CustomTabsOption(
-  //         toolbarColor: AppColors.primaryBackground,
-  //         enableDefaultShare: true,
-  //         enableUrlBarHiding: true,
-  //         showPageTitle: true,
-  //         animation: new CustomTabsAnimation.slideIn(),
-  //
-  //         extraCustomTabs: <String>[
-  //           // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
-  //           'org.mozilla.firefox',
-  //           // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
-  //           'com.microsoft.emmx',
-  //         ],
-  //       ),
-  //     );
-  //   } catch (e) {
-  //     // An exception is thrown if browser app is not installed on Android device.
-  //     debugPrint(e.toString());
-  //   }
-  // }
+
   void cancelTimer() {
     if (timer != null) {
       timer.cancel();
@@ -796,6 +804,12 @@ class TransactionController extends GetxController{
 
   String formatTime(int timeNum) {
     return timeNum < 10 ? "0" + timeNum.toString() : timeNum.toString();
+  }
+
+  dynamic showDialogWithErrorMsg(String msg) {
+    showProgress.value = false;
+    getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(desc:msg));
+
   }
 
 }
