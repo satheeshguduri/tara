@@ -6,6 +6,7 @@
 */
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -108,6 +109,7 @@ class AuthController extends GetxController {
       print(customerProfile.toJson().toString());
       AuthRequest request = AuthRequest(
           mobileNumber: mobileNumber.value, password: confirmPwd.value,customerProfile: customerProfile);
+      print(jsonEncode(request.toJson()));
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().login(request);
       response.fold((l) => GetHelper().getDialog(content: ErrorStateInfoWidget(desc: l.message,)),
@@ -263,7 +265,6 @@ class AuthController extends GetxController {
 
 
   Future<Either<Failure, ToAddressResponse>> getToAddressForPayment(String mobileNUmber) async{
-
     return await getIt.get<AuthRepository>().getToAddress(mobileNUmber);
 
   }

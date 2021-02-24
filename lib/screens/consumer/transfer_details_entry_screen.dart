@@ -98,28 +98,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     return context;
   }
 
-  //@override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   contactInfo = widget.bankAccInfo;
-  //   taraContact = widget.taraContact;
-  //
-  //   BankList.init();
-  //   for (var i = 0; i < bankList.length; i++) {
-  //     var paymentSource = PaymentSource();
-  //     paymentSource.bankName = bankList[i];
-  //     paymentSource.image = imgList[i];
-  //     arrPaymentSource.add(paymentSource);
-  //   }
-  //
-  //   // default values for drop downs
-  //   frequencyType = arrFrequency.first;
-  //   source = arrPaymentSource.first;
-  //
-  //
-  // }
-
   @override
   void initState() {
     super.initState();

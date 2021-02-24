@@ -44,6 +44,7 @@ import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
 import 'package:tara_app/models/transfer/track_transaction_request.dart';
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/models/transfer/transaction_request.dart';
+import 'package:tara_app/models/transfer/validate_mobile_request.dart';
 import 'package:tara_app/models/transfer/validate_otp_request.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';

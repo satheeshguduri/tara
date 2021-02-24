@@ -6,6 +6,7 @@
 */
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/models/core/base_request.dart';
 
 
@@ -28,6 +29,7 @@ class CustomerProfile extends BaseRequest {
    String credential;
    String token;
    dynamic address;
+   RegistrationStatus registrationStatus;
 
 
   CustomerProfile({
@@ -43,7 +45,8 @@ class CustomerProfile extends BaseRequest {
     this.firebaseId,
     this.credential,
     this.token,
-    this.address
+    this.address,
+    this.registrationStatus = RegistrationStatus.TARA
   });
 
   factory CustomerProfile.fromJson(Map<String, dynamic> json) => _$CustomerProfileFromJson(json);
