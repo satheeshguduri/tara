@@ -141,9 +141,13 @@ import '../config/api.dart';
   @GET(API.get_toaddress)
   Future<ToAddressResponse> getToAddress(@Header("Authorization") String token,@Query("mobile_number") String mobile);
 
+    @GET(API.customer_profile_by_firebase_id)
+    Future<CustomerProfile> getCustomerInfoByFirebaseId(@Header("Authorization") String token,@Query("firebaseId") String firebaseId);
 
 
 
 
 
-}
+
+
+  }

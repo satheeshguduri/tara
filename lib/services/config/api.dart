@@ -31,6 +31,7 @@ class API{
   ///update profile
   static const update_profile = "v1/tara/crm/customer";
   static const customer_profile = "v1/tara/crm/customer/{customerId}";
+  static const customer_profile_by_firebase_id = "v1/tara/crm/customer/firebase";
   static const get_toaddress = "v1/tara/auth";
 
   //Order Related API's
