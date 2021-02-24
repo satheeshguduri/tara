@@ -37,7 +37,7 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
 
   final TextEditingController _searchQuery = TextEditingController();
   TransactionController controller = Get.find();
-  ContactsTransferController contactsController = ContactsTransferController();
+  ContactsTransferController contactsController = Get.find();
   final key = GlobalKey<ScaffoldState>();
 
   @override
@@ -155,13 +155,13 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
       children: [
         (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))? getSearchBarWidget():Container(),
         (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))?contactListTitleWidget():Container(),
-        (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))?Container(
-          margin: EdgeInsets.only(bottom: 8),
-          child: DashedLineBorderButton(buttonText: getTranslation(Strings.SEND_TO_NEW_ACCOUNT),buttonColor: Color(0xfff7f7fa),
-            onPressed: (){
-              push(BankTransferNewContact());
-            },),
-        ):Container(),
+        // (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))?Container(
+        //   margin: EdgeInsets.only(bottom: 8),
+        //   child: DashedLineBorderButton(buttonText: getTranslation(Strings.SEND_TO_NEW_ACCOUNT),buttonColor: Color(0xfff7f7fa),
+        //     onPressed: (){
+        //       push(BankTransferNewContact());
+        //     },),
+        // ):Container(),
         Container(
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 16),
             child: Align(

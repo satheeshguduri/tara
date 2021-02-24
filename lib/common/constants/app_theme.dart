@@ -14,18 +14,31 @@ import 'font_family.dart';
 import 'fonts.dart';
 import 'radii.dart';
 final ThemeData themeData = ThemeData(
+    visualDensity: VisualDensity.adaptivePlatformDensity,
     pageTransitionsTheme: PageTransitionsTheme(builders: {
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
     }),
     fontFamily: FontFamily.scto,
     brightness: Brightness.light,
+    scaffoldBackgroundColor: AppColors.grey3,
     //primarySwatch: MaterialColor(AppColors.orange[500].value, AppColors.orange),
     primaryColor: AppColors.primaryBackground,
     primaryColorBrightness: Brightness.light,
     accentColor: AppColors.accentElement,
-    accentColorBrightness: Brightness.light
+    accentColorBrightness: Brightness.light,
+    inputDecorationTheme: InputDecorationTheme(
+        isDense: true,
+        border: Borders.textInputBorder,
+        disabledBorder: Borders.textInputBorder,
+        errorBorder:Borders.errorTextInputBorder,
+        focusedBorder: Borders.textInputBorder,
+        enabledBorder: Borders.textInputBorder,
+        hintStyle: TextStyles.inputFieldOff222,
+        labelStyle: TextStyles.caption222
+    )
 );
+
 /*final ThemeData themeData = ThemeData(
     pageTransitionsTheme: PageTransitionsTheme(builders: {
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),

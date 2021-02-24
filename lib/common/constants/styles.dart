@@ -667,21 +667,18 @@ class TextStyles {
   static const subtitle1222 = const TextStyle(
       color:  Color(0xff123456),
       fontWeight: FontWeight.w700,
-
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
   static const inputFieldOn222 = const TextStyle(
       color:  Color(0xff123456),
       fontWeight: FontWeight.w400,
-
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
   static const inputFieldOff222 = const TextStyle(
       color:  Color(0xffb0b4c1),
       fontWeight: FontWeight.w400,
-      height:5,
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
@@ -763,7 +760,6 @@ class TextStyles {
   static const caption222 = const TextStyle(
       color:  Color(0xff123456),
       fontWeight: FontWeight.w500,
-      height:5,
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
   );

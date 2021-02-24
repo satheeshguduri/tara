@@ -46,7 +46,7 @@ class TransferToTaraUser extends StatefulWidget {
 
 class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
 
-  ContactsTransferController contactsController = ContactsTransferController();
+  ContactsTransferController contactsController = Get.find();
   final key = new GlobalKey<ScaffoldState>();
 
 

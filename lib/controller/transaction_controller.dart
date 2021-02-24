@@ -24,11 +24,13 @@ import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/models/transactions/transaction_model.dart';
 import 'package:tara_app/models/transfer/account_details_request.dart';
 import 'package:tara_app/models/transfer/add_beneficiary_request.dart';
 import 'package:tara_app/models/transfer/authorize_request.dart';
+import 'package:tara_app/models/transfer/bank_details_bean.dart';
 import 'package:tara_app/models/transfer/confirm_account_registration_request.dart';
 import 'package:tara_app/models/transfer/constants/action.dart';
 import 'package:tara_app/models/transfer/constants/request_type.dart';
@@ -306,7 +308,7 @@ class TransactionController extends GetxController{
     }
   }
 
-  Future getBanksList() async {
+  Future<List<BankDetailsBean>> getBanksList() async {
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
       var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
@@ -678,7 +680,7 @@ class TransactionController extends GetxController{
     }
   }
 
-  Future addBeneficiary({String mobile,String accountNo,String bic,String name,String accountType = "SAVINGS"}) async {
+  Future addBeneficiary({String mobile,String accountNo,String bic,String name,String accountType = "SAVINGS",bool isNewUser= false}) async {
 
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
 
@@ -724,9 +726,12 @@ class TransactionController extends GetxController{
               //Pop the Screen and display toast to say the mapping is successful
               print("successfully added the beneficiary@@@@@");
 
+              if(isNewUser){
+                Get.find<AuthController>().createTempAccount(RegistrationStatus.BENEFICIARY,mobile);
+              }
                 //Create Dummy Account
               //  payNow("","222", "gift", "", "123", 44);
-              payNow(mobileNumber: "8368957368",amount1: "100",remarks1: "Gift",benId1: 44,cvv1: "123",initiatorAccountId1: 44,);
+              // payNow(mobileNumber: "8368957368",amount1: "100",remarks1: "Gift",benId1: 44,cvv1: "123",initiatorAccountId1: 44,); // commented to break the flow and take him back to transfer screen
             }
           }
         }else{
