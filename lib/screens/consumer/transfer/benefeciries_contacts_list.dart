@@ -317,7 +317,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
   }
 
 
-  Widget debitCardsListView() {
+  Widget beneListView() {
     return ListView.builder(
         physics: ScrollPhysics(),
         shrinkWrap: true,
@@ -329,7 +329,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
 
 
 
-  Widget creditCardsListView() {
+  Widget allAccountListView() {
 
     return ListView.builder(
         physics: ScrollPhysics(),
