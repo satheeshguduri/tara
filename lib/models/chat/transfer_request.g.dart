@@ -72,4 +72,5 @@ const _$MessageTypeEnumMap = {
   MessageType.ORDER_DECLINED: 'ORDER_DECLINED',
   MessageType.TRANSFER: 'TRANSFER',
   MessageType.PAYMENT: 'PAYMENT',
+  MessageType.BILL_PAYMENT: 'BILL_PAYMENT',
 };

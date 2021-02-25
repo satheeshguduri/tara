@@ -11,6 +11,8 @@ import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/models/mcpayment/card_data.dart';
@@ -156,6 +158,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
                    amount: billController.creditCardAmount,
                    desc: billController.creditCardDesc,
                    maskAcNum: billController.creditCardMaskedCardNumber,
+                   toAddress: ToAddressResponse(customerProfile: CustomerProfile(firebaseId: "BillPayment")),
                    isFromCreditCard: true,trContext: TransactionContext.BILL_PAYMENT);
               // transferController.payViaCreditCard();
             }

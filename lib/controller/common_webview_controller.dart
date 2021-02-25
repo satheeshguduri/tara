@@ -8,6 +8,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/common_webview.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 
@@ -34,27 +37,36 @@ class CommonWevViewController extends GetxController{
 
 
 
-  onLoadStart(String currentUrl,WebViewType type){
-       print("webview type"+type.toString());
-       print("current url"+currentUrl);
-       showProgress.value = true;
-      if(type == WebViewType.ADD_CREDIT_CARD && currentUrl.contains(addCreditCardCallback)){
-        isPaymentSuccess.value ="";
-        var callback = Uri.dataFromString(currentUrl);
-        Map<String, String> params = callback.queryParameters;
-        isCardAddedSuccess.value = params['success']??"0";
-        Get.back();
-      }else if(type == WebViewType.PAYMENT && currentUrl.contains(paymentCallback)){
-        print("coming here");
-        isCardAddedSuccess.value = "";
-        var callback = Uri.dataFromString(currentUrl);
-        Map<String, String> params = callback.queryParameters;
-        isPaymentSuccess.value = params['success']??"0";
-        transactionController.paymentCompleted(trContext: TransactionContext.BILL_PAYMENT);
-        Get.back();
-
-
+  onLoadStart(String currentUrl,WebViewType type) async {
+    print("webview type" + type.toString());
+    print("current url" + currentUrl);
+    showProgress.value = true;
+    if (type == WebViewType.ADD_CREDIT_CARD &&
+        currentUrl.contains(addCreditCardCallback)) {
+      isPaymentSuccess.value = "";
+      var callback = Uri.dataFromString(currentUrl);
+      Map<String, String> params = callback.queryParameters;
+      isCardAddedSuccess.value = params['success'] ?? "0";
+      Get.back();
+    } else
+    if (type == WebViewType.PAYMENT && currentUrl.contains(paymentCallback)) {
+      print("coming here");
+      isCardAddedSuccess.value = "";
+      var callback = Uri.dataFromString(currentUrl);
+      Map<String, String> params = callback.queryParameters;
+      isPaymentSuccess.value = params['success'] ?? "0";
+      var response = await transactionController.paymentCompleted(
+          trContext: TransactionContext.BILL_PAYMENT);
+      if (response.isRight()) {
+        var paymentCompleteRes = response.getOrElse(() => null);
+        if (paymentCompleteRes != null) {
+          Get.to(ConversationPage(showMakeAnOrder:false,selectedContact: ContactInfo(),
+              custInfo: CustomerProfile(firebaseId: "BillPayment",firstName: "Bill Payment")));
+        }
       }
+    } else {
+      print("transaction failed");
+    }
 
   }
 

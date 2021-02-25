@@ -129,11 +129,11 @@ class TransactionController extends GetxController{
   //payment initiation
   Future paymentInitiation({TransactionContext trContext,String cardId,double amount,String desc,String maskAcNum,ToAddressResponse toAddress,bool isFromCreditCard=false,}) async{
     print("firebaseid "+ Get.find<AuthController>().user.value.customerProfile.firebaseId);
-    print("to firebaseid "+ toAddress.customerProfile.firebaseId);
+    // print("to firebaseid "+ toAddress.customerProfile.firebaseId);
     payAmount=amount;
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.customerProfile.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount));
+    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount,transactionContext: isFromCreditCard?TransactionContext.BILL_PAYMENT.toString():null));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
       toData: toData,
@@ -166,7 +166,7 @@ class TransactionController extends GetxController{
   Future<Either<Failure, BaseResponse>> paymentCompleted({TransactionContext trContext,ToAddressResponse toAddress}) async{
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress?.mobileNumber,toAccount:null,toUserFirebaseId: toAddress?.customerProfile?.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:"PAYMENT_REQUEST",createFirebaseEntry: "true",amount: payAmount));
+    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:trContext.toString(),createFirebaseEntry: "true",amount: payAmount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       transactionId: payTransId ,
       fromData: fromData,
@@ -700,6 +700,8 @@ class TransactionController extends GetxController{
           beneType: "ACCOUNT",
           accountType: accountType
       );
+      print("ADD BENE REQUEST:::===============================");
+      print(jsonEncode(addBeneficiaryRequest.toJson()));
       var response = await getIt.get<TransactionRepository>().addBeneficiary(addBeneficiaryRequest);
       print("fffffffffffffffffffffffffffffffffffff");
       if(response.isRight()){
@@ -732,10 +734,12 @@ class TransactionController extends GetxController{
                 //Create Dummy Account
               //  payNow("","222", "gift", "", "123", 44);
               // payNow(mobileNumber: "8368957368",amount1: "100",remarks1: "Gift",benId1: 44,cvv1: "123",initiatorAccountId1: 44,); // commented to break the flow and take him back to transfer screen
+            }else{
+              showDialogWithErrorMsg("Failed to map the account");
             }
           }
         }else{
-          // return failure
+          showDialogWithErrorMsg("Failed to add the account");
         }
 
       }
