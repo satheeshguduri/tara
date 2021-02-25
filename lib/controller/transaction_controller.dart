@@ -11,6 +11,7 @@ import 'dart:math';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
@@ -135,7 +136,7 @@ class TransactionController extends GetxController{
     payAmount=amount;
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.customerProfile.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount,transactionContext: isFromCreditCard?TransactionContext.BILL_PAYMENT.toString():null));
+    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount,transactionContext: isFromCreditCard?describeEnum(TransactionContext.BILL_PAYMENT):null));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
       toData: toData,
@@ -145,7 +146,7 @@ class TransactionController extends GetxController{
       status: "INITIATED",
       transactionDate: DateTime.now().toIso8601String(),
       toType: null);
-      jsonEncode(transactionModel.toJson());
+      print(jsonEncode(transactionModel.toJson()));
     showProgress.value = true;
     Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().initiateTaraTransaction(transactionModel);
    // showProgress.value = false;
@@ -168,7 +169,7 @@ class TransactionController extends GetxController{
   Future<Either<Failure, BaseResponse>> paymentCompleted({TransactionContext trContext,ToAddressResponse toAddress}) async{
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress?.mobileNumber,toAccount:null,toUserFirebaseId: toAddress?.customerProfile?.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:trContext.toString(),createFirebaseEntry: "true",amount: payAmount));
+    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:describeEnum(trContext),createFirebaseEntry: "true",amount: payAmount));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       transactionId: payTransId ,
       fromData: fromData,
@@ -670,7 +671,7 @@ class TransactionController extends GetxController{
         if(response.isRight()){
           var paymentCompleteRes = trackAccountR.getOrElse(() => null);
               if(paymentCompleteRes!=null){
-                Get.to(ConversationPage(selectedContact: ContactInfo(),custInfo: toAddress.customerProfile,));
+                Get.to(ConversationPage(entry:ChatEntryPoint.TRANSFER,selectedContact: ContactInfo(),custInfo: toAddress.customerProfile,));
               }
          }
         }else{

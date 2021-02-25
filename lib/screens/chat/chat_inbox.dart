@@ -3,11 +3,12 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:tara_app/common/constants/assets.dart';
+import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
@@ -106,9 +107,11 @@ class _ChatInboxState extends BaseState<ChatInbox> {
           body: TabBarView(
             children: [
               getChatList(),
+              getChatList(),
+              getChatList(),
               // getChatListWidget(Strings.all_chats),
-              getChatListWidget(Strings.tara_user),
-              getChatListWidget(Strings.merchant),
+              // getChatListWidget(Strings.tara_user),
+              // getChatListWidget(Strings.merchant),
             ],
           ),
           floatingActionButton: FloatingActionButton(
@@ -192,7 +195,7 @@ class _ChatInboxState extends BaseState<ChatInbox> {
     ),
   );
 
-  getChatListWidget(String tabTitle)
+  /*getChatListWidget(String tabTitle)
   {
     var length = (tabTitle == Strings.tara_user?arrTaraUserChats.length:tabTitle==Strings.merchant?arrMerchantChats.length:arrAllChats.length);
     return Container(
@@ -218,7 +221,7 @@ class _ChatInboxState extends BaseState<ChatInbox> {
         },
       ),
     );
-  }
+  }*/
   Future<CustomerProfile> getCustomerInfoByFirebaseId(path) async{
     var data = getChatTypeFirebaseId(path);
     if(data!=null){
@@ -266,12 +269,15 @@ class _ChatInboxState extends BaseState<ChatInbox> {
                 future: getCustomerInfoByFirebaseId(snapshot.value.toString()),
                 builder: (context, snapshot){
                   if(snapshot.hasData){
-                    return ListTile(
-                      title: Text(snapshot.data?.firstName??""),
-                      onTap: (){
-                        Get.to(ConversationPage(isFromTaraOrder:false,selectedContact: ContactInfo(),custInfo: snapshot.data,));
-                      },
-                    );
+                    return getChatItemWidget(snapshot.data).onTap(onPressed:(){
+                      Get.to(ConversationPage(isFromTaraOrder:false,selectedContact: ContactInfo(),custInfo: snapshot.data,));
+                  });
+                    // return ListTile(
+                    //   title: Text(snapshot.data?.firstName??""),
+                    //   onTap: (){
+                    //
+                    //   },
+                    // );
                   }
                   return Container();
 
@@ -281,21 +287,12 @@ class _ChatInboxState extends BaseState<ChatInbox> {
       ),
     );
   }
-  getChatItemWidget(ChatInboxInfo chatInboxInfo)
+  Widget getChatItemWidget(CustomerProfile customerProfile)
   {
-    return InkWell(
-      onTap: (){
-        if (chatInboxInfo.chatTitle!="Tara Shop"&&chatInboxInfo.chatTitle!="Tara Orders")
-        {
-          push(ConversationPage(chatInboxInfo: chatInboxInfo,));
-        }else if(chatInboxInfo.chatTitle=="Tara Orders"){
-          push(ConversationPage(chatInboxInfo: chatInboxInfo,isFromTaraOrder: true,));
-        }else if (chatInboxInfo.chatTitle=="Tara Shop")
-        {
-          push(ConversationPage(chatInboxInfo: chatInboxInfo,));
-        }
-      },
-      child: Container(
+    if(customerProfile==null)
+      return Container();
+
+    return Container(
         margin: EdgeInsets.only(right: 16,left: 16,),
         padding: EdgeInsets.only(top: 4,bottom: 8),
         child:Center(
@@ -304,33 +301,27 @@ class _ChatInboxState extends BaseState<ChatInbox> {
               Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    child:Image.asset("assets/images/avatar-11.png",height: 32,width: 32,),)),
+                    // child:getSvgImage(imagePath: "assets/images/icon_tara_customer_default_profile_picture.svg",width: 32.0,height:32.0))),
+                    child:BaseWidgets.bigCircle(customerProfile.firstName??""))),
               Container(
                 margin: EdgeInsets.only(left: 16),
                 child:Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    chatInboxInfo.chatSubTitle.isEmpty?Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
                         child: Text(
-                          chatInboxInfo.chatTitle,
+                          customerProfile?.firstName??"",
                           textAlign: TextAlign.left,
                           style: BaseStyles.chatTitleTextStyle,
                         ),
                       ),
-                    ):Container(
-                      margin: EdgeInsets.only(top: 4),
-                      child: Text(
-                        chatInboxInfo.chatTitle,
-                        textAlign: TextAlign.left,
-                        style: BaseStyles.chatTitleTextStyle,
-                      ),
                     ),
-                    chatInboxInfo.chatSubTitle.isNotEmpty?Container(
+                    customerProfile?.mobileNumber?.isNotEmpty??false?Container(
                       margin: EdgeInsets.only(top: 4),
                       child: Text(
-                        chatInboxInfo.chatSubTitle,
+                        customerProfile.mobileNumber,
                         textAlign: TextAlign.left,
                         style: BaseStyles.chatSubTitleTextStyle,
                       ),
@@ -341,10 +332,8 @@ class _ChatInboxState extends BaseState<ChatInbox> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
-
 
 
   @override
