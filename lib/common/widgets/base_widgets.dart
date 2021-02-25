@@ -16,7 +16,20 @@ mixin BaseWidgets {
   Image getTabImageWithSize(String iconName,double width, double height) {
     return Image.asset(iconName, fit: BoxFit.fill,width:width,height: height,);
   }
-
+  static Widget bigCircle(String name) {
+    return Container(
+        width: 32,
+        height: 32,
+        decoration: new BoxDecoration(
+          color: Color(0xff123456),
+          shape: BoxShape.circle,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(name.length > 0 ? name.substring(0, 1).toUpperCase() : "",
+              style: BaseStyles.contactsTextStyle, textAlign: TextAlign.center),
+        ));
+  }
   Text getTabText(String text) {
     return Text(text, style: BaseStyles.navigationTextStyle);
   }

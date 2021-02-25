@@ -6,12 +6,14 @@ import 'package:get/get.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
+import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
 
 class TransferDetailsEntryWidgetController extends GetxController{
 
   var showProgress = false.obs;
   var mappedItems = List<MappedBankAccountsBean>().obs;
   var currentSelectedCategory="Gift".obs;
+  var selectedBenAccount=BeneDetailBean().obs;
 
 
   TextEditingController amountController = TextEditingController();
