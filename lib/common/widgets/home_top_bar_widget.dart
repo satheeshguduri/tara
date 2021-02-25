@@ -16,7 +16,7 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/shop_home.dart';
 import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
-import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
+import 'package:tara_app/screens/consumer/transfer/benefeciries_contacts_list.dart';
 import 'package:tara_app/screens/create_account_screen.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/screens/notification_screen.dart';
@@ -211,7 +211,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-                Get.to(TransferContactsSelectionScreen());
+                Get.to(BensAndContactsScreen());
+              //  Get.to(TransferContactsSelectionScreen());
                 // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added
                 // push(CashDepositSelectContact(
                 //   isFromSend: true,

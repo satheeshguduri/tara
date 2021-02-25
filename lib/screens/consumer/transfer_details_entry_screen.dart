@@ -26,6 +26,12 @@ import 'package:tara_app/screens/consumer/transfer_details_entry_widget_controll
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/models/auth/registration_status.dart';
+import 'package:tara_app/screens/consumer/add_beneficiary_screen.dart';
+import 'package:tara_app/controller/contacts_transfer_controller.dart';
+
+
+
 
 import '../../injector.dart';
 import 'my_account/otp_verification_screen.dart';
@@ -62,6 +68,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   List<String> arrFrequency = [Strings.DAILY, Strings.MONTHLY, Strings.YEARLY];
 
   final TextEditingController _typeAheadController = TextEditingController();
+  ContactsTransferController contactsController = Get.find();
 
 
 
@@ -87,6 +94,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   void initState() {
     super.initState();
     uiController.getCustomerProfile2();
+
   }
 
   Widget getRecepient() {
@@ -146,7 +154,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Obx(() =>
         SafeArea(
             child: getRootContainer().withProgressIndicator(
@@ -771,31 +778,35 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
  }
 
 Widget  getSelectAccountWidget() {
-    if(widget?.benList?.isNotEmpty??false){
-      return   Container(
-          color: AppColors.primaryBackground,
-          // margin: EdgeInsets.only(top: 16, bottom: 4),
-          padding: EdgeInsets.only(left:16,right:16,),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                commonTextWidget("Select Account"),
-                getAccountsDropDownList(),
-                getTheDivider(),
-              ]
-          )
 
-      );
-    }else{
-      return Container();
-    }
+  if(widget.customerProfile.registrationStatus == RegistrationStatus.TARA){
+    return Container();
+  }
+  if(contactsController.arrRecentlyAddedContactInfo?.value?.isNotEmpty??false){
+    return   Container(
+        color: AppColors.primaryBackground,
+        // margin: EdgeInsets.only(top: 16, bottom: 4),
+        padding: EdgeInsets.only(left:16,right:16,),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              commonTextWidget("Select Account"),
+              getAccountsDropDownList(),
+              getTheDivider(),
+            ]
+        )
+
+    );
+  }else{
+    return Container();
+  }
 
 
 }
 
 Widget getAddNewAccountWidget() {
 
-  if(widget?.benList?.isNotEmpty??false){
+  if(!(widget.customerProfile.registrationStatus == RegistrationStatus.TARA)){
     return Container(
       color: AppColors.primaryBackground,
       alignment: Alignment.center,
@@ -816,12 +827,13 @@ Widget getAddNewAccountWidget() {
       ),
     ).onTap(onPressed: (){
 
+      Get.to(AddBeneficiaryScreen(customerProfile: widget.customerProfile,isNewUser: contactsController.arrRecentlyAddedContactInfo?.isEmpty??true));
     });
 
-  }else{
-    return Container();
+ }else{
+   return Container();
 
-  }
+ }
 
 }
 
@@ -841,17 +853,29 @@ Widget getAddNewAccountWidget() {
           // controller.currentSelectedCategory.value = selectedCategory;
         },
 
-    items: widget.benList.map((BeneDetailBean value) {
+    items:contactsController.arrRecentlyAddedContactInfo.map((BeneDetailBean value) {
           return DropdownMenuItem<String>(
             value: value.beneAccountNo,
             child:  getCustomItemWidget("",value.beneAccountNo),
+            onTap: (){
+            },
           );
-        }).toList(),
+        }).toList()??[],
 
       ),
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
 
   class PaymentSource {
   String image;
