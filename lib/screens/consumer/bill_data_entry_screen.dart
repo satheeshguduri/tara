@@ -97,7 +97,9 @@ class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
         style: billController.textStyle.value,
       ),
     ).onTap(onPressed: () async{
-        FocusManager.instance.primaryFocus.unfocus();
+        // FocusManager.instance.primaryFocus.unfocus();
+        FocusScope.of(context).requestFocus(FocusNode());
+        hideKeyboard();
         if(billController.clickable.value){
         Get.find<BillController>().check(widget.data,(){
         sendBottomSheet(Get.find<BillController>().productDetail);
@@ -134,7 +136,6 @@ class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
               inputType: TextInputType.number,
               textController: billController.phoneNumberController,
               isIcon: false,
-              focusNode: FocusNode(),
               onChanged:(value){
                  if(value.length>0 && value.length>10){
                    showIfTrue();
@@ -347,7 +348,7 @@ getCustomerIdWidget(){
     return Column(
       children: [
         hintTitle(title:Strings.customer_id),
-        TextFieldWidget(hint:getTranslation(Strings.customer_id),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+        TextFieldWidget(hint:getTranslation(Strings.customer_id),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,onChanged:(value){
           if(value.length>0 && value.length>10){
             showIfTrue();
           }else{
@@ -364,7 +365,7 @@ getCustomerIdWidget(){
     return Column(
       children: [
         hintTitle(title:Strings.account_number),
-        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,onChanged:(value){
           if(value.length>0 && value.length>10){
             showIfTrue();
           }else{
@@ -381,7 +382,7 @@ getCustomerIdWidget(){
     return Column(
       children: [
         hintTitle(title:Strings.account_number),
-        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,onChanged:(value){
           if(value.length>0 && value.length>10){
             showIfTrue();
           }else{
@@ -401,7 +402,7 @@ getCustomerIdWidget(){
         TextFieldWidget(hint:getTranslation(Strings.account_number),
             inputType: TextInputType.number,
             textController: billController.phoneNumberController,
-            isIcon: false,focusNode: FocusNode(),
+            isIcon: false,
             onChanged:(value){
               if(value.length>0 && value.length>10){
                 showIfTrue();
@@ -423,7 +424,6 @@ getCustomerIdWidget(){
             inputType: TextInputType.number,
             textController: billController.phoneNumberController,
             isIcon: false,
-            focusNode: FocusNode(),
             onChanged:(value){
               if(value.length>0 && value.length>10){
                 showIfTrue();
@@ -452,7 +452,7 @@ getCustomerIdWidget(){
     return Column(
       children: [
         hintTitle(title:Strings.token_number),
-        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,focusNode: FocusNode(),onChanged:(value){
+        TextFieldWidget(hint:getTranslation(Strings.account_number),inputType: TextInputType.number,textController: billController.phoneNumberController,isIcon: false,onChanged:(value){
           if(value.length>0 && value.length>10){
             showIfTrue();
           }else{
