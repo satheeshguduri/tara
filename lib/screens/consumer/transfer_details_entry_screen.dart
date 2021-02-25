@@ -771,7 +771,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
  }
 
 Widget  getSelectAccountWidget() {
-    if(widget.benList.isNotEmpty){
+    if(widget?.benList?.isNotEmpty??false){
       return   Container(
           color: AppColors.primaryBackground,
           // margin: EdgeInsets.only(top: 16, bottom: 4),
@@ -795,7 +795,7 @@ Widget  getSelectAccountWidget() {
 
 Widget getAddNewAccountWidget() {
 
-  if(widget.benList.isNotEmpty){
+  if(widget?.benList?.isNotEmpty??false){
     return Container(
       color: AppColors.primaryBackground,
       alignment: Alignment.center,
