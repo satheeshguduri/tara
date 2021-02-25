@@ -66,6 +66,8 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/transactions/payment_response.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/models/auth/to_address_response.dart';
+import 'package:tara_app/controller/contacts_transfer_controller.dart';
+
 
 
 
@@ -727,6 +729,7 @@ class TransactionController extends GetxController{
             if(finalResp.success){
               //Pop the Screen and display toast to say the mapping is successful
               print("successfully added the beneficiary@@@@@");
+              Get.find<ContactsTransferController>().getBeneficiaries();
 
               if(isNewUser){
                 Get.find<AuthController>().createTempAccount(RegistrationStatus.BENEFICIARY,mobile);

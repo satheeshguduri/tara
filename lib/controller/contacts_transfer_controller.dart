@@ -64,10 +64,8 @@ class ContactsTransferController extends GetxController{
   var showProgress = false.obs;
   var contactList = List<Contact>().obs;
   var filteredContactList = List<Contact>().obs;
-//transfer list
- // var arrContactInfo = List<Contact>().obs;
-//  var arrFilterContactInfo = List<Contact>().obs;
   var arrRecentlyAddedContactInfo = List<BeneDetailBean>().obs;
+
 
  var title = "abc".obs;
 

@@ -14,6 +14,9 @@ import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/transfer/bank_details_bean.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
+
+
 
 class AddBeneficiaryScreen extends StatefulWidget {
 
@@ -34,6 +37,8 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
   BankDetailsBean selectedBank;
 
   final _formKey = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -225,13 +230,15 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
           textAlign: TextAlign.center,
           style: BaseStyles.addNewBankAccount,
         ),
-      ).onTap(onPressed: (){
+      ).onTap(onPressed: () async{
         if (_formKey.currentState.validate()) {
-
-          controller.addBeneficiary(mobile: widget.customerProfile.mobileNumber,
+         await controller.addBeneficiary(
+              mobile: widget.customerProfile.mobileNumber,
               accountNo: txtCtrlBankAcc.text,
               bic: selectedBank.bic,
-              name: txtCtrlAccHolderName.text,isNewUser:true);
+              name: txtCtrlAccHolderName.text,isNewUser:widget.isNewUser);
+              Get.back();
+
         }
       });
     // );
