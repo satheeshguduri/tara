@@ -11,10 +11,15 @@ class FirebasePath {
   static String customerMerchantChat(String uId) => 'customer_merchant_chat/$uId';
   static String agentCustomerChat(String uId) => 'agent_customer_chat/$uId';
   static String customerCustomerChat(String uId) => 'customer_customer_chat/$uId';
+  static String customerBillerChat(String uId) => 'customer_bill_payment/$uId';
 
 
   static String getPath(String one, String two)
   {
+
+    if(two.startsWith("Bill")){
+      return customerBillerChat(one+"_"+two);
+    }
     //modifying on 12/11/20, based on prd on chat module use case
     var array1 = one.substring(4,one.length).characters;
     var array2 = two.substring(4,two.length).characters;

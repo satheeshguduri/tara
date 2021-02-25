@@ -146,8 +146,14 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
               SizedBox(height: 10),
               TextFormField(
                 controller: txtCtrlBankAcc,
+
                 validator:MultiValidator([RequiredValidator(errorText: 'Please Enter Account Number'),LengthRangeValidator(min:10,max:16,errorText: 'Please enter a valid account number')]),
                 decoration: InputDecoration(
+                    border: Borders.textInputBorder,
+                    disabledBorder: Borders.textInputBorder,
+                    errorBorder:Borders.errorTextInputBorder,
+                    focusedBorder: Borders.textInputBorder,
+                    enabledBorder: Borders.textInputBorder,
                     hintText: "Enter Account Number"
                 ),
               ),
@@ -162,6 +168,11 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
                 validator:MultiValidator([RequiredValidator(errorText: 'Please Enter Account Holder Name')]),
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
+                    border: Borders.textInputBorder,
+                    disabledBorder: Borders.textInputBorder,
+                    errorBorder:Borders.errorTextInputBorder,
+                    focusedBorder: Borders.textInputBorder,
+                    enabledBorder: Borders.textInputBorder,
                     hintText: "Enter Account Holder Name"
                 ),
               ),

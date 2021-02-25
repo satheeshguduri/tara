@@ -29,11 +29,11 @@ final ThemeData themeData = ThemeData(
     accentColorBrightness: Brightness.light,
     inputDecorationTheme: InputDecorationTheme(
         isDense: true,
-        border: Borders.textInputBorder,
-        disabledBorder: Borders.textInputBorder,
-        errorBorder:Borders.errorTextInputBorder,
-        focusedBorder: Borders.textInputBorder,
-        enabledBorder: Borders.textInputBorder,
+        // border: Borders.textInputBorder,
+        // disabledBorder: Borders.textInputBorder,
+        // errorBorder:Borders.errorTextInputBorder,
+        // focusedBorder: Borders.textInputBorder,
+        // enabledBorder: Borders.textInputBorder,
         hintStyle: TextStyles.inputFieldOff222,
         labelStyle: TextStyles.caption222
     )

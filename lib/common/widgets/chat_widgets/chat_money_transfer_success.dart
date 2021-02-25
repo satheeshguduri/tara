@@ -11,7 +11,8 @@ import 'package:tara_app/screens/base/base_state.dart';
 class ChatMoneyTransferSuccess extends StatefulWidget {
   final String requestedAmount;
   final PaymentSuccess paymentSuccess;
-  const ChatMoneyTransferSuccess({Key key,this.requestedAmount,this.paymentSuccess})
+  final bool isBillPayment;
+  const ChatMoneyTransferSuccess({Key key,this.requestedAmount,this.paymentSuccess,this.isBillPayment = false})
       : super(key: key);
   @override
   _ChatMoneyTransferSuccessState createState() =>
@@ -58,7 +59,7 @@ class _ChatMoneyTransferSuccessState
                                 margin: EdgeInsets.only(
                                     right: 8, top: 12, bottom: 4, left: 16),
                                 child: Text(
-                                  getTranslation(Strings.YOU_TRANSFERED),
+                                  !widget.isBillPayment?getTranslation(Strings.YOU_TRANSFERED):getTranslation(Strings.amount_paid),
                                   textAlign: TextAlign.left,
                                   style: BaseStyles.agentConfirmedTextStyle,
                                 ),
@@ -82,8 +83,7 @@ class _ChatMoneyTransferSuccessState
                           Container(
                             margin:
                                 EdgeInsets.only(left: 16, right: 16, top: 8),
-                            child: Text(
-                                "“Money transferred!!”",
+                            child: Text(!widget.isBillPayment?"Money transferred!!":"Your bill payment is successful",
                                 style: BaseStyles.saveToMyContactTextStyle),
                           ),
                           Container(

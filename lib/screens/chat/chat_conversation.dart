@@ -84,7 +84,7 @@ class ConversationPage extends StatefulWidget {
     this.custInfo,
     this.merchantStore,
     this.fromScreen = FromScreen.consumer,
-    this.showMakeAnOrder = true
+    this.showMakeAnOrder = false
   }) : super(key: key);
 
   @override
@@ -164,7 +164,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                       )
                     ],
                   ),
-                  widget.fromScreen == FromScreen.consumer && widget.showMakeAnOrder??true
+                  widget.fromScreen == FromScreen.consumer && widget.showMakeAnOrder??false
                       ? Stack(
                           fit: StackFit.expand,
                           children: <Widget>[
@@ -561,6 +561,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     }else if (chatType == describeEnum(MessageType.PAYMENT)) {
       PaymentSuccess paymentSuccess = PaymentSuccess.fromSnapshot(snapshot);
       return ChatMoneyTransferSuccess(paymentSuccess: paymentSuccess,);
+    } else if (chatType==describeEnum(MessageType.BILL_PAYMENT)) {
+    PaymentSuccess paymentSuccess = PaymentSuccess.fromSnapshot(snapshot);
+    return ChatMoneyTransferSuccess(paymentSuccess: paymentSuccess,isBillPayment: true,);
     }
     else {
       String message = snapshot.value["text"];

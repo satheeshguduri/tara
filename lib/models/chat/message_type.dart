@@ -15,5 +15,6 @@ enum MessageType {
     ORDER_CONFIRMATION,
     ORDER_DECLINED,
     TRANSFER,
-    PAYMENT
+    PAYMENT,
+    BILL_PAYMENT
 }
