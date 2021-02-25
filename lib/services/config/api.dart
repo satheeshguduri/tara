@@ -11,6 +11,7 @@ class API{
   static const bool IS_LIVE = false;
 
   static const AUTH_ENDPOINT = "http://107.20.4.43:9001/";
+  static const MC_ENDPOINT = "http://107.20.4.43:9005/";
   static const ORDER_ENDPOINT = "http://107.20.4.43:9002/";
   static const TRANSACTION_ENDPOINT = "http://107.20.4.43:9000/";
   static const BILLER_ENDPOINT = "http://107.20.4.43/";
@@ -30,6 +31,8 @@ class API{
   ///update profile
   static const update_profile = "v1/tara/crm/customer";
   static const customer_profile = "v1/tara/crm/customer/{customerId}";
+  static const customer_profile_by_firebase_id = "v1/tara/crm/customer/firebase";
+  static const get_toaddress = "v1/tara/auth";
 
   //Order Related API's
 
@@ -42,9 +45,26 @@ class API{
   static const update_order = "v0.1/tara/erp/order/{orderId}";
   static const get_order = "v0.1/tara/erp/order/{orderId}";
   static const get_store_types = "v0.1/tara/erp/storetype";
+  static const get_banners = "v0.1/tara/erp/banner";
+  static const get_items_by_catalogue = "v0.1/tara/erp/item/list";
+  static const get_categories = "v0.1/tara/erp/category";
+  static const get_catalogues = "v0.1/tara/erp/catalogue";
+
+
+
+
+  //mc payyment
+  static const create_or_pay_with_tokenized_card = "v0.1/mcpayment/request/tokenization";
+  static const get_tokenization_details = "v0.1/mcpayment/detail/tokenization/{registerId}";
+  static const delete_tokenization_card = "v0.1/mcpayment/delete/token/{registerId}";
+  static const get_mc_payment= "v0.1/mcpayment/request/payment";
+  static const get_mc_payment_by_registerId = "v0.1/mcpayment/detail/payment/{registerId}";
+  static const get_cards_by_customer_id = "v0.1/mcpayment/detail/card/{customerId}";
+
 
   //Transfer API
   static const send_money = "v0.1/tara/erp/account";
+  static const update_tara_transaction = "v0.1/tara/erp/account/{transactionId}";
 
   //BILLER API
   static const get_bill_products = "v0.1/tara/erp/ayopop/partner/products";

@@ -9,6 +9,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+import 'package:get/get.dart';
+import 'package:helpcrunch_plugin/helpcrunch.dart';
 import 'package:logging/logging.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
@@ -17,6 +19,8 @@ import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
+import 'package:tara_app/models/mcpayment/create_card_or_pay_request.dart';
+import 'package:tara_app/models/mcpayment/pay_card_request.dart';
 import 'package:tara_app/models/transfer/account_details_request.dart';
 import 'package:tara_app/models/transfer/authorize_request.dart';
 import 'package:tara_app/models/transfer/confirm_account_registration_request.dart';
@@ -39,7 +43,10 @@ import 'package:tara_app/models/transfer/validate_mobile_request.dart';
 import 'package:tara_app/models/transfer/validate_otp_request.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
+import 'package:tara_app/repositories/mc_payment_repository.dart';
+import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/repositories/transaction_repository.dart';
+import 'package:tara_app/screens/consumer/common_webview.dart';
 import 'package:tara_app/services/config/psp_config.dart';
 import 'package:tara_app/tara_app.dart';
 import 'dart:convert';
@@ -121,7 +128,40 @@ class TestWidget extends StatelessWidget {
               OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
                 await addBeneficiary(mobile:"9295909790",accountNo: "333333333333333",bic: "CENAID00001",name:"satheesh");
                 // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
-              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add Beneficiary"))
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add Beneficiary")),
+              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+                await HelpCrunch.initialize(
+                    organization: 'nxgenpro',
+                    appId: 1,
+                    appSecret: 'oUhoF0PF0GASUWAY6O+L7luNkTeJRUkLNXUJmrYJ5N6Zr62xx7TEv81SvVcQCkv8VcU5kAmJ8kwNOVIyEuRvvQ==',
+                );
+                await HelpCrunch.showChatScreen();
+                // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Help")),
+              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+                await getCards();
+                // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Get Cards")),
+              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+                await addCard();
+                // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add Card")),
+
+              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+                await payViaCreditCard("35f6363c72d7410bbcf62efd19cdde9d",100, "test payment","498765******8769");
+                // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
+              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Pay with Card")),
+              RaisedButton(onPressed: () async{
+                await getBanners();
+              }, child: Text("Get Banners")),
+              RaisedButton(onPressed: () async{
+                await getCategories();
+              }, child: Text("Get Categories")),
+              RaisedButton(onPressed: () async{
+                await getItems();
+              }, child: Text("Get Items"))
+
+
 
 
             ],
@@ -130,7 +170,69 @@ class TestWidget extends StatelessWidget {
       ),
     );
   }
+  getBanners() async{
+    var response = await getIt.get<OrderRepository>().getBanners("41825412");
+    print(response);
+  }
+  getItems() async{
+    var response = await getIt.get<OrderRepository>().getItemsByCatalogue("215");
+    print(response);
+  }
+  getCategories() async{
+    var response = await getIt.get<OrderRepository>().getCategories();
+    print(response);
+  }
+  getCards() async{
+    var response = await getIt.get<McPaymentRepository>().getCards();
+    print(response);
+  }
+  addCard() async{
+    var request = CreateCardOrPayRequest();
+    var response = await getIt.get<McPaymentRepository>().createCardOrPay(request);
+    if(response.isRight()){
+      var finalResponse = response.getOrElse(() => null);
+      if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
+        Get.to(CommonWebViewScreen(title: "Add Credit Card",
+            type: WebViewType.ADD_CREDIT_CARD,
+            url: finalResponse.data.seamless_url));
+      }
 
+    }
+    print(response);
+  }
+  payViaCreditCardCardNew(num transactionAmount,String description) async{
+    var request = CreateCardOrPayRequest(is_transaction: true,transaction: TransactionBean(amount: transactionAmount,description: description),);
+
+    var response = await getIt.get<McPaymentRepository>().createCardOrPay(request);
+    if(response.isRight()){
+      var finalResponse = response.getOrElse(() => null);
+      if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
+        Get.to(CommonWebViewScreen(title: "Paying with Credit card",
+            type: WebViewType.PAYMENT,
+            url: finalResponse.data.seamless_url));
+      }
+
+    }
+  }
+  payViaCreditCard(String mcPaymentCardId,num transactionAmount,String description,String maskedCardNumber) async{
+    var request = PayCardRequest(register_id: mcPaymentCardId,
+        amount: transactionAmount,
+        description: description,
+        return_url: "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback",
+        token: maskedCardNumber, // need to pass masked card number here
+    );
+
+    var response = await getIt.get<McPaymentRepository>().payWithCreditCard(request);
+    if(response.isRight()){
+      var finalResponse = response.getOrElse(() => null);
+      if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
+        Get.to(CommonWebViewScreen(title: "Paying with Registered Credit card",
+            type: WebViewType.PAYMENT,
+            url: finalResponse.data.seamless_url));
+      }
+
+    }
+  }
    getBeneficiaries() async {
      var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
 

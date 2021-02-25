@@ -53,14 +53,16 @@ import 'package:tara_app/services/rest/umps_core_rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/models/transactions/payment_response.dart';
+
 
 import '../injector.dart';
 
 
 abstract class TransactionRepository {
 
-  Future<Either<Failure,BaseResponse>> sendMoney(TransactionModel transactionModel);
-  Future<Either<Failure,BaseResponse>> updateSendRequest(TransactionModel transactionModel);
+  Future<Either<Failure,PaymentResponse>> initiateTaraTransaction(TransactionModel transactionModel);//while initiating the transaction
+  Future<Either<Failure,BaseResponse>> updateTaraTransaction(TransactionModel transactionModel);//on Successful transaction
 
   Future<Either<Failure,List<BankDetailsBean>>> getBanksList(CommonRegistrationRequest commonRegistrationRequest);
   Future<Either<Failure,TrackAccountDetailsResponse>> trackAccountDetailsRequest(CommonRegistrationRequest commonRegistrationRequest,TransactionType transactionType, String sessionKey,String transactionId);
@@ -115,7 +117,7 @@ class TransactionRepositoryImpl implements TransactionRepository{
   TransactionRepositoryImpl(this.userLocalDataSource,this.networkInfo,this.remoteDataSource,this.pspRemoteDataSource,this.umpsRemoteDataSource);
 
   @override
-  Future<Either<Failure,BaseResponse>> sendMoney(TransactionModel transactionModel) async {
+  Future<Either<Failure,PaymentResponse>> initiateTaraTransaction(TransactionModel transactionModel) async {
     AuthResponse user = await userLocalDataSource.getUser();
 
     token = user.securityToken.token.tara.bearer();
@@ -123,16 +125,17 @@ class TransactionRepositoryImpl implements TransactionRepository{
       var response = await remoteDataSource.sendMoney(token, transactionModel);
       return Right(response);
     }catch(e ){
+      print("#######");
       return Left(Failure.fromServerError(e));
     }
   }
 
   @override
-  Future<Either<Failure,BaseResponse>> updateSendRequest(TransactionModel transactionModel) async{
+  Future<Either<Failure,BaseResponse>> updateTaraTransaction(TransactionModel transactionModel) async{
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
-      var response = await remoteDataSource.updateSendRequest(token, transactionModel);
+      var response = await remoteDataSource.updateSendRequest(token,transactionModel.transactionId,transactionModel);
       return Right(response);
     }catch(e ){
       return Left(Failure.fromServerError(e));

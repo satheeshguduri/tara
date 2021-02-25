@@ -25,6 +25,7 @@ import 'package:tara_app/repositories/bill_repository.dart';
 import 'package:tara_app/repositories/chat_repository.dart';
 import 'package:tara_app/repositories/chat_repository_impl.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
+import 'package:tara_app/repositories/mc_payment_repository.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/repositories/order_repository_impl.dart';
 import 'package:tara_app/repositories/store_repository_impl.dart';
@@ -33,6 +34,7 @@ import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/services/rest/biller_rest_client.dart';
 import 'package:tara_app/services/dio_client.dart';
 import 'package:tara_app/services/firebase/firebase_remote_service.dart';
+import 'package:tara_app/services/rest/mcpayment_rest_client.dart';
 import 'package:tara_app/services/rest/order_rest_client.dart';
 import 'package:tara_app/services/rest/rest_client.dart';
 import 'package:tara_app/services/rest/transaction_rest_client.dart';
@@ -40,8 +42,11 @@ import 'package:tara_app/services/rest/psp_rest_client.dart';
 import 'package:tara_app/services/rest/umps_core_rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 
+import 'controller/contacts_transfer_controller.dart';
 import 'controller/device_register_controller.dart';
 import 'models/order_management/store/store_type_model.dart';
+import 'package:tara_app/controller/store_controller.dart';
+
 
 var getIt = GetIt.I;
 Future<void> init() async{
@@ -52,6 +57,7 @@ Future<void> init() async{
   getIt.registerLazySingleton<OrderRestClient>(() => APIHelper().getDioOrderClient());
   getIt.registerLazySingleton<TransactionRestClient>(() => APIHelper().getDioTransactionClient());
   getIt.registerLazySingleton<BillerRestClient>(() => APIHelper().getDioBillerClient());
+  getIt.registerLazySingleton<McPaymentRestClient>(() => APIHelper().getDioMcClient());
   final pspRestClient = await APIHelper().getSecurePSPRestClient();
   getIt.registerLazySingleton<PSPRestClient>(() => pspRestClient);
   final umpsCoreRestClient = await APIHelper().getSecureUMPSCoreRestClient();
@@ -75,9 +81,12 @@ Future<void> init() async{
   getIt.registerLazySingleton<TransactionRepository>(() => TransactionRepositoryImpl(getIt(),getIt(),getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<BillRepository>(() => BillRepositoryImpl(getIt(),getIt(),getIt()));
   getIt.registerLazySingleton<DeviceRegisterRepository>(() => DeviceRegisterRepositoryImpl(getIt(),getIt(),getIt(),getIt()));
+  getIt.registerLazySingleton<McPaymentRepository>(() => McPaymentRepositoryImpl(getIt(),getIt(),getIt()));
   Get.lazyPut(()=>CreateStoreAndOwnerController());
   Get.put(OrderController());
+  Get.put(StoreController());
   Get.put(BillController());
+  Get.put(ContactsTransferController());
   Get.put(DeviceRegisterController());
   Get.lazyPut(()=>StoreTypeResponse());
   getIt.registerLazySingleton<GetHelper>(() => GetHelper());

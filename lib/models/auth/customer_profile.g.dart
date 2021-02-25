@@ -21,6 +21,8 @@ CustomerProfile _$CustomerProfileFromJson(Map<String, dynamic> json) {
     credential: json['credential'] as String,
     token: json['token'] as String,
     address: json['address'],
+    registrationStatus: _$enumDecodeNullable(
+        _$RegistrationStatusEnumMap, json['registrationStatus']),
   )..plainMobileNumber = json['plainMobileNumber'] as String;
 }
 
@@ -40,7 +42,48 @@ Map<String, dynamic> _$CustomerProfileToJson(CustomerProfile instance) =>
       'credential': instance.credential,
       'token': instance.token,
       'address': instance.address,
+      'registrationStatus':
+          _$RegistrationStatusEnumMap[instance.registrationStatus],
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$RegistrationStatusEnumMap = {
+  RegistrationStatus.TARA: 'TARA',
+  RegistrationStatus.RTP: 'RTP',
+  RegistrationStatus.INACTIVE: 'INACTIVE',
+  RegistrationStatus.BENEFICIARY: 'BENEFICIARY',
+};
 
 SignUpRequest _$SignUpRequestFromJson(Map<String, dynamic> json) {
   return SignUpRequest(

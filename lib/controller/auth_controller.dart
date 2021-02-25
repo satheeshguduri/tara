@@ -6,6 +6,7 @@
 */
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,9 @@ import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/flavors.dart';
+import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/screens/Merchant/create_store_screen.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/my_account/otp_verification_screen.dart';
 import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
@@ -31,6 +34,8 @@ import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/complete_profile_details.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
+
 
 import '../injector.dart';
 
@@ -98,6 +103,25 @@ class AuthController extends GetxController {
     }
   }
 
+    void createTempAccount(RegistrationStatus status,String mobileNumber) async{
+      CustomerProfile customerProfile = CustomerProfile(
+          customerType: Utils().getCustomerType(),
+          registrationStatus: RegistrationStatus.BENEFICIARY);
+      SignUpRequest request = SignUpRequest(
+          customerProfile: customerProfile,
+          mobileNumber: mobileNumber,);
+      print(request.toJson());
+      Either<Failure, AuthResponse> response =
+      await getIt.get<AuthRepository>().signUp(request);
+      if(response.isRight()){
+        var signUpResponse = response.getOrElse(() => null);
+        print(jsonEncode(signUpResponse.toJson()));
+      }else {
+        print("error while creating the user");
+      }
+
+    }
+
      void login() async {
     //validate empty state here for the text fields
     if (isValidationSuccessInSignIn()) {
@@ -106,6 +130,7 @@ class AuthController extends GetxController {
       print(customerProfile.toJson().toString());
       AuthRequest request = AuthRequest(
           mobileNumber: mobileNumber.value, password: confirmPwd.value,customerProfile: customerProfile);
+      print(jsonEncode(request.toJson()));
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().login(request);
       response.fold((l) => GetHelper().getDialog(content: ErrorStateInfoWidget(desc: l.message,)),
@@ -257,6 +282,14 @@ class AuthController extends GetxController {
     }
     return true;
   }
+
+
+
+  Future<Either<Failure, ToAddressResponse>> getToAddressForPayment(String mobileNUmber) async{
+    return await getIt.get<AuthRepository>().getToAddress(mobileNUmber);
+
+  }
+
 
   void  startTimer() {
     // Set 1 second callback

@@ -3,6 +3,7 @@ import 'package:tara_app/models/order_management/orders/order_status.dart';
 import 'package:tara_app/models/order_management/store/register_store.dart';
 import 'package:tara_app/models/order_management/store/store_address.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
+import 'package:tara_app/models/order_management/catalogue_category/catalogue.dart';
 import 'package:tara_app/models/order_management/store/store_type_association.dart';
 
 part 'store.g.dart';
@@ -20,6 +21,7 @@ class Store{
    Owner owner;
    int integrationId;
    List<int> storeTypeId;
+   Catalogue catalogue;
 
 
    Store({
@@ -33,7 +35,9 @@ class Store{
       this.types,
       this.registerStore,
       this.owner,
-      this.integrationId,this.storeTypeId});
+      this.integrationId,
+      this.storeTypeId,
+      this.catalogue});
 
   factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
 

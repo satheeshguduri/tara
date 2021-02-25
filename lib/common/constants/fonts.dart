@@ -5,6 +5,13 @@ import 'colors.dart';
 
 class BaseTextStyles {
 
+
+  getFadedText({Color color = Colors.red, double size =12, FontWeight fontWeight= FontWeight.w500}) => TextStyle(
+      color:  color,
+      fontWeight:fontWeight,
+      fontStyle:  FontStyle.normal,
+      fontSize: size,
+  );
   static const headline6222 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
@@ -307,4 +314,21 @@ class BaseTextStyles {
     fontStyle:  FontStyle.normal,
     fontSize: 10.0
 );
+  static const myOrdersItemsTextStyle = const   TextStyle(
+      color: AppColors.light_grey_blue,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+      fontSize: 14.0
+
+  );
+  static const myOrdersDateTextStyle = const   TextStyle(
+      color: AppColors.light_grey_blue,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+      fontSize: 10.0
+
+  );
+
+
+
 }

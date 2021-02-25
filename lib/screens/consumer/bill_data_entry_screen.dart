@@ -97,6 +97,7 @@ class BillerDataEntryScreenState extends BaseState<BillerDataEntryScreen> {
         style: billController.textStyle.value,
       ),
     ).onTap(onPressed: () async{
+        FocusManager.instance.primaryFocus.unfocus();
         if(billController.clickable.value){
         Get.find<BillController>().check(widget.data,(){
         sendBottomSheet(Get.find<BillController>().productDetail);

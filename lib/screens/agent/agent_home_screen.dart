@@ -62,19 +62,19 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
-            icon: getTabImage(Assets.HOME_IN_ACTIVE),
-            activeIcon: getTabImage(Assets.HOME_ACTIVE),
+            icon:getSvgImage(imagePath: Assets.assets_icon_h_home_inactive,width: 24.0,height: 24.0),
+            activeIcon: getSvgImage(imagePath: Assets.assets_icon_h_home_active,width: 24.0,height: 24.0),
             title: getTabText(TabTitle.HOME)),
         BottomNavigationBarItem(
           icon: Container(
             width: 24,
             height: 24,
-            child: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,),
+            child: getSvgImage(imagePath: Assets.assets_icon_c_chat_inactive),
           ), //getTabImage(Assets.CHAT_IN_ACTIVE),
           activeIcon: Container(
             width: 24,
             height: 24,
-            child: SvgPicture.asset(Assets.CHAT_ACTIVE,),
+            child: getSvgImage(imagePath: Assets.assets_icon_c_chat_active),
           ), //getTabImage(Assets.CHAT_ACTIVE),
           title: Text(
             TabTitle.CHAT,
@@ -89,19 +89,19 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
               child: getTabText(TabTitle.SCAN)),
         ),
         BottomNavigationBarItem(
-          icon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
-          activeIcon: getTabImage(Assets.ACCOUNTS_ACTIVE),
+          icon: getSvgImage(imagePath: Assets.assets_icon_a_accounts_inactive,width: 24.0,height: 24.0),
+          activeIcon:getSvgImage(imagePath:  Assets.assets_icon_a_accounts_active,width: 24.0,height: 24.0),
           title: getTabText(TabTitle.ACCOUNTS),
         ),
         BottomNavigationBarItem(
           icon: Container(
             width: 24,
             height: 24,
-            child: SvgPicture.asset(Assets.SETTINGS_IN_ACTIVE,) ,),//getTabImage(Assets.SETTINGS_IN_ACTIVE),
+            child: getSvgImage(imagePath: Assets.assets_icon_s_setting_inactive),),//getTabImage(Assets.SETTINGS_IN_ACTIVE),
           activeIcon: Container(
             width: 24,
             height: 24,
-            child: SvgPicture.asset(Assets.SETTINGS_ACTIVE,width: 24,) ,), //getTabImage(Assets.SETTINGS_ACTIVE),
+            child: getSvgImage(imagePath: Assets.assets_icon_s_setting_active)), //getTabImage(Assets.SETTINGS_ACTIVE),
           title: getTabText(TabTitle.SETTINGS),
         ),
       ],

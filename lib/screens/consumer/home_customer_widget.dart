@@ -23,7 +23,7 @@ import 'package:tara_app/models/transfer/customer_profile_details_response.dart'
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/bank_transfer_accounts_list.dart';
+import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 import 'package:tara_app/utils/locale/utils.dart';
@@ -32,6 +32,8 @@ import 'bills_see_all_screen.dart';
 import 'common_bills_payments_list.dart';
 import 'my_account/connect_new_account_select_ank.dart';
 import 'my_account/myaccounts_see_all_screen.dart';
+import 'package:tara_app/common/widgets/see_all_widget.dart';
+
 
 
 class HomeCustomerWidget extends StatefulWidget {
@@ -75,7 +77,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     getTaraServicesWidget(),
-                    getTransferToWidget(),
+                    // getTransferToWidget(),
                     getMyAccountsFuture(),
                     getBillPaymentFuture(),
                     getTransactionsFuture(),
@@ -101,50 +103,6 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         children: [
           Container(
             child: getTitleAndSeeAllText(Strings.TARA_SERVICES).marginOnly(top:0,bottom:10),
-            // child: Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Expanded(
-            //       flex: 7.5.toInt(),
-            //       child: Align(
-            //         alignment: Alignment.topLeft,
-            //         child: Text(
-            //           getTranslation(Strings.MY_ACCOUNTS),
-            //           textAlign: TextAlign.left,
-            //           style: BaseStyles.homeScreenHeadersStyle,
-            //         ),
-            //       ),
-            //     ),
-            //     Expanded(
-            //       flex: 2.5.toInt(),
-            //       child: Container(
-            //           padding: EdgeInsets.only(top: 8,bottom: 8),
-            //           child: Column(
-            //             children: [
-            //               Container(
-            //                 margin: EdgeInsets.only(right: 16),
-            //                 child: Align(
-            //                   alignment: Alignment.topRight,
-            //                   child: Text(
-            //                     getTranslation(Strings.SEE_ALL),
-            //                     textAlign: TextAlign.center,
-            //                     style: BaseStyles.seeAllTextStyle,
-            //                   ),
-            //                 ),
-            //               ),
-            //               Container(
-            //                 height:2 ,
-            //                 margin: EdgeInsets.only(top: 4,left: 4,right: 16),
-            //                 decoration: BoxDecoration(
-            //                   gradient: Gradients.primaryGradient,
-            //                 ),
-            //               ),
-            //             ],
-            //           )
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ),
           Container(
             margin: EdgeInsets.only(top: 8),
@@ -195,10 +153,10 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
               }else if (snapshot.hasError){
                 return Container();
               }else{
-                return Container();
+                return addNewAccountIcon();
               }
             }else{
-                   return BaseWidgets.getIndicator;
+                return BaseWidgets.getIndicator;
           }
 
         },
@@ -241,115 +199,6 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
               );
             }
           );
-      // return Container(
-      //   padding: EdgeInsets.only(right: 8,top: 2,bottom: 2),
-      //   child: Align(
-      //     alignment: Alignment.bottomLeft,
-      //     child: Container(
-      //       width: 115,
-      //       height: 50,
-      //       decoration: BoxDecoration(
-      //         color: Color.fromARGB(255, 19, 53, 86),
-      //         borderRadius: Radii.k8pxRadius,
-      //       ),
-      //       child: Column(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         crossAxisAlignment: CrossAxisAlignment.stretch,
-      //         children: [
-      //           Container(
-      //             height: 24,
-      //             margin: EdgeInsets.symmetric(horizontal: 14),
-      //             child: Row(
-      //               crossAxisAlignment: CrossAxisAlignment.start,
-      //               children: [
-      //                 Align(
-      //                   alignment: Alignment.centerLeft,
-      //                   child: Container(
-      //                     width: 46,
-      //                     height: 18,
-      //                     //alignment: Alignment.center,
-      //                     margin: EdgeInsets.only(left: 3),
-      //                     // child: Image.asset(
-      //                     //   "assets/images/combined-shape-7.png",
-      //                     //   fit: BoxFit.none,
-      //                     //   color: Colors.white,
-      //                     // ),
-      //                     // child: Center(child: SvgPicture.asset(
-      //                     //   imagePath:Assets.assets_logo_tara_agent,
-      //                     //   fit: BoxFit.none,
-      //                     //   semanticsLabel: 'svg',
-      //                     //    )),
-      //                    // child: getSvgImage(imagePath:Assets.close_icon),
-      //                   ),
-      //                 ),
-      //                 // Text(
-      //                 //   accountName=="tara cash"?getTranslation(Strings.cash):accountName=="tara reqards"?getTranslation(Strings.rewards):getTranslation(Strings.score),
-      //                 //   textAlign: TextAlign.left,
-      //                 //   style: BaseStyles.taraWalletTextStyle,
-      //                 // ),
-      //               ],
-      //             ),
-      //           ).onTap(onPressed: (){
-      //             GetHelper().getDialog(content: ErrorStateInfoWidget(buttonText:"Okay",onTap:(){
-      //               Get.back();
-      //             },title:getTranslation(Strings.feature_title),desc:getTranslation(Strings.feature_sub_title),image:Container(
-      //             width: 120,
-      //             height: 120,
-      //             decoration: BoxDecoration(
-      //                 color: const Color(0xffd8d8d8)
-      //             ))
-      //             ));
-      //           }),
-      //         ],
-      //       ),
-      //     ),
-      //   ),
-      // );
-//    }
-//    else{
-//
-//      return InkWell(
-//        onTap: (){
-//          push(ConnectNewAccountSelectBank());
-//        },
-//        child: Container(
-//          padding: EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
-//          child: DottedBorder(
-//            borderType: BorderType.RRect,
-//            color: Colors.grey[400],
-//            strokeWidth:1.5,
-//            radius: Radius.circular(8),
-//            child: ClipRRect(
-//              borderRadius: BorderRadius.all(Radius.circular(8)),
-//              child: Container(
-//                height: 30,
-//                child: Row(
-//                  children: [
-//                    Container(
-//                      width: 25,
-//                      height: 25,
-//                      margin: EdgeInsets.only(left: 8),
-//                      child: Image.asset(
-//                        "assets/images/icon-2.png",
-//                        fit: BoxFit.none,
-//                      ),
-//                    ),
-//                    Container(
-//                      margin: EdgeInsets.only(right: 12,left: 4),
-//                      child: Text(
-//                        accountName,
-//                        textAlign: TextAlign.left,
-//                        style: BaseStyles.myAccountItemTextStyle,
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//              ),
-//            ),
-//          ),
-//        ),
-//      );
-//    }
   }
 
   getTransferToWidget()
@@ -396,7 +245,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         onTap: (){
           if (accountName == "Bank\nAccount")
           {
-            push(BankTransferAccountsList());
+            push(TransferContactsSelectionScreen());
           }
           else if (accountName == "Tara\nUsers")
           {
@@ -628,30 +477,31 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           flex: 2.5.toInt(),
                 child: Container(
                 padding: EdgeInsets.only(top: 8,bottom: 8),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(right: 16),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          getTranslation(Strings.SEE_ALL),
-                          textAlign: TextAlign.center,
-                          style: BaseStyles.seeAllTextStyle,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height:2 ,
-                    //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
-                        margin: EdgeInsets.only(right: 16),
-
-                      decoration: BoxDecoration(
-                        gradient: Gradients.primaryGradient,
-                      ),
-                    ),
-                  ],
-                )
+                child: SeeAllWidget(),
+                // child: Column(
+                //   children: [
+                //     Container(
+                //       margin: EdgeInsets.only(right: 16),
+                //       child: Align(
+                //         alignment: Alignment.topRight,
+                //         child: Text(
+                //           getTranslation(Strings.SEE_ALL),
+                //           textAlign: TextAlign.center,
+                //           style: BaseStyles.seeAllTextStyle,
+                //         ),
+                //       ),
+                //     ),
+                //     Container(
+                //       height:2 ,
+                //     //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
+                //         margin: EdgeInsets.only(right: 16),
+                //
+                //       decoration: BoxDecoration(
+                //         gradient: Gradients.primaryGradient,
+                //       ),
+                //     ),
+                //   ],
+                // )
             ).onTap(onPressed: (){
                   if (title == Strings.MY_ACCOUNTS)
                   {
@@ -712,30 +562,39 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
  }
 
   Widget addNewAccountIcon() {
-    return Container(
-      margin: EdgeInsets.only(right: 8),
-      child: DottedBorder(
-        borderType: BorderType.RRect,
-        radius: Radius.circular(12),
-        color: AppColors.input_field_line_off_2_2_2,
-        strokeWidth: 2,
-        dashPattern: [4,4],
+    return Row(
 
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          child: Container(
-            height: 44,
-            width: 44,
-            color: AppColors.grey3,
-            child: getSvgImage(imagePath: Assets.assets_icon_p_plus,
-                width: 24.0,
-                height: 24.0),
+      children: [
+        Container(
+          child: DottedBorder(
+            borderType: BorderType.RRect,
+            radius: Radius.circular(12),
+            color: AppColors.input_field_line_off_2_2_2,
+            strokeWidth: 2,
+            dashPattern: [4,4],
+
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+              child: Container(
+                height: 44,
+                width: 44,
+                color: AppColors.grey3,
+                child: getSvgImage(imagePath: Assets.assets_icon_p_plus,
+                    width: 24.0,
+                    height: 24.0),
+              ),
+            ),
           ),
-        ),
-      ),
-    ).onTap(onPressed: (){
-      Get.to(ConnectNewAccountSelectBank());
-    });
+        ).onTap(onPressed: (){
+          //Get.to(ConnectNewAccountSelectBank());
+          Get.to(MyAccountsSeeAllScreen());
+        }),
+        SizedBox(width: 8,)
+      ],
+
+
+
+    );
 
   }
 

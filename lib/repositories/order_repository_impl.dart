@@ -2,6 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/models/order_management/catalogue_category/category.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
+import 'package:tara_app/models/order_management/store/banner_data.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as order;
@@ -81,6 +84,54 @@ class OrderRepositoryImpl extends OrderRepository{
      return Right(response);
     }catch(e){
      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<BannerData>>> getBanners(String storeId) async{
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    var queries = {
+      "storeId":storeId
+    };
+
+    try {
+      var response = await remoteDataSource.getBanners(token, queries);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Category>>> getCategories() async{
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    try {
+      var response = await remoteDataSource.getCategories(token);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Item>>> getItemsByCatalogue(String catalogueId) async{
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    var customerId = user?.customerProfile?.id?.toString();
+    if(customerId==null)
+      return Left(Failure(message: "Customer Id is Required"));
+
+    var queries = {
+      "catalogueId":catalogueId,
+      "customerId":customerId
+    };
+    try {
+      var response = await remoteDataSource.getItemsByCatalogue(token, queries);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
     }
   }
 /*

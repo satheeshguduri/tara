@@ -282,6 +282,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: (){
+      FocusManager.instance.primaryFocus.unfocus();
       controller.login();
     });
   }

@@ -50,6 +50,9 @@ import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/shop/shopping_home_page.dart';
+
+
 
 class ConversationPage extends StatefulWidget {
   final bool canGoBack;
@@ -61,7 +64,7 @@ class ConversationPage extends StatefulWidget {
   final List<String> arrChats;
   final Function callback;
   final bool isFromShopHome;
-  CustomerProfile custInfo;
+  final CustomerProfile custInfo;
   final Store merchantStore;
   final FromScreen fromScreen;
   final bool showMakeAnOrder;
@@ -133,18 +136,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     if (widget.arrChats != null && widget.arrChats.length != 0) {
       arrStr = widget.arrChats;
     }
+    // arrStr = widget?.arrChats??[];
   }
-
-//  @override
-//  void init() {
-//    // TODO: implement init
-//    super.init();
-//    setState(() {
-//
-//      arrStr = widget.arrChats;
-//    });
-
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,11 +173,20 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                               width: MediaQuery.of(context).size.width,
                               child: MakeAnOrderChat(
                                 onSelectOption: (val) {
-                                  push(MakeAnOrder(
-                                    isFromShopHome: false,
-                                    merchantStore: widget.merchantStore,
-                                    merchantProfile: widget.custInfo,
-                                  ));
+
+                                  showOrderTypeBottomSheet(context);
+
+
+
+
+
+
+                                  // Get.to(MakeAnOrder(
+                                  //   isFromShopHome: false,
+                                  //   merchantStore: widget.merchantStore,
+                                  //   merchantProfile: widget.custInfo,
+                                  // )
+                                 // );
                                 },
                               ),
                             )
@@ -405,11 +407,13 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     Timer(
       Duration(milliseconds: 1000),
           () {
-            listScrollController.animateTo(
-              listScrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.ease,
-            );
+            if(listScrollController.hasClients) {
+              listScrollController.animateTo(
+                listScrollController.position?.maxScrollExtent,
+                duration: const Duration(milliseconds: 250),
+                curve: Curves.ease,
+              );
+            }
       },
     );
 
@@ -879,4 +883,97 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           );
         });
   }
+
+  Future showOrderTypeBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext context) {
+          return bottomSheetWidget();
+        });
+  }
+
+  Widget bottomSheetWidget() {
+    return Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+            color: Colors.white
+        ),
+        child: Wrap(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 53,
+                  height: 4,
+                  margin: EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(4)
+                      ),
+                      color: AppColors.light_grey_bg_color
+                  ),
+                ),
+              ),
+              Text(
+                  //getTranslation(Strings.addNewAccount),
+                   "Select Order Type",
+                  style: TextStyles.myAccountsCardTextStyle
+              ),
+              Container(
+                child: Column(
+                  children: [
+                   // getCardTextWidget(getTranslation(Strings.addDebitCard)).paddingOnly(top:10),
+                    getCardTextWidget("Text Based").paddingOnly(top:10),
+                    getDivider(color: AppColors.light_grey_bg_color),
+                   // getCardTextWidget(getTranslation(Strings.addCreditCard)).paddingOnly(top:10),
+                    getCardTextWidget("Category Based").paddingOnly(top:10),
+
+
+                  ],
+                ),
+              )
+            ]
+        )
+    );
+  }
+
+  Widget getCardTextWidget(String orderType) {
+    return Container(
+      padding: EdgeInsets.only(top: 8, bottom: 8),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 12,
+            child: Text(
+                orderType,
+                style: TextStyles.bottomSheetCardTextStyle
+            ),
+          )
+        ],
+      ),
+    ).onTap(onPressed: () {
+      if(orderType == "Text Based"){
+            Get.back();
+            Get.to(MakeAnOrder(
+              isFromShopHome: false,
+              merchantStore: widget.merchantStore,
+              merchantProfile: widget.custInfo,
+            )
+            );
+      }else{
+          Get.back();
+          Get.to(ShoppingHomePage());
+
+      }
+
+    }
+    );
+  }
+
+
 }

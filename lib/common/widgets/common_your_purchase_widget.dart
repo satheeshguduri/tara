@@ -102,8 +102,8 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Nominal",style: BaseStyles.purchaseLabelTextStyle),
-        Text("Rp ${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
+        Text(getTranslation(Strings.nominal),style: BaseStyles.purchaseLabelTextStyle),
+        Text(getTranslation(Strings.RP)+" "+"${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
       ],
     ).withPad(padding: EdgeInsets.all(5));
   }
@@ -120,7 +120,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Code",style: BaseStyles.purchaseLabelTextStyle),
+        Text(getTranslation(Strings.code),style: BaseStyles.purchaseLabelTextStyle),
         Text("${widget.billDetailsData.productCode}",style: TextStyles.bUTTONWhite2)
       ],
     ).withPad(padding: EdgeInsets.all(5));
@@ -129,7 +129,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Name",style: BaseStyles.purchaseLabelTextStyle),
+        Text(getTranslation(Strings.name),style: BaseStyles.purchaseLabelTextStyle),
         Container(width:Get.width*0.5,child: Text("${widget.billDetailsData.productName}",
             style: TextStyles.bUTTONWhite2,
             overflow: TextOverflow.ellipsis,

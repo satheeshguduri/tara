@@ -94,26 +94,21 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
           ),
         ),
         BottomNavigationBarItem(
-          //icon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
-            icon:getSvgImage(imagePath: Assets.assets_icon_d_dashboard_inactive,width: 24.0,height: 24.0),
-          //activeIcon: getTabImage(Assets.ACCOUNTS_ACTIVE),
-            activeIcon: getTabImage(Assets.ACCOUNTS_ACTIVE),
+         // icon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
+          icon: getSvgImage(imagePath: Assets.assets_icon_a_accounts_inactive,width: 24.0,height: 24.0),
+          activeIcon:getSvgImage(imagePath:  Assets.assets_icon_a_accounts_active,width: 24.0,height: 24.0),
           title: getTabText(TabTitle.ACCOUNTS),
         ),
         BottomNavigationBarItem(
           icon: Container(
             width: 24,
             height: 24,
-            //child: SvgPicture.asset(Assets.SETTINGS_IN_ACTIVE,) ,),
               child: getSvgImage(imagePath: Assets.assets_icon_s_setting_inactive)),
-              // getTabImage(Assets.SETTINGS_IN_ACTIVE),
           activeIcon: Container(
             width: 24,
             height: 24,
             child: getSvgImage(imagePath: Assets.assets_icon_s_setting_active)),
-           // child: SvgPicture.asset(Assets.SETTINGS_ACTIVE,width: 24,) ,),
-          //getTabImage(Assets.SETTINGS_ACTIVE),
-          title: getTabText(TabTitle.SETTINGS),
+            title: getTabText(TabTitle.SETTINGS),
         ),
       ],
     );

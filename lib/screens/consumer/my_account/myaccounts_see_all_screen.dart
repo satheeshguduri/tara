@@ -7,8 +7,10 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/models/mcpayment/card_data.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'connect_new_account_select_ank.dart';
 
@@ -21,14 +23,29 @@ class MyAccountsSeeAllScreen  extends StatefulWidget {
 
 class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
 
+  TransactionController transactionController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: getTranslation(Strings.myAccounts), onPressed: () {
+        transactionController.opacityValue.value = 0.0;
+       // transactionController.loadingColor.value = Colors.transparent;
+
         showBottomSheet(context);
       }, addNewWidgetShow: true,),
-      body: SafeArea(child: getRootContainer()),
+      body: SafeArea(child: getRootContainer())
+
+
+
+      // Obx(()=> SafeArea(
+      //     child: getRootContainer().withProgressIndicator(showIndicator: transactionController.showProgress.value)),
+      // ),
+
+
+
+
+
     );
   }
 
@@ -38,7 +55,7 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
         debitCardsHeadingWidget(),
         debitCardsListView(),
         creditCardsHeadingWidget(),
-        creditCardsListView(),
+        creditCardsListView().paddingAll(16),
       ],
     );
   }
@@ -53,7 +70,7 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
 
   Widget debitCardsListView() {
     return FutureBuilder(
-      future: Get.find<TransactionController>().getCustomerProfile2(),
+      future: transactionController.getCustomerProfile2(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           CustomerProfileDetailsResponse data = snapshot.data;
@@ -73,19 +90,134 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
   }
 
   Widget creditCardsListView() {
-    return ListView.builder(
-        physics: ScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: 0,
-        itemBuilder: (context, index) {
-          return Container();
-        });
+    TransactionController transferController = Get.find();
+    return FutureBuilder(
+      future: transferController.getCards(),
+      builder: (context,snapshot){
+        if(snapshot.connectionState==ConnectionState.done)
+        {
+          if(snapshot.hasData){
+            List<CardData> data = snapshot.data;
+            return creditCardsRowContainer(data);
+          }else if (snapshot.hasError){
+            return Container();
+          }else{
+            return Container();
+          }
+        }else{
+          return BaseWidgets.getIndicator;
+        }
+
+      },
+    );
   }
 
   @override
   BuildContext getContext() => context;
 
+  creditCardsRowContainer(List<CardData> creditCards) {
 
+    //filter the cards only with response success
+    creditCards = creditCards.where((element) => element.status == "success").toList();
+
+    return Container(
+        height: 119,
+        child: ListView.builder(
+
+            scrollDirection: Axis.horizontal,
+            itemCount: creditCards.length,
+            itemBuilder: (context, index) {
+
+              return getCreditCardListTile(creditCards[index]); // Container
+            }
+        )
+
+    );
+  }
+
+  Widget getCreditCardListTile(CardData creditCardData) {
+    return Container(
+      width: 208,
+      margin: EdgeInsets.only(right: 16),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+              Radius.circular(12)
+          ),
+          boxShadow: [BoxShadow(
+              color: const Color(0x23000000),
+              offset: Offset(0, 4),
+              blurRadius: 4,
+              spreadRadius: 0
+          )
+          ],
+          gradient: LinearGradient(
+              begin: Alignment(1, 1),
+              end: Alignment(0.008085664335664378, 0.008085664335664378),
+              colors: [const Color(0xff0060af), const Color(0xffb2dcff)])
+      ),
+      child: Column(
+        children: [
+          SizedBox(height: 12),
+          creditCardtransactionDetailRow(creditCardData),
+          SizedBox(height: 16),
+          creditCardNumberRow(creditCardData),
+          SizedBox(height: 12),
+          creditCardNameRow(creditCardData),
+          SizedBox(height: 16),
+        ],
+      ),
+
+
+    ).onTap(onPressed: (){
+      // transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
+    });
+  }
+
+  Widget  creditCardtransactionDetailRow(CardData creditCardData) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 180,
+            child:  Text(
+                creditCardData.bankIssuer,
+                style: TextStyles.cardAmountTextStyle,
+                overflow: TextOverflow.ellipsis
+            ),
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(left: 16,),
+          ),
+
+        ],
+
+      ),
+    );
+  }
+
+  Widget creditCardNumberRow(CardData creditCardData) {
+    return Container(
+        margin: EdgeInsets.only(left: 16),
+        alignment: Alignment.centerLeft,
+        child: Text(
+            creditCardData.maskedCardNumber,
+            style: TextStyles.cardAmountTextStyle
+        )
+    );
+  }
+
+
+  Widget creditCardNameRow(CardData creditCardData) {
+    return Container(
+        margin: EdgeInsets.only(left: 16,),
+        alignment: Alignment.centerLeft,
+        child:
+        Text(
+            creditCardData.cardHolderName,
+            style: TextStyles.cardNumberTextStyle
+        )
+    );
+  }
   Widget customListTile(MappedBankAccountsBean mappedBankAccountsBean) {
     return Container(
       height: 64,
@@ -227,7 +359,7 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext context) {
-          return bottomSheetWidget();
+          return Obx(()=>bottomSheetWidget());
         });
   }
 
@@ -262,9 +394,14 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
               Container(
                 child: Column(
                   children: [
-                    getCardTextWidget(getTranslation(Strings.addDebitCard)),
+                    getCardTextWidget(getTranslation(Strings.addDebitCard)).paddingOnly(top:10),
                     getDivider(color: AppColors.light_grey_bg_color),
-                    getCardTextWidget(getTranslation(Strings.addCreditCard))
+                    getCardTextWidget(getTranslation(Strings.addCreditCard)).paddingOnly(top:10),
+                    Opacity(opacity: transactionController.opacityValue.value,child: CircularProgressIndicator(strokeWidth: 5.0,),)
+                   //  SpinKitDoubleBounce(
+                   //    color: transactionController.loadingColor.value,
+                   //    size: 50.0,)
+
 
 
                   ],
@@ -290,7 +427,16 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
         ],
       ),
     ).onTap(onPressed: () {
-      Get.to(ConnectNewAccountSelectBank());
+      if(cardType == getTranslation(Strings.addDebitCard)){
+         Get.to(ConnectNewAccountSelectBank());
+      }else{
+        transactionController.opacityValue.value = 0.5;
+       transactionController.addCard();
+       // transactionController.loadingColor.value = Colors.transparent;
+
+
+      }
+
     }
     );
   }

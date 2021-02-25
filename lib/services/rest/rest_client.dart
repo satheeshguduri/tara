@@ -19,6 +19,8 @@ import 'package:tara_app/models/order_management/orders/order.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
+
 
 import '../config/api.dart';
 
@@ -136,6 +138,11 @@ import '../config/api.dart';
   Future<Catalogue> updateCatalogue(@Header("Authorization") String token,@Body() Catalogue catalogue);
 
 
+  @GET(API.get_toaddress)
+  Future<ToAddressResponse> getToAddress(@Header("Authorization") String token,@Query("mobile_number") String mobile);
+
+    @GET(API.customer_profile_by_firebase_id)
+    Future<CustomerProfile> getCustomerInfoByFirebaseId(@Header("Authorization") String token,@Query("firebaseId") String firebaseId);
 
 
 
@@ -143,4 +150,4 @@ import '../config/api.dart';
 
 
 
-}
+  }

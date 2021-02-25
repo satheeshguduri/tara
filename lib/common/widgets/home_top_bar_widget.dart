@@ -15,10 +15,12 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/shop_home.dart';
+import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
 import 'package:tara_app/screens/create_account_screen.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/screens/notification_screen.dart';
+import 'package:tara_app/shop/shopping_home_page.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
@@ -116,7 +118,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-                push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer_to_tara_user));
+                push(TransferContactsSelectionScreen());
+                // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer_to_tara_user));
                 // push(CashDepositSelectContact(
                 //   isFromSend: true,
                 // ));
@@ -208,7 +211,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-                push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added
+                Get.to(TransferContactsSelectionScreen());
+                // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added
                 // push(CashDepositSelectContact(
                 //   isFromSend: true,
                 // ));
@@ -219,7 +223,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.RECEIVE_ICON,
               svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
-                push(CashDepositSelectContact(
+                Get.to(CashDepositSelectContact(
                   isFromReceive: true,
                 ));
               },
@@ -239,7 +243,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
                 chatInboxInfo.chatCardTitle = "tara_shop_received_text";
 //              push(ConversationPage(chatInboxInfo: chatInboxInfo,));
-                push(ShopHome());
+                Get.to(ShopHome());
+                //Get.to(ShoppingHomePage());
               },
             ),
           ],

@@ -1,15 +1,26 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/services/config/firebase_path.dart';
+import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 import 'package:tara_app/utils/chat_test.dart';
+
+import '../../injector.dart';
 
 class ChatInbox extends StatefulWidget {
   @override
@@ -45,7 +56,6 @@ class _ChatInboxState extends BaseState<ChatInbox> {
     super.initState();
     loadData();
   }
-
   void loadData()
   {
     arrAllChats = [];
@@ -80,6 +90,8 @@ class _ChatInboxState extends BaseState<ChatInbox> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -93,7 +105,8 @@ class _ChatInboxState extends BaseState<ChatInbox> {
           appBar: _buildAppBar(),
           body: TabBarView(
             children: [
-              getChatListWidget(Strings.all_chats),
+              getChatList(),
+              // getChatListWidget(Strings.all_chats),
               getChatListWidget(Strings.tara_user),
               getChatListWidget(Strings.merchant),
             ],
@@ -206,7 +219,68 @@ class _ChatInboxState extends BaseState<ChatInbox> {
       ),
     );
   }
+  Future<CustomerProfile> getCustomerInfoByFirebaseId(path) async{
+    var data = getChatTypeFirebaseId(path);
+    if(data!=null){
+         var resp = await getIt.get<AuthRepository>().getCustomerInfoByFirebaseId(data);
+         if(resp.isRight()){
+           return resp.getOrElse(() => null);
+         }else{
+           return null;
+         }
+    }
+    else {
+      var data = CustomerProfile(firstName: "Biller",firebaseId: "BillPayment");
+      return Future.value(data);
+    }
+  }
+  getChatTypeFirebaseId(String path){
+    var destinationFirebaseId;
+      var chatTypePath = path.split("/");
+      if(chatTypePath.isNotEmpty && chatTypePath.length>1){
+        if(chatTypePath[0] == "customer_bill_payment"){
+          var userIds = chatTypePath[1].split("_");
+        }else{
+          var userIds = chatTypePath[1].split("_");
+          destinationFirebaseId = "CID-"+userIds[0];
 
+        }
+      }
+      return destinationFirebaseId;
+  }
+  getChatList(){
+    AuthResponse user = Get.find<AuthController>().user.value;
+    //add condition for customer and merchant separation
+    var chatHistoryPath = FirebasePath.customerChats(user.customerProfile.firebaseId);
+    print(chatHistoryPath);
+    return Container(
+      height: 500,
+      child: new FirebaseAnimatedList(
+          query: getIt.get<FirebaseRemoteService>().getDataStream(path:chatHistoryPath),
+          padding: new EdgeInsets.all(8.0),
+          reverse: false,
+          itemBuilder: (_, DataSnapshot snapshot,
+              Animation<double> animation, int x) {
+            return FutureBuilder<CustomerProfile>(
+                initialData: CustomerProfile(),
+                future: getCustomerInfoByFirebaseId(snapshot.value.toString()),
+                builder: (context, snapshot){
+                  if(snapshot.hasData){
+                    return ListTile(
+                      title: Text(snapshot.data?.firstName??""),
+                      onTap: (){
+                        Get.to(ConversationPage(isFromTaraOrder:false,selectedContact: ContactInfo(),custInfo: snapshot.data,));
+                      },
+                    );
+                  }
+                  return Container();
+
+
+            });
+          }
+      ),
+    );
+  }
   getChatItemWidget(ChatInboxInfo chatInboxInfo)
   {
     return InkWell(

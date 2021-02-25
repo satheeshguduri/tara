@@ -121,8 +121,8 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
             controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
            // pop();
           } else if (widget.from == "transfer") {
-            controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-            //  controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+           // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+              controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
              //pop();
           }
 

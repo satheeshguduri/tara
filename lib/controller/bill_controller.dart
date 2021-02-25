@@ -34,6 +34,11 @@ class BillController extends GetxController{
   var textStyle = TextStyles.bUTTONGrey3222.obs;
   var clickable = false.obs;
 
+  var paymentClickable = false.obs;
+  var paymentNextColor = AppColors.billerPaymentNextButtonColor.obs;
+  var paymentTextStyle = TextStyles.bUTTONGrey3222.obs;
+
+
   var productDetail = BillDetailsData();
 
   TextEditingController phoneNumberController = TextEditingController();
@@ -81,6 +86,30 @@ class BillController extends GetxController{
   void validatePhoneNumberWidget(){
 
   }
+
+
+  // which card selected by user
+  //credit card
+   var isCreditCard = false.obs;
+   String creditCardId;
+   double creditCardAmount;
+   String creditCardDesc;
+   String creditCardMaskedCardNumber;
+
+
+
+
+  // debit card
+  var isDebitCard = false.obs;
+  String mobileNumber;
+  String debitCardAmount;
+  String debitCardDesc;
+  String debitCardBic;
+  String debitCardCvv;
+  num debitCardAccountId = 44;
+  num debitCardBenId = 44;
+
+
 
 
 

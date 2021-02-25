@@ -30,6 +30,9 @@ Store _$StoreFromJson(Map<String, dynamic> json) {
         : Owner.fromJson(json['owner'] as Map<String, dynamic>),
     integrationId: json['integrationId'] as int,
     storeTypeId: (json['storeTypeId'] as List)?.map((e) => e as int)?.toList(),
+    catalogue: json['catalogue'] == null
+        ? null
+        : Catalogue.fromJson(json['catalogue'] as Map<String, dynamic>),
   );
 }
 
@@ -46,6 +49,7 @@ Map<String, dynamic> _$StoreToJson(Store instance) => <String, dynamic>{
       'owner': instance.owner?.toJson(),
       'integrationId': instance.integrationId,
       'storeTypeId': instance.storeTypeId,
+      'catalogue': instance.catalogue?.toJson(),
     };
 
 T _$enumDecode<T>(

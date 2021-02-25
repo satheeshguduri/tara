@@ -12,6 +12,8 @@ import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/services/error/failure.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
+
 
 abstract class AuthRepository {
   Future<Either<Failure,BaseResponse>> getOtp(AuthRequestWithData authRequestWithData);
@@ -22,6 +24,9 @@ abstract class AuthRepository {
   Future<Either<Failure,CustomerProfile>> getCustomerInfoByCustomerId(String customerId);
   Future<Either<Failure,BaseResponse>> updateProfile(CustomerProfile profile);
   Future<Either<Failure,CustomerProfileDetailsResponse>> getCustomerProfile(CommonRegistrationRequest profile);
+  Future<Either<Failure,ToAddressResponse>>  getToAddress(String mobileNumber);
+  Future<Either<Failure,CustomerProfile>> getCustomerInfoByFirebaseId(String firebaseId);
+
 
 }
 

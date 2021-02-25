@@ -1,12 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:tara_app/models/order_management/store/store.dart';
 part 'catalogue.g.dart';
 
 @JsonSerializable()
 class Catalogue{
-  double id;
+  int id;
   String name;
+  Store storeId;
 
-  Catalogue({this.id, this.name}); // Store store_id;
+  Catalogue({this.id, this.name,this.storeId}); // Store store_id;
   // private List<Item> items;
 
 factory Catalogue.fromJson(Map<String, dynamic> json) => _$CatalogueFromJson(json);

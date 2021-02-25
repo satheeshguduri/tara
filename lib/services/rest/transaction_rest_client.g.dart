@@ -17,7 +17,7 @@ class _TransactionRestClient implements TransactionRestClient {
   String baseUrl;
 
   @override
-  Future<BaseResponse> sendMoney(token, transactionModel) async {
+  Future<PaymentResponse> sendMoney(token, transactionModel) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(transactionModel, 'transactionModel');
     const _extra = <String, dynamic>{};
@@ -33,20 +33,22 @@ class _TransactionRestClient implements TransactionRestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = BaseResponse.fromJson(_result.data);
+    final value = PaymentResponse.fromJson(_result.data);
     return value;
   }
 
   @override
-  Future<BaseResponse> updateSendRequest(token, transactionModel) async {
+  Future<BaseResponse> updateSendRequest(
+      token, transactionId, transactionModel) async {
     ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(transactionId, 'transactionId');
     ArgumentError.checkNotNull(transactionModel, 'transactionModel');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(transactionModel?.toJson() ?? <String, dynamic>{});
     final _result = await _dio.request<Map<String, dynamic>>(
-        'v0.1/tara/erp/account',
+        'v0.1/tara/erp/account/$transactionId',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'PUT',
