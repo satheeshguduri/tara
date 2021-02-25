@@ -474,7 +474,7 @@ class TransactionController extends GetxController{
       var remarks = remarks1;
       var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transaction request.
       var benId = benId1; // get these from Search beneficiary call by passing the mobile number to the api
-      var bic = "CENAID00001";//bic1; // get these from Search beneficiary call by passing the mobile number to the api
+      var bic = bic1;//bic1; // get these from Search beneficiary call by passing the mobile number to the api
       var cvvValue = cvv1;
 // These below two lines has to be removed
       var customerProfile = await getCustomerProfile2();

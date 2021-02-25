@@ -137,7 +137,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                     Container(
                       margin: EdgeInsets.only(top: 4),
                       child: Text(
-                        phoneNumberValidation(widget.taraContact),
+                        phoneNumberValidation(widget.taraContact,widget.beneContact),
                         textAlign: TextAlign.left,
                         style: BaseStyles.transactionItemDateTextStyle,
                       ),
@@ -270,16 +270,23 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: () {
-      if(formKey.currentState.validate()){
-        uiController.confirmToPay(
-            mobile: widget.taraContact!=null?phoneNumberValidation(widget.taraContact,null):phoneNumberValidation(null,widget.beneContact),
-            amount: uiController.amountController.text,
-            remarks: uiController.messageController.text,
-            bic: bic,
-            cvv: uiController.cvvController.text,
-            accountTokenId: accountTokenId,
-            beneId: getBenId(widget.beneContact)
-        );
+      if(formKey.currentState.validate()) {
+        if (uiController.selectedBenAccount.value?.beneId?.isNullOrBlank??false) {
+          uiController.confirmToPay(
+              mobile: widget.taraContact != null ? phoneNumberValidation(
+                  widget.taraContact, null) : phoneNumberValidation(
+                  null, widget.beneContact),
+              amount: uiController.amountController.text,
+              remarks: uiController.messageController.text,
+              bic: bic,
+              cvv: uiController.cvvController.text,
+              accountTokenId: accountTokenId,
+              beneId: uiController.selectedBenAccount.value
+                  .beneId //getBenId(widget.beneContact)
+          );
+        }
+      }else{
+        showToast(message: "Please Add a bank account");
       }
     });
   }
@@ -524,7 +531,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   String phoneNumberValidation([Contact contactInfo,BeneDetailBean beneContactInfo]) {
 
     try {
-      return contactInfo!=null?contactInfo.phones.elementAt(0).value:beneContactInfo.beneMobile;
+        return contactInfo!=null?contactInfo.phones.elementAt(0).value:beneContactInfo.beneMobile;
     } catch (Exception) {
       return " ";
     }
@@ -840,22 +847,20 @@ Widget getAddNewAccountWidget() {
   Widget getAccountsDropDownList() {
     return Container(
       height: 48,
-      child: DropdownButtonFormField(
+      child: DropdownButtonFormField<BeneDetailBean>(
         decoration: removeUnderlineAndShowHint(""),
         icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,
             width: 24.0,
             height: 24.0),
         style: TextStyles.inputFieldOn222,
-       // value: uiController.currentSelectedCategory.value,
+        value: contactsController.arrRecentlyAddedContactInfo.value[0],
         isExpanded: true,
-
         onChanged: (value) {
-          // controller.currentSelectedCategory.value = selectedCategory;
+          uiController.selectedBenAccount.value = value;
         },
-
-    items:contactsController.arrRecentlyAddedContactInfo.map((BeneDetailBean value) {
-          return DropdownMenuItem<String>(
-            value: value.beneAccountNo,
+        items:contactsController.arrRecentlyAddedContactInfo.map((BeneDetailBean value) {
+          return DropdownMenuItem<BeneDetailBean>(
+            value: value,
             child:  getCustomItemWidget("",value.beneAccountNo),
             onTap: (){
             },

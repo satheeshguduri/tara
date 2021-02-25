@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
@@ -47,7 +48,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       key: key,
-      appBar: CustomAppBarWidget(title:getTranslation(Strings.TRANSFER_TO_BANK_ACCOUNT),addNewWidgetShow: false,),
+      appBar: CustomAppBarWidget(title:getTranslation(Strings.TRANSFER_TO),addNewWidgetShow: false,),
       body: Obx(()=>SafeArea(
           child: _buildTaraAndAllContactsList().withProgressIndicator(showIndicator: contactsController.showProgress.value))),
     );
@@ -64,7 +65,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
   Widget _buildTaraAndAllContactsList() {
     return ListView(
       children: [
-        getSearchBarWidget(),
+        // getSearchBarWidget(),
         (contactsController.arrRecentlyAddedContactInfo.length>0)?debitCardsHeadingWidget("Beneficiaries"):Container(),
         beneListView(),
         debitCardsHeadingWidget("All Contacts"),
@@ -74,36 +75,6 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
   }
 
   Widget contactListTitleWidget() => Container(margin:EdgeInsets.only(left: 16),child: TextWithBottomOverlay(titleStr: getTranslation(Strings.CONTACT_LIST)));
-
-
-  Widget headerViewContainer(String headerTitle) {
-    return Column(
-      children: [
-        (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))? getSearchBarWidget():Container(),
-        (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))?contactListTitleWidget():Container(),
-        // (headerTitle==getTranslation(Strings.RECENTLY_ADDED) || headerTitle==getTranslation(Strings.SEARCHED_ACCOUNTS))?Container(
-        //   margin: EdgeInsets.only(bottom: 8),
-        //   child: DashedLineBorderButton(buttonText: getTranslation(Strings.SEND_TO_NEW_ACCOUNT),buttonColor: Color(0xfff7f7fa),
-        //     onPressed: (){
-        //       push(BankTransferNewContact());
-        //     },),
-        // ):Container(),
-        Container(
-            padding: EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 16),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(headerTitle, style: BaseStyles.backAccountHeaderTextStyle),
-            )),
-        (contactsController.searchText
-            .toString()
-            .isNotEmpty && contactsController.filteredContactList.isEmpty)?Container(
-          child: Center(
-            child: errorTitleTextWidget(),
-          ),
-        ):Container(),
-      ],
-    );
-  }
 
   Widget getSearchBarWidget()
   {
@@ -172,6 +143,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
     );
   }
   Widget getContactItemWidget({Contact contactInfo,BeneDetailBean recentContactInfo}) {
+    var name = contactInfo?.displayName ?? recentContactInfo?.beneName ?? "Un Known";
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16, top: 8),
       padding: EdgeInsets.all(8),
@@ -195,11 +167,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
         child:
         Row(
           children: [
-            Image.asset(
-              "assets/images/avatar-11.png",
-              height: 32,
-              width: 32,
-            ),
+            BaseWidgets.bigCircle(name),
             Container(
               margin: EdgeInsets.only(left: 16),
               child: Column(
@@ -238,6 +206,14 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
       BeneDetailBean  beneContactParam =  recentContactInfo;
       var selectedMobile = contactInfo?.phones?.elementAt(0)?.value?.removeAllWhitespace;
       var selectedContactName = contactInfo?.displayName;
+      if(contactInfo!=null){
+        selectedMobile = contactInfo?.phones?.elementAt(0)?.value?.removeAllWhitespace;
+        selectedContactName = contactInfo?.displayName;
+      }else{
+        selectedMobile = recentContactInfo.beneMobile.removeAllWhitespace;
+        selectedContactName = recentContactInfo.beneName.removeAllWhitespace;
+      }
+
       if(selectedMobile?.isNotEmpty??false){
         contactsController.arrRecentlyAddedContactInfo.value = contactsController.arrRecentlyAddedContactInfo?.value?.where((element) => element.beneMobile?.contains(selectedMobile))?.toList();
         // Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,list:beneficiaryAccountList));
@@ -248,8 +224,8 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
         if( contactsController.arrRecentlyAddedContactInfo?.isNotEmpty??false){ // if benefecialries exists
           print("first");
           var benDetails =  contactsController.arrRecentlyAddedContactInfo[0];
-          var customerInfo = CustomerProfile(mobileNumber: benDetails.beneMobile, firstName:benDetails.beneName);
-          Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,benList:  contactsController.arrRecentlyAddedContactInfo,customerProfile: customerInfo,));
+          var customerInfo = CustomerProfile(mobileNumber: benDetails.beneMobile, firstName:benDetails.beneName,registrationStatus: RegistrationStatus.BENEFICIARY);
+          Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,benList:  contactsController.arrRecentlyAddedContactInfo.value,customerProfile: customerInfo,));
         }else{ // check for Tara user
           print("second");
           var toAddrResp = await Get.find<AuthController>().getToAddressForPayment(selectedMobile);
