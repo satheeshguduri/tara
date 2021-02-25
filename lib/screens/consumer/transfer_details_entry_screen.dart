@@ -96,7 +96,9 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     uiController.getCustomerProfile2();
 
   }
-
+  bool isTaraUser(CustomerProfile customerProfile) {
+    return ((customerProfile?.registrationStatus ?? "") =="TARA")?true:false;
+  }
   Widget getRecepient() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,11 +130,11 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                           style: BaseStyles.transactionItemPersonNameTextStyle,
                         ),
                       ),
-                      Image.asset(
+                      Visibility(visible:isTaraUser(widget.customerProfile),child: Image.asset(
                         Assets.tara_contacts,
                         height: 32,
                         width: 32,
-                      )
+                      ))
                     ],),
                     Container(
                       margin: EdgeInsets.only(top: 4),

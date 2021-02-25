@@ -53,7 +53,12 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/shop/shopping_home_page.dart';
 
 
-
+enum ChatEntryPoint{
+    MC_PAYMENT,
+    ORDER,
+    TRANSFER,
+    INBOX
+}
 class ConversationPage extends StatefulWidget {
   final bool canGoBack;
   final bool isFromSend;
@@ -68,6 +73,7 @@ class ConversationPage extends StatefulWidget {
   final Store merchantStore;
   final FromScreen fromScreen;
   final bool showMakeAnOrder;
+  final ChatEntryPoint entry;
 
 
   ConversationPage({
@@ -84,7 +90,8 @@ class ConversationPage extends StatefulWidget {
     this.custInfo,
     this.merchantStore,
     this.fromScreen = FromScreen.consumer,
-    this.showMakeAnOrder = false
+    this.showMakeAnOrder = false,
+    this.entry
   }) : super(key: key);
 
   @override
@@ -257,7 +264,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              if (widget.isFromShopHome == true) {
+              if(widget.entry == ChatEntryPoint.MC_PAYMENT || widget.entry == ChatEntryPoint.TRANSFER){
+                popToRootScreen(HomeCustomerScreen());
+              }else if (widget.isFromShopHome == true) {
                 widget.callback();
               } else if(arrStr.contains("chat_money_transfer_success")){
                 popToRootScreen(HomeCustomerScreen());

@@ -29,7 +29,7 @@ class CommonWevViewController extends GetxController{
   // var addCreditCardCallback = "http://107.20.4.43:9005/v0.1/mcpayment/tokenization/callback?token=1&success=1&register_id=a10603a9782841ec805133f7d894c8ed";
   // var paymentCallback = "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback?transaction=1&success=1&register_id=35f6363c72d7410bbcf62efd19cdde9d";
   var addCreditCardCallback = "http://107.20.4.43:9005/v0.1/mcpayment/tokenization/callback";
-//  var paymentCallback = "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback";
+ // var paymentCallback = "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback";
   var paymentCallback = "https://tokenize-staging.mcpayment.id/return_pay";
 
   TransactionController transactionController = Get.find();
@@ -60,7 +60,7 @@ class CommonWevViewController extends GetxController{
       if (response.isRight()) {
         var paymentCompleteRes = response.getOrElse(() => null);
         if (paymentCompleteRes != null) {
-          Get.to(ConversationPage(showMakeAnOrder:false,selectedContact: ContactInfo(),
+          Get.to(ConversationPage(entry:ChatEntryPoint.MC_PAYMENT,showMakeAnOrder:false,selectedContact: ContactInfo(),
               custInfo: CustomerProfile(firebaseId: "BillPayment",firstName: "Bill Payment")));
         }
       }
