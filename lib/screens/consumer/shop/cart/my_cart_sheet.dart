@@ -95,7 +95,7 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
                   style: TextStyles.subtitle1222,
                 ),
                 trailing: SizedBox(
-                  width: Get.width * 0.5,
+                  width: Get.width * 0.4,
                   child: PrimaryButton(
                     onTap: () {},
                     alignment: MainAxisAlignment.spaceBetween,

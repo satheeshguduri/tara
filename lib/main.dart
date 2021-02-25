@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:get/get.dart';
-import 'package:helpcrunch_plugin/helpcrunch.dart';
+// import 'package:helpcrunch_plugin/helpcrunch.dart';
 import 'package:logging/logging.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
@@ -129,15 +129,15 @@ class TestWidget extends StatelessWidget {
                 await addBeneficiary(mobile:"9295909790",accountNo: "333333333333333",bic: "CENAID00001",name:"satheesh");
                 // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
               }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Add Beneficiary")),
-              OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
-                await HelpCrunch.initialize(
-                    organization: 'nxgenpro',
-                    appId: 1,
-                    appSecret: 'oUhoF0PF0GASUWAY6O+L7luNkTeJRUkLNXUJmrYJ5N6Zr62xx7TEv81SvVcQCkv8VcU5kAmJ8kwNOVIyEuRvvQ==',
-                );
-                await HelpCrunch.showChatScreen();
-                // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
-              }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Help")),
+              // OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
+              //   await HelpCrunch.initialize(
+              //       organization: 'nxgenpro',
+              //       appId: 1,
+              //       appSecret: 'oUhoF0PF0GASUWAY6O+L7luNkTeJRUkLNXUJmrYJ5N6Zr62xx7TEv81SvVcQCkv8VcU5kAmJ8kwNOVIyEuRvvQ==',
+              //   );
+              //   await HelpCrunch.showChatScreen();
+              //   // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");
+              // }, icon: Image.asset(Assets.ic_chat,width: 24,height: 24), label: Text("Help")),
               OutlineButton.icon(onPressed: () async{//  On contact Hit  ==> get the benId from the response
                 await getCards();
                 // await addBeneficiary(mobile:"9865327410",accountNo: "9865327410",bic: "CENAID00001",name:"bene by account");

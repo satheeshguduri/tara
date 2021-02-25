@@ -21,7 +21,9 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Category.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-  );
+  )
+    ..description = json['description'] as String
+    ..favouriteItem = json['favouriteItem'] as bool;
 }
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
@@ -29,7 +31,9 @@ Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'sku': instance.sku,
       'itemName': instance.itemName,
       'price': instance.price,
+      'description': instance.description,
       'quantityInStock': instance.quantityInStock,
+      'favouriteItem': instance.favouriteItem,
       'catalogue': instance.catalogue?.map((e) => e?.toJson())?.toList(),
       'category': instance.category?.map((e) => e?.toJson())?.toList(),
     };

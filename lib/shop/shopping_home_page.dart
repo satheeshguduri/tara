@@ -10,6 +10,8 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/page_indicator.dart';
+import 'package:tara_app/common/widgets/underline_text.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
@@ -21,9 +23,8 @@ import 'package:tara_app/common/constants/fonts.dart';
 import 'package:tara_app/shop/shop_category_details_screen.dart';
 import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
-import 'package:tara_app/models/order_management/catalogue_category/category.dart' as store;
-
-
+import 'package:tara_app/models/order_management/catalogue_category/category.dart'
+    as store;
 
 class ShoppingHomePage extends StatefulWidget {
   @override
@@ -31,29 +32,17 @@ class ShoppingHomePage extends StatefulWidget {
 }
 
 class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
-
   int _current = 0;
   OrderController controller = Get.find();
   StoreController storeController = Get.find();
 
   @override
-  void init() async {
-    // TODO: implement init
-    super.init();
-    controller.getConsumerOrders();
-    controller.getAllStore();
-    print(controller.storeTypesList);
-  }
-
-  @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     storeController.getItems(storeController.catalogueId.value);
     storeController.getBanners();
@@ -62,7 +51,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    print("gett ${storeController.itemsList.length}");
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: getRootContainer(),
@@ -70,8 +59,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
   }
 
   Widget getRootContainer() {
-    return Obx(() =>
-        SafeArea(
+    return Obx(() => SafeArea(
           top: false,
           child: Stack(
             children: [
@@ -99,10 +87,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
                 top: 180,
                 left: 0,
                 right: 0,
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height - 188,
+                height: MediaQuery.of(context).size.height - 188,
                 child: SingleChildScrollView(
                   physics: ScrollPhysics(),
                   child: loadContent(),
@@ -126,15 +111,14 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
             Row(
               children: <Widget>[
                 IconButton(
-                  // icon: Icon(Icons.arrow_back),
+                    // icon: Icon(Icons.arrow_back),
                     icon: getSvgImage(
                         imagePath: Assets.assets_icon_b_back_arrow,
                         width: 24.0,
                         height: 24.0),
-                    onPressed: () =>
-                        Navigator.pop(
-                            context, false) //Navigator.pop(context, false),
-                ),
+                    onPressed: () => Navigator.pop(
+                        context, false) //Navigator.pop(context, false),
+                    ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -148,7 +132,8 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
                         //   Icons.arrow_forward_ios,
                         //   size: 16,
                         // )
-                        getSvgImage(imagePath: Assets.assets_icon_a_arrow_right,
+                        getSvgImage(
+                            imagePath: Assets.assets_icon_a_arrow_right,
                             width: 24.0,
                             height: 24.0),
                       ],
@@ -160,8 +145,9 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
             Row(
               children: [
                 IconButton(
-                  //icon: Icon(Icons.favorite_border),
-                    icon: getSvgImage(imagePath: Assets.assets_icon_f_favorite,
+                    //icon: Icon(Icons.favorite_border),
+                    icon: getSvgImage(
+                        imagePath: Assets.assets_icon_f_favorite,
                         width: 24.0,
                         height: 24.0),
                     onPressed: () => {}),
@@ -170,7 +156,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
                     alignment: Alignment.centerRight,
                     children: [
                       IconButton(
-                        //   icon: Icon(Icons.shopping_cart),
+                          //   icon: Icon(Icons.shopping_cart),
                           icon: getSvgImage(
                               imagePath: Assets.assets_icon_c_cart,
                               width: 24.0,
@@ -229,7 +215,8 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
               height: 25,
               margin: EdgeInsets.only(left: 8),
               //child: getTabImage(Assets.SEARCH_ICON),
-              child: getSvgImage(imagePath: Assets.assets_icon_s_search,
+              child: getSvgImage(
+                  imagePath: Assets.assets_icon_s_search,
                   width: 24.0,
                   height: 24.0),
             ),
@@ -254,9 +241,9 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
         dotsAndSeeAllPromoWidget(),
         SizedBox(height: 24),
         getTitleAndSeeAllText(Strings.categories),
-        SizedBox(height: 18),
+        SizedBox(height: 8),
         getCategoriesListView(),
-        SizedBox(height: 24),
+        SizedBox(height: 16),
         getTitleAndSeeAllText(Strings.todaysdeal),
         SizedBox(height: 18),
         todayDealsListView(),
@@ -272,8 +259,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
           height: 180,
           margin: EdgeInsets.only(left: 2, right: 16),
           child: Image.network(storeController.bannersList[i].url),
-        )
-        );
+        ));
       }
       return arrList;
     } else {
@@ -289,12 +275,11 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
     }
   }
 
-
   CarouselSlider carouselWidget() {
     return CarouselSlider(
       items: loadCards(),
       options: CarouselOptions(
-        // autoPlay: true,
+          // autoPlay: true,
           enableInfiniteScroll: false,
           aspectRatio: 3.0,
           enlargeCenterPage: true,
@@ -312,58 +297,18 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            flex: 7.5.toInt(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: loadCards().map((url) {
-                int index = loadCards().indexOf(url);
-                return Container(
-                  width: 6.0,
-                  height: 6.0,
-                  margin:
-                  EdgeInsets.symmetric(vertical: 16.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _current == index
-                        ? AppColors.fareColor
-                        : AppColors.light_grey_blue,
-                  ),
-                );
-              }).toList(),
+          DotsIndicator(_current, storeController.bannersList.length),
+          UnderlineText(
+            text: Text(
+              getTranslation(Strings.see_all_promo),
+              textAlign: TextAlign.center,
+              style: BaseStyles.seeAllTextStyle,
             ),
-          ),
-          Expanded(
-            flex: 4.toInt(),
-            child: Container(
-                padding: EdgeInsets.only(top: 8, bottom: 8),
-                child: Column(
-                  children: [
-                    Container(
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          getTranslation(Strings.see_all_promo),
-                          textAlign: TextAlign.center,
-                          style: BaseStyles.seeAllTextStyle,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 2,
-                      margin: EdgeInsets.only(top: 1),
-                      decoration: BoxDecoration(
-                        gradient: Gradients.primaryGradient,
-                      ),
-                    ),
-                  ],
-                )),
           ),
         ],
       ),
     );
   }
-
 
   Widget getTitleAndSeeAllText(String title) {
     return Container(
@@ -373,7 +318,6 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
         children: [
           getHeadingText(title),
           getSeeAllText(title),
-
         ],
       ),
     );
@@ -388,24 +332,12 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
   }
 
   Widget getSeeAllText(String title) {
-    return Column(
-        children: [
-          Container(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Text(
-                getTranslation(Strings.SEE_ALL),
-                textAlign: TextAlign.center,
-                style: BaseStyles.seeAllTextStyle,
-              ),
-            ),
-          ),
-          Container(
-            height: 2,
-            width: 60,
-            decoration: BoxDecoration(gradient: Gradients.primaryGradient,),
-          )
-        ]
+    return UnderlineText(
+      text: Text(
+        getTranslation(Strings.SEE_ALL),
+        textAlign: TextAlign.center,
+        style: BaseStyles.seeAllTextStyle,
+      ),
     ).onTap(onPressed: () {
       if (title == Strings.categories) {
         showAllCategoriesInBottomSheet(context);
@@ -436,10 +368,10 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
     return getCategoryWidget(storeController.categoryList.value);
   }
 
-  Widget getListTile(store.Category category,[bool isDecorationNeeded]) {
+  Widget getListTile(store.Category category, [bool isDecorationNeeded]) {
     return Container(
-      width: 80,
-      margin: EdgeInsets.only(right: 16, bottom: 24),
+      width: 96,
+      padding: EdgeInsets.all(16),
       decoration: getCategoryDecoration(isDecorationNeeded),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -448,8 +380,6 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
           tileSecondRow(category),
         ],
       ),
-
-
     ).onTap(onPressed: () {
       //here sort the data and send to next screen
       //  print("catalogue"+category.items[0].catalogue[0]);
@@ -464,44 +394,39 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       width: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.black12,),
-      child: Image.network(
-          category.imageUrl
+        color: Colors.black12,
       ),
-
+      child: Image.network(category.imageUrl),
     );
   }
 
   Widget tileSecondRow(store.Category category) {
     return Text(category.name,
+        maxLines: 2,
         style: BaseTextStyles.subtitle2222,
-        textAlign: TextAlign.center
-    );
+        textAlign: TextAlign.center);
   }
 
   BoxDecoration getCategoryDecoration(bool isNeeded) {
-     if(isNeeded){
-       return BoxDecoration(
-           borderRadius: BorderRadius.all(
-               Radius.circular(8)
-           ),
-           boxShadow: [BoxShadow(
-               color: const Color(0x1f000000),
-               offset: Offset(0, 4),
-               blurRadius: 6,
-               spreadRadius: 0
-           ), BoxShadow(
-               color: const Color(0x14000000),
-               offset: Offset(0, 0),
-               blurRadius: 2,
-               spreadRadius: 0
-           )
-           ],
-           color: ColorConst.elevation_off_2_2_2
-       );
-     }else{
-       return BoxDecoration();
-     }
+    if (isNeeded) {
+      return BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          boxShadow: [
+            BoxShadow(
+                color: const Color(0x1f000000),
+                offset: Offset(0, 4),
+                blurRadius: 6,
+                spreadRadius: 0),
+            BoxShadow(
+                color: const Color(0x14000000),
+                offset: Offset(0, 0),
+                blurRadius: 2,
+                spreadRadius: 0)
+          ],
+          color: ColorConst.elevation_off_2_2_2);
+    } else {
+      return BoxDecoration();
+    }
   }
 
   Widget todayDealsListView() {
@@ -513,10 +438,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
             itemCount: 5,
             itemBuilder: (context, index) {
               return getTodayDealsListTile(); // Container
-
-
-            })
-    );
+            }));
   }
 
   Widget getTodayDealsListTile() {
@@ -527,13 +449,10 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
           dealsTileFirstRow(),
           dealsTileSecondRow(),
         ],
       ),
-
-
     );
   }
 
@@ -542,10 +461,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       children: [
         getStackWidget(),
         SizedBox(height: 12),
-        Text(
-            "Buncis (250gr)",
-            style: TextStyles.body2222
-        )
+        Text("Buncis (250gr)", style: TextStyles.body2222)
       ],
     );
   }
@@ -555,62 +471,49 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       children: [
         //  250gr
         // Text
-        Text(
-            "Medicine",
+        Text("Medicine",
             style: const TextStyle(
                 color: ColorConst.input_field_line_off_2_2_2,
                 fontWeight: FontWeight.w500,
                 fontFamily: "SctoGroteskA",
                 fontStyle: FontStyle.normal,
-                fontSize: 14.0
-            ),
-            textAlign: TextAlign.center
-        ),
+                fontSize: 14.0),
+            textAlign: TextAlign.center),
         SizedBox(height: 6),
         // Rp 5.300-6.600
-        Text(
-            "Rp 5.300-6.600",
-            style: BaseTextStyles.subtitle3222
-        ),
+        Text("Rp 5.300-6.600", style: BaseTextStyles.subtitle3222),
         SizedBox(height: 8),
         Container(
             height: 32,
             margin: EdgeInsets.only(bottom: 12, left: 12, right: 12),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(8)
-                ),
-                color: ColorConst.color_mint_100_2_2_2
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: ColorConst.color_mint_100_2_2_2),
             alignment: Alignment.center,
-            child: Text("+ Add",
-              style: BaseTextStyles.bUTTONBlack222,)).onTap(onPressed: () {
-
-        }
-        ),
+            child: Text(
+              "+ Add",
+              style: BaseTextStyles.bUTTONBlack222,
+            )).onTap(onPressed: () {}),
       ],
     );
   }
 
   BoxDecoration getDealsDecoration() {
     return BoxDecoration(
-        borderRadius: BorderRadius.all(
-            Radius.circular(8)
-        ),
-        boxShadow: [BoxShadow(
-            color: const Color(0x24000000),
-            offset: Offset(0, 2),
-            blurRadius: 6,
-            spreadRadius: 0
-        ), BoxShadow(
-            color: const Color(0x14000000),
-            offset: Offset(0, 0),
-            blurRadius: 2,
-            spreadRadius: 0
-        )
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        boxShadow: [
+          BoxShadow(
+              color: const Color(0x24000000),
+              offset: Offset(0, 2),
+              blurRadius: 6,
+              spreadRadius: 0),
+          BoxShadow(
+              color: const Color(0x14000000),
+              offset: Offset(0, 0),
+              blurRadius: 2,
+              spreadRadius: 0)
         ],
-        color: ColorConst.elevation_off_2_2_2
-    );
+        color: ColorConst.elevation_off_2_2_2);
   }
 
   Widget getStackWidget() {
@@ -623,54 +526,49 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       Positioned(
         top: 8,
         right: 8,
-        child:
-        Container(
+        child: Container(
           width: 24,
           height: 24,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              boxShadow: [BoxShadow(
-                  color: const Color(0x1f000000),
-                  offset: Offset(0, 4),
-                  blurRadius: 6,
-                  spreadRadius: 0
-              ), BoxShadow(
-                  color: const Color(0x14000000),
-                  offset: Offset(0, 0),
-                  blurRadius: 2,
-                  spreadRadius: 0
-              )
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x1f000000),
+                    offset: Offset(0, 4),
+                    blurRadius: 6,
+                    spreadRadius: 0),
+                BoxShadow(
+                    color: const Color(0x14000000),
+                    offset: Offset(0, 0),
+                    blurRadius: 2,
+                    spreadRadius: 0)
               ],
-              color: ColorConst.elevation_off_2_2_2
-          ),
-          child: getSvgImage(imagePath: Assets.assets_icon_f_favorite,
+              color: ColorConst.elevation_off_2_2_2),
+          child: getSvgImage(
+              imagePath: Assets.assets_icon_f_favorite,
               height: 16.0,
               width: 16.0),
-
-        ).onTap(onPressed: () {
-
-        }),
+        ).onTap(onPressed: () {}),
       )
-
     ]);
   }
 
   Widget getCategoryWidget(List<store.Category> categories) {
     return Container(
-        height: 116,
-        margin: EdgeInsets.only(left: 16),
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              return getListTile(categories[index],true); // Container
-
-
-            })
-    );
+        height: 124,
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          scrollDirection: Axis.horizontal,
+          itemCount: categories.length,
+          itemBuilder: (context, index) {
+            return getListTile(categories[index], true); // Container
+          },
+          separatorBuilder: (BuildContext context, int index) => SizedBox(
+            width: 12,
+          ),
+        ));
   }
-
 
   Future showAllCategoriesInBottomSheet(BuildContext context) {
     return showModalBottomSheet(
@@ -680,64 +578,53 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
         context: context,
         builder: (BuildContext context) {
           return bottomSheetWidget();
-        }
-    );
+        });
   }
 
   Widget bottomSheetWidget() {
     return Container(
         margin: EdgeInsets.only(left: 16),
         padding: EdgeInsets.only(top: 6),
-        decoration:getBottomSheetDecoration(),
-        child: Wrap(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  width: 53,
-                  height: 4,
-                  margin: EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(8)
-                      ),
-                      color: AppColors.light_grey_bg_color
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //SizedBox(height: 18),
-                  getHeadingText(Strings.allcategories),
-                  SizedBox(height: 16),
-                  categoriesGridView()
-                ],
-              ),
-            ]
-        )
-    );
+        decoration: getBottomSheetDecoration(),
+        child: Wrap(children: <Widget>[
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              width: 53,
+              height: 4,
+              margin: EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  color: AppColors.light_grey_bg_color),
+            ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //SizedBox(height: 18),
+              getHeadingText(Strings.allcategories),
+              SizedBox(height: 16),
+              categoriesGridView()
+            ],
+          ),
+        ]));
   }
 
   Widget categoriesGridView() {
-    return GridView.count(crossAxisCount: 4,
+    return GridView.count(
+        crossAxisCount: 4,
         shrinkWrap: true,
         childAspectRatio: 0.7,
-        children: storeController.categoryList.map((categoryItem) =>
-            getListTile(categoryItem,false)).toList()
-    );
+        children: storeController.categoryList
+            .map((categoryItem) => getListTile(categoryItem, false))
+            .toList());
   }
 
   BoxDecoration getBottomSheetDecoration() {
-    return  BoxDecoration(
+    return BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(64), topRight: Radius.circular(8)),
-        color: Colors.white
-    );
+        color: Colors.white);
   }
-
-
-
 }
-

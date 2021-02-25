@@ -5,28 +5,39 @@ import '../../../common/constants/styles.dart';
 import '../../../common/constants/values.dart';
 import '../../../common/widgets/extensions.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
 
 class ProductItem extends StatelessWidget {
+  final Item p;
+
+  const ProductItem(this.p);
+
   @override
   Widget build(BuildContext context) {
     return Card(
       // elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: InkWell(
-        onTap: () => Get.to(ProductDetailsPage()),
+        onTap: () => Get.to(ProductDetailsPage(p)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: 96,
+              width: double.maxFinite,
               child: Stack(
                 children: [
-                  Placeholder(),
+                  // temp image
+                  Image.network(
+                    "https://picsum.photos/200/300",
+                    fit: BoxFit.fill,
+                    width: double.maxFinite,
+                  ),
                   Positioned(
                     right: 8,
                     top: 8,
                     child: ValueBuilder<bool>(
-                        initialValue: false,
+                        initialValue: p.favouriteItem ?? false,
                         onUpdate: (value) => print("Value updated: $value"),
                         onDispose: () => print("Widget unmounted"),
                         builder: (value, updateFn) {
@@ -38,9 +49,13 @@ class ProductItem extends StatelessWidget {
                               backgroundColor: Colors.white,
                               child: InkWell(
                                 onTap: () => updateFn(!value),
-                                child: Icon(value
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,size: 18,color: AppColors.black100,),
+                                child: Icon(
+                                  value
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  size: 18,
+                                  color: AppColors.black100,
+                                ),
                               ),
                             ),
                           );
@@ -53,7 +68,7 @@ class ProductItem extends StatelessWidget {
               height: 16,
             ),
             Text(
-              "Short Plate Sliced Beef(250 gr)",
+              "${p.itemName}",
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyles.body2222,
@@ -62,12 +77,12 @@ class ProductItem extends StatelessWidget {
               height: 12,
             ),
             Text(
-              "Price / 250gr",
+              "${p.description}",
               style: TextStyle(
                   fontSize: 12, color: AppColors.input_field_line_off_2_2_2),
             ),
             Text(
-              "Rp 36.500-37.600",
+              "Rp ${p.price}",
               style: TextStyles.subtitle3222,
             ),
             Spacer(),
@@ -75,6 +90,8 @@ class ProductItem extends StatelessWidget {
               height: 36,
               child: Counter(
                 title: "+ Add",
+                maxCount: p.quantityInStock,
+                errorMessage: "Limited Stock",
                 onChange: (count) {},
               ),
             )

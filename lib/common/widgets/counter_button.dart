@@ -13,8 +13,16 @@ class Counter extends StatefulWidget {
   final String title;
   final Function onChange;
   final initialCount;
+  final int maxCount;
+  final String errorMessage;
 
-  const Counter({Key key, this.onChange, this.title, this.initialCount})
+  const Counter(
+      {Key key,
+      this.onChange,
+      this.title,
+      this.initialCount,
+      this.maxCount = 99,
+      this.errorMessage})
       : super(key: key);
   @override
   _CounterState createState() => _CounterState();
@@ -92,13 +100,15 @@ class _CounterState extends BaseState<Counter> {
   }
 
   _increment() {
-    if (_count < 99) {
+    if (_count < widget.maxCount) {
       setState(() {
         ++_count;
         widget.onChange(_count);
       });
     } else {
-      showToast(message: "Can not add more than 99 items");
+      showToast(
+          message: widget.errorMessage ??
+              "Can not add more than ${widget.maxCount} items");
     }
   }
 

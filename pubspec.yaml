@@ -132,7 +132,7 @@ dependencies:
   device_info: ^1.0.0
   wifi: ^0.1.5
   jiffy: ^3.0.1
-  helpcrunch_plugin: ^0.1.0
+#  helpcrunch_plugin: ^0.1.0
   flutter_inappwebview: ^4.0.0+4
   form_field_validator: 1.0.1
 #  tuple: ^1.0.3

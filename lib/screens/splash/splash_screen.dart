@@ -34,7 +34,7 @@ class SplashScreenState extends BaseState<SplashScreen> {
     }
     Timer(Duration(seconds: 5), () async {
       if (!isLoggedIn)
-        Get.off(Utils().getLandingScreen());
+        Get.off(SignInScreen());
       else
         Get.off(Utils().getLandingScreen());
     });

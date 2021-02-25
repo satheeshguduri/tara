@@ -7,13 +7,19 @@ import 'package:tara_app/common/widgets/counter_button.dart';
 import 'package:tara_app/common/widgets/page_indicator.dart';
 import 'package:tara_app/common/widgets/primary_button.dart';
 import 'package:tara_app/common/widgets/underline_text.dart';
+import 'package:tara_app/controller/cart_controller.dart';
+import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/transfer/register_card_request.dart';
 import 'package:tara_app/screens/consumer/shop/product_item.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/widgets/extensions.dart';
 import '../../base/base_state.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
 
 class ProductDetailsPage extends StatefulWidget {
+  final Item product;
+
+  const ProductDetailsPage(this.product);
   @override
   _ProductDetailsPageState createState() => _ProductDetailsPageState();
 }
@@ -180,7 +186,7 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
           height: 176 * 1.6,
           child: ListView.separated(
             itemBuilder: (_, i) {
-              return SizedBox(width: 196, child: ProductItem());
+              return SizedBox(width: 196, child: Placeholder());
             },
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
@@ -207,7 +213,7 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
             height: 12,
           ),
           Text(
-            "Fresh Organic Spinach from reputable farm. Price per pack (200gr). Fresh until 1 week after purchase if stored in fridge.",
+            "${widget.product.description}",
             style: TextStyle(color: AppColors.black90),
           )
         ],
@@ -221,12 +227,12 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
         children: [
           ListTile(
             title: Text(
-              "Bayam Hijau Hidroponik (1 Ikat)",
+              "${widget.product.itemName}",
               style: TextStyles.headline6222,
             ),
             subtitle: Text("± 200gr / Ikat"),
             trailing: ValueBuilder<bool>(
-              initialValue: false,
+              initialValue: widget.product.favouriteItem ?? false,
               builder: (data, updateFn) {
                 return InkWell(
                   borderRadius: BorderRadius.circular(56),
@@ -237,7 +243,7 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.grey.shade300)),
                     child: Icon(
-                        data ? Icons.favorite_outline_rounded : Icons.favorite),
+                        data ? Icons.favorite : Icons.favorite_outline_rounded),
                   ),
                 );
               },
@@ -265,7 +271,7 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
                           height: 2,
                         ),
                         Text(
-                          "Rp 5.300-6.600",
+                          "Rp ${widget.product.price}",
                           style: TextStyles.subtitle1222,
                         )
                       ],
@@ -276,7 +282,15 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
                       height: 42,
                       child: Counter(
                         title: "+ Add to Cart",
-                        onChange: (count) {},
+                        onChange: (count) {
+                          final controller = getIt.get<CartController>();
+                          if (count == 1) {
+                            //add to cart
+                            print("adding to cart");
+                            controller.addToCart(widget.product);
+                            // controller.getCart();
+                          }
+                        },
                       ),
                     ),
                   ),
