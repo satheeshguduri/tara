@@ -33,6 +33,9 @@ class BillController extends GetxController{
   var btnColor = AppColors.billerPaymentNextButtonColor.obs;
   var textStyle = TextStyles.bUTTONGrey3222.obs;
   var clickable = false.obs;
+  var creditCardSelectedIndex = "-1".obs;
+  var debitCardSelectedIndex = "-1".obs;
+
 
   var paymentClickable = false.obs;
   var paymentNextColor = AppColors.billerPaymentNextButtonColor.obs;

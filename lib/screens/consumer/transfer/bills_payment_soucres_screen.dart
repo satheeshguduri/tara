@@ -73,10 +73,10 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             Expanded(
                 child: Column(
                   children: [transactionDetailRow(),
-                             SizedBox(height: 16),
-                             creditCardsRow(),
-                             SizedBox(height: 16),
-                             debitCardsRow(),],
+                    SizedBox(height: 16),
+                    creditCardsRow(),
+                    SizedBox(height: 16),
+                    debitCardsRow(),],
 
                 )
             ),
@@ -109,28 +109,28 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonRowTitle(getTranslation(Strings.paywith)),
-    FutureBuilder(
-    future: this.dCMemorizer.runOnce(()=>transferController.getCustomerProfile2()),
-    builder: (context,snapshot){
-        if(snapshot.connectionState==ConnectionState.done)
-        {
-        if(snapshot.hasData){
-          CustomerProfileDetailsResponse data = snapshot.data;
-          return debitCardsRowContainer(data.mappedBankAccounts);
-        }else if (snapshot.hasError){
-        return Container();
-        }else{
-        return Container();
-        }
-        }else{
-        return BaseWidgets.getIndicator;
-        }
+          FutureBuilder(
+            future: this.dCMemorizer.runOnce(()=>transferController.getCustomerProfile2()),
+            builder: (context,snapshot){
+              if(snapshot.connectionState==ConnectionState.done)
+              {
+                if(snapshot.hasData){
+                  CustomerProfileDetailsResponse data = snapshot.data;
+                  return debitCardsRowContainer(data.mappedBankAccounts);
+                }else if (snapshot.hasError){
+                  return Container();
+                }else{
+                  return Container();
+                }
+              }else{
+                return BaseWidgets.getIndicator;
+              }
 
-      },
-    )
-    ],
-   ),
- );
+            },
+          )
+        ],
+      ),
+    );
   }
 
 
@@ -149,21 +149,21 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       ),
     ).onTap(onPressed: () async {
       if(billController.paymentClickable.value) {
-            showIfFalse();
-            if(billController.isDebitCard.value){
-               transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
-            }else{
-              // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
-               transferController.paymentInitiation(
-                   cardId: billController.creditCardId,
-                   amount: billController.creditCardAmount,
-                   desc: billController.creditCardDesc,
-                   maskAcNum: billController.creditCardMaskedCardNumber,
-                   toAddress: ToAddressResponse(customerProfile: CustomerProfile(firebaseId: "BillPayment")),
-                   isFromCreditCard: true,trContext: TransactionContext.BILL_PAYMENT);
-              // transferController.payViaCreditCard();
-            }
-       }
+        showIfFalse();
+        if(billController.isDebitCard.value){
+          transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
+        }else{
+          // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
+          transferController.paymentInitiation(
+              cardId: billController.creditCardId,
+              amount: billController.creditCardAmount,
+              desc: billController.creditCardDesc,
+              maskAcNum: billController.creditCardMaskedCardNumber,
+              toAddress: ToAddressResponse(customerProfile: CustomerProfile(firebaseId: "BillPayment")),
+              isFromCreditCard: true,trContext: TransactionContext.BILL_PAYMENT);
+          // transferController.payViaCreditCard();
+        }
+      }
 
     }
 
@@ -210,9 +210,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             children: [
               Image.asset(Assets.ic_bca, width: 48, height: 24,),
               //TODO ICON TO LOAD FROM NETWORK
-                Container(width:Get.width*0.7,child: Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,
+              Container(width:Get.width*0.7,child: Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,
 
-                ))
+              ))
 
 
             ],
@@ -233,14 +233,14 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             scrollDirection: Axis.horizontal,
             itemCount: mappedBankAccounts.length,
             itemBuilder: (context, index) {
-              return getDebitCardListTile(mappedBankAccounts[index]); // Container
+              return getDebitCardListTile(mappedBankAccounts[index],index); // Container
 
 
             })
     );
   }
 
-  Widget getDebitCardListTile(MappedBankAccountsBean mappedBankAccounts) {
+  Widget getDebitCardListTile(MappedBankAccountsBean mappedBankAccounts,int index) {
     return Container(
       width: 208,
       margin: EdgeInsets.only(right: 16),
@@ -263,7 +263,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       child: Column(
         children: [
           SizedBox(height: 12),
-          debitCardtransactionDetailRow(),
+          debitCardtransactionDetailRow(index),
           SizedBox(height: 16),
           debitCardAmountRow(),
           SizedBox(height: 12),
@@ -274,10 +274,12 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
 
     ).onTap(onPressed: (){
+
+      billController.debitCardSelectedIndex.value = index.toString();
+      billController.creditCardSelectedIndex.value = "-1";
       showIfTrue();
       billController.isDebitCard.value = true;
       billController.isCreditCard.value = false;
-
       billController.mobileNumber = "8368951368";
       billController.debitCardAmount =  "100";
       billController.debitCardDesc = "from bills";
@@ -292,7 +294,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     });
   }
 
-  Widget debitCardtransactionDetailRow() {
+  Widget debitCardtransactionDetailRow(int index) {
     return Container(
       height: 24,
       child: Row(
@@ -300,7 +302,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         children: [
           Container(
             width: 48,
-           // height: 24,
+            // height: 24,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(
                     Radius.circular(6)
@@ -312,16 +314,28 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             margin: EdgeInsets.only(left: 19),
           ),
           // Expanded(child: SizedBox()),
-          Container(width: 50,
-            child: getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
-                height: 24.0,
-                width: 24.0),
-           // margin: EdgeInsets.only(top: 8),
+          Obx(() => Container(
+              margin: EdgeInsets.only(right: 10,),
+              //width: 50,
+              child:  isMatched(billController.debitCardSelectedIndex.value, index.toString())?
+              getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
+                  height: 24.0,
+                  width: 24.0)
+              // margin: EdgeInsets.only(top: 8),
+                  :Container())),
 
-          )
+
+
+
+
+
+
+
+
         ],
 
       ),
+
     );
   }
 
@@ -342,7 +356,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         alignment: Alignment.centerLeft,
         child:
         Text(
-             getMaskedAccountNumber(mappedBankAccounts.maskedAccountNumber),
+            getMaskedAccountNumber(mappedBankAccounts.maskedAccountNumber),
             style: TextStyles.cardNumberTextStyle
         )
     );
@@ -371,9 +385,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(getTranslation(Strings.name), style: BaseStyles.purchaseLabelTextStyle),
-         Container(width:Get.width*0.6,child: Text("${widget.billDetailsData.productName}",style: TextStyles.bUTTONWhite2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.right,
+        Container(width:Get.width*0.6,child: Text("${widget.billDetailsData.productName}",style: TextStyles.bUTTONWhite2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.right,
 
-         ))
+        ))
       ],
     ).withPad(padding: EdgeInsets.all(5));;
   }
@@ -438,14 +452,14 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             itemCount: creditCards.length,
             itemBuilder: (context, index) {
 
-              return getCreditCardListTile(creditCards[index]); // Container
+              return getCreditCardListTile(creditCards[index],index); // Container
             }
-            )
+        )
 
     );
   }
 
- Widget getCreditCardListTile(CardData creditCardData) {
+  Widget getCreditCardListTile(CardData creditCardData,int index) {
     return Container(
       width: 208,
       margin: EdgeInsets.only(right: 16),
@@ -468,7 +482,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       child: Column(
         children: [
           SizedBox(height: 12),
-          creditCardtransactionDetailRow(creditCardData),
+          creditCardtransactionDetailRow(creditCardData,index),
           SizedBox(height: 16),
           creditCardNumberRow(creditCardData),
           SizedBox(height: 12),
@@ -479,6 +493,13 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
 
     ).onTap(onPressed: (){
+      billController.creditCardSelectedIndex.value = index.toString();
+      billController.debitCardSelectedIndex.value  = "-1";
+      // if(billController.isCreditSelected.value){
+      //   billController.isCreditSelected.value = false;
+      // }else{
+      //   billController.isCreditSelected.value = true;
+      // }
       showIfTrue();
       billController.isDebitCard.value = false;
       billController.isCreditCard.value = true;
@@ -488,45 +509,61 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       billController.creditCardMaskedCardNumber = creditCardData.maskedCardNumber;
 
 
-    //  transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
+      //  transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
     });
   }
+  bool isMatched(String current,String index){
 
-Widget  creditCardtransactionDetailRow(CardData creditCardData) {
-  return Container(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          width: 180,
-           child:  Text(
-              creditCardData.bankIssuer,
-              style: TextStyles.cardAmountTextStyle,
-              overflow: TextOverflow.ellipsis
+    print("checking match ==> $current == $index");
+    return current==index;
+
+  }
+  Widget  creditCardtransactionDetailRow(CardData creditCardData,int index) {
+    return  Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 150,
+            child:  Text(
+                creditCardData.bankIssuer,
+                style: TextStyles.cardAmountTextStyle,
+                overflow: TextOverflow.ellipsis
+            ),
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(left: 16,),
           ),
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.only(left: 16,),
-        ),
+          // (billController.isCreditSelected.value && creditCardSelectedIndex==index)?
+          Obx(() => Container(
+              margin: EdgeInsets.only(right: 10,),
+              //width: 50,
+              child:  isMatched(billController.creditCardSelectedIndex.value, index.toString())?
+              getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
+                  height: 24.0,
+                  width: 24.0)
+              // margin: EdgeInsets.only(top: 8),
+                  :Container())),
 
-      ],
+        ],
 
-    ),
-  );
-}
+      ),
 
- Widget creditCardNumberRow(CardData creditCardData) {
-   return Container(
-       margin: EdgeInsets.only(left: 16),
-       alignment: Alignment.centerLeft,
-       child: Text(
-           creditCardData.maskedCardNumber,
-           style: TextStyles.cardAmountTextStyle
-       )
-   );
- }
+    );
+  }
+
+  Widget creditCardNumberRow(CardData creditCardData) {
+    return Container(
+        margin: EdgeInsets.only(left: 16),
+        alignment: Alignment.centerLeft,
+        child: Text(
+            creditCardData.maskedCardNumber,
+            style: TextStyles.cardAmountTextStyle
+        )
+    );
+  }
 
 
- Widget creditCardNameRow(CardData creditCardData) {
+  Widget creditCardNameRow(CardData creditCardData) {
     return Container(
         margin: EdgeInsets.only(left: 16,),
         alignment: Alignment.centerLeft,
