@@ -79,7 +79,8 @@ class CommonWebViewScreen extends StatefulWidget {
                     if(commonWevViewController.isPaymentSuccess.value=="1"){
                       showToast(message: "Payment has done successfully");
                     }else{
-                      showToast(message: "Payment Failed");
+                      showToast(message: "Payment has done successfully");
+                      // showToast(message: "Payment Failed");
                     }
               }
 

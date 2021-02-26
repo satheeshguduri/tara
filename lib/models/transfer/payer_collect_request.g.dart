@@ -8,15 +8,19 @@ part of 'payer_collect_request.dart';
 
 PayerCollectRequest _$PayerCollectRequestFromJson(Map<String, dynamic> json) {
   return PayerCollectRequest(
-    custPSPId: json['custPSPId'],
-    accessToken: json['accessToken'],
-    transactionId: json['transactionId'],
-    acquiringSource: json['acquiringSource'],
-    merchantId: json['merchantId'],
-    requestedLocale: json['requestedLocale'],
+    custPSPId: json['custPSPId'] as String,
+    accessToken: json['accessToken'] as String,
+    transactionId: json['transactionId'] as String,
+    acquiringSource: json['acquiringSource'] == null
+        ? null
+        : AcquiringSourceBean.fromJson(
+            json['acquiringSource'] as Map<String, dynamic>),
+    merchantId: json['merchantId'] as String,
+    requestedLocale: json['requestedLocale'] as String,
     approvedAmount: json['approvedAmount'] as String,
     approved: json['approved'] as bool,
     accountTokenId: json['accountTokenId'] as num,
+    merchantTxnId: json['merchantTxnId'] as String,
   );
 }
 
@@ -32,4 +36,5 @@ Map<String, dynamic> _$PayerCollectRequestToJson(
       'approvedAmount': instance.approvedAmount,
       'approved': instance.approved,
       'accountTokenId': instance.accountTokenId,
+      'merchantTxnId': instance.merchantTxnId,
     };

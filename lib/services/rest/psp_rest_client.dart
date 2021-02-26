@@ -43,6 +43,10 @@ abstract class PSPRestClient {
   @Headers(<String, dynamic>{"Content-Type": "text/plain"})
   Future<String> getAppToken(@Query("ki") String ki, @Body() String request);
 
+  @POST(PSPApi.merchant_login)
+  @Headers(<String, dynamic>{"Content-Type": "text/plain"})
+  Future<String> getAppTokenMerchant(@Query("ki") String ki, @Body() String request);
+
   @POST(PSPApi.get_private_access_token)
   Future<TokenResponse> getPrivateAccessToken(@Body() CommonRegistrationRequest commonRegistrationRequest);
 
@@ -68,6 +72,9 @@ abstract class PSPRestClient {
 
   @POST(PSPApi.initiate_transaction_request)
   Future<TransactionResponse> initiateTransactionRequest(@Body() TransactionRequest transactionRequest);
+
+  @POST(PSPApi.initiate_merchant_transaction_request)
+  Future<TransactionResponse> initiateMerchantTransactionRequest(@Body() TransactionRequest transactionRequest);
 
   @POST(PSPApi.track_transaction_request)
   Future<TransactionResponse> trackTransactionRequest(@Body() TrackTransactionRequest transactionRequest);

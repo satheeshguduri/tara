@@ -255,7 +255,7 @@ class _SignInScreenState extends BaseState<SignInScreen> {
               Expanded(
                   flex:1,
                   child:Container(
-                    child:TextFieldWidget(isObscure:isObscure,placeHolderStyle: BaseStyles.subHeaderTextStyle,hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,focusNode: focusNode,onChanged:(value){
+                    child:TextFieldWidget(isObscure:isObscure,placeHolderStyle: BaseStyles.subHeaderTextStyle,hint: hint,inputType: inputType,textController: textEditingController,isIcon: false,onChanged:(value){
                       controller.errorMessage.value = "";
                       controller.confirmPwd.value = textEditingController.text;
                     }),
@@ -282,7 +282,8 @@ class _SignInScreenState extends BaseState<SignInScreen> {
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: (){
-      FocusManager.instance.primaryFocus.unfocus();
+      FocusScope.of(context).requestFocus(FocusNode());
+      hideKeyboard();
       controller.login();
     });
   }

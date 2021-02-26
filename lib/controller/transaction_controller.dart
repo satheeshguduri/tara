@@ -27,6 +27,7 @@ import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/models/core/base_response.dart';
+import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/transactions/transaction_model.dart';
 import 'package:tara_app/models/transfer/account_details_request.dart';
 import 'package:tara_app/models/transfer/add_beneficiary_request.dart';
@@ -39,6 +40,7 @@ import 'package:tara_app/models/transfer/constants/transaction_type.dart';
 import 'package:tara_app/models/transfer/device_info.dart';
 import 'package:tara_app/models/transfer/fetch_otp_request.dart';
 import 'package:tara_app/models/transfer/fetch_otp_response.dart';
+import 'package:tara_app/models/transfer/payer_collect_request.dart';
 import 'package:tara_app/models/transfer/transaction_response.dart';
 import 'package:tara_app/models/transfer/payment_instrument.dart';
 import 'package:tara_app/models/transfer/pre_transaction_request.dart';
@@ -135,7 +137,7 @@ class TransactionController extends GetxController{
     // print("to firebaseid "+ toAddress.customerProfile.firebaseId);
     payAmount=amount;
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
-    var toData = ToDataBean(toContactNumber: toAddress.mobileNumber,toAccount:null,toUserFirebaseId: toAddress.customerProfile.firebaseId);
+    var toData = ToDataBean(toContactNumber: toAddress?.mobileNumber,toAccount:null,toUserFirebaseId: toAddress?.customerProfile?.firebaseId);
     var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount,transactionContext: isFromCreditCard?describeEnum(TransactionContext.BILL_PAYMENT):null));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
@@ -465,6 +467,161 @@ class TransactionController extends GetxController{
     }
   }
 
+  Future payBill({String subMerchantName,String merchantRef,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId}) async {
+    var customerProfile = await getCustomerProfile2();
+    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+    var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+    var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
+    var custRefId = "${DateTime.now().millisecondsSinceEpoch}";
+    var amount= amount1;
+    var remarks = remarks1;
+    var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transaction request.
+    var bic = bic1;//bic1; // get these from Search beneficiary call by passing the mobile number to the api
+    var cvvValue = cvv1;
+    //do merchant transaction
+    var isMerchantSessionInitiated = await getIt.get<DeviceRegisterRepository>().getAppTokenMerchant(CommonRegistrationRequest(
+        merchantId: PSPConfig.MERCHANT_ID
+    ));
+
+    if(isMerchantSessionInitiated.isRight()){
+      var merchantLoginResponse = isMerchantSessionInitiated.getOrElse(() => null);
+      print("============ MERCHANT LOGIN TOKEN RESPONSE======");
+      print(jsonEncode(merchantLoginResponse.toJson()));
+      if(merchantLoginResponse?.token?.isNotEmpty??false){
+
+        var payeeInfo = PayeesBean(
+          amount: amount1,
+        );
+        var payerInfo = PayeesBean(
+            mobileNo: customerProfile.mobileNo,
+            appId: PSPConfig.APP_NAME
+        );
+        var transactionRequest = TransactionRequest(type: RequestType.COLLECT,
+          requestedLocale: "en",
+          accessToken: merchantLoginResponse.token,
+          payees: [payeeInfo],
+          payer: payerInfo,
+          merchantId: PSPConfig.MERCHANT_ID,
+          subMerchantName: subMerchantName,
+          custRefId: custRefId,
+          remarks: remarks
+        );
+        print("=====================Merchant Transaction Request======================");
+        print(jsonEncode(transactionRequest.toJson()));
+        var tResp = await getIt.get<TransactionRepository>().initiateMerchantTransactionRequest(transactionRequest);
+        if(tResp.isRight()){
+          var merchantTxnResponse = tResp.getOrElse(() => null);
+          print("=====================Merchant Transaction Response======================");
+          print(jsonEncode(merchantTxnResponse.toJson()));
+          if(merchantTxnResponse.success){
+            showProgress.value = true;
+            var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+            if(isSessionInitiated) {
+              await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress,trContext: TransactionContext.BILL_PAYMENT);
+              //Retrieve Key Request
+               merchantTxnId = merchantTxnResponse.transactionId;
+
+
+              var payerCollectRequest = PayerCollectRequest(
+                acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
+                requestedLocale: "en",
+                accessToken: tokenResponse.token,
+                custPSPId: deviceRegInfo.pspIdentifier,
+                approved: true,
+                approvedAmount: amount,
+                accountTokenId: initiatorAccountId,
+                merchantTxnId: merchantTxnId
+              );
+              print(jsonEncode(payerCollectRequest.toJson()));
+              var payerCollectR = await getIt.get<TransactionRepository>().payerCollectResponse(payerCollectRequest);
+              if(payerCollectR.isRight()){
+                var payerCollectResponse = payerCollectR.getOrElse(() => null);
+                if(payerCollectResponse.success){
+                  print(jsonEncode(payerCollectResponse.toJson()));
+                  var txnId = payerCollectResponse.transactionId;// transaction id comees in the collect resposne call
+                  var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
+                  var retrieveKeyRequest = RetrieveKeyRequest(
+                      deviceInfo: deviceInfo,
+                      paymentInstrument: PaymentInstrumentBean(
+                          paymentInstrumentType: "ACCOUNT",
+                          bic:bic
+                      ),
+                      resetCredentialCall: false,
+                      startDateTime: DateTime.now().microsecondsSinceEpoch
+                  );
+                  print("=====================Transaction Resposne======================");
+                  print(jsonEncode(retrieveKeyRequest.toJson()));
+                  var respo = await getIt.get<TransactionRepository>().retrieveKey(retrieveKeyRequest,TransactionType.FINANCIAL_TXN,txnId);
+                  if(respo.isRight()) {
+                    var retriveKeyResponse = respo.getOrElse(() => null);
+                    print(jsonEncode(retriveKeyResponse.toJson()));
+                    var cvv = await CryptoHelper().encryptBankData("$txnId|$cvvValue|${Random.secure()}",retriveKeyResponse.bankKi,retriveKeyResponse.publicKey);
+                    var authorizeReq = AuthorizeRequest(deviceInfo: await BaseRequestHelper().getDeviceInfoBeanWithPSP(),
+                        authorizePINCred: AuthorizePINCredBean(
+                            credType: "MPIN",
+                            credValue:cvv
+                        ));
+                    var respo2 = await getIt.get<TransactionRepository>().authorize(authorizeReq,TransactionType.FINANCIAL_TXN,retriveKeyResponse.sessionKey,
+                        txnId);
+                    if(respo2.isRight()){
+                      var res = respo2.getOrElse(() => null);
+                      if(res.commonResponse.success){
+                        var fetchOtpRequest = FetchOtpRequest(
+                          deviceInfo: deviceInfo,
+                          paymentInstrument: PaymentInstrumentBean(
+                              bic: bic,
+                              paymentInstrumentType: "ACCOUNT"
+                          ),
+                          action: ActionType.PURCHASE,
+                        );
+                        print(jsonEncode(fetchOtpRequest.toJson()));
+                        Timer(Duration(seconds: 2), ()async{
+                          var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+                          if(deviceRegInfo!=null){
+                            print(jsonEncode(deviceRegInfo.toJson()));
+                            var fetchOTPR = await getIt.get<TransactionRepository>().fetchOtp(fetchOtpRequest,TransactionType.FINANCIAL_TXN,retriveKeyResponse.sessionKey,txnId);
+                            if(fetchOTPR.isRight()){
+                              var fetchOTPResponse = fetchOTPR.getOrElse(() => null);
+                              print(jsonEncode(fetchOTPResponse.toJson()));
+                              userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
+                              showProgress.value = false;
+                              Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from:"transfer"));
+
+                              //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
+                              // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
+                            }else{
+                              showDialogWithErrorMsg("Unable to fetch the otp");
+                            }
+                          }else{
+                            showDialogWithErrorMsg("Failed to get Device Reg Info");
+                          }
+                        }
+                        );
+                      }else{
+                        showDialogWithErrorMsg("Authroziation Failed");
+                      }
+                    }else{
+                      showDialogWithErrorMsg("Authorization Response Failed");
+                    }
+                  }else{
+                    showDialogWithErrorMsg("Retrieve key request failed");
+                  }
+                }else{
+                  showDialogWithErrorMsg("Payer Collect Response Failed");
+                }
+              }else{
+                showDialogWithErrorMsg("Payer Collect Response Failed");
+              }
+            }else{
+              showDialogWithErrorMsg("Session not initiated ");
+            }
+          }else{
+            showDialogWithErrorMsg("Merchant Transaction initiation failed");
+          }
+        }
+      }
+    }
+  }
   Future payNow({String mobileNumber,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1,num benId1,num selfAccountTokenId}) async {
     showProgress.value = true;
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
@@ -508,6 +665,8 @@ class TransactionController extends GetxController{
           var payeeInfo = PayeesBean(
               amount: amount,
               appId: PSPConfig.APP_NAME,
+              mobileNo: toMobileNumber,
+              beneId: benId,
               targetSelfAccountTokenId:selfAccountTokenId
           );
           var transactionRequest = TransactionRequest(type: RequestType.PAY,

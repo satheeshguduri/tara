@@ -116,6 +116,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
               {
                 if(snapshot.hasData){
                   CustomerProfileDetailsResponse data = snapshot.data;
+                  billController.debitCards = data.mappedBankAccounts;
                   return debitCardsRowContainer(data.mappedBankAccounts);
                 }else if (snapshot.hasError){
                   return Container();
@@ -151,7 +152,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       if(billController.paymentClickable.value) {
         showIfFalse();
         if(billController.isDebitCard.value){
-          transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
+
+          transferController.payBill(subMerchantName: widget.billDetailsData.category,merchantRef:"1234",amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId:billController.getSelectedDebitCardAccountID(),);
+          // transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
         }else{
           // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
           transferController.paymentInitiation(
@@ -285,7 +288,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       billController.debitCardDesc = "from bills";
       billController.debitCardBic = "CENAID00001";
       billController.debitCardCvv = "123";
-      billController.debitCardAccountId = 44;
+      // billController.debitCardAccountId = 44;
       billController.debitCardBenId = 44;
 
       //  transferController.payNow(mobileNumber: "8368951368",amount1: "100",remarks1: "from bills",bic1: "CENAID00001",cvv1: "123",initiatorAccountId1:44,benId1: 44);

@@ -70,6 +70,7 @@ abstract class TransactionRepository {
 
   Future<Either<Failure,TransactionResponse>> initiatePreTransactionRequest(PreTransactionRequest preTransactionRequest);
   Future<Either<Failure,TransactionResponse>> initiateTransactionRequest(TransactionRequest transactionRequest);
+  Future<Either<Failure,TransactionResponse>> initiateMerchantTransactionRequest(TransactionRequest transactionRequest);
   Future<Either<Failure,TransactionResponse>> trackTransactionRequest(TrackTransactionRequest transactionRequest);
 
   Future<Either<Failure,SearchBeneficiaryResponse>> searchBeneficiary(Map<String, dynamic> queries);
@@ -225,6 +226,16 @@ class TransactionRepositoryImpl implements TransactionRepository{
     }
   }
 
+
+  @override
+  Future<Either<Failure, TransactionResponse>> initiateMerchantTransactionRequest(TransactionRequest transactionRequest) async{
+    try {
+      var response = await pspRemoteDataSource.initiateMerchantTransactionRequest(transactionRequest);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
+  }
   @override
   Future<Either<Failure, RetrieveKeyResponse>> retrieveKey(RetrieveKeyRequest retrieveKeyRequest,TransactionType transactionType,String transactionId) async{
 
@@ -451,9 +462,13 @@ class TransactionRepositoryImpl implements TransactionRepository{
   }
 
   @override
-  Future<Either<Failure, TransactionResponse>> payerCollectResponse(PayerCollectRequest payerCollectRequest) {
-    // TODO: implement payerCollectResponse
-    throw UnimplementedError();
+  Future<Either<Failure, TransactionResponse>> payerCollectResponse(PayerCollectRequest payerCollectRequest) async{
+    try {
+      var response = await pspRemoteDataSource.payerCollectResponse(payerCollectRequest);
+      return Right(response);
+    }catch(e){
+      return Left(Failure.fromServerError(e));
+    }
   }
   @override
   Future<Either<Failure, CommonResponse>> retrieveAndAuthorize(CommonRequest commonRequest) {

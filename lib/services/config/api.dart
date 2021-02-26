@@ -93,6 +93,7 @@ class PSPApi{
   static const track_transaction_request = 'psp-umps-adaptor/umps-app/track-transaction-request';
   //Merchant Pay
   static const merchant_login = "psp-umps-adaptor/umps-login/merchant-login";
+  static const initiate_merchant_transaction_request = 'psp-umps-adaptor/umps-merchant/initiate-transaction-request';
   static const payer_collect_response = "psp-umps-adaptor/umps-app/payer-collect-response";
 
   //transaction history
