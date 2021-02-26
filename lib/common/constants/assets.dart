@@ -202,6 +202,7 @@ class Assets {
   static const assets_icon_h_help = "assets/images/assets_icon_h_help.svg";
   static const assets_icon_p_paper = "assets/images/assets_icon_p_paper.svg";
   static const assets_icon_user = "assets/images/icon_tara_customer_default_profile_picture.svg";
-  static const assets_icon_l_lock_outline =
-      "assets/images/assets_icon_l_lock_outline.svg";
+  static const assets_icon_l_lock_outline ="assets/images/assets_icon_l_lock_outline.svg";
+  static const illustration_transfer_to_my_account ="assets/images/illustration_transfer_to_my_account.svg";
+
 }
