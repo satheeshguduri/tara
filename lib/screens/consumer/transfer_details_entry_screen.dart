@@ -293,9 +293,9 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         }else{
           if (uiController.selectedBenAccount.value?.beneId?.isNullOrBlank??false) {
             uiController.confirmToPay(
-               mobile: (widget.isSelf)?widget.customerProfile.mobileNumber:widget.taraContact != null ? phoneNumberValidation(
-                   widget.taraContact, null) : phoneNumberValidation(
-                   null, widget.beneContact),
+                mobile: widget.taraContact != null ? phoneNumberValidation(
+                    widget.taraContact, null) : phoneNumberValidation(
+                    null, widget.beneContact),
                amount: uiController.amountController.text,
                remarks: uiController.messageController.text,
                bic: bic,
