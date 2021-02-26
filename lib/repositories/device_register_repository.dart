@@ -36,6 +36,7 @@ import '../injector.dart';
 abstract class DeviceRegisterRepository {
   Future<Either<Failure,TokenResponse>> initiateSession(CommonRegistrationRequest commonRegistrationRequest);
   Future<Either<Failure,TokenResponse>> getAppToken(CommonRegistrationRequest commonRegistrationRequest);
+  Future<Either<Failure,TokenResponse>> getAppTokenMerchant(CommonRegistrationRequest commonRegistrationRequest);
   Future<Either<Failure,TokenResponse>> getPrivateAccessToken(CommonRegistrationRequest commonRegistrationRequest);
   Future<Either<Failure,RegisterResponse>> register(RegisterRequest registerRequest);
   Future<Either<Failure,void>> registerUserTxn(UserRegistrationTxnRequest registerRequest);
@@ -78,6 +79,30 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
     }
   }
 
+  @override
+  Future<Either<Failure, TokenResponse>> getAppTokenMerchant(CommonRegistrationRequest commonRegistrationRequest) async{
+
+    commonRegistrationRequest = CommonRegistrationRequest(merchantId: PSPConfig.MERCHANT_ID);
+    print("For Merchant App Token==> "+jsonEncode(commonRegistrationRequest.toJson()));
+    try {
+      var encryptedBody = await CryptoHelper().encrypt(json.encode(commonRegistrationRequest.toJson()));
+      var response = await pspRemoteDataSource.getAppTokenMerchant(PSPConfig.MERCHANT_KI,encryptedBody);
+      var decryptedResponse = await CryptoHelper().decrypt(response);
+      var map = getMap(decryptedResponse);
+      if(map?.isNotEmpty??false){
+        var tokenResponse = TokenResponse.fromJson(map);
+        if(tokenResponse?.token?.isNotEmpty??false){
+          // await sessionLocalDataStore.setToken(tokenResponse);
+          print("Merchant App Token response ::"+jsonEncode(tokenResponse.toJson()));
+          return Right(TokenResponse.fromJson(map));
+        }
+      }
+      return Left(Failure(message: "Token Fetch Failed"));
+    }catch(e){
+      print(e);
+      return Left(Failure(message: e.toString()));
+    }
+  }
   @override
   Future<Either<Failure, TokenResponse>> getPrivateAccessToken(CommonRegistrationRequest commonRegistrationRequest) async{
     try {

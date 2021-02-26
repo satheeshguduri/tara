@@ -8,8 +8,9 @@ class PayerCollectRequest extends CommonRegistrationRequest{
   String approvedAmount;
   bool approved;
   num accountTokenId;
+  String merchantTxnId;
 
-  PayerCollectRequest({custPSPId, accessToken, transactionId, acquiringSource, merchantId, requestedLocale, this.approvedAmount, this.approved, this.accountTokenId, merchantTxnId});
+  PayerCollectRequest({String custPSPId, String accessToken, String transactionId, AcquiringSourceBean acquiringSource, String merchantId, String requestedLocale, this.approvedAmount, this.approved, this.accountTokenId, this.merchantTxnId}):super(custPSPId:custPSPId, accessToken:accessToken, transactionId:transactionId, acquiringSource: acquiringSource, merchantId:merchantId, requestedLocale:requestedLocale);
 
   factory PayerCollectRequest.fromJson(Map<String, dynamic> json) => _$PayerCollectRequestFromJson(json);
 

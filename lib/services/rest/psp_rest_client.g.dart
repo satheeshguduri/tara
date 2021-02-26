@@ -38,6 +38,27 @@ class _PSPRestClient implements PSPRestClient {
   }
 
   @override
+  Future<String> getAppTokenMerchant(ki, request) async {
+    ArgumentError.checkNotNull(ki, 'ki');
+    ArgumentError.checkNotNull(request, 'request');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'ki': ki};
+    final _data = request;
+    final _result = await _dio.request<String>(
+        'psp-umps-adaptor/umps-login/merchant-login',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{r'Content-Type': 'text/plain'},
+            extra: _extra,
+            contentType: 'text/plain',
+            baseUrl: baseUrl),
+        data: _data);
+    final value = _result.data;
+    return value;
+  }
+
+  @override
   Future<TokenResponse> getPrivateAccessToken(commonRegistrationRequest) async {
     ArgumentError.checkNotNull(
         commonRegistrationRequest, 'commonRegistrationRequest');
@@ -206,6 +227,28 @@ class _PSPRestClient implements PSPRestClient {
     _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/initiate-transaction-request',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TransactionResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TransactionResponse> initiateMerchantTransactionRequest(
+      transactionRequest) async {
+    ArgumentError.checkNotNull(transactionRequest, 'transactionRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(transactionRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-merchant/initiate-transaction-request',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'POST',
