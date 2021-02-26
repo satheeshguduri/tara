@@ -65,6 +65,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
   Widget _buildTaraAndAllContactsList() {
     return ListView(
       children: [
+         selfAccountWidget(),
         // getSearchBarWidget(),
         (contactsController.arrRecentlyAddedContactInfo.length>0)?debitCardsHeadingWidget("Beneficiaries"):Container(),
         beneListView(),
@@ -335,6 +336,47 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
             contactsController.contactList.length:
             contactsController.filteredContactList.length;
 
+  }
+
+ Widget selfAccountWidget() {
+  return Container(
+    height:64,
+    padding: EdgeInsets.only(left: 16),
+    margin: EdgeInsets.fromLTRB(16, 16, 16, 8),
+    decoration: getSelfAccoundWidgetDecoration(),
+    child: Row(
+      children: [
+        getSvgImage(imagePath: Assets.illustration_transfer_to_my_account,width: 40.0,height: 40.0),
+        SizedBox(width:8,),
+        Text("My Account",style: TextStyles.subtitle1222)
+
+      ],
+    ),
+  ).onTap(onPressed: (){
+   // var customerInfo = CustomerProfile(registrationStatus: RegistrationStatus.RTP);
+    print("status"+Get.find<AuthController>().user.value.customerProfile.registrationStatus.toString());
+    Get.to(TransferDetailsEntryScreen(isSelf:true,customerProfile: Get.find<AuthController>().user.value.customerProfile));
+  });
+  }
+
+  BoxDecoration getSelfAccoundWidgetDecoration() {
+   return  BoxDecoration(
+        borderRadius: BorderRadius.all(
+            Radius.circular(8)
+        ),
+        boxShadow: [BoxShadow(
+            color: const Color(0x1f000000),
+            offset: Offset(0,4),
+            blurRadius: 6,
+            spreadRadius: 0
+        ), BoxShadow(
+            color: const Color(0x14000000),
+            offset: Offset(0,0),
+            blurRadius: 2,
+            spreadRadius: 0
+        )] ,
+        color: AppColors.elevation_off_2_2_2
+    );
   }
 
 }

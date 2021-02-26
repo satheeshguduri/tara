@@ -465,7 +465,7 @@ class TransactionController extends GetxController{
     }
   }
 
-  Future payNow({String mobileNumber,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1,num benId1}) async {
+  Future payNow({String mobileNumber,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1,num benId1,num selfAccountTokenId}) async {
     showProgress.value = true;
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
@@ -479,8 +479,8 @@ class TransactionController extends GetxController{
       var cvvValue = cvv1;
 // These below two lines has to be removed
       var customerProfile = await getCustomerProfile2();
-      var initiatorAccountId = customerProfile.mappedBankAccounts[0].accountTokenId;
-      // var initiatorAccountId = initiatorAccountId1;
+    //  var initiatorAccountId = customerProfile.mappedBankAccounts[0].accountTokenId;
+       var initiatorAccountId = initiatorAccountId1;
 
       var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
       var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
@@ -507,9 +507,8 @@ class TransactionController extends GetxController{
         if(preTransactionResponse.success){
           var payeeInfo = PayeesBean(
               amount: amount,
-              mobileNo: toMobileNumber,
-              beneId: benId,//MIGHT NOT REQUIRED
-              appId: PSPConfig.APP_NAME
+              appId: PSPConfig.APP_NAME,
+              targetSelfAccountTokenId:selfAccountTokenId
           );
           var transactionRequest = TransactionRequest(type: RequestType.PAY,
             acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
@@ -616,10 +615,10 @@ class TransactionController extends GetxController{
                 showDialogWithErrorMsg("Failed to get To Address");
               }
           }else{
-              showDialogWithErrorMsg("Pretransaction initiation Failed");
+              showDialogWithErrorMsg(" init transaction initiation Failed");
             }
         }else{
-          showDialogWithErrorMsg("Pretransaction initiation Failed");
+          showDialogWithErrorMsg(" init transaction Request Failed");
         }
       }else{
           showDialogWithErrorMsg("Pretransaction not initiated");

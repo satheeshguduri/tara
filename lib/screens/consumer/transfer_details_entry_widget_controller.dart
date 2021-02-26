@@ -14,6 +14,7 @@ class TransferDetailsEntryWidgetController extends GetxController{
   var mappedItems = List<MappedBankAccountsBean>().obs;
   var currentSelectedCategory="Gift".obs;
   var selectedBenAccount=BeneDetailBean().obs;
+  var selectedSelfAccount=MappedBankAccountsBean().obs;
 
 
   TextEditingController amountController = TextEditingController();
@@ -63,8 +64,8 @@ class TransferDetailsEntryWidgetController extends GetxController{
 
   }
 
-  void confirmToPay({String mobile,String amount,String remarks,String bic,String cvv,num accountTokenId,num beneId}) async{
-    await Get.find<TransactionController>().payNow(mobileNumber: mobile,amount1:txtCtrlTransferAmt.text,remarks1:messageController.text,bic1: bic,cvv1:cvvController.text,initiatorAccountId1: accountTokenId,benId1: beneId);
+  void confirmToPay({String mobile,String amount,String remarks,String bic,String cvv,num accountTokenId,num beneId,num selfAccountId}) async{
+    await Get.find<TransactionController>().payNow(mobileNumber: mobile,amount1:txtCtrlTransferAmt.text,remarks1:messageController.text,bic1: bic,cvv1:cvvController.text,initiatorAccountId1: accountTokenId,benId1: beneId,selfAccountTokenId: selfAccountId);
 
   }
 
