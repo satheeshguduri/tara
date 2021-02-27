@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/custom_button.dart';
+import 'package:flutter_svg/svg.dart';
+
 
 class ErrorStateInfoWidget extends StatelessWidget {
   final Widget image;
@@ -11,7 +13,7 @@ class ErrorStateInfoWidget extends StatelessWidget {
   final Function onTap;
   final bool isDefault;
 
-  ErrorStateInfoWidget({this.image,this.title, this.desc,this.buttonText,this.onTap,this.isDefault = true});
+  ErrorStateInfoWidget({this.image,this.title="Something went wrong", this.desc,this.buttonText,this.onTap,this.isDefault = true});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,12 @@ class ErrorStateInfoWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            this.image??Container(),
+            this.image??SvgPicture.asset(
+                Assets.illustration_transfer_to_my_account,
+                fit: BoxFit.fitHeight,
+                width: 100,
+                height: 100,),
+
             Text(
                title??"",
                 style: BaseStyles.bottomSheetTitleStyle,
