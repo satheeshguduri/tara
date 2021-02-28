@@ -852,7 +852,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  Future receiveBottomSheet() {
+  Future  receiveBottomSheet() {
     return showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
@@ -860,6 +860,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         context: context,
         builder: (BuildContext context) {
           return ReceiveWidget(
+            customerProfile: widget.custInfo,
             receiveMoneyConfirmed: (amount) {
               setState(() {
                 sendReceiveMoney = "";

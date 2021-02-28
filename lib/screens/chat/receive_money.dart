@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -6,6 +7,11 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
+import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/utils/locale/utils.dart';
@@ -13,7 +19,8 @@ import 'package:tara_app/utils/locale/utils.dart';
 class ReceiveWidget extends StatefulWidget {
 
   final Function(String) receiveMoneyConfirmed;
-  ReceiveWidget({Key key,this.receiveMoneyConfirmed}) : super(key: key);
+  final CustomerProfile customerProfile;
+  ReceiveWidget({Key key,this.receiveMoneyConfirmed,this.customerProfile}) : super(key: key);
 
   @override
   _ReceiveWidgetState createState() => _ReceiveWidgetState();
@@ -120,7 +127,8 @@ class _ReceiveWidgetState extends BaseState<ReceiveWidget> {
 
   _getConfirmWidget() {
     return InkWell(
-      onTap: () {
+      onTap: () async{
+        await Get.find<TransactionController>().paymentInitiation(trContext:TransactionContext.PAYMENT_REQUEST,amount:double.parse(amountTextController.text),toAddress: ToAddressResponse(mobileNumber: widget.customerProfile.mobileNumber,customerProfile: widget.customerProfile));
         widget.receiveMoneyConfirmed(amountTextController.text.toString());
         Navigator.pop(context);
       },

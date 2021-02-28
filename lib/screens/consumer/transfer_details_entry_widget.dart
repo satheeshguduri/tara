@@ -34,7 +34,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
   @override
   void initState() {
     super.initState();
-        controller.getCustomerProfile2() ;
+        controller.getCustomerBankAccounts() ;
   }
 
   @override

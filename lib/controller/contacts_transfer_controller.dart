@@ -11,8 +11,10 @@ import 'dart:math';
 
 import 'package:contacts_service/contacts_service.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tara_app/common/constants/strings.dart';
@@ -24,6 +26,7 @@ import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/models/transactions/transaction_model.dart';
 import 'package:tara_app/models/transfer/account_details_request.dart';
@@ -65,11 +68,14 @@ class ContactsTransferController extends GetxController{
   var contactList = List<Contact>().obs;
   var filteredContactList = List<Contact>().obs;
   var arrRecentlyAddedContactInfo = List<BeneDetailBean>().obs;
+  var filteredContactsList = List<CustomerProfile>().obs;
+  var totalContactsList = List<CustomerProfile>().obs;
+  var searchInProgress  = false.obs;
 
 
  var title = "abc".obs;
 
-  String searchText = "";
+  var searchText = "".obs;
 
   TextEditingController searchQuery = TextEditingController();
 
@@ -90,32 +96,57 @@ class ContactsTransferController extends GetxController{
           );
         }
       }else{
-        contactList.value = (await ContactsService.getContacts(withThumbnails: false)).toList();
-
+        contactList.value = (await ContactsService.getContacts(withThumbnails: false,)).toList();
+        print("Total Contacts Lenght: ==> "+contactList.value.length.toString());
+       contactList.value.removeWhere((e) => e?.phones?.isEmpty??true);
+        print("After Deletion Total Contacts Lenght: ==> "+contactList.value.length.toString());
+        totalContactsList.value = contactList.value.map((e) {
+               return CustomerProfile(mobileNumber: e.phones?.elementAt(0).value.removeAllWhitespace,firstName: e?.displayName,registrationStatus: RegistrationStatus.INACTIVE);
+            }
+        ).toList();
+        print(totalContactsList.value.toString());
       }
       showProgress.value = false;
     }
 
+    void searchContact(String value){
+      searchInProgress.value = true;
+      if(value.isEmpty){
+        searchInProgress.value = false;
+        searchText.value= "";
+        filteredContactsList.value.clear();
+      }else{
+        searchInProgress.value = true;
+        searchText.value= value;
+        filteredContactsList.value = totalContactsList.value
+            .where((contact) => (contact.firstName.toLowerCase()??"")
+            .toLowerCase()
+            .startsWith(value.toLowerCase()))
+            .toList();
+      }
+
+
+    }
   void filterTheContacts(String value) {
     title.value = value;
-    searchText = value;
+    searchText.value = value;
     if (searchText != null &&searchText.toString().trim().isNotEmpty &&searchText.toString().trim().length > 2) {
-      filteredContactList.value=[];
-      if (contactList.value.isNotEmpty) {
-        filteredContactList.value = contactList.value
-            .where((contact) =>
-            displayNameValidation(contact.displayName??"")
+      filteredContactsList.value=[];
+      if (totalContactsList.value.isNotEmpty) {
+        filteredContactsList.value = totalContactsList.value
+            .where((contact) => (contact.firstName??"")
                 .toLowerCase()
-                .contains(searchText.toLowerCase()))
+                .contains(searchText.value.toLowerCase()))
             .toList();
 
       }
     } else {
       if (searchQuery.text == "") {
         title.value = "";
-        searchText = "";
+        searchText.value = "";
         searchQuery.text = "";
-        filteredContactList.value.clear();
+        filteredContactsList.value.clear();
+        searchInProgress.value = false;
 
       }
     }
@@ -129,21 +160,33 @@ class ContactsTransferController extends GetxController{
     }
   }
 
- void getBeneficiaries() async {
+ Future getBeneficiaries() async {
   // showProgress.value = true;
    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
 
     if(isSessionInitiated){
       var queries =  await BaseRequestHelper().getCustomerDataQueryParam();
-      var benresponse =  await getIt.get<TransactionRepository>().getBeneficiaries(queries);
-      if(benresponse.isRight()){
-        var response = benresponse.getOrElse(() => null);
+      var benResponse =  await getIt.get<TransactionRepository>().getBeneficiaries(queries);
+      if(benResponse.isRight()){
+        var response = benResponse.getOrElse(() => null);
         arrRecentlyAddedContactInfo.value = response.beneDetails;
-
+        print(jsonEncode(arrRecentlyAddedContactInfo.value[0]));
+        arrRecentlyAddedContactInfo.value.forEach((e) async{
+         var matchedObject = totalContactsList.value.where((element){
+           print(element.mobileNumber.removeAllWhitespace);
+           print(e.beneMobile.removeAllWhitespace);
+            return element.mobileNumber.removeAllWhitespace.contains(e.beneMobile.removeAllWhitespace);}).toList();
+         if(matchedObject?.isNotEmpty??false) {
+           var objIndex = totalContactsList.value.indexOf(matchedObject[0]);
+           totalContactsList.value[objIndex].registrationStatus =
+               RegistrationStatus.BENEFICIARY;
+         }else{
+           print("Not matched");
+         }
+        });
       }
-    //  showProgress.value = false;
-
     }
+    showProgress.value = false;
   }
 
 

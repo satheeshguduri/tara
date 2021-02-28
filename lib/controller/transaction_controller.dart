@@ -138,7 +138,7 @@ class TransactionController extends GetxController{
     payAmount=amount;
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress?.mobileNumber,toAccount:null,toUserFirebaseId: toAddress?.customerProfile?.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount,transactionContext: isFromCreditCard?describeEnum(TransactionContext.BILL_PAYMENT):null));
+    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount,transactionContext: isFromCreditCard?describeEnum(TransactionContext.BILL_PAYMENT):describeEnum(trContext)));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
       toData: toData,
@@ -153,7 +153,6 @@ class TransactionController extends GetxController{
     Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().initiateTaraTransaction(transactionModel);
    // showProgress.value = false;
     print("@@@@@@@");
-
     responseDa.fold(
             (l) => print(l.message),
             (r) => {
@@ -688,13 +687,14 @@ class TransactionController extends GetxController{
             print("=====================Transaction Resposne======================");
             print(jsonEncode(initiateTransactionResponse.toJson()));
             if(initiateTransactionResponse.success){
-             var toAddressResp = await Get.find<AuthController>().getToAddressForPayment("91"+toMobileNumber);
+             var toAddressResp = await Get.find<AuthController>().getToAddressForPayment(toMobileNumber.substring(1,toMobileNumber.length));
               if(toAddressResp.isRight()){
                 toAddress = toAddressResp.getOrElse(() => null);
 
                 print("to firebase id"+jsonEncode(toAddress.toJson()));
                 if(toAddress!=null){
-                  await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress,trContext: TransactionContext.PAYMENT_REQUEST);
+                  // await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress,trContext: TransactionContext.PAYMENT_REQUEST);//commented to pass null for trqansaction request
+                  await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress);
                   //Retrieve Key Request
                   var txnId = initiateTransactionResponse.transactionId;
                   var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();

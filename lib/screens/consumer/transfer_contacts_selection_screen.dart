@@ -83,7 +83,7 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
           }
           else {
             //default state when search not applied
-            if (!(contactsController.searchText?.isNotEmpty??false)) {
+            if (!(contactsController.searchText?.value.isNotEmpty??false)) {
               if (section == 0) {
                 return contactsController.arrRecentlyAddedContactInfo.length;
               } else {
@@ -229,7 +229,7 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
                           ? Colors.black54
                           : Colors.transparent)).onTap(onPressed: () {
 
-                contactsController.searchText = "";
+                contactsController.searchText.value = "";
                 contactsController.searchQuery.text = "";
                 contactsController.filteredContactList.value.clear();
               },
@@ -319,7 +319,7 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
         //{"mobile":"999999999",account:"1234467890"}
         //
 
-        if(beneficiaryAccountList?.isNotEmpty??false){ // if benefecialries exists
+        /*if(beneficiaryAccountList?.isNotEmpty??false){ // if benefecialries exists
           var benDetails = beneficiaryAccountList[0];
           var customerInfo = CustomerProfile(mobileNumber: benDetails.beneMobile, firstName:benDetails.beneName);
           Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,benList: beneficiaryAccountList,customerProfile: customerInfo,));
@@ -333,7 +333,7 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
             var customerInfo = CustomerProfile(mobileNumber: selectedMobile, firstName:selectedContactName,registrationStatus: RegistrationStatus.INACTIVE);
             Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: customerInfo,));
           }
-        }
+        }*/
       }else{
         //Alert no accociated mobile
       }
