@@ -131,6 +131,7 @@ dependencies:
   helpcrunch_plugin: ^0.1.0
   flutter_inappwebview: ^4.0.0+4
   form_field_validator: 1.0.1
+  grouped_list: ^3.7.1
 #  tuple: ^1.0.3
 #  flutter_aes_ecb_pkcs5: ^0.1.1
 #  encryptions: ^0.0.6

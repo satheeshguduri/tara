@@ -10,13 +10,14 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/shop/shop_home.dart';
 import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
-import 'package:tara_app/screens/consumer/transfer/benefeciries_contacts_list.dart';
+import 'package:tara_app/screens/consumer/transfer/beneficiaries_contacts_list_screen.dart';
 import 'package:tara_app/screens/create_account_screen.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/screens/notification_screen.dart';
@@ -118,7 +119,8 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-                push(TransferContactsSelectionScreen());
+                // push(TransferContactsSelectionScreen());
+                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.PAY,));
                 // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer_to_tara_user));
                 // push(CashDepositSelectContact(
                 //   isFromSend: true,
@@ -130,9 +132,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.RECEIVE_ICON,
               svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
-                push(CashDepositSelectContact(
-                  isFromReceive: true,
-                ));
+                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.COLLECT,));
+                // push(CashDepositSelectContact(
+                //   isFromReceive: true,
+                // ));
               },
             ),
             RoundedButton(
@@ -168,9 +171,11 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-                push(CashDepositSelectContact(
-                  isFromSend: true,
-                ));
+                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.PAY,));
+                //Old Flow
+                // push(CashDepositSelectContact(
+                //   isFromSend: true,
+                // ));
               },
             ),
             RoundedButton(
@@ -178,9 +183,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               //image: Assets.RECEIVE_ICON,
               svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
-                push(CashDepositSelectContact(
-                  isFromReceive: true,
-                ));
+                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.COLLECT,));
+                // push(CashDepositSelectContact(
+                //   isFromReceive: true,
+                // ));
               },
             ),
             RoundedButton(
@@ -211,7 +217,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-                Get.to(BensAndContactsScreen());
+                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.PAY,));
               //  Get.to(TransferContactsSelectionScreen());
                 // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added
                 // push(CashDepositSelectContact(
@@ -224,9 +230,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.RECEIVE_ICON,
               svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
-                Get.to(CashDepositSelectContact(
-                  isFromReceive: true,
-                ));
+                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.COLLECT,));
+                // Get.to(CashDepositSelectContact(
+                //   isFromReceive: true,
+                // ));
               },
             ),
             RoundedButton(

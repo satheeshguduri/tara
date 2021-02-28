@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -14,8 +15,10 @@ import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
@@ -30,21 +33,10 @@ import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/screens/consumer/add_beneficiary_screen.dart';
 import 'package:tara_app/controller/contacts_transfer_controller.dart';
 
-
-
-
-import '../../injector.dart';
-import 'my_account/otp_verification_screen.dart';
-
 class TransferDetailsEntryScreen extends StatefulWidget {
 
-
-  final Contact taraContact;
-  final BeneDetailBean beneContact;
-  final List<BeneDetailBean> benList;
   final CustomerProfile customerProfile;
-  final bool isSelf;
-  TransferDetailsEntryScreen({Key key,this.taraContact,this.beneContact,this.benList,this.customerProfile,this.isSelf=false}) : super(key: key);
+  TransferDetailsEntryScreen({Key key,this.customerProfile,RequestType requestType}) : super(key: key);
 
 
 
@@ -69,17 +61,15 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   List<String> transTypeList = ["Others", "Others1", "Others2"];
   List<String> arrFrequency = [Strings.DAILY, Strings.MONTHLY, Strings.YEARLY];
 
-  final TextEditingController _typeAheadController = TextEditingController();
   ContactsTransferController contactsController = Get.find();
 
 
 
   String frequencyType;
   String transType;
+  bool isSelf;
   PaymentSource source;
   PaymentSource bankAccount;
-
-  BankModel selectedbank;
   bool isToSaveContact = false;
   bool isBankAccVerFailed = false;
   BankAccountContactInfo contactInfo;
@@ -87,21 +77,20 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   // Contact taraContact;
 
   @override
-  BuildContext getContext() {
-    // TODO: implement getContext
-    return context;
-  }
+  BuildContext getContext() => context;
 
   @override
   void initState() {
     super.initState();
-    uiController.getCustomerProfile2();
-
+    uiController.getCustomerBankAccounts();
+    var user = Get.find<AuthController>().user;
+    isSelf = widget.customerProfile.mobileNumber == user.value.customerProfile.mobileNumber;
+    print(widget.customerProfile.registrationStatus);
   }
   bool isTaraUser(CustomerProfile customerProfile) {
-    return ((customerProfile?.registrationStatus ?? "") =="TARA")?true:false;
+    return customerProfile.registrationStatus == RegistrationStatus.TARA;
   }
-  Widget getRecepient() {
+  Widget getReciepentHeaderWidget() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -127,7 +116,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       Container(
                         margin: EdgeInsets.only(top: 4),
                         child: Text(
-                          checkContactInfo(),
+                          widget.customerProfile.firstName,
                           textAlign: TextAlign.left,
                           style: BaseStyles.transactionItemPersonNameTextStyle,
                         ),
@@ -141,7 +130,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                     Container(
                       margin: EdgeInsets.only(top: 4),
                       child: Text(
-                        phoneNumberValidation(widget.taraContact,widget.beneContact),
+                        widget.customerProfile.mobileNumber,
                         textAlign: TextAlign.left,
                         style: BaseStyles.transactionItemDateTextStyle,
                       ),
@@ -163,9 +152,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
             child: getRootContainer().withProgressIndicator(
                 showIndicator: transactionController.showProgress.value)));
   }
-
-
-
 
   _getDropDownVal(String type) {
     if (type == "transactionType") {
@@ -275,37 +261,32 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
       ),
     ).onTap(onPressed: () {
       if(formKey.currentState.validate()) {
-       if(widget.isSelf){
-        // if (uiController.selectedSelfAccount.value?.beneId?.isNullOrBlank??false) {
-           uiController.confirmToPay(
-               mobile: widget.customerProfile.mobileNumber,
-               amount: uiController.amountController.text,
-               remarks: uiController.messageController.text,
-               bic: bic,
-               cvv: uiController.cvvController.text,
-               accountTokenId: accountTokenId,
+        if(isSelf){
+          // if (uiController.selectedSelfAccount.value?.beneId?.isNullOrBlank??false) {
+          uiController.confirmToPay(
+              // mobile: widget.customerProfile.mobileNumber,
+              amount: uiController.amountController.text,
+              remarks: uiController.messageController.text,
+              bic: bic,
+              cvv: uiController.cvvController.text,
+              accountTokenId: accountTokenId,
               selfAccountId: selfAccountTokenId
 
-             //  beneId: 44 //getBenId(widget.beneContact)
-           );
-        // }
+            //  beneId: 44 //getBenId(widget.beneContact)
+          );
 
-        }else{
-          if (uiController.selectedBenAccount.value?.beneId?.isNullOrBlank??false) {
+        }else if (uiController.selectedBenAccount?.value?.beneId?.isNullOrBlank??false) {
             uiController.confirmToPay(
-                mobile: widget.taraContact != null ? phoneNumberValidation(
-                    widget.taraContact, null) : phoneNumberValidation(
-                    null, widget.beneContact),
-               amount: uiController.amountController.text,
-               remarks: uiController.messageController.text,
-               bic: bic,
-               cvv: uiController.cvvController.text,
-               accountTokenId: accountTokenId,
-               beneId: uiController.selectedBenAccount.value
-                   .beneId //getBenId(widget.beneContact)
-           );
-         }
-       }
+                mobile: widget.customerProfile.mobileNumber,
+                amount: uiController.amountController.text,
+                remarks: uiController.messageController.text,
+                bic: bic,
+                cvv: uiController.cvvController.text,
+                accountTokenId: accountTokenId,
+                beneId: uiController.selectedBenAccount.value
+                    .beneId //getBenId(widget.beneContact)
+            );
+          }
       }else{
         showToast(message: "Please Add a bank account");
       }
@@ -428,11 +409,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   getRecipientWidget(),
-                  getPaymentDestionationeWidget(),
-
-                  getSelectAccountWidget(),
-                  Container( color: AppColors.primaryBackground,height: 16,),
-                  getAddNewAccountWidget(),
                   Container(
                       margin: EdgeInsets.only(top: 8, bottom: 8),
                       padding: EdgeInsets.all(16),
@@ -461,7 +437,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                                   children: [
                                     getTransactionTypeWidget(),
                                     getTheDivider(),
-                                   // _getDropDownList("transactionType"),
+                                    // _getDropDownList("transactionType"),
                                   ]),
                               // textFormFieldContainer(
                               //     getTranslation(Strings.MESSAGE_OPT),
@@ -535,11 +511,11 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                             getPaymentSourceWidget(),
-                             getTheDivider(),
+                            getPaymentSourceWidget(),
+                            getTheDivider(),
                             getCVVWidget(),
                             getTheDivider(),
-                           // _getDropDownList("paymentSource")
+                            // _getDropDownList("paymentSource")
 
                           ])),
                   _getContinueWidget()
@@ -549,22 +525,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
           )),
     );
   }
-
-  String phoneNumberValidation([Contact contactInfo,BeneDetailBean beneContactInfo]) {
-
-    try {
-        return contactInfo!=null?contactInfo.phones.elementAt(0).value:beneContactInfo.beneMobile;
-    } catch (Exception) {
-      return " ";
-    }
-  }
-
-  String contactNameValidation(String displayName) {
-    if (displayName != null)
-      return displayName;
-    return "";
-  }
-
 
   Widget getCustomItemWidget(String bankname, String maskedAccountNumber) {
     return Row(
@@ -586,20 +546,28 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget getRecipientWidget() {
-    return Container(
-      //  margin: EdgeInsets.only(top: 8, bottom: 8),
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppColors.primaryBackground,
-          boxShadow: [
-            BoxShadow(
-                color: Color(0xffe9ecef),
-                offset: Offset(0, 1),
-                blurRadius: 0,
-                spreadRadius: 0)
-          ],
+    return Column(
+      children: [
+        Container(
+          //  margin: EdgeInsets.only(top: 8, bottom: 8),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.primaryBackground,
+              boxShadow: [
+                BoxShadow(
+                    color: Color(0xffe9ecef),
+                    offset: Offset(0, 1),
+                    blurRadius: 0,
+                    spreadRadius: 0)
+              ],
+            ),
+            child: getReciepentHeaderWidget()
         ),
-        child: getRecepient()
+        getPaymentToSelfWidget(),
+        getSelectBeneAccountWidget(),
+        Container( color: AppColors.primaryBackground,height: 16,),
+        getAddNewAccountWidget(),
+      ],
     );
   }
 
@@ -711,7 +679,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   Widget messageTextField() {
     return  Container(
       height: 62,
-     // margin: EdgeInsets.only(bottom: 11),
+      // margin: EdgeInsets.only(bottom: 11),
       child: TextFormField(
         controller: uiController.messageController,
         decoration:  removeUnderlineAndShowHint(getTranslation(Strings.typeyourmessage)),
@@ -726,24 +694,23 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
 
-
+  var selectedSourceBankAccount;
   Widget getPaymentSourceWidget() {
     return
-      //Obx(()=>
       Container(
         height: 60,
-       child: Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(getTranslation(Strings.PAYMENT_SOURCE),
-          style:TextStyles.transferDetailsHeadingTextStyle),
+                style:TextStyles.transferDetailsHeadingTextStyle),
 
             DropdownButtonFormField<MappedBankAccountsBean>(
                 decoration: removeUnderlineAndShowHint(""),
                 icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
                 style: TextStyles.inputFieldOn222,
                 isExpanded: true,
-                value: uiController.mappedItems[0],
+                value: selectedSourceBankAccount,
                 items: (uiController.mappedItems.value)?.map((MappedBankAccountsBean item) {
                   bic = item.bic;
                   accountTokenId = item.accountTokenId;
@@ -753,6 +720,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                     onTap: (){
                       bic = item.bic;
                       accountTokenId = item.accountTokenId;
+                      selectedSourceBankAccount = item;
                     },
                   );
                 })?.toList()??[],
@@ -767,48 +735,47 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     // );
   }
 
-  Widget getPaymentDestionationeWidget() {
+  Widget getPaymentToSelfWidget() {
 
-  return  widget.isSelf?
-     Container(
-        color: AppColors.primaryBackground,
-        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+    return isSelf?
+    Container(
+      color: AppColors.primaryBackground,
+      padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
 
-        height: 78,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Payment To",
-                style:TextStyles.transferDetailsHeadingTextStyle),
+      height: 78,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Payment To",
+              style:TextStyles.transferDetailsHeadingTextStyle),
 
-            DropdownButtonFormField<MappedBankAccountsBean>(
-                decoration: removeUnderlineAndShowHint(""),
-                icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
-                style: TextStyles.inputFieldOn222,
-                isExpanded: true,
-                value:uiController.mappedItems[0],
-                items:(uiController.mappedItems.value)?.map((MappedBankAccountsBean item) {
-               //   selfAccountTokenId = item.accountTokenId;
-                  return DropdownMenuItem<MappedBankAccountsBean>(
-                    value:item,
-                    child: getCustomItemWidget(item.bankName,item.maskedAccountNumber),
-                    onTap: (){
-                      selfAccountTokenId = item.accountTokenId;
+          DropdownButtonFormField<MappedBankAccountsBean>(
+              decoration: removeUnderlineAndShowHint(""),
+              icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
+              style: TextStyles.inputFieldOn222,
+              isExpanded: true,
+              value:(uiController.mappedItems?.isNotEmpty??false)?uiController.mappedItems[0]:null,
+              items:(uiController.mappedItems.value)?.map((MappedBankAccountsBean item) {
+                //   selfAccountTokenId = item.accountTokenId;
+                return DropdownMenuItem<MappedBankAccountsBean>(
+                  value:item,
+                  child: getCustomItemWidget(item.bankName,item.maskedAccountNumber),
+                  onTap: (){
+                    selfAccountTokenId = item.accountTokenId;
+                  },
+                );
+              })?.toList()??[],
+              onChanged: (value){
+                uiController.selectedSelfAccount.value = value;
 
-                    },
-                  );
-                })?.toList()??[],
-                onChanged: (value){
-                  uiController.selectedSelfAccount.value = value;
+              }
 
-                }
+          ),
+          getTheDivider(),
+        ],
+      ),
 
-            ),
-            getTheDivider(),
-          ],
-        ),
-
-      ):Container();
+    ):Container();
     // );
   }
 
@@ -845,79 +812,57 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     );
   }
 
-  String checkContactInfo() {
-    if(widget.taraContact!=null)
-     return contactNameValidation(widget.taraContact.displayName);
-    else{
-      return contactNameValidation(widget?.beneContact?.beneName??"Self");
+  Widget getSelectBeneAccountWidget() {
+
+    if(widget.customerProfile.registrationStatus == RegistrationStatus.BENEFICIARY){
+      return Container(
+          color: AppColors.primaryBackground,
+          padding: EdgeInsets.only(left:16,right:16,),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                commonTextWidget("Select Account"),
+                getAccountsDropDownList(),
+                getTheDivider(),
+              ]
+          )
+
+      );
+    }else return Container();
+  }
+
+  Widget getAddNewAccountWidget() {
+
+    if(widget.customerProfile.registrationStatus == RegistrationStatus.BENEFICIARY || widget.customerProfile.registrationStatus == RegistrationStatus.INACTIVE){
+      return Container(
+        color: AppColors.primaryBackground,
+        alignment: Alignment.center,
+        margin: EdgeInsets.only(bottom: 16),
+        padding: EdgeInsets.only(bottom: 16),
+        child: Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.only(left: 16,right: 16),
+          padding: EdgeInsets.only(bottom: 12, top: 12),
+          decoration: BoxDecoration(
+
+              border: Border.all( color: Colors.grey,),
+              borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+
+          child: Text(" + Add New Bank Account"),
+
+        ),
+      ).onTap(onPressed: (){
+
+        Get.to(AddBeneficiaryScreen(customerProfile: widget.customerProfile,isNewUser: contactsController.arrRecentlyAddedContactInfo?.isEmpty??true));
+      });
+
+    }else{
+      return Container();
 
     }
 
   }
-
- num getBenId(BeneDetailBean beneContact) {
-   return  beneContact!=null? beneContact.beneId:null;
- }
-
-Widget  getSelectAccountWidget() {
-
-  if(widget.customerProfile.registrationStatus == RegistrationStatus.TARA || widget.isSelf){
-    return Container();
-  }
-  if(contactsController.arrRecentlyAddedContactInfo?.value?.isNotEmpty??false){
-    return   Container(
-        color: AppColors.primaryBackground,
-        // margin: EdgeInsets.only(top: 16, bottom: 4),
-        padding: EdgeInsets.only(left:16,right:16,),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              commonTextWidget("Select Account"),
-              getAccountsDropDownList(),
-              getTheDivider(),
-            ]
-        )
-
-    );
-  }else{
-    return Container();
-  }
-
-
-}
-
-Widget getAddNewAccountWidget() {
-
-  if(!(widget.customerProfile.registrationStatus == RegistrationStatus.TARA || widget.isSelf)){
-    return Container(
-      color: AppColors.primaryBackground,
-      alignment: Alignment.center,
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.only(bottom: 16),
-      child: Container(
-        alignment: Alignment.center,
-        margin: EdgeInsets.only(left: 16,right: 16),
-        padding: EdgeInsets.only(bottom: 12, top: 12),
-        decoration: BoxDecoration(
-
-            border: Border.all( color: Colors.grey,),
-            borderRadius: BorderRadius.all(Radius.circular(10))
-        ),
-
-        child: Text(" + Add New Bank Account"),
-
-      ),
-    ).onTap(onPressed: (){
-
-      Get.to(AddBeneficiaryScreen(customerProfile: widget.customerProfile,isNewUser: contactsController.arrRecentlyAddedContactInfo?.isEmpty??true));
-    });
-
- }else{
-   return Container();
-
- }
-
-}
 
   Widget getAccountsDropDownList() {
     return Container(
@@ -947,18 +892,8 @@ Widget getAddNewAccountWidget() {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-  class PaymentSource {
+class PaymentSource {
   String image;
   String bankName;
-  }
+}
 

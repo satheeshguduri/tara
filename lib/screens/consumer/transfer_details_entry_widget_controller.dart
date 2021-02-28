@@ -69,7 +69,7 @@ class TransferDetailsEntryWidgetController extends GetxController{
 
   }
 
-  void getCustomerProfile2() async{
+  void getCustomerBankAccounts() async{
    CustomerProfileDetailsResponse response = await Get.find<TransactionController>().getCustomerProfile2();
    mappedItems.value = response.mappedBankAccounts;
 

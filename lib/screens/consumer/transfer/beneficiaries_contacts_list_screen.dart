@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
@@ -17,25 +20,32 @@ import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/registration_status.dart';
+import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter_section_table_view/flutter_section_table_view.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/screens/consumer/transfer_details_entry_screen.dart';
+import 'package:tara_app/services/config/api.dart';
 
 
-class BensAndContactsScreen extends StatefulWidget {
+class BeneficiariesContactsListScreen extends StatefulWidget {
 
+  
+  final RequestType requestType;
   @override
-  BensAndContactsScreenState createState() =>
-      BensAndContactsScreenState();
+  BeneficiariesContactsListScreenState createState() =>
+      BeneficiariesContactsListScreenState();
+
+  BeneficiariesContactsListScreen({this.requestType});
 }
 
-class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
+class BeneficiariesContactsListScreenState extends BaseState<BeneficiariesContactsListScreen> {
 
-  final TextEditingController _searchQuery = TextEditingController();
   TransactionController controller = Get.find();
   ContactsTransferController contactsController = Get.find();
   final key = GlobalKey<ScaffoldState>();
@@ -58,27 +68,66 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
   void initState()  {
     super.initState();
     contactsController.loadData();
-    contactsController.getBeneficiaries();
-
   }
+  @override
+  init() async {
+    await contactsController.getBeneficiaries();
+    setState(() {});//refreshing the beneficiaries
+  }
+  String getGroupHeader(RegistrationStatus status){
+    switch(status){
+      case RegistrationStatus.BENEFICIARY:
+        return "My Beneficiaries";
+        break;
+      case RegistrationStatus.TARA:
+      case RegistrationStatus.RTP:
+      case RegistrationStatus.INACTIVE:
+        return "All Contacts";
+        break;
+      default:
+        return "All Contacts";
+    }
+  }
+  Widget getGroupedList(){
 
+    if(contactsController.searchInProgress.value && contactsController.filteredContactsList.value.isEmpty){
+      return errorTitleTextWidget();
+    }
+    else {
+      return Container(
+
+        child: GroupedListView<CustomerProfile, String>(
+          elements: contactsController.searchInProgress.value
+              ? contactsController.filteredContactsList.value
+              : contactsController.totalContactsList.value,
+          groupBy: (element) => getGroupHeader(element.registrationStatus),
+          groupSeparatorBuilder: (String groupByValue) =>
+              debitCardsHeadingWidget(groupByValue),
+          itemBuilder: (context, CustomerProfile element) =>
+              getListItemWidget(customerProfile: element),
+          groupComparator: (item1, item2) => item2.compareTo(item1),
+          // optional
+          // useStickyGroupSeparators: true, // optional
+          // floatingHeader: true, // optional
+          order: GroupedListOrder.ASC, // optional
+        ),
+      );
+    }
+  }
   Widget _buildTaraAndAllContactsList() {
-    return ListView(
+    return Column(
+      mainAxisSize: MainAxisSize.max,
       children: [
-         selfAccountWidget(),
-        // getSearchBarWidget(),
-        (contactsController.arrRecentlyAddedContactInfo.length>0)?debitCardsHeadingWidget("Beneficiaries"):Container(),
-        beneListView(),
-        debitCardsHeadingWidget("All Contacts"),
-        allAccountListView(),
+          getSearchBarWidget(),
+          widget.requestType == RequestType.PAY? selfAccountWidget():Container(),
+          Expanded(child: getGroupedList()),
       ],
     );
   }
 
   Widget contactListTitleWidget() => Container(margin:EdgeInsets.only(left: 16),child: TextWithBottomOverlay(titleStr: getTranslation(Strings.CONTACT_LIST)));
 
-  Widget getSearchBarWidget()
-  {
+  Widget getSearchBarWidget() {
     return Column(
       children: [
         Container(
@@ -86,6 +135,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
           margin: EdgeInsets.only(
             left: 16,
             right: 16,
+            top:16,
           ),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -99,9 +149,8 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
             cursorColor: Colors.black,
             autofocus: false,
             onChanged: (value) {
-              contactsController.filterTheContacts(value);
+              contactsController.searchContact(value);
             },
-
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.search,
@@ -127,7 +176,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
                           ? Colors.black54
                           : Colors.transparent)).onTap(onPressed: () {
 
-                contactsController.searchText = "";
+                contactsController.searchText.value = "";
                 contactsController.searchQuery.text = "";
                 contactsController.filteredContactList.value.clear();
               },
@@ -143,44 +192,32 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
       ],
     );
   }
-  Widget getContactItemWidget({Contact contactInfo,BeneDetailBean recentContactInfo}) {
-    var name = contactInfo?.displayName ?? recentContactInfo?.beneName ?? "Un Known";
+
+  Widget getListItemWidget({CustomerProfile customerProfile}) {
+    var name = customerProfile.firstName;
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16, top: 8),
       padding: EdgeInsets.all(8),
       height: 64,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-                color: const Color(0x1f000000),
-                offset: Offset(0, 4),
-                blurRadius: 6,
-                spreadRadius: 0),
-            BoxShadow(
-                color: const Color(0x14000000),
-                offset: Offset(0, 0),
-                blurRadius: 2,
-                spreadRadius: 0)
-          ],
+          boxShadow: Shadows.shadows_list_3,
           color: AppColors.primaryBackground),
       child: Center(
         child:
         Row(
           children: [
-            BaseWidgets.bigCircle(name),
+            // BaseWidgets.bigCircle(name),
+            getSvgImage(imagePath:Assets.assets_icon_user,width:32.0,height:32.0),
             Container(
               margin: EdgeInsets.only(left: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width:getWidth(contactInfo?.displayName ?? "Un Known"),
                     margin: EdgeInsets.only(top: 4),
                     child: Text(
-                      // contactInfo?.displayName ?? "Un Known",
-                      contactInfo!=null?contactInfo?.displayName ?? "Un Known":recentContactInfo?.beneName ?? "Un Known",
-                      //contactInfo.name,
+                      name,
                       textAlign: TextAlign.left,
                       style: BaseStyles.transactionItemPersonNameTextStyle,
                       overflow: TextOverflow.ellipsis,
@@ -189,9 +226,7 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
                   Container(
                     margin: EdgeInsets.only(top: 4),
                     child: Text(
-                      // phoneNumberValidation(contactInfo),
-                      contactInfo!=null?phoneNumberValidation(contactInfo):recentContactInfo?.beneMobile ?? "0000",
-                      //contactInfo.accountNumber,
+                      customerProfile.mobileNumber,
                       textAlign: TextAlign.left,
                       style: BaseStyles.transactionItemDateTextStyle,
                     ),
@@ -203,51 +238,39 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
         ),
       ),
     ).onTap(onPressed: () async{
-      Contact  taraContactParam =  contactInfo;
-      BeneDetailBean  beneContactParam =  recentContactInfo;
-      var selectedMobile = contactInfo?.phones?.elementAt(0)?.value?.removeAllWhitespace;
-      var selectedContactName = contactInfo?.displayName;
-      if(contactInfo!=null){
-        selectedMobile = contactInfo?.phones?.elementAt(0)?.value?.removeAllWhitespace;
-        selectedContactName = contactInfo?.displayName;
-      }else{
-        selectedMobile = recentContactInfo.beneMobile.removeAllWhitespace;
-        selectedContactName = recentContactInfo.beneName.removeAllWhitespace;
-      }
 
-      if(selectedMobile?.isNotEmpty??false){
-        contactsController.arrRecentlyAddedContactInfo.value = contactsController.arrRecentlyAddedContactInfo?.value?.where((element) => element.beneMobile?.contains(selectedMobile))?.toList();
-        // Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,list:beneficiaryAccountList));
-        // arrRecentlyAddedContactInfo == benficiearies
-        //{"mobile":"999999999",account:"1234467890"}
-        //
-
-        if( contactsController.arrRecentlyAddedContactInfo?.isNotEmpty??false){ // if benefecialries exists
-          print("first");
-          var benDetails =  contactsController.arrRecentlyAddedContactInfo[0];
-          var customerInfo = CustomerProfile(mobileNumber: benDetails.beneMobile, firstName:benDetails.beneName,registrationStatus: RegistrationStatus.BENEFICIARY);
-          Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,benList:  contactsController.arrRecentlyAddedContactInfo.value,customerProfile: customerInfo,));
-        }else{ // check for Tara user
-          print("second");
-          var toAddrResp = await Get.find<AuthController>().getToAddressForPayment(selectedMobile);
-          if(toAddrResp.isRight()){
-            var toContactInfo = toAddrResp.getOrElse(() => null);
-            Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: toContactInfo.customerProfile,));
-          }else{
-            print("third");
-            //user doesnot exist
-            var customerInfo = CustomerProfile(mobileNumber: selectedMobile, firstName:selectedContactName,registrationStatus: RegistrationStatus.INACTIVE);
-            Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,customerProfile: customerInfo,));
+        contactsController.showProgress.value = true;
+        var correctedPhoneNumber  = await PhoneNumber.getRegionInfoFromPhoneNumber(customerProfile.mobileNumber,'IN'); //TODO CHANGE THE LOCALE
+        customerProfile.mobileNumber = correctedPhoneNumber.phoneNumber;
+        var toAddrResp = await Get.find<AuthController>().getToAddressForPayment(customerProfile.mobileNumber.substring(1,customerProfile.mobileNumber.length));
+        if(toAddrResp.isRight()){
+          var customerInfoResponse =  toAddrResp.getOrElse(() => null);
+          if(customerInfoResponse?.customerProfile!=null){
+            customerProfile = customerInfoResponse.customerProfile;
+            if(customerProfile.registrationStatus==null){
+              customerProfile.registrationStatus = RegistrationStatus.INACTIVE;
+            }
           }
         }
-      }else{
-        //Alert no accociated mobile
-      }
-
+        contactsController.showProgress.value = false;
+        if(widget.requestType == RequestType.PAY) {
+          handleNonTaraFlow(customerProfile);
+        }else{
+          if(customerProfile.registrationStatus == RegistrationStatus.INACTIVE){
+            showToast(message: "The user does not registered with Tara");
+          }else if(customerProfile?.firebaseId?.isNotEmpty??false){
+            Get.to(ConversationPage(isFromReceive: true,selectedContact: ContactInfo(),custInfo: customerProfile));
+          }
+        }
 
     });
   }
-
+  handleNonTaraFlow(CustomerProfile customerProfile)async {
+    if(customerProfile.registrationStatus == RegistrationStatus.BENEFICIARY){// dint find the user in tara
+      contactsController.arrRecentlyAddedContactInfo.value = contactsController.arrRecentlyAddedContactInfo?.value?.where((element) => customerProfile.mobileNumber?.contains(element.beneMobile))?.toList();
+    }
+    Get.to(TransferDetailsEntryScreen(customerProfile: customerProfile,requestType: widget.requestType,));
+  }
   errorTitleTextWidget() {
     return Container(
       margin: EdgeInsets.only(top: 16,),
@@ -282,60 +305,15 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
               alignment: Alignment.centerLeft,
               child: Text(heading, style: BaseStyles.backAccountHeaderTextStyle),
             )),
-        (contactsController.searchText
-            .toString()
-            .isNotEmpty && contactsController.filteredContactList.isEmpty)?Container(
-          child: Center(
-            child: errorTitleTextWidget(),
-          ),
-        ):Container(),
+        // (contactsController.searchText
+        //     .toString()
+        //     .isNotEmpty && contactsController.filteredContactList.isEmpty)?Container(
+        //   child: Center(
+        //     child: errorTitleTextWidget(),
+        //   ),
+        // ):Container(),
       ],
     );
-  }
-
-
-  Widget beneListView() {
-    return ListView.builder(
-        physics: ScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: contactsController.arrRecentlyAddedContactInfo.length,
-        itemBuilder: (context, index) {
-          return getContactItemWidget(recentContactInfo: contactsController.arrRecentlyAddedContactInfo[index]);
-        });
-  }
-
-
-
-  Widget allAccountListView() {
-
-    return ListView.builder(
-        physics: ScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: getItemCount(),
-        itemBuilder: (context, index) {
-          if (!(contactsController.searchText != null && contactsController.searchText.toString().isNotEmpty)) {
-            if (contactsController.contactList.isNotEmpty) {
-              return getContactItemWidget(contactInfo: contactsController.contactList[index]);
-            } else {
-              return Container();
-            }
-          }
-          //search applied
-          else {
-            return getContactItemWidget(contactInfo:contactsController.filteredContactList[index]);
-
-
-          }
-
-
-        });
-  }
-
- int getItemCount() {
-  return  !(contactsController.searchText != null && contactsController.searchText.toString().isNotEmpty)?
-            contactsController.contactList.length:
-            contactsController.filteredContactList.length;
-
   }
 
  Widget selfAccountWidget() {
@@ -346,16 +324,15 @@ class BensAndContactsScreenState extends BaseState<BensAndContactsScreen> {
     decoration: getSelfAccoundWidgetDecoration(),
     child: Row(
       children: [
-        getSvgImage(imagePath: Assets.illustration_transfer_to_my_account,width: 40.0,height: 40.0),
+        //getSvgImage(imagePath: Assets.illustration_transfer_to_my_account,width: 40.0,height: 40.0),
         SizedBox(width:8,),
         Text("My Account",style: TextStyles.subtitle1222)
-
       ],
     ),
   ).onTap(onPressed: (){
    // var customerInfo = CustomerProfile(registrationStatus: RegistrationStatus.RTP);
     print("status"+Get.find<AuthController>().user.value.customerProfile.registrationStatus.toString());
-    Get.to(TransferDetailsEntryScreen(isSelf:true,customerProfile: Get.find<AuthController>().user.value.customerProfile));
+    Get.to(TransferDetailsEntryScreen(customerProfile: Get.find<AuthController>().user.value.customerProfile));
   });
   }
 

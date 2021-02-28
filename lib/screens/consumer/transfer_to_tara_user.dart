@@ -247,7 +247,7 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
                           : Colors.transparent)).onTap(onPressed: () {
 
                 contactsController.title.value = "";
-                  contactsController.searchText = "";
+                  contactsController.searchText.value = "";
                   contactsController.searchQuery.text = "";
                   contactsController.filteredContactList.value.clear();
 
@@ -405,9 +405,9 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
           ),
         ),
         onTap: () {
-            if(contactInfo.displayName!=null && contactInfo.phones.elementAt(0).value!=null)
+            // if(contactInfo.displayName!=null && contactInfo.phones.elementAt(0).value!=null)
             //Get.to(BankTransferNewContact(taraContact: contactInfo,));
-            Get.to(TransferDetailsEntryScreen(taraContact: contactInfo,));
+            // Get.to(TransferDetailsEntryScreen(taraContact: contactInfo,));
         }
       // },
     );
