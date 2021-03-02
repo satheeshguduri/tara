@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/widgets/counter_button.dart';
+import 'package:tara_app/controller/cart_controller.dart';
+import 'package:tara_app/injector.dart';
 import 'package:tara_app/screens/consumer/shop/product_details_page.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/constants/values.dart';
@@ -14,6 +16,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = getIt.get<CartController>();
     return Card(
       // elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -88,11 +91,15 @@ class ProductItem extends StatelessWidget {
             Spacer(),
             SizedBox(
               height: 36,
-              child: Counter(
-                title: "+ Add",
-                maxCount: p.quantityInStock,
-                errorMessage: "Limited Stock",
-                onChange: (count) {},
+              child: Obx(
+                () => Counter(
+                  p,
+                  title: "+ Add",
+                  maxCount: p.quantityInStock,
+                  errorMessage: "Limited Stock",
+                  initialCount: controller.cart[p.id]?.quantity ?? 0,
+                  onChange: (count) {},
+                ),
               ),
             )
           ],

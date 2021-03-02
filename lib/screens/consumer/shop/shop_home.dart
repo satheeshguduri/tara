@@ -12,7 +12,9 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/page_indicator.dart';
 import 'package:tara_app/common/widgets/underline_text.dart';
+import 'package:tara_app/controller/cart_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
+import 'package:tara_app/injector.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/customer_orders_screen.dart';
@@ -31,6 +33,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
   int _current = 0;
   OrderController controller = Get.find();
   StoreController storeController = Get.find();
+  CartController cartController ;
 
   @override
   void init() async {
@@ -38,6 +41,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
     super.init();
     controller.getConsumerOrders();
     controller.getAllStore();
+    cartController = getIt.get<CartController>();
     print(controller.storeTypesList);
   }
 
@@ -568,6 +572,7 @@ class _ShopHomeState extends BaseState<ShopHome> {
                             storeController.catalogueId.value = controller
                                 .arrStores[index].catalogue?.id
                                 .toString();
+                            cartController.setMerchant(controller.arrStores[index]);
                             Get.to(ShoppingHomePage());
 
                             // int integrationID = controller.arrStores[index].owner

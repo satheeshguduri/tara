@@ -25,8 +25,4 @@ class BaseRequest{
   Map<String, dynamic> toJson() => _$BaseRequestToJson(this);
 
 
-
-
-
-
 }

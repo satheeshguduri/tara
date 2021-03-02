@@ -1,7 +1,4 @@
-enum OrderTypes{
-
-
-   CATALOGUE_BASED,
-    TEXT_BASED,
-
+enum OrderTypes {
+  CATALOGUE_BASED,
+  TEXT_BASED,
 }

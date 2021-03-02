@@ -20,57 +20,60 @@ class CartButton extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetX<CartController>(
-        init: CartController(),
-        builder: (value) {
-          return Container(
-            child: Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                IconButton(
-                  icon: SvgPicture.asset(Assets.assets_icon_c_cart,
-                      width: 24.0,
-                      height: 24.0,
-                      color: iconColor ?? AppColors.header_top_bar_color),
-                  onPressed: () => {
-                    isClickable
-                        ? Get.bottomSheet(
-                            Container(
-                              color: Colors.transparent,
-                              height: MediaQuery.of(context).size.height * 0.6,
-                              child: MyCartSheet(),
-                              // color: Colors.red,
-                            ),
-                            backgroundColor: Colors.transparent,
-                            isScrollControlled: true,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(8)),
-                            ),
-                          )
-                        : null
-                  },
-                ),
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    width: 14,
-                    height: 14,
-                    decoration: BoxDecoration(
-                      color: AppColors.badge_color,
-                      borderRadius: Radii.border(7),
-                    ),
-                    child: Text(
-                      "${value.items.length}",
-                      textAlign: TextAlign.center,
-                      style: BaseStyles.notificationBadgeTextStyle,
-                    ),
+    final c = getIt.get<CartController>();
+    c.getCart();
+    return Container(
+      child: Stack(
+        alignment: Alignment.centerRight,
+        children: [
+          IconButton(
+            icon: SvgPicture.asset(Assets.assets_icon_c_cart,
+                width: 24.0,
+                height: 24.0,
+                color: iconColor ?? AppColors.header_top_bar_color),
+            onPressed: () => {
+              isClickable
+                  ? Get.bottomSheet(
+                      Container(
+                        color: Colors.transparent,
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: MyCartSheet(),
+                        // color: Colors.red,
+                      ),
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(8)),
+                      ),
+                    )
+                  : null
+            },
+          ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                color: AppColors.badge_color,
+                borderRadius: Radii.border(7),
+              ),
+              padding: EdgeInsets.all(2),
+              child: FittedBox(
+                child: Obx(
+                  () => Text(
+                    "${c.cart.keys.length}",
+                    textAlign: TextAlign.center,
+                    style: BaseStyles.notificationBadgeTextStyle,
                   ),
                 ),
-              ],
+              ),
             ),
-          );
-        });
+          ),
+        ],
+      ),
+    );
   }
 }

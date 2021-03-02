@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/widgets/counter_button.dart';
+import 'package:tara_app/controller/cart_controller.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/screens/consumer/shop/product_details_page.dart';
 import '../../../common/constants/styles.dart';
 import '../../../common/constants/values.dart';
@@ -7,8 +10,13 @@ import '../../../common/widgets/extensions.dart';
 import 'package:get/get.dart';
 
 class ProductItemH extends StatelessWidget {
+  final Item item;
+  final int initialCounter;
+
+  const ProductItemH(this.item, {this.initialCounter});
   @override
   Widget build(BuildContext context) {
+    var controller = getIt.get<CartController>();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,7 +36,7 @@ class ProductItemH extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Tomat Merah (100gr)",
+                "${item.itemName}",
                 style: TextStyles.body2222.copyWith(fontSize: 16),
               ),
               SizedBox(
@@ -42,19 +50,22 @@ class ProductItemH extends StatelessWidget {
               SizedBox(
                 height: 2,
               ),
-              Text("Rp 5.300 - 6.600", style: TextStyles.subtitle3222),
+              Text("Rp ${item.price}", style: TextStyles.subtitle3222),
             ],
           ),
         ),
         SizedBox(
-          width: 16,
+          width: 8,
         ),
         SizedBox(
           height: 30,
           width: 124,
-          child: Counter(
-            initialCount: 1,
-            onChange: (count) {},
+          child: Obx(
+            () => Counter(
+              item,
+              initialCount: controller.cart[item.id]?.quantity ?? 0,
+              onChange: (count) {},
+            ),
           ),
         )
       ],

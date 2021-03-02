@@ -13,13 +13,19 @@ mixin BaseWidgets {
     return Image.asset(iconName, fit: BoxFit.none);
   }
 
-  Image getTabImageWithSize(String iconName,double width, double height) {
-    return Image.asset(iconName, fit: BoxFit.fill,width:width,height: height,);
+  Image getTabImageWithSize(String iconName, double width, double height) {
+    return Image.asset(
+      iconName,
+      fit: BoxFit.fill,
+      width: width,
+      height: height,
+    );
   }
 
   Text getTabText(String text) {
     return Text(text, style: BaseStyles.navigationTextStyle);
   }
+
   static const Widget getIndicator = SpinKitDoubleBounce(
     color: AppColors.secondaryBackground,
     size: 50.0,
@@ -58,7 +64,8 @@ mixin BaseWidgets {
             ));
   }
 
-  Widget getSvgImage({String imagePath,Color color, width = 24.0, height= 24.0}) {
+  Widget getSvgImage(
+      {String imagePath, Color color, width = 24.0, height = 24.0}) {
     return SvgPicture.asset(
       imagePath,
       fit: BoxFit.fitHeight,
@@ -67,8 +74,5 @@ mixin BaseWidgets {
       semanticsLabel: 'svg',
       color: color,
     );
-
-
   }
-
 }

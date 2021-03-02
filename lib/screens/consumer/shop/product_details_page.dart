@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -32,6 +33,16 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
     "https://images.unsplash.com/photo-1519995672084-d21490e86ba6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
     "https://images.unsplash.com/photo-1519995672084-d21490e86ba6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
   ];
+
+  var controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = getIt.get<CartController>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,6 +125,7 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
             ) //IconButton
           ], //<Widget>[]
         ), //Slive
+
         SliverList(
           delegate: SliverChildListDelegate.fixed(
             [
@@ -250,71 +262,50 @@ class _ProductDetailsPageState extends BaseState<ProductDetailsPage> {
             ),
           ),
           Container(
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(8)),
-              padding: EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Price / Ikat",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: AppColors.input_field_line_off_2_2_2,
-                          ),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(8)),
+            padding: EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Price / Ikat",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.input_field_line_off_2_2_2,
                         ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          "Rp ${widget.product.price}",
-                          style: TextStyles.subtitle1222,
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Text(
+                        "Rp ${widget.product.price}",
+                        style: TextStyles.subtitle1222,
+                      )
+                    ],
                   ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 42,
-                      child: Counter(
+                ),
+                Expanded(
+                  child: SizedBox(
+                    height: 42,
+                    child: Obx(
+                      () => Counter(
+                        widget.product,
+                        initialCount:
+                            controller?.cart[widget.product.id]?.quantity ?? 0,
                         title: "+ Add to Cart",
-                        onChange: (count) {
-                          final controller = getIt.get<CartController>();
-                          if (count == 1) {
-                            //add to cart
-                            print("adding to cart");
-                            controller.addToCart(widget.product);
-                            // controller.getCart();
-                          }
-                        },
+                        onChange: (count) {},
                       ),
                     ),
                   ),
-                ],
-              )
-              // child: ListTile(
-              //   // contentPadding: EdgeInsets.zero,
-              //   title: Text(
-              //     "Price / Ikat",
-              //     style: Theme.of(context).textTheme.subtitle1,
-              //   ),
-              //   subtitle: Text(
-              //     "Rp 5.300-6.600",
-              //     style: TextStyles.subtitle1222,
-              //   ),
-              //   trailing: SizedBox(
-              //     width: Get.width * 0.5,
-              //     child: Counter(
-              //       title: "+ Add to Cart",
-              //       onChange: (count) {},
-              //     ),
-              //   ),
-              // ),
-              ).paddingSymmetric(horizontal: 16),
+                ),
+              ],
+            ),
+          ).paddingSymmetric(horizontal: 16),
         ],
       ),
     ).paddingOnly(top: 12, bottom: 16);

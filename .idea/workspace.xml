@@ -22,37 +22,42 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cfebde36-ab0d-47d3-bcd2-e1385610a792" name="Default Changelist" comment="Done some UI optimizations to underline text and cart sheet">
-      <change afterPath="$PROJECT_DIR$/lib/controller/cart_controller.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/repositories/cart_repositorty.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/repositories/cart_repositorty_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+    <list default="true" id="cfebde36-ab0d-47d3-bcd2-e1385610a792" name="Default Changelist" comment="Setup local cart">
+      <change afterPath="$PROJECT_DIR$/assets/images/background.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/images/password_reset_success.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/auth/auth_put_request.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/auth/auth_put_request.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/cart/cart_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/reset_password_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/success_password_reset_dialog.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/constants/assets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/constants/assets.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/constants/styles.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/constants/styles.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/widgets/base_widgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/widgets/base_widgets.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/widgets/cart_icon.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/widgets/cart_icon.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/common/widgets/counter_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/widgets/counter_button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/controller/store_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/controller/store_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/user_local_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/data/user_local_data_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/common/widgets/sign_in_flow_bg.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common/widgets/sign_in_flow_bg.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controller/auth_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/controller/auth_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/controller/cart_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/controller/cart_controller.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/injector.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/injector.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/order_management/item/item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/order_management/item/item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/order_management/item/item.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/order_management/item/item.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/auth/auth_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/auth/auth_response.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/auth/customer_profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/auth/customer_profile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/core/base_request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/core/base_request.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/order_management/orders/order_types.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/order_management/orders/order_types.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/auth_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/order_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/order_repository_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/repositories/stores_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/stores_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/consumer/shop/all_categories_sheet.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/consumer/shop/all_categories_sheet.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/auth_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/auth_repository_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/cart_repositorty.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/cart_repositorty.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/repositories/cart_repositorty_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/repositories/cart_repositorty_impl.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/consumer/shop/cart/my_cart_sheet.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/consumer/shop/cart/my_cart_sheet.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/consumer/shop/product_details_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/consumer/shop/product_details_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/consumer/shop/product_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/consumer/shop/product_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/consumer/shop/products_by_categories.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/consumer/shop/products_by_categories.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/consumer/shop/product_item_h.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/consumer/shop/product_item_h.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/consumer/shop/shop_home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/consumer/shop/shop_home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/splash/splash_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/splash/splash_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/services/rest/mcpayment_rest_client.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/rest/mcpayment_rest_client.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/shop/shop_category_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/shop/shop_category_details_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/shop/shopping_home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/shop/shopping_home_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tara_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/tara_app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/mobile_verification_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/mobile_verification_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/signin_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/signin_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/rest/rest_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/rest/rest_client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/rest/rest_client.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/rest/rest_client.g.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +79,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="shivam-singh" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -89,29 +94,30 @@
     <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/repositories" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/images" />
+      <recent name="$PROJECT_DIR$/lib/models/auth" />
+      <recent name="$PROJECT_DIR$/lib/screens" />
+      <recent name="$PROJECT_DIR$/lib/repositories" />
+      <recent name="$PROJECT_DIR$/lib/screens/consumer/shop" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/screens/consumer/shop/cart" />
       <recent name="$PROJECT_DIR$/android/app/src/consumer" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/lib/repositories" />
-      <recent name="$PROJECT_DIR$/lib/screens/consumer/shop" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/android/app/src/merchant" />
-      <recent name="$PROJECT_DIR$/android/app/src/agent" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.consumer">
@@ -263,7 +269,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614183977460</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Setup local cart">
+      <created>1614263254851</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1614263254851</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -343,6 +356,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="removed the apple codec emoji file." />
     <MESSAGE value="cleaning the project" />
     <MESSAGE value="Base version of the Tara App." />
@@ -361,14 +375,18 @@
     <MESSAGE value="* Updated Chat Widget for Order" />
     <MESSAGE value="Added product list, details &amp; cart" />
     <MESSAGE value="Done some UI optimizations to underline text and cart sheet" />
-    <option name="LAST_COMMIT_MESSAGE" value="Done some UI optimizations to underline text and cart sheet" />
+    <MESSAGE value="Setup local cart" />
+    <option name="LAST_COMMIT_MESSAGE" value="Setup local cart" />
   </component>
   <component name="WindowStateProjectService">
     <state x="340" y="99" key="#Menus_and_Toolbars" timestamp="1613981730970" />
     <state x="340" y="99" key="#Menus_and_Toolbars/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
     <state x="340" y="99" key="#Project_Structure" timestamp="1613981730971" />
     <state x="340" y="99" key="#Project_Structure/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613981730971" />
+    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614320863655">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1614320863655" />
     <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state x="304" y="115" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
     <state x="488" y="303" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1613981730971" />
@@ -395,28 +413,28 @@
     <state x="168" y="110" width="1344" height="785" key="DiffContextDialog" timestamp="1613981730971" />
     <state x="168" y="110" width="1344" height="785" key="DiffContextDialog/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state x="168" y="110" key="DiffContextDialog/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state width="968" height="491" key="GridCell.Tab.0.bottom" timestamp="1614261379234">
+    <state width="968" height="483" key="GridCell.Tab.0.bottom" timestamp="1614681899458">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="968" height="491" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1614261379234" />
+    <state width="968" height="483" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1614681899458" />
     <state width="1628" height="268" key="GridCell.Tab.0.bottom/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state width="1628" height="483" key="GridCell.Tab.0.bottom/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state width="968" height="491" key="GridCell.Tab.0.center" timestamp="1614261379233">
+    <state width="968" height="483" key="GridCell.Tab.0.center" timestamp="1614681899456">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="968" height="491" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1614261379233" />
+    <state width="968" height="483" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1614681899456" />
     <state width="1628" height="268" key="GridCell.Tab.0.center/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state width="1628" height="483" key="GridCell.Tab.0.center/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state width="968" height="491" key="GridCell.Tab.0.left" timestamp="1614261379233">
+    <state width="968" height="483" key="GridCell.Tab.0.left" timestamp="1614681899455">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="968" height="491" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1614261379233" />
+    <state width="968" height="483" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1614681899455" />
     <state width="1628" height="268" key="GridCell.Tab.0.left/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state width="1628" height="483" key="GridCell.Tab.0.left/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state width="968" height="491" key="GridCell.Tab.0.right" timestamp="1614261379233">
+    <state width="968" height="483" key="GridCell.Tab.0.right" timestamp="1614681899457">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="968" height="491" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1614261379233" />
+    <state width="968" height="483" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1614681899457" />
     <state width="1628" height="268" key="GridCell.Tab.0.right/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state width="1628" height="483" key="GridCell.Tab.0.right/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
     <state x="68" y="197" key="IDE.errors.dialog" timestamp="1614080511459">
@@ -441,15 +459,15 @@
     <state x="526" y="63" key="RollbackChangesDialog/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
     <state x="107" y="23" width="1313" height="983" key="ScreenshotViewer.Dimensions" timestamp="1613981730971" />
     <state x="107" y="23" width="1313" height="983" key="ScreenshotViewer.Dimensions/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state x="191" y="109" key="SettingsEditor" timestamp="1614059986986">
+    <state x="191" y="109" key="SettingsEditor" timestamp="1614583171929">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="191" y="109" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1614059986986" />
+    <state x="191" y="109" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1614583171929" />
     <state x="191" y="109" key="SettingsEditor/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state x="340" y="186" key="Vcs.Push.Dialog.v2" timestamp="1614183984659">
+    <state x="340" y="186" key="Vcs.Push.Dialog.v2" timestamp="1614577216171">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1614183984659" />
+    <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1614577216171" />
     <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state x="340" y="186" key="Vcs.Push.Dialog.v2/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
     <state x="609" y="92" key="VcsDiffUtil.ChangesDialog" timestamp="1613981730971" />
@@ -469,10 +487,10 @@
     <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1614227860813" />
     <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state x="601" y="421" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state x="426" y="190" width="827" height="648" key="find.popup" timestamp="1614252227105">
+    <state x="426" y="190" width="827" height="648" key="find.popup" timestamp="1614591691681">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="426" y="190" width="827" height="648" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1614252227105" />
+    <state x="426" y="190" width="827" height="648" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1614591691681" />
     <state x="426" y="190" width="827" height="648" key="find.popup/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
     <state x="571" y="259" key="git4idea.merge.GitMergeDialog" timestamp="1613981730971" />
     <state x="571" y="259" key="git4idea.merge.GitMergeDialog/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
@@ -481,10 +499,14 @@
     </state>
     <state x="477" y="252" key="git4idea.merge.GitPullDialog/0.0.1440.900@0.0.1440.900" timestamp="1614227880041" />
     <state x="477" y="252" key="git4idea.merge.GitPullDialog/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
-    <state x="484" y="0" width="838" height="900" key="search.everywhere.popup" timestamp="1614262623584">
+    <state width="600" height="428" key="javadoc.popup" timestamp="1614595839545">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="484" y="0" width="838" height="900" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1614262623584" />
+    <state width="600" height="428" key="javadoc.popup/0.0.1440.900@0.0.1440.900" timestamp="1614595839545" />
+    <state x="484" y="0" width="838" height="900" key="search.everywhere.popup" timestamp="1614683865005">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="484" y="0" width="838" height="900" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1614683865005" />
     <state x="484" y="23" width="838" height="982" key="search.everywhere.popup/0.23.1680.982@0.23.1680.982" timestamp="1613981730971" />
     <state x="484" y="23" width="838" height="983" key="search.everywhere.popup/0.23.1680.983@0.23.1680.983" timestamp="1613981730971" />
     <state x="484" y="0" width="838" height="900" key="search.everywhere.popup/0.25.1440.816@0.25.1440.816" timestamp="1614145273107" />

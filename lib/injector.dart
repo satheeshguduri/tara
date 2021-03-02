@@ -102,7 +102,7 @@ Future<void> init() async {
       () => DeviceRegisterRepositoryImpl(getIt(), getIt(), getIt(), getIt()));
   getIt.registerLazySingleton<McPaymentRepository>(
       () => McPaymentRepositoryImpl(getIt(), getIt(), getIt()));
-  getIt.registerSingleton(CartController());
+  getIt.registerSingleton(CartController(),);
   Get.lazyPut(() => CreateStoreAndOwnerController());
   Get.put(OrderController());
   Get.put(StoreController());

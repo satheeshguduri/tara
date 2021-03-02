@@ -203,4 +203,8 @@ class Assets {
   static const assets_icon_p_paper = "assets/images/assets_icon_p_paper.svg";
   static const assets_icon_l_lock_outline =
       "assets/images/assets_icon_l_lock_outline.svg";
+
+  static const assets_bg = "assets/images/background.svg";
+  static const assets_icon_password_reset_success =
+      "assets/images/password_reset_success.svg";
 }

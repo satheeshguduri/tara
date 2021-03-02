@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/primary_button.dart';
+import 'package:tara_app/controller/cart_controller.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
 
 import '../../screens/base/base_state.dart';
 import '../constants/color_const.dart';
@@ -15,8 +19,9 @@ class Counter extends StatefulWidget {
   final initialCount;
   final int maxCount;
   final String errorMessage;
+  final Item item;
 
-  const Counter(
+  const Counter(this.item,
       {Key key,
       this.onChange,
       this.title,
@@ -30,11 +35,13 @@ class Counter extends StatefulWidget {
 
 class _CounterState extends BaseState<Counter> {
   int _count = 0;
+
+  CartController controller;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _count = widget.initialCount ?? 0;
+    controller = getIt.get<CartController>();
   }
 
   @override
@@ -45,9 +52,7 @@ class _CounterState extends BaseState<Counter> {
       child: _count == 0
           ? PrimaryButton(
               text: widget.title ?? "Add",
-              onTap: () {
-                _increment();
-              },
+              onTap: () => addToCart(),
             )
           : Container(
               height: 42,
@@ -99,28 +104,33 @@ class _CounterState extends BaseState<Counter> {
     );
   }
 
+  void addToCart() {
+    setState(() {
+      controller.addToCart(widget.item);
+      _count++;
+    });
+  }
+
   _increment() {
-    if (_count < widget.maxCount) {
-      setState(() {
-        ++_count;
-        widget.onChange(_count);
-      });
-    } else {
-      showToast(
-          message: widget.errorMessage ??
-              "Can not add more than ${widget.maxCount} items");
-    }
+    setState(() {
+      ++_count;
+      widget.onChange(_count);
+      if (_count > 1) {
+        controller.updateCart(widget.item, _count);
+      }
+    });
   }
 
   _decrement() {
-    if (_count > 0) {
-      setState(() {
-        --_count;
-        widget.onChange(_count);
-      });
-    } else {
-      //delete this item from the cart
-    }
+    setState(() {
+      --_count;
+      widget.onChange(_count);
+      if (_count == 0) {
+        controller.removeFromCart(widget.item);
+      } else {
+        controller.updateCart(widget.item, _count);
+      }
+    });
   }
 
   @override

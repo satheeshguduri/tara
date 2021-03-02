@@ -10,6 +10,9 @@ import 'package:tara_app/common/widgets/cart_icon.dart';
 import 'package:tara_app/common/widgets/handle.dart';
 import 'package:tara_app/common/widgets/primary_button.dart';
 import 'package:tara_app/common/widgets/underline_text.dart';
+import 'package:tara_app/controller/cart_controller.dart';
+import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/cart/cart_model.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/screens/consumer/shop/product_item_h.dart';
@@ -23,93 +26,124 @@ class MyCartSheet extends StatefulWidget {
 
 class _MyCartSheetState extends BaseState<MyCartSheet> {
   int selectedSegmentIndex = 0;
-
-  final isDelivery = true.obs;
-
   bool isTapOnIndex1 = true;
   bool isTapOnIndex2 = false;
 
+  CartController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = getIt.get<CartController>();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Expanded(
-            child: DraggableScrollableSheet(
-              minChildSize: 0.5,
-              initialChildSize: 0.8,
-              maxChildSize: 1,
-              builder: (_, __) => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                ),
-                child: SingleChildScrollView(
-                  controller: __,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildUpperPart(),
-                      SizedBox(
-                        height: 12,
-                        width: double.maxFinite,
-                        child: ColoredBox(
-                          color: Colors.grey.shade200,
+    return Obx(
+      () => Container(
+        child: Column(
+          children: [
+            Expanded(
+              child: DraggableScrollableSheet(
+                minChildSize: 0.5,
+                initialChildSize: 0.8,
+                maxChildSize: 1,
+                builder: (_, __) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(8)),
+                    color: Colors.white,
+                  ),
+                  child: SingleChildScrollView(
+                    controller: __,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildUpperPart(),
+                        if (controller.cart.isNotEmpty)
+                          SizedBox(
+                            height: 12,
+                            width: double.maxFinite,
+                            child: ColoredBox(
+                              color: Colors.grey.shade200,
+                            ),
+                          ),
+                        if (controller.cart.isNotEmpty)
+                          SizedBox(
+                            height: 8,
+                          ),
+                        // this maybe hard to understand
+                        if (controller.cart.isNotEmpty)
+                          ...controller.cart.keys.map(
+                            (e) => Container(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: ProductItemH(
+                                controller.cart[e].item,
+                                initialCounter: controller.cart[e].quantity,
+                              ),
+                            ),
+                          ),
+                        if (controller.cart.isNotEmpty)
+                          SizedBox(
+                            height: 8,
+                          ),
+
+                        SizedBox(
+                          height: 12,
+                          width: double.maxFinite,
+                          child: ColoredBox(
+                            color: Colors.grey.shade200,
+                          ),
                         ),
-                      ),
-                      buildProductsList(),
-                      SizedBox(
-                        height: 12,
-                        width: double.maxFinite,
-                        child: ColoredBox(
-                          color: Colors.grey.shade200,
+                        buildSimilarItems(),
+                        SizedBox(
+                          height: 12,
+                          width: double.maxFinite,
+                          child: ColoredBox(
+                            color: Colors.grey.shade200,
+                          ),
                         ),
-                      ),
-                      buildSimilarItems(),
-                      SizedBox(
-                        height: 12,
-                        width: double.maxFinite,
-                        child: ColoredBox(
-                          color: Colors.grey.shade200,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Container(
-            color: Colors.white,
-            child: SafeArea(
-              child: ListTile(
-                leading: CartButton(),
-                title: Text(
-                  "Price Estimation",
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.input_field_line_off_2_2_2),
-                ),
-                subtitle: Text(
-                  "Rp 13.200",
-                  style: TextStyles.subtitle1222,
-                ),
-                trailing: SizedBox(
-                  width: Get.width * 0.4,
-                  child: PrimaryButton(
-                    onTap: () {},
-                    alignment: MainAxisAlignment.spaceBetween,
-                    iconAffinity: IconAffinity.trailing,
-                    text: "Place Order",
-                    icon: Icons.arrow_forward,
+            Container(
+              color: Colors.white,
+              child: SafeArea(
+                child: ListTile(
+                  leading: CartButton(),
+                  title: Text(
+                    "Price Estimation",
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.input_field_line_off_2_2_2),
+                  ),
+                  subtitle: Obx(
+                    () => Text(
+                      "Rp ${controller.price}",
+                      style: TextStyles.subtitle1222,
+                    ),
+                  ),
+                  trailing: SizedBox(
+                    width: Get.width * 0.4,
+                    child: PrimaryButton(
+                      onTap: () {
+                        controller.createOrder();
+                      },
+                      alignment: MainAxisAlignment.spaceBetween,
+                      iconAffinity: IconAffinity.trailing,
+                      text: "Place Order",
+                      icon: Icons.arrow_forward,
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
-        // ),
-      ),
+            )
+          ],
+          // ),
+        ),
+      ).withProgressIndicator(showIndicator: controller.loading.value),
     );
   }
 
@@ -144,20 +178,20 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
     ).paddingAll(16);
   }
 
-  ListView buildProductsList() {
-    return ListView.separated(
-      physics: ClampingScrollPhysics(),
-      padding: EdgeInsets.symmetric(vertical: 16),
-      shrinkWrap: true,
-      itemBuilder: (_, i) {
-        return ProductItemH();
-      },
-      separatorBuilder: (BuildContext context, int index) => SizedBox(
-        height: 16,
-      ),
-      itemCount: 2,
-    );
-  }
+  // Widget buildProductsList() {
+  //   return ListView.separated(
+  //     physics: ClampingScrollPhysics(),
+  //     padding: EdgeInsets.symmetric(vertical: 16),
+  //     shrinkWrap: true,
+  //     itemBuilder: (_, i) {
+  //       return ;
+  //     },
+  //     separatorBuilder: (BuildContext context, int index) => SizedBox(
+  //       height: 16,
+  //     ),
+  //     itemCount: controller.cart.keys.length,
+  //   );
+  // }
 
   @override
   BuildContext getContext() {
@@ -188,7 +222,8 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
                 Expanded(
                   child: Container(
                     height: 40,
-                    decoration: isDelivery.value ? _getShadow() : null,
+                    decoration:
+                        controller.isDelivery.value ? _getShadow() : null,
                     child: InkWell(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -206,14 +241,15 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
                               textAlign: TextAlign.center)
                         ],
                       ),
-                      onTap: () => isDelivery.value = true,
+                      onTap: () => controller.isDelivery.value = true,
                     ),
                   ),
                 ),
                 Expanded(
                   child: Container(
                     height: 40,
-                    decoration: !isDelivery.value ? _getShadow() : null,
+                    decoration:
+                        !controller.isDelivery.value ? _getShadow() : null,
                     child: InkWell(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -234,7 +270,7 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
                               textAlign: TextAlign.center)
                         ],
                       ),
-                      onTap: () => isDelivery.value = false,
+                      onTap: () => controller.isDelivery.value = false,
                     ),
                   ),
                 )
@@ -244,7 +280,7 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
         ),
         Obx(
           () {
-            if (isDelivery.value)
+            if (controller.isDelivery.value)
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -262,12 +298,9 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.location_on_rounded,
-                          color: AppColors.color_black_100_2_2_2,
-                        ),
+                        Image.asset(Assets.ic_location),
                         SizedBox(
-                          width: 12,
+                          width: 8,
                         ),
                         Expanded(
                           child: Text(
@@ -275,6 +308,9 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
                             style: TextStyles.body2222,
                             maxLines: 2,
                           ),
+                        ),
+                        SizedBox(
+                          width: 8,
                         ),
                         UnderlineText(
                           text: Text(
@@ -304,19 +340,20 @@ class _MyCartSheetState extends BaseState<MyCartSheet> {
 
   _getShadow() {
     return BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: [
-          BoxShadow(
-              color: const Color(0x1f000000),
-              offset: Offset(0, 4),
-              blurRadius: 6,
-              spreadRadius: 0),
-          BoxShadow(
-              color: const Color(0x14000000),
-              offset: Offset(0, 0),
-              blurRadius: 2,
-              spreadRadius: 0)
-        ],
-        color: Colors.white);
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+      boxShadow: [
+        BoxShadow(
+            color: const Color(0x1f000000),
+            offset: Offset(0, 4),
+            blurRadius: 6,
+            spreadRadius: 0),
+        BoxShadow(
+            color: const Color(0x14000000),
+            offset: Offset(0, 0),
+            blurRadius: 2,
+            spreadRadius: 0)
+      ],
+      color: Colors.white,
+    );
   }
 }
