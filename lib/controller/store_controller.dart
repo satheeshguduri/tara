@@ -15,10 +15,12 @@ import 'package:tara_app/models/order_management/catalogue_category/category.dar
 
 
 
+
 class StoreController extends GetxController{
 
   List<Store> arrStores;
   var itemsList = List<Item>().obs;
+  var filteredList = List<Item>().obs;
   var bannersList = List<BannerData>().obs;
   var categoryList =  List<Category>().obs;
 

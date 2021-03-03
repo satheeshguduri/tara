@@ -18,6 +18,11 @@ import 'package:tara_app/common/constants/color_const.dart';
 import 'package:tara_app/common/constants/fonts.dart';
 import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/controller/store_controller.dart';
+import 'package:tara_app/controller/cart_controller.dart';
+
+
+
+
 
 
 
@@ -26,17 +31,20 @@ import 'package:tara_app/controller/store_controller.dart';
 class ShopCategoryDetailsScreen extends StatefulWidget {
 
   final  int categoryId;
-  ShopCategoryDetailsScreen({Key key,this.categoryId}) : super(key: key);  @override
+  final String title;
+  ShopCategoryDetailsScreen({Key key,this.categoryId,this.title}) : super(key: key);  @override
   ShopCategoryDetailsScreenState createState() => ShopCategoryDetailsScreenState();
 }
 
 class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen> {
 
 
-//  List<String> listItems = ["one","two","three","four","five","two","three","four","one","two","three","four","one","two","three","four"];
   var counter = 0;
   StoreController storeController = Get.find();
- List<Item> listItems;
+  CartController cartController = Get.find();
+
+  //List<Item> listItems;
+
 
   @override
   BuildContext getContext() {
@@ -48,7 +56,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
     // TODO: implement initState
     super.initState();
     storeController.showProgress.value = true;
-    getTheFilteredData();
+    storeController.filteredList.value = storeController.itemsList.where((element) => element.category[0].id==widget.categoryId).toList();
     storeController.showProgress.value = false;
 
 
@@ -56,37 +64,40 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    print("build method");
+
     counter = 0;
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(56.0), // here the desired height
           child: SafeArea(child: getAppBar()),
       ),
-      body: Obx(() =>getRootContainer().withProgressIndicator(showIndicator: storeController.showProgress.value))
+      body:Container(child: getRootContainer()).withPad(padding: EdgeInsets.all(16))
+      // body: Obx(() =>getRootContainer().withProgressIndicator(showIndicator: storeController.showProgress.value))
 
     );
   }
 
     Widget  getRootContainer() {
-    return GridView.count(crossAxisCount: 2,
+    return Obx(()=>GridView.count(crossAxisCount: 2,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
             shrinkWrap: true,
             childAspectRatio: 0.7,
-            children: listItems.map((categoryItem) => getCategoryListTile(categoryItem)).toList()
-        );
+            children: storeController.filteredList.map((categoryItem) => getCategoryListTile(categoryItem)).toList()
+        ));
 }
 
   Widget getCategoryListTile(Item categoryItem) {
     counter++;
     return Container(
       width: 148,
-      margin: getTheMargins(counter),
+      //margin: getTheMargins(counter),
       decoration: getDealsDecoration(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           dealsTileFirstRow(categoryItem),
-          dealsTileSecondRow(categoryItem),
+          dealsTileSecondRow(categoryItem,storeController.filteredList.indexOf(categoryItem)),
         ],
       ),
 
@@ -118,58 +129,53 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   Widget dealsTileFirstRow(Item categoryItem) {
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         getStackWidget(categoryItem),
         SizedBox(height: 12),
-        Text(
-            categoryItem.itemName,
-            style: TextStyles.body2222
+        Container(
+          margin: EdgeInsets.only(left: 12),
+          child: Text(
+              categoryItem.itemName,
+              style: TextStyles.body2222
+          ),
         )
       ],
     );
 
   }
 
-  Widget  dealsTileSecondRow(Item categoryItem) {
+  Widget  dealsTileSecondRow(Item categoryItem,int index) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            categoryItem.category[0].name,
-            style: const TextStyle(
-                color:  ColorConst.input_field_line_off_2_2_2,
-                fontWeight: FontWeight.w500,
-                fontFamily: "SctoGroteskA",
-                fontStyle:  FontStyle.normal,
-                fontSize: 14.0
-            ),
-            textAlign: TextAlign.center
+        Container(
+          margin: EdgeInsets.only(left: 16),
+          child: Text(
+                "Price",
+             // categoryItem.category[0].name,
+              style: const TextStyle(
+                  color:  ColorConst.input_field_line_off_2_2_2,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "SctoGroteskA",
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 14.0
+              ),
+              textAlign: TextAlign.center
+          ),
         ),
         SizedBox(height: 6),
         // Rp 5.300-6.600
-        Text(
-            categoryItem.price.toString(),
-            style: BaseTextStyles.subtitle3222
+        Container(
+          margin: EdgeInsets.only(left: 16),
+          child: Text(
+              categoryItem.price.toString(),
+              style: BaseTextStyles.subtitle3222
+          ),
         ),
         SizedBox(height: 8),
-        Container(
-          height: 32,
-          margin: EdgeInsets.only(bottom: 12,left: 12,right: 12),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                  Radius.circular(8)
-              ),
-              color: ColorConst.color_mint_100_2_2_2
-          ),
-          alignment: Alignment.center,
-          child: // Text
-          Text("+ Add",
-            style: BaseTextStyles.bUTTONBlack222,)).onTap(onPressed: (){
+        showAddItemOrAddingWidget(categoryItem),
 
-        }
-        ).onTap(onPressed: (){
-
-        }
-        ),
       ],
     );
   }
@@ -205,10 +211,20 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
               )] ,
               color: ColorConst.elevation_off_2_2_2
           ),
-          child: getSvgImage(imagePath: Assets.assets_icon_f_favorite,height: 16.0,width: 16.0),
+          child: categoryItem.favouriteItem?getSvgImage(imagePath: cartController.favouriteIcon.value,height: 16.0,width: 16.0,color: Colors.red):getSvgImage(imagePath: cartController.favouriteIcon.value,height: 16.0,width: 16.0,color:AppColors.color_black_100_2_2_2),
 
         ).onTap(onPressed: (){
+           if(cartController.iconColor.value == AppColors.color_black_100_2_2_2){
+             cartController.iconColor.value= Colors.red;
+             categoryItem.favouriteItem=!categoryItem.favouriteItem;
+           }else{
+             cartController.iconColor.value= AppColors.color_black_100_2_2_2;
+             categoryItem.favouriteItem=!categoryItem.favouriteItem;
 
+           }
+           setState(() {
+
+           });
         }),
       )
 
@@ -216,27 +232,6 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
   }
 
-  EdgeInsetsGeometry getTheMargins(int counter) {
-     print("counter value"+counter.toString());
-
-
-    if(counter%2==0){
-          if(counter == 2) {
-            print("coming at 0");
-            return EdgeInsets.fromLTRB(8, 16, 16, 8);
-          }else {
-            return EdgeInsets.fromLTRB(8, 8, 16, 8);
-               }
-     }else{
-            if(counter == 1){
-              print("coming at 0");
-              return EdgeInsets.fromLTRB(16, 16, 8, 8);
-            }else{
-              return EdgeInsets.fromLTRB(16, 8, 8, 8);
-            }
-
-    }
-  }
 
 
 
@@ -252,7 +247,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   }
 
   Widget titleWidget() {
-    return Text( getTranslation(Strings.meatandseafood),
+    return Text( widget.title,
       overflow: TextOverflow.ellipsis,
       style: BaseStyles.topBarTextStyle,
     );
@@ -261,8 +256,14 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
   Widget iconsWidget() {
       return  Row(
-          children: [searchIcon(), cartIcon()]);
+         mainAxisAlignment: MainAxisAlignment.end,
+          children: [searchIcon(),
+           Container( width: 48,height: 48,child:cartIcon())
+          //  )
+          ]
+      );
   }
+
 
   Widget searchIcon() {
     return Container(
@@ -278,16 +279,43 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   }
 
   Widget cartIcon() {
-    return Container(
-      margin: EdgeInsets.only(right: 16),
-      height: 24,
-      width: 24,
-      child: getSvgImage(imagePath: Assets.assets_icon_c_cart,color:ColorConst.color_black_100_2_2_2,
-          width: 18.0,
-          height: 18.0),
-    ).onTap(onPressed: (){
+  return  Stack(
+      alignment: Alignment.centerRight,
+      children: [
+        Positioned(
+          right: 4,
+          child: Container(
+            margin: EdgeInsets.only(right: 16),
+            height: 24,
+            width: 24,
+            child: getSvgImage(imagePath: Assets.assets_icon_c_cart,color:ColorConst.color_black_100_2_2_2,
+                width: 18.0,
+                height: 18.0),
+          ).onTap(onPressed: (){
 
-    });
+          }
+        )
+      ),
+       Obx(()=> Positioned(
+          top: 4,
+          right: 0,
+          child: Container(
+            margin: EdgeInsets.only(right: 16),
+            width: 14,
+            height: 14,
+            decoration: BoxDecoration(
+              color: AppColors.badge_color,
+              borderRadius: Radii.border(7),
+            ),
+            child: Text(
+              cartController.cartItems.length.toString(),
+              textAlign: TextAlign.center,
+              style: BaseStyles.notificationBadgeTextStyle,
+            ),
+          ),
+        ),
+       ) ],
+    );
   }
 
  Widget getAppBar() {
@@ -312,16 +340,110 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
               titleWidget(),
             ],
           ),
-          iconsWidget(),
+          Expanded(child: iconsWidget()),
         ],
       ),
     ),
   );
 }
 
-  void getTheFilteredData() {
-     listItems = storeController.itemsList.where((element) => element.category[0].id==widget.categoryId).toList();
 
+
+
+  bool isMatched(String current,String index){
+
+   // print("checking match ==> $current == $index");
+    return current==index;
+
+  }
+
+ Widget showAddItemOrAddingWidget(Item categoryItem) {
+
+   var list = cartController.cartItems.value.where((e) => e.id == categoryItem.id).toList();
+   if(list.isNotEmpty){
+     return Container(
+       height: 32,
+       margin: EdgeInsets.only(bottom: 12,left: 12,right: 12),
+
+       child: Row(
+         children: [
+         Container(
+         width: 32,
+         height: 32,
+         decoration: BoxDecoration(
+             borderRadius: BorderRadius.all(
+                 Radius.circular(4)
+             ),
+             color: ColorConst.color_mint_100_2_2_2
+         ),
+
+         child:getSvgImage(imagePath: Assets.assets_icon_m_minus, width: 14.0,height: 14.0),
+
+       ).onTap(onPressed: (){ // - minus
+           var matchedProduct = cartController.cartItems.firstWhere((e) => e.id ==list[0].id,orElse:()=>null);
+           if(matchedProduct!=null) {
+             matchedProduct.orderQuantity--;
+              if(matchedProduct.orderQuantity==0){
+                cartController.cartItems.remove(matchedProduct);
+              }
+           }
+
+
+         setState(() {
+
+         });
+
+       }),
+           Expanded(
+             child: Text(
+                 cartController.cartItems.where((e) => e.id ==list[0].id).toList()[0].orderQuantity.toString(),
+                // list[0].orderQuantity.toString(),
+                 style: TextStyles.bUTTONBlack222,
+                 textAlign: TextAlign.center
+             ),
+           ),
+       Container(
+         width: 32,
+         height: 32,
+         decoration: BoxDecoration(
+             borderRadius: BorderRadius.all(
+                 Radius.circular(4)
+             ),
+             color: ColorConst.color_mint_100_2_2_2
+         ),
+         child: getSvgImage(imagePath: Assets.icon_content_add_24_px, width: 14.0,height: 14.0),
+       ).onTap(onPressed: (){
+         var matchedProduct = cartController.cartItems.firstWhere((e) => e.id ==list[0].id,orElse:()=>null);
+         if(matchedProduct!=null) {
+           matchedProduct.orderQuantity++;
+         }
+         setState(() {
+
+         }
+         );
+       })        ],
+       ),
+     );
+   }else{
+     return  Container(
+         height: 32,
+         margin: EdgeInsets.only(bottom: 12,left: 12,right: 12),
+         decoration: BoxDecoration(
+             borderRadius: BorderRadius.all(
+                 Radius.circular(8)
+             ),
+             color: ColorConst.color_mint_100_2_2_2
+         ),
+         alignment: Alignment.center,
+         child: // Text
+         Text("+ Add",
+           style: BaseTextStyles.bUTTONBlack222,)
+     ).onTap(onPressed: (){
+       categoryItem.orderQuantity++;
+       cartController.cartItems.add(categoryItem);
+     }
+     );
+   }
   }
 
 

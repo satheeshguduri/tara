@@ -36,14 +36,14 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
   OrderController controller = Get.find();
   StoreController storeController = Get.find();
 
-  @override
-  void init() async {
-    // TODO: implement init
-    super.init();
-    controller.getConsumerOrders();
-    controller.getAllStore();
-    print(controller.storeTypesList);
-  }
+  // @override
+  // void init() async {
+  //   // TODO: implement init
+  //   super.init();
+  //   controller.getConsumerOrders();
+  //   controller.getAllStore();
+  //   print(controller.storeTypesList);
+  // }
 
   @override
   BuildContext getContext() {
@@ -269,10 +269,16 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       List<Widget> arrList = [];
       for (int i = 0; i < storeController.bannersList.length; i++) {
         arrList.add(Container(
-          height: 180,
           margin: EdgeInsets.only(left: 2, right: 16),
-          child: Image.network(storeController.bannersList[i].url),
-        )
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.network(
+              storeController.bannersList[i].url,fit: BoxFit.fitHeight,
+              height: 120.0,
+              width: Get.width*0.9,
+            ),
+          ),
+         )
         );
       }
       return arrList;
@@ -280,6 +286,11 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
       List<Widget> arrList = [];
       for (int i = 0; i <= 4; i++) {
         arrList.add(Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                  Radius.circular(8)
+              )
+          ),
           height: 180,
           margin: EdgeInsets.only(left: 2, right: 16),
           child: Image.asset(Assets.ic_shop_banner),
@@ -453,7 +464,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
     ).onTap(onPressed: () {
       //here sort the data and send to next screen
       //  print("catalogue"+category.items[0].catalogue[0]);
-      Get.to(ShopCategoryDetailsScreen(categoryId: category.id));
+      Get.to(ShopCategoryDetailsScreen(categoryId: category.id,title: category.name,));
     });
   }
 
