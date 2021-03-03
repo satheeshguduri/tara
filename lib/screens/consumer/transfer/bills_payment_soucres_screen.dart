@@ -21,8 +21,7 @@ import 'package:tara_app/models/transfer/customer_profile_details_response.dart'
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:async/async.dart';
-import 'package:tara_app/models/auth/auth_response.dart';
-
+import 'package:tara_app/screens/consumer/transfer/enter_cvv.dart';
 
 
 
@@ -44,8 +43,6 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   final AsyncMemoizer cCMemorizer = AsyncMemoizer();
 
 
-
-
   @override
   Widget build(BuildContext context) {
     showIfFalse();
@@ -60,14 +57,14 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
               .showProgress
               .value)),
 
-      bottomNavigationBar: Obx(()=>nextButtonWidget()),
+      bottomNavigationBar: Obx(() => nextButtonWidget()),
     );
   }
 
 
   Widget getContainer() {
     return Container(
-      height: Get.height-120,
+      height: Get.height - 120,
       child: Column(
           children: [
             Expanded(
@@ -76,7 +73,8 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
                     SizedBox(height: 16),
                     creditCardsRow(),
                     SizedBox(height: 16),
-                    debitCardsRow(),],
+                    debitCardsRow(),
+                  ],
 
                 )
             ),
@@ -110,23 +108,22 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         children: [
           commonRowTitle(getTranslation(Strings.paywith)),
           FutureBuilder(
-            future: this.dCMemorizer.runOnce(()=>transferController.getCustomerProfile2()),
-            builder: (context,snapshot){
-              if(snapshot.connectionState==ConnectionState.done)
-              {
-                if(snapshot.hasData){
+            future: this.dCMemorizer.runOnce(() =>
+                transferController.getCustomerProfile2()),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
                   CustomerProfileDetailsResponse data = snapshot.data;
                   billController.debitCards = data.mappedBankAccounts;
                   return debitCardsRowContainer(data.mappedBankAccounts);
-                }else if (snapshot.hasError){
+                } else if (snapshot.hasError) {
                   return Container();
-                }else{
+                } else {
                   return Container();
                 }
-              }else{
+              } else {
                 return BaseWidgets.getIndicator;
               }
-
             },
           )
         ],
@@ -146,28 +143,30 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       child: Text(
         getTranslation(Strings.next),
         textAlign: TextAlign.center,
-        style:  billController.paymentTextStyle.value,
+        style: billController.paymentTextStyle.value,
       ),
     ).onTap(onPressed: () async {
-      if(billController.paymentClickable.value) {
+      billController.creditCardSelectedIndex.value = "-1";
+      billController.debitCardSelectedIndex.value = "-1";
+      if (billController.paymentClickable.value) {
         showIfFalse();
-        if(billController.isDebitCard.value){
-
-          transferController.payBill(subMerchantName: widget.billDetailsData.category,merchantRef:"1234",amount1:widget.billDetailsData.amount.toString(),remarks1: billController.debitCardDesc,initiatorAccountId:billController.getSelectedDebitCardAccountID(),);
+        if (billController.isDebitCard.value) {
+            enterMPINBottomSheet();
           // transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
-        }else{
+        } else {
           // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
           transferController.paymentInitiation(
               cardId: billController.creditCardId,
               amount: billController.creditCardAmount,
               desc: billController.creditCardDesc,
               maskAcNum: billController.creditCardMaskedCardNumber,
-              toAddress: ToAddressResponse(customerProfile: CustomerProfile(firebaseId: "BillPayment")),
-              isFromCreditCard: true,trContext: TransactionContext.BILL_PAYMENT);
+              toAddress: ToAddressResponse(
+                  customerProfile: CustomerProfile(firebaseId: "BillPayment")),
+              isFromCreditCard: true,
+              trContext: TransactionContext.BILL_PAYMENT);
           // transferController.payViaCreditCard();
         }
       }
-
     }
 
 
@@ -180,7 +179,6 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
 
   void showIfTrue() {
-
     billController.paymentClickable.value = true;
     billController.paymentNextColor.value = AppColors.bottom_border_color;
     billController.paymentTextStyle.value = BaseStyles.addNewBankAccount;
@@ -188,7 +186,8 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
   void showIfFalse() {
     billController.paymentClickable.value = false;
-    billController.paymentNextColor.value = AppColors.billerPaymentNextButtonColor;
+    billController.paymentNextColor.value =
+        AppColors.billerPaymentNextButtonColor;
     billController.paymentTextStyle.value = TextStyles.bUTTONGrey3222;
   }
 
@@ -213,9 +212,13 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             children: [
               Image.asset(Assets.ic_bca, width: 48, height: 24,),
               //TODO ICON TO LOAD FROM NETWORK
-              Container(width:Get.width*0.7,child: Text(widget.billDetailsData.productName,style: BaseStyles.contactsTextStyle,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,
+              Container(width: Get.width * 0.7,
+                  child: Text(widget.billDetailsData.productName,
+                    style: BaseStyles.contactsTextStyle,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
 
-              ))
+                  ))
 
 
             ],
@@ -236,14 +239,16 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             scrollDirection: Axis.horizontal,
             itemCount: mappedBankAccounts.length,
             itemBuilder: (context, index) {
-              return getDebitCardListTile(mappedBankAccounts[index],index); // Container
+              return getDebitCardListTile(
+                  mappedBankAccounts[index], index); // Container
 
 
             })
     );
   }
 
-  Widget getDebitCardListTile(MappedBankAccountsBean mappedBankAccounts,int index) {
+  Widget getDebitCardListTile(MappedBankAccountsBean mappedBankAccounts,
+      int index) {
     return Container(
       width: 208,
       margin: EdgeInsets.only(right: 16),
@@ -276,20 +281,15 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       ),
 
 
-    ).onTap(onPressed: (){
-
+    ).onTap(onPressed: () {
       billController.debitCardSelectedIndex.value = index.toString();
       billController.creditCardSelectedIndex.value = "-1";
       showIfTrue();
       billController.isDebitCard.value = true;
       billController.isCreditCard.value = false;
-      billController.mobileNumber = "8368951368";
-      billController.debitCardAmount =  "100";
-      billController.debitCardDesc = "from bills";
-      billController.debitCardBic = "CENAID00001";
+      billController.debitCardBic = mappedBankAccounts.bic;
       billController.debitCardCvv = "123";
-      // billController.debitCardAccountId = 44;
-      billController.debitCardBenId = 44;
+      billController.debitCardDesc = "Bill payment";
 
       //  transferController.payNow(mobileNumber: "8368951368",amount1: "100",remarks1: "from bills",bic1: "CENAID00001",cvv1: "123",initiatorAccountId1:44,benId1: 44);
 
@@ -317,22 +317,17 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             margin: EdgeInsets.only(left: 19),
           ),
           // Expanded(child: SizedBox()),
-          Obx(() => Container(
-              margin: EdgeInsets.only(right: 10,),
-              //width: 50,
-              child:  isMatched(billController.debitCardSelectedIndex.value, index.toString())?
-              getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
-                  height: 24.0,
-                  width: 24.0)
-              // margin: EdgeInsets.only(top: 8),
-                  :Container())),
-
-
-
-
-
-
-
+          Obx(() =>
+              Container(
+                  margin: EdgeInsets.only(right: 10,),
+                  //width: 50,
+                  child: isMatched(billController.debitCardSelectedIndex.value,
+                      index.toString()) ?
+                  getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
+                      height: 24.0,
+                      width: 24.0)
+                  // margin: EdgeInsets.only(top: 8),
+                      : Container())),
 
 
         ],
@@ -377,8 +372,10 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(getTranslation(Strings.code), style: BaseStyles.purchaseLabelTextStyle),
-        Text("${widget.billDetailsData.productCode}",style: TextStyles.bUTTONWhite2)
+        Text(getTranslation(Strings.code),
+            style: BaseStyles.purchaseLabelTextStyle),
+        Text("${widget.billDetailsData.productCode}",
+            style: TextStyles.bUTTONWhite2)
       ],
     ).withPad(padding: EdgeInsets.all(5));
   }
@@ -387,10 +384,15 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(getTranslation(Strings.name), style: BaseStyles.purchaseLabelTextStyle),
-        Container(width:Get.width*0.6,child: Text("${widget.billDetailsData.productName}",style: TextStyles.bUTTONWhite2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.right,
+        Text(getTranslation(Strings.name),
+            style: BaseStyles.purchaseLabelTextStyle),
+        Container(width: Get.width * 0.6,
+            child: Text("${widget.billDetailsData.productName}",
+              style: TextStyles.bUTTONWhite2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.right,
 
-        ))
+            ))
       ],
     ).withPad(padding: EdgeInsets.all(5));;
   }
@@ -399,8 +401,11 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(getTranslation(Strings.nominal), style: BaseStyles.purchaseLabelTextStyle),
-        Text(getTranslation(Strings.RP)+" "+"${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
+        Text(getTranslation(Strings.nominal),
+            style: BaseStyles.purchaseLabelTextStyle),
+        Text(getTranslation(Strings.RP) + " " +
+            "${widget.billDetailsData.amount}",
+            style: BaseStyles.nominalTextView)
 
       ],
     ).withPad(padding: EdgeInsets.all(5));
@@ -408,7 +413,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
   String getMaskedAccountNumber(String fullString) {
     List<String> list = fullString.split('#').toList();
-    return "**** **** **"+ list[0].substring(list[0].length - 2);
+    return "**** **** **" + list[0].substring(list[0].length - 2);
   }
 
   creditCardsRow() {
@@ -419,22 +424,21 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         children: [
           commonRowTitle(getTranslation(Strings.creditCards)),
           FutureBuilder(
-            future:  this.cCMemorizer.runOnce(()=>transferController.getCards()),
-            builder: (context,snapshot){
-              if(snapshot.connectionState==ConnectionState.done)
-              {
-                if(snapshot.hasData){
+            future: this.cCMemorizer.runOnce(() =>
+                transferController.getCards()),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
                   List<CardData> data = snapshot.data;
                   return creditCardsRowContainer(data);
-                }else if (snapshot.hasError){
+                } else if (snapshot.hasError) {
                   return Container();
-                }else{
+                } else {
                   return Container();
                 }
-              }else{
+              } else {
                 return BaseWidgets.getIndicator;
               }
-
             },
           )
         ],
@@ -443,9 +447,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   }
 
   creditCardsRowContainer(List<CardData> creditCards) {
-
     //filter the cards only with response success
-    creditCards = creditCards.where((element) => element.status == "success").toList();
+    creditCards =
+        creditCards.where((element) => element.status == "success").toList();
 
     return Container(
         height: 119,
@@ -454,15 +458,15 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             scrollDirection: Axis.horizontal,
             itemCount: creditCards.length,
             itemBuilder: (context, index) {
-
-              return getCreditCardListTile(creditCards[index],index); // Container
+              return getCreditCardListTile(
+                  creditCards[index], index); // Container
             }
         )
 
     );
   }
 
-  Widget getCreditCardListTile(CardData creditCardData,int index) {
+  Widget getCreditCardListTile(CardData creditCardData, int index) {
     return Container(
       width: 208,
       margin: EdgeInsets.only(right: 16),
@@ -485,7 +489,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       child: Column(
         children: [
           SizedBox(height: 12),
-          creditCardtransactionDetailRow(creditCardData,index),
+          creditCardtransactionDetailRow(creditCardData, index),
           SizedBox(height: 16),
           creditCardNumberRow(creditCardData),
           SizedBox(height: 12),
@@ -495,9 +499,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       ),
 
 
-    ).onTap(onPressed: (){
+    ).onTap(onPressed: () {
       billController.creditCardSelectedIndex.value = index.toString();
-      billController.debitCardSelectedIndex.value  = "-1";
+      billController.debitCardSelectedIndex.value = "-1";
       // if(billController.isCreditSelected.value){
       //   billController.isCreditSelected.value = false;
       // }else{
@@ -507,28 +511,29 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       billController.isDebitCard.value = false;
       billController.isCreditCard.value = true;
       billController.creditCardId = creditCardData.id.mcPaymentCardId;
-      billController.creditCardAmount =  widget.billDetailsData.amount;
+      billController.creditCardAmount = widget.billDetailsData.amount;
       billController.creditCardDesc = "Gift Only";
-      billController.creditCardMaskedCardNumber = creditCardData.maskedCardNumber;
+      billController.creditCardMaskedCardNumber =
+          creditCardData.maskedCardNumber;
 
 
       //  transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
     });
   }
-  bool isMatched(String current,String index){
 
+  bool isMatched(String current, String index) {
     print("checking match ==> $current == $index");
-    return current==index;
-
+    return current == index;
   }
-  Widget  creditCardtransactionDetailRow(CardData creditCardData,int index) {
-    return  Container(
+
+  Widget creditCardtransactionDetailRow(CardData creditCardData, int index) {
+    return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             width: 150,
-            child:  Text(
+            child: Text(
                 creditCardData.bankIssuer,
                 style: TextStyles.cardAmountTextStyle,
                 overflow: TextOverflow.ellipsis
@@ -536,16 +541,18 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(left: 16,),
           ),
-          // (billController.isCreditSelected.value && creditCardSelectedIndex==index)?
-          Obx(() => Container(
-              margin: EdgeInsets.only(right: 10,),
-              //width: 50,
-              child:  isMatched(billController.creditCardSelectedIndex.value, index.toString())?
-              getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
-                  height: 24.0,
-                  width: 24.0)
-              // margin: EdgeInsets.only(top: 8),
-                  :Container())),
+
+          Obx(() =>
+              Container(
+                  margin: EdgeInsets.only(right: 10,),
+                  //width: 50,
+                  child: isMatched(billController.creditCardSelectedIndex.value,
+                      index.toString()) ?
+                  getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
+                      height: 24.0,
+                      width: 24.0)
+                  // margin: EdgeInsets.only(top: 8),
+                      : Container())),
 
         ],
 
@@ -577,4 +584,23 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         )
     );
   }
-}
+
+void enterMPINBottomSheet() => showModalBottomSheet(
+    isScrollControlled: true,
+    useRootNavigator: true,
+    backgroundColor: Colors.transparent,
+    context: context,
+    builder: (BuildContext bc) {
+      return EnterCVV(amount:widget.billDetailsData.amount.toString(),billsCatagoryData:widget.billDetailsData.category);
+
+      // transferController.payBill(bic1: billController.debitCardBic,
+      //   cvv1: billController.debitCardCvv,
+      //   subMerchantName: widget.billDetailsData.category,
+      //   merchantRef: "1234",
+      //   amount1: widget.billDetailsData.amount.toString(),
+      //   remarks1: billController.debitCardDesc,
+      //   initiatorAccountId: billController
+      //       .getSelectedDebitCardAccountID(),);
+    }
+    );
+ }

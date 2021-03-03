@@ -802,6 +802,7 @@ class TransactionController extends GetxController{
   }
 
   Future validateOtpAndTrackTransaction(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic,TransactionContext transactionContext,num amount) async {
+    showProgress.value = true;
     var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
     var validateOtpRequest = ValidateOtpRequest(
         deviceInfo: deviceInfo,
@@ -848,6 +849,7 @@ class TransactionController extends GetxController{
                   entry = ChatEntryPoint.MC_PAYMENT;
                   var custInfo = CustomerProfile(firebaseId: "BillPayment",firstName: "Bill Payment");
                   Get.put(TransactionController());
+                  showProgress.value = false;
                   Get.to(ConversationPage(entry:entry,selectedContact: ContactInfo(),custInfo: custInfo));
                 }
               }
