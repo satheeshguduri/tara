@@ -31,7 +31,8 @@ import 'package:tara_app/controller/cart_controller.dart';
 class ShopCategoryDetailsScreen extends StatefulWidget {
 
   final  int categoryId;
-  ShopCategoryDetailsScreen({Key key,this.categoryId}) : super(key: key);  @override
+  final String title;
+  ShopCategoryDetailsScreen({Key key,this.categoryId,this.title}) : super(key: key);  @override
   ShopCategoryDetailsScreenState createState() => ShopCategoryDetailsScreenState();
 }
 
@@ -70,7 +71,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
           preferredSize: Size.fromHeight(56.0), // here the desired height
           child: SafeArea(child: getAppBar()),
       ),
-      body:getRootContainer()
+      body:Container(child: getRootContainer()).withPad(padding: EdgeInsets.all(16))
       // body: Obx(() =>getRootContainer().withProgressIndicator(showIndicator: storeController.showProgress.value))
 
     );
@@ -78,6 +79,8 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
     Widget  getRootContainer() {
     return Obx(()=>GridView.count(crossAxisCount: 2,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
             shrinkWrap: true,
             childAspectRatio: 0.7,
             children: storeController.filteredList.map((categoryItem) => getCategoryListTile(categoryItem)).toList()
@@ -86,23 +89,19 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
   Widget getCategoryListTile(Item categoryItem) {
     counter++;
-    return Padding(
-
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 148,
-        //margin: getTheMargins(counter),
-        decoration: getDealsDecoration(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            dealsTileFirstRow(categoryItem),
-            dealsTileSecondRow(categoryItem,storeController.filteredList.indexOf(categoryItem)),
-          ],
-        ),
-
-
+    return Container(
+      width: 148,
+      //margin: getTheMargins(counter),
+      decoration: getDealsDecoration(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          dealsTileFirstRow(categoryItem),
+          dealsTileSecondRow(categoryItem,storeController.filteredList.indexOf(categoryItem)),
+        ],
       ),
+
+
     );
   }
 
@@ -130,12 +129,16 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   Widget dealsTileFirstRow(Item categoryItem) {
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         getStackWidget(categoryItem),
         SizedBox(height: 12),
-        Text(
-            categoryItem.itemName,
-            style: TextStyles.body2222
+        Container(
+          margin: EdgeInsets.only(left: 12),
+          child: Text(
+              categoryItem.itemName,
+              style: TextStyles.body2222
+          ),
         )
       ],
     );
@@ -144,23 +147,31 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
   Widget  dealsTileSecondRow(Item categoryItem,int index) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-            categoryItem.category[0].name,
-            style: const TextStyle(
-                color:  ColorConst.input_field_line_off_2_2_2,
-                fontWeight: FontWeight.w500,
-                fontFamily: "SctoGroteskA",
-                fontStyle:  FontStyle.normal,
-                fontSize: 14.0
-            ),
-            textAlign: TextAlign.center
+        Container(
+          margin: EdgeInsets.only(left: 16),
+          child: Text(
+                "Price",
+             // categoryItem.category[0].name,
+              style: const TextStyle(
+                  color:  ColorConst.input_field_line_off_2_2_2,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "SctoGroteskA",
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 14.0
+              ),
+              textAlign: TextAlign.center
+          ),
         ),
         SizedBox(height: 6),
         // Rp 5.300-6.600
-        Text(
-            categoryItem.price.toString(),
-            style: BaseTextStyles.subtitle3222
+        Container(
+          margin: EdgeInsets.only(left: 16),
+          child: Text(
+              categoryItem.price.toString(),
+              style: BaseTextStyles.subtitle3222
+          ),
         ),
         SizedBox(height: 8),
         showAddItemOrAddingWidget(categoryItem),
@@ -200,10 +211,20 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
               )] ,
               color: ColorConst.elevation_off_2_2_2
           ),
-          child: getSvgImage(imagePath: Assets.assets_icon_f_favorite,height: 16.0,width: 16.0),
+          child: categoryItem.favouriteItem?getSvgImage(imagePath: cartController.favouriteIcon.value,height: 16.0,width: 16.0,color: Colors.red):getSvgImage(imagePath: cartController.favouriteIcon.value,height: 16.0,width: 16.0,color:AppColors.color_black_100_2_2_2),
 
         ).onTap(onPressed: (){
+           if(cartController.iconColor.value == AppColors.color_black_100_2_2_2){
+             cartController.iconColor.value= Colors.red;
+             categoryItem.favouriteItem=!categoryItem.favouriteItem;
+           }else{
+             cartController.iconColor.value= AppColors.color_black_100_2_2_2;
+             categoryItem.favouriteItem=!categoryItem.favouriteItem;
 
+           }
+           setState(() {
+
+           });
         }),
       )
 
@@ -226,7 +247,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   }
 
   Widget titleWidget() {
-    return Text( getTranslation(Strings.meatandseafood),
+    return Text( widget.title,
       overflow: TextOverflow.ellipsis,
       style: BaseStyles.topBarTextStyle,
     );

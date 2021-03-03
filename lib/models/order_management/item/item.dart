@@ -13,9 +13,13 @@ class Item{
    int quantityInStock;
    List<Catalogue> catalogue;
    List<Category> category;
+   @JsonKey(defaultValue: 0)
+   num orderQuantity;
+   @JsonKey(defaultValue:false)
+   bool favouriteItem;
 
    Item({this.id, this.sku, this.itemName, this.price, this.quantityInStock,
-       this.catalogue, this.category});
+       this.catalogue, this.category,this.orderQuantity,this.favouriteItem});
 
 factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 

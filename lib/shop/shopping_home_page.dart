@@ -464,7 +464,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
     ).onTap(onPressed: () {
       //here sort the data and send to next screen
       //  print("catalogue"+category.items[0].catalogue[0]);
-      Get.to(ShopCategoryDetailsScreen(categoryId: category.id));
+      Get.to(ShopCategoryDetailsScreen(categoryId: category.id,title: category.name,));
     });
   }
 
