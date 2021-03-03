@@ -1,16 +1,12 @@
 
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
-import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/radii.dart';
-import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
@@ -43,7 +39,6 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
   StoreController storeController = Get.find();
   CartController cartController = Get.find();
 
-  //List<Item> listItems;
 
 
   @override
@@ -307,8 +302,8 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
               color: AppColors.badge_color,
               borderRadius: Radii.border(7),
             ),
-            child: Text(
-              cartController.cartItems.length.toString(),
+
+            child: Text(getCartItemsCount(),
               textAlign: TextAlign.center,
               style: BaseStyles.notificationBadgeTextStyle,
             ),
@@ -436,7 +431,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
          ),
          alignment: Alignment.center,
          child: // Text
-         Text("+ Add",
+         Text(getTranslation(Strings.plusadd),
            style: BaseTextStyles.bUTTONBlack222,)
      ).onTap(onPressed: (){
        categoryItem.orderQuantity++;
@@ -444,6 +439,14 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
      }
      );
    }
+  }
+
+  String getCartItemsCount() {
+    num totalCount=0;
+    for(int i=0;i<cartController.cartItems.length;i++){
+       totalCount = totalCount+cartController.cartItems[i].orderQuantity??0;
+    }
+    return totalCount.toString();
   }
 
 
