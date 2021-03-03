@@ -33,6 +33,8 @@ import 'common_bills_payments_list.dart';
 import 'my_account/connect_new_account_select_ank.dart';
 import 'my_account/myaccounts_see_all_screen.dart';
 import 'package:tara_app/common/widgets/see_all_widget.dart';
+import 'package:async/async.dart';
+
 
 
 
@@ -52,6 +54,12 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   var paymentOptionsIconsArray = [Assets.MOBILE_ICON,Assets.INTERNET_ICON, Assets.PLN_ICON, Assets.BJPS_ICON];
 
   BillController controller = Get.find<BillController>();
+
+  final AsyncMemoizer accountMemorizer = AsyncMemoizer();
+  final AsyncMemoizer billsMemorizer = AsyncMemoizer();
+  final AsyncMemoizer transactionsMemorizer = AsyncMemoizer();
+
+
 
 
   @override
@@ -121,7 +129,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   Widget  getTransactionsFuture() {
 
     return FutureBuilder(
-      future: Get.find<TransactionController>().getTransactions(),
+      future: this.transactionsMemorizer.runOnce(()=> Get.find<TransactionController>().getTransactions()),
       builder: (context,snapshot){
         if(snapshot.connectionState==ConnectionState.done)
         {
@@ -143,7 +151,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   }
   Widget  getMyAccountsFuture() {
       return FutureBuilder(
-        future: Get.find<TransactionController>().getCustomerProfile2(),
+        future: this.accountMemorizer.runOnce(()=> Get.find<TransactionController>().getCustomerProfile2()),
         builder: (context,snapshot){
           if(snapshot.connectionState==ConnectionState.done)
             {
@@ -301,7 +309,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   Widget getBillPaymentFuture(){
 
       return FutureBuilder(
-        future: Get.find<BillController>().getCategories(),
+        future: this.billsMemorizer.runOnce(()=> Get.find<BillController>().getCategories()),
         builder: (context,snapshot){
           if(snapshot.connectionState==ConnectionState.done)
           {
