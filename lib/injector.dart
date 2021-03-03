@@ -46,6 +46,9 @@ import 'controller/contacts_transfer_controller.dart';
 import 'controller/device_register_controller.dart';
 import 'models/order_management/store/store_type_model.dart';
 import 'package:tara_app/controller/store_controller.dart';
+import 'package:tara_app/controller/cart_controller.dart';
+
+
 
 
 var getIt = GetIt.I;
@@ -86,6 +89,7 @@ Future<void> init() async{
   Get.put(OrderController());
   Get.put(StoreController());
   Get.put(BillController());
+  Get.put(CartController());
   Get.put(ContactsTransferController());
   Get.put(DeviceRegisterController());
   Get.lazyPut(()=>StoreTypeResponse());
