@@ -9,6 +9,10 @@ import 'package:tara_app/controller/order_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/fonts.dart';
+import 'package:tara_app/common/widgets/base_widgets.dart';
+
+
+
 
 
 class MyOrderScreen extends StatefulWidget{
@@ -21,35 +25,44 @@ class MyOrderScreenState extends BaseState<MyOrderScreen>{
 
   OrderController controller = Get.find();
 
-  @override
-  void initState() {
-    super.initState();
-    controller.getConsumerOrders();
-
-  }
 
   @override
   Widget build(BuildContext context) {
-    return  Obx(() => SafeArea(
-            child: getRootWidget()
-            .withProgressIndicator(showIndicator: controller.showProgress.value),
-      )
-      );
+    return   SafeArea(
+            child: getRootWidget());
+
   }
 
 
   Widget  getRootWidget() {
     return Scaffold(
-        appBar: CustomAppBarWidget(title: "My Orders",addNewWidgetShow: false,),
+        appBar: CustomAppBarWidget(title: getTranslation(Strings.my_orders),addNewWidgetShow: false,),
         body: Container(
           margin: EdgeInsets.only(top: 16),
-          child: ListView.builder(
-              itemCount: controller.orderList.length,
-              itemBuilder: (BuildContext context, int index) {
-                var order = controller.orderList[index];
-                return customListTile(order);
+          child:  FutureBuilder(
+            future:controller.getConsumerOrders(),
+            builder: (BuildContext context, AsyncSnapshot snapshot){
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return BaseWidgets.getIndicator;
+                default:
+                  if (snapshot.hasError)
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  else
+                  return  (controller.orderList.length>0)?
+                          ListView.builder(
+                          itemCount: controller.orderList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var order = controller.orderList[index];
+                            return customListTile(order);
+                          }
+                      ):Center(child: Text("No data"));
               }
-          ),
+            }
+
+          )
+
+
         )
     );
   }
