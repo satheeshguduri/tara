@@ -96,10 +96,10 @@ class _EnterMPINState extends BaseState<EnterCVV> {
                         height: 40,
                         margin: EdgeInsets.only(top: 24,),
                         child: OTPTextFieldWidget(
-                          width:  MediaQuery.of(context).size.width,
+                          width: Get.width,
                           length: 3,
                           fieldWidth: 40,
-                          textFieldAlignment: MainAxisAlignment.spaceBetween,
+                          textFieldAlignment: MainAxisAlignment.spaceEvenly,
                           fieldStyle:FieldStyle.underline,
                           obscureText: true,
                           style: BaseStyles.MPINTextStyle,
@@ -131,7 +131,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
                         height: 5,
                         margin: EdgeInsets.only(bottom: 16,),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             getBorderContainer(),
@@ -164,19 +164,22 @@ class _EnterMPINState extends BaseState<EnterCVV> {
   confirmTransferWidget()
   {
     return InkWell(
-       onTap: () {
-         transferController.showProgress.value = true;
-          transferController.payBill(
-          bic1: billController.debitCardBic,
-          cvv1:otpPin,
-          subMerchantName: widget.billsCatagoryData,
-          merchantRef: "1234",
-          amount1: widget.amount,
-          remarks1: billController.debitCardDesc,
-          initiatorAccountId: billController.getSelectedDebitCardAccountID(),
-        );
-          Get.back();
-      },
+       onTap: ()
+    {
+      if (isOtpEntered) {
+      transferController.showProgress.value = true;
+      transferController.payBill(
+        bic1: billController.debitCardBic,
+        cvv1: otpPin,
+        subMerchantName: widget.billsCatagoryData,
+        merchantRef: "1234",
+        amount1: widget.amount,
+        remarks1: billController.debitCardDesc,
+        initiatorAccountId: billController.getSelectedDebitCardAccountID(),
+      );
+      Get.back();
+    }
+  },
       child: Container(
         height: 48,
         margin: EdgeInsets.only(bottom: 16,top: 8,left: 8,right: 8),

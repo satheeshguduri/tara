@@ -46,7 +46,7 @@ class OTPTextFieldWidget extends StatefulWidget {
         this.fieldWidth = 30,
         this.keyboardType = TextInputType.number,
         this.style = const TextStyle(),
-        this.textFieldAlignment = MainAxisAlignment.spaceBetween,
+        this.textFieldAlignment = MainAxisAlignment.spaceEvenly,
         this.obscureText = false,
         this.fieldStyle = FieldStyle.underline,
         this.onChanged,
