@@ -24,6 +24,7 @@ class CommonWevViewController extends GetxController{
   var showProgress = false.obs;
   var isCardAddedSuccess = "".obs;
   var isPaymentSuccess = "".obs;
+  var payAmount;
 
 
   // var addCreditCardCallback = "http://107.20.4.43:9005/v0.1/mcpayment/tokenization/callback?token=1&success=1&register_id=a10603a9782841ec805133f7d894c8ed";
@@ -56,11 +57,11 @@ class CommonWevViewController extends GetxController{
       Map<String, String> params = callback.queryParameters;
       isPaymentSuccess.value = params['success'] ?? "0";
       var response = await transactionController.paymentCompleted(
-          trContext: TransactionContext.BILL_PAYMENT);
+          trContext: TransactionContext.BILL_PAYMENT,payAmount: payAmount);
       if (response.isRight()) {
         var paymentCompleteRes = response.getOrElse(() => null);
         if (paymentCompleteRes != null) {
-          Get.to(ConversationPage(entry:ChatEntryPoint.MC_PAYMENT,showMakeAnOrder:false,selectedContact: ContactInfo(),
+          Get.to(ConversationPage(entry:ChatEntryPoint.MC_PAYMENT,selectedContact: ContactInfo(),
               custInfo: CustomerProfile(firebaseId: "BillPayment",firstName: "Bill Payment")));
         }
       }

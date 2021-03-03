@@ -20,8 +20,9 @@ class CommonWebViewScreen extends StatefulWidget {
   final String url;
   final String title;
   final WebViewType type;
+  final num amount;
 
-  CommonWebViewScreen({Key key, this.url, this.title, this.type})
+  CommonWebViewScreen({Key key, this.url, this.title, this.type,this.amount})
       : super(key: key);
 
   @override
@@ -37,6 +38,11 @@ class CommonWebViewScreen extends StatefulWidget {
     var addCreditCardCallback = "http://107.20.4.43:9005/v0.1/mcpayment/tokenization/callback";
     var paymentCallback = "http://107.20.4.43:9005/v0.1/mcpayment/payment/callback";
 
+    @override
+  void initState() {
+    super.initState();
+    commonWevViewController.payAmount = widget.amount;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

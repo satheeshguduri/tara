@@ -28,7 +28,7 @@ class ChatInbox extends StatefulWidget {
   _ChatInboxState createState() => _ChatInboxState();
 }
 
-class _ChatInboxState extends BaseState<ChatInbox> {
+class _ChatInboxState extends BaseState<ChatInbox> with AutomaticKeepAliveClientMixin<ChatInbox>{
 
   List<ChatInboxInfo> arrAllChats = [];
   List<ChatInboxInfo> arrMerchantChats = [];
@@ -95,7 +95,7 @@ class _ChatInboxState extends BaseState<ChatInbox> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    super.build(context);
     return DefaultTabController(
       length: 3,
       child: SafeArea(
@@ -340,4 +340,7 @@ class _ChatInboxState extends BaseState<ChatInbox> {
   void dispose() {
     super.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

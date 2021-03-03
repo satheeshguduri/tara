@@ -9,7 +9,7 @@ part of 'psp_rest_client.dart';
 class _PSPRestClient implements PSPRestClient {
   _PSPRestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??= 'https://182.71.195.99:30443/';
+    baseUrl ??= 'https://54.235.233.48:30443/';
   }
 
   final Dio _dio;

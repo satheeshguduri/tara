@@ -153,7 +153,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         showIfFalse();
         if(billController.isDebitCard.value){
 
-          transferController.payBill(subMerchantName: widget.billDetailsData.category,merchantRef:"1234",amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId:billController.getSelectedDebitCardAccountID(),);
+          transferController.payBill(subMerchantName: widget.billDetailsData.category,merchantRef:"1234",amount1:widget.billDetailsData.amount.toString(),remarks1: billController.debitCardDesc,initiatorAccountId:billController.getSelectedDebitCardAccountID(),);
           // transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
         }else{
           // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);

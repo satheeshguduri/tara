@@ -61,6 +61,7 @@ class DeviceRegisterRepositoryImpl implements DeviceRegisterRepository{
     print("For App Token==> "+jsonEncode(commonRegistrationRequest.toJson()));
     try {
       var encryptedBody = await CryptoHelper().encrypt(json.encode(commonRegistrationRequest.toJson()));
+      print("Encrypted:=>"+encryptedBody);
       var response = await pspRemoteDataSource.getAppToken(PSPConfig.MERCHANT_KI,encryptedBody);
       var decryptedResponse = await CryptoHelper().decrypt(response);
       var map = getMap(decryptedResponse);

@@ -29,7 +29,9 @@ class OTPVerificationScreen extends StatefulWidget {
  final device.DeviceInfoBean deviceInfoBean;
  final String bic;
  final String from;
- const OTPVerificationScreen({this.txnId,this.fetchOtpResponse,this.retrieveKeyResponse,this.deviceInfoBean,this.bic,this.from});
+ final num amount;
+ final CustomerProfile toAddress;
+ const OTPVerificationScreen({this.txnId,this.fetchOtpResponse,this.retrieveKeyResponse,this.deviceInfoBean,this.bic,this.from,this.amount,this.toAddress});
 
   @override
   OTPVerificationScreenState createState() =>  OTPVerificationScreenState();
@@ -122,10 +124,13 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
            // pop();
           } else if (widget.from == "transfer") {
            // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-              controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+              controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic,TransactionContext.PAYMENT_REQUEST,widget.amount);
              //pop();
+          }else if (widget.from == "bills") {
+            // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+            controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic,TransactionContext.BILL_PAYMENT,widget.amount);
+            //pop();
           }
-
             }
           }
         }

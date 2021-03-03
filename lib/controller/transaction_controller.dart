@@ -152,7 +152,7 @@ class TransactionController extends GetxController{
     showProgress.value = true;
     Either<Failure, PaymentResponse> responseDa = await getIt.get<TransactionRepository>().initiateTaraTransaction(transactionModel);
    // showProgress.value = false;
-    print("@@@@@@@");
+
     responseDa.fold(
             (l) => print(l.message),
             (r) => {
@@ -167,7 +167,7 @@ class TransactionController extends GetxController{
 
   }
   // payment done
-  Future<Either<Failure, BaseResponse>> paymentCompleted({TransactionContext trContext,ToAddressResponse toAddress}) async{
+  Future<Either<Failure, BaseResponse>> paymentCompleted({TransactionContext trContext,ToAddressResponse toAddress,num payAmount}) async{
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress?.mobileNumber,toAccount:null,toUserFirebaseId: toAddress?.customerProfile?.firebaseId);
     var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:describeEnum(trContext),createFirebaseEntry: "true",amount: payAmount));
@@ -420,7 +420,13 @@ class TransactionController extends GetxController{
                       print(jsonEncode(fetchOTPResponse.toJson()));
                       userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
                       showProgress.value = false;
-                      Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from: "addaccount",));
+                      Get.to(OTPVerificationScreen(
+                        txnId: txnId,fetchOtpResponse: fetchOTPResponse,
+                        retrieveKeyResponse: retriveKeyResponse,
+                        deviceInfoBean: deviceInfo,
+                        bic: bic,
+                        from: "addaccount",
+                      ));
 
                       //  Get.to(OTPVerificationScreen(txnId,fetchOTPResponse,retriveKeyResponse,deviceInfo,bic));
                       // call in OTP validation Screen
@@ -470,9 +476,7 @@ class TransactionController extends GetxController{
     var customerProfile = await getCustomerProfile2();
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
-    var sessionInfo = await getIt.get<SessionLocalDataStore>().getSessionInfo();
     var custRefId = "${DateTime.now().millisecondsSinceEpoch}";
-    var amount= amount1;
     var remarks = remarks1;
     var merchantTxnId = uuid.v1();//need to keep this transaction ID alive for track the transaction request.
     var bic = bic1;//bic1; // get these from Search beneficiary call by passing the mobile number to the api
@@ -527,7 +531,7 @@ class TransactionController extends GetxController{
                 accessToken: tokenResponse.token,
                 custPSPId: deviceRegInfo.pspIdentifier,
                 approved: true,
-                approvedAmount: amount,
+                approvedAmount: amount1,
                 accountTokenId: initiatorAccountId,
                 merchantTxnId: merchantTxnId
               );
@@ -584,7 +588,10 @@ class TransactionController extends GetxController{
                               print(jsonEncode(fetchOTPResponse.toJson()));
                               userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
                               showProgress.value = false;
-                              Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from:"transfer"));
+                              Get.to(OTPVerificationScreen(txnId: txnId,
+                                  fetchOtpResponse: fetchOTPResponse,
+                                  retrieveKeyResponse: retriveKeyResponse,
+                                  deviceInfoBean: deviceInfo,bic: bic,from:"bills",amount:double.parse(amount1)));
 
                               //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
                               // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
@@ -689,7 +696,7 @@ class TransactionController extends GetxController{
             if(initiateTransactionResponse.success){
              var toAddressResp = await Get.find<AuthController>().getToAddressForPayment(toMobileNumber.substring(1,toMobileNumber.length));
               if(toAddressResp.isRight()){
-                toAddress = toAddressResp.getOrElse(() => null);
+                var toAddress = toAddressResp.getOrElse(() => null);
 
                 print("to firebase id"+jsonEncode(toAddress.toJson()));
                 if(toAddress!=null){
@@ -743,7 +750,10 @@ class TransactionController extends GetxController{
                               print(jsonEncode(fetchOTPResponse.toJson()));
                               userMobileNumber.value = Get.find<AuthController>().user.value.customerProfile.mobileNumber;
                               showProgress.value = false;
-                              Get.to(OTPVerificationScreen(txnId: txnId,fetchOtpResponse: fetchOTPResponse,retrieveKeyResponse: retriveKeyResponse,deviceInfoBean: deviceInfo,bic: bic,from:"transfer"));
+                              Get.to(OTPVerificationScreen(txnId: txnId,
+                                  fetchOtpResponse: fetchOTPResponse,
+                                  retrieveKeyResponse: retriveKeyResponse,
+                                  deviceInfoBean: deviceInfo,bic: bic,from:"transfer",toAddress: toAddress.customerProfile));
 
                               //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
                               // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
@@ -791,7 +801,7 @@ class TransactionController extends GetxController{
 
   }
 
-  Future validateOtpAndTrackTransaction(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic) async {
+  Future validateOtpAndTrackTransaction(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic,TransactionContext transactionContext,num amount) async {
     var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
     var validateOtpRequest = ValidateOtpRequest(
         deviceInfo: deviceInfo,
@@ -825,11 +835,21 @@ class TransactionController extends GetxController{
         var trackAccountResponse = trackAccountR.getOrElse(() => null);
         print(jsonEncode(trackAccountResponse.toJson()));
         if(trackAccountResponse.success){
-         var response = await paymentCompleted(toAddress: toAddress);
+         var response = await paymentCompleted(toAddress: toAddress,trContext: transactionContext,payAmount: payAmount);
         if(response.isRight()){
           var paymentCompleteRes = trackAccountR.getOrElse(() => null);
               if(paymentCompleteRes!=null){
-                Get.to(ConversationPage(entry:ChatEntryPoint.TRANSFER,selectedContact: ContactInfo(),custInfo: toAddress.customerProfile,));
+                var entry;
+                if(transactionContext == TransactionContext.PAYMENT_REQUEST){
+                  entry = ChatEntryPoint.TRANSFER;
+                  Get.put(TransactionController());
+                  Get.to(ConversationPage(entry:entry,selectedContact: ContactInfo(),custInfo: toAddress?.customerProfile,));
+                }else if(transactionContext == TransactionContext.BILL_PAYMENT){
+                  entry = ChatEntryPoint.MC_PAYMENT;
+                  var custInfo = CustomerProfile(firebaseId: "BillPayment",firstName: "Bill Payment");
+                  Get.put(TransactionController());
+                  Get.to(ConversationPage(entry:entry,selectedContact: ContactInfo(),custInfo: custInfo));
+                }
               }
          }
         }else{
@@ -937,7 +957,7 @@ class TransactionController extends GetxController{
 
 
 
-  Future payViaCreditCard(String mcPaymentCardId,double transactionAmount,String description,String maskedCardNumber) async{
+  Future payViaCreditCard(String mcPaymentCardId,num transactionAmount,String description,String maskedCardNumber) async{
      var request = PayCardRequest(register_id: mcPaymentCardId,
       amount: transactionAmount,
       description: description,
@@ -953,7 +973,7 @@ class TransactionController extends GetxController{
         //_launchURL(finalResponse.data.seamless_url);
         Get.to(CommonWebViewScreen(title: "Paying with Credit card",
             type: WebViewType.PAYMENT,
-            url: finalResponse.data.seamless_url));
+            url: finalResponse.data.seamless_url,));
       }
 
     }
