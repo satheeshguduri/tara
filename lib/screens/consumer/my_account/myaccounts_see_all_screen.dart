@@ -453,6 +453,6 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
 
   String getMaskedAccountNumber(String fullString) {
     List<String> list = fullString.split('#').toList();
-    return "****"+ list[0].substring(list[0].length - 4);
+    return "****"+ list[1].substring(list[0].length - 4);
   }
 }

@@ -34,7 +34,7 @@ class HomeCustomerScreen extends StatefulWidget {
   }
 }
 
-class _HomeScreenState extends BaseState<HomeCustomerScreen> {
+class _HomeScreenState extends BaseState<HomeCustomerScreen> with AutomaticKeepAliveClientMixin{
   //with TickerProviderStateMixin {
 
   int _currentIndex = 0;
@@ -48,7 +48,6 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
 
   @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
 
@@ -69,6 +68,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       bottomNavigationBar: getBottomNavigation(),
       floatingActionButton: FloatingActionButton(
@@ -194,4 +194,8 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> {
   getPageContainer() {
     return _children[_currentIndex];
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

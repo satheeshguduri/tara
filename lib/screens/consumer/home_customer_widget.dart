@@ -85,9 +85,12 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     getTaraServicesWidget(),
-                    // getTransferToWidget(),
+                    // getTransferToWidget()
+                    SizedBox(height: 16,),
                     getMyAccountsFuture(),
+                    SizedBox(height: 16,),
                     getBillPaymentFuture(),
+                    SizedBox(height: 16,),
                     getTransactionsFuture(),
                     Container(
                       height: 32,
@@ -453,7 +456,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: Colors.grey[800],
-                  fontFamily: "Roboto",
+                  
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),
@@ -713,7 +716,7 @@ Widget getBankLogo() {
 
   String getMaskedAccountNumber(String fullString) {
     List<String> list = fullString.split('#').toList();
-    return "******"+ list[0].substring(list[0].length - 4);
+    return "******"+ list[1].substring(list[0].length - 4);
 
   }
 

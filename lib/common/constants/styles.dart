@@ -90,8 +90,8 @@ class BaseStyles {
 
   static TextStyle homeScreenHeadersStyle =   TextStyle(
   color: AppColors.primaryText,
-  fontWeight: FontWeight.w600,
-  fontSize: 17,
+  fontWeight: FontWeight.w700,
+  fontSize: 20,
   );
 
   static TextStyle bottomSheetTitleStyle = TextStyle(
@@ -128,7 +128,7 @@ class BaseStyles {
   static TextStyle errorInfoSubtitleTextStyle = const TextStyle(
   color:  Colors.black45,
   fontWeight: FontWeight.w400,
-  // fontFamily: "Roboto",
+  // 
   fontStyle:  FontStyle.normal,
   fontSize: 16.0
   );
@@ -640,14 +640,12 @@ class BaseStyles {
   static const otpWithSMSTextStyle = const TextStyle(
       color:  AppColors.yourPurchaseBillsDetailsText,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
   static const otpWithSMSCodeTextStyle = const TextStyle(
       color:  AppColors.yourPurchaseBillsDetailsText,
       fontWeight: FontWeight.w700,
-      fontFamily: "SctoGroteskA",
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
@@ -934,35 +932,33 @@ class TextStyles {
   static const productsListDescTextStyle =  TextStyle(
       color:  Colors.black12,
       fontWeight: FontWeight.w400,
-      fontFamily: "Roboto",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
   static const yourPurchaseBillsDetailsTextStyle =  TextStyle(
       color:  AppColors.yourPurchaseBillsDetailsText,
       fontWeight: FontWeight.w400,
-      fontFamily: "Roboto",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
   static const yourPurchaseBillsTotalTextStyle =  TextStyle(
       color:  AppColors.yourPurchaseBillsDetailsText,
       fontWeight: FontWeight.w700,
-      fontFamily: "Roboto",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
   static const plnTokenContainerTextStyle =  TextStyle(
       color:  AppColors.accentText,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
   static const myAccountsDefaultTextStyle =   TextStyle(
       color: AppColors.yourPurchaseBillsDetailsText,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
       fontStyle:  FontStyle.normal,
       fontSize: 10.0
   );
@@ -989,14 +985,13 @@ class TextStyles {
   static const serviceFeeTextStyle = const TextStyle(
       color:  AppColors.color_black_80_2_2_2,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
   );
   static const serviceFeeAmountTextStyle = const TextStyle(
       color:  AppColors.color_black_80_2_2_2,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
 
@@ -1005,7 +1000,7 @@ class TextStyles {
   static const caption222TextStyle = const TextStyle(
       color:  AppColors.color_black_100_2_2_2,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
   );
@@ -1013,7 +1008,7 @@ class TextStyles {
   static const verifyCodeTextStyle = const TextStyle(
       color:  AppColors.black90,
       fontWeight: FontWeight.w400,
-      fontFamily: "Roboto",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
@@ -1021,14 +1016,14 @@ class TextStyles {
   static const otpRecieverMobileTextStyle = const TextStyle(
       color:  AppColors.color_black_100_2_2_2,
       fontWeight: FontWeight.w700,
-      fontFamily: "Roboto",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 16.0
   );
   static const otpWithSMSTextStyle = const TextStyle(
       color:  AppColors.color_black_100_2_2_2,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
@@ -1036,7 +1031,7 @@ class TextStyles {
   static const challengeCodeTextStyle = const TextStyle(
       color:  AppColors.color_black_100_2_2_2,
       fontWeight: FontWeight.w700,
-      fontFamily: "SctoGroteskA",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
@@ -1051,7 +1046,7 @@ class TextStyles {
   static const cardAmountTextStyle =  const TextStyle(
       color:  AppColors.elevation_off_2_2_2,
       fontWeight: FontWeight.w700,
-      fontFamily: "SctoGroteskA",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 20.0
   );
@@ -1059,7 +1054,7 @@ class TextStyles {
   static const cardNumberTextStyle =   const TextStyle(
       color:  AppColors.elevation_off_2_2_2,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
@@ -1067,7 +1062,7 @@ class TextStyles {
   static const pulsaUnSelectedTextStyle =    const TextStyle(
       color:  AppColors.color_black_80_2_2_2,
       fontWeight: FontWeight.w500,
-      fontFamily: "SctoGroteskA",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 14.0
   );
@@ -1076,7 +1071,7 @@ class TextStyles {
   static const labelSelectedTextStyle =    const  TextStyle(
           //color:  AppColors.color_black_100_2_2_2,
           fontWeight: FontWeight.w700,
-          fontFamily: "Roboto",
+          
           fontStyle:  FontStyle.normal,
           fontSize: 12.0
   );
@@ -1084,7 +1079,7 @@ class TextStyles {
   static const labelUnSelectedTextStyle =    const   TextStyle(
      // color:  AppColors.color_black_80_2_2_2,
       fontWeight: FontWeight.w400,
-      fontFamily: "Roboto",
+      
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
   );

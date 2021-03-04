@@ -69,7 +69,7 @@ class Utils {
     List<String> list = fullString?.split('#')?.toList();
     if(list?.isEmpty??false)
       return "*****";
-    else return "******"+ list[0].substring(list[0].length - 4);
+    else return "******"+ list[1].substring(list[0].length - 4);
 
   }
   Widget getIntoCreateStoreScreen(){

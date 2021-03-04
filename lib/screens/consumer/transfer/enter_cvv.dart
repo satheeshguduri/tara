@@ -73,7 +73,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(top: 10),
                   child: Text(
-                    getTranslation(Strings.ENTER_MPIN),
+                    getTranslation(Strings.enterthecvv),
                     style:BaseStyles.bottomSheetTitleStyle,
                     textAlign: TextAlign.left,
                   ),
@@ -87,7 +87,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
                     children: [
                       Container(
                         child: Text(
-                            getTranslation(Strings.ENTER_MPIN),
+                            getTranslation(Strings.enterthecvv),
                             style: BaseStyles.enterMPINTextStyle,
                             textAlign: TextAlign.center
                         ),

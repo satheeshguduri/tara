@@ -47,6 +47,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   Widget build(BuildContext context) {
     showIfFalse();
     return Scaffold(
+
       appBar: CustomAppBarWidget(
           title: getTranslation(Strings.PAYMENT), addNewWidgetShow: false),
       body: Obx(() =>
@@ -146,8 +147,6 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         style: billController.paymentTextStyle.value,
       ),
     ).onTap(onPressed: () async {
-      billController.creditCardSelectedIndex.value = "-1";
-      billController.debitCardSelectedIndex.value = "-1";
       if (billController.paymentClickable.value) {
         showIfFalse();
         if (billController.isDebitCard.value) {
@@ -413,7 +412,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
   String getMaskedAccountNumber(String fullString) {
     List<String> list = fullString.split('#').toList();
-    return "**** **** **" + list[0].substring(list[0].length - 2);
+    return "**** **** **" + list[1].substring(list[0].length - 2);
   }
 
   creditCardsRow() {

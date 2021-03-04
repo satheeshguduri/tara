@@ -15,11 +15,12 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_inbox.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/dashboard/dash_board.dart';
+import 'package:tara_app/screens/dashboard/settings_screen.dart';
 import 'package:tara_app/screens/merchant/merchant_home_widget.dart';
 import 'package:tara_app/screens/scan_qr_code.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
-class MerchantHomeScreen extends StatefulWidget {
+  class MerchantHomeScreen extends StatefulWidget {
   MerchantHomeScreen({Key key, this.title}) : super(key: key);
   final String title;
 
@@ -39,8 +40,8 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
     MerchantHomeWidget(),
     ChatInbox(),//ConversationPage(canGoBack: false,),
     ScanQRCode(),
-    MyAccount(),
     DashBoard(),
+    SettingsScreen(),
   ];
 
 
@@ -62,54 +63,58 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
-         //   icon: getTabImage(Assets.HOME_IN_ACTIVE),
-             icon:getSvgImage(imagePath: Assets.assets_icon_h_home_inactive,width: 24.0,height: 24.0),
-            //activeIcon: getTabImage(Assets.HOME_ACTIVE),
-            activeIcon: getSvgImage(imagePath: Assets.assets_icon_h_home_active,width: 24.0,height: 24.0),
-            title: getTabText(TabTitle.HOME)),
-        BottomNavigationBarItem(
-          icon: Container(
-            width: 24.0,
-            height: 24.0,
-           // child: SvgPicture.asset(Assets.CHAT_IN_ACTIVE,),
-            child:getSvgImage(imagePath: Assets.assets_icon_c_chat_inactive),
-          ), //getTabImage(Assets.CHAT_IN_ACTIVE),
-          activeIcon: Container(
-            width: 24.0,
-            height: 24.0,
-            //child: SvgPicture.asset(Assets.CHAT_ACTIVE,),
-              child:getSvgImage(imagePath: Assets.assets_icon_c_chat_active),
-    ), //getTabImage(Assets.CHAT_ACTIVE),
-          title: Text(
-            TabTitle.CHAT,
-            style: BaseStyles.navigationTextStyle,
-          ),
+          icon: getSvgImage(
+              imagePath: Assets.assets_icon_h_home_inactive,
+              width: 24.0,
+              height: 24.0),
+          activeIcon: getSvgImage(
+              imagePath: Assets.assets_icon_h_home_active,
+              width: 24.0,
+              height: 24.0),
+          label: getTranslation(Strings.home),
         ),
         BottomNavigationBarItem(
-          icon: Container(),
-          activeIcon: Container(),
-          title: Padding(
-              padding: EdgeInsets.only(top: 24),
-              child: getTabText(TabTitle.SCAN)
-          ),
-        ),
+            icon: Container(
+              width: 24,
+              height: 24,
+              child: getSvgImage(imagePath: Assets.assets_icon_c_chat_inactive),
+            ),
+            activeIcon: Container(
+              width: 24,
+              height: 24,
+              child: getSvgImage(imagePath: Assets.assets_icon_c_chat_active),
+            ),
+            label: getTranslation(Strings.chat)),
         BottomNavigationBarItem(
-         // icon: getTabImage(Assets.ACCOUNTS_IN_ACTIVE),
-          icon: getSvgImage(imagePath: Assets.assets_icon_a_accounts_inactive,width: 24.0,height: 24.0),
-          activeIcon:getSvgImage(imagePath:  Assets.assets_icon_a_accounts_active,width: 24.0,height: 24.0),
-          title: getTabText(TabTitle.ACCOUNTS),
-        ),
+            icon: Container(
+              margin: EdgeInsets.only(bottom: 24),
+            ),
+            activeIcon: Container(
+              margin: EdgeInsets.only(bottom: 24),
+            ),
+            label: getTranslation(Strings.scan)),
         BottomNavigationBarItem(
-          icon: Container(
-            width: 24,
-            height: 24,
-              child: getSvgImage(imagePath: Assets.assets_icon_s_setting_inactive)),
-          activeIcon: Container(
-            width: 24,
-            height: 24,
-            child: getSvgImage(imagePath: Assets.assets_icon_s_setting_active)),
-            title: getTabText(TabTitle.SETTINGS),
-        ),
+            icon: getSvgImage(
+                imagePath: Assets.assets_icon_a_accounts_inactive,
+                width: 24.0,
+                height: 24.0),
+            activeIcon: getSvgImage(
+                imagePath: Assets.assets_icon_a_accounts_active,
+                width: 24.0,
+                height: 24.0),
+            label: getTranslation(Strings.dashboard)),
+        BottomNavigationBarItem(
+            icon: Container(
+                width: 24.0,
+                height: 24.0,
+                child: getSvgImage(
+                    imagePath: Assets.assets_icon_s_setting_inactive)),
+            activeIcon: Container(
+                width: 24.0,
+                height: 24.0,
+                child: getSvgImage(
+                    imagePath: Assets.assets_icon_s_setting_active)),
+            label: getTranslation(Strings.settings)),
       ],
     );
   }

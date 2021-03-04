@@ -31,7 +31,7 @@ class BaseTextStyles {
   static const inputFieldOn222 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
-    fontFamily: "Roboto",
+    
     fontStyle:  FontStyle.normal,
     fontSize: 16.0
 );
@@ -39,7 +39,7 @@ class BaseTextStyles {
   static const inputFieldOff222 = const TextStyle(
     color:  ColorConst.input_field_line_off_2_2_2,
     fontWeight: FontWeight.w400,
-    fontFamily: "Roboto",
+    
     fontStyle:  FontStyle.normal,
     fontSize: 16.0
 );
@@ -47,7 +47,7 @@ class BaseTextStyles {
   static const body1222 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
-    fontFamily: "Roboto",
+    
     fontStyle:  FontStyle.normal,
     fontSize: 16.0
 );
@@ -103,7 +103,7 @@ class BaseTextStyles {
   static const body2222 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
-    fontFamily: "Roboto",
+    
     fontStyle:  FontStyle.normal,
     fontSize: 14.0
 );
@@ -199,7 +199,7 @@ class BaseTextStyles {
   static const inputFieldOn2 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
-    fontFamily: "Roboto",
+    
     fontStyle:  FontStyle.normal,
     fontSize: 16.0
 );
@@ -207,7 +207,7 @@ class BaseTextStyles {
   static const inputFieldOff2 = const TextStyle(
     color:  ColorConst.input_field_line_off_2_2_2,
     fontWeight: FontWeight.w400,
-    fontFamily: "Roboto",
+    
     fontStyle:  FontStyle.normal,
     fontSize: 16.0
 );
@@ -215,7 +215,7 @@ class BaseTextStyles {
   static const body12 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
-    fontFamily: "Roboto",
+    
     fontStyle:  FontStyle.normal,
     fontSize: 16.0
 );
@@ -262,7 +262,7 @@ class BaseTextStyles {
   static const body22 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
-    fontFamily: "Roboto",
+    
     fontStyle:  FontStyle.normal,
     fontSize: 14.0
 );

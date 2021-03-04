@@ -19,7 +19,7 @@ final ThemeData themeData = ThemeData(
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
     }),
-    fontFamily: FontFamily.scto,
+    fontFamily: FontFamily.tara_sans,
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.grey3,
     //primarySwatch: MaterialColor(AppColors.orange[500].value, AppColors.orange),
@@ -28,7 +28,7 @@ final ThemeData themeData = ThemeData(
     accentColor: AppColors.accentElement,
     accentColorBrightness: Brightness.light,
     inputDecorationTheme: InputDecorationTheme(
-        isDense: true,
+        // isDense: true,
         // border: Borders.textInputBorder,
         // disabledBorder: Borders.textInputBorder,
         // errorBorder:Borders.errorTextInputBorder,

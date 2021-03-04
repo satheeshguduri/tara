@@ -86,6 +86,7 @@ class Strings {
   static const VERIFY = "verify";
   static const SAVE_TO_MY_CONTACT = "save_to_my_contact";
   static const ENTER_MPIN = "enter_mpin";
+  static const ENTER_CVV = "enter_mpin";
   static const CONFIRM_TRANSFER = "confirm_transfer";
   static const MPIN_ACCOUNT_NUMBER = "mpin_account_number";
   static const TRANSACTION_DETAIL = "transaction_detail";
