@@ -15,6 +15,7 @@ import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/controller/create_store_and_owner_controller.dart';
+import 'package:tara_app/controller/home_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
@@ -90,6 +91,7 @@ Future<void> init() async{
   Get.put(StoreController());
   Get.put(BillController());
   Get.put(CartController());
+  Get.put(HomeController());
   Get.put(ContactsTransferController());
   Get.put(DeviceRegisterController());
   Get.lazyPut(()=>StoreTypeResponse());

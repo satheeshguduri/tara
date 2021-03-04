@@ -229,6 +229,17 @@ flutter:
         - asset: assets/fonts/Scto Grotesk A Regular.otf
         - asset: assets/fonts/Scto Grotesk A Bold.otf
           weight: 700
+    - family: TaraSans
+      fonts:
+#        - asset: assets/fonts/TaraSans-BETA-Black.otf
+#          - weight: 700
+        - asset: assets/fonts/TaraSans-BETA-Light.otf
+          weight: 400
+        - asset: assets/fonts/TaraSans-BETA-Medium.otf
+          weight: 500
+        - asset: assets/fonts/TaraSans-BETA-Regular.otf
+        - asset: assets/fonts/TaraSans-BETA-Bold.otf
+          weight: 700
     - family: Roboto
       fonts:
         - asset: assets/fonts/.15498.otf
