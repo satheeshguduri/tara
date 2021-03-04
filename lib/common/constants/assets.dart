@@ -206,6 +206,10 @@ class Assets {
   static const illustration_transfer_to_my_account ="assets/images/illustration_transfer_to_my_account.svg";
   static const assets_icon_m_minus ="assets/images/assets_icon_m_minus.svg";
   static const icon_content_add_24_px ="assets/images/icon_content_add_24_px.svg";
+  static const illu_default_card ="assets/images/illu_default_card.svg";
+  static const illu_cc ="assets/images/illu_cc.svg";
+
+
 
 
 

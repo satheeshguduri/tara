@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>B35B3D49-A454-4549-AAEF-C34956150A32</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#F4758D" offset="0%"></stop>
+            <stop stop-color="#640757" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="0 0 55.6993801 0 55.6993801 32.177 0 32.177"></polygon>
+        <linearGradient x1="38.5659309%" y1="-105.027496%" x2="73.2758819%" y2="365.587129%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#DCD8DD" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-5" points="0 0 54.6556098 0 54.6556098 32.177 0 32.177"></polygon>
+        <linearGradient x1="19.7030976%" y1="-105.027496%" x2="111.674205%" y2="365.587129%" id="linearGradient-7">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#DCD8DD" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-8" points="0 0 55.6993801 0 55.6993801 32.177 0 32.177"></polygon>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-10">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#EEEEEE" offset="60.681%"></stop>
+            <stop stop-color="#F8F8F8" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="8.2-Bills-All" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="8.4-PDAM-Payment---Select-Payment" transform="translate(-32.000000, -470.000000)">
+            <g id="Group-13" transform="translate(16.000000, 437.000000)">
+                <g id="group-copy-9" transform="translate(0.000000, 33.000000)">
+                    <g id="illu/cc" transform="translate(16.000000, 0.000000)">
+                        <g id="group_3_copy_3" transform="translate(5.268293, 16.200000)">
+                            <g id="Group" transform="translate(0.000000, 1.700000)">
+                                <g transform="translate(1.604360, 0.165807)">
+                                    <g id="3o8rkpghne-link" fill="url(#linearGradient-1)" fill-rule="nonzero">
+                                        <path d="M4.3902439,0 L50.2653659,0 C52.6900306,0 54.6556098,2.01471863 54.6556098,4.5 L54.6556098,27.677 C54.6556098,30.1622814 52.6900306,32.177 50.2653659,32.177 L4.3902439,32.177 C1.96557915,32.177 0,30.1622814 0,27.677 L0,4.5 C0,2.01471863 1.96557915,0 4.3902439,0 Z" id="3o8rkpghne"></path>
+                                    </g>
+                                    <g id="Clipped" transform="translate(0.000000, -0.000000)">
+                                        <mask id="mask-3" fill="white">
+                                            <use xlink:href="#path-2"></use>
+                                        </mask>
+                                        <g id="3o8rkpghne"></g>
+                                        <path d="M32.8531131,-4.36 L51.3653082,12.6435 C52.0500729,13.2724229 52.3688859,14.1640183 52.3065178,15.0366057 C52.3892383,15.878416 52.1160721,16.750967 51.4862838,17.3965 L34.0345765,35.284 C32.9223814,36.424 31.1194546,36.424 30.0072594,35.284 C28.8950643,34.144 28.8950643,32.296 30.0072594,31.156 L45.5663881,15.2067883 L29.0072594,-0.0025 C27.8340887,-1.08 27.7350643,-2.929 28.7867716,-4.1315 L28.7955521,-4.1415 C29.8589668,-5.3465 31.6726253,-5.444 32.8531131,-4.36 Z" id="Combined-Shape" fill-opacity="0.5" fill="url(#linearGradient-4)" fill-rule="nonzero" opacity="0.183919271" mask="url(#mask-3)"></path>
+                                    </g>
+                                    <g id="Clipped">
+                                        <mask id="mask-6" fill="white">
+                                            <use xlink:href="#path-5"></use>
+                                        </mask>
+                                        <g id="3o8rkpghne"></g>
+                                        <path d="M15.1868293,32.305 L32.6390244,14.418 C33.7512195,13.278 35.5541463,13.278 36.6663415,14.418 C37.7785366,15.558 37.7785366,17.406 36.6663415,18.546 L19.2141463,36.4335 C18.1019512,37.5735 16.2990244,37.5735 15.1868293,36.4335 C14.0746341,35.2935 14.0746341,33.445 15.1868293,32.3055 L15.1868293,32.305 Z" id="Path" fill-opacity="0.5" fill="url(#linearGradient-7)" fill-rule="nonzero" opacity="0.183919271" mask="url(#mask-6)"></path>
+                                    </g>
+                                    <g id="Clipped" transform="translate(0.000000, -0.000000)">
+                                        <mask id="mask-9" fill="white">
+                                            <use xlink:href="#path-8"></use>
+                                        </mask>
+                                        <g id="3o8rkpghne"></g>
+                                    </g>
+                                    <g id="Clipped" transform="translate(1.756098, 1.800000)" fill="#FFFFFF" fill-rule="nonzero">
+                                        <g id="Group" transform="translate(1.193811, 1.700000)">
+                                            <g transform="translate(0.156098, 0.180000)">
+                                                <ellipse id="Oval" cx="47.2282927" cy="23.4695" rx="2.66292683" ry="2.7295"></ellipse>
+                                                <rect id="Rectangle" x="0" y="0.3425" width="8.68878049" height="4.5965" rx="2.29825"></rect>
+                                                <rect id="Rectangle" x="0" y="9.2485" width="17.6580488" height="4.5965" rx="1.724"></rect>
+                                                <rect id="Rectangle" x="20.1804878" y="9.2485" width="17.6580488" height="4.5965" rx="1.724"></rect>
+                                                <rect id="Rectangle" x="0" y="20.7405" width="8.12829268" height="4.5965" rx="1.724"></rect>
+                                                <rect id="Rectangle" x="9.5297561" y="20.7405" width="8.12829268" height="4.5965" rx="1.724"></rect>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                                <ellipse id="Oval" fill="url(#linearGradient-10)" fill-rule="nonzero" cx="30.0478049" cy="39.3325" rx="25.7863415" ry="1.8675"></ellipse>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

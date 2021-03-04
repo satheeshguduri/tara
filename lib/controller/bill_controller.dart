@@ -21,6 +21,8 @@ import 'package:tara_app/models/transfer/customer_profile_details_response.dart'
 import 'package:tara_app/repositories/bill_repository.dart';
 import 'package:tara_app/services/rest/biller_rest_client.dart';
 import 'package:tara_app/services/error/failure.dart';
+import 'package:tara_app/models/mcpayment/card_data.dart';
+
 
 import '../injector.dart';
 
@@ -41,6 +43,9 @@ class BillController extends GetxController{
   var paymentClickable = false.obs;
   var paymentNextColor = AppColors.billerPaymentNextButtonColor.obs;
   var paymentTextStyle = TextStyles.bUTTONGrey3222.obs;
+
+  var debitCardsData = List<MappedBankAccountsBean>().obs;
+  var creditCardsData = List<CardData>().obs;
 
 
   var productDetail = BillDetailsData();

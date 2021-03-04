@@ -70,6 +70,8 @@ import 'package:tara_app/models/transactions/payment_response.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/models/auth/to_address_response.dart';
 import 'package:tara_app/controller/contacts_transfer_controller.dart';
+import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
+
 
 
 
@@ -266,7 +268,7 @@ class TransactionController extends GetxController{
     }
     );
   }
-  Future getCustomerProfile2() async {
+  Future<CustomerProfileDetailsResponse> getCustomerProfile2() async {
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
       var commonRequest = await BaseRequestHelper()

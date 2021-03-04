@@ -22,6 +22,11 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:async/async.dart';
 import 'package:tara_app/screens/consumer/transfer/enter_cvv.dart';
+import 'package:tara_app/models/core/device/common_registration_request.dart';
+import 'package:dotted_line/dotted_line.dart';
+import 'package:dotted_border/dotted_border.dart';
+
+
 
 
 
@@ -41,7 +46,18 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   TransactionController transferController = Get.find();
   final AsyncMemoizer dCMemorizer = AsyncMemoizer();
   final AsyncMemoizer cCMemorizer = AsyncMemoizer();
+  List<CardData> creditCardsData;
+  CustomerProfileDetailsResponse debitCardsData;
 
+
+
+
+  @override
+  init() async{
+    billController.creditCardsData.value=  await transferController.getCards(); //
+    var data = await transferController.getCustomerProfile2(); // debit cards
+    billController.debitCardsData.value = data?.mappedBankAccounts;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +86,17 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
           children: [
             Expanded(
                 child: Column(
-                  children: [transactionDetailRow(),
-                    SizedBox(height: 16),
-                    creditCardsRow(),
-                    SizedBox(height: 16),
-                    debitCardsRow(),
+                  children: [
+                    transactionDetailRow(),
+                    SizedBox(height: 32),
+                    defaultCardRow(),
+                    SizedBox(height: 24),
+                    creditCardRow(),
+                    SizedBox(height: 24),
+                    Expanded(child: otherCardsRow()),
+                    SizedBox(height: 24,),
+
+
                   ],
 
                 )
@@ -93,43 +115,118 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          commonRowTitle(getTranslation(Strings.transactionDetails)),
-          transactionDetailRowContainer()
+
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                    Radius.circular(5)
+                ),
+                boxShadow: [BoxShadow(
+                    color: const Color(0x1a000000),
+                    offset: Offset(0,2),
+                    blurRadius: 5,
+                    spreadRadius: 2
+                )] ,
+                color: AppColors.elevation_off_2_2_2
+              // color: Colors.black
+
+            ),
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 16),
+                Container(
+                  margin: EdgeInsets.only(left: 16),
+                  child: Text(
+                      "Transaction Details",
+                      style:  TextStyle(
+                          color:  AppColors.color_black_100_2_2_2,
+                          fontWeight: FontWeight.w700,
+                          fontStyle:  FontStyle.normal,
+                          fontSize: 14.0
+                      )
+                  ),
+                ),
+                SizedBox(height: 16,),
+                Row(
+                  children: [
+                    Image.asset(Assets.ic_bca, width: 48, height: 24,),
+                    //TODO ICON TO LOAD FROM NETWORK
+                    SizedBox(width: 12,),
+                    Container(width: Get.width * 0.7,
+                        child: Text(widget.billDetailsData.productName,
+                          style: TextStyle(
+                              color:  AppColors.color_black_100_2_2_2,
+                              fontWeight: FontWeight.w700,
+                              fontStyle:  FontStyle.normal,
+                              fontSize: 16.0
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+
+
+                        ))
+
+
+                  ],
+                ),
+                // .withPad(
+                // padding: EdgeInsets.only(top: 10, bottom: 10, left: 8, right: 8)),
+
+
+                SizedBox(height: 16),
+                DottedLine(
+                  direction: Axis.horizontal,
+                  lineLength: double.infinity,
+                  lineThickness: 1.0,
+                  dashLength: 4.0,
+                  dashColor: Colors.black,
+                  dashRadius: 0.0,
+                  dashGapLength: 4.0,
+                  dashGapColor: Colors.transparent,
+                  dashGapRadius: 0.0,
+                ).withPad(padding: EdgeInsets.only(left: 16,right: 12)),
+                SizedBox(height: 18,),
+                getLabeledView().withPad(padding: EdgeInsets.all(8)),
+                // getLabeledView(widget.billDetailsData.category).withPad(padding: EdgeInsets.all(8)),
+
+              ],
+            ),
+          )
         ],
       ),
 
     );
   }
-
-  Widget debitCardsRow() {
-    return Container(
-      margin: EdgeInsets.only(left: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          commonRowTitle(getTranslation(Strings.paywith)),
-          FutureBuilder(
-            future: this.dCMemorizer.runOnce(() =>
-                transferController.getCustomerProfile2()),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  CustomerProfileDetailsResponse data = snapshot.data;
-                  billController.debitCards = data.mappedBankAccounts;
-                  return debitCardsRowContainer(data.mappedBankAccounts);
-                } else if (snapshot.hasError) {
-                  return Container();
-                } else {
-                  return Container();
-                }
-              } else {
-                return BaseWidgets.getIndicator;
-              }
-            },
-          )
-        ],
-      ),
-    );
+  Widget creditCardRow() {
+    if(billController.creditCardsData.length>=1) {
+      return Container(
+        height:100,
+        margin: EdgeInsets.only(left: 16, right: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Credit Card
+            Text(
+                "Credit Cards",
+                style: const TextStyle(
+                    color: AppColors.color_black_100_2_2_2,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0
+                )
+            ),
+            SizedBox(height: 15,),
+            // Mask
+            Expanded(child: gridViewOfCreditCards())
+          ],
+        ),
+      );
+    }else{
+      return Text("test");
+      // return showAddNewWidget(false);
+    }
   }
 
 
@@ -150,7 +247,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       if (billController.paymentClickable.value) {
         showIfFalse();
         if (billController.isDebitCard.value) {
-            enterMPINBottomSheet();
+          enterMPINBottomSheet();
           // transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
         } else {
           // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
@@ -198,103 +295,71 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-  Widget transactionDetailRowContainer() {
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.secondaryBackground,
-          borderRadius: Radii.k8pxRadius
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Image.asset(Assets.ic_bca, width: 48, height: 24,),
-              //TODO ICON TO LOAD FROM NETWORK
-              Container(width: Get.width * 0.7,
-                  child: Text(widget.billDetailsData.productName,
-                    style: BaseStyles.contactsTextStyle,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
 
-                  ))
+  // creditCardRowContainer(List<MappedBankAccountsBean> mappedBankAccounts) {
+  //   return Container(
+  //       height: 119,
+  //       child: ListView.builder(
+  //           scrollDirection: Axis.horizontal,
+  //           itemCount: mappedBankAccounts.length,
+  //           itemBuilder: (context, index) {
+  //             return getDebitCardListTile(
+  //                 mappedBankAccounts[index], index); // Container
+  //
+  //
+  //           })
+  //   );
+  // }
 
-
-            ],
-          ).withPad(
-              padding: EdgeInsets.only(top: 10, bottom: 10, left: 8, right: 8)),
-          getLabeledView().withPad(padding: EdgeInsets.all(8)),
-          // getLabeledView(widget.billDetailsData.category).withPad(padding: EdgeInsets.all(8)),
-
-        ],
-      ),
-    );
-  }
-
-  debitCardsRowContainer(List<MappedBankAccountsBean> mappedBankAccounts) {
-    return Container(
-        height: 119,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: mappedBankAccounts.length,
-            itemBuilder: (context, index) {
-              return getDebitCardListTile(
-                  mappedBankAccounts[index], index); // Container
-
-
-            })
-    );
-  }
-
-  Widget getDebitCardListTile(MappedBankAccountsBean mappedBankAccounts,
-      int index) {
-    return Container(
-      width: 208,
-      margin: EdgeInsets.only(right: 16),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-              Radius.circular(12)
-          ),
-          boxShadow: [BoxShadow(
-              color: const Color(0x23000000),
-              offset: Offset(0, 4),
-              blurRadius: 4,
-              spreadRadius: 0
-          )
-          ],
-          gradient: LinearGradient(
-              begin: Alignment(1, 1),
-              end: Alignment(0.008085664335664378, 0.008085664335664378),
-              colors: [const Color(0xff0060af), const Color(0xffb2dcff)])
-      ),
-      child: Column(
-        children: [
-          SizedBox(height: 12),
-          debitCardtransactionDetailRow(index),
-          SizedBox(height: 16),
-          debitCardAmountRow(),
-          SizedBox(height: 12),
-          debitCardNumberRow(mappedBankAccounts),
-          SizedBox(height: 16),
-        ],
-      ),
-
-
-    ).onTap(onPressed: () {
-      billController.debitCardSelectedIndex.value = index.toString();
-      billController.creditCardSelectedIndex.value = "-1";
-      showIfTrue();
-      billController.isDebitCard.value = true;
-      billController.isCreditCard.value = false;
-      billController.debitCardBic = mappedBankAccounts.bic;
-      billController.debitCardCvv = "123";
-      billController.debitCardDesc = "Bill payment";
-
-      //  transferController.payNow(mobileNumber: "8368951368",amount1: "100",remarks1: "from bills",bic1: "CENAID00001",cvv1: "123",initiatorAccountId1:44,benId1: 44);
-
-
-    });
-  }
+  // Widget getDebitCardListTile(MappedBankAccountsBean mappedBankAccounts,
+  //     int index) {
+  //   return Container(
+  //     width: 208,
+  //     margin: EdgeInsets.only(right: 16),
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.all(
+  //             Radius.circular(12)
+  //         ),
+  //         boxShadow: [BoxShadow(
+  //             color: const Color(0x23000000),
+  //             offset: Offset(0, 4),
+  //             blurRadius: 4,
+  //             spreadRadius: 0
+  //         )
+  //         ],
+  //         gradient: LinearGradient(
+  //             begin: Alignment(1, 1),
+  //             end: Alignment(0.008085664335664378, 0.008085664335664378),
+  //             colors: [const Color(0xff0060af), const Color(0xffb2dcff)])
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         SizedBox(height: 12),
+  //         debitCardtransactionDetailRow(index),
+  //         SizedBox(height: 16),
+  //         debitCardAmountRow(),
+  //         SizedBox(height: 12),
+  //         debitCardNumberRow(mappedBankAccounts),
+  //         SizedBox(height: 16),
+  //       ],
+  //     ),
+  //
+  //
+  //   ).onTap(onPressed: () {
+  //     billController.debitCardSelectedIndex.value = index.toString();
+  //     billController.creditCardSelectedIndex.value = "-1";
+  //     showIfTrue();
+  //     billController.isDebitCard.value = true;
+  //     billController.isCreditCard.value = false;
+  //     billController.debitCardBic = mappedBankAccounts.bic;
+  //     billController.debitCardCvv = "123";
+  //     billController.debitCardDesc = "Bill payment";
+  //
+  //     //  transferController.payNow(mobileNumber: "8368951368",amount1: "100",remarks1: "from bills",bic1: "CENAID00001",cvv1: "123",initiatorAccountId1:44,benId1: 44);
+  //
+  //
+  //   });
+  // }
 
   Widget debitCardtransactionDetailRow(int index) {
     return Container(
@@ -362,9 +427,11 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   Widget getLabeledView() {
     return Column(
         children: [
-          getProductCodeTextTextView(),
+          // getProductCodeTextTextView(),
+          getNominalTextView(),
           getProductNameTextTextView(),
-          getNominalTextView()]);
+
+        ]);
   }
 
   Widget getProductCodeTextTextView() {
@@ -383,11 +450,23 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(getTranslation(Strings.name),
-            style: BaseStyles.purchaseLabelTextStyle),
+        Text("Order ID",
+            style: TextStyle(
+                color:  const Color(0xff666666),
+                fontWeight: FontWeight.w400,
+                fontFamily: "TaraSans",
+                fontStyle:  FontStyle.normal,
+                fontSize: 14.0
+            ) ),
         Container(width: Get.width * 0.6,
             child: Text("${widget.billDetailsData.productName}",
-              style: TextStyles.bUTTONWhite2,
+              style: TextStyle(
+                  color:  AppColors.color_black_100_2_2_2,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: "TaraSans",
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 14.0
+              ),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
 
@@ -400,11 +479,23 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(getTranslation(Strings.nominal),
-            style: BaseStyles.purchaseLabelTextStyle),
+        Text("Value",
+            style: TextStyle(
+                color:  const Color(0xff666666),
+                fontWeight: FontWeight.w400,
+                fontFamily: "TaraSans",
+                fontStyle:  FontStyle.normal,
+                fontSize: 14.0
+            )),
         Text(getTranslation(Strings.RP) + " " +
             "${widget.billDetailsData.amount}",
-            style: BaseStyles.nominalTextView)
+          style: TextStyle(
+              color:  AppColors.color_black_100_2_2_2,
+              fontWeight: FontWeight.w700,
+              fontFamily: "TaraSans",
+              fontStyle:  FontStyle.normal,
+              fontSize: 14.0
+          ),)
 
       ],
     ).withPad(padding: EdgeInsets.all(5));
@@ -412,113 +503,132 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
   String getMaskedAccountNumber(String fullString) {
     List<String> list = fullString.split('#').toList();
-    return "**** **** **" + list[1].substring(list[0].length - 2);
+    return "**** **** **" + list[0].substring(list[0].length - 2);
   }
 
-  creditCardsRow() {
+  defaultCardRow() {
     return Container(
       margin: EdgeInsets.only(left: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          commonRowTitle(getTranslation(Strings.creditCards)),
-          FutureBuilder(
-            future: this.cCMemorizer.runOnce(() =>
-                transferController.getCards()),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  List<CardData> data = snapshot.data;
-                  return creditCardsRowContainer(data);
-                } else if (snapshot.hasError) {
-                  return Container();
-                } else {
-                  return Container();
-                }
-              } else {
-                return BaseWidgets.getIndicator;
-              }
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  creditCardsRowContainer(List<CardData> creditCards) {
-    //filter the cards only with response success
-    creditCards =
-        creditCards.where((element) => element.status == "success").toList();
-
-    return Container(
-        height: 119,
-        child: ListView.builder(
-
-            scrollDirection: Axis.horizontal,
-            itemCount: creditCards.length,
-            itemBuilder: (context, index) {
-              return getCreditCardListTile(
-                  creditCards[index], index); // Container
-            }
-        )
-
-    );
-  }
-
-  Widget getCreditCardListTile(CardData creditCardData, int index) {
-    return Container(
-      width: 208,
-      margin: EdgeInsets.only(right: 16),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-              Radius.circular(12)
+          // My Default Account
+          Text(
+              "My Default Account",
+              style: const TextStyle(
+                  color:  AppColors.color_black_100_2_2_2,
+                  fontWeight: FontWeight.w700,
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 14.0
+              )
           ),
-          boxShadow: [BoxShadow(
-              color: const Color(0x23000000),
-              offset: Offset(0, 4),
-              blurRadius: 4,
-              spreadRadius: 0
-          )
-          ],
-          gradient: LinearGradient(
-              begin: Alignment(1, 1),
-              end: Alignment(0.008085664335664378, 0.008085664335664378),
-              colors: [const Color(0xff0060af), const Color(0xffb2dcff)])
-      ),
-      child: Column(
-        children: [
-          SizedBox(height: 12),
-          creditCardtransactionDetailRow(creditCardData, index),
-          SizedBox(height: 16),
-          creditCardNumberRow(creditCardData),
-          SizedBox(height: 12),
-          creditCardNameRow(creditCardData),
-          SizedBox(height: 16),
+          SizedBox(height: 15,),
+          getDebitCardsOrAddNewCard()
+
         ],
       ),
-
-
-    ).onTap(onPressed: () {
-      billController.creditCardSelectedIndex.value = index.toString();
-      billController.debitCardSelectedIndex.value = "-1";
-      // if(billController.isCreditSelected.value){
-      //   billController.isCreditSelected.value = false;
-      // }else{
-      //   billController.isCreditSelected.value = true;
-      // }
-      showIfTrue();
-      billController.isDebitCard.value = false;
-      billController.isCreditCard.value = true;
-      billController.creditCardId = creditCardData.id.mcPaymentCardId;
-      billController.creditCardAmount = widget.billDetailsData.amount;
-      billController.creditCardDesc = "Gift Only";
-      billController.creditCardMaskedCardNumber =
-          creditCardData.maskedCardNumber;
-
-
-      //  transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
-    });
+    );
   }
+  Widget getDebitCardsOrAddNewCard(){
+    if(billController?.debitCardsData?.value?.isNotEmpty??false){
+      var defaultCard = billController?.debitCardsData?.value?.firstWhere((element) => element.isDefault,orElse: ()=>null);
+      return Container(
+        margin: EdgeInsets.only(right: 16),
+        height: 72,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+                Radius.circular(4)
+            ),
+            border: Border.all(
+                color: AppColors.color_mint_100_2_2_2,
+                width: 1
+            ),
+            color: const Color(0x40b2f7e2)
+        ),
+        child:Row(
+          children: [
+            Container(margin: EdgeInsets.fromLTRB(23, 18, 34, 22),
+              child: getSvgImage(imagePath: Assets.illu_default_card,
+                  width: 56.0,
+                  height: 34.0),),
+            Column(crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                    getMaskedAccountNumber(defaultCard.maskedAccountNumber),
+                    style: const TextStyle(
+                        color:  AppColors.color_black_100_2_2_2,
+                        fontWeight: FontWeight.w500,
+                        fontStyle:  FontStyle.normal,
+                        fontSize: 14.0
+                    )
+                ),
+                SizedBox(height: 3,),
+
+              ],
+            )
+          ],
+        ) ,
+      );
+    }else{
+        return showAddNewWidget(true);
+    }
+  }
+
+  // Widget getCreditCardListTile(CardData creditCardData, int index) {
+  //   return Container(
+  //     width: 208,
+  //     margin: EdgeInsets.only(right: 16),
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.all(
+  //             Radius.circular(12)
+  //         ),
+  //         boxShadow: [BoxShadow(
+  //             color: const Color(0x23000000),
+  //             offset: Offset(0, 4),
+  //             blurRadius: 4,
+  //             spreadRadius: 0
+  //         )
+  //         ],
+  //         gradient: LinearGradient(
+  //             begin: Alignment(1, 1),
+  //             end: Alignment(0.008085664335664378, 0.008085664335664378),
+  //             colors: [const Color(0xff0060af), const Color(0xffb2dcff)])
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         SizedBox(height: 12),
+  //         creditCardtransactionDetailRow(creditCardData, index),
+  //         SizedBox(height: 16),
+  //         creditCardNumberRow(creditCardData),
+  //         SizedBox(height: 12),
+  //         creditCardNameRow(creditCardData),
+  //         SizedBox(height: 16),
+  //       ],
+  //     ),
+  //
+  //
+  //   ).onTap(onPressed: () {
+  //     billController.creditCardSelectedIndex.value = index.toString();
+  //     billController.debitCardSelectedIndex.value = "-1";
+  //     // if(billController.isCreditSelected.value){
+  //     //   billController.isCreditSelected.value = false;
+  //     // }else{
+  //     //   billController.isCreditSelected.value = true;
+  //     // }
+  //     showIfTrue();
+  //     billController.isDebitCard.value = false;
+  //     billController.isCreditCard.value = true;
+  //     billController.creditCardId = creditCardData.id.mcPaymentCardId;
+  //     billController.creditCardAmount = widget.billDetailsData.amount;
+  //     billController.creditCardDesc = "Gift Only";
+  //     billController.creditCardMaskedCardNumber =
+  //         creditCardData.maskedCardNumber;
+  //
+  //
+  //     //  transferController.payViaCreditCard(creditCardData.id.mcPaymentCardId, widget.billDetailsData.amount, "Gift only", creditCardData.maskedCardNumber);
+  //   });
+  // }
 
   bool isMatched(String current, String index) {
     print("checking match ==> $current == $index");
@@ -584,22 +694,251 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-void enterMPINBottomSheet() => showModalBottomSheet(
-    isScrollControlled: true,
-    useRootNavigator: true,
-    backgroundColor: Colors.transparent,
-    context: context,
-    builder: (BuildContext bc) {
-      return EnterCVV(amount:widget.billDetailsData.amount.toString(),billsCatagoryData:widget.billDetailsData.category);
+  void enterMPINBottomSheet() => showModalBottomSheet(
+      isScrollControlled: true,
+      useRootNavigator: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext bc) {
+        return EnterCVV(amount:widget.billDetailsData.amount.toString(),billsCatagoryData:widget.billDetailsData.category);
 
-      // transferController.payBill(bic1: billController.debitCardBic,
-      //   cvv1: billController.debitCardCvv,
-      //   subMerchantName: widget.billDetailsData.category,
-      //   merchantRef: "1234",
-      //   amount1: widget.billDetailsData.amount.toString(),
-      //   remarks1: billController.debitCardDesc,
-      //   initiatorAccountId: billController
-      //       .getSelectedDebitCardAccountID(),);
+
+      }
+  );
+
+  Widget otherCardsRow() {
+    if(billController.debitCardsData.length>=1) {
+      return Container(
+        margin: EdgeInsets.only(left: 16, right: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            // Credit Card
+            Text(
+                "Other Accounts",
+                style: const TextStyle(
+                    color: AppColors.color_black_100_2_2_2,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "TaraSans",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0
+                )
+            ),
+            SizedBox(height: 15,),
+            // Mask
+            Expanded(child: gridViewOfDebitCards())
+          ],
+        ),
+      );
+    }else{
+      return Container();
     }
+  }
+
+  Widget gridViewOfDebitCards() {
+    if(billController.debitCardsData.length ==1){
+      return showAddNewWidget(true);
+    }else {
+      return GridView.count(crossAxisCount: 2,
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 16,
+          shrinkWrap: true,
+          childAspectRatio: 2.22,
+          children: billController.debitCardsData.value.map((e) =>
+              getDebitCardListTile(e)).toList()
+        //filteredList.map((categoryItem) => getCardListTile(categoryItem)).toList()
+      );
+    }
+
+  }
+  Widget gridViewOfCreditCards() {
+    return GridView.count(crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        shrinkWrap: true,
+        childAspectRatio: 2.22,
+        children:getListWithAddNewCredit()
+      //filteredList.map((categoryItem) => getCardListTile(categoryItem)).toList()
     );
- }
+
+  }
+  getListWithAddNewCredit(){
+    List<Widget> list = billController.creditCardsData.value.map((e) => getCreditCardListTile(e)).toList();
+    list.insert(0, showAddNewWidget(false));
+    return list;
+  }
+  Widget getDebitCardListTile(MappedBankAccountsBean bean) {
+    return Container(
+      padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+                Radius.circular(4)
+            ),
+            boxShadow: [BoxShadow(
+                color: const Color(0x1a000000),
+                offset: Offset(0,1),
+                blurRadius: 5,
+                spreadRadius: 2
+            )] ,
+            color: AppColors.elevation_off_2_2_2
+        ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Image.asset(Assets.ic_bank1,
+                fit: BoxFit.none,
+                width: 50,
+                height: 11,
+              ),
+              // Jenius
+              Text(
+                  bean.bankName,
+                  style: const TextStyle(
+                      color:  AppColors.color_black_100_2_2_2,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "TaraSans",
+                      fontStyle:  FontStyle.normal,
+                      fontSize: 10.0
+                  )
+              )
+            ],
+          ),
+                SizedBox(height: 7,),
+                Text(
+             getMaskedAccountNumber(bean.maskedAccountNumber),
+              style: const TextStyle(
+                  color:  const Color(0xff1c1d22),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "TaraSans",
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 14.0
+              )
+          )
+
+        ],
+      ),
+
+    );
+  }
+
+
+
+  Widget showAddNewWidget(bool isDebit) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            child: DottedBorder(
+              borderType: BorderType.RRect,
+              radius: Radius.circular(12),
+              color: AppColors.input_field_line_off_2_2_2,
+              strokeWidth: 1,
+              dashPattern: [4,4],
+
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                child: Container(
+                  height: 72,
+                  color: AppColors.grey3,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+// Add New
+                      getSvgImage(imagePath: Assets.assets_icon_p_plus,
+                          width: 20.0,
+                          height: 20.0),
+                      Text(
+                          "Add New",
+                          style: const TextStyle(
+                              color:  AppColors.color_black_100_2_2_2,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "TaraSans",
+                              fontStyle:  FontStyle.normal,
+                              fontSize: 12.0
+                          ),
+                          textAlign: TextAlign.center
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ).onTap(onPressed: (){
+                if(isDebit) {
+                  //debit card flow
+                }else{
+                  //credit card flow
+                }
+
+
+            //  Get.to(MyAccountsSeeAllScreen());
+          }),
+        ),
+        SizedBox(width: 8,)
+      ],
+
+
+
+    );
+  }
+
+ Widget getCreditCardListTile(CardData carddata) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+              Radius.circular(4)
+          ),
+          boxShadow: [BoxShadow(
+              color: const Color(0x1a000000),
+              offset: Offset(0,1),
+              blurRadius: 5,
+              spreadRadius: 2
+          )] ,
+          color: AppColors.elevation_off_2_2_2
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Image.asset(Assets.ic_bank1,
+                fit: BoxFit.none,
+                width: 50,
+                height: 11,
+              ),
+              // Jenius
+              Text(
+                  carddata.bankIssuer,
+                  style: const TextStyle(
+                      color:  AppColors.color_black_100_2_2_2,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "TaraSans",
+                      fontStyle:  FontStyle.normal,
+                      fontSize: 10.0
+                  )
+              )
+            ],
+          ),
+          SizedBox(height: 7,),
+          Text(
+              getMaskedAccountNumber(carddata.maskedCardNumber),
+              style: const TextStyle(
+                  color:  const Color(0xff1c1d22),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "TaraSans",
+                  fontStyle:  FontStyle.normal,
+                  fontSize: 14.0
+              )
+          )
+
+        ],
+      ),
+
+    );
+  }
+}
+
+
