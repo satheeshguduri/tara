@@ -208,6 +208,7 @@ class Assets {
   static const icon_content_add_24_px ="assets/images/icon_content_add_24_px.svg";
   static const illu_default_card ="assets/images/illu_default_card.svg";
   static const illu_cc ="assets/images/illu_cc.svg";
+  static const assets_icon_tara_cash ="assets/images/assets_logo_tara_cash.svg";
 
 
 

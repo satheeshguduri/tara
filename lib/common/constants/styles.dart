@@ -883,7 +883,6 @@ class TextStyles {
   static const bUTTONSmallGrey32 = const TextStyle(
       color:  Color(0xff889aac),
       fontWeight: FontWeight.w800,
-      fontFamily: "Manrope",
       fontStyle:  FontStyle.normal,
       fontSize: 12.0
   );

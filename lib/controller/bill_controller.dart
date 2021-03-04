@@ -38,6 +38,8 @@ class BillController extends GetxController{
   var clickable = false.obs;
   var creditCardSelectedIndex = "-1".obs;
   var debitCardSelectedIndex = "-1".obs;
+  var isDefaultSelected = true.obs;
+  var selectedDebitCard;
 
 
   var paymentClickable = false.obs;
@@ -52,7 +54,10 @@ class BillController extends GetxController{
 
 
   num getSelectedDebitCardAccountID(){
-        return debitCards[int.parse(debitCardSelectedIndex.value)]?.accountTokenId;
+    if(isDefaultSelected.value ||debitCardSelectedIndex.value!="-1") {
+      return selectedDebitCard.accountTokenId;
+    }
+    else return 0;
   }
   TextEditingController phoneNumberController = TextEditingController();
 
@@ -116,7 +121,7 @@ class BillController extends GetxController{
   var isDebitCard = false.obs;
   String mobileNumber;
   String debitCardAmount;
-  String debitCardDesc;
+  String debitCardDesc ="Bill Payment";
   String debitCardBic;
   String debitCardCvv;
   List<MappedBankAccountsBean> debitCards;

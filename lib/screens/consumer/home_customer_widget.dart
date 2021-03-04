@@ -48,7 +48,7 @@ class HomeCustomerWidget extends StatefulWidget {
 class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
  // var myAccountArray = ["tara cash","tara reqards", "tara score"];
-  var taraServicesImages = [Assets.assets_logo_tara_agent_cash,Assets.logo_tara_rewards, Assets.logo_tara_score];
+  var taraServicesImages = [Assets.assets_icon_tara_cash,Assets.logo_tara_rewards, Assets.logo_tara_score];
   var transferToArray = ["Tara\nUsers","Bank\nAccount", "E-Money", "My\nAccount"];
   var paymentOptionsArray = ["Mobile","Internet", "PLN", "BPJS"];
   var paymentOptionsIconsArray = [Assets.MOBILE_ICON,Assets.INTERNET_ICON, Assets.PLN_ICON, Assets.BJPS_ICON];

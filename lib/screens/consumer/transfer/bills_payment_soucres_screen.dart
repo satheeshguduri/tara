@@ -25,6 +25,7 @@ import 'package:tara_app/screens/consumer/transfer/enter_cvv.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 
 
@@ -63,14 +64,10 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   Widget build(BuildContext context) {
     showIfFalse();
     return Scaffold(
-
       appBar: CustomAppBarWidget(
           title: getTranslation(Strings.PAYMENT), addNewWidgetShow: false),
       body: Obx(() =>
-          SafeArea(child: SingleChildScrollView(
-              reverse: true,
-              child: getContainer())
-          ).withProgressIndicator(showIndicator: transferController
+          SafeArea(child:getContainer()).withProgressIndicator(showIndicator: transferController
               .showProgress
               .value)),
 
@@ -81,29 +78,26 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
   Widget getContainer() {
     return Container(
-      height: Get.height - 120,
-      child: Column(
+      height:double.infinity,
+      child: SingleChildScrollView(
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Expanded(
-                child: Column(
-                  children: [
-                    transactionDetailRow(),
-                    SizedBox(height: 32),
-                    defaultCardRow(),
-                    SizedBox(height: 24),
-                    creditCardRow(),
-                    SizedBox(height: 24),
-                    Expanded(child: otherCardsRow()),
-                    SizedBox(height: 24,),
+            IntrinsicHeight(child: transactionDetailRow()),
+            SizedBox(height: 32),
+            defaultCardRow(),
+            SizedBox(height: 24),
+            // IntrinsicHeight(child:creditCardRow()),
+            creditCardRow(),
+            SizedBox(height: 24),
+            otherCardsRow(),
+            SizedBox(height: 24,),
+          ],
 
-
-                  ],
-
-                )
-            ),
-
-
-          ]
+        ),
       ),
     );
   }
@@ -202,7 +196,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   Widget creditCardRow() {
     if(billController.creditCardsData.length>=1) {
       return Container(
-        height:100,
+        // height:100,
         margin: EdgeInsets.only(left: 16, right: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,13 +213,13 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             ),
             SizedBox(height: 15,),
             // Mask
-            Expanded(child: gridViewOfCreditCards())
+            gridViewOfCreditCards()
           ],
         ),
       );
     }else{
-      return Text("test");
-      // return showAddNewWidget(false);
+      // return Text("test");
+      return showAddNewWidget(false);
     }
   }
 
@@ -246,8 +240,8 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     ).onTap(onPressed: () async {
       if (billController.paymentClickable.value) {
         showIfFalse();
-        if (billController.isDebitCard.value) {
-          enterMPINBottomSheet();
+        if (billController.isDebitCard.value||billController.isDefaultSelected.value) {
+          enterMPINBottomSheet(billController.selectedDebitCard);
           // transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
         } else {
           // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
@@ -418,7 +412,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
         alignment: Alignment.centerLeft,
         child:
         Text(
-            getMaskedAccountNumber(mappedBankAccounts.maskedAccountNumber),
+            Utils().getMaskedAccountNumber(mappedBankAccounts.maskedAccountNumber),
             style: TextStyles.cardNumberTextStyle
         )
     );
@@ -501,10 +495,7 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     ).withPad(padding: EdgeInsets.all(5));
   }
 
-  String getMaskedAccountNumber(String fullString) {
-    List<String> list = fullString.split('#').toList();
-    return "**** **** **" + list[0].substring(list[0].length - 2);
-  }
+
 
   defaultCardRow() {
     return Container(
@@ -523,15 +514,19 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
               )
           ),
           SizedBox(height: 15,),
-          getDebitCardsOrAddNewCard()
+          getDefaultDebitCardsOrAddNewCard()
 
         ],
       ),
     );
   }
-  Widget getDebitCardsOrAddNewCard(){
+  Widget getDefaultDebitCardsOrAddNewCard(){
     if(billController?.debitCardsData?.value?.isNotEmpty??false){
       var defaultCard = billController?.debitCardsData?.value?.firstWhere((element) => element.isDefault,orElse: ()=>null);
+
+      if(defaultCard!= null){
+        billController.selectedDebitCard = defaultCard;
+        showIfTrue();
       return Container(
         margin: EdgeInsets.only(right: 16),
         height: 72,
@@ -554,8 +549,28 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
             Column(crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Row(
+                  children: [
+                    Image.asset(Assets.ic_bank1,
+                      fit: BoxFit.fitHeight,
+                      height: 11,
+                    ).paddingOnly(right:5),
+                    // Jenius
+                    Text(
+                        defaultCard.bankName,
+                        maxLines: 1,
+                        style: const TextStyle(
+                            color:  AppColors.color_black_100_2_2_2,
+                            fontWeight: FontWeight.w400,
+                            fontStyle:  FontStyle.normal,
+                            fontSize: 10.0
+                        )
+                    )
+                  ],
+                ),
+                SizedBox(height: 7,),
                 Text(
-                    getMaskedAccountNumber(defaultCard.maskedAccountNumber),
+                    Utils().getMaskedAccountNumber(defaultCard.maskedAccountNumber),
                     style: const TextStyle(
                         color:  AppColors.color_black_100_2_2_2,
                         fontWeight: FontWeight.w500,
@@ -566,12 +581,35 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
                 SizedBox(height: 3,),
 
               ],
+            ),
+            Spacer(),
+            Obx(() =>
+            billController.isDefaultSelected.value ?
+            Center(
+              child: getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
+                  height: 24.0,
+                  width: 24.0).paddingOnly(right:8),
             )
+                : Container())
           ],
         ) ,
-      );
-    }else{
+      ).onTap(onPressed: (){
+        billController.debitCardSelectedIndex.value = "-1";
+        billController.creditCardSelectedIndex.value = "-1";
+        billController.isDefaultSelected.value = true;
+        billController.selectedDebitCard = defaultCard;
+        showIfTrue();
+        billController.isDebitCard.value = false;
+        billController.isCreditCard.value = false;
+        billController.debitCardBic = defaultCard.bic;
+        billController.debitCardCvv = "123";
+        billController.debitCardDesc = "Bill payment";
+      });
+      }else{
         return showAddNewWidget(true);
+      }
+    }else{
+      return showAddNewWidget(true);
     }
   }
 
@@ -694,25 +732,24 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     );
   }
 
-  void enterMPINBottomSheet() => showModalBottomSheet(
+  void enterMPINBottomSheet(mappedBankAccountsBean) => showModalBottomSheet(
       isScrollControlled: true,
       useRootNavigator: true,
       backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext bc) {
-        return EnterCVV(amount:widget.billDetailsData.amount.toString(),billsCatagoryData:widget.billDetailsData.category);
+        return EnterCVV(amount:widget.billDetailsData.amount.toString(),billsCatagoryData:widget.billDetailsData.category,mappedBankAccountsBean: mappedBankAccountsBean,);
 
 
       }
   );
 
   Widget otherCardsRow() {
-    if(billController.debitCardsData.length>=1) {
+    if(billController?.debitCardsData?.isNotEmpty??false) {
       return Container(
         margin: EdgeInsets.only(left: 16, right: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
           children: [
             // Credit Card
             Text(
@@ -726,8 +763,9 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
                 )
             ),
             SizedBox(height: 15,),
+            gridViewOfDebitCards()
             // Mask
-            Expanded(child: gridViewOfDebitCards())
+            // Expanded(child: gridViewOfDebitCards())
           ],
         ),
       );
@@ -737,31 +775,39 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
   }
 
   Widget gridViewOfDebitCards() {
-    if(billController.debitCardsData.length ==1){
+    if((billController?.debitCardsData?.length??0) ==1){
       return showAddNewWidget(true);
     }else {
-      return GridView.count(crossAxisCount: 2,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
+      return GridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 9,
           shrinkWrap: true,
-          childAspectRatio: 2.22,
-          children: billController.debitCardsData.value.map((e) =>
-              getDebitCardListTile(e)).toList()
+          childAspectRatio: 2.23,
+          physics: ScrollPhysics(),
+          children: getListWithAddNewDebit()
         //filteredList.map((categoryItem) => getCardListTile(categoryItem)).toList()
       );
     }
 
   }
   Widget gridViewOfCreditCards() {
-    return GridView.count(crossAxisCount: 2,
-        mainAxisSpacing: 16,
-        crossAxisSpacing: 16,
-        shrinkWrap: true,
-        childAspectRatio: 2.22,
-        children:getListWithAddNewCredit()
-      //filteredList.map((categoryItem) => getCardListTile(categoryItem)).toList()
+    return GridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 9,
+          shrinkWrap: true,
+          childAspectRatio: 2.23,
+          physics: ScrollPhysics(),
+          children:getListWithAddNewCredit()
     );
 
+  }
+  getListWithAddNewDebit(){
+    List<Widget> list = billController?.debitCardsData?.value.map((e) =>
+        getDebitCardListTile(e)).toList();
+    list.insert(0, showAddNewWidget(true));
+    return list;
   }
   getListWithAddNewCredit(){
     List<Widget> list = billController.creditCardsData.value.map((e) => getCreditCardListTile(e)).toList();
@@ -769,58 +815,91 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
     return list;
   }
   Widget getDebitCardListTile(MappedBankAccountsBean bean) {
-    return Container(
-      padding: EdgeInsets.all(16),
+    var index = billController?.debitCardsData?.indexOf(bean);
+    if(index!=null) {
+      return Container(
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(
                 Radius.circular(4)
             ),
             boxShadow: [BoxShadow(
                 color: const Color(0x1a000000),
-                offset: Offset(0,1),
+                offset: Offset(0, 1),
                 blurRadius: 5,
                 spreadRadius: 2
-            )] ,
+            )
+            ],
             color: AppColors.elevation_off_2_2_2
         ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Image.asset(Assets.ic_bank1,
-                fit: BoxFit.none,
-                width: 50,
-                height: 11,
-              ),
-              // Jenius
-              Text(
-                  bean.bankName,
-                  style: const TextStyle(
-                      color:  AppColors.color_black_100_2_2_2,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "TaraSans",
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 10.0
-                  )
-              )
-            ],
-          ),
-                SizedBox(height: 7,),
-                Text(
-             getMaskedAccountNumber(bean.maskedAccountNumber),
-              style: const TextStyle(
-                  color:  const Color(0xff1c1d22),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "TaraSans",
-                  fontStyle:  FontStyle.normal,
-                  fontSize: 14.0
-              )
-          )
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(Assets.ic_bank1,
+                  fit: BoxFit.fitWidth,
+                  height: 11,
+                ).paddingOnly(right: 10),
+                // Jenius
+                Expanded(
+                  child: Text(
+                      bean.bankName,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: AppColors.color_black_100_2_2_2,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10.0,
+                      )
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 24,
+                  child: Text(
+                      Utils().getMaskedAccountNumber(bean.maskedAccountNumber),
+                      style: const TextStyle(
+                          color: const Color(0xff1c1d22),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0
+                      )
+                  ),
+                ),
+                Obx(() =>
+                isMatched(billController.debitCardSelectedIndex.value,
+                    index.toString()) ?
+                getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
+                    height: 24.0,
+                    width: 24.0)
+                // margin: EdgeInsets.only(top: 8),
+                    : Container()),
+              ],
+            )
 
-        ],
-      ),
+          ],
+        ),
 
-    );
+      ).onTap(onPressed: () {
+        billController.debitCardSelectedIndex.value = index.toString();
+        billController.creditCardSelectedIndex.value = "-1";
+        billController.isDefaultSelected.value = false;
+        billController.selectedDebitCard = bean;
+        showIfTrue();
+        billController.isDebitCard.value = true;
+        billController.isCreditCard.value = false;
+        billController.debitCardBic = bean.bic;
+        billController.debitCardCvv = "123";
+        billController.debitCardDesc = "Bill payment";
+      }
+      );
+    }else{
+      return showAddNewWidget(true);
+    }
   }
 
 
@@ -855,7 +934,6 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
                           style: const TextStyle(
                               color:  AppColors.color_black_100_2_2_2,
                               fontWeight: FontWeight.w700,
-                              fontFamily: "TaraSans",
                               fontStyle:  FontStyle.normal,
                               fontSize: 12.0
                           ),
@@ -867,25 +945,21 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
               ),
             ),
           ).onTap(onPressed: (){
-                if(isDebit) {
-                  //debit card flow
-                }else{
-                  //credit card flow
-                }
-
-
+            if(isDebit) {
+              //debit card flow
+            }else{
+              //credit card flow
+            }
             //  Get.to(MyAccountsSeeAllScreen());
           }),
         ),
         SizedBox(width: 8,)
       ],
-
-
-
     );
   }
 
- Widget getCreditCardListTile(CardData carddata) {
+  Widget getCreditCardListTile(CardData creditCardData) {
+    var index = billController.creditCardsData.indexOf(creditCardData);
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -903,41 +977,69 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset(Assets.ic_bank1,
-                fit: BoxFit.none,
-                width: 50,
+                fit: BoxFit.fitWidth,
                 height: 11,
-              ),
+              ).paddingOnly(right: 10),
               // Jenius
-              Text(
-                  carddata.bankIssuer,
-                  style: const TextStyle(
-                      color:  AppColors.color_black_100_2_2_2,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "TaraSans",
-                      fontStyle:  FontStyle.normal,
-                      fontSize: 10.0
-                  )
-              )
+              Expanded(
+                child: Text(
+                    creditCardData.bankIssuer,
+                    maxLines: 1,
+                    style: const TextStyle(
+                        color:  AppColors.color_black_100_2_2_2,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10.0,
+                    )
+                ),
+              ),
             ],
           ),
-          SizedBox(height: 7,),
-          Text(
-              getMaskedAccountNumber(carddata.maskedCardNumber),
-              style: const TextStyle(
-                  color:  const Color(0xff1c1d22),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "TaraSans",
-                  fontStyle:  FontStyle.normal,
-                  fontSize: 14.0
-              )
+          SizedBox(height: 10,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height:24,
+                child: Text(
+                    creditCardData.maskedCardNumber,
+                    style: const TextStyle(
+                        color:  const Color(0xff1c1d22),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14.0
+                    )
+                ),
+              ),
+              Obx(() =>
+              isMatched(billController.creditCardSelectedIndex.value,
+                  index.toString()) ?
+              getSvgImage(imagePath: Assets.assets_icon_c_check_solid,
+                  height: 24.0,
+                  width: 24.0)
+              // margin: EdgeInsets.only(top: 8),
+                  : Container())
+            ],
           )
 
         ],
       ),
 
-    );
+    ).onTap(onPressed: (){
+      billController.creditCardSelectedIndex.value = index.toString();
+      billController.debitCardSelectedIndex.value = "-1";
+      billController.isDefaultSelected.value = false;
+      showIfTrue();
+      billController.isDebitCard.value = false;
+      billController.isCreditCard.value = true;
+      billController.creditCardId = creditCardData?.id?.mcPaymentCardId;
+      billController.creditCardAmount = widget.billDetailsData.amount;
+      billController.creditCardDesc = "Gift Only";
+      billController.creditCardMaskedCardNumber =
+          creditCardData.maskedCardNumber;
+
+    });
   }
 }
 

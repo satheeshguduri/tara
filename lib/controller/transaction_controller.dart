@@ -185,7 +185,14 @@ class TransactionController extends GetxController{
       toType: null);
    // showProgress.value = true;
     print(jsonEncode(transactionModel.toJson()));
-    Either<Failure, BaseResponse> responseDa = await getIt.get<TransactionRepository>().updateTaraTransaction(transactionModel);
+    Either<Failure, BaseResponse> responseDa;
+    if(payTransId!=null) {
+      responseDa = await getIt.get<
+          TransactionRepository>().updateTaraTransaction(transactionModel);
+    }else{
+      showProgress.value = false;
+      return Left(Failure(message: "writing to realtime db failed"));
+    }
     showProgress.value = false;
     return responseDa;
   }
@@ -847,7 +854,8 @@ class TransactionController extends GetxController{
                   entry = ChatEntryPoint.TRANSFER;
                   Get.put(TransactionController());
                   Get.to(ConversationPage(entry:entry,selectedContact: ContactInfo(),custInfo: toAddress?.customerProfile,));
-                }else if(transactionContext == TransactionContext.BILL_PAYMENT){
+                }
+                else if(transactionContext == TransactionContext.BILL_PAYMENT){
                   entry = ChatEntryPoint.MC_PAYMENT;
                   var custInfo = CustomerProfile(firebaseId: "BillPayment",firstName: "Bill Payment");
                   Get.put(TransactionController());
@@ -855,16 +863,34 @@ class TransactionController extends GetxController{
                   Get.to(ConversationPage(entry:entry,selectedContact: ContactInfo(),custInfo: custInfo));
                 }
               }
-         }
-        }else{
+         }else{
+          navigateToChat(transactionContext);
           print("transaction failed");
+        }
         }
       //  Get.offAll(Utils().getLandingScreen());
 
+      }else{
+        showProgress.value =false; // TODO need to remove
+        // show dailog here
       }
     }
   }
-
+  navigateToChat(transactionContext){
+    var entry;
+    if(transactionContext == TransactionContext.PAYMENT_REQUEST){
+      entry = ChatEntryPoint.TRANSFER;
+      Get.put(TransactionController());
+      Get.to(ConversationPage(entry:entry,selectedContact: ContactInfo(),custInfo: toAddress?.customerProfile,));
+    }
+    else if(transactionContext == TransactionContext.BILL_PAYMENT){
+      entry = ChatEntryPoint.MC_PAYMENT;
+      var custInfo = CustomerProfile(firebaseId: "BillPayment",firstName: "Bill Payment");
+      Get.put(TransactionController());
+      showProgress.value = false;
+      Get.to(ConversationPage(entry:entry,selectedContact: ContactInfo(),custInfo: custInfo));
+    }
+  }
   Future addBeneficiary({String mobile,String accountNo,String bic,String name,String accountType = "SAVINGS",bool isNewUser= false}) async {
 
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();

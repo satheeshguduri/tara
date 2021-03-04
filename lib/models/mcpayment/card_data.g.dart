@@ -8,9 +8,9 @@ part of 'card_data.dart';
 
 CardData _$CardDataFromJson(Map<String, dynamic> json) {
   return CardData(
-    id: json['id'] == null
+    id: json['callbackResponsePk'] == null
         ? null
-        : IdBean.fromJson(json['id'] as Map<String, dynamic>),
+        : IdBean.fromJson(json['callbackResponsePk'] as Map<String, dynamic>),
     amount: json['amount'] as num,
     bankIssuer: json['bankIssuer'] as String,
     cardBrand: json['cardBrand'] as String,
@@ -23,7 +23,7 @@ CardData _$CardDataFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CardDataToJson(CardData instance) => <String, dynamic>{
-      'id': instance.id,
+      'callbackResponsePk': instance.id,
       'amount': instance.amount,
       'bankIssuer': instance.bankIssuer,
       'cardBrand': instance.cardBrand,

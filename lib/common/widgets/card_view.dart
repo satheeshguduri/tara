@@ -58,7 +58,7 @@ class _CustomCardState extends State<CustomCard> {
             child: (widget.accountNumber!=null&&widget.accountNumber!="")
                 ?Container(padding:EdgeInsets.only(top: 8,),child: Container(
               child: Text(
-                  Utils().getTranslation(Strings.MPIN_ACCOUNT_NUMBER,context),
+                  widget.accountNumber,
                   style: widget.isMyAccountCard ? BaseStyles.transactionSuccessTextStyle : BaseStyles.accountNumberInMPINTextStyle,
                   textAlign: TextAlign.left
               ),),):

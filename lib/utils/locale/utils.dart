@@ -24,7 +24,15 @@ class Utils {
   }
 
   String getTranslation(String key,context) => AppLocalizations.of(context).translate(key);
-
+  String getMaskedAccountNumber(String fullString) {
+    List<String> list = fullString.split('#').toList();
+    // return "**** **** **" + list[1].substring(list[0].length - 2);
+    return list[1];
+  }
+  String getMaskedCreditNumber(String fullString) {
+    List<String> list = fullString.split('#').toList();
+    return "**** **** **" + list[0].substring(list[0].length - 2);
+  }
   void showOverlay(BuildContext context) {
     if (overlayEntry != null) return;
     OverlayState overlayState = Overlay.of(context);
@@ -64,14 +72,7 @@ class Utils {
     final String formatted = formatter.format(date);
     return formatted;
   }
-  String getMaskedAccountNumber(String fullString) {
-    if(fullString?.isEmpty??false) return "*****";
-    List<String> list = fullString?.split('#')?.toList();
-    if(list?.isEmpty??false)
-      return "*****";
-    else return "******"+ list[1].substring(list[0].length - 4);
 
-  }
   Widget getIntoCreateStoreScreen(){
     switch(F.appFlavor){
       case Flavor.CONSUMER:

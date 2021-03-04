@@ -4,7 +4,8 @@ part 'card_data.g.dart';
 
 @JsonSerializable()
 class CardData {
-  IdBean id;
+  @JsonKey(name: "callbackResponsePk")
+  IdBean id; // changed
   num amount;
   String bankIssuer;
   String cardBrand;

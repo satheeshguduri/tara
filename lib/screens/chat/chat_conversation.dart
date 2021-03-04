@@ -592,7 +592,17 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         return Container();
       }
     }
-    listScrollController.position.maxScrollExtent;
+    // listScrollController.position.maxScrollExtent;
+    Timer(
+      Duration(milliseconds: 220),
+          () {
+            listScrollController.animateTo(
+              listScrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
+      },
+    );
   }
 
   showChatInboxWidgets() {

@@ -5,15 +5,18 @@ import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/card_view.dart';
+import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/utils/locale/utils.dart';
 
 class EnterCVV extends StatefulWidget {
   final String  billsCatagoryData;
   final String amount;
-  EnterCVV({Key key, this.billsCatagoryData,this.amount}) : super(key: key);
+  final MappedBankAccountsBean mappedBankAccountsBean;
+  EnterCVV({Key key, this.billsCatagoryData,this.amount,this.mappedBankAccountsBean}) : super(key: key);
 
   @override
   _EnterMPINState createState() => _EnterMPINState();
@@ -80,7 +83,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
                 ),
                 Container(
                   padding: EdgeInsets.all(16),
-                  child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: "Yakub Pasha Shaik",accountNumber: getTranslation(Strings.MPIN_ACCOUNT_NUMBER),),
+                  child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: widget.mappedBankAccountsBean.bankName,accountNumber: Utils().getMaskedAccountNumber(widget.mappedBankAccountsBean.maskedAccountNumber),),
                 ),
                 Center(
                   child: Column(
@@ -169,13 +172,13 @@ class _EnterMPINState extends BaseState<EnterCVV> {
       if (isOtpEntered) {
       transferController.showProgress.value = true;
       transferController.payBill(
-        bic1: billController.debitCardBic,
+        bic1: widget.mappedBankAccountsBean.bic,
         cvv1: otpPin,
         subMerchantName: widget.billsCatagoryData,
         merchantRef: "1234",
         amount1: widget.amount,
         remarks1: billController.debitCardDesc,
-        initiatorAccountId: billController.getSelectedDebitCardAccountID(),
+        initiatorAccountId: widget.mappedBankAccountsBean.accountTokenId,
       );
       Get.back();
     }

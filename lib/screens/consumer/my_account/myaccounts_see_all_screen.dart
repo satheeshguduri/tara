@@ -163,7 +163,7 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
           creditCardNumberRow(creditCardData),
           SizedBox(height: 12),
           creditCardNameRow(creditCardData),
-          SizedBox(height: 16),
+          // SizedBox(height: 16),
         ],
       ),
 
