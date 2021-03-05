@@ -26,6 +26,8 @@ import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
+
 
 
 
@@ -45,8 +47,8 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
 
   BillController billController = Get.find();
   TransactionController transferController = Get.find();
-  final AsyncMemoizer dCMemorizer = AsyncMemoizer();
-  final AsyncMemoizer cCMemorizer = AsyncMemoizer();
+ // final AsyncMemoizer dCMemorizer = AsyncMemoizer();
+  //final AsyncMemoizer cCMemorizer = AsyncMemoizer();
   List<CardData> creditCardsData;
   CustomerProfileDetailsResponse debitCardsData;
 
@@ -757,7 +759,6 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
                 style: const TextStyle(
                     color: AppColors.color_black_100_2_2_2,
                     fontWeight: FontWeight.w700,
-                    fontFamily: "TaraSans",
                     fontStyle: FontStyle.normal,
                     fontSize: 14.0
                 )
@@ -945,11 +946,11 @@ class BillsPaymentsSourcesScreenState extends BaseState<BillsPaymentsSourcesScre
               ),
             ),
           ).onTap(onPressed: (){
-            if(isDebit) {
-              //debit card flow
-            }else{
-              //credit card flow
-            }
+                if(isDebit) {
+                  Get.to(ConnectNewAccountSelectBank());
+                }else{
+                  transferController.addCard();
+                }
             //  Get.to(MyAccountsSeeAllScreen());
           }),
         ),
