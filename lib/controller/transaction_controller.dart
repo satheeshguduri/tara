@@ -96,7 +96,7 @@ class TransactionController extends GetxController{
   Timer timer;
   var seconds=120.obs;
 
-  var opacityValue = 0.0.obs;
+ // var opacityValue = 0.0.obs;
 
   TextEditingController txtCtrlTransferAmt = TextEditingController();
   double payAmount;
@@ -972,12 +972,14 @@ class TransactionController extends GetxController{
   }
 
   Future addCard() async{
+    showProgress.value = true;
     var request = cards.CreateCardOrPayRequest();
     var response = await getIt.get<McPaymentRepository>().createCardOrPay(request);
     if(response.isRight()){
       var finalResponse = response.getOrElse(() => null);
       if(finalResponse?.data?.seamless_url?.isNotEmpty??false) {
-        opacityValue.value=0.0;
+       // opacityValue.value=0.0;
+        showProgress.value = false;
         Get.off(CommonWebViewScreen(title: "Add Credit Card",
             type: WebViewType.ADD_CREDIT_CARD,
             url: finalResponse.data.seamless_url));
