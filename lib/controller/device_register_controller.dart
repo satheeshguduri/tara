@@ -43,7 +43,7 @@ class DeviceRegisterController extends GetxController{
         var txnRequest = UserRegistrationTxnRequest(
           txnId: sessionInfo.transactionId,
          // mobileNumber: "9542829992",
-          mobileNumber: userInfo?.mobileNumber?.substring(3),
+          mobileNumber: userInfo?.mobileNumber,
         );
         await getIt.get<DeviceRegisterRepository>().registerUserTxn(txnRequest);
         var deviceId = await FlutterUdid.udid;

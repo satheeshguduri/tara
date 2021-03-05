@@ -307,13 +307,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                 Container(
                   margin: EdgeInsets.only(top: 4),
                   child: Text(
-                    (widget.selectedContact != null &&
-                            widget.selectedContact.name != null)
-                        ? widget.selectedContact.name
-                        : (chatInboxInfoGlobal != null &&
-                                chatInboxInfoGlobal.chatTitle != null)
-                            ? chatInboxInfoGlobal.chatTitle
-                            : widget.custInfo.firstName,
+                    widget?.custInfo?.firstName??"Chat",
                     textAlign: TextAlign.left,
                     style: BaseStyles.backAccountHeaderTextStyle,
                   ),

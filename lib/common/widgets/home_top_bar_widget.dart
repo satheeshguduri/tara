@@ -7,8 +7,11 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/widgets/rounded_button.dart';
 import 'package:tara_app/controller/auth_controller.dart';
+import 'package:tara_app/controller/contacts_transfer_controller.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
@@ -217,6 +220,10 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
+               GetHelper.resetController<TransactionController>();
+               GetHelper.resetController<ContactsTransferController>();
+               Get.put(TransactionController());
+               Get.put(ContactsTransferController());
                 Get.to(BeneficiariesContactsListScreen(requestType: RequestType.PAY,));
               //  Get.to(TransferContactsSelectionScreen());
                 // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added

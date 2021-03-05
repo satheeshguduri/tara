@@ -11,6 +11,7 @@ import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
 import 'package:tara_app/models/transfer/fetch_otp_response.dart';
 import 'package:tara_app/models/transfer/retrieve_key_response.dart';
@@ -123,12 +124,13 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
             controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
            // pop();
           } else if (widget.from == "transfer") {
+            var toAddress = ToAddressResponse(mobileNumber: widget?.toAddress?.mobileNumber,customerProfile: widget.toAddress);
            // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-              controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic,TransactionContext.PAYMENT_REQUEST,widget.amount);
+              controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic,TransactionContext.PAYMENT_REQUEST,widget.amount,toAddress);
              //pop();
           }else if (widget.from == "bills") {
             // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-            controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic,TransactionContext.BILL_PAYMENT,widget.amount);
+            controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic,TransactionContext.BILL_PAYMENT,widget.amount,null);
             //pop();
           }
             }

@@ -27,7 +27,12 @@ class Utils {
   String getMaskedAccountNumber(String fullString) {
     List<String> list = fullString.split('#').toList();
     // return "**** **** **" + list[1].substring(list[0].length - 2);
-    return list[1];
+    if(list.length>1){
+      return list[1];
+    }else{
+      return list[0];
+    }
+
   }
   String getMaskedCreditNumber(String fullString) {
     List<String> list = fullString.split('#').toList();

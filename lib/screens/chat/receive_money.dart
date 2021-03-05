@@ -11,6 +11,7 @@ import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/to_address_response.dart';
+import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -128,7 +129,7 @@ class _ReceiveWidgetState extends BaseState<ReceiveWidget> {
   _getConfirmWidget() {
     return InkWell(
       onTap: () async{
-        await Get.find<TransactionController>().paymentInitiation(trContext:TransactionContext.PAYMENT_REQUEST,amount:double.parse(amountTextController.text),toAddress: ToAddressResponse(mobileNumber: widget.customerProfile.mobileNumber,customerProfile: widget.customerProfile));
+        await Get.find<TransactionController>().paymentInitiation(requestType: RequestType.COLLECT,trContext:TransactionContext.PAYMENT_REQUEST,amount:double.parse(amountTextController.text),toAddress: ToAddressResponse(mobileNumber: widget.customerProfile.mobileNumber,customerProfile: widget.customerProfile));
         widget.receiveMoneyConfirmed(amountTextController.text.toString());
         Navigator.pop(context);
       },

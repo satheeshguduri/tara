@@ -97,9 +97,7 @@ class ContactsTransferController extends GetxController{
         }
       }else{
         contactList.value = (await ContactsService.getContacts(withThumbnails: false,)).toList();
-        print("Total Contacts Lenght: ==> "+contactList.value.length.toString());
        contactList.value.removeWhere((e) => e?.phones?.isEmpty??true);
-        print("After Deletion Total Contacts Lenght: ==> "+contactList.value.length.toString());
         totalContactsList.value = contactList.value.map((e) {
                return CustomerProfile(mobileNumber: e.phones?.elementAt(0).value.removeAllWhitespace,firstName: e?.displayName,registrationStatus: RegistrationStatus.INACTIVE);
             }
@@ -173,8 +171,6 @@ class ContactsTransferController extends GetxController{
         print(jsonEncode(arrRecentlyAddedContactInfo.value[0]));
         arrRecentlyAddedContactInfo.value.forEach((e) async{
          var matchedObject = totalContactsList.value.where((element){
-           print(element.mobileNumber.removeAllWhitespace);
-           print(e.beneMobile.removeAllWhitespace);
             return element.mobileNumber.removeAllWhitespace.contains(e.beneMobile.removeAllWhitespace);}).toList();
          if(matchedObject?.isNotEmpty??false) {
            var objIndex = totalContactsList.value.indexOf(matchedObject[0]);

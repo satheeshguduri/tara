@@ -126,11 +126,13 @@ class BaseStyles {
       fontSize: 14.0
   );
   static TextStyle errorInfoSubtitleTextStyle = const TextStyle(
-  color:  Colors.black45,
-  fontWeight: FontWeight.w400,
-  // 
-  fontStyle:  FontStyle.normal,
-  fontSize: 16.0
+      color:  AppColors.color_black_100_2_2_2,
+      fontSize: 16.0
+  );
+  static TextStyle modelTitleTextStyle = const TextStyle(
+  color:  AppColors.color_black_100_2_2_2,
+  fontSize: 20.0,
+  fontWeight: FontWeight.w700,
   );
   static TextStyle resendDefaultTextStyle =  TextStyle(
       color: Color(0xffe9ecef),

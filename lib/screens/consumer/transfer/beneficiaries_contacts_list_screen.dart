@@ -269,7 +269,7 @@ class BeneficiariesContactsListScreenState extends BaseState<BeneficiariesContac
     if(customerProfile.registrationStatus == RegistrationStatus.BENEFICIARY){// dint find the user in tara
       contactsController.arrRecentlyAddedContactInfo.value = contactsController.arrRecentlyAddedContactInfo?.value?.where((element) => customerProfile.mobileNumber?.contains(element.beneMobile))?.toList();
     }
-    Get.to(TransferDetailsEntryScreen(customerProfile: customerProfile,requestType: widget.requestType,));
+    Get.to(TransferDetailsEntryScreen(toCustomerProfile: customerProfile,requestType: widget.requestType,));
   }
   errorTitleTextWidget() {
     return Container(
@@ -332,7 +332,7 @@ class BeneficiariesContactsListScreenState extends BaseState<BeneficiariesContac
   ).onTap(onPressed: (){
    // var customerInfo = CustomerProfile(registrationStatus: RegistrationStatus.RTP);
     print("status"+Get.find<AuthController>().user.value.customerProfile.registrationStatus.toString());
-    Get.to(TransferDetailsEntryScreen(customerProfile: Get.find<AuthController>().user.value.customerProfile));
+    Get.to(TransferDetailsEntryScreen(toCustomerProfile: Get.find<AuthController>().user.value.customerProfile));
   });
   }
 

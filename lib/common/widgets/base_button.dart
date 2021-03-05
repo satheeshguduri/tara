@@ -65,7 +65,7 @@ abstract class BaseButton extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: textColor,
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w700,
             fontSize: 16,
           ),
         ),

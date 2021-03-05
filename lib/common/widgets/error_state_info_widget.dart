@@ -31,7 +31,7 @@ class ErrorStateInfoWidget extends StatelessWidget {
 
             Text(
                title??"",
-                style: BaseStyles.bottomSheetTitleStyle,
+                style: BaseStyles.modelTitleTextStyle,
                 textAlign: TextAlign.center
             ).withPad(padding: EdgeInsets.only(top:16)),
             Text(

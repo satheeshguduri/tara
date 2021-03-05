@@ -16,4 +16,8 @@ class GetHelper{
     Get.defaultDialog(title: title??"",content: content);
   }
 
+  static resetController<T extends GetxController>(){
+    Get.delete<T>();
+  }
+
 }

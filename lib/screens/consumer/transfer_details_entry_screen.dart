@@ -35,8 +35,8 @@ import 'package:tara_app/controller/contacts_transfer_controller.dart';
 
 class TransferDetailsEntryScreen extends StatefulWidget {
 
-  final CustomerProfile customerProfile;
-  TransferDetailsEntryScreen({Key key,this.customerProfile,RequestType requestType}) : super(key: key);
+  final CustomerProfile toCustomerProfile;
+  TransferDetailsEntryScreen({Key key,this.toCustomerProfile,RequestType requestType}) : super(key: key);
 
 
 
@@ -84,8 +84,8 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     super.initState();
     uiController.getCustomerBankAccounts();
     var user = Get.find<AuthController>().user;
-    isSelf = widget.customerProfile.mobileNumber == user.value.customerProfile.mobileNumber;
-    print(widget.customerProfile.registrationStatus);
+    isSelf = widget.toCustomerProfile.mobileNumber == user.value.customerProfile.mobileNumber;
+    print(widget.toCustomerProfile.registrationStatus);
   }
   bool isTaraUser(CustomerProfile customerProfile) {
     return customerProfile.registrationStatus == RegistrationStatus.TARA;
@@ -116,12 +116,12 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       Container(
                         margin: EdgeInsets.only(top: 4),
                         child: Text(
-                          widget.customerProfile.firstName,
+                          widget.toCustomerProfile.firstName,
                           textAlign: TextAlign.left,
                           style: BaseStyles.transactionItemPersonNameTextStyle,
                         ),
                       ),
-                      Visibility(visible:isTaraUser(widget.customerProfile),child: Image.asset(
+                      Visibility(visible:isTaraUser(widget.toCustomerProfile),child: Image.asset(
                         Assets.tara_contacts,
                         height: 32,
                         width: 32,
@@ -130,7 +130,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                     Container(
                       margin: EdgeInsets.only(top: 4),
                       child: Text(
-                        widget.customerProfile.mobileNumber,
+                        widget.toCustomerProfile.mobileNumber,
                         textAlign: TextAlign.left,
                         style: BaseStyles.transactionItemDateTextStyle,
                       ),
@@ -275,9 +275,10 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
             //  beneId: 44 //getBenId(widget.beneContact)
           );
 
-        }else if (uiController.selectedBenAccount?.value?.beneId?.isNullOrBlank??false) {
+        }
+        else if (uiController.selectedBenAccount?.value?.beneId?.isNullOrBlank??false) {
             uiController.confirmToPay(
-                mobile: widget.customerProfile.mobileNumber,
+                mobile: widget.toCustomerProfile.mobileNumber,
                 amount: uiController.amountController.text,
                 remarks: uiController.messageController.text,
                 bic: bic,
@@ -286,7 +287,16 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                 beneId: uiController.selectedBenAccount.value
                     .beneId //getBenId(widget.beneContact)
             );
-          }
+          }else{
+          uiController.confirmToPay(
+              mobile: widget.toCustomerProfile.mobileNumber,
+              amount: uiController.amountController.text,
+              remarks: uiController.messageController.text,
+              bic: bic,
+              cvv: uiController.cvvController.text,
+              accountTokenId: accountTokenId,
+          );
+        }
       }else{
         showToast(message: "Please Add a bank account");
       }
@@ -446,50 +456,53 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                               //     txtCtrlTransType),
                               getMessageWidget(),
                               getTheDivider(),
-
-                              Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(top: 16),
-                                    decoration: BoxDecoration(
-                                        color: AppColors.pale_turquoise,
-                                        border: Border.all(
-                                          color: Colors.transparent,
-                                          width: 0,
+                              //made visibility false for this perticular recurring widget as per hari
+                              Visibility(
+                                visible: false,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(top: 16),
+                                      decoration: BoxDecoration(
+                                          color: AppColors.pale_turquoise,
+                                          border: Border.all(
+                                            color: Colors.transparent,
+                                            width: 0,
+                                          ),
+                                          borderRadius: Radii.border(5)),
+                                      width: 24,
+                                      height: 24,
+                                      child: Theme(
+                                        data: ThemeData(
+                                          unselectedWidgetColor: Colors
+                                              .transparent,
                                         ),
-                                        borderRadius: Radii.border(5)),
-                                    width: 24,
-                                    height: 24,
-                                    child: Theme(
-                                      data: ThemeData(
-                                        unselectedWidgetColor: Colors
-                                            .transparent,
-                                      ),
-                                      child: Checkbox(
-                                        activeColor: Colors.transparent,
-                                        checkColor: AppColors
-                                            .header_top_bar_color,
-                                        value: isToSaveContact,
-                                        tristate: false,
-                                        onChanged: (bool isChecked) {
-                                          setState(() {
-                                            isToSaveContact = isChecked;
-                                          });
-                                        },
+                                        child: Checkbox(
+                                          activeColor: Colors.transparent,
+                                          checkColor: AppColors
+                                              .header_top_bar_color,
+                                          value: isToSaveContact,
+                                          tristate: false,
+                                          onChanged: (bool isChecked) {
+                                            setState(() {
+                                              isToSaveContact = isChecked;
+                                            });
+                                          },
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    margin:
-                                    EdgeInsets.only(
-                                        left: 16, right: 16, top: 16),
-                                    child: Text(
-                                        getTranslation(Strings.SET_RECURRING),
-                                        style: BaseStyles
-                                            .textFormFieldHeaderTitleTextStyle,
-                                        textAlign: TextAlign.left),
-                                  ),
-                                ],
+                                    Container(
+                                      margin:
+                                      EdgeInsets.only(
+                                          left: 16, right: 16, top: 16),
+                                      child: Text(
+                                          getTranslation(Strings.SET_RECURRING),
+                                          style: BaseStyles
+                                              .textFormFieldHeaderTitleTextStyle,
+                                          textAlign: TextAlign.left),
+                                    ),
+                                  ],
+                                ),
                               ),
                               isToSaveContact
                                   ? _getRecurringWidget()
@@ -532,7 +545,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         Container(margin: EdgeInsets.only(right: 8),
             child: Image.asset(Assets.ic_bca,)),
         Text(bankname + " - " +
-            uiController.getAccountNumberOnly(maskedAccountNumber),
+            Utils().getMaskedAccountNumber(maskedAccountNumber),
             style: TextStyles.inputFieldOn222
         )
       ],
@@ -698,7 +711,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   Widget getPaymentSourceWidget() {
     return
       Container(
-        height: 60,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -718,6 +730,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                     value: item,
                     child: getCustomItemWidget(item.bankName,item.maskedAccountNumber),
                     onTap: (){
+                      FocusScope.of(context).requestFocus(FocusNode());
                       bic = item.bic;
                       accountTokenId = item.accountTokenId;
                       selectedSourceBankAccount = item;
@@ -725,6 +738,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                   );
                 })?.toList()??[],
                 onChanged: (val){
+
                 }
 
             ),
@@ -814,7 +828,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
 
   Widget getSelectBeneAccountWidget() {
 
-    if(widget.customerProfile.registrationStatus == RegistrationStatus.BENEFICIARY){
+    if(widget.toCustomerProfile.registrationStatus == RegistrationStatus.BENEFICIARY){
       return Container(
           color: AppColors.primaryBackground,
           padding: EdgeInsets.only(left:16,right:16,),
@@ -833,7 +847,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
 
   Widget getAddNewAccountWidget() {
 
-    if(widget.customerProfile.registrationStatus == RegistrationStatus.BENEFICIARY || widget.customerProfile.registrationStatus == RegistrationStatus.INACTIVE){
+    if(widget.toCustomerProfile.registrationStatus == RegistrationStatus.BENEFICIARY || widget.toCustomerProfile.registrationStatus == RegistrationStatus.INACTIVE){
       return Container(
         color: AppColors.primaryBackground,
         alignment: Alignment.center,
@@ -854,18 +868,16 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         ),
       ).onTap(onPressed: (){
 
-        Get.to(AddBeneficiaryScreen(customerProfile: widget.customerProfile,isNewUser: contactsController.arrRecentlyAddedContactInfo?.isEmpty??true));
+        Get.to(AddBeneficiaryScreen(customerProfile: widget.toCustomerProfile,isNewUser: contactsController.arrRecentlyAddedContactInfo?.isEmpty??true));
       });
 
     }else{
       return Container();
-
     }
-
   }
 
   Widget getAccountsDropDownList() {
-    return Container(
+    return Obx(()=>Container(
       height: 48,
       child: DropdownButtonFormField<BeneDetailBean>(
         decoration: removeUnderlineAndShowHint(""),
@@ -888,7 +900,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         }).toList()??[],
 
       ),
-    );
+    ));
   }
 }
 

@@ -134,13 +134,14 @@ class TransactionController extends GetxController{
   }
 
   //payment initiation
-  Future paymentInitiation({TransactionContext trContext,String cardId,double amount,String desc,String maskAcNum,ToAddressResponse toAddress,bool isFromCreditCard=false,}) async{
+  Future paymentInitiation({TransactionContext trContext,String cardId,double amount,String desc,String maskAcNum,ToAddressResponse toAddress,bool isFromCreditCard=false,RequestType requestType = RequestType.PAY}) async{
     print("firebaseid "+ Get.find<AuthController>().user.value.customerProfile.firebaseId);
     // print("to firebaseid "+ toAddress.customerProfile.firebaseId);
     payAmount=amount;
+    var transactionContext =requestType == RequestType.PAY? null:describeEnum(trContext);
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress?.mobileNumber,toAccount:null,toUserFirebaseId: toAddress?.customerProfile?.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount,transactionContext: isFromCreditCard?describeEnum(TransactionContext.BILL_PAYMENT):describeEnum(trContext)));
+    var optionalDataBean = OptionalDataBean(data: DataBean(amount: amount,transactionContext: isFromCreditCard?describeEnum(TransactionContext.BILL_PAYMENT):transactionContext));
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       fromData: fromData,
       toData: toData,
@@ -710,7 +711,7 @@ class TransactionController extends GetxController{
                 print("to firebase id"+jsonEncode(toAddress.toJson()));
                 if(toAddress!=null){
                   // await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress,trContext: TransactionContext.PAYMENT_REQUEST);//commented to pass null for trqansaction request
-                  await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress);
+                  await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress,trContext: TransactionContext.PAYMENT_REQUEST);
                   //Retrieve Key Request
                   var txnId = initiateTransactionResponse.transactionId;
                   var deviceInfo = await BaseRequestHelper().getDeviceInfoBeanWithPSP();
@@ -810,7 +811,7 @@ class TransactionController extends GetxController{
 
   }
 
-  Future validateOtpAndTrackTransaction(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic,TransactionContext transactionContext,num amount) async {
+  Future validateOtpAndTrackTransaction(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic,TransactionContext transactionContext,num amount,ToAddressResponse toAddress) async {
     showProgress.value = true;
     var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
     var validateOtpRequest = ValidateOtpRequest(
@@ -821,7 +822,7 @@ class TransactionController extends GetxController{
         otp: encValid
     );
     print(jsonEncode(validateOtpRequest.toJson()));
-    var validateOTPR = await getIt.get<TransactionRepository>().validateOtp(validateOtpRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
+    var validateOTPR = await getIt.get<TransactionRepository>().validateOtp(validateOtpRequest,TransactionType.FINANCIAL_TXN,d.sessionKey,txnId);
     if(validateOTPR.isRight()){
       var validateOTPResponse = validateOTPR.getOrElse(() => null);
       print(jsonEncode(validateOTPResponse.toJson()));
@@ -852,8 +853,8 @@ class TransactionController extends GetxController{
                 var entry;
                 if(transactionContext == TransactionContext.PAYMENT_REQUEST){
                   entry = ChatEntryPoint.TRANSFER;
-                  Get.put(TransactionController());
                   Get.to(ConversationPage(entry:entry,selectedContact: ContactInfo(),custInfo: toAddress?.customerProfile,));
+                  Get.put(TransactionController());
                 }
                 else if(transactionContext == TransactionContext.BILL_PAYMENT){
                   entry = ChatEntryPoint.MC_PAYMENT;
