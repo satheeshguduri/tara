@@ -250,13 +250,16 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
       child:
       //Center(
       // child:
-      Row(
-          children: [
-            Expanded(child: Row(children: [getLogo(), getCardNumber(mappedBankAccountsBean)
-            ],)
-            ),
-            Row(children: [getDefault(), getArrow()],)
-          ]),
+      Visibility(
+        visible: mappedBankAccountsBean.isDefault,
+        child: Row(
+            children: [
+              Expanded(child: Row(children: [getLogo(), getCardNumber(mappedBankAccountsBean)
+              ],)
+              ),
+              Row(children: [getDefault(), getArrow()],)
+            ]),
+      ),
       //),
 
     );

@@ -18,6 +18,7 @@ class BillDetailsResponse extends BaseBillResponse{
 class BillDetailsData {
   String refNumber;
   num transactionId;
+  num inquiryId;
   String accountNumber;
   double amount;
   num totalAdmin;
@@ -32,7 +33,7 @@ class BillDetailsData {
   List<ProductDetailsBean> productDetails;
   dynamic extraFields;
 
-  BillDetailsData({this.refNumber, this.transactionId, this.accountNumber, this.amount, this.totalAdmin, this.processingFee, this.denom, this.productCode, this.productName, this.category, this.token, this.customerDetails, this.billDetails, this.productDetails, this.extraFields});
+  BillDetailsData({this.inquiryId,this.refNumber, this.transactionId, this.accountNumber, this.amount, this.totalAdmin, this.processingFee, this.denom, this.productCode, this.productName, this.category, this.token, this.customerDetails, this.billDetails, this.productDetails, this.extraFields});
 
   factory BillDetailsData.fromJson(Map<String, dynamic> json) => _$BillDetailsDataFromJson(json);
 

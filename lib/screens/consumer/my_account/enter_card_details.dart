@@ -74,7 +74,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                   getTranslation(Strings.card_number),
                   Strings.card_number_ex,
                   TextInputType.number,
-                  controller.txtCtrlBankAcc),
+                  controller.txtCtrlBankAcc,false),
             ),
             Container(
                 margin: EdgeInsets.only(left: 16, right: 16, top: 16),
@@ -104,7 +104,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                                               "",
                                               Strings.mm,
                                               TextInputType.number,
-                                              controller.txtCtrlExpMonth),
+                                              controller.txtCtrlExpMonth,false),
                                         )),
                                     Container(
                                       margin:
@@ -124,7 +124,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                                               "",
                                               Strings.yy,
                                               TextInputType.number,
-                                              controller.txtCtrlExpYear),
+                                              controller.txtCtrlExpYear,false),
                                         )),
                                   ],
                                 ),
@@ -151,7 +151,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                                       "",
                                       Strings.cvv,
                                       TextInputType.number,
-                                      controller.txtCtrlCvv),
+                                      controller.txtCtrlCvv,true),
                                 ),
                               ]),
                         )),
@@ -166,7 +166,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                   getTranslation(Strings.name_on_card),
                   Strings.name_on_card,
                   TextInputType.text,
-                  controller.txtCtrlNameOnCard),
+                  controller.txtCtrlNameOnCard,false),
             ),
           ]),
           getConfirmWidget()
@@ -212,7 +212,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
   }
 
   textFormFieldContainer(String headerTitle, String hint,
-      TextInputType inputType, TextEditingController textEditingController) {
+      TextInputType inputType, TextEditingController textEditingController,bool isObscure) {
     return Container(
         margin: EdgeInsets.only(top: 8),
         decoration: BoxDecoration(
@@ -242,6 +242,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                         placeHolderStyle: BaseStyles.placeholderStyle,
                         hint: getTranslation(hint),
                         inputType: inputType,
+                        isObscure: isObscure,
                         textController: textEditingController,
                         isIcon: false,
                         onChanged: (val) {

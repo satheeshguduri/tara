@@ -58,8 +58,15 @@ Map<String, dynamic> _$OptionalDataBeanToJson(OptionalDataBean instance) =>
 DataBean _$DataBeanFromJson(Map<String, dynamic> json) {
   return DataBean(
     createFirebaseEntry: json['createFirebaseEntry'] as String,
-    amount: json['amount'] as num,
     transactionContext: json['transactionContext'] as String,
+    amount: json['amount'] as num,
+    inquiryId: json['inquiryId'] as num,
+    accountNumber: json['accountNumber'] as String,
+    productCode: json['productCode'] as String,
+    refNumber: json['refNumber'] as String,
+    partnerId: json['partnerId'] as String,
+    publicBuyerId: json['publicBuyerId'] as String,
+    buyerEmail: json['buyerEmail'] as String,
   );
 }
 
@@ -67,6 +74,13 @@ Map<String, dynamic> _$DataBeanToJson(DataBean instance) => <String, dynamic>{
       'createFirebaseEntry': instance.createFirebaseEntry,
       'transactionContext': instance.transactionContext,
       'amount': instance.amount,
+      'inquiryId': instance.inquiryId,
+      'accountNumber': instance.accountNumber,
+      'productCode': instance.productCode,
+      'refNumber': instance.refNumber,
+      'partnerId': instance.partnerId,
+      'publicBuyerId': instance.publicBuyerId,
+      'buyerEmail': instance.buyerEmail,
     };
 
 ToDataBean _$ToDataBeanFromJson(Map<String, dynamic> json) {

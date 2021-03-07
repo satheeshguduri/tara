@@ -30,6 +30,7 @@ Map<String, dynamic> _$BillDetailsResponseToJson(
 
 BillDetailsData _$BillDetailsDataFromJson(Map<String, dynamic> json) {
   return BillDetailsData(
+    inquiryId: json['inquiryId'] as num,
     refNumber: json['refNumber'] as String,
     transactionId: json['transactionId'] as num,
     accountNumber: json['accountNumber'] as String,
@@ -60,6 +61,7 @@ Map<String, dynamic> _$BillDetailsDataToJson(BillDetailsData instance) =>
     <String, dynamic>{
       'refNumber': instance.refNumber,
       'transactionId': instance.transactionId,
+      'inquiryId': instance.inquiryId,
       'accountNumber': instance.accountNumber,
       'amount': instance.amount,
       'totalAdmin': instance.totalAdmin,

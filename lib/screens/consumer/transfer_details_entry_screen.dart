@@ -276,7 +276,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
           );
 
         }
-        else if (uiController.selectedBenAccount?.value?.beneId?.isNullOrBlank??false) {
+        else if (uiController.selectedBenAccount?.value!=null) {
             uiController.confirmToPay(
                 mobile: widget.toCustomerProfile.mobileNumber,
                 amount: uiController.amountController.text,
@@ -414,7 +414,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
           child: Container(
             color: AppColors.background_color,
             child: SingleChildScrollView(
-              reverse: true,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -738,7 +737,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                   );
                 })?.toList()??[],
                 onChanged: (val){
-
+                  selectedSourceBankAccount = val;
                 }
 
             ),
@@ -877,6 +876,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget getAccountsDropDownList() {
+    uiController.selectedBenAccount.value = contactsController?.arrRecentlyAddedContactInfo?.value[0];
     return Obx(()=>Container(
       height: 48,
       child: DropdownButtonFormField<BeneDetailBean>(
@@ -895,6 +895,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
             value: value,
             child:  getCustomItemWidget("",value.beneAccountNo),
             onTap: (){
+              uiController.selectedBenAccount.value = value;
             },
           );
         }).toList()??[],

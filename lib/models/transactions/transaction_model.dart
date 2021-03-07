@@ -38,8 +38,26 @@ class DataBean {
   String createFirebaseEntry;
   String transactionContext; //"Payment_Request"
   num amount;
+  num inquiryId;
+  String accountNumber;
+  String productCode;
+  String refNumber;
+  String partnerId;
+  String publicBuyerId;
+  String buyerEmail;
 
-  DataBean({this.createFirebaseEntry, this.amount,this.transactionContext});
+
+  DataBean({
+      this.createFirebaseEntry,
+      this.transactionContext,
+      this.amount,
+      this.inquiryId,
+      this.accountNumber,
+      this.productCode,
+      this.refNumber,
+      this.partnerId,
+      this.publicBuyerId,
+      this.buyerEmail});
 
   factory DataBean.fromJson(Map<String, dynamic> json) => _$DataBeanFromJson(json);
 

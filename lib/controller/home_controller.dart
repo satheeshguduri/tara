@@ -20,7 +20,7 @@ class HomeController extends GetxController{
 
  final AsyncMemoizer accountMemorizer = AsyncMemoizer();
  final AsyncMemoizer billsMemorizer = AsyncMemoizer();
- final AsyncMemoizer transactionsMemorizer = AsyncMemoizer();
+ AsyncMemoizer transactionsMemorizer = AsyncMemoizer();
  List<BankDetailsBean> bankList;
  Map<String,String> bankLogos;
 

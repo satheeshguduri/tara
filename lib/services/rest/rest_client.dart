@@ -46,6 +46,9 @@ import '../config/api.dart';
   @PUT(API.update_profile)
   Future<BaseResponse> updateProfile(@Header("Authorization") String token, @Body() CustomerProfile updateProfileRequest);
 
+  @GET(API.update_profile)
+  Future<CustomerProfile> getNonTaraCustomerInfo(@Header("Authorization") String token, @Query("mobile_number") String mobile);
+
   @GET(API.customer_profile)
   Future<CustomerProfile> getCustomerInfo(@Header("Authorization") String token,@Path() String customerId);
 

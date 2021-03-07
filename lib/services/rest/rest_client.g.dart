@@ -121,6 +121,26 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<CustomerProfile> getNonTaraCustomerInfo(token, mobile) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(mobile, 'mobile');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'mobile_number': mobile};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v1/tara/crm/customer',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = CustomerProfile.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   Future<CustomerProfile> getCustomerInfo(token, customerId) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(customerId, 'customerId');

@@ -30,4 +30,5 @@ class PSPConfig{
   static const APP_NAME = "com.inde.ayopop";//to check with the team for the
   static const INITIATOR_PA = "merchant1@inde1";
   static const PSP_ORG_ID = "INDE1";
+  static const PARTNER_ID = "ALcTM9Yrztyh";
 }

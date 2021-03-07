@@ -6,6 +6,7 @@
 */
 
 import 'dart:async';
+import 'package:async/async.dart';
 import 'dart:convert';
 import 'dart:math';
 
@@ -21,6 +22,7 @@ import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/common/helpers/crypto_helper.dart';
 import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
+import 'package:tara_app/controller/home_controller.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -173,7 +175,26 @@ class TransactionController extends GetxController{
   Future<Either<Failure, BaseResponse>> paymentCompleted({TransactionContext trContext,ToAddressResponse toAddress,num payAmount}) async{
     var fromData = FromDataBean(fromContactNumber:Get.find<AuthController>().user.value.customerProfile.mobileNumber,fromAccount: null,fromUserFirebaseId: Get.find<AuthController>().user.value.customerProfile.firebaseId);
     var toData = ToDataBean(toContactNumber: toAddress?.mobileNumber,toAccount:null,toUserFirebaseId: toAddress?.customerProfile?.firebaseId);
-    var optionalDataBean = OptionalDataBean(data: DataBean(transactionContext:describeEnum(trContext),createFirebaseEntry: "true",amount: payAmount));
+
+    var dataBean;
+    if(trContext == TransactionContext.BILL_PAYMENT){
+      var productData = Get.find<BillController>().productDetail;
+      dataBean = DataBean(transactionContext:describeEnum(trContext),
+          createFirebaseEntry: "true",
+          amount: payAmount,
+          productCode: productData?.productCode,
+          accountNumber: productData?.accountNumber,
+          partnerId: PSPConfig.PARTNER_ID,
+          buyerEmail:Get.find<AuthController>().user?.value?.customerProfile?.email,
+          inquiryId: productData?.inquiryId,
+          refNumber: productData?.refNumber,
+          publicBuyerId:"123"//TODO
+      );
+    }else{
+      dataBean = DataBean(transactionContext:describeEnum(trContext),createFirebaseEntry: "true",amount: payAmount);
+    }
+
+    var optionalDataBean = OptionalDataBean(data: dataBean);
     var transactionModel=  TransactionModel(optionalData: optionalDataBean,
       transactionId: payTransId ,
       fromData: fromData,
@@ -441,6 +462,9 @@ class TransactionController extends GetxController{
                       //  Get.to(OTPVerificationScreen(txnId,fetchOTPResponse,retriveKeyResponse,deviceInfo,bic));
                       // call in OTP validation Screen
                       //await validateOtpAndTrack(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
+                    }else{
+                      showProgress.value = false;
+                      showDialogWithErrorMsg("Unable to to send the OTP");
                     }
                   });
                 }
@@ -477,6 +501,7 @@ class TransactionController extends GetxController{
 
         showProgress.value = false;
         print(jsonEncode(trackAccountResponse.toJson()));
+        Get.find<HomeController>().transactionsMemorizer = AsyncMemoizer();
         Get.offAll(Utils().getLandingScreen());
       }
     }
@@ -704,13 +729,8 @@ class TransactionController extends GetxController{
             print("=====================Transaction Resposne======================");
             print(jsonEncode(initiateTransactionResponse.toJson()));
             if(initiateTransactionResponse.success){
-             var toAddressResp = await Get.find<AuthController>().getToAddressForPayment(toMobileNumber.substring(1,toMobileNumber.length));
-              if(toAddressResp.isRight()){
-                var toAddress = toAddressResp.getOrElse(() => null);
-
-                print("to firebase id"+jsonEncode(toAddress.toJson()));
+              var toAddress = await getCustomerInfo(toMobileNumber);
                 if(toAddress!=null){
-                  // await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress,trContext: TransactionContext.PAYMENT_REQUEST);//commented to pass null for trqansaction request
                   await paymentInitiation(amount:double.parse(amount1),toAddress: toAddress,trContext: TransactionContext.PAYMENT_REQUEST);
                   //Retrieve Key Request
                   var txnId = initiateTransactionResponse.transactionId;
@@ -790,9 +810,7 @@ class TransactionController extends GetxController{
                 }else{
                   showDialogWithErrorMsg("Entered invalid mobile number");
                 }
-              }else{
-                showDialogWithErrorMsg("Failed to get To Address");
-              }
+
           }else{
               showDialogWithErrorMsg(" init transaction initiation Failed");
             }
@@ -808,7 +826,21 @@ class TransactionController extends GetxController{
     }else{
       showDialogWithErrorMsg("Session not initiated ");
     }
+  }
 
+  Future<ToAddressResponse> getCustomerInfo(toMobileNumber) async {
+      var toAddressResp = await Get.find<AuthController>().getToAddressForPayment(toMobileNumber.substring(1,toMobileNumber.length));
+      if(toAddressResp.isRight()){
+        var toAddress = toAddressResp.getOrElse(() => null);
+        return toAddress;
+      }else{
+        var customerProfileResponse = await Get.find<AuthController>().getNonTaraCustomerInfo(toMobileNumber.substring(1,toMobileNumber.length));
+        if(customerProfileResponse.isRight()){
+          var data =  customerProfileResponse.getOrElse(() => null);
+          return ToAddressResponse(mobileNumber: data.mobileNumber,customerProfile: data);
+        }
+      }
+      return Future.value(null);
   }
 
   Future validateOtpAndTrackTransaction(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic,TransactionContext transactionContext,num amount,ToAddressResponse toAddress) async {

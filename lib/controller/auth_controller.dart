@@ -289,7 +289,10 @@ class AuthController extends GetxController {
     return await getIt.get<AuthRepository>().getToAddress(mobileNUmber);
 
   }
+  Future<Either<Failure, CustomerProfile>> getNonTaraCustomerInfo(String mobileNUmber) async{
+    return await getIt.get<AuthRepository>().getNonTaraCustomerInfo(mobileNUmber);
 
+  }
 
   void  startTimer() {
     // Set 1 second callback
