@@ -209,6 +209,12 @@ class Assets {
   static const illu_default_card ="assets/images/illu_default_card.svg";
   static const illu_cc ="assets/images/illu_cc.svg";
   static const assets_icon_tara_cash ="assets/images/assets_logo_tara_cash.svg";
+  static const assets_icon_l_location_outline ="assets/images/assets_icon_l_location_outline.svg";
+  static const assets_icon_f_forward_arrow ="assets/images/assets_icon_f_forward_arrow.svg";
+
+
+
+
 
 
 

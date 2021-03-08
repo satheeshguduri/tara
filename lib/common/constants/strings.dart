@@ -436,6 +436,21 @@ class Strings {
   static const code = "code";
   static const nominal = "nominal";
   static const itemrp = "itemrp";
+  static const oftenbougtwith = "oftenbougtwith";
+  static const addtocart = "addtocart";
+  static const description  = "description";
+  static const mycart  = "mycart";
+  static const youmayalsolike  = "youmayalsolike";
+  static const priceestimation  = "priceestimation";
+
+
+
+
+
+
+
+
+
 
 
 

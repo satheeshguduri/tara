@@ -404,7 +404,15 @@
   "allcategories": "All Categories",
   "code" : "Code",
   "nominal": "Nominal",
-  "itemrp": "Items - Rp"
+  "itemrp": "Items - Rp",
+  "oftenbougtwith": "Often bought with",
+  "addtocart" : "+ Add to Cart",
+  "description": "Description",
+  "mycart": "My Cart",
+  "youmayalsolike": "You may also like",
+  "priceestimation": "Price Estimation"
+
+
 
 
 

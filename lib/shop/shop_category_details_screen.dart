@@ -15,13 +15,7 @@ import 'package:tara_app/common/constants/fonts.dart';
 import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/controller/cart_controller.dart';
-
-
-
-
-
-
-
+import 'package:tara_app/shop/shop_category_item_description.dart';
 
 
 class ShopCategoryDetailsScreen extends StatefulWidget {
@@ -97,7 +91,9 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
       ),
 
 
-    );
+    ).onTap(onPressed: (){
+      Get.to(ShopCategoryItemDescription(categoryItem: categoryItem));
+    });
   }
 
   BoxDecoration getDealsDecoration() {

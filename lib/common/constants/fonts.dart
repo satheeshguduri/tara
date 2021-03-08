@@ -321,13 +321,50 @@ class BaseTextStyles {
       fontSize: 14.0
 
   );
-  static const myOrdersDateTextStyle = const   TextStyle(
+  static const myOrdersDateTextStyle = const TextStyle(
       color: AppColors.light_grey_blue,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
       fontSize: 10.0
 
   );
+
+  static const descriptionPriceStyle = const TextStyle(
+      color:  AppColors.input_field_line_off_2_2_2,
+      fontWeight: FontWeight.w500,
+      fontStyle:  FontStyle.normal,
+      fontSize: 12.0
+  );
+
+  static const descriptionTextStyle =  const TextStyle(
+      color:  AppColors.black90,
+      fontWeight: FontWeight.w400,
+      fontStyle:  FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static const ofterBoughtTitleTextStyle = const TextStyle(
+      color: AppColors.input_field_line_off_2_2_2,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+      fontSize: 14.0
+  );
+  static const deliveryTextStyle = const TextStyle(
+      color: AppColors.fareColor,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+      fontSize: 14.0
+  );
+
+  static const pickUpTextStyle = const TextStyle(
+      color: AppColors.fareColor,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+      fontSize: 14.0
+  );
+
+
+
 
 
 
