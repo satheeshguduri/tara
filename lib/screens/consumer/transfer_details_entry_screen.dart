@@ -24,7 +24,7 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
 import 'package:tara_app/screens/consumer/enter_mpin.dart';
-import 'package:tara_app/screens/consumer/transaction_detail.dart';
+import 'package:tara_app/screens/consumer/transaction_detail_screen.dart';
 import 'package:tara_app/screens/consumer/transfer_details_entry_widget_controller.dart';
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
@@ -261,6 +261,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
       ),
     ).onTap(onPressed: () {
       if(formKey.currentState.validate()) {
+
         if(isSelf){
           // if (uiController.selectedSelfAccount.value?.beneId?.isNullOrBlank??false) {
           uiController.confirmToPay(
@@ -270,8 +271,8 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               bic: bic,
               cvv: uiController.cvvController.text,
               accountTokenId: accountTokenId,
-              selfAccountId: selfAccountTokenId
-
+              selfAccountId: selfAccountTokenId,
+              selectedSourceBankAccount:selectedSourceBankAccount
             //  beneId: 44 //getBenId(widget.beneContact)
           );
 
@@ -285,7 +286,8 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                 cvv: uiController.cvvController.text,
                 accountTokenId: accountTokenId,
                 beneId: uiController.selectedBenAccount.value
-                    .beneId //getBenId(widget.beneContact)
+                    .beneId, //getBenId(widget.beneContact)
+                selectedSourceBankAccount:selectedSourceBankAccount
             );
           }else{
           uiController.confirmToPay(
@@ -295,6 +297,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               bic: bic,
               cvv: uiController.cvvController.text,
               accountTokenId: accountTokenId,
+              selectedSourceBankAccount:selectedSourceBankAccount
           );
         }
       }else{

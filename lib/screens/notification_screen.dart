@@ -140,7 +140,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                           style: const TextStyle(
                                               color:  AppColors.color_black_80_2,
                                               fontWeight: FontWeight.w500,
-                                              fontStyle:  FontStyle.normal,
+                                              
                                               fontSize: 12.0
                                           )
                                       ),
@@ -174,7 +174,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                               style: const TextStyle(
                                                   color:  Colors.pink,
                                                   fontWeight: FontWeight.w400,
-                                                  fontStyle:  FontStyle.normal,
+                                                  
                                                   fontSize: 14.0
                                               ),
                                               text: "- "),
@@ -182,7 +182,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                               style: const TextStyle(
                                                   color:  AppColors.battleship_grey,
                                                   fontWeight: FontWeight.w400,
-                                                  fontStyle:  FontStyle.normal,
+                                                  
                                                   fontSize: 14.0
                                               ),
                                               text: "Rp 1.350.000")
@@ -277,7 +277,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                           style: const TextStyle(
                                               color:  AppColors.color_black_80_2,
                                               fontWeight: FontWeight.w500,
-                                              fontStyle:  FontStyle.normal,
+                                              
                                               fontSize: 12.0
                                           )
                                       ),
@@ -309,7 +309,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                     style: const TextStyle(
                                         color:  AppColors.battleship_grey,
                                         fontWeight: FontWeight.w400,
-                                        fontStyle:  FontStyle.normal,
+                                        
                                         fontSize: 14.0
                                     )
                                 ),
@@ -471,7 +471,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                           style: const TextStyle(
                                               color:  AppColors.color_black_80_2,
                                               fontWeight: FontWeight.w500,
-                                              fontStyle:  FontStyle.normal,
+                                              
                                               fontSize: 12.0
                                           )
                                       ),
@@ -496,7 +496,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                               style: const TextStyle(
                                                   color:  Colors.pink,
                                                   fontWeight: FontWeight.w400,
-                                                  fontStyle:  FontStyle.normal,
+                                                  
                                                   fontSize: 14.0
                                               ),
                                               text: "- "),
@@ -504,7 +504,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                               style: const TextStyle(
                                                   color:  AppColors.battleship_grey,
                                                   fontWeight: FontWeight.w400,
-                                                  fontStyle:  FontStyle.normal,
+                                                  
                                                   fontSize: 14.0
                                               ),
                                               text: "Rp 100.000")
@@ -598,7 +598,7 @@ class NotificationState extends BaseState<NotificationScreen>{
                                           style: const TextStyle(
                                               color:  AppColors.color_black_80_2,
                                               fontWeight: FontWeight.w500,
-                                              fontStyle:  FontStyle.normal,
+                                              
                                               fontSize: 12.0
                                           )
                                       ),

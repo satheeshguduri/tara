@@ -320,7 +320,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
               style: const TextStyle(
                   color:  const Color(0xff889aac),
                   fontWeight: FontWeight.w500,
-                  fontStyle:  FontStyle.normal,
+                  
                   fontSize: 12.0
               )
           ),
@@ -331,7 +331,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                 style: const TextStyle(
                     color:  AppColors.header_top_bar_color,
                     fontWeight: FontWeight.w400,
-                    fontStyle:  FontStyle.normal,
+                    
                     fontSize: 14.0
                 )
             ),
@@ -358,7 +358,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                       style: const TextStyle(
                           color:  AppColors.fareColor,
                           fontWeight: FontWeight.w700,
-                          fontStyle:  FontStyle.normal,
+                          
                           fontSize: 14.0
                       ),
                       textAlign: TextAlign.center

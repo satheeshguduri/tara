@@ -9,7 +9,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
-import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
+import 'package:tara_app/common/widgets/common_purchase_widget.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';

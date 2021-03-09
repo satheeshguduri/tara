@@ -142,7 +142,7 @@ class _AgentInProgressTransactionState
                 style: const TextStyle(
                     color:  AppColors.fareColor,
                     fontWeight: FontWeight.w700,
-                    fontStyle:  FontStyle.normal,
+                    
                     fontSize: 27.0
                 ),
                 textAlign: TextAlign.center
@@ -165,7 +165,7 @@ class _AgentInProgressTransactionState
                 style: const TextStyle(
                     color:  AppColors.fareColor,
                     fontWeight: FontWeight.w400,
-                    fontStyle:  FontStyle.normal,
+                    
                     fontSize: 14.0
                 ),
                 textAlign: TextAlign.center
@@ -195,7 +195,7 @@ class _AgentInProgressTransactionState
                         style: const TextStyle(
                             color:  AppColors.badge_color,
                             fontWeight: FontWeight.w700,
-                            fontStyle:  FontStyle.normal,
+                            
                             fontSize: 14.0
                         ),
                         textAlign: TextAlign.center
@@ -220,7 +220,7 @@ class _AgentInProgressTransactionState
                         style: const TextStyle(
                             color:  AppColors.fareColor,
                             fontWeight: FontWeight.w700,
-                            fontStyle:  FontStyle.normal,
+                            
                             fontSize: 14.0
                         ),
                         textAlign: TextAlign.center

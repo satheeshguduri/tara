@@ -24,6 +24,8 @@ import 'package:tara_app/models/transfer/customer_profile_details_response.dart'
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/agent/transaction_history.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/consumer/transaction_detail_screen.dart';
+import 'package:tara_app/screens/consumer/transfer/bills_payment_soucres_screen.dart';
 import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
 import 'package:tara_app/screens/consumer/bank_transfer_new_contact.dart';
 import 'package:tara_app/screens/consumer/transfer_to_tara_user.dart';
@@ -61,12 +63,6 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     return context;
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    homeController.getBanksList();
-  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -131,30 +127,33 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   }
   Widget  getTransactionsFuture() {
 
-    return FutureBuilder(
-      future: homeController.transactionsMemorizer.runOnce(()=> Get.find<TransactionController>().getTransactions()),
-      builder: (context,snapshot){
-        if(snapshot.connectionState==ConnectionState.done)
-        {
-          if(snapshot.hasData){
-            TransactionHistoryResponse data = snapshot.data;
-            return getTransactionsWidget(data);
-          }else if (snapshot.hasError){
-            return Container();
-          }else{
-            return Container();
-          }
-        }else{
-          return BaseWidgets.getIndicator;
-        }
 
-      },
-    );
+    return Obx(()=>getTransactionsWidget(homeController.transactionsHistory.value));
+
+    // return FutureBuilder(
+    //   future: homeController.transactionsMemorizer.runOnce(()=> Get.find<TransactionController>().getTransactions()),
+    //   builder: (context,snapshot){
+    //     if(snapshot.connectionState==ConnectionState.done)
+    //     {
+    //       if(snapshot.hasData){
+    //         TransactionHistoryResponse data = snapshot.data;
+    //         return getTransactionsWidget(data);
+    //       }else if (snapshot.hasError){
+    //         return Container();
+    //       }else{
+    //         return Container();
+    //       }
+    //     }else{
+    //       return BaseWidgets.getIndicator;
+    //     }
+    //
+    //   },
+    // );
 
   }
   Widget  getMyAccountsFuture() {
       return FutureBuilder(
-        // initialData: Get.find<HomeController>().customerProfile,
+        initialData: Get.find<HomeController>().accountsHistory,
         future: homeController.accountMemorizer.runOnce(()=> Get.find<TransactionController>().getCustomerProfile2()),
         builder: (context,snapshot){
           if(snapshot.connectionState==ConnectionState.done)
@@ -315,6 +314,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   Widget getBillPaymentFuture(){
 
       return FutureBuilder(
+        initialData: homeController.billCategories.value,
         future: homeController.billsMemorizer.runOnce(()=> Get.find<BillController>().getCategories()),
         builder: (context,snapshot){
           if(snapshot.connectionState==ConnectionState.done)
@@ -468,7 +468,9 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           ],
         ),
       ),
-    );
+    ).onTap(onPressed: (){
+      Get.to(TransactionDetailScreen());
+    });
   }
 
   Widget getTitleAndSeeAllText(String title) {
@@ -531,7 +533,8 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   }
                   else if (title == Strings.myAccounts)
                   {
-                    Get.to(MyAccountsSeeAllScreen());
+                    // Get.to(MyAccountsSeeAllScreen());
+                    Get.to(BillsPaymentsSourcesScreen());
                   }
 
 
@@ -637,7 +640,8 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
            crossAxisAlignment: CrossAxisAlignment.center,
            mainAxisAlignment: MainAxisAlignment.start,
            children: [
-             getBankLogo(),getBankNumber(data)
+             getBankLogo(),
+             getBankNumber(data)
            ],
          ),
       ).onTap(onPressed: (){

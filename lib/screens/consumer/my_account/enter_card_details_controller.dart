@@ -28,7 +28,7 @@ class EnterCardDetailsController extends GetxController{
 
     switch(hint){
       case Strings.card_number_ex:{
-          if(value.length>0 && value.length==16){
+          if(value.length>0 && value.length>=15){
             isValidateCardNumber = true;
             }else{
             isValidateCardNumber = false;
@@ -47,7 +47,7 @@ class EnterCardDetailsController extends GetxController{
       break;
 
       case  Strings.yy: {
-        if (value.length>0 && int.parse(value) > 16 && int.parse(value) < 26) {
+        if (value.length>0 && int.parse(value) > 16 && int.parse(value) < 28) {
           isValidateYY = true;
         } else {
           isValidateYY = false;

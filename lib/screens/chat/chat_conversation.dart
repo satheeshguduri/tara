@@ -408,12 +408,12 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   }
   animateToEnd(){
     Timer(
-      Duration(milliseconds: 1000),
+      Duration(milliseconds: 225),
           () {
             if(listScrollController.hasClients) {
               listScrollController.animateTo(
                 listScrollController.position?.maxScrollExtent,
-                duration: const Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 100),
                 curve: Curves.ease,
               );
             }

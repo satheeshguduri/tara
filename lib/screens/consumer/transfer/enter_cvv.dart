@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
+import 'package:tara_app/common/widgets/account_info_card_row.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
@@ -26,6 +28,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
   BillController billController = Get.find();
   TransactionController transferController = Get.find();
 
+
   String otpPin = "";
   //String correctPin = "123456";
   String errorText = "";
@@ -43,126 +46,138 @@ class _EnterMPINState extends BaseState<EnterCVV> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8),
-          topRight: Radius.circular(8),
-        ),
-      ),
-      child: Container(
-          margin: EdgeInsets.only(left: 16,right: 16),
-          child: Wrap(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(top: 4,bottom: 8),
-                  alignment: Alignment.center,
-                  child: Opacity(
-                    opacity: 0.3,
-                    child: Container(
-                      width: 48,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 209, 212, 215),
-                        borderRadius: BorderRadius.all(Radius.circular(2)),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(top: 10),
-                  child: Text(
-                    getTranslation(Strings.enterthecvv),
-                    style:BaseStyles.bottomSheetTitleStyle,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(16),
-                  child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: widget.mappedBankAccountsBean.bankName,accountNumber: Utils().getMaskedAccountNumber(widget.mappedBankAccountsBean.maskedAccountNumber),),
-                ),
-                Center(
-                  child: Column(
-                    children: [
-                      Container(
-                        child: Text(
-                            getTranslation(Strings.enterthecvv),
-                            style: BaseStyles.enterMPINTextStyle,
-                            textAlign: TextAlign.center
-                        ),
-                      ),
-                      Container(
-                        height: 40,
-                        margin: EdgeInsets.only(top: 24,),
-                        child: OTPTextFieldWidget(
-                          width: Get.width,
-                          length: 3,
-                          fieldWidth: 40,
-                          textFieldAlignment: MainAxisAlignment.spaceEvenly,
-                          fieldStyle:FieldStyle.underline,
-                          obscureText: true,
-                          style: BaseStyles.MPINTextStyle,
-                         // correctPin:correctPin,
-                          onCompleted: (pin) {
-                            print("Completed: " + pin);
-                            setState(() {
-                              otpPin = pin;
-                              isOtpEntered = true;
-                            });
-                          },
-                          onChanged: (pin) {
-                            print("Completed: " + pin);
-                            setState(() {
-                              if (pin.trim().length<3)
-                              {
-                                errorText = "";
-                                isOtpEntered = false;
-                                if (pin.length==1)
-                                {
-                                  otpPin = "";
-                                }
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                      Container(
-                        height: 5,
-                        margin: EdgeInsets.only(bottom: 16,),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            getBorderContainer(),
-                            getBorderContainer(),
-                            getBorderContainer(),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: CustomAppBarWidget(title: getTranslation(Strings.enterthecvv),addNewWidgetShow: false,),
+      body: getRootContainer(),
+    );
 
-                          ],
-                        ),
-                      ),
-                      errorText.isNotEmpty?Center(
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 8,),
+  }
+
+  Widget getRootContainer(){
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom),
+        decoration: BoxDecoration(
+          // color: Color(0xfff7f7fa),
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8),
+            topRight: Radius.circular(8),
+          ),
+        ),
+        child: Container(
+            child: Wrap(
+                children: <Widget>[
+                  // Container(
+                  //   padding: EdgeInsets.only(top: 4,bottom: 8),
+                  //   alignment: Alignment.center,
+                  //   child: Opacity(
+                  //     opacity: 0.3,
+                  //     child: Container(
+                  //       width: 48,
+                  //       height: 4,
+                  //       decoration: BoxDecoration(
+                  //         color: Color.fromARGB(255, 209, 212, 215),
+                  //         borderRadius: BorderRadius.all(Radius.circular(2)),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // Container(
+                  //   alignment: Alignment.centerLeft,
+                  //   margin: EdgeInsets.only(top: 10,left:16,right:16),
+                  //   child: Text(
+                  //     getTranslation(Strings.enterthecvv),
+                  //     style:BaseStyles.bottomSheetTitleStyle,
+                  //     textAlign: TextAlign.left,
+                  //   ),
+                  // ),
+                  Container(
+                    padding: EdgeInsets.only(bottom:16),
+                    child: AccountInfoCardRow(data: widget.mappedBankAccountsBean,),
+                    // child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: widget.mappedBankAccountsBean.bankName,accountNumber: Utils().getMaskedAccountNumber(widget.mappedBankAccountsBean.maskedAccountNumber),),
+                  ),
+                  Center(
+                    child: Column(
+                      children: [
+                        Container(
                           child: Text(
-                              errorText,
-                              style: BaseStyles.errorTextStyle,
+                            // getTranslation(Strings.enterthecvv),
+                              "Enter the CVV for this Debit Card",
+                              style: BaseStyles.enterMPINTextStyle,
                               textAlign: TextAlign.center
                           ),
                         ),
-                      ):Container(),
-                    ],
+                        Container(
+                          height: 40,
+                          margin: EdgeInsets.only(top: 24,),
+                          child: OTPTextFieldWidget(
+                            width: Get.width,
+                            length: 3,
+                            fieldWidth: 40,
+                            textFieldAlignment: MainAxisAlignment.spaceEvenly,
+                            fieldStyle:FieldStyle.underline,
+                            obscureText: true,
+                            style: BaseStyles.MPINTextStyle,
+                            // correctPin:correctPin,
+                            onCompleted: (pin) {
+                              print("Completed: " + pin);
+                              setState(() {
+                                otpPin = pin;
+                                isOtpEntered = true;
+                              });
+                            },
+                            onChanged: (pin) {
+                              print("Completed: " + pin);
+                              setState(() {
+                                if (pin.trim().length<3)
+                                {
+                                  errorText = "";
+                                  isOtpEntered = false;
+                                  if (pin.length==1)
+                                  {
+                                    otpPin = "";
+                                  }
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                        Container(
+                          height: 5,
+                          margin: EdgeInsets.only(bottom: 16,),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              getBorderContainer(),
+                              getBorderContainer(),
+                              getBorderContainer(),
+
+                            ],
+                          ),
+                        ),
+                        errorText.isNotEmpty?Center(
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 8,),
+                            child: Text(
+                                errorText,
+                                style: BaseStyles.errorTextStyle,
+                                textAlign: TextAlign.center
+                            ),
+                          ),
+                        ):Container(),
+                      ],
+                    ),
                   ),
-                ),
-                confirmTransferWidget()
-              ])
+                  confirmTransferWidget()
+                ])
+        ),
       ),
     );
   }
-
 
   confirmTransferWidget()
   {
@@ -179,6 +194,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
         amount1: widget.amount,
         remarks1: billController.debitCardDesc,
         initiatorAccountId: widget.mappedBankAccountsBean.accountTokenId,
+        selectedSourceBankAccount: widget.mappedBankAccountsBean
       );
       Get.back();
     }

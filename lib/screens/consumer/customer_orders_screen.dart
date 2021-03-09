@@ -186,7 +186,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                                 DateFormat('dd MMM yyyy • kk:mm').format(filteredList[index].orderDate),
                                     style: const TextStyle(
                                     color:  AppColors.color_black_80_2,
-                                    fontStyle:  FontStyle.normal,
+                                    
                                     fontSize: 10.0
                                 )
                             ),
@@ -197,7 +197,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                                    style: const TextStyle(
                                     color:  AppColors.primaryText,
                                     fontWeight: FontWeight.w700,
-                                    fontStyle:  FontStyle.normal,
+                                    
                                     fontSize: 14.0
                                 )
                             ),
@@ -207,7 +207,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                                     style: const TextStyle(
                                     color:  AppColors.battleship_grey,
                                     fontWeight: FontWeight.w400,
-                                    fontStyle:  FontStyle.normal,
+                                    
                                     fontSize: 12.0
                                 )
                             )
@@ -225,7 +225,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                                 style: const TextStyle(
                                     color:  AppColors.pale_turquoise,
                                     fontWeight: FontWeight.w700,
-                                    fontStyle:  FontStyle.normal,
+                                    
                                     fontSize: 14.0
                                 ),
                                 text: "+ "),
@@ -233,7 +233,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                                 style: const TextStyle(
                                     color:  AppColors.fareColor,
                                     fontWeight: FontWeight.w400,
-                                    fontStyle:  FontStyle.normal,
+                                    
                                     fontSize: 14.0
                                 ),
                                 text: "Rp " + filteredList[index].price.toString())
@@ -312,7 +312,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                             style: const TextStyle(
                                 color:  AppColors.primaryText,
                                 fontWeight: FontWeight.w500,
-                                fontStyle:  FontStyle.normal,
+                                
                                 fontSize: 14.0
                             ),
                             textAlign: TextAlign.center
@@ -333,7 +333,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                                 style: const TextStyle(
                                     color:  const Color(0xffffffff),
                                     fontWeight: FontWeight.w700,
-                                    fontStyle:  FontStyle.normal,
+                                    
                                     fontSize: 10.0
                                 ),
                                 textAlign: TextAlign.center
@@ -363,7 +363,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                         style: const TextStyle(
                             color:  AppColors.primaryText,
                             fontWeight: FontWeight.w500,
-                            fontStyle:  FontStyle.normal,
+                            
                             fontSize: 14.0
                         ),
                         textAlign: TextAlign.center
@@ -389,7 +389,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
                         style: const TextStyle(
                             color:  AppColors.primaryText,
                             fontWeight: FontWeight.w500,
-                            fontStyle:  FontStyle.normal,
+                            
                             fontSize: 14.0
                         ),
                         textAlign: TextAlign.center

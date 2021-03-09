@@ -9,14 +9,14 @@ class BaseTextStyles {
   getFadedText({Color color = Colors.red, double size =12, FontWeight fontWeight= FontWeight.w500}) => TextStyle(
       color:  color,
       fontWeight:fontWeight,
-      fontStyle:  FontStyle.normal,
+      
       fontSize: size,
   );
   static const headline6222 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 20.0
 );
 
@@ -24,7 +24,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 16.0
 );
 
@@ -32,7 +32,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
     
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 16.0
 );
 
@@ -40,7 +40,7 @@ class BaseTextStyles {
     color:  ColorConst.input_field_line_off_2_2_2,
     fontWeight: FontWeight.w400,
     
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 16.0
 );
 
@@ -48,7 +48,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
     
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 16.0
 );
 
@@ -56,7 +56,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -64,7 +64,7 @@ class BaseTextStyles {
     color:  ColorConst.elevation_off_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -72,7 +72,7 @@ class BaseTextStyles {
     color:  ColorConst.pink,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -80,7 +80,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_80_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -88,7 +88,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -96,7 +96,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w500,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -104,7 +104,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
     
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -112,7 +112,7 @@ class BaseTextStyles {
     color:  ColorConst.elevation_off_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 12.0
 );
 
@@ -120,7 +120,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 12.0
 );
 
@@ -128,7 +128,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w500,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 12.0
 );
 
@@ -136,7 +136,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w500,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 10.0
 );
 
@@ -144,7 +144,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 96.0
 );
 
@@ -152,7 +152,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 59.0
 );
 
@@ -160,7 +160,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 47.0
 );
 
@@ -168,7 +168,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 33.0
 );
 
@@ -176,7 +176,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 24.0
 );
 
@@ -184,7 +184,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 20.0
 );
 
@@ -192,7 +192,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 16.0
 );
 
@@ -200,7 +200,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
     
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 16.0
 );
 
@@ -208,7 +208,7 @@ class BaseTextStyles {
     color:  ColorConst.input_field_line_off_2_2_2,
     fontWeight: FontWeight.w400,
     
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 16.0
 );
 
@@ -216,7 +216,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
     
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 16.0
 );
 
@@ -224,7 +224,7 @@ class BaseTextStyles {
     color:  ColorConst.elevation_off_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -232,7 +232,7 @@ class BaseTextStyles {
     color:  ColorConst.pink,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -240,7 +240,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_80_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -248,14 +248,14 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
   static const subtitle22 = const TextStyle(
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w500,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -263,7 +263,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w400,
     
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 14.0
 );
 
@@ -271,7 +271,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_80_2_2_2,
     fontWeight: FontWeight.w800,
     fontFamily: "Manrope",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 12.0
 );
 
@@ -279,7 +279,7 @@ class BaseTextStyles {
     color:  ColorConst.elevation_off_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 12.0
 );
 
@@ -287,7 +287,7 @@ class BaseTextStyles {
     color:  ColorConst.pink,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 12.0
 );
 
@@ -295,7 +295,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w700,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 12.0
 );
 
@@ -303,7 +303,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w500,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 12.0
 );
 
@@ -311,7 +311,7 @@ class BaseTextStyles {
     color:  ColorConst.color_black_100_2_2_2,
     fontWeight: FontWeight.w500,
     fontFamily: "SctoGroteskA",
-    fontStyle:  FontStyle.normal,
+    
     fontSize: 10.0
 );
   static const myOrdersItemsTextStyle = const   TextStyle(

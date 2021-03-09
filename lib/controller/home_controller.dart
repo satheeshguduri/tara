@@ -7,14 +7,19 @@
 
 import 'package:get/get.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:tara_app/models/transfer/bank_details_bean.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:async/async.dart';
+import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/repositories/device_register_repository.dart';
 import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/services/config/psp_config.dart';
+
+import 'bill_controller.dart';
 
 class HomeController extends GetxController{
 
@@ -23,8 +28,19 @@ class HomeController extends GetxController{
  AsyncMemoizer transactionsMemorizer = AsyncMemoizer();
  List<BankDetailsBean> bankList;
  Map<String,String> bankLogos;
+ var transactionsHistory = TransactionHistoryResponse().obs;
+ var accountsHistory = CustomerProfileDetailsResponse().obs;
+ var billCategories = <BillProductDataBean>[].obs;
 
-
+ Future getTransactionsHistory() async{
+   transactionsHistory.value= await Get.find<TransactionController>().getTransactions();
+  }
+ Future getMyAccounts() async{
+   accountsHistory.value= await Get.find<TransactionController>().getCustomerProfile2();
+ }
+ Future getBillCategories() async{
+   billCategories.value= await Get.find<BillController>().getCategories();
+ }
  Future getBanksList() async {
    var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
    var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
@@ -48,6 +64,7 @@ class HomeController extends GetxController{
            print("=============== FOUND LOGO ================");
            print(logo);
            bankLogos[element.bic] = logo;
+
 
          }
          print(bankLogos.toString());

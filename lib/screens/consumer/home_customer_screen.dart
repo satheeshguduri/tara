@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
+import 'package:tara_app/controller/home_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/injector.dart';
@@ -48,7 +49,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> with AutomaticKeepA
     DashBoard(),
     SettingsScreen(),
   ];
-
+  HomeController homeController = Get.find<HomeController>();
   @override
   BuildContext getContext() {
     return context;
@@ -57,6 +58,10 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> with AutomaticKeepA
   @override
   void initState() {
     super.initState();
+    homeController.getTransactionsHistory();
+    homeController.getMyAccounts();
+    homeController.getBanksList();
+    homeController.getBillCategories();
   }
 
   @override

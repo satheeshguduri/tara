@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:tara_app/common/widgets/common_your_purchase_widget.dart';
+import 'package:tara_app/common/widgets/common_purchase_widget.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/controller/bill_controller.dart';

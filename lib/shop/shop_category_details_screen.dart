@@ -149,7 +149,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
                   color:  ColorConst.input_field_line_off_2_2_2,
                   fontWeight: FontWeight.w500,
                   fontFamily: "SctoGroteskA",
-                  fontStyle:  FontStyle.normal,
+                  
                   fontSize: 14.0
               ),
               textAlign: TextAlign.center

@@ -18,7 +18,7 @@ import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
 import 'package:tara_app/screens/consumer/enter_mpin.dart';
-import 'package:tara_app/screens/consumer/transaction_detail.dart';
+import 'package:tara_app/screens/consumer/transaction_detail_screen.dart';
 import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/utils/locale/utils.dart';
@@ -694,7 +694,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       builder: (BuildContext bc) {
         return EnterMPIN( onConfirmTransfer: () async{
           if(widget.selfTransfer){
-            push(TransactionDetail());
+            push(TransactionDetailScreen());
           }else{
             pop();
             CustomerProfile fromUser = Get.find<AuthController>().user.value.customerProfile;

@@ -211,7 +211,8 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: (){
-        Get.to(BillsPaymentsSourcesScreen(billDetailsData: widget.billDetailsData));
+        Get.back();
+        Get.to(BillsPaymentsSourcesScreen(billDetailsData: widget.billDetailsData,entryPoint: AccountsEntryPoint.BILLS,));
     });
   }
 

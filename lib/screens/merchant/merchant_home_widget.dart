@@ -97,7 +97,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                 style: const TextStyle(
                                     color:  AppColors.primaryText,
                                     fontWeight: FontWeight.w500,
-                                    fontStyle:  FontStyle.normal,
+                                    
                                     fontSize: 12.0
                                 ),
                                 textAlign: TextAlign.center
@@ -111,7 +111,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                     style: const TextStyle(
                                         color:AppColors.fareColor,
                                         fontWeight: FontWeight.w700,
-                                        fontStyle:  FontStyle.normal,
+                                        
                                         fontSize: 24.0
                                     )
                                 ),
@@ -165,7 +165,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                                 style: const TextStyle(
                                                     color:  AppColors.primaryText,
                                                     fontWeight: FontWeight.w500,
-                                                    fontStyle:  FontStyle.normal,
+                                                    
                                                     fontSize: 12.0
                                                 )
                                             ),
@@ -178,7 +178,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                             style: const TextStyle(
                                                 color:  AppColors.fareColor,
                                                 fontWeight: FontWeight.w700,
-                                                fontStyle:  FontStyle.normal,
+                                                
                                                 fontSize: 16.0
                                             )
                                         )
@@ -214,7 +214,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                                 style: const TextStyle(
                                                     color:  AppColors.primaryText,
                                                     fontWeight: FontWeight.w500,
-                                                    fontStyle:  FontStyle.normal,
+                                                    
                                                     fontSize: 12.0
                                                 )
                                             ),
@@ -227,7 +227,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                             style: const TextStyle(
                                                 color:  AppColors.fareColor,
                                                 fontWeight: FontWeight.w700,
-                                                fontStyle:  FontStyle.normal,
+                                                
                                                 fontSize: 16.0
                                             )
                                         )
@@ -255,7 +255,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                               style: const TextStyle(
                                   color:  AppColors.fareColor,
                                   fontWeight: FontWeight.w700,
-                                  fontStyle:  FontStyle.normal,
+                                  
                                   fontSize: 20.0
                               )
                           ),
@@ -267,7 +267,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                   style: const TextStyle(
                                       color:  AppColors.fareColor,
                                       fontWeight: FontWeight.w700,
-                                      fontStyle:  FontStyle.normal,
+                                      
                                       fontSize: 14.0
                                   ),
                                   textAlign: TextAlign.right
@@ -319,7 +319,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                           style: const TextStyle(
                                               color:  AppColors.primaryText,
                                               fontWeight: FontWeight.w500,
-                                              fontStyle:  FontStyle.normal,
+                                              
                                               fontSize: 14.0
                                           ),
                                           textAlign: TextAlign.center
@@ -341,7 +341,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                               style: const TextStyle(
                                                   color:  const Color(0xffffffff),
                                                   fontWeight: FontWeight.w700,
-                                                  fontStyle:  FontStyle.normal,
+                                                  
                                                   fontSize: 10.0
                                               ),
                                               textAlign: TextAlign.center
@@ -372,7 +372,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                       style: const TextStyle(
                                           color:  AppColors.primaryText,
                                           fontWeight: FontWeight.w500,
-                                          fontStyle:  FontStyle.normal,
+                                          
                                           fontSize: 14.0
                                       ),
                                       textAlign: TextAlign.center
@@ -398,7 +398,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                       style: const TextStyle(
                                           color:  AppColors.primaryText,
                                           fontWeight: FontWeight.w500,
-                                          fontStyle:  FontStyle.normal,
+                                          
                                           fontSize: 14.0
                                       ),
                                       textAlign: TextAlign.center
@@ -471,7 +471,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                   style: const TextStyle(
                       color:  AppColors.primaryText,
                       fontWeight: FontWeight.w700,
-                      fontStyle:  FontStyle.normal,
+                      
                       fontSize: 14.0
                   )
               );
@@ -514,7 +514,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
 //                                        "TODAY • 12:33",
                                     style: const TextStyle(
                                         color:  AppColors.color_black_80_2,
-                                        fontStyle:  FontStyle.normal,
+                                        
                                         fontSize: 10.0
                                     )
                                 ),
@@ -525,7 +525,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                 //     style: const TextStyle(
                                 //         color:  AppColors.primaryText,
                                 //         fontWeight: FontWeight.w700,
-                                //         fontStyle:  FontStyle.normal,
+                                //         
                                 //         fontSize: 14.0
                                 //     )
                                 // ),
@@ -535,7 +535,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                     style: const TextStyle(
                                         color:  AppColors.battleship_grey,
                                         fontWeight: FontWeight.w400,
-                                        fontStyle:  FontStyle.normal,
+                                        
                                         fontSize: 12.0
                                     )
                                 )
@@ -553,7 +553,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                     style: const TextStyle(
                                         color:  AppColors.pale_turquoise,
                                         fontWeight: FontWeight.w700,
-                                        fontStyle:  FontStyle.normal,
+                                        
                                         fontSize: 14.0
                                     ),
                                     text: "+ "),
@@ -561,7 +561,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                                     style: const TextStyle(
                                         color:  AppColors.fareColor,
                                         fontWeight: FontWeight.w400,
-                                        fontStyle:  FontStyle.normal,
+                                        
                                         fontSize: 14.0
                                     ),
                                     text: "Rp " + filteredList[index].price.toString())

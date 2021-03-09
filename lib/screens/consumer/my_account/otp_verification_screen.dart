@@ -4,6 +4,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/widgets/account_info_card_row.dart';
 import 'package:tara_app/common/widgets/circle_shape.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
@@ -13,6 +14,7 @@ import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/to_address_response.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
+import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/models/transfer/fetch_otp_response.dart';
 import 'package:tara_app/models/transfer/retrieve_key_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -32,7 +34,8 @@ class OTPVerificationScreen extends StatefulWidget {
  final String from;
  final num amount;
  final CustomerProfile toAddress;
- const OTPVerificationScreen({this.txnId,this.fetchOtpResponse,this.retrieveKeyResponse,this.deviceInfoBean,this.bic,this.from,this.amount,this.toAddress});
+ final MappedBankAccountsBean selectedSourceBankAccount;
+ const OTPVerificationScreen({this.txnId,this.fetchOtpResponse,this.retrieveKeyResponse,this.deviceInfoBean,this.bic,this.from,this.amount,this.toAddress,this.selectedSourceBankAccount});
 
   @override
   OTPVerificationScreenState createState() =>  OTPVerificationScreenState();
@@ -50,6 +53,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
     // TODO: implement build
     return Scaffold(
         // appBar: buildAppBar(context),
+      backgroundColor: Colors.white,
       appBar: CustomAppBarWidget(title: getTranslation(Strings.inputOTP),addNewWidgetShow: false,),
       body: getRootContainer(),
     );
@@ -70,15 +74,16 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
   Widget getOtpWidget() {
     return Container(
       height: Get.height-88,
-
-    margin: EdgeInsets.only(left: 16,right: 16),
       child: Column(
-
         children: [
-          Flexible(flex:4,child:otpIconWidget()),
-          Flexible(flex:5,child:otpEntryWidget()),
-          Flexible(flex:1,child:otpConfirmWidget()),
-
+          Container(
+            padding: EdgeInsets.only(bottom:16),
+            child: AccountInfoCardRow(data: widget.selectedSourceBankAccount,),
+            // child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: widget.mappedBankAccountsBean.bankName,accountNumber: Utils().getMaskedAccountNumber(widget.mappedBankAccountsBean.maskedAccountNumber),),
+          ),
+          otpIconWidget().paddingOnly(left:35,right:35),
+          otpEntryWidget().paddingOnly(left:35,right:35),
+          otpConfirmWidget().paddingOnly(left:16,right:16,top:20),
          ],
       ),
     );
@@ -121,7 +126,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       if (isOtpEntered) {
           if (widget.fetchOtpResponse.otpChallengeCode != null) {
           if (widget.from == "addaccount") {
-            controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+            controller.validateOtpAndTrackAddAccount(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
            // pop();
           } else if (widget.from == "transfer") {
             var toAddress = ToAddressResponse(mobileNumber: widget?.toAddress?.mobileNumber,customerProfile: widget.toAddress);
@@ -191,11 +196,10 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
  }
 
   Widget otpEntryWidget() {
-    
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 24,right: 24),
+            padding: EdgeInsets.only(left: 35,right: 35),
             margin: EdgeInsets.only(top: 1),
             child: RichText(
                 textAlign: TextAlign.center,
@@ -215,7 +219,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                 text: TextSpan(children: [
                   TextSpan(
                       style: TextStyles.otpWithSMSTextStyle,
-                      text: "Enter the OTP code from the SMS with Challenge Code:"),
+                      text: "Enter the OTP code from the SMS with \nChallenge Code:\n"),
                   TextSpan(
                       style: TextStyles.challengeCodeTextStyle,
                       text:widget?.fetchOtpResponse?.otpChallengeCode??"000000")

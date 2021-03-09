@@ -89,66 +89,6 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
-  // Widget getRootContainer() {
-  //   return Obx(() => SafeArea(
-  //         child: loadWidgets()).withProgressIndicator(showIndicator: controller.showProgress.value)
-  //
-  //   );
-
- // }
-
-
-  @override
-  void initState() {
-    super.initState();
-   // loadData();
-  }
-
-  // Future<List<BankInfo>>  loadData() async {
-  //   arrBankInfo = [];
-  //
-  //   for (var i = 0; i < arrBankNames.length; i++) {
-  //     var bank = BankInfo();
-  //     bank.bankName = arrBankNames[i];
-  //     bank.bankIcon = arrBankIcons[i];
-  //     if (bank.bankName=="Bank BCA"){
-  //       bank.cardTypeIcons = arrBankBCACardTypesIcons;
-  //     }
-  //     else if (bank.bankName=="Bank BNI"){
-  //       bank.cardTypeIcons = arrBankBNICardTypesIcons;
-  //     }
-  //     else if (bank.bankName=="Bank BRI"){
-  //       bank.cardTypeIcons = arrBankBRICardTypesIcons;
-  //     }
-  //     else if (bank.bankName=="Bank BTN"){
-  //       bank.cardTypeIcons = arrBankBtnCardTypesIcons;
-  //     }
-  //     arrBankInfo.add(bank);
-  //   }
-  //   return arrBankInfo;
-  // }
-
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      elevation: 0.8,
-      centerTitle: false,
-      automaticallyImplyLeading: false, // hides leading widget
-      leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () =>
-              Navigator.pop(context, false) //Navigator.pop(context, false),
-      ),
-      title:Align(
-        alignment: Alignment.topLeft,
-        child: Text(
-          getTranslation(Strings.connect_new_account),
-          textAlign: TextAlign.left,
-          style: BaseStyles.topBarTextStyle,
-        ),
-      ),
-    );
-  }
-
   loadWidgets()
   {
     return Container(
@@ -162,7 +102,6 @@ class _ConnectNewAccountSelectBankState
       ),
     );
   }
-
 
   listViewContainer(arrBankInfo) {
     return Container(

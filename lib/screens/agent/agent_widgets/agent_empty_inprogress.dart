@@ -42,7 +42,7 @@ class _AgentEmptyInProgressState extends BaseState<AgentEmptyInProgress>{
               style: const TextStyle(
                   color:  AppColors.primaryText,
                   fontWeight: FontWeight.w700,
-                  fontStyle:  FontStyle.normal,
+                  
                   fontSize: 16.0
               ),
               textAlign: TextAlign.center
@@ -53,7 +53,7 @@ class _AgentEmptyInProgressState extends BaseState<AgentEmptyInProgress>{
               style: const TextStyle(
                   color:  AppColors.battleship_grey,
                   fontWeight: FontWeight.w400,
-                  fontStyle:  FontStyle.normal,
+                  
                   fontSize: 14.0
               ),
               textAlign: TextAlign.center

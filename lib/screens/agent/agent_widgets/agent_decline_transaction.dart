@@ -59,7 +59,7 @@ class _AgentDeclineTransactionState extends BaseState<AgentDeclineTransaction>{
               style: const TextStyle(
                   color:  AppColors.fareColor,
                   fontWeight: FontWeight.w700,
-                  fontStyle:  FontStyle.normal,
+                  
                   fontSize: 20.0
               )
           ),
@@ -106,7 +106,7 @@ class _AgentDeclineTransactionState extends BaseState<AgentDeclineTransaction>{
                                 style: const TextStyle(
                                     color:  AppColors.fareColor,
                                     fontWeight: FontWeight.w400,
-                                    fontStyle:  FontStyle.normal,
+                                    
                                     fontSize: 14.0
                                 )
                             ) ,
@@ -143,7 +143,7 @@ class _AgentDeclineTransactionState extends BaseState<AgentDeclineTransaction>{
             style: TextStyle(
                 color:  AppColors.fareColor,
                 fontWeight: FontWeight.w700,
-                fontStyle:  FontStyle.normal,
+                
                 fontSize: 14.0
             ),),
           )

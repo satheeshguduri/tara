@@ -6,16 +6,16 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 
-class TransactionDetail extends StatefulWidget {
-  TransactionDetail({Key key}) : super(key: key);
+class TransactionDetailScreen extends StatefulWidget {
+  TransactionDetailScreen({Key key}) : super(key: key);
 
   @override
-  _TransactionDetailState createState() =>
-      _TransactionDetailState();
+  _TransactionDetailScreenState createState() =>
+      _TransactionDetailScreenState();
 }
 
-class _TransactionDetailState
-    extends BaseState<TransactionDetail> {
+class _TransactionDetailScreenState
+    extends BaseState<TransactionDetailScreen> {
   final key = new GlobalKey<ScaffoldState>();
 
   @override

@@ -30,6 +30,7 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
+import 'package:tara_app/models/core/device/common_response.dart';
 import 'package:tara_app/models/transactions/transaction_model.dart';
 import 'package:tara_app/models/transfer/account_details_request.dart';
 import 'package:tara_app/models/transfer/add_beneficiary_request.dart';
@@ -477,9 +478,10 @@ class TransactionController extends GetxController{
     }
   }
 
-  Future validateOtpAndTrack(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, DeviceInfoBean deviceInfo, String bic) async {
+  Future validateOtpAndTrackAddAccount(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, DeviceInfoBean deviceInfo, String bic) async {
     showProgress.value = true;
-    var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
+    print("OTP SENDING IN REQ:=>"+otp.value.toString());
+    var encValid = await CryptoHelper().encryptBankData("$txnId|${otp.value}|${Random.secure()}",d.bankKi,d.publicKey);
     var validateOtpRequest = ValidateOtpRequest(
         deviceInfo: deviceInfo,
         bic:bic,
@@ -491,23 +493,31 @@ class TransactionController extends GetxController{
     var validateOTPR = await getIt.get<TransactionRepository>().validateOtp(validateOtpRequest,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
     if(validateOTPR.isRight()){
       var validateOTPResponse = validateOTPR.getOrElse(() => null);
-      print(jsonEncode(validateOTPResponse.toJson()));
-      var req = await BaseRequestHelper().getCommonRegistrationRequest();
-      req.transactionId = txnId;
-      print(jsonEncode(req.toJson()));
-      var trackAccountR = await getIt.get<TransactionRepository>().trackAccountDetailsRequest(req,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
-      if(trackAccountR.isRight()){
-        var trackAccountResponse = trackAccountR.getOrElse(() => null);
 
+      if(validateOTPResponse?.commonResponse?.success??false){
+        print(jsonEncode(validateOTPResponse.toJson()));
+        var req = await BaseRequestHelper().getCommonRegistrationRequest();
+        req.transactionId = txnId;
+        print(jsonEncode(req.toJson()));
+        var trackAccountR = await getIt.get<TransactionRepository>().trackAccountDetailsRequest(req,TransactionType.REGISTER_CARD_ACC_DETAIL,d.sessionKey,txnId);
+        if(trackAccountR.isRight()){
+          var trackAccountResponse = trackAccountR.getOrElse(() => null);
+
+          showProgress.value = false;
+          print(jsonEncode(trackAccountResponse.toJson()));
+          Get.find<HomeController>().transactionsMemorizer = AsyncMemoizer();
+          Get.offAll(Utils().getLandingScreen());
+        }
+      }else{
         showProgress.value = false;
-        print(jsonEncode(trackAccountResponse.toJson()));
-        Get.find<HomeController>().transactionsMemorizer = AsyncMemoizer();
-        Get.offAll(Utils().getLandingScreen());
+        showDialogWithErrorMsg("Invalid OTP");
       }
+
+
     }
   }
 
-  Future payBill({String subMerchantName,String merchantRef,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId}) async {
+  Future payBill({String subMerchantName,String merchantRef,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId,MappedBankAccountsBean selectedSourceBankAccount}) async {
     var customerProfile = await getCustomerProfile2();
     var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
     var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
@@ -626,7 +636,7 @@ class TransactionController extends GetxController{
                               Get.to(OTPVerificationScreen(txnId: txnId,
                                   fetchOtpResponse: fetchOTPResponse,
                                   retrieveKeyResponse: retriveKeyResponse,
-                                  deviceInfoBean: deviceInfo,bic: bic,from:"bills",amount:double.parse(amount1)));
+                                  deviceInfoBean: deviceInfo,bic: bic,from:"bills",amount:double.parse(amount1),selectedSourceBankAccount: selectedSourceBankAccount,));
 
                               //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
                               // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
@@ -663,7 +673,7 @@ class TransactionController extends GetxController{
       }
     }
   }
-  Future payNow({String mobileNumber,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1,num benId1,num selfAccountTokenId}) async {
+  Future payNow({String mobileNumber,String amount1,String remarks1, String bic1, String cvv1,num initiatorAccountId1,num benId1,num selfAccountTokenId,MappedBankAccountsBean selectedSourceBankAccount}) async {
     showProgress.value = true;
     var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if(isSessionInitiated) {
@@ -783,7 +793,7 @@ class TransactionController extends GetxController{
                               Get.to(OTPVerificationScreen(txnId: txnId,
                                   fetchOtpResponse: fetchOTPResponse,
                                   retrieveKeyResponse: retriveKeyResponse,
-                                  deviceInfoBean: deviceInfo,bic: bic,from:"transfer",toAddress: toAddress.customerProfile));
+                                  deviceInfoBean: deviceInfo,bic: bic,from:"transfer",toAddress: toAddress.customerProfile,selectedSourceBankAccount:selectedSourceBankAccount));
 
                               //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
                               // var re = await validateOtpAndTrackTransaction(txnId, fetchOTPResponse, retriveKeyResponse, deviceInfo, bic);
@@ -845,7 +855,7 @@ class TransactionController extends GetxController{
 
   Future validateOtpAndTrackTransaction(String txnId, FetchOtpResponse fetchOTPResponse, RetrieveKeyResponse d, var deviceInfo, String bic,TransactionContext transactionContext,num amount,ToAddressResponse toAddress) async {
     showProgress.value = true;
-    var encValid = await CryptoHelper().encryptBankData("$txnId|${fetchOTPResponse.otpChallengeCode}|${Random.secure()}",d.bankKi,d.publicKey);
+    var encValid = await CryptoHelper().encryptBankData("$txnId|${otp.value}|${Random.secure()}",d.bankKi,d.publicKey);
     var validateOtpRequest = ValidateOtpRequest(
         deviceInfo: deviceInfo,
         bic:bic,
@@ -900,9 +910,9 @@ class TransactionController extends GetxController{
           navigateToChat(transactionContext);
           print("transaction failed");
         }
+        }else{
+          showDialogWithErrorMsg("Transaction Verification failed");
         }
-      //  Get.offAll(Utils().getLandingScreen());
-
       }else{
         showProgress.value =false; // TODO need to remove
         // show dailog here
@@ -947,14 +957,9 @@ class TransactionController extends GetxController{
       print("ADD BENE REQUEST:::===============================");
       print(jsonEncode(addBeneficiaryRequest.toJson()));
       var response = await getIt.get<TransactionRepository>().addBeneficiary(addBeneficiaryRequest);
-      print("fffffffffffffffffffffffffffffffffffff");
       if(response.isRight()){
         var addBeneResp = response.getOrElse(() => null);
-        print("sssssssssssssssssssssssssssssssssss");
-
         if(addBeneResp.success){
-          print("ttttttttttttttttttttttttttttttttttt");
-
           var mapBeneficiaryRequest = MapBeneficiaryRequest(
               acquiringSource: await BaseRequestHelper().getCommonAcquiringSourceBean(),
               requestedLocale: "en",
@@ -964,21 +969,15 @@ class TransactionController extends GetxController{
               accepted: true
           );
           var resp2 = await getIt.get<TransactionRepository>().mapBeneficiaryDetails(mapBeneficiaryRequest);
-          print("fffffffffffffffffffffffffffffffffffff");
-
           if(resp2.isRight()){
             var finalResp = resp2.getOrElse(() => null);
             if(finalResp.success){
               //Pop the Screen and display toast to say the mapping is successful
               print("successfully added the beneficiary@@@@@");
               Get.find<ContactsTransferController>().getBeneficiaries();
-
               if(isNewUser){
                 Get.find<AuthController>().createTempAccount(RegistrationStatus.BENEFICIARY,mobile);
               }
-                //Create Dummy Account
-              //  payNow("","222", "gift", "", "123", 44);
-              // payNow(mobileNumber: "8368957368",amount1: "100",remarks1: "Gift",benId1: 44,cvv1: "123",initiatorAccountId1: 44,); // commented to break the flow and take him back to transfer screen
             }else{
               showDialogWithErrorMsg("Failed to map the account");
             }
