@@ -201,14 +201,13 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
         ).onTap(onPressed: (){
           getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(buttonText:"Okay",onTap:(){
                         Get.back();
-                      },title:getTranslation(Strings.feature_title),desc:getTranslation(Strings.feature_sub_title),image:Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                          color: const Color(0xffd8d8d8)
-                      )
-                   )
-                )
+                      },title:getTranslation(Strings.feature_title),
+                        desc:getTranslation(Strings.feature_sub_title),
+                        image:getSvgImage(imagePath: Assets.illustration_coming_soon_under_development,
+                          width: 120.0,
+                          height: 120.0),
+
+          )
               );
             }
           );

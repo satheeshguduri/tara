@@ -24,7 +24,7 @@ class ErrorStateInfoWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             this.image??SvgPicture.asset(
-                Assets.illustration_transfer_to_my_account,
+                Assets.illustration_error_message_new,
                 fit: BoxFit.fitHeight,
                 width: 100,
                 height: 100,),

@@ -211,6 +211,11 @@ class Assets {
   static const assets_icon_tara_cash ="assets/images/assets_logo_tara_cash.svg";
   static const assets_icon_l_location_outline ="assets/images/assets_icon_l_location_outline.svg";
   static const assets_icon_f_forward_arrow ="assets/images/assets_icon_f_forward_arrow.svg";
+  static const illustration_coming_soon_under_development ="assets/images/illustration_coming_soon_under_development.svg";
+  static const illustration_error_message_new ="assets/images/illustration_error_message_new.svg";
+
+
+
 
 
 
