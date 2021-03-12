@@ -566,7 +566,8 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
                                         if (r.firebaseId != null)
                                           {
                                             push(ConversationPage(
-                                              arrChats: ["make_an_order"],
+                                              // arrChats: ["make_an_order"],
+                                              showMakeAnOrder: true,
                                               custInfo: r,
                                               merchantStore:
                                                   controller.arrStores[index],

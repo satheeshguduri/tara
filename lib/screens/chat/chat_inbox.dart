@@ -184,18 +184,19 @@ class _ChatInboxState extends BaseState<ChatInbox>
     var destinationFirebaseId;
     var chatTypePath = path.split("/");
     if (chatTypePath.isNotEmpty && chatTypePath.length > 1) {
-      if (chatTypePath[0] == "customer_bill_payment") {
-        var userIds = chatTypePath[1].split("_");
-      } else {
-        var userIds = chatTypePath[1].split("_");
+      if (chatTypePath[0] != "customer_bill_payment") {
+        List<String> userIds = chatTypePath[1].split("_");
+        var currentCustomerID = user.customerProfile.firebaseId.split("-")[1];
+        userIds.remove(currentCustomerID);
         destinationFirebaseId = "CID-" + userIds[0];
       }
     }
     return destinationFirebaseId;
   }
 
+  AuthResponse user;
   getChatList() {
-    AuthResponse user = Get.find<AuthController>().user.value;
+    user = Get.find<AuthController>().user.value;
     //add condition for customer and merchant separation
     var chatHistoryPath =
         FirebasePath.customerChats(user.customerProfile.firebaseId);
