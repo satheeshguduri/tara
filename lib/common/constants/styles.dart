@@ -71,7 +71,6 @@ class BaseStyles {
   static TextStyle transactionItemPersonNameTextStyle =  TextStyle(
       color:  AppColors.header_top_bar_color,
       fontWeight: FontWeight.w700,
-      
       fontSize: 14.0
   );
 

@@ -5,7 +5,4 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 
-enum RequestType{
-  PAY,
-  COLLECT
-}
+enum RequestType { PAY, COLLECT, CHAT }

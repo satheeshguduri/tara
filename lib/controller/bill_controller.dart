@@ -46,8 +46,8 @@ class BillController extends GetxController{
   var paymentNextColor = AppColors.billerPaymentNextButtonColor.obs;
   var paymentTextStyle = TextStyles.bUTTONGrey3222.obs;
 
-  var debitCardsData = List<MappedBankAccountsBean>().obs;
-  var creditCardsData = List<CardData>().obs;
+  var debitCardsData = <MappedBankAccountsBean>[].obs;
+  var creditCardsData = <CardData>[].obs;
 
 
   var productDetail = BillDetailsData();

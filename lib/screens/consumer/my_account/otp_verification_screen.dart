@@ -1,45 +1,47 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
+import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/account_info_card_row.dart';
-import 'package:tara_app/common/widgets/circle_shape.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
-import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
-import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/to_address_response.dart';
-import 'package:tara_app/models/core/device/user_registration_request.dart';
+import 'package:tara_app/models/transfer/constants/action.dart';
+import 'package:tara_app/models/transfer/constants/transaction_type.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
+import 'package:tara_app/models/transfer/device_info.dart' as device;
 import 'package:tara_app/models/transfer/fetch_otp_response.dart';
 import 'package:tara_app/models/transfer/retrieve_key_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:tara_app/controller/auth_controller.dart';
-import 'package:tara_app/common/constants/values.dart';
-import 'package:tara_app/utils/locale/utils.dart';
-import 'package:tara_app/models/transfer/device_info.dart' as device;
-
 
 class OTPVerificationScreen extends StatefulWidget {
- final String txnId;
- final FetchOtpResponse fetchOtpResponse;
- final RetrieveKeyResponse retrieveKeyResponse;
- final device.DeviceInfoBean deviceInfoBean;
- final String bic;
- final String from;
- final num amount;
- final CustomerProfile toAddress;
- final MappedBankAccountsBean selectedSourceBankAccount;
- const OTPVerificationScreen({this.txnId,this.fetchOtpResponse,this.retrieveKeyResponse,this.deviceInfoBean,this.bic,this.from,this.amount,this.toAddress,this.selectedSourceBankAccount});
+  final String txnId;
+  final FetchOtpResponse fetchOtpResponse;
+  final RetrieveKeyResponse retrieveKeyResponse;
+  final device.DeviceInfoBean deviceInfoBean;
+  final String bic;
+  final String from;
+  final num amount;
+  final CustomerProfile toAddress;
+  final MappedBankAccountsBean selectedSourceBankAccount;
+  const OTPVerificationScreen(
+      {this.txnId,
+      this.fetchOtpResponse,
+      this.retrieveKeyResponse,
+      this.deviceInfoBean,
+      this.bic,
+      this.from,
+      this.amount,
+      this.toAddress,
+      this.selectedSourceBankAccount});
 
   @override
-  OTPVerificationScreenState createState() =>  OTPVerificationScreenState();
-
+  OTPVerificationScreenState createState() => OTPVerificationScreenState();
 }
 
 class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
@@ -47,48 +49,57 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
 
   TransactionController controller = Get.find();
 
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-        // appBar: buildAppBar(context),
+      // appBar: buildAppBar(context),
       backgroundColor: Colors.white,
-      appBar: CustomAppBarWidget(title: getTranslation(Strings.inputOTP),addNewWidgetShow: false,),
+      appBar: CustomAppBarWidget(
+        title: getTranslation(Strings.inputOTP),
+        addNewWidgetShow: false,
+      ),
       body: getRootContainer(),
     );
   }
 
-
   Widget getRootContainer() {
     return Obx(() => SafeArea(
-            child: SingleChildScrollView(
-                reverse: true,
-                child: getOtpWidget())
-              .withProgressIndicator(showIndicator: controller.showProgress.value),
-         )
-    );
-
+          child: SingleChildScrollView(reverse: true, child: getOtpWidget())
+              .withProgressIndicator(
+                  showIndicator: controller.showProgress.value),
+        ));
   }
 
   Widget getOtpWidget() {
     return Container(
-      height: Get.height-88,
+      height: Get.height - 88,
       child: Column(
         children: [
+          // Visibility(
+          //   visible: widget.from!="addaccount",
+          //   child: Container(
+          //     padding: EdgeInsets.only(bottom:16),
+          //     child: AccountInfoCardRow(data: widget.selectedSourceBankAccount,),
+          //     // child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: widget.mappedBankAccountsBean.bankName,accountNumber: Utils().getMaskedAccountNumber(widget.mappedBankAccountsBean.maskedAccountNumber),),
+          //   ),
+          // ),
           Container(
-            padding: EdgeInsets.only(bottom:16),
-            child: AccountInfoCardRow(data: widget.selectedSourceBankAccount,),
+            padding: EdgeInsets.only(bottom: 16),
+            child: AccountInfoCardRow(
+              data: widget.selectedSourceBankAccount,
+            ),
             // child: CustomCard(image:Assets.ic_mpin_card,bankIcon: Assets.ic_mandiri,accountName: widget.mappedBankAccountsBean.bankName,accountNumber: Utils().getMaskedAccountNumber(widget.mappedBankAccountsBean.maskedAccountNumber),),
           ),
-          otpIconWidget().paddingOnly(left:35,right:35),
-          otpEntryWidget().paddingOnly(left:35,right:35),
-          otpConfirmWidget().paddingOnly(left:16,right:16,top:20),
-         ],
+          otpIconWidget().paddingOnly(left: 35, right: 35),
+          otpEntryWidget().paddingOnly(left: 35, right: 35),
+          otpConfirmWidget().paddingOnly(left: 16, right: 16, top: 20),
+        ],
       ),
     );
   }
 
+  bool isFromAddedAccount() => widget.from == "addaccount";
   Widget getBorderContainer() {
     return Container(
       height: 3,
@@ -98,7 +109,9 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
           bottom: BorderSide(
               color: controller.errorMessage.value.isNotEmpty
                   ? Colors.pink
-                  : isOtpEntered ? Color(0xffb2f7e2) : Color(0xffb0b4c1),
+                  : isOtpEntered
+                      ? Color(0xffb2f7e2)
+                      : Color(0xffb0b4c1),
               width: 2.0,
               style: BorderStyle.solid),
         ),
@@ -116,7 +129,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
           color: isOtpEntered ? Color(0xffb2f7e2) : Color(0xffe9ecef)),
       alignment: Alignment.center,
       child: Text(
-        getTranslation(Strings.CONFIRM_TRANSFER),
+        getTranslation(Strings.submit),
         textAlign: TextAlign.center,
         style: isOtpEntered
             ? BaseStyles.chatItemDepositSuccessMoneyTextStyle
@@ -124,26 +137,47 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       ),
     ).onTap(onPressed: () {
       if (isOtpEntered) {
-          if (widget.fetchOtpResponse.otpChallengeCode != null) {
-          if (widget.from == "addaccount") {
-            controller.validateOtpAndTrackAddAccount(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-           // pop();
+        if (widget.fetchOtpResponse.otpChallengeCode != null) {
+          if (isFromAddedAccount()) {
+            controller.validateOtpAndTrackAddAccount(
+                widget.txnId,
+                widget.fetchOtpResponse,
+                widget.retrieveKeyResponse,
+                widget.deviceInfoBean,
+                widget.bic);
+            // pop();
           } else if (widget.from == "transfer") {
-            var toAddress = ToAddressResponse(mobileNumber: widget?.toAddress?.mobileNumber,customerProfile: widget.toAddress);
-           // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-              controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic,TransactionContext.PAYMENT_REQUEST,widget.amount,toAddress);
-             //pop();
-          }else if (widget.from == "bills") {
+            var toAddress = ToAddressResponse(
+                mobileNumber: widget?.toAddress?.mobileNumber,
+                customerProfile: widget.toAddress);
             // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
-            controller.validateOtpAndTrackTransaction(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic,TransactionContext.BILL_PAYMENT,widget.amount,null);
+            controller.validateOtpAndTrackTransaction(
+                widget.txnId,
+                widget.fetchOtpResponse,
+                widget.retrieveKeyResponse,
+                widget.deviceInfoBean,
+                widget.bic,
+                TransactionContext.PAYMENT_REQUEST,
+                widget.amount,
+                toAddress);
+            //pop();
+          } else if (widget.from == "bills") {
+            // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+            controller.validateOtpAndTrackTransaction(
+                widget.txnId,
+                widget.fetchOtpResponse,
+                widget.retrieveKeyResponse,
+                widget.deviceInfoBean,
+                widget.bic,
+                TransactionContext.BILL_PAYMENT,
+                widget.amount,
+                null);
             //pop();
           }
-            }
-          }
         }
-      );
-
- }
+      }
+    });
+  }
 
   @override
   BuildContext getContext() {
@@ -155,9 +189,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
   void initState() {
     super.initState();
     controller.startTimer();
-
   }
-
 
   buildAppBar(BuildContext context) {
     return AppBar(
@@ -166,16 +198,18 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
       automaticallyImplyLeading: false,
       // hides leading widget
       leading: IconButton(
-        //  icon: Icon(Icons.arrow_back),
-          icon: getSvgImage(imagePath: Assets.assets_icon_b_back_arrow,
+          //  icon: Icon(Icons.arrow_back),
+          icon: getSvgImage(
+              imagePath: Assets.assets_icon_b_back_arrow,
               width: 24.0,
               height: 24.0),
           onPressed: () =>
               Navigator.pop(context, false) //Navigator.pop(context, false),
-      ),
+          ),
       title: Align(
         alignment: Alignment.topLeft,
-        child: Text(getTranslation(Strings.inputOTP),
+        child: Text(
+          getTranslation(Strings.inputOTP),
           textAlign: TextAlign.left,
           style: BaseStyles.topBarTextStyle,
         ),
@@ -183,49 +217,46 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
     );
   }
 
-
- Widget otpIconWidget() {
+  Widget otpIconWidget() {
     return Container(
       alignment: Alignment.center,
-      child:  getSvgImage(imagePath: Assets.group,
-          width: 123.0,
-          height: 135.0
-      ),
-
+      child: getSvgImage(imagePath: Assets.group, width: 123.0, height: 135.0),
     );
- }
+  }
 
   Widget otpEntryWidget() {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 35,right: 35),
+            padding: EdgeInsets.only(left: 35, right: 35),
             margin: EdgeInsets.only(top: 1),
             child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
                       style: TextStyles.verifyCodeTextStyle,
-                      text: getTranslation(Strings.mobile_verification_subtext)+" "),
+                      text:
+                          getTranslation(Strings.mobile_verification_subtext) +
+                              " "),
                   TextSpan(
                       style: TextStyles.otpRecieverMobileTextStyle,
-                      text: controller.userMobileNumber.value??"")
+                      text: controller.userMobileNumber.value ?? "")
                 ]))),
         Container(
-            padding: EdgeInsets.only(left: 24,right: 24),
+            padding: EdgeInsets.only(left: 24, right: 24),
             margin: EdgeInsets.only(top: 10),
             child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
                       style: TextStyles.otpWithSMSTextStyle,
-                      text: "Enter the OTP code from the SMS with \nChallenge Code:\n"),
+                      text:
+                          "Enter the OTP code from the SMS with \nChallenge Code:\n"),
                   TextSpan(
                       style: TextStyles.challengeCodeTextStyle,
-                      text:widget?.fetchOtpResponse?.otpChallengeCode??"000000")
-                ]))
-        ),
-
+                      text: widget?.fetchOtpResponse?.otpChallengeCode ??
+                          "000000")
+                ]))),
         Column(
           children: [
             Container(
@@ -281,10 +312,13 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
         ),
         controller.errorMessage.value.isEmpty
             ? Container()
-            : Container(margin:EdgeInsets.all(8),child: Text(
-          getTranslation(controller.errorMessage.value),
-          style: BaseStyles.error_text_style,
-        ),),
+            : Container(
+                margin: EdgeInsets.all(8),
+                child: Text(
+                  getTranslation(controller.errorMessage.value),
+                  style: BaseStyles.error_text_style,
+                ),
+              ),
         Container(
           margin: EdgeInsets.only(top: 19),
           child: Row(
@@ -293,28 +327,28 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
               Expanded(
                 flex: 6.5.toInt(),
                 child: Container(
-
                     child: RichText(
                         text: TextSpan(children: [
-                          TextSpan(
-                              style: BaseStyles.sentOtpTextStyle,
-                              text: getTranslation(Strings.sent_otp_text)),
-                          TextSpan(
-                              style: BaseStyles.sentOtpTimeTextStyle,
-                              text: controller.countDownTimeString.value)
-                        ]))),
+                  TextSpan(
+                      style: BaseStyles.sentOtpTextStyle,
+                      text: getTranslation(Strings.sent_otp_text)),
+                  TextSpan(
+                      style: BaseStyles.sentOtpTimeTextStyle,
+                      text: controller.countDownTimeString.value)
+                ]))),
               ),
               Expanded(
                 flex: 3.5.toInt(),
                 child: Container(
-
                     padding: EdgeInsets.only(top: 8),
                     child: Column(
                       children: [
                         Text(getTranslation(Strings.resend_otp),
-                            style: (controller.countDownTimeString.value == "00:00"&&controller.seconds.value == 0)?BaseStyles
-                                .bottomSheetLocationChangeTextStyle:BaseStyles
-                                .resendDefaultTextStyle,
+                            style: (controller.countDownTimeString.value ==
+                                        "00:00" &&
+                                    controller.seconds.value == 0)
+                                ? BaseStyles.bottomSheetLocationChangeTextStyle
+                                : BaseStyles.resendDefaultTextStyle,
                             textAlign: TextAlign.center),
                         Container(
                           height: 2,
@@ -324,27 +358,34 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                           ),
                         ),
                       ],
-                    )).onTap(onPressed: () {
-                      /// todo
+                    )).onTap(onPressed: () async {
+                  controller.refreshOtp(
+                    widget.txnId,
+                    widget.fetchOtpResponse,
+                    widget.retrieveKeyResponse,
+                    widget.deviceInfoBean,
+                    widget.bic,
+                    isFromAddedAccount()
+                        ? ActionType.CARD_REGISTRATION
+                        : ActionType.PURCHASE,
+                    isFromAddedAccount()
+                        ? TransactionType.REGISTER_CARD_ACC_DETAIL
+                        : TransactionType.FINANCIAL_TXN,
+                  );
+
+                  /// todo
                   // if (controller.userMobileNumber.value.isNotEmpty && controller.countDownTimeString.value == "00:00") {
                   //   controller.startTimer();
                   //   ((widget.fetchOtpResponse.otpChallengeCode)!=null)?
                   //    controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic):
                   //    controller.getOtpForTransfer(isFromResendOtp:true);
                   // }
-                }
-
-                ),
+                }),
               ),
             ],
           ),
         ),
-
       ],
     );
-
   }
-
-
-
 }

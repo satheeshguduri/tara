@@ -290,7 +290,6 @@ class _SignInScreenState extends BaseState<SignInScreen> {
 
   @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
 

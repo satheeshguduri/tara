@@ -98,6 +98,7 @@ T _$enumDecodeNullable<T>(
 const _$RequestTypeEnumMap = {
   RequestType.PAY: 'PAY',
   RequestType.COLLECT: 'COLLECT',
+  RequestType.CHAT: 'CHAT',
 };
 
 PayeesBean _$PayeesBeanFromJson(Map<String, dynamic> json) {

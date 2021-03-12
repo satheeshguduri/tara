@@ -71,4 +71,5 @@ T _$enumDecodeNullable<T>(
 const _$RequestTypeEnumMap = {
   RequestType.PAY: 'PAY',
   RequestType.COLLECT: 'COLLECT',
+  RequestType.CHAT: 'CHAT',
 };

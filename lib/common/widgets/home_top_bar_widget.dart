@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
@@ -18,13 +17,9 @@ import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.d
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
-import 'package:tara_app/screens/consumer/shop/shop_home.dart';
-import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
+import 'package:tara_app/screens/consumer/shop/shop_landing_screen.dart';
 import 'package:tara_app/screens/consumer/transfer/beneficiaries_contacts_list_screen.dart';
-import 'package:tara_app/screens/create_account_screen.dart';
-import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/screens/notification_screen.dart';
-import 'package:tara_app/shop/shopping_home_page.dart';
 
 class HomeTopBar extends StatefulWidget {
   final String appName;
@@ -44,8 +39,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
   }
 
   @override
-  void init() async
-  {
+  void init() async {
     super.init();
     // var data = await getIt.get<UserLocalDataStore>().getUser();
     // user = data;
@@ -56,7 +50,6 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       height: 260,
       child: Stack(
@@ -119,11 +112,13 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(
               buttonText: getTranslation(Strings.SEND),
-             // image: Assets.SEND_ICON,
+              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
                 // push(TransferContactsSelectionScreen());
-                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.PAY,));
+                Get.to(BeneficiariesContactsListScreen(
+                  requestType: RequestType.PAY,
+                ));
                 // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer_to_tara_user));
                 // push(CashDepositSelectContact(
                 //   isFromSend: true,
@@ -132,10 +127,12 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.RECEIVE),
-             // image: Assets.RECEIVE_ICON,
+              // image: Assets.RECEIVE_ICON,
               svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
-                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.COLLECT,));
+                Get.to(BeneficiariesContactsListScreen(
+                  requestType: RequestType.COLLECT,
+                ));
                 // push(CashDepositSelectContact(
                 //   isFromReceive: true,
                 // ));
@@ -143,7 +140,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
                 buttonText: getTranslation(Strings.CASH_DEPOSIT),
-               // image: Assets.ic_cash_deposit,
+                // image: Assets.ic_cash_deposit,
                 svgImage: Assets.assets_icon_p_payment,
                 onPressed: () {
                   var chatInboxInfo = ChatInboxInfo();
@@ -155,14 +152,13 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 }),
             RoundedButton(
               buttonText: getTranslation(Strings.RESTOCK),
-             // image: Assets.ic_restock,
+              // image: Assets.ic_restock,
               svgImage: Assets.assets_icon_s_shop,
             ),
           ],
         ),
       );
-    }
-    else if (widget.appName == "Agent") {
+    } else if (widget.appName == "Agent") {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.only(top: 4),
@@ -171,10 +167,12 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(
               buttonText: getTranslation(Strings.SEND),
-             // image: Assets.SEND_ICON,
+              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.PAY,));
+                Get.to(BeneficiariesContactsListScreen(
+                  requestType: RequestType.PAY,
+                ));
                 //Old Flow
                 // push(CashDepositSelectContact(
                 //   isFromSend: true,
@@ -186,7 +184,9 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               //image: Assets.RECEIVE_ICON,
               svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
-                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.COLLECT,));
+                Get.to(BeneficiariesContactsListScreen(
+                  requestType: RequestType.COLLECT,
+                ));
                 // push(CashDepositSelectContact(
                 //   isFromReceive: true,
                 // ));
@@ -194,7 +194,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.PAYMENT),
-             // image: Assets.ic_payment,
+              // image: Assets.ic_payment,
               svgImage: Assets.assets_icon_p_payment,
               onPressed: () {},
             ),
@@ -207,8 +207,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           ],
         ),
       );
-    }
-    else {
+    } else {
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.only(top: 4),
@@ -217,15 +216,17 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
           children: [
             RoundedButton(
               buttonText: getTranslation(Strings.transfer),
-             // image: Assets.SEND_ICON,
+              // image: Assets.SEND_ICON,
               svgImage: Assets.assets_icon_s_send,
               onPressed: () {
-               GetHelper.resetController<TransactionController>();
-               GetHelper.resetController<ContactsTransferController>();
-               Get.put(TransactionController());
-               Get.put(ContactsTransferController());
-                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.PAY,));
-              //  Get.to(TransferContactsSelectionScreen());
+                GetHelper.resetController<TransactionController>();
+                GetHelper.resetController<ContactsTransferController>();
+                Get.put(TransactionController());
+                Get.put(ContactsTransferController());
+                Get.to(BeneficiariesContactsListScreen(
+                  requestType: RequestType.PAY,
+                ));
+                //  Get.to(TransferContactsSelectionScreen());
                 // push(TransferToTaraUser(isFromTaraUser:true,navBarTitle: Strings.transfer));//Yakub::for testing added
                 // push(CashDepositSelectContact(
                 //   isFromSend: true,
@@ -234,10 +235,12 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.request),
-             // image: Assets.RECEIVE_ICON,
+              // image: Assets.RECEIVE_ICON,
               svgImage: Assets.assets_icon_r_receive,
               onPressed: () {
-                Get.to(BeneficiariesContactsListScreen(requestType: RequestType.COLLECT,));
+                Get.to(BeneficiariesContactsListScreen(
+                  requestType: RequestType.COLLECT,
+                ));
                 // Get.to(CashDepositSelectContact(
                 //   isFromReceive: true,
                 // ));
@@ -258,7 +261,7 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 chatInboxInfo.chatTitle = getTranslation(Strings.SHOP);
                 chatInboxInfo.chatCardTitle = "tara_shop_received_text";
 //              push(ConversationPage(chatInboxInfo: chatInboxInfo,));
-                Get.to(ShopHome());
+                Get.to(ShopHomeScreen());
                 //Get.to(ShoppingHomePage());
               },
             ),
@@ -286,12 +289,11 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
       child: Row(
         children: [
           Container(
-            width: 24,
-            height: 24,
-            margin: EdgeInsets.only(left: 8),
-            //child: getTabImage(Assets.SEARCH_ICON),
-              child: getSvgImage(imagePath: Assets.assets_icon_s_search)
-            ),
+              width: 24,
+              height: 24,
+              margin: EdgeInsets.only(left: 8),
+              //child: getTabImage(Assets.SEARCH_ICON),
+              child: getSvgImage(imagePath: Assets.assets_icon_s_search)),
           Container(
             margin: EdgeInsets.only(left: 8),
             child: Text(
@@ -309,24 +311,25 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
     return Row(
       children: [
         Container(
-          width: 90,
-          height: 24,
-          margin: EdgeInsets.only(top: 8),
-          child: getSvgImage(imagePath: Assets.logo_tara,width: 90.0,height: 24.0
-      // SvgPicture.asset(
-         //      Assets.logo_tara,
-         //      fit: BoxFit.fitHeight,
-         //     // color: Colors.white,
-         //      semanticsLabel: 'svg',
-             // height: 24,
-            //  width: 90,
+            width: 90,
+            height: 24,
+            margin: EdgeInsets.only(top: 8),
+            child: getSvgImage(
+                imagePath: Assets.logo_tara, width: 90.0, height: 24.0
+                // SvgPicture.asset(
+                //      Assets.logo_tara,
+                //      fit: BoxFit.fitHeight,
+                //     // color: Colors.white,
+                //      semanticsLabel: 'svg',
+                // height: 24,
+                //  width: 90,
 
-            )
-          // child: Image.asset(
-          //   "assets/images/combined-shape-5.png",
-          //   fit: BoxFit.none,
-          // ),
-        ),
+                )
+            // child: Image.asset(
+            //   "assets/images/combined-shape-5.png",
+            //   fit: BoxFit.none,
+            // ),
+            ),
         Flexible(
           child: Text(widget.appName,
               overflow: TextOverflow.ellipsis,
@@ -343,7 +346,6 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
   }
 
   Widget nameNotificationsAndImage() {
-
     if (user?.customerProfile?.firstName != null) {
       userName = user?.customerProfile?.firstName;
     } else if (user?.customerProfile?.lastName != null) {
@@ -369,8 +371,13 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               Align(
                 alignment: Alignment.topRight,
                 child: Obx(
-                  ()=> Text(
-                    Get.find<AuthController>().user.value?.customerProfile?.firstName??"",
+                  () => Text(
+                    Get.find<AuthController>()
+                            .user
+                            .value
+                            ?.customerProfile
+                            ?.firstName ??
+                        "",
                     textAlign: TextAlign.right,
                     style: BaseStyles.nameTextStyle,
                     maxLines: 1,
@@ -392,16 +399,19 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
                 children: [
                   Positioned(
                     right: 4,
-                     child: getSvgImage(imagePath:Assets.assets_icon_n_notification,height: 24.0,width: 24.0
-                     //SvgPicture.asset(
-                    //   Assets.assets_icon_n_notification,
-                    //   fit: BoxFit.fitHeight,
-                    //   //color: Colors.white,
-                    //   semanticsLabel: 'svg',
-                    //   height: 24,
-                    //   width: 24,
+                    child: getSvgImage(
+                        imagePath: Assets.assets_icon_n_notification,
+                        height: 24.0,
+                        width: 24.0
+                        //SvgPicture.asset(
+                        //   Assets.assets_icon_n_notification,
+                        //   fit: BoxFit.fitHeight,
+                        //   //color: Colors.white,
+                        //   semanticsLabel: 'svg',
+                        //   height: 24,
+                        //   width: 24,
 
-                    ),
+                        ),
                     // child: Image.asset(
                     //   Assets.NOTIFICATION_ICON,
                     //   fit: BoxFit.none,

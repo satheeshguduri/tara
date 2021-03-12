@@ -154,7 +154,8 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   Widget  getMyAccountsFuture() {
       return FutureBuilder(
         initialData: Get.find<HomeController>().accountsHistory,
-        future: homeController.accountMemorizer.runOnce(()=> Get.find<TransactionController>().getCustomerProfile2()),
+        // future: homeController.accountMemorizer.runOnce(()=> Get.find<TransactionController>().getCustomerProfile2()),
+        future: Get.find<TransactionController>().getCustomerProfile2(),
         builder: (context,snapshot){
           if(snapshot.connectionState==ConnectionState.done)
             {
@@ -169,7 +170,8 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                 return addNewAccountIcon();
               }
             }else{
-                return BaseWidgets.getIndicator;
+            return Container();
+                // return BaseWidgets.getIndicator;
           }
 
         },
@@ -493,30 +495,6 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                 child: Container(
                 padding: EdgeInsets.only(top: 8,bottom: 8),
                 child: SeeAllWidget(),
-                // child: Column(
-                //   children: [
-                //     Container(
-                //       margin: EdgeInsets.only(right: 16),
-                //       child: Align(
-                //         alignment: Alignment.topRight,
-                //         child: Text(
-                //           getTranslation(Strings.SEE_ALL),
-                //           textAlign: TextAlign.center,
-                //           style: BaseStyles.seeAllTextStyle,
-                //         ),
-                //       ),
-                //     ),
-                //     Container(
-                //       height:2 ,
-                //     //  margin: EdgeInsets.only(top: 4,left: 4,right: 16),
-                //         margin: EdgeInsets.only(right: 16),
-                //
-                //       decoration: BoxDecoration(
-                //         gradient: Gradients.primaryGradient,
-                //       ),
-                //     ),
-                //   ],
-                // )
             ).onTap(onPressed: (){
                   if (title == Strings.MY_ACCOUNTS)
                   {

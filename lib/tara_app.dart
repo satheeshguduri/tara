@@ -13,6 +13,8 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:tara_app/main.dart';
 import 'package:tara_app/main_bindings.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/screens/consumer/add_beneficiary_screen.dart';
 import 'package:tara_app/screens/splash/splash_screen.dart';
 import 'package:tara_app/utils/locale/app_localization.dart';
 import 'package:uuid/uuid.dart';
@@ -54,6 +56,7 @@ class _TaraAppState extends State<TaraApp> {
             const Locale('id', ''), // Spanish, no country code
           ],
           home: SplashScreen(),
+          // home: AddBeneficiaryScreen(customerProfile: CustomerProfile(firstName: "Safiya",mobileNumber: "7013601812"),isNewUser: true,),
           title: "Tara",
           theme: themeData
       ),

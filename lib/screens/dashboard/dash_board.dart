@@ -12,6 +12,7 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/customer_orders_screen.dart';
 import 'package:tara_app/screens/consumer/my_account/my_account.dart';
 import 'package:tara_app/screens/consumer/my_account/myaccounts_see_all_screen.dart';
+import 'package:tara_app/screens/consumer/transfer/bills_payment_soucres_screen.dart';
 import 'package:tara_app/screens/dashboard/notification_settings.dart';
 import 'package:tara_app/screens/dashboard/profile_edit.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -241,7 +242,8 @@ class _DashBoardState extends BaseState<DashBoard> {
       }
       else if (title == Strings.MY_ACCOUNTS)
       {
-        Get.to(MyAccountsSeeAllScreen());
+        // Get.to(MyAccountsSeeAllScreen());
+        Get.to(BillsPaymentsSourcesScreen());
        // push(MyAccount(fromScreen: getTranslation(Strings.MY_ACCOUNTS),));
       }
       else if (title == Strings.my_orders)

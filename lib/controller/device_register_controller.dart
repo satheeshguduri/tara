@@ -19,7 +19,7 @@ import '../tara_app.dart';
 import 'auth_controller.dart';
 
 class DeviceRegisterController extends GetxController{
-  Future registerDevice() async
+  Future registerDevice({bool isAfterRegistration = false}) async
   {
     var commonRegistrationRequest = CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
     await getIt.get<DeviceRegisterRepository>().initiateSession(commonRegistrationRequest);
@@ -34,6 +34,7 @@ class DeviceRegisterController extends GetxController{
       print(jsonEncode(request.toJson()));
       print(jsonEncode(request.acquiringSource.toJson()));
       var data = await getIt.get<DeviceRegisterRepository>().register(request);
+
       if(data.isRight()){
         var registerResponse = data.orElse(() => null);
         print(registerResponse);

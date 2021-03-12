@@ -172,6 +172,51 @@ class _PSPRestClient implements PSPRestClient {
   }
 
   @override
+  Future<TrackAccountDetailsResponse> initiateDeleteAccountRequest(
+      deleteAccountRequest) async {
+    ArgumentError.checkNotNull(deleteAccountRequest, 'deleteAccountRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(deleteAccountRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/initiate-delete-account-request',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TrackAccountDetailsResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<TrackAccountDetailsResponse> trackDeleteAccountDetailsRequest(
+      commonRegistrationRequest) async {
+    ArgumentError.checkNotNull(
+        commonRegistrationRequest, 'commonRegistrationRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'psp-umps-adaptor/umps-app/track-delete-account-request',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = TrackAccountDetailsResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   Future<TrackAccountDetailsResponse> trackAccountDetailsRequest(
       commonRegistrationRequest) async {
     ArgumentError.checkNotNull(
