@@ -116,7 +116,7 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
     );
   }
 
-  getOTPBorderContainer(String heading) {
+  Widget getOTPBorderContainer(String heading) {
     return Column(
       children: [
         Container(
@@ -193,7 +193,7 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
     );
   }
 
-  getBorderColor(String heading) {
+  Color getBorderColor(String heading) {
     if (heading == Strings.new_pin) {
       if (newPin.length == 6) {
         return AppColors.fareColor;
@@ -208,7 +208,7 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
     return AppColors.light_grey_blue;
   }
 
-  getBorderContainer(String heading) {
+  Widget getBorderContainer(String heading) {
     return Container(
       height: 3,
       width: 40,
@@ -224,7 +224,7 @@ class _CreateMPIN extends BaseState<CreateMPIN> {
     );
   }
 
-  confirmTransferWidget() {
+  Widget confirmTransferWidget() {
     return Container(
         height: 48,
         margin: EdgeInsets.only(bottom: 32, top: 8, left: 8, right: 8),

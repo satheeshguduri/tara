@@ -153,7 +153,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                 showIndicator: transactionController.showProgress.value)));
   }
 
-  _getDropDownVal(String type) {
+  dynamic _getDropDownVal(String type) {
     if (type == "transactionType") {
       return transType;
     } else if (type == "paymentSource") {
@@ -165,7 +165,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     }
   }
 
-  _getDropDownHint(String type) {
+  Widget _getDropDownHint(String type) {
     if (type == "transactionType") {
       return Text(getTranslation(Strings.TRANSACTION_TYPE_HINT));
     } else if (type == "paymentSource") {
@@ -177,7 +177,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     }
   }
 
-  _getDropdownItems(String type) {
+  List _getDropdownItems(String type) {
     if (type == "transactionType") {
       return transTypeList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem(
@@ -186,7 +186,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         );
       }).toList();
     } else if (type == "paymentSource" || type == "bankAccount") {
-      return (uiController.mappedItems.value).map((
+      return (uiController.mappedItems).map((
           MappedBankAccountsBean item) {
         return DropdownMenuItem<String>(
           child: getCustomItemWidget(item.bankName, item.maskedAccountNumber),
@@ -208,7 +208,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     }
   }
 
-  _getDropDownList(String type) {
+  Widget _getDropDownList(String type) {
     return DropdownButton(
       icon: Container(
         margin: EdgeInsets.only(right: type == "paymentSource" ? 16 : 0),
@@ -246,7 +246,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     );
   }
 
-  _getContinueWidget() {
+  Widget _getContinueWidget() {
     return Container(
       height: 48,
       margin: EdgeInsets.only(bottom: 16, top: 24, left: 16, right: 16),
@@ -306,7 +306,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     });
   }
 
-  getFrequencyStartTitle() {
+  String getFrequencyStartTitle() {
     if (frequencyType == Strings.DAILY) {
       return getTranslation(Strings.START_DATE);
     } else if (frequencyType == Strings.MONTHLY) {
@@ -318,7 +318,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     }
   }
 
-  getFrequencyEndTitle() {
+  String getFrequencyEndTitle() {
     if (frequencyType == Strings.DAILY) {
       return getTranslation(Strings.END_DATE);
     } else if (frequencyType == Strings.MONTHLY) {
@@ -330,7 +330,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     }
   }
 
-  _getStartEndWidget(bool isStart) {
+  Widget _getStartEndWidget(bool isStart) {
     return Container(
         margin: EdgeInsets.only(top: 16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -373,7 +373,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         ]));
   }
 
-  _createFrequencyWidget() {
+  Widget _createFrequencyWidget() {
     return Row(
       children: [
         Expanded(
@@ -387,7 +387,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     );
   }
 
-  _getRecurringWidget() {
+  Widget _getRecurringWidget() {
     return (Container(
       margin: EdgeInsets.only(top: 8),
       child: Column(
@@ -725,7 +725,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                 style: TextStyles.inputFieldOn222,
                 isExpanded: true,
                 value: selectedSourceBankAccount,
-                items: (uiController.mappedItems.value)?.map((MappedBankAccountsBean item) {
+                items: (uiController.mappedItems)?.map((MappedBankAccountsBean item) {
                   bic = item.bic;
                   accountTokenId = item.accountTokenId;
                   return DropdownMenuItem<MappedBankAccountsBean>(
@@ -771,7 +771,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               style: TextStyles.inputFieldOn222,
               isExpanded: true,
               value:(uiController.mappedItems?.isNotEmpty??false)?uiController.mappedItems[0]:null,
-              items:(uiController.mappedItems.value)?.map((MappedBankAccountsBean item) {
+              items:(uiController.mappedItems)?.map((MappedBankAccountsBean item) {
                 //   selfAccountTokenId = item.accountTokenId;
                 return DropdownMenuItem<MappedBankAccountsBean>(
                   value:item,
@@ -879,7 +879,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget getAccountsDropDownList() {
-    uiController.selectedBenAccount.value = contactsController?.arrRecentlyAddedContactInfo?.value[0];
+    uiController.selectedBenAccount.value = contactsController?.arrRecentlyAddedContactInfo[0];
     return Obx(()=>Container(
       height: 48,
       child: DropdownButtonFormField<BeneDetailBean>(
@@ -888,7 +888,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
             width: 24.0,
             height: 24.0),
         style: TextStyles.inputFieldOn222,
-        value: contactsController.arrRecentlyAddedContactInfo.value[0],
+        value: contactsController.arrRecentlyAddedContactInfo[0],
         isExpanded: true,
         onChanged: (value) {
           uiController.selectedBenAccount.value = value;

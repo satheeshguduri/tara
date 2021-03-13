@@ -399,22 +399,18 @@
   "dashboard": "Dashboard",
   "meatandseafood": "Meat & Seafood",
   "categories": "Categories",
-  "todaysdeal" : "Today's Deal",
+  "todaysdeal": "Today's Deal",
   "plusadd": "+ Add",
   "allcategories": "All Categories",
-  "code" : "Code",
+  "code": "Code",
   "nominal": "Nominal",
   "itemrp": "Items - Rp",
   "oftenbougtwith": "Often bought with",
-  "addtocart" : "+ Add to Cart",
+  "addtocart": "+ Add to Cart",
   "description": "Description",
   "mycart": "My Cart",
   "youmayalsolike": "You may also like",
-  "priceestimation": "Price Estimation"
-
-
-
-
-
-
+  "priceestimation": "Price Estimation",
+  "no_transaction_history_title": "No Transaction History yet",
+  "no_transaction_history_desc": "You have not made any transaction yet. Your transactions including transfers, requests and payments will be listed here"
 }

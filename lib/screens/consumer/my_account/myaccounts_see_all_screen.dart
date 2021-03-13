@@ -121,7 +121,7 @@ class MyAccountsSeeAllScreenState extends BaseState<MyAccountsSeeAllScreen> {
   @override
   BuildContext getContext() => context;
 
-  creditCardsRowContainer(List<CardData> creditCards) {
+  Widget creditCardsRowContainer(List<CardData> creditCards) {
 
     //filter the cards only with response success
     creditCards = creditCards.where((element) => element.status == "success").toList();

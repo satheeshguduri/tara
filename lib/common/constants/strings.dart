@@ -442,6 +442,8 @@ class Strings {
   static const mycart  = "mycart";
   static const youmayalsolike  = "youmayalsolike";
   static const priceestimation  = "priceestimation";
+  static const no_transaction_history_title  = "no_transaction_history_title";
+  static const no_transaction_history_desc  = "no_transaction_history_desc";
 
 
 

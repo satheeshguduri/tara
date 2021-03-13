@@ -100,7 +100,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     source = arrPaymentSource.first;
   }
 
-  getRecepient(){
+  Widget getRecepient(){
     if(taraContact != null){
       return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,7 +332,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
         child: getRootContainer().withProgressIndicator(showIndicator: controller.showProgress.value)));
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 1.0,
       centerTitle: false,
@@ -351,7 +351,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     );
   }
 
-  textFormFieldContainer(String headerTitle, String hint,
+  Widget textFormFieldContainer(String headerTitle, String hint,
       TextInputType inputType, TextEditingController textEditingController) {
     return Container(
         margin: EdgeInsets.only(top: 8),
@@ -440,7 +440,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
         ));
   }
 
-  _getDropDownVal(String type) {
+  dynamic _getDropDownVal(String type) {
     if (type == "transactionType") {
       return transType;
     } else if (type == "paymentSource") {
@@ -452,7 +452,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     }
   }
 
-  _getDropDownHint(String type) {
+ Widget _getDropDownHint(String type) {
     if (type == "transactionType") {
       return Text(getTranslation(Strings.TRANSACTION_TYPE_HINT));
     } else if (type == "paymentSource") {
@@ -465,7 +465,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
 
   }
 
-  _getDropdownItems(String type) {
+ List<DropdownMenuItem<dynamic>> _getDropdownItems(String type) {
     if (type == "transactionType") {
       return transTypeList.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem(
@@ -508,7 +508,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     }
   }
 
-  _getDropDownList(String type) {
+  Widget _getDropDownList(String type) {
     return DropdownButton(
       icon: Container(
         margin: EdgeInsets.only(right: type == "paymentSource" ? 16 : 0),
@@ -532,9 +532,9 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
       onChanged: (val) {
         setState(() {
           if (type == "transactionType") {
-            transType = val;
+            transType = val.toString();
           } else if (type == "frequency") {
-            frequencyType = val;
+            frequencyType = val.toString();
           }else if (type == "bankAccount") {
             bankAccount = val;
           }else
@@ -547,7 +547,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     );
   }
 
-  _getContinueWidget() {
+ Widget _getContinueWidget() {
     return
       // InkWell(
       // onTap: () {
@@ -574,7 +574,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
    // );
   }
 
-  getFrequencyStartTitle() {
+  String getFrequencyStartTitle() {
     if (frequencyType == Strings.DAILY) {
       return getTranslation(Strings.START_DATE);
     } else if (frequencyType == Strings.MONTHLY) {
@@ -586,7 +586,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     }
   }
 
-  getFrequencyEndTitle() {
+ String getFrequencyEndTitle() {
     if (frequencyType == Strings.DAILY) {
       return getTranslation(Strings.END_DATE);
     } else if (frequencyType == Strings.MONTHLY) {
@@ -598,7 +598,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     }
   }
 
-  _getStartEndWidget(bool isStart) {
+ Widget _getStartEndWidget(bool isStart) {
     return Container(
         margin: EdgeInsets.only(top: 16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -641,7 +641,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
         ]));
   }
 
-  _createFrequencyWidget() {
+ Widget _createFrequencyWidget() {
     return Row(
       children: [
         Expanded(
@@ -655,7 +655,7 @@ class _BankTransferNewContactState extends BaseState<BankTransferNewContact> {
     );
   }
 
-  _getRecurringWidget() {
+ Widget _getRecurringWidget() {
     return (Container(
       margin: EdgeInsets.only(top: 8),
       child: Column(

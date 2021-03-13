@@ -215,7 +215,7 @@ class _SendWidgetState extends BaseState<SendWidget> {
     );
   }
 
-  _getConfirmWidget() {
+  Widget _getConfirmWidget() {
     return InkWell(
       onTap: () {
         enterMPINBottomSheet();
@@ -251,7 +251,7 @@ class _SendWidgetState extends BaseState<SendWidget> {
         });
   }
 
-  addListenersToRequiredTextField() {
+  void addListenersToRequiredTextField() {
     amountFocusNode.addListener(() {
       bool hasFocus = amountFocusNode.hasFocus;
       if (hasFocus)
@@ -261,7 +261,7 @@ class _SendWidgetState extends BaseState<SendWidget> {
     });
   }
 
-  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,BankInfo bankInfo,FocusNode focusNode)
+  Widget textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,BankInfo bankInfo,FocusNode focusNode)
   {
     return Container(
         margin: EdgeInsets.only(top:8),

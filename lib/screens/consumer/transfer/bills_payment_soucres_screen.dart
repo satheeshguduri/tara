@@ -197,7 +197,7 @@ class BillsPaymentsSourcesScreenState
   }
 
   Widget creditCardRow() {
-    if (billController.creditCardsData.length >= 1) {
+    if (billController?.creditCardsData?.value?.isNotEmpty ?? false) {
       return Container(
         // height:100,
         margin: EdgeInsets.only(left: 16, right: 16),
@@ -734,7 +734,7 @@ class BillsPaymentsSourcesScreenState
   }
 
   Widget gridViewOfDebitCards() {
-    if ((billController?.debitCardsData?.length ?? 0) == 1) {
+    if ((billController?.debitCardsData?.value?.length ?? 0) == 1) {
       return showAddNewWidget(true);
     } else {
       return GridView.count(
@@ -778,7 +778,7 @@ class BillsPaymentsSourcesScreenState
   }
 
   Widget getDebitCardListTile(MappedBankAccountsBean bean) {
-    var index = billController?.debitCardsData?.indexOf(bean);
+    var index = billController?.debitCardsData?.value?.indexOf(bean);
     if (index != null) {
       return Container(
         padding: EdgeInsets.all(16),

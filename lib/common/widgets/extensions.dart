@@ -28,7 +28,7 @@ extension StyledText on String{
     );
   }
   String bearer(){
-    return "Bearer "+this;
+    return "Bearer $this";
   }
 }
 

@@ -158,7 +158,7 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
     );
   }
 
-  confirmTransferWidget()
+  Widget confirmTransferWidget()
   {
     return InkWell(
       onTap: () {
@@ -204,7 +204,7 @@ class _EnterMPINState extends BaseState<EnterMPIN> {
     );
   }
 
-  getBorderContainer()
+  Widget getBorderContainer()
   {
     return Container(
       height: 3,

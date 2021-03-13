@@ -76,7 +76,7 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
     );
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0.8,
       centerTitle: false,
@@ -98,7 +98,7 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
     );
   }
   
-  _getNextWidget() {
+  Widget _getNextWidget() {
     return InkWell(
       onTap: () {
        push(UploadDocumentPartTwo());
@@ -120,7 +120,7 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
     );
   }
 
-  takePictureWidget(BuildContext context)
+  Widget takePictureWidget(BuildContext context)
   {
     return InkWell(
       onTap: (){
@@ -172,7 +172,7 @@ class _UploadPortraitPicState extends BaseState<UploadPortraitPic> {
     },));
   }
 
-  portraitPicWidget(BuildContext context)
+  Widget portraitPicWidget(BuildContext context)
   {
     return (imageFile!=null)?Container(
         height: 240,

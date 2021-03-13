@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,6 @@ import 'package:tara_app/screens/agent/agent_home_screen.dart';
 import 'package:tara_app/screens/agent/agent_widgets/take_picture_screen.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
-
-import '../../../flavors.dart';
 
 class UploadDocumentPartTwo extends StatefulWidget {
   const UploadDocumentPartTwo({
@@ -87,7 +86,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
     );
   }
 
-  getKtpTotalWidget()
+  Widget getKtpTotalWidget()
   {
     return Container(
             margin: EdgeInsets.only(bottom: 8,),
@@ -149,7 +148,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
         );
   }
 
-  getUtilityBillTotalWidget()
+  Widget getUtilityBillTotalWidget()
   {
     return Container(
           margin: EdgeInsets.only(bottom: 8,),
@@ -211,7 +210,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
         );
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0.8,
       centerTitle: false,
@@ -268,7 +267,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
     );
   }
 
-  ktpWidget(BuildContext context)
+  Widget ktpWidget(BuildContext context)
   {
     return (imageFile!=null)?Container(
         width: 156,
@@ -321,7 +320,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
     );
   }
 
-  takePictureForKtpWidget(BuildContext context)
+  Widget takePictureForKtpWidget(BuildContext context)
   {
     return InkWell(
       onTap: (){
@@ -359,7 +358,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
     );
   }
 
-  utilityBillWidget(BuildContext context)
+  Widget utilityBillWidget(BuildContext context)
   {
     return (imageFile_utility_bil!=null)?Container(
         width: 156,
@@ -412,7 +411,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
     );
   }
 
-  takePictureForUtilityBillWidget(BuildContext context)
+  Widget takePictureForUtilityBillWidget(BuildContext context)
   {
     return InkWell(
       onTap: (){
@@ -490,7 +489,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
         });
   }
 
-  _getBackWidget() {
+  Widget _getBackWidget() {
     return InkWell(
       onTap: () {
         Navigator.pop(context, false);
@@ -518,7 +517,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
     );
   }
 
-  _getSaveAndContinueWidget() {
+  Widget _getSaveAndContinueWidget() {
     return InkWell(
       onTap: () {
         push(ConnectNewAccountSelectBank());
@@ -569,7 +568,7 @@ class _UploadDocumentPartTwoState extends BaseState<UploadDocumentPartTwo> {
         imagePath = "";
       });
     }else{
-      this.setState(() {
+      setState(() {
         imageFile_utility_bil = picture;
         imagePath_utility_bill = "";
       });

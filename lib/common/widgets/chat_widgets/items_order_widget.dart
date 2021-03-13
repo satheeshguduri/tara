@@ -9,7 +9,6 @@ import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/review_and_confirm.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
-import 'package:tara_app/utils/locale/utils.dart';
 
 class ItemsOrder extends StatefulWidget {
 
@@ -84,7 +83,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                (arrItems!=null&&arrItems.length>0)?getItemsListWidget():Container(),
+                (arrItems!=null&&arrItems.isNotEmpty)?getItemsListWidget():Container(),
                 InkWell(
                   onTap: (){
                     if(widget.fromScreen == FromScreen.merchant){
@@ -153,14 +152,14 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
     );
   }
 
-  getItemsListWidget()
+  Widget getItemsListWidget()
   {
-    List<OrderItems> items = widget.order.items;
+    var items = widget.order.items;
     return  Container(
         margin:
         EdgeInsets.only(bottom: 8, left: 8, right: 8,),
         color: Colors.transparent,
-        height: (items!=null&&items.length>0)? (items.length * 40).toDouble():0,
+        height: (items?.isNotEmpty??false)? (items.length * 40).toDouble():0,
         child: ListView.builder(
           itemBuilder: (context, index) => getOrderItemWidget(items[index]),
           itemCount: items.length,
@@ -171,7 +170,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
         ));
   }
 
-  getOrderItemWidget(OrderItems itemOrderModel)
+  Widget getOrderItemWidget(OrderItems itemOrderModel)
   {
     return Container(
         height: 40,

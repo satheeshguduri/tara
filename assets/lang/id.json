@@ -369,5 +369,7 @@
   "account_number": "Account Number",
   "token_number": "Token Number",
   "terms_condition": "Terms & Condition",
-  "privacy_policy": "Privacy Policy"
+  "privacy_policy": "Privacy Policy",
+  "no_transaction_history_title": "No Transaction History yet",
+  "no_transaction_history_desc": "You have not made any transaction yet. Your transactions including transfers, requests and payments will be listed here"
 }

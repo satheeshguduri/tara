@@ -65,7 +65,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> with AutomaticKeepA
   }
 
   @override
-  init() {
+  void init() {
     getIt.get<StoresRepository>().getStoreTypes();
   }
 
@@ -109,7 +109,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> with AutomaticKeepA
     );
   }
 
-  getRootContainer() {
+  Widget getRootContainer() {
     return Container(
         height: MediaQuery.of(context).size.height,
         color: getBackgroundColor(),
@@ -125,10 +125,10 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> with AutomaticKeepA
   }
 
   @override
-  withDefaultMargins() => false;
+  bool withDefaultMargins() => false;
 
   @override
-  getBottomNavigation() {
+  Widget getBottomNavigation() {
     return BottomNavigationBar(
       selectedLabelStyle: TextStyles.labelSelectedTextStyle,
       unselectedLabelStyle: TextStyles.labelUnSelectedTextStyle,
@@ -199,7 +199,7 @@ class _HomeScreenState extends BaseState<HomeCustomerScreen> with AutomaticKeepA
     );
   }
 
-  getPageContainer() {
+  Widget getPageContainer() {
     return _children[_currentIndex];
   }
 

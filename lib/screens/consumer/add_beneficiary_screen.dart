@@ -51,7 +51,7 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
   @override
   BuildContext getContext() => context;
 
-  getPageContainer(){
+  Widget getPageContainer(){
     return Form(
       key: _formKey,
       child: Container(
@@ -190,7 +190,7 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
   }
 
 
-  getListOfBanks() {
+  Widget getListOfBanks() {
     return FutureBuilder<List<BankDetailsBean>>(
         future: Get.find<TransactionController>().getBanksList(),
         builder: (context, snapshot) {
@@ -216,7 +216,7 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
 
 
   }
-  _getContinueWidget() {
+  Widget _getContinueWidget() {
     return
       Container(
         height: 48,

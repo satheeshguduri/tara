@@ -130,7 +130,7 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
 
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0.8,
       centerTitle: false,
@@ -170,7 +170,7 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
         ) : Container(margin: EdgeInsets.only(bottom: 8, top: 8),),
         (contactsController.searchText
             .toString()
-            .isNotEmpty && contactsController.filteredContactList.value.isEmpty) ? Container(
+            .isNotEmpty && contactsController.filteredContactList.isEmpty) ? Container(
           child: Center(
             child: errorTitleTextWidget(),
           ),
@@ -179,7 +179,7 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
     );
   }
 
-  errorTitleTextWidget() {
+  Widget errorTitleTextWidget() {
     return Container(
       margin: EdgeInsets.only(top: 16,),
       child: Text(
@@ -249,7 +249,7 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
                 contactsController.title.value = "";
                   contactsController.searchText.value = "";
                   contactsController.searchQuery.text = "";
-                  contactsController.filteredContactList.value.clear();
+                  contactsController.filteredContactList.clear();
 
               },
               ),
@@ -271,7 +271,7 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
         numOfRowInSection: (section) {
           if (contactsController.searchText
               .toString()
-              .isNotEmpty && contactsController.filteredContactList.value.isEmpty) {
+              .isNotEmpty && contactsController.filteredContactList.isEmpty) {
             return 0;
           }
           else {
@@ -279,11 +279,11 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
             if (!(contactsController.searchText != null && contactsController.searchText
                 .toString()
                 .isNotEmpty)) {
-              return contactsController.contactList.value.length;
+              return contactsController.contactList.length;
             }
             //search applied
             else {
-              return contactsController.filteredContactList.value.length;
+              return contactsController.filteredContactList.length;
             }
           }
         },
@@ -291,18 +291,18 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
         cellAtIndexPath: (section, row) {
           if (contactsController.searchText
               .toString()
-              .isNotEmpty && contactsController.filteredContactList.value.isEmpty) {
+              .isNotEmpty && contactsController.filteredContactList.isEmpty) {
             return Container();
           }
           else {
             if (!(contactsController.searchText != null && contactsController.searchText
                 .toString()
                 .isNotEmpty)) {
-              return getTaraContactItemWidget(contactsController.contactList.value[row], row);
+              return getTaraContactItemWidget(contactsController.contactList[row], row);
             }
             //search applied
             else {
-              return getTaraContactItemWidget(contactsController.filteredContactList.value[row], row);
+              return getTaraContactItemWidget(contactsController.filteredContactList[row], row);
             }
           }
         },
@@ -314,7 +314,7 @@ class _TransferToTaraUserState   extends BaseState<TransferToTaraUser> {
     );
   }
 
-  getTaraContactItemWidget(Contact contactInfo, int index) {
+  Widget getTaraContactItemWidget(Contact contactInfo, int index) {
     return InkWell(
         child: Container(
           margin: EdgeInsets.only(left: 16, right: 16, top: 4, bottom: 4),

@@ -124,7 +124,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
     );
   }
 
-  _getDropDownList() {
+  Widget _getDropDownList() {
     return Container(
       child: DropdownButton(
         value: pcs,
@@ -132,7 +132,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
         icon: Image.asset(Assets.ic_dropdown),
         hint: Text("units"),
         underline: Container(),
-        onChanged: (val) {
+        onChanged: (String val) {
           setState(() {
             pcs = val;
           });
@@ -141,7 +141,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
       ),
     );
   }
-  _getDropdownItems() {
+  List<DropdownMenuItem<String>> _getDropdownItems() {
     return arrUnits
         .map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem(
@@ -157,7 +157,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
     }).toList();
   }
 
-  _getConfirmWidget() {
+  Widget _getConfirmWidget() {
     return InkWell(
       onTap: () {
         if (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null){
@@ -195,12 +195,12 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
   }
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     addListenersToRequiredTextField();
   }
 
-  addListenersToRequiredTextField() {
+  void addListenersToRequiredTextField() {
     amountFocusNode.addListener(() {
       bool hasFocus = amountFocusNode.hasFocus;
       if (hasFocus)
@@ -210,7 +210,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
     });
   }
 
-  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
+  Widget textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
   {
     return Container(
         margin: EdgeInsets.only(top:8,right: 8),

@@ -42,7 +42,7 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
   }
 
 
-  getFuture(){
+  void getFuture(){
 
   }
   @override
@@ -70,19 +70,19 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
   //   );
   //
   // }
-  getData() async {
+ Future<List<BillProductDataBean>> getData() async {
     return BillerHelper().getCategories(response);
   }
 
-  getTypes() async {
+ Future<List<BillProductDataBean>> getTypes() async {
     response = await BillerHelper().getData();
     return BillerHelper().getTypes(response);
   }
-  getCategories(String type) async {
+  Future<List<BillProductDataBean>> getCategories(String type) async {
     return BillerHelper().getCategoriesByType(response, type);
   }
 
-  Widget getCategoriesWidgets(type) {
+  Widget getCategoriesWidgets(String type) {
     return FutureBuilder(
       future: getCategories(type),
       builder: (context,snapshot){
@@ -123,7 +123,7 @@ class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
   }
 
 
-  getImage(String categoryName){
+  String getImage(String categoryName){
     switch(categoryName){
       case "Paket Data":
         return Assets.BJPS_ICON;

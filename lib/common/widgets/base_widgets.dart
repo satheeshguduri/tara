@@ -20,13 +20,13 @@ mixin BaseWidgets {
     return Container(
         width: 32,
         height: 32,
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           color: Color(0xff123456),
           shape: BoxShape.circle,
         ),
         child: Align(
           alignment: Alignment.center,
-          child: Text(name.length > 0 ? name.substring(0, 1).toUpperCase() : "",
+          child: Text(name.isNotEmpty ? name.substring(0, 1).toUpperCase() : "",
               style: BaseStyles.contactsTextStyle, textAlign: TextAlign.center),
         ));
   }
@@ -71,7 +71,7 @@ mixin BaseWidgets {
             ));
   }
 
-  Widget getSvgImage({String imagePath,Color color, width = 24.0, height= 24.0}) {
+  Widget getSvgImage({String imagePath, Color color, double width = 24.0, double height= 24.0}) {
     return SvgPicture.asset(
       imagePath,
       fit: BoxFit.fitHeight,

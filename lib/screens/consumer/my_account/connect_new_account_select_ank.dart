@@ -89,7 +89,7 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
-  loadWidgets()
+  Widget loadWidgets()
   {
     return Container(
       child: Column(
@@ -103,7 +103,7 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
-  listViewContainer(arrBankInfo) {
+  Widget listViewContainer(arrBankInfo) {
     return Container(
       margin: EdgeInsets.only(top:8),
       height: (arrFilterBankInfo!=null && arrFilterBankInfo.isNotEmpty)?(arrFilterBankInfo.length * 50).toDouble():
@@ -141,7 +141,7 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
-  getSearchBarWidget()
+  Widget getSearchBarWidget()
   {
     return Column(
       children: [
@@ -223,7 +223,7 @@ class _ConnectNewAccountSelectBankState
       ],
     );
   }
-  getBankItemWidget(BankDetailsBean bankInfo) {
+  Widget getBankItemWidget(BankDetailsBean bankInfo) {
     return Container(
       child:Column(
         children: [
@@ -307,7 +307,7 @@ class _ConnectNewAccountSelectBankState
   //   );
   // }
 
-  errorWidget()
+  Widget errorWidget()
   {
     return Container(
       child: SingleChildScrollView(
@@ -324,18 +324,18 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
-  bigCircle() {
+  Widget bigCircle() {
     return Container(
         width: 88,
         height: 88,
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           color: Color(0xffd8d8d8),
           shape: BoxShape.circle,
         ),
         child:Container());
   }
 
-  errorTitleTextWidget()
+  Widget errorTitleTextWidget()
   {
     return Container(
       margin: EdgeInsets.only(top:16,),
@@ -347,7 +347,7 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
-  errorSubTitleTextWidget()
+  Widget errorSubTitleTextWidget()
   {
     return Container(
       margin: EdgeInsets.only(top:8,bottom: 8),
@@ -359,7 +359,7 @@ class _ConnectNewAccountSelectBankState
     );
   }
 
-  getListOfBanks() {
+  Widget getListOfBanks() {
     return FutureBuilder(
         future: Get.find<TransactionController>().getBanksList(),
         builder: (context, snapshot) {

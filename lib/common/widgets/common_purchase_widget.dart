@@ -1,15 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
-import 'package:tara_app/common/widgets/dashed_line_border_button.dart';
+import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/screens/consumer/transfer/bills_payment_soucres_screen.dart';
 
 
@@ -70,7 +69,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
                             children: [
                               Expanded(child: TextWithBottomOverlay(titleStr: getTranslation(Strings.yourpurchase))),
                               Container(
-                                  child: getSvgImage(imagePath: Assets.close_icon).onTap(onPressed: ()=> pop())
+                                  child: getSvgImage(imagePath: Assets.close_icon).onTap(onPressed: pop)
                               ),
                             ],
                           ),
@@ -103,7 +102,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(getTranslation(Strings.nominal),style: BaseStyles.purchaseLabelTextStyle),
-        Text(getTranslation(Strings.RP)+" "+"${widget.billDetailsData.amount}",style: BaseStyles.nominalTextView)
+        Text("${getTranslation(Strings.RP)} ${"${widget.billDetailsData.amount}"}",style: BaseStyles.nominalTextView)
       ],
     ).withPad(padding: EdgeInsets.all(5));
   }
@@ -139,7 +138,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
       ],
     ).withPad(padding: EdgeInsets.all(5));
   }
-  Widget getLabeledView(category){
+  Widget getLabeledView(String category){
     switch(category) {
         case "Pulsa":
         case "Paket Data":
@@ -255,7 +254,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
              style:TextStyles.yourPurchaseBillsDetailsTextStyle
          ),
          Text(
-              getTranslation(Strings.RP)+" "+value,
+              "${getTranslation(Strings.RP)} $value",
              style:TextStyles.yourPurchaseBillsDetailsTextStyle
          ),
 
@@ -280,7 +279,7 @@ class CommonPurchaseWidgetState extends BaseState<CommonPurchaseWidget> {
                 style:TextStyles.yourPurchaseBillsTotalTextStyle
             ),
             Text(
-                getTranslation(Strings.RP)+" "+"${widget.billDetailsData.amount}",
+                "${getTranslation(Strings.RP)} ${"${widget.billDetailsData.amount}"}",
                 style:TextStyles.yourPurchaseBillsTotalTextStyle
             ),
 

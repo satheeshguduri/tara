@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:tara_app/common/constants/values.dart';
-import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/create_account_screen.dart';
-import 'package:tara_app/screens/signin_screen.dart';
 
 class CreateNewAccount extends StatefulWidget {
   const CreateNewAccount({
@@ -353,7 +350,7 @@ class _CreateNewAccountState extends BaseState<CreateNewAccount> {
 //    }).toList();
 //  }
 
-  _getContinueWidget() {
+  Widget _getContinueWidget() {
     return InkWell(
       onTap: () {
         push(CreateAccountScreen(isFromCreateAccount: true,mobileNumber:controller.mobileNumberTextEditController.text,));

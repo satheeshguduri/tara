@@ -6,6 +6,7 @@ import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/controller/transaction_history_controller.dart';
 import 'package:tara_app/models/transfer/transaction_history_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -17,7 +18,7 @@ class TransactionHistory extends StatefulWidget {
 
 class _TransactionHistoryState extends BaseState<TransactionHistory> {
   TransactionHistoryController transactionHistoryController = Get.find();
-  final key = new GlobalKey<ScaffoldState>();
+  final key = GlobalKey<ScaffoldState>();
 
   @override
   BuildContext getContext() {
@@ -59,12 +60,17 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
     if (transactionHistoryController.searchInProgress.value &&
         transactionHistoryController.filteredTransactionList.isEmpty) {
       return errorTitleTextWidget();
+    } else if (transactionHistoryController.totalTransactionList.isEmpty) {
+      return ErrorStateInfoWidget(
+        title: getTranslation(Strings.no_transaction_history_title),
+        desc: getTranslation(Strings.no_transaction_history_desc),
+      );
     } else {
       return Container(
         child: GroupedListView<TransactionListBean, String>(
           elements: transactionHistoryController.searchInProgress.value
-              ? transactionHistoryController.filteredTransactionList
-              : transactionHistoryController.totalTransactionList,
+              ? transactionHistoryController.filteredTransactionList.value
+              : transactionHistoryController.totalTransactionList.value,
           groupBy: (element) => getGroupHeader(element.month),
           groupSeparatorBuilder: (String groupByValue) =>
               buildGroupHeaderWidget(groupByValue),
@@ -98,7 +104,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
     return month;
   }
 
-  Widget _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
         elevation: 0,
         centerTitle: false,
@@ -183,7 +189,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
             onChanged: (value) {
               transactionHistoryController.searchTransaction(value);
             },
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.search,
                 color: Colors.black54,
@@ -195,8 +201,8 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                       BorderSide(color: Colors.transparent, width: 0.1)),
               hintText: getTranslation(Strings.search_transaction),
               hintStyle: BaseStyles.hintTextStyle,
-              focusedBorder: new UnderlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.transparent)),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent)),
               suffixIcon: IconButton(
                 icon: Icon(Icons.clear,
                     color: (transactionHistoryController.searchText != null &&
@@ -217,7 +223,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
     );
   }
 
-  getTransactionInfoItemWidget({TransactionListBean transactionInfo}) {
+  Widget getTransactionInfoItemWidget({TransactionListBean transactionInfo}) {
     return InkWell(
         child: Stack(children: [
           Container(
@@ -272,12 +278,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                 Container(
                                   margin: EdgeInsets.only(top: 4),
                                   child: Text(
-                                    transactionInfo.transactionId
-                                            .substring(0, 4) +
-                                        ' • ' +
-                                        Jiffy.unix(transactionInfo.timestamp)
-                                            .format(
-                                                "dd MMM, HH:mm"), //Utils().getDefaultFormattedDate(DateTime.fromMillisecondsSinceEpoch(transactionInfo.timestamp)),
+                                    '${transactionInfo.transactionId.substring(0, 4)} • ${Jiffy.unix(transactionInfo.timestamp.toInt()).format("dd MMM, HH:mm")}', //Utils().getDefaultFormattedDate(DateTime.fromMillisecondsSinceEpoch(transactionInfo.timestamp)),
                                     textAlign: TextAlign.left,
                                     style:
                                         BaseStyles.itemOrderQuantityTextStyle,
@@ -297,7 +298,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                   child: ClipRect(
                                     clipBehavior: Clip.hardEdge,
                                     child: Text(
-                                      "${transactionInfo?.selfBIC ?? ""} ${transactionInfo?.selfAccountNumber?.split("#")[0]?.substring(10) ?? ""}", //Utils().getMaskedAccountNumber(transactionInfo.counterpartAccountNumber??"), //SOURCE
+                                      "${transactionInfo?.selfBIC ?? ''} ${transactionInfo?.selfAccountNumber == null ? '' : transactionInfo?.selfAccountNumber?.split('#')[0] ?? ''}", //Utils().getMaskedAccountNumber(transactionInfo.counterpartAccountNumber??"), //SOURCE
                                       textAlign: TextAlign.left,
                                       style:
                                           BaseStyles.saveToMyContactTextStyle,
@@ -356,7 +357,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                               end: Alignment(
                                   -2.220446049250313e-16, 0.5000000000000002),
                               colors: [Colors.pink, const Color(0xfff950a3)]),
-                      borderRadius: new BorderRadius.only(
+                      borderRadius: BorderRadius.only(
                         bottomLeft: const Radius.circular(20.0),
                       )),
                   child: Container(
@@ -390,13 +391,13 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
     return Container(
         width: 36,
         height: 36,
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           color: Color(0xff123456),
           shape: BoxShape.circle,
         ),
         child: Align(
           alignment: Alignment.center,
-          child: Text(name.length > 0 ? name.substring(0, 1).toUpperCase() : "",
+          child: Text(name.isNotEmpty ? name.substring(0, 1).toUpperCase() : "",
               style: BaseStyles.contactsTextStyle, textAlign: TextAlign.center),
         ));
   }

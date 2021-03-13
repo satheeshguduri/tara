@@ -37,7 +37,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
 
   OrderModel.Order order;
   OrderUpdateController controller = OrderUpdateController();
-  FocusNode deliveryFocusNode = new FocusNode();
+  FocusNode deliveryFocusNode = FocusNode();
 
   @override
   void init() {
@@ -51,12 +51,12 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
   }
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     addListenersToRequiredTextField();
   }
 
-  addListenersToRequiredTextField() {
+  void addListenersToRequiredTextField() {
     deliveryFocusNode.addListener(() {
       bool hasFocus = deliveryFocusNode.hasFocus;
       if (hasFocus)
@@ -122,7 +122,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         ));
   }
 
-  getItemsOrderTotalWidget() {
+  Widget getItemsOrderTotalWidget() {
     return Container(
       color: Colors.white,
       margin: EdgeInsets.only(bottom: 8, top: 8),
@@ -142,7 +142,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
-  getEmptyItemOrderWidget() {
+  Widget getEmptyItemOrderWidget() {
     if (controller.arrEmptyOrder.length > 0) {
       return ListView.builder(
           itemCount: controller.arrEmptyOrder.length,
@@ -241,7 +241,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     }
   }
 
-  getAddMoreItemWidget() {
+  Widget getAddMoreItemWidget() {
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
       height: 40,
@@ -274,7 +274,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
-  getItemsListWidget() {
+  Widget getItemsListWidget() {
     return Container(
         color: Colors.transparent,
         child: ListView.builder(
@@ -288,7 +288,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         ));
   }
 
-  getOrderItemWidget(OrderItems itemOrderModel, int index) {
+  Widget getOrderItemWidget(OrderItems itemOrderModel, int index) {
     controller.textCtrls.add(new TextEditingController());
     controller.textCtrls[index].text = itemOrderModel.price.toString();
     return Container(
@@ -360,7 +360,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         ));
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 1,
@@ -382,7 +382,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
-  getDeliveryInfoWidget() {
+  Widget getDeliveryInfoWidget() {
     return Container(
       color: AppColors.primaryBackground,
       margin: EdgeInsets.only(bottom: 8, top: 8),
@@ -397,7 +397,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         ),
         Text(getTranslation(Strings.RECIPIENT),
             style: const TextStyle(
-                color: const Color(0xff889aac),
+                color:  Color(0xff889aac),
                 fontWeight: FontWeight.w500,
                 fontStyle: FontStyle.normal,
                 fontSize: 12.0)),
@@ -415,7 +415,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         ),
         Text(getTranslation(Strings.PHONE_NUMBER),
             style: const TextStyle(
-                color: const Color(0xff889aac),
+                color: Color(0xff889aac),
                 fontWeight: FontWeight.w500,
                 fontStyle: FontStyle.normal,
                 fontSize: 12.0)),
@@ -433,7 +433,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
         ),
         Text(getTranslation(Strings.address),
             style: const TextStyle(
-                color: const Color(0xff889aac),
+                color: Color(0xff889aac),
                 fontWeight: FontWeight.w500,
                 fontStyle: FontStyle.normal,
                 fontSize: 12.0)),
@@ -453,7 +453,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
-  getDeliveryMethodWidget() {
+  Widget getDeliveryMethodWidget() {
     return Container(
       color: AppColors.primaryBackground,
       margin: EdgeInsets.only(bottom: 8, top: 8),
@@ -564,11 +564,11 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
-  updateOrderDetails() {
+  void updateOrderDetails() {
     controller.deliveryCharge.value = controller.textDeliveryCtrl.value.text;
   }
 
-  getBillingInfoWidget() {
+  Widget getBillingInfoWidget() {
     return Container(
       color: AppColors.primaryBackground,
       margin: EdgeInsets.only(bottom: 8, top: 8),
@@ -686,7 +686,7 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
     );
   }
 
-  getBillingItemWidget(OrderItems itemOrderModel) {
+  Widget getBillingItemWidget(OrderItems itemOrderModel) {
     return Container(
         child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -718,17 +718,9 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
   }
 
   String getOrderAddress() {
-    if (this.order != null && order.deliveryAddress != null) {
+    if (order != null && order.deliveryAddress != null) {
       var address = order.deliveryAddress.first;
-      return address.dno +
-          "," +
-          address.streetName +
-          "," +
-          address.city +
-          "," +
-          address.zipcode.toString() +
-          "," +
-          address.country;
+      return "${address.dno},${address.streetName},${address.city},${address.zipcode},${address.country}";
     }
     return "show addrss here";
   }

@@ -54,7 +54,7 @@ class _BalanceHistoryState extends BaseState<BalanceHistory> {
     loadData();
   }
 
-  loadData()
+  void loadData()
   {
     arrSeptemberItems = [];
     for (var i = 0; i < arrSeptemberDateMonthTitles.length; i++) {
@@ -135,7 +135,7 @@ class _BalanceHistoryState extends BaseState<BalanceHistory> {
     );
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
         elevation: 0,
         centerTitle: false,
@@ -188,7 +188,7 @@ class _BalanceHistoryState extends BaseState<BalanceHistory> {
   }
 
 
-  getTab(String tabName)
+  Widget getTab(String tabName)
   {
     return Container(
       margin: EdgeInsets.only(top: 16,bottom: 8,),
@@ -199,7 +199,7 @@ class _BalanceHistoryState extends BaseState<BalanceHistory> {
     );
   }
 
-  getBalanceHistoryWidget(String tabTitle)
+  Widget getBalanceHistoryWidget(String tabTitle)
   {
     return Container(
       margin: EdgeInsets.only(top: 8),
@@ -256,7 +256,7 @@ class _BalanceHistoryState extends BaseState<BalanceHistory> {
                     child:Container(
                     width: 36,
                     height: 36,
-                    decoration: new BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Color(0xff123456),
                       shape: BoxShape.circle,
                     ),
@@ -334,13 +334,13 @@ class _BalanceHistoryState extends BaseState<BalanceHistory> {
     return Container(
         width: 36,
         height: 36,
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           color: Color(0xff123456),
           shape: BoxShape.circle,
         ),
         child: Align(
           alignment: Alignment.center,
-          child: Text(name.length > 0 ? name.substring(0, 1).toUpperCase() : "",
+          child: Text(name.isNotEmpty ? name.substring(0, 1).toUpperCase() : "",
               style: BaseStyles.contactsTextStyle, textAlign: TextAlign.center),
         ));
   }

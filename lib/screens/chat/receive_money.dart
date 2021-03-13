@@ -32,7 +32,7 @@ class _ReceiveWidgetState extends BaseState<ReceiveWidget> {
   TextEditingController amountTextController = TextEditingController();
   TextEditingController messageTextController = TextEditingController();
 
-  FocusNode amountFocusNode = new FocusNode();
+  FocusNode amountFocusNode = FocusNode();
 
   @override
   BuildContext getContext() {
@@ -126,7 +126,7 @@ class _ReceiveWidgetState extends BaseState<ReceiveWidget> {
     );
   }
 
-  _getConfirmWidget() {
+  Widget _getConfirmWidget() {
     return InkWell(
       onTap: () async{
         await Get.find<TransactionController>().paymentInitiation(requestType: RequestType.COLLECT,trContext:TransactionContext.PAYMENT_REQUEST,amount:double.parse(amountTextController.text),toAddress: ToAddressResponse(mobileNumber: widget.customerProfile.mobileNumber,customerProfile: widget.customerProfile));
@@ -150,12 +150,12 @@ class _ReceiveWidgetState extends BaseState<ReceiveWidget> {
   }
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     addListenersToRequiredTextField();
   }
 
-  addListenersToRequiredTextField() {
+  void addListenersToRequiredTextField() {
     amountFocusNode.addListener(() {
       bool hasFocus = amountFocusNode.hasFocus;
       if (hasFocus)
@@ -165,7 +165,7 @@ class _ReceiveWidgetState extends BaseState<ReceiveWidget> {
     });
   }
 
-  textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
+  Widget textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
   {
     return Container(
         margin: EdgeInsets.only(top:8),

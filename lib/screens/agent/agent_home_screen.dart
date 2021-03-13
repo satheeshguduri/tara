@@ -148,7 +148,7 @@ class AgentHomeScreenState extends BaseState<AgentHomeScreen> {
     );
   }
 
-  getRootContainer(){
+  Widget getRootContainer(){
     return _children[_currentIndex];
   }
 

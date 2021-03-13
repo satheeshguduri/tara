@@ -65,7 +65,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
         ).withProgressIndicator(showIndicator: controller.showProgress.value));
   }
 
-  buildNavBar() {
+  Widget buildNavBar() {
     return Container(
       margin: EdgeInsets.only(top: 24),
       child: Container(
@@ -159,7 +159,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
     );
   }
 
-  getSearchWidget() {
+  Widget getSearchWidget() {
     return InkWell(
       onTap: () {},
       child: Container(
@@ -202,7 +202,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
     );
   }
 
-  loadContent() {
+  Widget loadContent() {
     return Column(
       children: [
         getCarouselWidget(),
@@ -226,7 +226,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
     return arrList;
   }
 
-  loadPreviousOrders() {
+  Widget loadPreviousOrders() {
     if (controller.orderList.length != 0) {
       return Container(
           margin: EdgeInsets.only(left: 16, right: 16, top: 16),
@@ -297,7 +297,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.orderList.length,
                       itemBuilder: (context, index) {
-                        var order = controller.orderList.value[index];
+                        var order = controller.orderList[index];
                         return Container(
                           width: MediaQuery.of(context).size.width * 0.7,
                           margin: EdgeInsets.only(right: 8, top: 16, bottom: 8),
@@ -404,7 +404,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
     ]);
   }
 
-  loadMerchantNearYou() {
+  Widget loadMerchantNearYou() {
     return Column(
       children: [
         controller.storeTypesList != null &&

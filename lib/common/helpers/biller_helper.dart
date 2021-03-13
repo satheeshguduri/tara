@@ -12,7 +12,7 @@ import 'package:tara_app/models/bills/bill_products_response.dart';
 import 'package:darq/darq.dart';
 import 'package:tara_app/services/config/psp_config.dart';
 import 'package:tara_app/services/rest/biller_rest_client.dart';
-main() async
+void main() async
 {
   print("strating the process");
 
@@ -41,7 +41,7 @@ class RegistrationHelper{
 
   //app login
 
-  appLogin() async{
+  void appLogin() async{
 
     // CommonRegistrationRequest request = CommonRegistrationRequest();
     // await PSPRestClient(Dio()).getAppToken(PSPConfig.MERCHANT_KI, request);

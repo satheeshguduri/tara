@@ -174,7 +174,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
       ),
     );
   }
-  getConfirmWidget() {
+  Widget getConfirmWidget() {
     return Container(
         height: 48,
         margin: EdgeInsets.only(bottom: 32, top: 8, left: 8, right: 8),
@@ -211,7 +211,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
     );
   }
 
-  textFormFieldContainer(String headerTitle, String hint,
+  Widget textFormFieldContainer(String headerTitle, String hint,
       TextInputType inputType, TextEditingController textEditingController,bool isObscure) {
     return Container(
         margin: EdgeInsets.only(top: 8),
@@ -246,7 +246,7 @@ class _EnterCardDetailsState extends BaseState<EnterCardDetails> {
                         textController: textEditingController,
                         isIcon: false,
                         onChanged: (val) {
-                          controller.validateCardDetails(hint,val);
+                          controller.validateCardDetails(hint,val.toString());
                           if(controller.isCompleteValidate.value){
                             controller.showIfTrue();
                           }else{

@@ -38,7 +38,7 @@ class _TransactionDetailScreenState
     super.initState();
   }
 
-  updateViews()
+  Widget updateViews()
   {
     return Center(
       child: SingleChildScrollView(
@@ -75,7 +75,7 @@ class _TransactionDetailScreenState
     );
   }
 
-   _buildAppBar(BuildContext context) {
+   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 1,
       centerTitle: false,
@@ -97,7 +97,7 @@ class _TransactionDetailScreenState
     );
   }
 
-  bigCircle() {
+  Widget bigCircle() {
     return Container(
         width: 124,
         height: 124,
@@ -108,7 +108,7 @@ class _TransactionDetailScreenState
         child:Container());
   }
 
-  transactionSuccessTextWidget()
+  Widget transactionSuccessTextWidget()
   {
     return Container(
       margin: EdgeInsets.only(top:16,),
@@ -120,7 +120,7 @@ class _TransactionDetailScreenState
     );
   }
 
-  dateTimeTextWidget()
+  Widget dateTimeTextWidget()
   {
     return Container(
       margin: EdgeInsets.only(top:8,bottom: 8),
@@ -132,7 +132,7 @@ class _TransactionDetailScreenState
     );
   }
 
-  transactionIdTextWidget()
+  Widget transactionIdTextWidget()
   {
     return Container(
       margin: EdgeInsets.only(bottom: 16),
@@ -144,7 +144,7 @@ class _TransactionDetailScreenState
     );
   }
 
-  getTransactionDetailsWidget()
+  Widget getTransactionDetailsWidget()
   {
     return Container(
       margin: EdgeInsets.only(top: 8,bottom: 8,left: 16,right: 16),
@@ -214,7 +214,7 @@ class _TransactionDetailScreenState
     );
   }
 
-  getFromTransferredToWidget(String title,String name, String accountNumber)
+  Widget getFromTransferredToWidget(String title,String name, String accountNumber)
   {
     return Container(
       margin: EdgeInsets.only(top: 8,bottom: 4),
@@ -265,7 +265,7 @@ class _TransactionDetailScreenState
     );
   }
 
-  downloadAndShareWidget(String name)
+  Widget downloadAndShareWidget(String name)
   {
     return InkWell(
       onTap: (){

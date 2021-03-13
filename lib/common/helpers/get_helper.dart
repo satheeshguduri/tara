@@ -12,11 +12,11 @@ import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 class GetHelper{
   GetHelper();
 
-  getDialog({String title,Widget content}){
+  void getDialog({String title,Widget content}){
     Get.defaultDialog(title: title??"",content: content);
   }
 
-  static resetController<T extends GetxController>(){
+  static void resetController<T extends GetxController>(){
     Get.delete<T>();
   }
 

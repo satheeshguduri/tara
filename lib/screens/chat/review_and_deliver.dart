@@ -80,7 +80,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
     ).withProgressIndicator(showIndicator: controller.showProgress.value));
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 1,
@@ -102,7 +102,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
     );
   }
 
-  getItemsOrderTotalWidget()
+  Widget getItemsOrderTotalWidget()
   {
     return Container(
       color: Colors.white,
@@ -124,7 +124,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
     );
   }
 
-  getItemsListWidget()
+  Widget getItemsListWidget()
   {
     return  Container(
         margin:
@@ -141,7 +141,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
         ));
   }
 
-  getOrderItemWidget(OrderItems itemOrderModel)
+  Widget getOrderItemWidget(OrderItems itemOrderModel)
   {
     return Container(
         margin: EdgeInsets.only(top:4,bottom: 4,),
@@ -183,7 +183,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
         ));
   }
 
-  getIBillDetailsTotalWidget()
+  Widget getIBillDetailsTotalWidget()
   {
     return Container(
         padding: EdgeInsets.only(left: 16,right: 16,top: 8,bottom: 8),
@@ -268,7 +268,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
     );
   }
   
-  getDeliveryInfoWidget(){
+  Widget getDeliveryInfoWidget(){
     return Container(
       margin: EdgeInsets.only(top: 8),
       padding: EdgeInsets.only(left: 16,right: 16,top: 16,bottom: 8),
@@ -428,15 +428,7 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
   String getOrderAddress() {
     if (controller.orderMerchat != null && controller.orderMerchat.value.deliveryAddress != null) {
       var address = controller.orderMerchat.value.deliveryAddress.first;
-      return address.dno +
-          "," +
-          address.streetName +
-          "," +
-          address.city +
-          "," +
-          address.zipcode.toString() +
-          "," +
-          address.country;
+      return "${address.dno},${address.streetName},${address.city},${address.zipcode},${address.country}";
     }
     return "show addrss here";
   }

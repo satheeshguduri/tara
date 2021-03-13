@@ -203,11 +203,9 @@ class _ChatInboxState extends BaseState<ChatInbox>
     print(chatHistoryPath);
     return Container(
       height: 500,
-      child: new FirebaseAnimatedList(
-          query: getIt
-              .get<FirebaseRemoteService>()
-              .getDataStream(path: chatHistoryPath),
-          padding: new EdgeInsets.all(8.0),
+      child: FirebaseAnimatedList(
+          query: getIt.get<FirebaseRemoteService>().getDataStream(path:chatHistoryPath),
+          padding: EdgeInsets.all(8.0),
           reverse: false,
           itemBuilder:
               (_, DataSnapshot snapshot, Animation<double> animation, int x) {
@@ -236,9 +234,11 @@ class _ChatInboxState extends BaseState<ChatInbox>
           }),
     );
   }
-
-  Widget getChatItemWidget(CustomerProfile customerProfile) {
-    if (customerProfile == null) return Container();
+  Widget getChatItemWidget(CustomerProfile customerProfile)
+  {
+    if(customerProfile==null) {
+      return Container();
+    }
 
     return Container(
       margin: EdgeInsets.only(

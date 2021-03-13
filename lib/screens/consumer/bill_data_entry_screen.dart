@@ -298,7 +298,7 @@ Widget getTopRow(String category) {
 }
 
 
-getCustomerIdWidget(){
+Widget getCustomerIdWidget(){
 
 }
   Widget getStreaming1Widget() {

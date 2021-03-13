@@ -6,6 +6,7 @@
 */
 import 'dart:async';
 import 'dart:math';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_udid/flutter_udid.dart';
@@ -18,6 +19,7 @@ import 'package:tara_app/common/helpers/crypto_helper.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/core/device/common_registration_request.dart';
+import 'package:tara_app/models/core/device/token_response.dart';
 import 'package:tara_app/models/core/device/user_registration_request.dart';
 import 'package:tara_app/models/mcpayment/create_card_or_pay_request.dart';
 import 'package:tara_app/models/mcpayment/pay_card_request.dart';
@@ -47,6 +49,7 @@ import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/screens/consumer/common_webview.dart';
 import 'package:tara_app/services/config/psp_config.dart';
+import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/tara_app.dart';
 import 'dart:convert';
 
@@ -228,28 +231,28 @@ class TestWidget extends StatelessWidget {
     );
   }
 
-  getBanners() async {
+ void getBanners() async {
     var response = await getIt.get<OrderRepository>().getBanners("41825412");
     print(response);
   }
 
-  getItems() async {
+ void getItems() async {
     var response =
         await getIt.get<OrderRepository>().getItemsByCatalogue("215");
     print(response);
   }
 
-  getCategories() async {
+ void getCategories() async {
     var response = await getIt.get<OrderRepository>().getCategories();
     print(response);
   }
 
-  getCards() async {
+ void getCards() async {
     var response = await getIt.get<McPaymentRepository>().getCards();
     print(response);
   }
 
-  addCard() async {
+ void addCard() async {
     var request = CreateCardOrPayRequest();
     var response =
         await getIt.get<McPaymentRepository>().createCardOrPay(request);
@@ -265,7 +268,7 @@ class TestWidget extends StatelessWidget {
     print(response);
   }
 
-  payViaCreditCardCardNew(num transactionAmount, String description) async {
+  void payViaCreditCardCardNew(num transactionAmount, String description) async {
     var request = CreateCardOrPayRequest(
       is_transaction: true,
       transaction:
@@ -285,7 +288,7 @@ class TestWidget extends StatelessWidget {
     }
   }
 
-  payViaCreditCard(String mcPaymentCardId, num transactionAmount,
+  void payViaCreditCard(String mcPaymentCardId, num transactionAmount,
       String description, String maskedCardNumber) async {
     var request = PayCardRequest(
       register_id: mcPaymentCardId,
@@ -308,7 +311,7 @@ class TestWidget extends StatelessWidget {
     }
   }
 
-  getBeneficiaries() async {
+  Future<void> getBeneficiaries() async {
     var isSessionInitiated =
         await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
 
@@ -739,7 +742,7 @@ class TestWidget extends StatelessWidget {
     await getIt.get<TransactionRepository>().searchBeneficiary(queries);
   }
 
-  initRequest() {
+  Future<Either<Failure, TokenResponse>> initRequest() {
     var commonRegistrationRequest =
         CommonRegistrationRequest(acquiringSource: AcquiringSourceBean());
     return getIt
@@ -747,7 +750,7 @@ class TestWidget extends StatelessWidget {
         .initiateSession(commonRegistrationRequest);
   }
 
-  payNow() async {
+  void payNow() async {
     // var commonRegistrationRequest = await BaseRequestHelper().getCommonRegistrationRequest(mobileNumber: "+919542829992");
     var commonRegistrationRequest =
         await BaseRequestHelper().getCommonRegistrationRequest();

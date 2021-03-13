@@ -21,57 +21,62 @@ import 'package:tara_app/services/config/psp_config.dart';
 
 import 'bill_controller.dart';
 
-class HomeController extends GetxController{
+class HomeController extends GetxController {
+  final AsyncMemoizer accountMemorizer = AsyncMemoizer();
+  final AsyncMemoizer billsMemorizer = AsyncMemoizer();
+  AsyncMemoizer transactionsMemorizer = AsyncMemoizer();
+  List<BankDetailsBean> bankList;
+  Map<String, String> bankLogos = {};
+  var transactionsHistory = TransactionHistoryResponse().obs;
+  var accountsHistory = CustomerProfileDetailsResponse().obs;
+  var billCategories = <BillProductDataBean>[].obs;
 
- final AsyncMemoizer accountMemorizer = AsyncMemoizer();
- final AsyncMemoizer billsMemorizer = AsyncMemoizer();
- AsyncMemoizer transactionsMemorizer = AsyncMemoizer();
- List<BankDetailsBean> bankList;
- Map<String,String> bankLogos;
- var transactionsHistory = TransactionHistoryResponse().obs;
- var accountsHistory = CustomerProfileDetailsResponse().obs;
- var billCategories = <BillProductDataBean>[].obs;
-
- Future getTransactionsHistory() async{
-   transactionsHistory.value= await Get.find<TransactionController>().getTransactions();
+  Future getTransactionsHistory() async {
+    transactionsHistory.value =
+        await Get.find<TransactionController>().getTransactions();
   }
- Future getMyAccounts() async{
-   accountsHistory.value= await Get.find<TransactionController>().getCustomerProfile2();
- }
- Future getBillCategories() async{
-   billCategories.value= await Get.find<BillController>().getCategories();
- }
- Future getBanksList() async {
-   var isSessionInitiated = await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
-   var deviceRegInfo = await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
-   var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
-   if(isSessionInitiated) {
-     var commonRequest = await BaseRequestHelper().getCommonRegistrationRequest();
-     var bankListR = await getIt.get<TransactionRepository>().getBanksList(commonRequest);
-     if(bankListR.isRight()){
-       bankList = bankListR.getOrElse(() => null);
 
-       bankList.forEach((element) async{
-         var queries = <String,dynamic>{
-           "bic":element.bic,
-           "appName":PSPConfig.APP_NAME,
-           "accessToken": tokenResponse?.token,
-           "custPSPId": deviceRegInfo?.pspIdentifier,
-         };
-         var logoResp = await getIt.get<TransactionRepository>().getBankLogo(queries);
-         if(logoResp.isRight()){
-           var logo= logoResp.getOrElse(() => null);
-           print("=============== FOUND LOGO ================");
-           print(logo);
-           bankLogos[element.bic] = logo;
+  Future getMyAccounts() async {
+    accountsHistory.value =
+        await Get.find<TransactionController>().getCustomerProfile2();
+  }
 
+  Future getBillCategories() async {
+    billCategories.value = await Get.find<BillController>().getCategories();
+  }
 
-         }
-         print(bankLogos.toString());
-       });
+  Future getBanksList() async {
+    var isSessionInitiated =
+        await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
+    var deviceRegInfo =
+        await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
+    var tokenResponse = await getIt.get<SessionLocalDataStore>().getToken();
+    if (isSessionInitiated) {
+      var commonRequest =
+          await BaseRequestHelper().getCommonRegistrationRequest();
+      var bankListR =
+          await getIt.get<TransactionRepository>().getBanksList(commonRequest);
+      if (bankListR.isRight()) {
+        bankList = bankListR.getOrElse(() => null);
 
-     }
-   }
- }
-
+        bankList.forEach((element) async {
+          var queries = <String, dynamic>{
+            "bic": element.bic,
+            "appName": PSPConfig.APP_NAME,
+            "accessToken": tokenResponse?.token,
+            "custPSPId": deviceRegInfo?.pspIdentifier,
+          };
+          var logoResp =
+              await getIt.get<TransactionRepository>().getBankLogo(queries);
+          if (logoResp.isRight()) {
+            var logo = logoResp.getOrElse(() => null);
+            print("=============== FOUND LOGO ================");
+            print(logo);
+            bankLogos[element.bic] = logo;
+          }
+          print(bankLogos.toString());
+        });
+      }
+    }
+  }
 }

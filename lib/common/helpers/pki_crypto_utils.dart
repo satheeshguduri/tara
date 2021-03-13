@@ -13,7 +13,7 @@ import 'package:tuple/tuple.dart';
 class PKICryptoUtils {
   PKICryptoUtils();
 
-  static decryptData(text,key,iv) async{
+  static void decryptData(text,key,iv) async{
     // return await Cipher2.encryptAesCbc128Padding7(text, key, iv);
   }
 
@@ -125,7 +125,7 @@ class PKICryptoUtils {
     encrypt.AES(encrypt.Key.fromUtf8(PSPConfig.INITIAL_LOGIN_ENCRYPTION_KEY),
         mode: encrypt.AESMode.ctr),
   );
-  static getIV(){
+  static String getIV(){
     return encrypt.IV.fromLength(16).base16;
   }
   static String encryptAndEncodeByAes(String data) {

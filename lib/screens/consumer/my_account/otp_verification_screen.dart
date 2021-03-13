@@ -191,7 +191,8 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
     controller.startTimer();
   }
 
-  buildAppBar(BuildContext context) {
+
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0.8,
       centerTitle: false,

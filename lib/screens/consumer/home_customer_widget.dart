@@ -178,7 +178,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
       );
    }
 
-  getMyAccountsGridItem(String imagePath,int index)
+  Widget getMyAccountsGridItem(String imagePath,int index)
   {
 //    if (accountName == "tara wallet")
 //    {
@@ -215,7 +215,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           );
   }
 
-  getTransferToWidget()
+  Widget getTransferToWidget()
   {
     return Container(
         height: 140,
@@ -253,7 +253,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     );
   }
 
-  getTransferToGridItem(String accountName)
+  Widget getTransferToGridItem(String accountName)
   {
     return InkWell(
         onTap: (){
@@ -315,7 +315,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
   Widget getBillPaymentFuture(){
 
       return FutureBuilder(
-        initialData: homeController.billCategories.value,
+        initialData: homeController.billCategories,
         future: homeController.billsMemorizer.runOnce(()=> Get.find<BillController>().getCategories()),
         builder: (context,snapshot){
           if(snapshot.connectionState==ConnectionState.done)
@@ -342,7 +342,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
 
 
 
-  getPaymentWidget(List<BillProductDataBean> data)
+  Widget getPaymentWidget(List<BillProductDataBean> data)
   {
     int index = 0;
     return Container(
@@ -374,7 +374,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     );
   }
 
-  getTransactionsWidget(TransactionHistoryResponse transactions)
+  Widget getTransactionsWidget(TransactionHistoryResponse transactions)
   {
     if(transactions?.transactionList?.isEmpty??true)
       return Container();//ErrorStateInfoWidget(title: "No Transactions Found",);// TODO return Error State widget here and  String to be configured
@@ -403,7 +403,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
     );
   }
 
-  getTransactionsItemWidget(TransactionListBean transaction)
+  Widget getTransactionsItemWidget(TransactionListBean transaction)
   {
     var prefix = "-";
     if(transaction.txnType == RequestType.COLLECT){
@@ -435,7 +435,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                       Container(
                         margin: EdgeInsets.only(top: 4),
                         child: Text(
-                          Utils().getDefaultFormattedDate(DateTime.fromMillisecondsSinceEpoch(transaction.timestamp)),//"TODAY • 12:33",
+                          Utils().getDefaultFormattedDate(DateTime.fromMillisecondsSinceEpoch(transaction.timestamp.toInt())),//"TODAY • 12:33",
                           textAlign: TextAlign.left,
                           style: BaseStyles.transactionItemDateTextStyle,
                         ),

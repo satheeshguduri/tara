@@ -231,7 +231,7 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
 
                 contactsController.searchText.value = "";
                 contactsController.searchQuery.text = "";
-                contactsController.filteredContactList.value.clear();
+                contactsController.filteredContactList.clear();
               },
               ),
             ),
@@ -313,7 +313,7 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
       var selectedMobile = contactInfo?.phones?.elementAt(0)?.value?.removeAllWhitespace;
       var selectedContactName = contactInfo?.displayName;
       if(selectedMobile?.isNotEmpty??false){
-        var beneficiaryAccountList = contactsController.arrRecentlyAddedContactInfo?.value?.where((element) => element.beneMobile?.contains(selectedMobile))?.toList();
+        var beneficiaryAccountList = contactsController.arrRecentlyAddedContactInfo?.where((element) => element.beneMobile?.contains(selectedMobile))?.toList();
         // Get.to(TransferDetailsEntryScreen(taraContact:taraContactParam,beneContact: beneContactParam,list:beneficiaryAccountList));
         // arrRecentlyAddedContactInfo == benficiearies
         //{"mobile":"999999999",account:"1234467890"}
@@ -342,7 +342,7 @@ class TransferContactsSelectionScreenState extends BaseState<TransferContactsSel
     });
   }
 
-  errorTitleTextWidget() {
+  Widget errorTitleTextWidget() {
     return Container(
       margin: EdgeInsets.only(top: 16,),
       child: Text(

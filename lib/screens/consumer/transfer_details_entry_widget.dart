@@ -232,7 +232,7 @@ class TransferDetailsEntryWidgetState extends BaseState<TransferDetailsEntryWidg
     );
   }
 
-  categoryTransferWidget()  {
+  Widget categoryTransferWidget()  {
     return  Container(
       margin: EdgeInsets.only(top: 16),
       child: Column(
@@ -350,7 +350,7 @@ InputDecoration  getUnderLineBorder() {
            style: TextStyles.inputFieldOn222,
            isExpanded: true,
           items:// controller.customerProfile.value?.mappedBankAccounts??[]{
-          (controller.mappedItems.value)?.map((MappedBankAccountsBean item) {
+          (controller.mappedItems)?.map((MappedBankAccountsBean item) {
             return DropdownMenuItem<String>(
               child: getCustomItemWidget(item.bankName,item.maskedAccountNumber),
               //Text(item.bankName),

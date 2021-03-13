@@ -97,7 +97,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     ));
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 1,
       centerTitle: false,
@@ -121,7 +121,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     );
   }
 
-  _getDeliveryOption() {
+  Widget _getDeliveryOption() {
     return Container(
       color: Colors.white,
       margin: EdgeInsets.only(top: 16, bottom: 16),
@@ -246,7 +246,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     );
   }
 
-  _getDropDownList() {
+  Widget _getDropDownList() {
     return Container(
       margin: EdgeInsets.only(top: 8, bottom: 16),
       child: DropdownButton(
@@ -255,7 +255,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         icon: Container(),
         underline: Container(),
 //      itemHeight: 60,
-        onChanged: (val) {
+        onChanged: (DeliveryType val) {
           setState(() {
             deliveryType = val;
           });
@@ -265,7 +265,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     );
   }
 
-  _getItemList() {
+ Widget _getItemList() {
     if (controller.items != null && controller.items.length > 0) {
       return _getShopItemList();
     }
@@ -331,7 +331,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     );
   }
 
-  _getDropdownItems() {
+  List<DropdownMenuItem<DeliveryType>> _getDropdownItems() {
     return arrDeliveryType
         .map<DropdownMenuItem<DeliveryType>>((DeliveryType value) {
       return DropdownMenuItem(
@@ -354,7 +354,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     }).toList();
   }
 
-  _getSaveAsShoppingList() {
+ Widget _getSaveAsShoppingList() {
     return Container(
         color: Colors.white,
         padding: EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 8),
@@ -418,7 +418,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         ]));
   }
 
-  _getShadow() {
+  Decoration _getShadow() {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: [
@@ -436,7 +436,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         color: Colors.white);
   }
 
-  _showAddItemBottomSheet(OrderItems item) {
+  dynamic _showAddItemBottomSheet(OrderItems item) {
     return showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
@@ -451,7 +451,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         });
   }
 
-  _getShopItemList() {
+  Widget _getShopItemList() {
     return Container(
       color: Colors.white,
       margin: EdgeInsets.only(top: 8, bottom: 16),

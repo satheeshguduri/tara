@@ -50,7 +50,7 @@ class BankList {
   ];
   static final List<BankModel> arrBanks = List<BankModel>();
 
-  static init(){
+  static void init(){
     for (var i = 0; i < bankList.length; i++) {
       var paymentSource = BankModel();
       paymentSource.bankName = bankList[i];

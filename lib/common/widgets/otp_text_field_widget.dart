@@ -72,7 +72,7 @@ class _OTPTextFieldState extends State<OTPTextFieldWidget> {
     loadData();
   }
 
-  loadData()
+  void loadData()
   {
     _focusNodes = List<FocusNode>(widget.length);
     _textControllers = List<TextEditingController>(widget.length);
@@ -109,10 +109,11 @@ class _OTPTextFieldState extends State<OTPTextFieldWidget> {
   /// * Requires a build context
   /// * Requires Int position of the field
   Widget buildTextField(BuildContext context, int i) {
-      if (_focusNodes[i] == null) _focusNodes[i] = new FocusNode();
+      if (_focusNodes[i] == null) _focusNodes[i] = FocusNode();
 
-      if (_textControllers[i] == null)
-        _textControllers[i] = new TextEditingController();
+      if (_textControllers[i] == null) {
+        _textControllers[i] = TextEditingController();
+      }
 
     return Container(
       width: widget.fieldWidth,
@@ -157,10 +158,11 @@ class _OTPTextFieldState extends State<OTPTextFieldWidget> {
           // Remove focus
           if (str.isNotEmpty) _focusNodes[i].unfocus();
           // Set focus to the next field if available
-          if (i + 1 != widget.length && str.isNotEmpty)
+          if (i + 1 != widget.length && str.isNotEmpty) {
             FocusScope.of(context).requestFocus(_focusNodes[i + 1]);
+          }
 
-          String currentPin = "";
+          var currentPin = "";
           _pin.forEach((String value) {
             currentPin += value;
           });

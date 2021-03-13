@@ -179,7 +179,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
     );
   }
 
-  confirmTransferWidget()
+  Widget confirmTransferWidget()
   {
     return InkWell(
        onTap: ()
@@ -218,7 +218,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
     );
   }
 
-  getBorderContainer()
+  Widget getBorderContainer()
   {
     return Container(
       height: 3,

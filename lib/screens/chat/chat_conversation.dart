@@ -85,7 +85,7 @@ class ConversationPage extends StatefulWidget {
 }
 
 class _ConversationPageState extends BaseState<ConversationPage> {
-  final ScrollController listScrollController = new ScrollController();
+  final ScrollController listScrollController = ScrollController();
   List<String> arrStr = [];
   TextEditingController textEditingController = TextEditingController();
   bool isPlusClicked = false;
@@ -124,7 +124,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     isFromTaraOrder = widget.isFromTaraOrder;
     // getChatStaticArr();
     showChatInboxWidgets();
-    if (widget.arrChats != null && widget.arrChats.length != 0) {
+    if (widget.arrChats != null && widget.arrChats.isNotEmpty) {
       arrStr = widget.arrChats;
     }
     // arrStr = widget?.arrChats??[];
@@ -191,7 +191,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         .withProgressIndicator(showIndicator: controller.showProgress.value));
   }
 
-  showReceiveOrSendBottomSheet() {
+  Widget showReceiveOrSendBottomSheet() {
     Timer(Duration(milliseconds: 2), () {
       if (widget.isFromSend == true) {
         isToShowSendAndReceiveBottomSheet = false;
@@ -204,7 +204,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return Container();
   }
 
-  showCashDepositBottomSheet() {
+  Widget showCashDepositBottomSheet() {
     Timer(Duration(milliseconds: 2), () {
       if (widget.isFromTaraOrder == true) {
         cashDepositBottomSheet(widget.chatInboxInfo);
@@ -233,7 +233,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         });
   }
 
-  _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 1,
       centerTitle: false,
@@ -262,7 +262,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  getAppBarTitle() {
+  Widget getAppBarTitle() {
     return Text(
       getTranslation(Strings.TARA_CASH_DEPOSIT),
       textAlign: TextAlign.left,
@@ -270,7 +270,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  getAvatarWithName() {
+  Widget getAvatarWithName() {
     return Container(
       child: Row(
         children: [
@@ -298,7 +298,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                       width: 6,
                       height: 6,
                       margin: EdgeInsets.only(top: 4),
-                      decoration: new BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(0xffb2f7e2),
                         shape: BoxShape.circle,
                       ),
@@ -321,7 +321,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  getChatListView() {
+  Widget getChatListView() {
     // TODO: implement build
 //    return Container(height: MediaQuery.of(context).size.height,
 //        child:
@@ -378,7 +378,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             path: FirebasePath.getPath(
                 user?.customerProfile?.firebaseId, widget.custInfo.firebaseId)),
         padding:
-            new EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 120.0),
+            EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 120.0),
         reverse: false,
         itemBuilder:
             (_, DataSnapshot snapshot, Animation<double> animation, int x) {
@@ -392,7 +392,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           // }
           return data;
         });
-  }
+    }
 
   animateToEnd() {
     Timer(
@@ -423,9 +423,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       },
     );
     print(snapshot.value.toString());
-    String chatType = snapshot.value["messageType"];
+    var chatType = snapshot.value["messageType"].toString();
     if (chatType == describeEnum(MessageType.ORDER)) {
-      Order order = Order.fromSnapshot(snapshot);
+      var order = Order.fromSnapshot(snapshot);
       if (widget.fromScreen == FromScreen.merchant) {
         switch (order.orderStatus) {
           case Statuses.PENDING:
@@ -596,7 +596,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     }
   }
 
-  showChatInboxWidgets() {
+  void showChatInboxWidgets() {
     if (isFromTaraOrder == false) {
       if (chatInboxInfoGlobal != null &&
           chatInboxInfoGlobal.chatCardTitle != null) {
@@ -608,7 +608,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     }
   }
 
-  consumerAcceptDeclineOrderPayment(ChatAction chatAction) async {
+  void consumerAcceptDeclineOrderPayment(ChatAction chatAction) async {
     if (chatAction == ChatAction.pay) {
       // update Order with Pay Accepted
       customerOrder.status = Statuses.PAID;
@@ -624,7 +624,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     }
   }
 
-  getChatStaticArr() {
+  void getChatStaticArr() {
     arrStr.add("onTheWay_isArrived");
     arrStr.add("onTheWay_isArrived_false");
     arrStr.add("agent_confirmed");
@@ -658,7 +658,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     return textMessage;
   }
 
-  getChatInputWidget() {
+  Widget getChatInputWidget() {
     return Column(
       children: [
         Container(
@@ -669,14 +669,14 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                 margin: EdgeInsets.only(left: 16, right: 8),
                 width: 40,
                 height: 40,
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.header_top_bar_color,
                   shape: BoxShape.circle,
                 ),
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 1.0),
                   child: IconButton(
-                    icon: new Icon(
+                    icon: Icon(
                       isPlusClicked ? Icons.close : Icons.add,
                       color: Colors.white,
                     ),
@@ -772,7 +772,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  getSendReceiveWidget() {
+  Widget getSendReceiveWidget() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -798,7 +798,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     );
   }
 
-  getRoundedButton(
+  Widget getRoundedButton(
     String buttonText,
     Color buttonColor,
     Color imageColor,
@@ -821,7 +821,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             Container(
               margin: EdgeInsets.only(left: 8, right: 8),
               height: 56,
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 color: Color(0xffb2f7e2),
                 shape: BoxShape.circle,
               ),
