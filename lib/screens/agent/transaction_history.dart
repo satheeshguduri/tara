@@ -214,6 +214,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                 onPressed: () {
                   transactionHistoryController.searchText.value.isEmpty;
                   transactionHistoryController.searchQuery.clear();
+                  transactionHistoryController.searchInProgress.value = false;
                 },
               ),
             ),
@@ -285,15 +286,20 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                   ),
                                 ),
                                 Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.45,
                                   margin: EdgeInsets.only(top: 4),
                                   child: Text(
                                     transactionInfo.remarks,
                                     textAlign: TextAlign.left,
                                     style: TextStyles.bUTTONBlack2,
+                                    overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                   ),
                                 ),
                                 Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.45,
                                   margin: EdgeInsets.only(top: 4),
                                   child: ClipRect(
                                     clipBehavior: Clip.hardEdge,
@@ -302,7 +308,7 @@ class _TransactionHistoryState extends BaseState<TransactionHistory> {
                                       textAlign: TextAlign.left,
                                       style:
                                           BaseStyles.saveToMyContactTextStyle,
-                                      overflow: TextOverflow.ellipsis,
+                                      overflow: TextOverflow.visible,
                                     ),
                                   ),
                                 )
