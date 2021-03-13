@@ -16,13 +16,19 @@ import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/controller/cart_controller.dart';
 import 'package:tara_app/shop/shop_category_item_description.dart';
+import 'package:tara_app/shop/shop_bottom_sheet_widget.dart';
+import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+
 
 
 class ShopCategoryDetailsScreen extends StatefulWidget {
-
   final  int categoryId;
   final String title;
-  ShopCategoryDetailsScreen({Key key,this.categoryId,this.title}) : super(key: key);  @override
+  final Store merchantStore;
+  final CustomerProfile merchantProfile;
+
+  ShopCategoryDetailsScreen({Key key,this.categoryId,this.title,this.merchantStore,this.merchantProfile}) : super(key: key);  @override
   ShopCategoryDetailsScreenState createState() => ShopCategoryDetailsScreenState();
 }
 
@@ -249,7 +255,9 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
       return  Row(
          mainAxisAlignment: MainAxisAlignment.end,
           children: [searchIcon(),
-           Container( width: 48,height: 48,child:cartIcon())
+           Container( width: 48,height: 48,child:cartIcon()).onTap(onPressed: (){
+             showCartDetailsInBottomSheet();
+           })
           //  )
           ]
       );
@@ -287,7 +295,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
           }
         )
       ),
-       Obx(()=> Positioned(
+        Positioned(
           top: 4,
           right: 0,
           child: Container(
@@ -298,11 +306,11 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
               color: AppColors.badge_color,
               borderRadius: Radii.border(7),
             ),
-
-            child: Text(getCartItemsCount(),
+            child: Obx(()=>Text(cartController.getCartItemsCount(),
               textAlign: TextAlign.center,
               style: BaseStyles.notificationBadgeTextStyle,
             ),
+
           ),
         ),
        ) ],
@@ -443,6 +451,30 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
        totalCount = totalCount+cartController.cartItems[i].orderQuantity??0;
     }
     return totalCount.toString();
+  }
+
+  void showCartDetailsInBottomSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc) {
+          return ShopBottomSheetWidget(plusButton: (){
+            setState(() {
+              print("plus click");
+
+            });
+          },minusButton: (){
+            print("minus click");
+            setState(() {
+
+            });
+          },merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,);
+
+
+        }
+    );
   }
 
 

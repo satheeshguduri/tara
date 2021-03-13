@@ -17,6 +17,8 @@ import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
 import 'package:tara_app/services/config/api.dart';
+import 'package:tara_app/models/order_management/orders/create_order_req.dart';
+import 'package:tara_app/models/order_management/orders/create_order_res.dart';
 
 part 'order_rest_client.g.dart';
 
@@ -64,7 +66,7 @@ abstract class OrderRestClient {
 
 // Orders api's
   @POST(API.create_order)
-  Future<Order> createOrder(@Header("Authorization") String token,@Body() Order order);
+  Future<CreateOrderResponse> createOrder(@Header("Authorization") String token,@Body() CreateOrderRequest order);
 
   // @POST(API.create_order)
   // Future<Order> deleteOrder(@Header("Authorization") String token,@Body()  String orderId);

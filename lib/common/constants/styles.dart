@@ -730,8 +730,6 @@ class TextStyles {
   static const body2222 = const TextStyle(
       color:  Color(0xff123456),
       fontWeight: FontWeight.w400,
-
-      
       fontSize: 14.0
   );
   static const bUTTONSmallWhite222 = const TextStyle(

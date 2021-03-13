@@ -393,25 +393,25 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
             ),
             onTap: () async{
              if (controller.items.length > 0 ){
-               var orderReq = order.Order();
-               orderReq.items = controller.items.value;
-               orderReq.customerId = user.customerProfile.id;
-               orderReq.merchantId = widget.merchantStore.owner.integrationId.toString();
-               orderReq.storeId = widget.merchantStore;
-               orderReq.deliveryAddress = address;
-               orderReq.status = Statuses.PENDING;
-               orderReq.orderDate = DateTime.now();   //"2020-10-09";
-               orderReq.orderType = OrderTypes.TEXT_BASED;
-
-               var data = OrderExtraData(customer_commid: user.customerProfile.firebaseId,
-                   merchant_commid: widget.merchantProfile.firebaseId,interpret: "true");
-               var orderExtra = JsonbOrderExtra(data:data);
-               orderReq.order_extra = orderExtra;
-               Either<Failure,order.Order> response = await controller.createOrder(orderReq);
-                   response.fold((l) => print(l.message),
-                           (r) => {
-                   Navigator.pop(context, false)
-                   });
+               // var orderReq = order.Order();
+               // orderReq.items = controller.items.value;
+               // orderReq.customerId = user.customerProfile.id;
+               // orderReq.merchantId = widget.merchantStore.owner.integrationId.toString();
+               // orderReq.storeId = widget.merchantStore;
+               // orderReq.deliveryAddress = address;
+               // orderReq.status = Statuses.PENDING;
+               // orderReq.orderDate = DateTime.now();   //"2020-10-09";
+               // orderReq.orderType = OrderTypes.TEXT_BASED;
+               //
+               // var data = OrderExtraData(customer_commid: user.customerProfile.firebaseId,
+               //     merchant_commid: widget.merchantProfile.firebaseId,interpret: "true");
+               // var orderExtra = JsonbOrderExtra(data:data);
+               // orderReq.order_extra = orderExtra;
+               // Either<Failure,CreateOrderResponse> response = await controller.createOrder(orderReq);
+               //     response.fold((l) => print(l.message),
+               //             (r) => {
+               //     Navigator.pop(context, false)
+               //     });
              }
             },
           )

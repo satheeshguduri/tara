@@ -12,6 +12,8 @@ import 'package:tara_app/services/rest/order_rest_client.dart';
 import 'package:tara_app/services/rest/rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
+import 'package:tara_app/models/order_management/orders/create_order_req.dart';
+import 'package:tara_app/models/order_management/orders/create_order_res.dart';
 
 
 class OrderRepositoryImpl extends OrderRepository{
@@ -24,7 +26,7 @@ class OrderRepositoryImpl extends OrderRepository{
   OrderRepositoryImpl(this.userLocalDataSource,this.networkInfo,this.remoteDataSource);
 
   @override
-  Future<Either<Failure, order.Order>> createOrder(order.Order order) async{
+  Future<Either<Failure, CreateOrderResponse>> createOrder(CreateOrderRequest order) async{
     // AuthResponse user = Get.find();
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();

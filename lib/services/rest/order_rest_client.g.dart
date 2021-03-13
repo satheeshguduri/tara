@@ -24,7 +24,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(store?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/store',
         queryParameters: queryParameters,
@@ -46,7 +45,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(owner?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/owner',
         queryParameters: queryParameters,
@@ -68,7 +66,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(store?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/store',
         queryParameters: queryParameters,
@@ -123,14 +120,13 @@ class _OrderRestClient implements OrderRestClient {
   }
 
   @override
-  Future<Order> createOrder(token, order) async {
+  Future<CreateOrderResponse> createOrder(token, order) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(order, 'order');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(order?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/order',
         queryParameters: queryParameters,
@@ -140,7 +136,7 @@ class _OrderRestClient implements OrderRestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Order.fromJson(_result.data);
+    final value = CreateOrderResponse.fromJson(_result.data);
     return value;
   }
 
@@ -153,7 +149,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(order?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/order/$orderId',
         queryParameters: queryParameters,
@@ -303,7 +298,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(catalogue?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/order',
         queryParameters: queryParameters,
@@ -325,7 +319,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(catalogue?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/order',
         queryParameters: queryParameters,

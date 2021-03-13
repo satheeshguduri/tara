@@ -8,31 +8,26 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:tara_app/controller/cart_controller.dart';
 import 'package:tara_app/models/order_management/item/item.dart';
+import 'package:tara_app/shop/shop_bottom_sheet_widget.dart';
+import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+
 
 
 class ShopCategoryItemDescription extends StatefulWidget {
 
   final Item categoryItem;
-  ShopCategoryItemDescription({this.categoryItem});
+  final Store merchantStore;
+  final CustomerProfile merchantProfile;
+  ShopCategoryItemDescription({this.categoryItem,this.merchantStore,this.merchantProfile});
   @override
   _ShopCategoryItemDescriptionState createState() => _ShopCategoryItemDescriptionState();
 }
 
 class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescription> {
-  int selectedSegmentIndex = 0;
   int _current = 0;
   List imageList = ['assets/images/temp_one.png','assets/images/temp_two.png','assets/images/temp_three.png'];
   CartController cartController = Get.find();
-
-
-  List<T> mapT<T>(List list,Function handler){
-    List<T> result = [];
-    for(var i=0;i<list.length;i++){
-      result.add(handler(i,list[i]));
-    }
-    return result;
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +55,12 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
         Container (
           height: 200,
           width: double.infinity,
-
           child:  CarouselSlider(
             items:imageList.map((imgUrl) {
-
               return Builder(
                 builder: (BuildContext context){
                   return Container(
-                    // height: 200,
-                    //  width: double.infinity,
                     child: Image(image: AssetImage(imgUrl),width: Get.width,height: 200,fit: BoxFit.fill,
-
                     ),
                   );
                 },
@@ -78,8 +68,6 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
               );
             }).toList(),
             options: CarouselOptions(
-              // autoPlay: true,
-
                 enableInfiniteScroll: false,
                 aspectRatio: 3.0,
                 // enlargeCenterPage: true,
@@ -100,7 +88,6 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(topLeft:Radius.circular(206),
                   bottomLeft:    Radius.circular(206),
-
                 ),
                 color: const Color(0x33000000)
             ),
@@ -121,7 +108,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
                     }
                     )
                 ),
-                Obx(()=> Positioned(
+                  Positioned(
                   top: 4,
                   right: 0,
                   child: Container(
@@ -133,13 +120,14 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
                       borderRadius: Radii.border(7),
                     ),
 
-                    child: Text(getCartItemsCount(),
+                    child:Obx(()=> Text(cartController.getCartItemsCount(),
                       textAlign: TextAlign.center,
                       style: BaseStyles.notificationBadgeTextStyle,
                     ),
+                    )
                   ),
                 ),
-                ) ],
+                 ],
             ),
 
           ).onTap(onPressed: () {
@@ -186,7 +174,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: mapT<Widget>(imageList,(index,url){
+              children: cartController.mapT<Widget>(imageList,(index,url){
                 return Container(
                   width: 6,
                   height: 6,
@@ -205,6 +193,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
 
   Widget  getAddCartContainer() {
     return Container(
+      width: double.infinity,
       height: 176,
       decoration: getCartDecoration(),
       child: Column(
@@ -232,19 +221,14 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
             padding: EdgeInsets.only(left: 16),
             child: Text(
                 "± 200gr / Ikat",
-                style: const TextStyle(
-                    color:  AppColors.color_black_80_2_2_2,
-                    fontWeight: FontWeight.w500,
-                    fontStyle:  FontStyle.normal,
-                    fontSize: 14.0
-                )
+                style:BaseTextStyles.itemPriceTextStyle
             ),
           ),
           // Rectangle
           Padding(
             padding: EdgeInsets.all(16),
             child: Container(
-              width: 328,
+              width: double.infinity,
               height: 55,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
@@ -626,7 +610,6 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
 
     });
   }
-  void Function(VoidCallback fn) setModelState;
   void showCartDetailsInBottomSheet() {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -634,493 +617,350 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
         backgroundColor: Colors.transparent,
         context: context,
         builder: (BuildContext bc) {
-          return  StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState){
-                setModelState = setState;
-                return Container(
-                  //padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                        color: Colors.white
-                    ),
-                    child: Wrap(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Container(
-                              width: 53,
-                              height: 4,
-                              margin: EdgeInsets.only(bottom: 16),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(4)
-                                  ),
-                                  color: AppColors.light_grey_bg_color
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 16),
-                            child: Text(
-                                getTranslation(Strings.mycart),
-                                style: TextStyles.myAccountsCardTextStyle
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 16,right: 16),
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 16, bottom: 16),
-                                    height: 48,
-                                    decoration: BoxDecoration(
-                                        borderRadius: Radii.border(24), color: const Color(0xfff7f7f7)),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          height: 40,
-                                          width: 160,
-                                          decoration: selectedSegmentIndex == 0 ? _getShadow() : null,
-                                          child: InkWell(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(Assets.ic_van),
-                                                Text(getTranslation(Strings.delivery),
-                                                    style:  BaseTextStyles.deliveryTextStyle,
-                                                    textAlign: TextAlign.center)
-                                              ],
-                                            ),
-                                            onTap: (){
-                                              setModelState(() {
-                                                selectedSegmentIndex = 0;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        Container(
-                                          height: 40,
-                                          width: 160,
-                                          decoration: selectedSegmentIndex == 1 ? _getShadow() : null,
-                                          child: InkWell(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Image.asset(
-                                                  Assets.ic_bag,
-                                                  width: 24,
-                                                ),
-                                                Text(getTranslation(Strings.pickup),
-                                                    style: BaseTextStyles.pickUpTextStyle,
-                                                    textAlign: TextAlign.center)
-                                              ],
-                                            ),
-                                            onTap: (){
-                                              setModelState(() {
-                                                selectedSegmentIndex = 1;
-                                              });
-                                            },
-                                          ),
+          return ShopBottomSheetWidget(plusButton: (){
+            setState(() {
+              print("plus click");
 
+            });
+          },minusButton: (){
+            print("minus click");
+            setState(() {
 
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
-                                SizedBox(height: 8,),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 16,right: 16),
-                                    child:selectedSegmentIndex==0?getAddressWidget():Container()),
-                                SizedBox(height: 8,),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 16,right: 16),
-                                    child: Container
-                                      (
-                                      height: 160,
-                                      decoration: BoxDecoration(
-                                          color: AppColors.elevation_off_2_2_2
-                                      ),
-                                      child: ListView.builder(
-                                          itemCount: cartController.cartItems.length,
-                                          itemBuilder: (context,index){
-                                            return customCartListTile(cartController.cartItems[index]);
-
-                                          }),
-                                    )
-
-                                ),
-                                SizedBox(height: 16,),
-                                Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
-                                SizedBox(height: 16,),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 16,right: 16),
-                                  child: Container(
-                                    height: 136,
-                                    decoration: BoxDecoration(
-                                        color: AppColors.elevation_off_2_2_2
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                           getTranslation(Strings.youmayalsolike),
-                                            style: TextStyles.subtitle1222
-                                        ),
-                                        Expanded(child: getYouMayLikeList())
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
-                                getPlaceOrderWidget()
-
-
-
-                              ],
-                            ),
-                          )
-                        ]
-                    )
-                );
-              });
+            });
+          }, merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,);
 
 
         }
     );
   }
 
-  Widget customCartListTile(Item cartItem) {
-    var list = cartController.cartItems.value.where((e) => e.id == cartItem.id).toList();
-    return Row(
+  // Widget customCartListTile(Item cartItem) {
+  //   var list = cartController.cartItems.value.where((e) => e.id == cartItem.id).toList();
+  //   return Row(
+  //
+  //     children: [
+  //       Image(image: AssetImage('assets/images/temp_apple.png'),width: 56,height: 56,),
+  //       Expanded(
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //                 cartItem.itemName,
+  //                 style: TextStyles.body2222
+  //             ),
+  //             Column(
+  //               children: [
+  //                 Text(
+  //                     "Price / 100gr",
+  //                     style:BaseTextStyles.descriptionPriceStyle
+  //                 ),
+  //                 Text(
+  //                     cartItem.price.toString(),
+  //                     style: TextStyles.subtitle3222
+  //                 ),
+  //               ],
+  //             ),
+  //
+  //
+  //
+  //           ],
+  //         ),
+  //       ),
+  //       Row(
+  //         children: [
+  //           Container(
+  //             width: 24,
+  //             height: 24,
+  //             decoration: BoxDecoration(
+  //                 borderRadius: BorderRadius.all(
+  //                     Radius.circular(4)
+  //                 ),
+  //                 color: AppColors.color_mint_100_2_2_2
+  //             ),
+  //
+  //             child:getSvgImage(imagePath: Assets.assets_icon_m_minus, width: 16.0,height: 16.0),
+  //
+  //           ).onTap(onPressed: (){ // - minus
+  //           //  setModelState(() {
+  //               minusWidgetOnTap(list);
+  //           //  });
+  //
+  //
+  //           }
+  //           ),
+  //           Container(
+  //             width: 28,
+  //             child: Obx(()=>
+  //                 Text(
+  //                     cartController.cartItems.where((e) => e.id ==list[0].id).toList()[0].orderQuantity.toString(),
+  //                     style: TextStyles.bUTTONBlack222,
+  //                     textAlign: TextAlign.center
+  //                 ),
+  //             ),
+  //
+  //           ),
+  //           Container(
+  //             width: 24,
+  //             height: 24,
+  //             decoration: BoxDecoration(
+  //                 borderRadius: BorderRadius.all(
+  //                     Radius.circular(4)
+  //                 ),
+  //                 color: AppColors.color_mint_100_2_2_2
+  //             ),
+  //             child: getSvgImage(imagePath: Assets.icon_content_add_24_px, width: 16.0,height: 16.0),
+  //           ).onTap(onPressed: (){
+  //            // setModelState(() {
+  //               plusWidgetOnTap(list);
+  //            // });
+  //
+  //
+  //           }
+  //           )
+  //         ],
+  //       )
+  //     ],
+  //
+  //   );
+  //
+  // }
 
-      children: [
-        Image(image: AssetImage('assets/images/temp_apple.png'),width: 56,height: 56,),
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                  cartItem.itemName,
-                  style: TextStyles.body2222
-              ),
-              Column(
-                children: [
-                  Text(
-                      "Price / 100gr",
-                      style:BaseTextStyles.descriptionPriceStyle
-                  ),
-                  Text(
-                      cartItem.price.toString(),
-                      style: TextStyles.subtitle3222
-                  ),
-                ],
-              ),
+  // Widget getYouMayLikeList() {
+  //   return Container(
+  //       height: 136,
+  //       margin: EdgeInsets.only(left: 16),
+  //       child: ListView.builder(
+  //           scrollDirection: Axis.horizontal,
+  //           itemCount: 5,
+  //           itemBuilder: (context, index) {
+  //             return youMayAlsoLikeListTile(); // Container
+  //
+  //           }
+  //       )
+  //   );
+  // }
+
+  // Widget youMayAlsoLikeListTile() {
+  //   return // Container
+  //     Padding(
+  //       padding: EdgeInsets.all(8),
+  //       child: Container(
+  //         width: 208,
+  //         //   height: 72,
+  //         decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.all(
+  //                 Radius.circular(8)
+  //             ),
+  //             boxShadow: [BoxShadow(
+  //                 color: const Color(0x1f000000),
+  //                 offset: Offset(0,4),
+  //                 blurRadius: 6,
+  //                 spreadRadius: 0
+  //             ), BoxShadow(
+  //                 color: const Color(0x14000000),
+  //                 offset: Offset(0,0),
+  //                 blurRadius: 2,
+  //                 spreadRadius: 0
+  //             )] ,
+  //             color: AppColors.elevation_off_2_2_2
+  //         ),
+  //         child: Row(
+  //           children: [
+  //             Padding(
+  //                 padding: EdgeInsets.all(8),
+  //                 child: Image(image: AssetImage('assets/images/temp_apple.png'),width: 46,height: 56,)),
+  //             Padding(
+  //               padding: EdgeInsets.all(8),
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //                 children: [
+  //                   Text(
+  //                       "Jamur Kuping (100…",
+  //                       style: TextStyles.body2222
+  //                   ),
+  //                   Column(
+  //                     children: [
+  //                       Text(
+  //                           "Price / 100gr",
+  //                           style: BaseTextStyles.descriptionPriceStyle
+  //                       ),
+  //                       SizedBox(height: 6,),
+  //                       Text(
+  //                           "Rp 3.000 - 4.100",
+  //                           style: TextStyles.subtitle3222
+  //                       )
+  //                     ],
+  //                   )
+  //                 ],
+  //               ),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //
+  //     );
+  // }
+
+  // Widget getAddressWidget() {
+  //   return  Container(
+  //     width: 328,
+  //     height: 48,
+  //     decoration: BoxDecoration(
+  //         borderRadius: BorderRadius.all(
+  //             Radius.circular(8)
+  //         ),
+  //         border: Border.all(
+  //             color: AppColors.grey2,
+  //             width: 1
+  //         ),
+  //         color: AppColors.elevation_off_2_2_2
+  //     ),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //       children: [
+  //         getSvgImage(imagePath: Assets.assets_icon_l_location_outline, width: 24.0,height: 24.0),
+  //         // Jl. Kedoya Raya, Kot
+  //         Container(
+  //           width: Get.width*0.6,
+  //           child: Text(
+  //               "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …",
+  //               style: TextStyles.body2222
+  //           ),
+  //         ),
+  //         Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Text(getTranslation(Strings.CHANGE),
+  //                 style: TextStyles.bUTTONBlack222,
+  //                 textAlign: TextAlign.center),
+  //             Container(
+  //                 width: 63,
+  //                 height: 2,
+  //                 decoration:
+  //                 BoxDecoration(color: AppColors.pale_turquoise))
+  //           ],
+  //         ),
+  //         // getSeeAllText(),
+  //
+  //       ],
+  //     ),
+  //
+  //   );
+  // }
 
 
-
-            ],
-          ),
-        ),
-        Row(
-          children: [
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(4)
-                  ),
-                  color: AppColors.color_mint_100_2_2_2
-              ),
-
-              child:getSvgImage(imagePath: Assets.assets_icon_m_minus, width: 16.0,height: 16.0),
-
-            ).onTap(onPressed: (){ // - minus
-              setModelState(() {
-                minusWidgetOnTap(list);
-              });
-
-
-            }
-            ),
-            Container(
-              width: 28,
-              child: Obx(()=>
-                  Text(
-                      cartController.cartItems.where((e) => e.id ==list[0].id).toList()[0].orderQuantity.toString(),
-                      style: TextStyles.bUTTONBlack222,
-                      textAlign: TextAlign.center
-                  ),
-              ),
-
-            ),
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(4)
-                  ),
-                  color: AppColors.color_mint_100_2_2_2
-              ),
-              child: getSvgImage(imagePath: Assets.icon_content_add_24_px, width: 16.0,height: 16.0),
-            ).onTap(onPressed: (){
-              setModelState(() {
-                plusWidgetOnTap(list);
-              });
-
-
-            }
-            )
-          ],
-        )
-      ],
-
-    );
-
-  }
-
-  Widget getYouMayLikeList() {
-    return Container(
-        height: 136,
-        margin: EdgeInsets.only(left: 16),
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return youMayAlsoLikeListTile(); // Container
-
-            }
-        )
-    );
-  }
-
-  Widget youMayAlsoLikeListTile() {
-    return // Container
-      Padding(
-        padding: EdgeInsets.all(8),
-        child: Container(
-          width: 208,
-          //   height: 72,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                  Radius.circular(8)
-              ),
-              boxShadow: [BoxShadow(
-                  color: const Color(0x1f000000),
-                  offset: Offset(0,4),
-                  blurRadius: 6,
-                  spreadRadius: 0
-              ), BoxShadow(
-                  color: const Color(0x14000000),
-                  offset: Offset(0,0),
-                  blurRadius: 2,
-                  spreadRadius: 0
-              )] ,
-              color: AppColors.elevation_off_2_2_2
-          ),
-          child: Row(
-            children: [
-              Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Image(image: AssetImage('assets/images/temp_apple.png'),width: 46,height: 56,)),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                        "Jamur Kuping (100…",
-                        style: TextStyles.body2222
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                            "Price / 100gr",
-                            style: BaseTextStyles.descriptionPriceStyle
-                        ),
-                        SizedBox(height: 6,),
-                        Text(
-                            "Rp 3.000 - 4.100",
-                            style: TextStyles.subtitle3222
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-
-      );
-  }
-
-  Widget getAddressWidget() {
-    return  Container(
-      width: 328,
-      height: 48,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-              Radius.circular(8)
-          ),
-          border: Border.all(
-              color: AppColors.grey2,
-              width: 1
-          ),
-          color: AppColors.elevation_off_2_2_2
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          getSvgImage(imagePath: Assets.assets_icon_l_location_outline, width: 24.0,height: 24.0),
-          // Jl. Kedoya Raya, Kot
-          Container(
-            width: Get.width*0.6,
-            child: Text(
-                "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …",
-                style: TextStyles.body2222
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(getTranslation(Strings.CHANGE),
-                  style: TextStyles.bUTTONBlack222,
-                  textAlign: TextAlign.center),
-              Container(
-                  width: 63,
-                  height: 2,
-                  decoration:
-                  BoxDecoration(color: AppColors.pale_turquoise))
-            ],
-          ),
-          // getSeeAllText(),
-
-        ],
-      ),
-
-    );
-  }
-
-
-  Widget getPlaceOrderWidget() {
-
-    return  Container(
-
-      height: 56,
-      decoration: BoxDecoration(
-          color: AppColors.elevation_off_2_2_2
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(padding: EdgeInsets.only(left: 16),
-                child: Container(
-                  width: 40,
-                  height: 56,
-                  child: Stack(
-                    alignment: Alignment.centerLeft,
-                    children: [
-                      Positioned(
-                        //   left: 0,
-                          child: Container(
-                            margin: EdgeInsets.only(right: 12),
-                            height: 24,
-                            width: 24,
-                            child: getSvgImage(imagePath: Assets.assets_icon_c_cart,color:AppColors.color_black_100_2_2_2,
-                                width: 18.0,
-                                height: 18.0),
-                          ).onTap(onPressed: (){
-
-                          }
-                          )
-                      ),
-                      Obx(()=> Positioned(
-                        top: 10,
-                        left: 16,
-                        child: Container(
-                          margin: EdgeInsets.only(right: 16),
-                          width: 14,
-                          height: 14,
-                          decoration: BoxDecoration(
-                            color: AppColors.badge_color,
-                            borderRadius: Radii.border(7),
-                          ),
-
-                          child: Text(getCartItemsCount(),
-                            textAlign: TextAlign.center,
-                            style: BaseStyles.notificationBadgeTextStyle,
-                          ),
-                        ),
-                      ),
-                      ) ],
-                  ),
-                ),              ),
-              //  SizedBox(width: 16,),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Price Estimation
-                  Text(
-                      getTranslation(Strings.priceestimation),
-                      style:BaseTextStyles.descriptionPriceStyle
-                  ),
-                  SizedBox(height: 6,),
-                  Obx(()=> Text(
-                      getCartItemsTotalAmount(),
-                      style: TextStyles.subtitle1222
-                  )
-                  )
-                ],
-              )
-            ],
-          ),
-          // Container
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Container(
-              width: 164,
-              height: 40,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(8)
-                  ),
-                  color: AppColors.color_mint_100_2_2_2
-              ),
-              child: Row(
-                children: [
-                  // Place Order
-                  Expanded(
-                    child: Text(
-                       getTranslation(Strings.place_order),
-                        style: TextStyles.bUTTONBlack222,
-                        textAlign: TextAlign.center
-                    ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(right: 8),
-                      child:getSvgImage(imagePath: Assets.assets_icon_f_forward_arrow, width: 24.0,height: 24.0)),
-                ],
-              ),
-            ),
-          )
-
-        ],
-      ),
-    );
-
-  }
+  // Widget getPlaceOrderWidget() {
+  //
+  //   return  Container(
+  //
+  //     height: 56,
+  //     decoration: BoxDecoration(
+  //         color: AppColors.elevation_off_2_2_2
+  //     ),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Padding(padding: EdgeInsets.only(left: 16),
+  //               child: Container(
+  //                 width: 40,
+  //                 height: 56,
+  //                 child: Stack(
+  //                   alignment: Alignment.centerLeft,
+  //                   children: [
+  //                     Positioned(
+  //                       //   left: 0,
+  //                         child: Container(
+  //                           margin: EdgeInsets.only(right: 12),
+  //                           height: 24,
+  //                           width: 24,
+  //                           child: getSvgImage(imagePath: Assets.assets_icon_c_cart,color:AppColors.color_black_100_2_2_2,
+  //                               width: 18.0,
+  //                               height: 18.0),
+  //                         ).onTap(onPressed: (){
+  //
+  //                         }
+  //                         )
+  //                     ),
+  //                      Positioned(
+  //                       top: 10,
+  //                       left: 16,
+  //                       child: Container(
+  //                         margin: EdgeInsets.only(right: 16),
+  //                         width: 14,
+  //                         height: 14,
+  //                         decoration: BoxDecoration(
+  //                           color: AppColors.badge_color,
+  //                           borderRadius: Radii.border(7),
+  //                         ),
+  //
+  //                         child:Obx(()=> Text(cartController.getCartItemsCount(),
+  //                           textAlign: TextAlign.center,
+  //                           style: BaseStyles.notificationBadgeTextStyle,
+  //                         )
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     ],
+  //                 ),
+  //               ),              ),
+  //             //  SizedBox(width: 16,),
+  //             Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 // Price Estimation
+  //                 Text(
+  //                     getTranslation(Strings.priceestimation),
+  //                     style:BaseTextStyles.descriptionPriceStyle
+  //                 ),
+  //                 SizedBox(height: 6,),
+  //                 Obx(()=> Text(
+  //                     getCartItemsTotalAmount(),
+  //                     style: TextStyles.subtitle1222
+  //                 )
+  //                 )
+  //               ],
+  //             )
+  //           ],
+  //         ),
+  //         // Container
+  //         Padding(
+  //           padding: EdgeInsets.only(right: 16),
+  //           child: Container(
+  //             width: 164,
+  //             height: 40,
+  //             decoration: BoxDecoration(
+  //                 borderRadius: BorderRadius.all(
+  //                     Radius.circular(8)
+  //                 ),
+  //                 color: AppColors.color_mint_100_2_2_2
+  //             ),
+  //             child: Row(
+  //               children: [
+  //                 // Place Order
+  //                 Expanded(
+  //                   child: Text(
+  //                      getTranslation(Strings.place_order),
+  //                       style: TextStyles.bUTTONBlack222,
+  //                       textAlign: TextAlign.center
+  //                   ),
+  //                 ),
+  //                 Padding(
+  //                     padding: EdgeInsets.only(right: 8),
+  //                     child:getSvgImage(imagePath: Assets.assets_icon_f_forward_arrow, width: 24.0,height: 24.0)),
+  //               ],
+  //             ),
+  //           ),
+  //         )
+  //
+  //       ],
+  //     ),
+  //   );
+  //
+  // }
 
   loadCards() {
     List<Widget> loadCards() {
@@ -1137,21 +977,21 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
     }
   }
 
-  String getCartItemsCount() {
-    num totalCount=0;
-    for(int i=0;i<cartController.cartItems.length;i++){
-      totalCount = totalCount+cartController.cartItems[i].orderQuantity??0;
-    }
-    return totalCount.toString();
-  }
+  // String getCartItemsCount() {
+  //   num totalCount=0;
+  //   for(int i=0;i<cartController.cartItems.length;i++){
+  //     totalCount = totalCount+cartController.cartItems[i].orderQuantity??0;
+  //   }
+  //   return totalCount.toString();
+  // }
 
-  String getCartItemsTotalAmount() {
-    double totalAmount=0;
-    for(int i=0;i<cartController.cartItems.length;i++){
-      totalAmount = totalAmount+cartController.cartItems[i].orderQuantity*cartController.cartItems[i].price??0;
-    }
-    return totalAmount.toString();
-  }
+  // String getCartItemsTotalAmount() {
+  //   double totalAmount=0;
+  //   for(int i=0;i<cartController.cartItems.length;i++){
+  //     totalAmount = totalAmount+cartController.cartItems[i].orderQuantity*cartController.cartItems[i].price??0;
+  //   }
+  //   return totalAmount.toString();
+  // }
   Widget showAddItemOrAddingWidget() {
     var list = cartController.cartItems.value.where((e) => e.id == widget.categoryItem.id).toList();
     if(list.isNotEmpty){
@@ -1239,23 +1079,23 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
     );
   }
 
-  _getShadow() {
-    return BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: [
-          BoxShadow(
-              color: const Color(0x1f000000),
-              offset: Offset(0, 4),
-              blurRadius: 6,
-              spreadRadius: 0),
-          BoxShadow(
-              color: const Color(0x14000000),
-              offset: Offset(0, 0),
-              blurRadius: 2,
-              spreadRadius: 0)
-        ],
-        color: Colors.white);
-  }
+  // _getShadow() {
+  //   return BoxDecoration(
+  //       borderRadius: BorderRadius.all(Radius.circular(20)),
+  //       boxShadow: [
+  //         BoxShadow(
+  //             color: const Color(0x1f000000),
+  //             offset: Offset(0, 4),
+  //             blurRadius: 6,
+  //             spreadRadius: 0),
+  //         BoxShadow(
+  //             color: const Color(0x14000000),
+  //             offset: Offset(0, 0),
+  //             blurRadius: 2,
+  //             spreadRadius: 0)
+  //       ],
+  //       color: Colors.white);
+  // }
 
 
 

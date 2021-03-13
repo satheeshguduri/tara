@@ -4,10 +4,9 @@ import 'color_const.dart';
 import 'colors.dart';
 
 class BaseTextStyles {
-  TextStyle getFadedText(
-          {Color color = Colors.red,
-          double size = 12,
-          FontWeight fontWeight = FontWeight.w500}) =>
+  TextStyle getFadedText({Color color = Colors.red,
+    double size = 12,
+    FontWeight fontWeight = FontWeight.w500}) =>
       TextStyle(
         color: color,
         fontWeight: fontWeight,
@@ -257,17 +256,27 @@ class BaseTextStyles {
   static const ofterBoughtTitleTextStyle = const TextStyle(
       color: AppColors.input_field_line_off_2_2_2,
       fontWeight: FontWeight.w500,
-      fontStyle: FontStyle.normal,
       fontSize: 14.0);
   static const deliveryTextStyle = const TextStyle(
       color: AppColors.fareColor,
       fontWeight: FontWeight.w500,
-      fontStyle: FontStyle.normal,
       fontSize: 14.0);
 
   static const pickUpTextStyle = const TextStyle(
       color: AppColors.fareColor,
       fontWeight: FontWeight.w500,
-      fontStyle: FontStyle.normal,
       fontSize: 14.0);
+
+  static const body222BottomListItem = const TextStyle(
+      color: Color(0xff123456),
+      fontWeight: FontWeight.w500,
+      fontSize: 14.0
+  );
+  static const itemPriceTextStyle =const TextStyle(
+      color:  AppColors.color_black_80_2_2_2,
+      fontWeight: FontWeight.w500,
+      fontSize: 14.0
+  );
+
+
 }

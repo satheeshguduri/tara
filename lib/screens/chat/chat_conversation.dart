@@ -967,7 +967,9 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         ));
       } else {
         Get.back();
-        Get.to(ShoppingHomePage());
+        Get.to(ShoppingHomePage(
+          merchantStore: widget.merchantStore,
+          merchantProfile: widget.custInfo,));
       }
     });
   }

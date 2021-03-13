@@ -15,6 +15,8 @@ import 'package:tara_app/repositories/stores_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
+import 'package:tara_app/models/order_management/orders/create_order_req.dart';
+import 'package:tara_app/models/order_management/orders/create_order_res.dart';
 
 import '../injector.dart';
 
@@ -73,9 +75,9 @@ class OrderController extends GetxController{
   }
 
 
-  Future<Either<Failure,order.Order>> createOrder(order.Order orderReq) async{
+  Future<Either<Failure,CreateOrderResponse>> createOrder(CreateOrderRequest orderReq) async{
     showProgress.value = true;
-    Either<Failure,order.Order> response = await getIt.get<OrderRepository>().createOrder(orderReq);
+    Either<Failure,CreateOrderResponse> response = await getIt.get<OrderRepository>().createOrder(orderReq);
     showProgress.value = false;
 //    response.fold((l) => print(l.message), (r) => {
 //

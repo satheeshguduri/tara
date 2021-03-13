@@ -22,10 +22,20 @@ import 'package:tara_app/shop/shop_category_details_screen.dart';
 import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/models/order_management/catalogue_category/category.dart' as store;
-
+import 'package:tara_app/shop/shop_bottom_sheet_widget.dart';
+import 'package:tara_app/controller/cart_controller.dart';
+import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
 
 
 class ShoppingHomePage extends StatefulWidget {
+  final Store merchantStore;
+  final CustomerProfile merchantProfile;
+  ShoppingHomePage({Key key,
+    this.merchantStore,
+    this.merchantProfile
+  }) : super(key: key);
+
   @override
   ShoppingHomePageState createState() => ShoppingHomePageState();
 }
@@ -35,6 +45,8 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
   int _current = 0;
   OrderController controller = Get.find();
   StoreController storeController = Get.find();
+  CartController cartController = Get.find();
+
 
   // @override
   // void init() async {
@@ -176,7 +188,9 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
                               width: 24.0,
                               height: 24.0,
                               color: AppColors.header_top_bar_color),
-                          onPressed: () => {}),
+                          onPressed: () {
+
+                          }),
                       Positioned(
                         top: 8,
                         right: 8,
@@ -187,15 +201,19 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
                             color: AppColors.badge_color,
                             borderRadius: Radii.border(7),
                           ),
-                          child: Text(
-                            "3",
+                          child: Obx(()=>Text(
+                            cartController.getCartItemsCount(),
                             textAlign: TextAlign.center,
                             style: BaseStyles.notificationBadgeTextStyle,
+                          )
                           ),
                         ),
                       ),
                     ],
                   ),
+                ).onTap(onPressed: (){
+                  showCartDetailsInBottomSheet();
+                }
                 )
               ],
             )
@@ -464,7 +482,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
     ).onTap(onPressed: () {
       //here sort the data and send to next screen
       //  print("catalogue"+category.items[0].catalogue[0]);
-      Get.to(ShopCategoryDetailsScreen(categoryId: category.id,title: category.name,));
+      Get.to(ShopCategoryDetailsScreen(categoryId: category.id,title: category.name,merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,));
     });
   }
 
@@ -690,7 +708,17 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
         backgroundColor: ColorConst.elevation_off_2_2_2,
         context: context,
         builder: (BuildContext context) {
-          return bottomSheetWidget();
+          return ShopBottomSheetWidget(plusButton: (){
+            setState(() {
+              print("plus click");
+
+            });
+          },minusButton: (){
+            print("minus click");
+            setState(() {
+
+            });
+          },merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,);
         }
     );
   }
@@ -745,6 +773,30 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(64), topRight: Radius.circular(8)),
         color: Colors.white
+    );
+  }
+
+  void showCartDetailsInBottomSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc) {
+          return ShopBottomSheetWidget(plusButton: (){
+            setState(() {
+              print("plus click");
+
+            });
+          },minusButton: (){
+            print("minus click");
+            setState(() {
+
+            });
+          },merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,);
+
+
+        }
     );
   }
 
