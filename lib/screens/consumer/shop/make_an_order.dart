@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
@@ -12,17 +11,29 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
-import 'package:tara_app/models/order_management/orders/jsonborder_extra.dart';
 import 'package:tara_app/models/order_management/orders/order_address.dart';
-import 'package:tara_app/models/order_management/orders/order_extra_data.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
-import 'package:tara_app/models/order_management/orders/order_types.dart';
-import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/shop/shop_add_item.dart';
-import 'package:tara_app/models/order_management/orders/order.dart' as order;
 import 'package:tara_app/services/error/failure.dart';
+import 'package:tara_app/models/order_management/orders/create_order_req.dart';
+import 'package:tara_app/models/order_management/orders/create_order_res.dart';
+import 'package:tara_app/controller/store_controller.dart';
+import 'package:tara_app/common/constants/colors.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/models/order_management/orders/statuses.dart';
+import 'package:tara_app/models/order_management/orders/order_types.dart';
+import 'package:tara_app/models/order_management/orders/jsonborder_extra.dart';
+import 'package:tara_app/models/order_management/orders/order_extra_data.dart';
+import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
+
+
+
+
+
+
 
 
 class MakeAnOrder extends StatefulWidget {
@@ -49,6 +60,9 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
   OrderController controller = Get.find();
   AuthResponse user = Get.find<AuthController>().user.value;
   List<OrderAddress> address = List<OrderAddress>();
+  StoreController storeController = Get.find();
+
+
 
   @override
   void init() {
@@ -78,13 +92,13 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     // TODO: implement build
     return Scaffold(
       backgroundColor: Color(0xfff7f7fa),
-      appBar: _buildAppBar(context),
+      appBar: CustomAppBarWidget(title:getTranslation(Strings.make_an_order),addNewWidgetShow: false,),
       body:getRootContainer(),
     );
   }
   Widget getRootContainer(){
     return Obx(() => Container(
-      height: MediaQuery.of(context).size.height,
+      height: Get.height,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -97,29 +111,6 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
     ));
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    return AppBar(
-      elevation: 1,
-      centerTitle: false,
-      automaticallyImplyLeading: false, // hides leading widget
-      leading: Visibility(
-        child: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              controller.showProgress.value = false;
-              controller.items.clear();
-              Navigator.pop(context, false);
-            }),
-      ),
-      title: Align(
-        alignment: Alignment.topLeft,
-        child: Text(
-          getTranslation(Strings.make_an_order),
-          style: TextStyles.headline6222,
-        ),
-      ),
-    );
-  }
 
   Widget _getDeliveryOption() {
     return Container(
@@ -275,19 +266,21 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
         bottom: 16,
       ),
       padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-      child: Column(
+      child: Obx(()=> controller.items.length>0?Container(width: 100,height: 100,color: Colors.blue,):Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(getTranslation(Strings.item_list), style: TextStyles.subtitle1222),
           Column(
             children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(bottom: 16, top: 16),
-                  width: 88,
-                  height: 88,
-                  decoration: BoxDecoration(
-                      borderRadius: Radii.border(44),
-                      color: AppColors.light_grey_blue)),
+              // Container(
+              //     margin: EdgeInsets.only(bottom: 16, top: 16),
+              //     width: 88,
+              //     height: 88,
+              //     decoration: BoxDecoration(
+              //         borderRadius: Radii.border(44),
+              //         color: AppColors.light_grey_blue)
+              // ),
+              getSvgImage(imagePath: Assets.illustration_shopping_cart_empty, width: 80.0,height: 80.0),
               Text(getTranslation(Strings.start_item_list),
                   style: const TextStyle(
                       color: AppColors.fareColor,
@@ -297,37 +290,35 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                   textAlign: TextAlign.center),
               Container(
                 alignment: Alignment.center,
-                child: InkWell(
-                  child: Container(
-                    margin: EdgeInsets.only(bottom: 16, top: 16),
-                    height: 32,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        borderRadius: Radii.border(8),
-                        border: Border.all(
-                            color: AppColors.light_grey_blue, width: 1),
-                        color: Colors.white),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(Assets.ic_plus),
-                        Text(
-                          getTranslation(Strings.add_item),
-                          style: TextStyles.bUTTONBlack222,
-                        )
-                      ],
-                    ),
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 16, top: 16),
+                  height: 32,
+                  width: 150,
+                  decoration: BoxDecoration(
+                      borderRadius: Radii.border(8),
+                      border: Border.all(
+                          color: AppColors.light_grey_blue, width: 1),
+                      color: Colors.white),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      getSvgImage(imagePath: Assets.assets_icon_p_plus, width: 20.0,height: 20.0),
+                    //  Image.asset(Assets.ic_plus),
+                      Text(
+                        getTranslation(Strings.add_item),
+                        style: TextStyles.bUTTONBlack222,
+                      )
+                    ],
                   ),
-                  onTap: () {
-                    // show bottom sheet
-                    _showAddItemBottomSheet(null);
-                  },
-                ),
+                ).onTap(onPressed: (){
+                  _showAddItemBottomSheet(null);
+                }),
               )
             ],
           ),
         ],
       ),
+      )
     );
   }
 
@@ -412,6 +403,35 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                //             (r) => {
                //     Navigator.pop(context, false)
                //     });
+               var orderReq = CreateOrderRequest(
+                   storeId: widget.merchantStore.id,
+                   catalogueId: num.parse(storeController.catalogueId.value),
+                   items: controller.items.value,
+                   customerId: user.customerProfile.id,
+                   deliveryAddress:[],
+                   status: Statuses.PENDING,
+                   price: "99", // pending
+                   deliveryDate: DateTime.now(),
+                   orderDate: DateTime.now(),
+                   orderType: OrderTypes.TEXT_BASED,
+                   transactionId: null,
+                   merchantId: widget.merchantProfile.id,
+                   order_extra: JsonbOrderExtra(data: OrderExtraData(customer_commid: user.customerProfile.firebaseId,
+                       merchant_commid: widget.merchantProfile.firebaseId,
+                       interpret: "true")
+                   )
+               );
+
+               Either<Failure, CreateOrderResponse> response = await controller.createOrder(orderReq);
+               response.fold(
+                       (l) => print(l.message),
+                       (r) => {
+                     //  Navigator.pop(context, false)
+                     Get.to(ConversationPage(
+                         entry: ChatEntryPoint.ORDER,
+                         selectedContact: ContactInfo(),
+                         custInfo: widget.merchantProfile))
+                   });
              }
             },
           )
@@ -474,28 +494,26 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                 ),
                 Container(
 //                  flex: 2,
-                  child: InkWell(
-                    child: Column(
-                      children: [
-                        Text(isEdit ?getTranslation(Strings.Done).toUpperCase() : getTranslation(Strings.edit),
-                            style: TextStyles.subtitle1222),
-                        Container(
-                            width: 29,
-                            height: 2,
-                            decoration:
-                                BoxDecoration(color: AppColors.pale_turquoise))
-                      ],
-                    ),
-                    onTap: () {
-                      setState(() {
-                        if (isEdit) {
-                          isEdit = false;
-                        } else {
-                          isEdit = true;
-                        }
-                      });
-                    },
-                  ),
+                  child: Column(
+                    children: [
+                      Text(isEdit ?getTranslation(Strings.Done).toUpperCase() : getTranslation(Strings.edit),
+                          style: TextStyles.subtitle1222),
+                      Container(
+                          width: 29,
+                          height: 2,
+                          decoration:
+                              BoxDecoration(color: AppColors.pale_turquoise))
+                    ],
+                  ).onTap(onPressed: (){
+                    setState(() {
+                      // if (isEdit) {
+                      //   isEdit = false;
+                      // } else {
+                      //   isEdit = true;
+                      // }
+                      isEdit = !isEdit;
+                    });
+                  }),
                 )
               ],
             ),
@@ -533,29 +551,22 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                       isEdit
                           ? Container(
                               width: 96,
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: AppColors.fareColor,
-                                    ),
-                                    onPressed: () {
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    getSvgImage(imagePath: Assets.assets_icon_e_edit, width: 24.0,height: 24.0,color: AppColors.color_black_100_2_2_2).onTap(onPressed: (){
                                       _showAddItemBottomSheet(controller.items[index]);
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: AppColors.badge_color,
-                                    ),
-                                    onPressed: () {
+                                    }),
+                                    getSvgImage(imagePath: Assets.assets_icon_t_trash, width: 24.0,height: 24.0,color: Colors.pink).onTap(onPressed: (){
                                       setState(() {
                                         controller.items.removeAt(index);
                                       });
-                                    },
-                                  )
-                                ],
+                                    }),
+
+                                  ],
+                                ),
                               ),
                             )
                           : Container()

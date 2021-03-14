@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
-import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
-import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
-import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:tara_app/common/constants/values.dart';
+
 
 class ShopAddItem extends StatefulWidget {
 
@@ -129,7 +128,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
       child: DropdownButton(
         value: pcs,
         isExpanded: true,
-        icon: Image.asset(Assets.ic_dropdown),
+        icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down, width: 24.0,height: 24.0),
         hint: Text("units"),
         underline: Container(),
         onChanged: (String val) {
@@ -158,40 +157,46 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
   }
 
   Widget _getConfirmWidget() {
-    return InkWell(
-      onTap: () {
-        if (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null){
+    return Container(
+      height: 48,
+      margin: EdgeInsets.only(bottom: 16, top: 36,),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color:Color(0xffb2f7e2)),
+    //(
+              // nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)
+              // ?Color(0xffb2f7e2):Color(0xffe9ecef)
+     // ),
+      alignment: Alignment.center,
+      child: Text(
+        getTranslation(Strings.save_item),
+        textAlign: TextAlign.center,
+        style:BaseStyles.chatItemDepositSuccessMoneyTextStyle
+       // (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
+      ),
+    ).onTap(onPressed: () {
+      print("on tap working");
+      //  if (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null){
           if(widget.editItem != null){
+            print("first condition");
             // update item
             var item = controller.items.where((element) => element.name == widget.editItem.name).first;
             item.name = nameTextController.text;
             item.quantity = int.parse(qntyTextController.text);
             item.metric = pcs;
           }else{
+            print("second condition");
             var item = OrderItems();
             item.name = nameTextController.text;
-            item.quantity = int.parse(qntyTextController.text);
+           // item.quantity = int.parse(qntyTextController.text);
+            item.quantity = 100;
             item.metric = pcs;
             controller.items.add(item);
           }
-//          widget.saveItem();
-          Navigator.of(context).pop();
-        }
-      },
-      child:  Container(
-        height: 48,
-        margin: EdgeInsets.only(bottom: 16, top: 36,),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            color: (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)?Color(0xffb2f7e2):Color(0xffe9ecef)),
-        alignment: Alignment.center,
-        child: Text(
-          getTranslation(Strings.save_item),
-          textAlign: TextAlign.center,
-          style: (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
-        ),
-      ),
-    );
+          widget.saveItem();
+          Get.back();
+       // }
+    });
   }
 
   @override
