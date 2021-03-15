@@ -213,6 +213,12 @@ class Assets {
   static const assets_icon_f_forward_arrow ="assets/images/assets_icon_f_forward_arrow.svg";
   static const illustration_coming_soon_under_development ="assets/images/illustration_coming_soon_under_development.svg";
   static const illustration_error_message_new ="assets/images/illustration_error_message_new.svg";
+  static const illustration_shopping_cart_empty ="assets/images/illustration_shopping_cart_empty.svg";
+  static const assets_icon_e_edit ="assets/images/assets_icon_e_edit.svg";
+  static const assets_icon_t_trash ="assets/images/assets_icon_t_trash.svg";
+
+
+
 
 
 
