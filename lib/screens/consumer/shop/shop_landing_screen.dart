@@ -19,6 +19,8 @@ import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/shop/shop_bottom_sheet_widget.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
+
 
 class ShopHomeScreen extends StatefulWidget {
   final Store merchantStore;
@@ -36,6 +38,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
   StoreController storeController = Get.find();
   CartController cartController = Get.find();
 
+
   @override
   void init() async {
     // TODO: implement init
@@ -43,6 +46,8 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
     controller.getConsumerOrders();
     controller.getAllStore();
     print(controller.storeTypesList);
+    cartController.cartDB.value.writeIfNull('items', List<Item>());
+    cartController.loadCartFromDB();
   }
 
   @override

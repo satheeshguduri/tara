@@ -30,6 +30,12 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
   CartController cartController = Get.find();
 
   @override
+  void init() {
+    cartController.loadCartFromDB();
+    super.init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -204,11 +210,10 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Bayam Hijau Hidropon
                 Container(
                   width:Get.width*0.8,
                   child: Text(
-                      "Bayam Hijau Hidroponik (1 Ikat)",
+                      widget.categoryItem.itemName,
                       style: TextStyles.headline6222
                   ),
                 ),
@@ -216,7 +221,6 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
             ),
 
           ),
-          //  Ikat
           Padding(
             padding: EdgeInsets.only(left: 16),
             child: Text(
@@ -373,7 +377,6 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-
           dealsTileFirstRow(),
           dealsTileSecondRow(),
         ],
@@ -420,8 +423,6 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
   Widget dealsTileSecondRow() {
     return Column(
       children: [
-        //  250gr
-        // Text
         Text(
             "Medicine",
             style: BaseTextStyles.ofterBoughtTitleTextStyle,
@@ -619,11 +620,10 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
         builder: (BuildContext bc) {
           return ShopBottomSheetWidget(plusButton: (){
             setState(() {
-              print("plus click");
 
             });
           },minusButton: (){
-            print("minus click");
+
             setState(() {
 
             });
@@ -634,333 +634,6 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
     );
   }
 
-  // Widget customCartListTile(Item cartItem) {
-  //   var list = cartController.cartItems.value.where((e) => e.id == cartItem.id).toList();
-  //   return Row(
-  //
-  //     children: [
-  //       Image(image: AssetImage('assets/images/temp_apple.png'),width: 56,height: 56,),
-  //       Expanded(
-  //         child: Column(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //                 cartItem.itemName,
-  //                 style: TextStyles.body2222
-  //             ),
-  //             Column(
-  //               children: [
-  //                 Text(
-  //                     "Price / 100gr",
-  //                     style:BaseTextStyles.descriptionPriceStyle
-  //                 ),
-  //                 Text(
-  //                     cartItem.price.toString(),
-  //                     style: TextStyles.subtitle3222
-  //                 ),
-  //               ],
-  //             ),
-  //
-  //
-  //
-  //           ],
-  //         ),
-  //       ),
-  //       Row(
-  //         children: [
-  //           Container(
-  //             width: 24,
-  //             height: 24,
-  //             decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.all(
-  //                     Radius.circular(4)
-  //                 ),
-  //                 color: AppColors.color_mint_100_2_2_2
-  //             ),
-  //
-  //             child:getSvgImage(imagePath: Assets.assets_icon_m_minus, width: 16.0,height: 16.0),
-  //
-  //           ).onTap(onPressed: (){ // - minus
-  //           //  setModelState(() {
-  //               minusWidgetOnTap(list);
-  //           //  });
-  //
-  //
-  //           }
-  //           ),
-  //           Container(
-  //             width: 28,
-  //             child: Obx(()=>
-  //                 Text(
-  //                     cartController.cartItems.where((e) => e.id ==list[0].id).toList()[0].orderQuantity.toString(),
-  //                     style: TextStyles.bUTTONBlack222,
-  //                     textAlign: TextAlign.center
-  //                 ),
-  //             ),
-  //
-  //           ),
-  //           Container(
-  //             width: 24,
-  //             height: 24,
-  //             decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.all(
-  //                     Radius.circular(4)
-  //                 ),
-  //                 color: AppColors.color_mint_100_2_2_2
-  //             ),
-  //             child: getSvgImage(imagePath: Assets.icon_content_add_24_px, width: 16.0,height: 16.0),
-  //           ).onTap(onPressed: (){
-  //            // setModelState(() {
-  //               plusWidgetOnTap(list);
-  //            // });
-  //
-  //
-  //           }
-  //           )
-  //         ],
-  //       )
-  //     ],
-  //
-  //   );
-  //
-  // }
-
-  // Widget getYouMayLikeList() {
-  //   return Container(
-  //       height: 136,
-  //       margin: EdgeInsets.only(left: 16),
-  //       child: ListView.builder(
-  //           scrollDirection: Axis.horizontal,
-  //           itemCount: 5,
-  //           itemBuilder: (context, index) {
-  //             return youMayAlsoLikeListTile(); // Container
-  //
-  //           }
-  //       )
-  //   );
-  // }
-
-  // Widget youMayAlsoLikeListTile() {
-  //   return // Container
-  //     Padding(
-  //       padding: EdgeInsets.all(8),
-  //       child: Container(
-  //         width: 208,
-  //         //   height: 72,
-  //         decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.all(
-  //                 Radius.circular(8)
-  //             ),
-  //             boxShadow: [BoxShadow(
-  //                 color: const Color(0x1f000000),
-  //                 offset: Offset(0,4),
-  //                 blurRadius: 6,
-  //                 spreadRadius: 0
-  //             ), BoxShadow(
-  //                 color: const Color(0x14000000),
-  //                 offset: Offset(0,0),
-  //                 blurRadius: 2,
-  //                 spreadRadius: 0
-  //             )] ,
-  //             color: AppColors.elevation_off_2_2_2
-  //         ),
-  //         child: Row(
-  //           children: [
-  //             Padding(
-  //                 padding: EdgeInsets.all(8),
-  //                 child: Image(image: AssetImage('assets/images/temp_apple.png'),width: 46,height: 56,)),
-  //             Padding(
-  //               padding: EdgeInsets.all(8),
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //                 children: [
-  //                   Text(
-  //                       "Jamur Kuping (100…",
-  //                       style: TextStyles.body2222
-  //                   ),
-  //                   Column(
-  //                     children: [
-  //                       Text(
-  //                           "Price / 100gr",
-  //                           style: BaseTextStyles.descriptionPriceStyle
-  //                       ),
-  //                       SizedBox(height: 6,),
-  //                       Text(
-  //                           "Rp 3.000 - 4.100",
-  //                           style: TextStyles.subtitle3222
-  //                       )
-  //                     ],
-  //                   )
-  //                 ],
-  //               ),
-  //             )
-  //           ],
-  //         ),
-  //       ),
-  //
-  //     );
-  // }
-
-  // Widget getAddressWidget() {
-  //   return  Container(
-  //     width: 328,
-  //     height: 48,
-  //     decoration: BoxDecoration(
-  //         borderRadius: BorderRadius.all(
-  //             Radius.circular(8)
-  //         ),
-  //         border: Border.all(
-  //             color: AppColors.grey2,
-  //             width: 1
-  //         ),
-  //         color: AppColors.elevation_off_2_2_2
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: [
-  //         getSvgImage(imagePath: Assets.assets_icon_l_location_outline, width: 24.0,height: 24.0),
-  //         // Jl. Kedoya Raya, Kot
-  //         Container(
-  //           width: Get.width*0.6,
-  //           child: Text(
-  //               "Jl. Kedoya Raya, Kota Jakarta Barat, Daerah Khusus Ibukota …",
-  //               style: TextStyles.body2222
-  //           ),
-  //         ),
-  //         Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             Text(getTranslation(Strings.CHANGE),
-  //                 style: TextStyles.bUTTONBlack222,
-  //                 textAlign: TextAlign.center),
-  //             Container(
-  //                 width: 63,
-  //                 height: 2,
-  //                 decoration:
-  //                 BoxDecoration(color: AppColors.pale_turquoise))
-  //           ],
-  //         ),
-  //         // getSeeAllText(),
-  //
-  //       ],
-  //     ),
-  //
-  //   );
-  // }
-
-
-  // Widget getPlaceOrderWidget() {
-  //
-  //   return  Container(
-  //
-  //     height: 56,
-  //     decoration: BoxDecoration(
-  //         color: AppColors.elevation_off_2_2_2
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //       children: [
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Padding(padding: EdgeInsets.only(left: 16),
-  //               child: Container(
-  //                 width: 40,
-  //                 height: 56,
-  //                 child: Stack(
-  //                   alignment: Alignment.centerLeft,
-  //                   children: [
-  //                     Positioned(
-  //                       //   left: 0,
-  //                         child: Container(
-  //                           margin: EdgeInsets.only(right: 12),
-  //                           height: 24,
-  //                           width: 24,
-  //                           child: getSvgImage(imagePath: Assets.assets_icon_c_cart,color:AppColors.color_black_100_2_2_2,
-  //                               width: 18.0,
-  //                               height: 18.0),
-  //                         ).onTap(onPressed: (){
-  //
-  //                         }
-  //                         )
-  //                     ),
-  //                      Positioned(
-  //                       top: 10,
-  //                       left: 16,
-  //                       child: Container(
-  //                         margin: EdgeInsets.only(right: 16),
-  //                         width: 14,
-  //                         height: 14,
-  //                         decoration: BoxDecoration(
-  //                           color: AppColors.badge_color,
-  //                           borderRadius: Radii.border(7),
-  //                         ),
-  //
-  //                         child:Obx(()=> Text(cartController.getCartItemsCount(),
-  //                           textAlign: TextAlign.center,
-  //                           style: BaseStyles.notificationBadgeTextStyle,
-  //                         )
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     ],
-  //                 ),
-  //               ),              ),
-  //             //  SizedBox(width: 16,),
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 // Price Estimation
-  //                 Text(
-  //                     getTranslation(Strings.priceestimation),
-  //                     style:BaseTextStyles.descriptionPriceStyle
-  //                 ),
-  //                 SizedBox(height: 6,),
-  //                 Obx(()=> Text(
-  //                     getCartItemsTotalAmount(),
-  //                     style: TextStyles.subtitle1222
-  //                 )
-  //                 )
-  //               ],
-  //             )
-  //           ],
-  //         ),
-  //         // Container
-  //         Padding(
-  //           padding: EdgeInsets.only(right: 16),
-  //           child: Container(
-  //             width: 164,
-  //             height: 40,
-  //             decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.all(
-  //                     Radius.circular(8)
-  //                 ),
-  //                 color: AppColors.color_mint_100_2_2_2
-  //             ),
-  //             child: Row(
-  //               children: [
-  //                 // Place Order
-  //                 Expanded(
-  //                   child: Text(
-  //                      getTranslation(Strings.place_order),
-  //                       style: TextStyles.bUTTONBlack222,
-  //                       textAlign: TextAlign.center
-  //                   ),
-  //                 ),
-  //                 Padding(
-  //                     padding: EdgeInsets.only(right: 8),
-  //                     child:getSvgImage(imagePath: Assets.assets_icon_f_forward_arrow, width: 24.0,height: 24.0)),
-  //               ],
-  //             ),
-  //           ),
-  //         )
-  //
-  //       ],
-  //     ),
-  //   );
-  //
-  // }
 
   loadCards() {
     List<Widget> loadCards() {
@@ -977,21 +650,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
     }
   }
 
-  // String getCartItemsCount() {
-  //   num totalCount=0;
-  //   for(int i=0;i<cartController.cartItems.length;i++){
-  //     totalCount = totalCount+cartController.cartItems[i].orderQuantity??0;
-  //   }
-  //   return totalCount.toString();
-  // }
 
-  // String getCartItemsTotalAmount() {
-  //   double totalAmount=0;
-  //   for(int i=0;i<cartController.cartItems.length;i++){
-  //     totalAmount = totalAmount+cartController.cartItems[i].orderQuantity*cartController.cartItems[i].price??0;
-  //   }
-  //   return totalAmount.toString();
-  // }
   Widget showAddItemOrAddingWidget() {
     var list = cartController.cartItems.value.where((e) => e.id == widget.categoryItem.id).toList();
     if(list.isNotEmpty){
@@ -1016,7 +675,6 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
           Expanded(
             child: Text(
                 cartController.cartItems.where((e) => e.id ==list[0].id).toList()[0].orderQuantity.toString(),
-                // list[0].orderQuantity.toString(),
                 style: TextStyles.bUTTONBlack222,
                 textAlign: TextAlign.center
             ),
@@ -1054,6 +712,8 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
       ).onTap(onPressed: (){
         widget.categoryItem.orderQuantity++;
         cartController.cartItems.add(widget.categoryItem);
+        cartController.cartDB.value.write("items", cartController.cartItems);
+
       }
       );
     }
@@ -1066,6 +726,8 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
       if(matchedProduct.orderQuantity==0){
         cartController.cartItems.remove(matchedProduct);
       }
+      cartController.cartDB.value.write("items", cartController.cartItems);
+
     }
     setState(() { });
   }
@@ -1074,28 +736,13 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
     var matchedProduct = cartController.cartItems.firstWhere((e) => e.id ==list[0].id,orElse:()=>null);
     if(matchedProduct!=null) {
       matchedProduct.orderQuantity++;
+      cartController.cartDB.value.write("items", cartController.cartItems);
+
     }
     setState(() { }
     );
   }
 
-  // _getShadow() {
-  //   return BoxDecoration(
-  //       borderRadius: BorderRadius.all(Radius.circular(20)),
-  //       boxShadow: [
-  //         BoxShadow(
-  //             color: const Color(0x1f000000),
-  //             offset: Offset(0, 4),
-  //             blurRadius: 6,
-  //             spreadRadius: 0),
-  //         BoxShadow(
-  //             color: const Color(0x14000000),
-  //             offset: Offset(0, 0),
-  //             blurRadius: 2,
-  //             spreadRadius: 0)
-  //       ],
-  //       color: Colors.white);
-  // }
 
 
 

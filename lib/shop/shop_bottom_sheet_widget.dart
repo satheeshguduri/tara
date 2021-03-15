@@ -47,264 +47,264 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
   StoreController storeController = Get.find();
   AuthResponse user = Get.find<AuthController>().user.value;
   OrderController controller = Get.find();
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     void Function(VoidCallback fn) setModelState;
-
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState){
-          setModelState = setState;
-          return Container(
-            //padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8), topRight: Radius.circular(8)),
-                  color: Colors.white
-              ),
-              child: Wrap(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        width: 53,
-                        height: 4,
-                        margin: EdgeInsets.only(bottom: 16),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(4)
-                            ),
-                            color: AppColors.light_grey_bg_color
+    return Obx(()=> SingleChildScrollView(
+      child: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState){
+            setModelState = setState;
+            return Container(
+              //padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                    color: Colors.white
+                ),
+                child: Wrap(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          width: 53,
+                          height: 4,
+                          margin: EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(4)
+                              ),
+                              color: AppColors.light_grey_bg_color
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16),
-                      child: Text(
-                          getTranslation(Strings.mycart),
-                          style: TextStyles.myAccountsCardTextStyle
+                      Padding(
+                        padding: EdgeInsets.only(left: 16),
+                        child: Text(
+                            getTranslation(Strings.mycart),
+                            style: TextStyles.myAccountsCardTextStyle
+                        ),
                       ),
-                    ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 16,right: 16),
-                            child: Container(
-                              margin: EdgeInsets.only(top: 16, bottom: 16),
-                              height: 48,
-                              decoration: BoxDecoration(
-                                  borderRadius: Radii.border(24), color: const Color(0xfff7f7f7)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 160,
-                                    decoration: selectedSegmentIndex == 0 ? _getShadow() : null,
-                                    child: InkWell(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(Assets.ic_van),
-                                          Text(getTranslation(Strings.delivery),
-                                              style:  BaseTextStyles.deliveryTextStyle,
-                                              textAlign: TextAlign.center)
-                                        ],
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 16,right: 16),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 16, bottom: 16),
+                                height: 48,
+                                decoration: BoxDecoration(
+                                    borderRadius: Radii.border(24), color: const Color(0xfff7f7f7)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: 160,
+                                      decoration: selectedSegmentIndex == 0 ? _getShadow() : null,
+                                      child: InkWell(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(Assets.ic_van),
+                                            Text(getTranslation(Strings.delivery),
+                                                style:  BaseTextStyles.deliveryTextStyle,
+                                                textAlign: TextAlign.center)
+                                          ],
+                                        ),
+                                        onTap: (){
+                                          setModelState(() {
+                                            selectedSegmentIndex = 0;
+                                          });
+                                        },
                                       ),
-                                      onTap: (){
-                                        setModelState(() {
-                                          selectedSegmentIndex = 0;
-                                        });
-                                      },
                                     ),
-                                  ),
-                                  Container(
-                                    height: 40,
-                                    width: 160,
-                                    decoration: selectedSegmentIndex == 1 ? _getShadow() : null,
-                                    child: InkWell(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            Assets.ic_bag,
-                                            width: 24,
-                                          ),
-                                          Text(getTranslation(Strings.pickup),
-                                              style: BaseTextStyles.pickUpTextStyle,
-                                              textAlign: TextAlign.center)
-                                        ],
+                                    Container(
+                                      height: 40,
+                                      width: 160,
+                                      decoration: selectedSegmentIndex == 1 ? _getShadow() : null,
+                                      child: InkWell(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(
+                                              Assets.ic_bag,
+                                              width: 24,
+                                            ),
+                                            Text(getTranslation(Strings.pickup),
+                                                style: BaseTextStyles.pickUpTextStyle,
+                                                textAlign: TextAlign.center)
+                                          ],
+                                        ),
+                                        onTap: (){
+                                          setModelState(() {
+                                            selectedSegmentIndex = 1;
+                                          });
+                                        },
                                       ),
-                                      onTap: (){
-                                        setModelState(() {
-                                          selectedSegmentIndex = 1;
-                                        });
-                                      },
-                                    ),
 
 
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
-                          SizedBox(height: 8,),
-                          Padding(
-                              padding: EdgeInsets.only(left: 16,right: 16),
-                              child:selectedSegmentIndex==0?getAddressWidget():Container()),
-                          SizedBox(height: 8,),
-                          Padding(
-                              padding: EdgeInsets.only(left: 16,right: 16),
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: cartController.cartItems.length,
-                                  itemBuilder: (context,index){
-                                    // return customCartListTile(cartController.cartItems[index]);
-                                    var list = cartController.cartItems.value.where((e) => e.id == cartController.cartItems[index].id).toList();
-                                    return Container(
-                                      height: 88,
-                                      width: double.infinity,
-                                      child: Row(
+                            Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
+                            SizedBox(height: 8,),
+                            Padding(
+                                padding: EdgeInsets.only(left: 16,right: 16),
+                                child:selectedSegmentIndex==0?getAddressWidget():Container()),
+                            SizedBox(height: 8,),
+                            Padding(
+                                padding: EdgeInsets.only(left: 16,right: 16),
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: ScrollPhysics(),
+                                    itemCount: cartController.cartItems.length,
+                                    itemBuilder: (context,index){
+                                      // return customCartListTile(cartController.cartItems[index]);
+                                      var list = cartController.cartItems.value.where((e) => e.id == cartController.cartItems[index].id).toList();
+                                      return Container(
+                                        height: 88,
+                                        width: double.infinity,
+                                        child: Row(
 
-                                        children: [
-                                          Container(alignment: Alignment.center,
-                                             child: Image(image: AssetImage('assets/images/temp_tomatoes.png'),width: 56,height: 56,fit: BoxFit.fitWidth,)),
-                                          Expanded(
-                                            child: Container(
-                                              height: 62,
-                                              margin: EdgeInsets.only(left: 16),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                      list[0].itemName,
-                                                      style: BaseTextStyles.body222BottomListItem
-                                                  ),
-                                                  SizedBox(height: 8,),
-                                                  Text(
-                                                      "Price / 100gr",
-                                                      style:BaseTextStyles.descriptionPriceStyle
-                                                  ),
-                                                  SizedBox(height: 6,),
-                                                  Text(
-                                                     list[0].price.toString(),
-                                                      style: TextStyles.subtitle3222
-                                                  ),
+                                          children: [
+                                            Container(alignment: Alignment.center,
+                                               child: Image(image: AssetImage('assets/images/temp_tomatoes.png'),width: 56,height: 56,fit: BoxFit.fitWidth,)),
+                                            Expanded(
+                                              child: Container(
+                                                height: 62,
+                                                margin: EdgeInsets.only(left: 16),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                        list[0].itemName,
+                                                        style: BaseTextStyles.body222BottomListItem
+                                                    ),
+                                                    SizedBox(height: 8,),
+                                                    Text(
+                                                        "Price / 100gr",
+                                                        style:BaseTextStyles.descriptionPriceStyle
+                                                    ),
+                                                    SizedBox(height: 6,),
+                                                    Text(
+                                                       list[0].price.toString(),
+                                                        style: TextStyles.subtitle3222
+                                                    ),
 
 
 
-                                                ],
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(top: 16),
-                                            alignment: Alignment.topCenter,
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  width: 24,
-                                                  height: 24,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(4)
-                                                      ),
-                                                      color: AppColors.color_mint_100_2_2_2
-                                                  ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 16),
+                                              alignment: Alignment.topCenter,
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(4)
+                                                        ),
+                                                        color: AppColors.color_mint_100_2_2_2
+                                                    ),
 
-                                                  child:getSvgImage(imagePath: Assets.assets_icon_m_minus, width: 16.0,height: 16.0),
+                                                    child:getSvgImage(imagePath: Assets.assets_icon_m_minus, width: 16.0,height: 16.0),
 
-                                                ).onTap(onPressed: (){ // - minus
-                                                  setModelState(() {
-                                                    minusWidgetOnTap(list);
+                                                  ).onTap(onPressed: (){ // - minus
+                                                    setModelState(() {
+                                                      minusWidgetOnTap(list);
+                                                    }
+                                                    );
+
+
                                                   }
-                                                  );
-
-
-                                                }
-                                                ),
-                                                Container(
-                                                  width: 28,
-                                                  child: Obx(()=>
-                                                      Text(
-                                                          cartController.cartItems.where((e) => e.id ==list[0].id).toList()[0].orderQuantity.toString(),
-                                                          style: TextStyles.bUTTONBlack222,
-                                                          textAlign: TextAlign.center
-                                                      ),
                                                   ),
+                                                  Container(
+                                                    width: 28,
+                                                    child: Obx(()=>
+                                                        Text(
+                                                            cartController.cartItems.where((e) => e.id ==list[0].id).toList()[0].orderQuantity.toString(),
+                                                            style: TextStyles.bUTTONBlack222,
+                                                            textAlign: TextAlign.center
+                                                        ),
+                                                    ),
 
-                                                ),
-                                                Container(
-                                                  width: 24,
-                                                  height: 24,
-                                                  decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(4)
-                                                      ),
-                                                      color: AppColors.color_mint_100_2_2_2
                                                   ),
-                                                  child: getSvgImage(imagePath: Assets.icon_content_add_24_px, width: 16.0,height: 16.0),
-                                                ).onTap(onPressed: (){
-                                                  setModelState(() {
-                                                    plusWidgetOnTap(list);
-                                                  });
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(4)
+                                                        ),
+                                                        color: AppColors.color_mint_100_2_2_2
+                                                    ),
+                                                    child: getSvgImage(imagePath: Assets.icon_content_add_24_px, width: 16.0,height: 16.0),
+                                                  ).onTap(onPressed: (){
+                                                    setModelState(() {
+                                                      plusWidgetOnTap(list);
+                                                    });
 
 
-                                                }
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
+                                                  }
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
 
-                                      ),
-                                    );
+                                        ),
+                                      );
 
 
-                                  })
+                                    })
 
-                          ),
-                        //  SizedBox(height: 16,),
-                          Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
-                          SizedBox(height: 16,),
-                          Padding(
-                            padding: EdgeInsets.only(left: 16,right: 16),
-                            child: Container(
-                              height: 136,
-                              decoration: BoxDecoration(
-                                  color: AppColors.elevation_off_2_2_2
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      getTranslation(Strings.youmayalsolike),
-                                      style: TextStyles.subtitle1222
-                                  ),
-                                  Expanded(child: getYouMayLikeList())
-                                ],
+                            ),
+                          //  SizedBox(height: 16,),
+                            Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
+                            SizedBox(height: 16,),
+                            Padding(
+                              padding: EdgeInsets.only(left: 16,right: 16),
+                              child: Container(
+                                height: 136,
+                                decoration: BoxDecoration(
+                                    color: AppColors.elevation_off_2_2_2
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        getTranslation(Strings.youmayalsolike),
+                                        style: TextStyles.subtitle1222
+                                    ),
+                                    Expanded(child: getYouMayLikeList())
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
-                          getPlaceOrderWidget()
+                            Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
+                            getPlaceOrderWidget()
 
 
 
-                        ],
-                      ),
-                    )
-                  ]
-              )
-          );
-        });
+                          ],
+                        ),
+                      )
+                    ]
+                )
+            );
+          }).withProgressIndicator(showIndicator: controller.showProgress.value),
+    ));
+
+
+
   }
 
   @override
@@ -446,11 +446,11 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                   response.fold(
                           (l) => print(l.message),
                           (r) => {
-                        //  Navigator.pop(context, false)
                         Get.to(ConversationPage(
                             entry: ChatEntryPoint.ORDER,
                             selectedContact: ContactInfo(),
-                            custInfo: widget.merchantProfile))
+                            custInfo: widget.merchantProfile)
+                        )
                       });
                 }
               }),
@@ -607,6 +607,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
     var matchedProduct = cartController.cartItems.firstWhere((e) => e.id ==list[0].id,orElse:()=>null);
     if(matchedProduct!=null) {
       matchedProduct.orderQuantity++;
+      cartController.cartDB.value.write("items", cartController.cartItems);
     }
      widget.plusButton();
     // setState(() { }
@@ -620,6 +621,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
       if(matchedProduct.orderQuantity==0){
         cartController.cartItems.remove(matchedProduct);
       }
+      cartController.cartDB.value.write("items", cartController.cartItems);
     }
     // setState(() { });
     widget.minusButton();
