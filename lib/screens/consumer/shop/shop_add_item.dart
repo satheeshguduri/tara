@@ -25,8 +25,7 @@ class ShopAddItem extends StatefulWidget {
 }
 
 class _ShopAddItemState extends BaseState<ShopAddItem> {
-
-  TextEditingController nameTextController = TextEditingController();
+  // TextEditingController nameTextController = TextEditingController();
   TextEditingController qntyTextController = TextEditingController();
   FocusNode amountFocusNode = new FocusNode();
 
@@ -43,11 +42,18 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
   void init() {
     // TODO: implement init
     super.init();
-    if(widget.editItem != null){
-      nameTextController.text = widget.editItem.name;
+    if (widget.editItem != null) {
+      controller.nameTextController.value.text = widget.editItem.name;
       qntyTextController.text = widget.editItem.quantity.toString();
       pcs = widget.editItem.metric;
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    amountFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -60,10 +66,11 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
             decoration: BoxDecoration(
               color: Color(0x99123456),
             ),
-            child:Container(
-              width: MediaQuery.of(context).size.width*0.90,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.90,
               child: Container(
-                padding: EdgeInsets.only(left: 20,right: 16,top: 8,bottom: 8),
+                padding:
+                    EdgeInsets.only(left: 20, right: 16, top: 8, bottom: 8),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(8),
@@ -85,32 +92,39 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
                 child: Wrap(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: 4,bottom: 16),
+                      margin: EdgeInsets.only(top: 4, bottom: 16),
                       alignment: Alignment.center,
-                        child: Container(width: 53,
-                            height: 4,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(4)
-                                ),
-                                color: AppColors.light_grey_bg_color
-                            )),
+                      child: Container(
+                          width: 53,
+                          height: 4,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                              color: AppColors.light_grey_bg_color)),
                     ),
-                    Text(
-                        "Add item",
-                        style: TextStyles.headline6222
-                    ),
+                    Text("Add item", style: TextStyles.headline6222),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Expanded(
                           flex: 6,
-                          child:textFormFieldContainer("Item Name","Enter item name",TextInputType.text,nameTextController,amountFocusNode),
+                          child: textFormFieldContainer(
+                              headerTitle: "Item Name",
+                              hint: "Enter item name",
+                              inputType: TextInputType.text,
+                              textEditingController:
+                                  controller.nameTextController.value,
+                              focusNode: null),
                         ),
                         Expanded(
                           flex: 4,
-                          child:textFormFieldContainer("Quantity","100",TextInputType.number,qntyTextController,null),
+                          child: textFormFieldContainer(
+                              headerTitle: "Quantity",
+                              hint: "100",
+                              inputType: TextInputType.number,
+                              textEditingController: qntyTextController,
+                              focusNode: amountFocusNode),
                         ),
                       ],
                     ),
@@ -118,9 +132,7 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
                   ],
                 ),
               ),
-            )
-        )
-    );
+            )));
   }
 
   Widget _getDropDownList() {
@@ -128,7 +140,10 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
       child: DropdownButton(
         value: pcs,
         isExpanded: true,
-        icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down, width: 24.0,height: 24.0),
+        icon: getSvgImage(
+            imagePath: Assets.assets_icon_a_arrow_down,
+            width: 24.0,
+            height: 24.0),
         hint: Text("units"),
         underline: Container(),
         onChanged: (String val) {
@@ -140,15 +155,16 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
       ),
     );
   }
+
   List<DropdownMenuItem<String>> _getDropdownItems() {
-    return arrUnits
-        .map<DropdownMenuItem<String>>((String value) {
+    return arrUnits.map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem(
         child: Container(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(value, style: TextStyles.subtitle1222),],
+              Text(value, style: TextStyles.subtitle1222),
+            ],
           ),
         ),
         value: value,
@@ -157,46 +173,54 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
   }
 
   Widget _getConfirmWidget() {
-    return Container(
-      height: 48,
-      margin: EdgeInsets.only(bottom: 16, top: 36,),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color:Color(0xffb2f7e2)),
-    //(
-              // nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)
-              // ?Color(0xffb2f7e2):Color(0xffe9ecef)
-     // ),
-      alignment: Alignment.center,
-      child: Text(
-        getTranslation(Strings.save_item),
-        textAlign: TextAlign.center,
-        style:BaseStyles.chatItemDepositSuccessMoneyTextStyle
-       // (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
-      ),
-    ).onTap(onPressed: () {
-      print("on tap working");
-      //  if (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null){
-          if(widget.editItem != null){
-            print("first condition");
-            // update item
-            var item = controller.items.where((element) => element.name == widget.editItem.name).first;
-            item.name = nameTextController.text;
-            item.quantity = int.parse(qntyTextController.text);
-            item.metric = pcs;
-          }else{
-            print("second condition");
-            var item = OrderItems();
-            item.name = nameTextController.text;
-           // item.quantity = int.parse(qntyTextController.text);
-            item.quantity = 100;
-            item.metric = pcs;
-            controller.items.add(item);
-          }
-          widget.saveItem();
-          Get.back();
-       // }
-    });
+    return Obx(() => Container(
+          height: 48,
+          margin: EdgeInsets.only(
+            bottom: 16,
+            top: 36,
+          ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              color: controller.nameTextController.value.text.isEmpty
+                  ? Color(0xffe9ecef)
+                  : Color(0xffb2f7e2)),
+          //(
+          // nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)
+          // ?Color(0xffb2f7e2):Color(0xffe9ecef)
+          // ),
+          alignment: Alignment.center,
+          child: Text(getTranslation(Strings.save_item),
+              textAlign: TextAlign.center,
+              style: BaseStyles.chatItemDepositSuccessMoneyTextStyle
+              // (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)?BaseStyles.chatItemDepositSuccessMoneyTextStyle:BaseStyles.verifyTextStyle,
+              ),
+        ).onTap(onPressed: () {
+          if (controller.nameTextController.value.text.isNotEmpty) {
+            print("on tap working");
+            //  if (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null){
+            if (widget.editItem != null) {
+              print("first condition");
+              // update item
+              var item = controller.items
+                  .where((element) => element.name == widget.editItem.name)
+                  .first;
+              item.name = controller.nameTextController.value.text;
+              item.quantity = int.parse(qntyTextController.text);
+              item.metric = pcs;
+            } else {
+              print("second condition");
+              var item = OrderItems();
+              item.name = controller.nameTextController.value.text;
+              // item.quantity = int.parse(qntyTextController.text);
+              item.quantity = 100;
+              item.metric = pcs;
+              controller.items.add(item);
+            }
+            widget.saveItem();
+            Get.back();
+          } else {}
+          // }
+        }));
   }
 
   @override
@@ -215,13 +239,18 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
     });
   }
 
-  Widget textFormFieldContainer(String headerTitle, String hint, TextInputType inputType, TextEditingController textEditingController,FocusNode focusNode)
-  {
+  Widget textFormFieldContainer(
+      {String headerTitle,
+      String hint,
+      TextInputType inputType,
+      TextEditingController textEditingController,
+      FocusNode focusNode}) {
     return Container(
-        margin: EdgeInsets.only(top:8,right: 8),
+        margin: EdgeInsets.only(top: 8, right: 8),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide( //                   <--- left side
+            bottom: BorderSide(
+              //                   <--- left side
               color: Colors.grey,
               width: 1.0,
             ),
@@ -232,12 +261,10 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 4,bottom: 4),
-                child: Text(
-                    headerTitle,
+                margin: EdgeInsets.only(top: 4, bottom: 4),
+                child: Text(headerTitle,
                     style: BaseStyles.textFormFieldHeaderTitleTextStyle,
-                    textAlign: TextAlign.left
-                ),
+                    textAlign: TextAlign.left),
               ),
               Container(
                 child: Row(
@@ -245,26 +272,31 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
                     Expanded(
                       flex: 3,
                       child: TextFieldWidget(
-                          hint: hint,
-                          inputType: inputType,
-                          textController: textEditingController,
-                          isIcon: false,
-                          focusNode: focusNode,
-                          onChanged:(value){
-
-                          }),
+                        hint: hint,
+                        hintColor: Colors.blue,
+                        inputType: inputType,
+                        textController: textEditingController,
+                        isIcon: false,
+                        focusNode: focusNode,
+                        onChanged: (value) {
+                          controller.nameTextController.refresh();
+                        },
+                        onFieldSubmitted: (value) {
+                          amountFocusNode.requestFocus();
+                        },
+                      ),
                     ),
-                    headerTitle == "Quantity" ?
-                    Expanded(
-                      flex: 7,
-                      child: _getDropDownList(),
-                    ) : Container()
+                    headerTitle == "Quantity"
+                        ? Expanded(
+                            flex: 7,
+                            child: _getDropDownList(),
+                          )
+                        : Container()
                   ],
                 ),
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }

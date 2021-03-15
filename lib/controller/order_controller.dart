@@ -29,6 +29,9 @@ class OrderController extends GetxController{
   var arrStores = List<Store>().obs;
   // for create order
   var items = List<OrderItems>().obs;
+  // for changing state of Save Item Button
+  var nameTextController = TextEditingController().obs;
+
 
 
   //Example to get the orders this need to be called in future builder
