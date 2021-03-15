@@ -177,7 +177,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
       TransactionModel transactionModel) async {
     AuthResponse user = await userLocalDataSource.getUser();
 
-    token = user.securityToken.token.tara.bearer();
+    token = user?.securityToken?.token?.tara?.bearer();
     try {
       var response = await remoteDataSource.sendMoney(token, transactionModel);
       return Right(response);

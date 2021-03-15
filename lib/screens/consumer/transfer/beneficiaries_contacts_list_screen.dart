@@ -256,21 +256,36 @@ class BeneficiariesContactsListScreenState
       var correctedPhoneNumber = await PhoneNumber.getRegionInfoFromPhoneNumber(
           customerProfile.mobileNumber, 'IN'); //TODO CHANGE THE LOCALE
       customerProfile.mobileNumber = correctedPhoneNumber.phoneNumber;
-      var toAddrResp = await Get.find<AuthController>().getToAddressForPayment(
+      var toAddrResp = await Get.find<AuthController>().getNonTaraCustomerInfo(
           customerProfile.mobileNumber
               .substring(1, customerProfile.mobileNumber.length));
       if (toAddrResp.isRight()) {
         var customerInfoResponse = toAddrResp.getOrElse(() => null);
-        if (customerInfoResponse?.customerProfile != null) {
-          customerProfile = customerInfoResponse.customerProfile;
+        if (customerInfoResponse != null) {
+          customerProfile = customerInfoResponse;
           if (customerProfile.registrationStatus == null) {
             customerProfile.registrationStatus = RegistrationStatus.INACTIVE;
+          }
+        }
+      } else {
+        if (widget.requestType == RequestType.COLLECT ||
+            widget.requestType == RequestType.CHAT) {
+          var tempAccountResponse = await Get.find<AuthController>()
+              .createTempAccount(RegistrationStatus.BENEFICIARY,
+                  correctedPhoneNumber.phoneNumber);
+          if (tempAccountResponse != null) {
+            customerProfile = tempAccountResponse.customerProfile;
           }
         }
       }
       contactsController.showProgress.value = false;
       if (widget.requestType == RequestType.PAY) {
         handleNonTaraFlow(customerProfile);
+      } else if (widget.requestType == RequestType.COLLECT) {
+        Get.to(ConversationPage(
+            isFromReceive: true,
+            selectedContact: ContactInfo(),
+            custInfo: customerProfile));
       } else if (widget.requestType == RequestType.CHAT) {
         Get.to(ConversationPage(
             selectedContact: ContactInfo(), custInfo: customerProfile));

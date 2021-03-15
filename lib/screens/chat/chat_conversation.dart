@@ -392,7 +392,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           // }
           return data;
         });
-    }
+  }
 
   animateToEnd() {
     Timer(
@@ -554,11 +554,30 @@ class _ConversationPageState extends BaseState<ConversationPage> {
       } else {
         return Container();
       }
-    } else if (chatType == describeEnum(MessageType.TRANSFER)) {
+    }
+    else if (chatType == describeEnum(MessageType.TRANSFER)) {
       PaymentSuccess paymentSuccess = PaymentSuccess.fromSnapshot(snapshot);
-      return ChatMoneyTransferSuccess(
-        paymentSuccess: paymentSuccess,
-      );
+      if (paymentSuccess.payeeId == widget.custInfo.firebaseId) {
+        return DeclinePay(
+          isSender: false,
+          isDeclined: false,
+          onTapAction: (chatAction) {
+
+          },
+        );
+      }else{
+        return DeclinePay(
+          isSender: true,
+          isDeclined: false,
+          onTapAction: (chatAction) {
+
+          },
+        );
+      }
+
+      // return ChatMoneyTransferSuccess(
+      //   paymentSuccess: paymentSuccess,
+      // );
       /*return ChatRequestCashDeposit(requestedAmount: paymentSuccess.amount.toString(),onTapCancel: (val){
 
       },);*/
@@ -969,7 +988,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         Get.back();
         Get.to(ShoppingHomePage(
           merchantStore: widget.merchantStore,
-          merchantProfile: widget.custInfo,));
+          merchantProfile: widget.custInfo,
+        ));
       }
     });
   }

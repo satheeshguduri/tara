@@ -98,10 +98,10 @@ class AuthController extends GetxController {
     }
   }
 
-  void createTempAccount(RegistrationStatus status, String mobileNumber) async {
+  Future<AuthResponse> createTempAccount(
+      RegistrationStatus status, String mobileNumber) async {
     CustomerProfile customerProfile = CustomerProfile(
-        customerType: Utils().getCustomerType(),
-        registrationStatus: RegistrationStatus.BENEFICIARY);
+        customerType: Utils().getCustomerType(), registrationStatus: status);
     SignUpRequest request = SignUpRequest(
       customerProfile: customerProfile,
       mobileNumber: mobileNumber,
@@ -112,9 +112,11 @@ class AuthController extends GetxController {
     if (response.isRight()) {
       var signUpResponse = response.getOrElse(() => null);
       print(jsonEncode(signUpResponse.toJson()));
+      return signUpResponse;
     } else {
       print("error while creating the user");
     }
+    return Future.value(null);
   }
 
   void login() async {
