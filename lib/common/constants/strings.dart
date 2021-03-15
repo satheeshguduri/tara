@@ -444,6 +444,10 @@ class Strings {
   static const priceestimation  = "priceestimation";
   static const no_transaction_history_title  = "no_transaction_history_title";
   static const no_transaction_history_desc  = "no_transaction_history_desc";
+  static const textbased  = "textbased";
+  static const cataloguebased  = "cataloguebased";
+
+
 
 
 

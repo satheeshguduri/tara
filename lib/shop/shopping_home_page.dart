@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:tara_app/common/constants/assets.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/common/constants/gradients.dart';
@@ -12,20 +11,18 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/chat_conversation.dart';
-import 'package:tara_app/screens/consumer/customer_orders_screen.dart';
-import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/constants/color_const.dart';
 import 'package:tara_app/common/constants/fonts.dart';
 import 'package:tara_app/shop/shop_category_details_screen.dart';
 import 'package:tara_app/controller/store_controller.dart';
-import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/models/order_management/catalogue_category/category.dart' as store;
 import 'package:tara_app/shop/shop_bottom_sheet_widget.dart';
 import 'package:tara_app/controller/cart_controller.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/order_management/item/item.dart';
+
 
 
 class ShoppingHomePage extends StatefulWidget {
@@ -48,21 +45,17 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
   CartController cartController = Get.find();
 
 
-  // @override
-  // void init() async {
-  //   // TODO: implement init
-  //   super.init();
-  //   controller.getConsumerOrders();
-  //   controller.getAllStore();
-  //   print(controller.storeTypesList);
-  // }
-
   @override
   BuildContext getContext() {
     // TODO: implement getContext
     return context;
   }
 
+  @override
+  void init() {
+    cartController.loadCartFromDB();
+    super.init();
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -156,11 +149,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
                       children: <Widget>[
                         Text("Jl Kedoya Barat No. 20",
                             style: BaseStyles.cannotFindTextStyle),
-                        // Icon(
-                        //   Icons.arrow_forward_ios,
-                        //   size: 16,
-                        // )
-                        getSvgImage(imagePath: Assets.assets_icon_a_arrow_right,
+                            getSvgImage(imagePath: Assets.assets_icon_a_arrow_right,
                             width: 24.0,
                             height: 24.0),
                       ],
@@ -443,26 +432,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
   }
 
   Widget getCategoriesListView() {
-    // return FutureBuilder(
-    //   future: storeController.getCategories(),
-    //   builder: (context,snapshot){
-    //     if(snapshot.connectionState==ConnectionState.done)
-    //     {
-    //       if(snapshot.hasData){
-    //         List<store.Category> data = snapshot.data;
-    //         return getCategoryWidget(data);
-    //       }else if (snapshot.hasError){
-    //         return Container();
-    //       }else{
-    //         return Container();
-    //       }
-    //     }else{
-    //       return BaseWidgets.getIndicator;
-    //     }
-    //   },
-    // );
-
-    return getCategoryWidget(storeController.categoryList.value);
+       return getCategoryWidget(storeController.categoryList.value);
   }
 
   Widget getListTile(store.Category category,[bool isDecorationNeeded]) {
@@ -480,15 +450,12 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
 
 
     ).onTap(onPressed: () {
-      //here sort the data and send to next screen
-      //  print("catalogue"+category.items[0].catalogue[0]);
-      Get.to(ShopCategoryDetailsScreen(categoryId: category.id,title: category.name,merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,));
+       Get.to(ShopCategoryDetailsScreen(categoryId: category.id,title: category.name,merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,));
     });
   }
 
   Widget tileFirstRow(store.Category category) {
     return Container(
-      //  alignment: Alignment.bottomCenter,
       height: 40,
       width: 40,
       decoration: BoxDecoration(
@@ -586,17 +553,10 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
         // Text
         Text(
             "Medicine",
-            style: const TextStyle(
-                color: ColorConst.input_field_line_off_2_2_2,
-                fontWeight: FontWeight.w500,
-                fontFamily: "SctoGroteskA",
-                fontStyle: FontStyle.normal,
-                fontSize: 14.0
-            ),
+            style: BaseTextStyles.ofterBoughtTitleTextStyle,
             textAlign: TextAlign.center
         ),
         SizedBox(height: 6),
-        // Rp 5.300-6.600
         Text(
             "Rp 5.300-6.600",
             style: BaseTextStyles.subtitle3222
@@ -612,7 +572,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
                 color: ColorConst.color_mint_100_2_2_2
             ),
             alignment: Alignment.center,
-            child: Text("+ Add",
+            child: Text(getTranslation(Strings.plusadd),
               style: BaseTextStyles.bUTTONBlack222,)).onTap(onPressed: () {
 
         }
@@ -708,17 +668,7 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
         backgroundColor: ColorConst.elevation_off_2_2_2,
         context: context,
         builder: (BuildContext context) {
-          return ShopBottomSheetWidget(plusButton: (){
-            setState(() {
-              print("plus click");
-
-            });
-          },minusButton: (){
-            print("minus click");
-            setState(() {
-
-            });
-          },merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,);
+          return bottomSheetWidget();
         }
     );
   }
@@ -785,11 +735,9 @@ class ShoppingHomePageState extends BaseState<ShoppingHomePage> {
         builder: (BuildContext bc) {
           return ShopBottomSheetWidget(plusButton: (){
             setState(() {
-              print("plus click");
 
             });
           },minusButton: (){
-            print("minus click");
             setState(() {
 
             });

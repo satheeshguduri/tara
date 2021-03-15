@@ -412,5 +412,7 @@
   "youmayalsolike": "You may also like",
   "priceestimation": "Price Estimation",
   "no_transaction_history_title": "No Transaction History yet",
-  "no_transaction_history_desc": "You have not made any transaction yet. Your transactions including transfers, requests and payments will be listed here"
+  "no_transaction_history_desc": "You have not made any transaction yet. Your transactions including transfers, requests and payments will be listed here",
+  "textbased":"Text Based",
+  "cataloguebased" : "Catalogue Based"
 }

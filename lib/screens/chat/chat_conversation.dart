@@ -955,10 +955,10 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             child: Column(
               children: [
                 // getCardTextWidget(getTranslation(Strings.addDebitCard)).paddingOnly(top:10),
-                getCardTextWidget("Text Based").paddingOnly(top: 10),
+                getCardTextWidget(getTranslation("textbased")).paddingOnly(top: 10),
                 getDivider(color: AppColors.light_grey_bg_color),
                 // getCardTextWidget(getTranslation(Strings.addCreditCard)).paddingOnly(top:10),
-                getCardTextWidget("Category Based").paddingOnly(top: 10),
+                getCardTextWidget(getTranslation("cataloguebased")).paddingOnly(top: 10),
               ],
             ),
           )

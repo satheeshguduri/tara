@@ -47,16 +47,10 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
   StoreController storeController = Get.find();
   AuthResponse user = Get.find<AuthController>().user.value;
   OrderController controller = Get.find();
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     void Function(VoidCallback fn) setModelState;
-
-    return StatefulBuilder(
+    return Obx(()=> StatefulBuilder(
         builder: (BuildContext context, StateSetter setState){
           setModelState = setState;
           return Container(
@@ -304,7 +298,10 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                   ]
               )
           );
-        });
+        }).withProgressIndicator(showIndicator: controller.showProgress.value));
+
+
+
   }
 
   @override
@@ -446,11 +443,11 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                   response.fold(
                           (l) => print(l.message),
                           (r) => {
-                        //  Navigator.pop(context, false)
                         Get.to(ConversationPage(
                             entry: ChatEntryPoint.ORDER,
                             selectedContact: ContactInfo(),
-                            custInfo: widget.merchantProfile))
+                            custInfo: widget.merchantProfile)
+                        )
                       });
                 }
               }),
@@ -607,6 +604,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
     var matchedProduct = cartController.cartItems.firstWhere((e) => e.id ==list[0].id,orElse:()=>null);
     if(matchedProduct!=null) {
       matchedProduct.orderQuantity++;
+      cartController.cartDB.value.write("items", cartController.cartItems);
     }
      widget.plusButton();
     // setState(() { }
@@ -620,6 +618,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
       if(matchedProduct.orderQuantity==0){
         cartController.cartItems.remove(matchedProduct);
       }
+      cartController.cartDB.value.write("items", cartController.cartItems);
     }
     // setState(() { });
     widget.minusButton();
