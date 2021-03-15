@@ -11,12 +11,21 @@ import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/controller/cart_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/store_controller.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/shop/shop_bottom_sheet_widget.dart';
 
 class ShopHomeScreen extends StatefulWidget {
+  final Store merchantStore;
+  final CustomerProfile merchantProfile;
+
+  ShopHomeScreen({this.merchantStore, this.merchantProfile});
+
   @override
   _ShopHomeScreenState createState() => _ShopHomeScreenState();
 }
@@ -25,6 +34,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
   int _current = 0;
   OrderController controller = Get.find();
   StoreController storeController = Get.find();
+  CartController cartController = Get.find();
 
   @override
   void init() async {
@@ -130,7 +140,8 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
                               width: 24.0,
                               height: 24.0,
                               color: AppColors.header_top_bar_color),
-                          onPressed: () => {}),
+                          onPressed: () => showCartDetailsInBottomSheet()
+                          ),
                       Positioned(
                         top: 8,
                         right: 8,
@@ -141,10 +152,10 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
                             color: AppColors.badge_color,
                             borderRadius: Radii.border(7),
                           ),
-                          child: Text(
-                            "3",
-                            textAlign: TextAlign.center,
-                            style: BaseStyles.notificationBadgeTextStyle,
+                          child: Obx(()=> Text(cartController.getCartItemsCount(),
+                      textAlign: TextAlign.center,
+                      style: BaseStyles.notificationBadgeTextStyle,
+                            ),
                           ),
                         ),
                       ),
@@ -156,6 +167,30 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void showCartDetailsInBottomSheet() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc) {
+          return ShopBottomSheetWidget(plusButton: (){
+            setState(() {
+              print("plus click");
+
+            });
+          },minusButton: (){
+            print("minus click");
+            setState(() {
+
+            });
+          }, merchantProfile: widget.merchantProfile,merchantStore: widget.merchantStore,);
+
+
+        }
     );
   }
 
