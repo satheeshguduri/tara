@@ -11,6 +11,8 @@ import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/shop/shop_bottom_sheet_widget.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/controller/order_controller.dart';
+
 
 
 
@@ -28,6 +30,8 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
   int _current = 0;
   List imageList = ['assets/images/temp_one.png','assets/images/temp_two.png','assets/images/temp_three.png'];
   CartController cartController = Get.find();
+  OrderController orderController = Get.find();
+
 
   @override
   void init() {
@@ -37,7 +41,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Obx(() =>Scaffold(
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
 
@@ -52,7 +56,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
           ],
         ),
       ),
-    );
+    ).withProgressIndicator(showIndicator: orderController.showProgress.value));
   }
 
   Widget  getItemImagesScrollView() {
@@ -612,6 +616,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
     });
   }
   void showCartDetailsInBottomSheet() {
+    print("merchant store"+widget.merchantStore.id);
     showModalBottomSheet(
         isScrollControlled: true,
         useRootNavigator: true,
@@ -712,7 +717,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
       ).onTap(onPressed: (){
         widget.categoryItem.orderQuantity++;
         cartController.cartItems.add(widget.categoryItem);
-        cartController.cartDB.value.write("items", cartController.cartItems);
+        cartController.cartDB.write("items", cartController.cartItems);
 
       }
       );
@@ -726,7 +731,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
       if(matchedProduct.orderQuantity==0){
         cartController.cartItems.remove(matchedProduct);
       }
-      cartController.cartDB.value.write("items", cartController.cartItems);
+      cartController.cartDB.write("items", cartController.cartItems);
 
     }
     setState(() { });
@@ -736,7 +741,7 @@ class _ShopCategoryItemDescriptionState extends BaseState<ShopCategoryItemDescri
     var matchedProduct = cartController.cartItems.firstWhere((e) => e.id ==list[0].id,orElse:()=>null);
     if(matchedProduct!=null) {
       matchedProduct.orderQuantity++;
-      cartController.cartDB.value.write("items", cartController.cartItems);
+      cartController.cartDB.write("items", cartController.cartItems);
 
     }
     setState(() { }

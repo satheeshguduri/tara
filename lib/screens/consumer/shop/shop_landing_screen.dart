@@ -46,7 +46,7 @@ class _ShopHomeScreenState extends BaseState<ShopHomeScreen> {
     controller.getConsumerOrders();
     controller.getAllStore();
     print(controller.storeTypesList);
-    cartController.cartDB.value.writeIfNull('items', List<Item>());
+    cartController.cartDB.writeIfNull('items', List<Item>());
     cartController.loadCartFromDB();
   }
 

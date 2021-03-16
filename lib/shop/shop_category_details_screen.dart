@@ -17,6 +17,8 @@ import 'package:tara_app/shop/shop_category_item_description.dart';
 import 'package:tara_app/shop/shop_bottom_sheet_widget.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/controller/order_controller.dart';
+
 
 
 
@@ -35,6 +37,8 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
   StoreController storeController = Get.find();
   CartController cartController = Get.find();
+  OrderController orderController = Get.find();
+
 
 
 
@@ -65,8 +69,8 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
           preferredSize: Size.fromHeight(56.0), // here the desired height
           child: SafeArea(child: getAppBar()),
         ),
-        body:Container(child: getRootContainer()).withPad(padding: EdgeInsets.all(16))
-      // body: Obx(() =>getRootContainer().withProgressIndicator(showIndicator: storeController.showProgress.value))
+      //  body:Container(child: getRootContainer()).withPad(padding: EdgeInsets.all(16))
+       body: Obx(() =>getRootContainer().withPad(padding: EdgeInsets.all(16)).withProgressIndicator(showIndicator: orderController.showProgress.value))
 
     );
   }
@@ -96,7 +100,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
 
 
     ).onTap(onPressed: (){
-      Get.to(ShopCategoryItemDescription(categoryItem: categoryItem));
+      Get.to(ShopCategoryItemDescription(categoryItem: categoryItem,merchantStore: widget.merchantStore,merchantProfile: widget.merchantProfile,));
     });
   }
 
@@ -377,7 +381,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
                 if(matchedProduct.orderQuantity==0){
                   cartController.cartItems.remove(matchedProduct);
                 }
-                cartController.cartDB.value.write("items", cartController.cartItems);
+                cartController.cartDB.write("items", cartController.cartItems);
               }
               setState(() {
 
@@ -405,7 +409,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
               var matchedProduct = cartController.cartItems.firstWhere((e) => e.id ==list[0].id,orElse:()=>null);
               if(matchedProduct!=null) {
                 matchedProduct.orderQuantity++;
-                cartController.cartDB.value.write("items", cartController.cartItems);
+                cartController.cartDB.write("items", cartController.cartItems);
               }
 
               setState(() {
@@ -432,7 +436,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
       ).onTap(onPressed: (){
         categoryItem.orderQuantity++;
         cartController.cartItems.add(categoryItem);
-        cartController.cartDB.value.write("items", cartController.cartItems);
+        cartController.cartDB.write("items", cartController.cartItems);
       }
       );
     }

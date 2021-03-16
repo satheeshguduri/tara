@@ -31,9 +31,9 @@ import 'package:tara_app/screens/consumer/Data.dart';
 
 
 class ShopBottomSheetWidget extends StatefulWidget {
-final  VoidCallback plusButton,minusButton;
-final Store merchantStore;
-final CustomerProfile merchantProfile;
+  final  VoidCallback plusButton,minusButton;
+  final Store merchantStore;
+  final CustomerProfile merchantProfile;
 
   ShopBottomSheetWidget({this.plusButton,this.minusButton,this.merchantProfile,this.merchantStore});
   @override
@@ -50,12 +50,11 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
   @override
   Widget build(BuildContext context) {
     void Function(VoidCallback fn) setModelState;
-    return Obx(()=> SingleChildScrollView(
+    return   SingleChildScrollView(
       child: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState){
             setModelState = setState;
             return Container(
-              //padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(8), topRight: Radius.circular(8)),
@@ -171,7 +170,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
 
                                           children: [
                                             Container(alignment: Alignment.center,
-                                               child: Image(image: AssetImage('assets/images/temp_tomatoes.png'),width: 56,height: 56,fit: BoxFit.fitWidth,)),
+                                                child: Image(image: AssetImage('assets/images/temp_tomatoes.png'),width: 56,height: 56,fit: BoxFit.fitWidth,)),
                                             Expanded(
                                               child: Container(
                                                 height: 62,
@@ -190,7 +189,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                                                     ),
                                                     SizedBox(height: 6,),
                                                     Text(
-                                                       list[0].price.toString(),
+                                                        list[0].price.toString(),
                                                         style: TextStyles.subtitle3222
                                                     ),
 
@@ -267,7 +266,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                                     })
 
                             ),
-                          //  SizedBox(height: 16,),
+                            //  SizedBox(height: 16,),
                             Container(height: 8,width: double.infinity,color: Color(0xfff7f7f7)),
                             SizedBox(height: 16,),
                             Padding(
@@ -300,8 +299,8 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                     ]
                 )
             );
-          }).withProgressIndicator(showIndicator: controller.showProgress.value),
-    ));
+          }),
+    );
 
 
 
@@ -408,7 +407,6 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                   color: AppColors.color_mint_100_2_2_2),
               child: Row(
                 children: [
-                  // Place Order
                   Expanded(
                     child: Text(getTranslation(Strings.place_order),
                         style: TextStyles.bUTTONBlack222,
@@ -423,6 +421,8 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                 ],
               ).onTap(onPressed: () async {
                 if (cartController.cartItems.length > 0) {
+                  Get.back();
+
                   var orderReq = CreateOrderRequest(
                       storeId: widget.merchantStore.id,
                       catalogueId: num.parse(storeController.catalogueId.value),
@@ -607,9 +607,9 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
     var matchedProduct = cartController.cartItems.firstWhere((e) => e.id ==list[0].id,orElse:()=>null);
     if(matchedProduct!=null) {
       matchedProduct.orderQuantity++;
-      cartController.cartDB.value.write("items", cartController.cartItems);
+      cartController.cartDB.write("items", cartController.cartItems);
     }
-     widget.plusButton();
+    widget.plusButton();
     // setState(() { }
     // );
   }
@@ -621,7 +621,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
       if(matchedProduct.orderQuantity==0){
         cartController.cartItems.remove(matchedProduct);
       }
-      cartController.cartDB.value.write("items", cartController.cartItems);
+      cartController.cartDB.write("items", cartController.cartItems);
     }
     // setState(() { });
     widget.minusButton();

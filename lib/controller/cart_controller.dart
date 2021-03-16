@@ -15,7 +15,7 @@ class CartController extends GetxController {
   var favouriteIcon = Assets.assets_icon_f_favorite.obs;
   var iconColor = AppColors.color_black_100_2_2_2.obs;
 
-  var cartDB = GetStorage().obs;
+  var cartDB = GetStorage();
 
 
   List<T> mapT<T>(List list,Function handler){
@@ -37,7 +37,7 @@ String getCartItemsTotalAmount() {
 
 
   void loadCartFromDB(){
-    List<dynamic> items = jsonDecode(jsonEncode(cartDB.value.read('items')));
+    List<dynamic> items = jsonDecode(jsonEncode(cartDB.read('items')));
     cartItems.value = items.map((e) => Item.fromJson(e)).toList();
   }
 
