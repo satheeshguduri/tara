@@ -567,6 +567,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         return DeclinePay(
           isSender: false,
           isDeclined: false,
+          paymentSuccess: paymentSuccess,
           onTapAction: (chatAction) {
             if(chatAction == ChatAction.pay){
 
@@ -582,6 +583,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
         return DeclinePay(
           isSender: true,
           isDeclined: false,
+          paymentSuccess: paymentSuccess,
           onTapAction: (chatAction) {
 
           },

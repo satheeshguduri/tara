@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -670,11 +672,12 @@ class _MerchantReviewAndConfirmScreenState extends BaseState<MerchantReviewAndCo
                   var orderRequest = controller.getOrderRequestFromOrderResponse(orderResponse);
                   orderRequest.status = Statuses.ACCEPTED;
                   orderRequest.price = controller.getTotal();
+                  print("=====Order Request======");
                   print(orderRequest.toJson().toString());
                   var response = await controller.updateOrder(orderRequest);
                   print("Order Status ACCEPTED and Updated");
                   response.fold(
-                      (l) => print(l), (r) => Navigator.pop(context, false));
+                      (l) => print(l), (r) => {print(jsonEncode(r.toJson())),Navigator.pop(context, false)});
 //                  widget.callBackToConfirmOrder();
 //                  push(ReviewAndDeliver());
                 })
