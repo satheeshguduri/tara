@@ -17,8 +17,8 @@ import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/shop/shop_add_item.dart';
 import 'package:tara_app/services/error/failure.dart';
-import 'package:tara_app/models/order_management/orders/create_order_req.dart';
-import 'package:tara_app/models/order_management/orders/create_order_res.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/controller/store_controller.dart';
 import 'package:tara_app/common/constants/colors.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
@@ -403,26 +403,26 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                //             (r) => {
                //     Navigator.pop(context, false)
                //     });
-               var orderReq = CreateOrderRequest(
+               var orderReq = OrderRequest(
                    storeId: widget.merchantStore.id,
                    catalogueId: num.parse(storeController.catalogueId.value),
                    items: controller.items.value,
                    customerId: user.customerProfile.id,
                    deliveryAddress:[],
                    status: Statuses.PENDING,
-                   price: "99", // pending
+                   price: 99.0, // pending//TODO
                    deliveryDate: DateTime.now(),
                    orderDate: DateTime.now(),
                    orderType: OrderTypes.TEXT_BASED,
                    transactionId: null,
-                   merchantId: widget.merchantProfile.id,
+                   merchantId: widget.merchantProfile.id.toString(),
                    order_extra: JsonbOrderExtra(data: OrderExtraData(customer_commid: user.customerProfile.firebaseId,
                        merchant_commid: widget.merchantProfile.firebaseId,
                        interpret: "true")
                    )
                );
 
-               Either<Failure, CreateOrderResponse> response = await controller.createOrder(orderReq);
+               Either<Failure, OrderResponse> response = await controller.createOrder(orderReq);
                response.fold(
                        (l) => print(l.message),
                        (r) => {

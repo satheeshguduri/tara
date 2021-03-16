@@ -7,8 +7,8 @@ import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/common/constants/fonts.dart';
 import 'package:tara_app/controller/cart_controller.dart';
 import 'package:tara_app/models/order_management/item/item.dart';
-import 'package:tara_app/models/order_management/orders/create_order_req.dart';
-import 'package:tara_app/models/order_management/orders/create_order_res.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/controller/store_controller.dart';
@@ -390,7 +390,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                   SizedBox(
                     height: 6,
                   ),
-                  Obx(() => Text(cartController.getCartItemsTotalAmount(),
+                  Obx(() => Text("${cartController.getCartItemsTotalAmount()}",
                       style: TextStyles.subtitle1222))
                 ],
               )
@@ -423,7 +423,7 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                 if (cartController.cartItems.length > 0) {
                   Get.back();
 
-                  var orderReq = CreateOrderRequest(
+                  var orderReq = OrderRequest(
                       storeId: widget.merchantStore.id,
                       catalogueId: num.parse(storeController.catalogueId.value),
                       items: getOrderItems(),
@@ -435,14 +435,14 @@ class _ShopBottomSheetWidgetState extends BaseState<ShopBottomSheetWidget> {
                       orderDate: DateTime.now(),
                       orderType: OrderTypes.CATALOGUE_BASED,
                       transactionId: null,
-                      merchantId: widget.merchantProfile.id,
+                      merchantId: widget.merchantProfile.id.toString(),
                       order_extra: JsonbOrderExtra(data: OrderExtraData(customer_commid: user.customerProfile.firebaseId,
                           merchant_commid: widget.merchantProfile.firebaseId,
                           interpret: "true")
                       )
                   );
 
-                  Either<Failure, CreateOrderResponse> response = await controller.createOrder(orderReq);
+                  Either<Failure, OrderResponse> response = await controller.createOrder(orderReq);
                   response.fold(
                           (l) => print(l.message),
                           (r) => {

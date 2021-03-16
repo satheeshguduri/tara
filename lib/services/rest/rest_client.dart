@@ -91,16 +91,16 @@ import '../config/api.dart';
 
 // Orders api's
   @POST(API.create_order)
-  Future<Order> createOrder(@Header("Authorization") String token,@Body() Order order);
+  Future<OrderModel> createOrder(@Header("Authorization") String token,@Body() OrderModel order);
 
   // @POST(API.create_order)
   // Future<Order> deleteOrder(@Header("Authorization") String token,@Body()  String orderId);
 
   @PUT(API.update_order)
-  Future<Order> updateOrder(@Header("Authorization") String token,@Body() Order order, @Path() String orderId);
+  Future<OrderModel> updateOrder(@Header("Authorization") String token,@Body() OrderModel order, @Path() String orderId);
 
   @GET(API.get_order)
-  Future<Order> getOrderByOrderId(@Header("Authorization") String token, @Path() String orderId);
+  Future<OrderModel> getOrderByOrderId(@Header("Authorization") String token, @Path() String orderId);
 
 //  @GET(API.get_orders_consumers)
 //  Future<List<Order>> getOrdersByConsumerId(@Header("Authorization") String token, @Path() String consumerId);

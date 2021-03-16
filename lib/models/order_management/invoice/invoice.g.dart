@@ -19,7 +19,7 @@ Invoice _$InvoiceFromJson(Map<String, dynamic> json) {
         ?.toList(),
     order: json['order'] == null
         ? null
-        : Order.fromJson(json['order'] as Map<String, dynamic>),
+        : OrderModel.fromJson(json['order'] as Map<String, dynamic>),
     customerAddress: json['customerAddress'] == null
         ? null
         : CustomerAddress.fromJson(

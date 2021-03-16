@@ -12,8 +12,8 @@ import 'package:tara_app/services/rest/order_rest_client.dart';
 import 'package:tara_app/services/rest/rest_client.dart';
 import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
-import 'package:tara_app/models/order_management/orders/create_order_req.dart';
-import 'package:tara_app/models/order_management/orders/create_order_res.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 
 
 class OrderRepositoryImpl extends OrderRepository{
@@ -26,7 +26,7 @@ class OrderRepositoryImpl extends OrderRepository{
   OrderRepositoryImpl(this.userLocalDataSource,this.networkInfo,this.remoteDataSource);
 
   @override
-  Future<Either<Failure, CreateOrderResponse>> createOrder(CreateOrderRequest order) async{
+  Future<Either<Failure, OrderResponse>> createOrder(OrderRequest order) async{
     // AuthResponse user = Get.find();
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
@@ -39,7 +39,7 @@ class OrderRepositoryImpl extends OrderRepository{
   }
 
   @override
-  Future<Either<Failure, order.Order>> getOrderByOrderId(String orderId) async{
+  Future<Either<Failure, OrderResponse>> getOrderByOrderId(String orderId) async{
     // AuthResponse user = Get.find();
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
@@ -52,7 +52,7 @@ class OrderRepositoryImpl extends OrderRepository{
   }
 
   @override
-  Future<Either<Failure, List<order.Order>>> getOrdersByConsumerId(int consumerId) async{
+  Future<Either<Failure, List<OrderResponse>>> getOrdersByConsumerId(int consumerId) async{
     // AuthResponse user = Get.find();
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
@@ -64,7 +64,7 @@ class OrderRepositoryImpl extends OrderRepository{
     }
   }
   @override
-  Future<Either<Failure, List<order.Order>>> getOrdersByMerchantId(int merchantId) async{
+  Future<Either<Failure, List<OrderResponse>>> getOrdersByMerchantId(int merchantId) async{
     // AuthResponse user = Get.find();
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
@@ -77,7 +77,7 @@ class OrderRepositoryImpl extends OrderRepository{
   }
 
   @override
-  Future<Either<Failure, order.Order>> updateOrder(order.Order order) async{
+  Future<Either<Failure, OrderResponse>> updateOrder(OrderRequest order) async{
     // AuthResponse user = Get.find();
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();

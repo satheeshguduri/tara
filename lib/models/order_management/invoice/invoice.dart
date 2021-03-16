@@ -12,7 +12,7 @@ class Invoice{
    double tax;
    double deliveryCost;
    List<Item> items;
-   Order order;
+   OrderModel order;
    CustomerAddress customerAddress;
 
    Invoice({this.id, this.invoiceId, this.totalAmount, this.tax,

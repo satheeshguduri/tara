@@ -10,10 +10,10 @@ import 'package:tara_app/models/order_management/catalogue_category/catalogue.da
 import 'order_address.dart';
 import 'order_items.dart';
 
-part 'create_order_res.g.dart';
+part 'order_response.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class CreateOrderResponse {
+class OrderResponse {
   String orderId;
   Store storeId;
   Catalogue catalogueId;
@@ -23,14 +23,14 @@ class CreateOrderResponse {
   Statuses status; //
   double price;
   double tax;
-  String deliveryDate;
-  String orderDate;
+  DateTime deliveryDate;
+  DateTime orderDate;
   OrderTypes orderType;
   String transactionId;
   String merchantId;
   JsonbOrderExtra order_extra;
 
-  CreateOrderResponse(
+  OrderResponse(
       {this.orderId,
         this.storeId,
         this.catalogueId,
@@ -47,6 +47,6 @@ class CreateOrderResponse {
         this.merchantId,
         this.order_extra});
 
-  factory CreateOrderResponse.fromJson(Map<String, dynamic> json) => _$CreateOrderResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$CreateOrderResponseToJson(this);
+  factory OrderResponse.fromJson(Map<String, dynamic> json) => _$OrderResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderResponseToJson(this);
 }

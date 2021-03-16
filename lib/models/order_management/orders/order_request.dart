@@ -6,10 +6,10 @@ import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'order_address.dart';
 import 'order_items.dart';
 
-part 'create_order_req.g.dart';
+part 'order_request.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class CreateOrderRequest {
+class OrderRequest {
   String orderId;
   String storeId;
   //Store storeId;
@@ -18,18 +18,18 @@ class CreateOrderRequest {
   int customerId;
   List<OrderAddress> deliveryAddress;
   Statuses status; //
-  String price;
+  double price;
 //  double tax;
   DateTime deliveryDate;
   DateTime orderDate;
   OrderTypes orderType;
   String transactionId;
-  num merchantId;
+  String merchantId;
   JsonbOrderExtra data;
    JsonbOrderExtra order_extra;
 //  MessageType messageType;
 
-  CreateOrderRequest(
+  OrderRequest(
       {this.orderId,
       // this.storeIdOnly,
       this.storeId,
@@ -49,7 +49,7 @@ class CreateOrderRequest {
       this.order_extra});
 //  this.messageType
 
-  factory CreateOrderRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateOrderRequestFromJson(json);
-  Map<String, dynamic> toJson() => _$CreateOrderRequestToJson(this);
+  factory OrderRequest.fromJson(Map<String, dynamic> json) =>
+      _$OrderRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$OrderRequestToJson(this);
 }

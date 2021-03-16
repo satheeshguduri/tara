@@ -20,6 +20,7 @@ import 'package:tara_app/screens/consumer/transfer/beneficiaries_contacts_list_s
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 
+import '../../flavors.dart';
 import '../../injector.dart';
 
 class ChatInbox extends StatefulWidget {
@@ -198,8 +199,16 @@ class _ChatInboxState extends BaseState<ChatInbox>
   getChatList() {
     user = Get.find<AuthController>().user.value;
     //add condition for customer and merchant separation
-    var chatHistoryPath =
-        FirebasePath.customerChats(user.customerProfile.firebaseId);
+
+    var chatHistoryPath;
+    if(F.appFlavor == Flavor.CONSUMER) {
+      chatHistoryPath =
+          FirebasePath.customerChats(user.customerProfile.firebaseId);
+    } else if(F.appFlavor == Flavor.MERCHANT){
+      chatHistoryPath =
+          FirebasePath.merchantChats(user.customerProfile.firebaseId);
+    }
+
     print(chatHistoryPath);
     return Container(
       height: 500,

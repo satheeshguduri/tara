@@ -181,7 +181,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
       Container(
         width: 148,
         height: 100,
-        child: Image.network("https://lh3.googleusercontent.com/proxy/10t-ngg-a9NGNtd9g3wByh41v6KYmwbOrJHob--drM7nBiiqVX9onFxRUjEDcZp7yCYipDdtskS7wfhz7y6Frs0nB9b6p3s_UxHB5ig81hgnpP3d3ex9ehAY5Wd1sdVHxyde",),
+        child: Image.asset("assets/images/veg.png")//Image.network("https://lh3.googleusercontent.com/proxy/10t-ngg-a9NGNtd9g3wByh41v6KYmwbOrJHob--drM7nBiiqVX9onFxRUjEDcZp7yCYipDdtskS7wfhz7y6Frs0nB9b6p3s_UxHB5ig81hgnpP3d3ex9ehAY5Wd1sdVHxyde",),
       ),
       Positioned(
         top: 8,

@@ -7,7 +7,7 @@ import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/review_and_confirm.dart';
+import 'package:tara_app/screens/chat/merchant_review_and_confirm_screen.dart';
 import 'package:tara_app/screens/chat/review_and_deliver.dart';
 
 class ItemsOrder extends StatefulWidget {
@@ -88,7 +88,7 @@ class _ItemsOrderState extends BaseState<ItemsOrder> {
                   onTap: (){
                     if(widget.fromScreen == FromScreen.merchant){
                       if (widget.isFromAcceptedOrder==false){
-                        push(ReviewAndConfirm(orderId: widget.order.orderId,callBackToConfirmOrder: (){
+                        push(MerchantReviewAndConfirmScreen(orderId: widget.order.orderId,callBackToConfirmOrder: (){
 //                        widget.onTapAction(val);
                           push(ReviewAndDeliver());
                         },));

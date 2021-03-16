@@ -6,6 +6,7 @@ import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/models/chat/order.dart';
+import 'package:tara_app/models/chat/payment_success.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
 class DeclinePay extends StatefulWidget {
@@ -13,12 +14,14 @@ class DeclinePay extends StatefulWidget {
   final bool isSender;
   final bool isDeclined;
   final Order order;
+  final PaymentSuccess paymentSuccess;
   final Function(ChatAction) onTapAction;
 
   const DeclinePay(
       {Key key,
       this.isAgentUINCode = false,
       this.isSender = false,
+        this.paymentSuccess,
       this.isDeclined = false, this.onTapAction,
         this.order
       })
@@ -93,7 +96,7 @@ class _DeclinePayState extends State<DeclinePay> {
                             Container(
                               margin: EdgeInsets.only(
                                   left: 16, right: 8, bottom: 8),
-                              child: Text("Rp 100.000",
+                              child: Text("${widget.paymentSuccess?.amount}",
                                   style: widget.isDeclined
                                       ? BaseStyles.requestNowTextStyle
                                       : BaseStyles.agentUIN_OTP_CODE_TextStyle),
@@ -108,7 +111,7 @@ class _DeclinePayState extends State<DeclinePay> {
                             Container(
                               margin:
                                   EdgeInsets.only(left: 16, right: 16, top: 8),
-                              child: Text("“Buat patungan kado Bambang”",
+                              child: Text("Requested amount",
                                   style: BaseStyles.saveToMyContactTextStyle),
                             ),
                             widget.isSender == false
@@ -187,7 +190,7 @@ class _DeclinePayState extends State<DeclinePay> {
                                     child: Text(
                                       DateFormat('dd MMM kk:mm').format(
                                           DateTime.fromMillisecondsSinceEpoch(
-                                              1565888474278)),
+                                              widget.paymentSuccess?.timestamp)),
                                       style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 12.0,

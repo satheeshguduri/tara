@@ -411,10 +411,12 @@ class _ReviewAndDeliverState extends BaseState<ReviewAndDeliver> {
                 // )
               ],
             ).onTap(onPressed: () async {
+
               var orderTemp = controller.orderMerchat.value;
-              orderTemp.status = Statuses.IN_TRANSIT;
-              print(orderTemp.toJson().toString());
-              await controller.updateOrder(orderTemp);
+              var orderRequest = controller.getOrderRequestFromOrderResponse(orderTemp);
+              orderRequest.status = Statuses.IN_TRANSIT;
+              print(orderRequest.toJson().toString());
+              await controller.updateOrder(orderRequest);
               print("Order Status IN_TRANSIT and Updated");
               pop();
             }),

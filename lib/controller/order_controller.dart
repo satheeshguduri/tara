@@ -15,15 +15,15 @@ import 'package:tara_app/repositories/stores_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/orders/order.dart' as OrderModel;
-import 'package:tara_app/models/order_management/orders/create_order_req.dart';
-import 'package:tara_app/models/order_management/orders/create_order_res.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 
 import '../injector.dart';
 
 class OrderController extends GetxController{
 
   var showProgress = false.obs;
-  var orderList =  List<order.Order>().obs;
+  var orderList =  List<OrderResponse>().obs;
 //  var storeTypeRes = StoreTypeResponse();
   List<StoreTypeModel> storeTypesList;
   var arrStores = List<Store>().obs;
@@ -38,7 +38,7 @@ class OrderController extends GetxController{
   Future getMerchantOrders() async {
     showProgress.value = true;
     AuthResponse user = await getIt.get<UserLocalDataStore>().getUser();
-    Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByMerchantId(user.customerProfile.id);
+    Either<Failure,List<OrderResponse>> response = await getIt.get<OrderRepository>().getOrdersByMerchantId(user.customerProfile.id);
     showProgress.value = false;
     response.fold((l) => print, (r) => {
       orderList.value = r,
@@ -50,7 +50,7 @@ class OrderController extends GetxController{
   Future getConsumerOrders() async {
     showProgress.value = true;
     AuthResponse user = await getIt.get<UserLocalDataStore>().getUser(); //Get.find();
-    Either<Failure,List<order.Order>> response = await getIt.get<OrderRepository>().getOrdersByConsumerId(user.customerProfile.id);
+    Either<Failure,List<OrderResponse>> response = await getIt.get<OrderRepository>().getOrdersByConsumerId(user.customerProfile.id);
     showProgress.value = false;
     response.fold((l) => print(l.message), (r) => {
       orderList.value = r,
@@ -78,9 +78,9 @@ class OrderController extends GetxController{
   }
 
 
-  Future<Either<Failure,CreateOrderResponse>> createOrder(CreateOrderRequest orderReq) async{
+  Future<Either<Failure,OrderResponse>> createOrder(OrderRequest orderReq) async{
     showProgress.value = true;
-    Either<Failure,CreateOrderResponse> response = await getIt.get<OrderRepository>().createOrder(orderReq);
+    Either<Failure,OrderResponse> response = await getIt.get<OrderRepository>().createOrder(orderReq);
     showProgress.value = false;
 //    response.fold((l) => print(l.message), (r) => {
 //

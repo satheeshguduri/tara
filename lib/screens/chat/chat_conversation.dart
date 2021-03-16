@@ -21,6 +21,7 @@ import 'package:tara_app/common/widgets/chat_widgets/order_paid.dart';
 import 'package:tara_app/common/widgets/chat_widgets/text_chat_widget.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/order_update_controller.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -31,8 +32,10 @@ import 'package:tara_app/models/chat/payment_success.dart';
 import 'package:tara_app/models/chat/text_message.dart';
 import 'package:tara_app/models/order_management/orders/order.dart'
     as OrderModel;
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/receive_money.dart';
@@ -43,6 +46,8 @@ import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 import 'package:tara_app/shop/shopping_home_page.dart';
+
+import '../../flavors.dart';
 
 enum ChatEntryPoint { MC_PAYMENT, ORDER, TRANSFER, INBOX }
 
@@ -98,7 +103,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   AuthResponse user = Get.find<AuthController>().user.value;
   OrderUpdateController controller = Get.put(OrderUpdateController());
 
-  OrderModel.Order customerOrder;
+  OrderResponse customerOrder;
 
   @override
   BuildContext getContext() {
@@ -426,7 +431,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     var chatType = snapshot.value["messageType"].toString();
     if (chatType == describeEnum(MessageType.ORDER)) {
       var order = Order.fromSnapshot(snapshot);
-      if (widget.fromScreen == FromScreen.merchant) {
+      if(F.appFlavor == Flavor.MERCHANT) {
         switch (order.orderStatus) {
           case Statuses.PENDING:
             return ItemsOrder(
@@ -475,7 +480,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
             break;
         }
         ;
-      } else if (widget.fromScreen == FromScreen.consumer) {
+      }
+      else if (F.appFlavor == Flavor.CONSUMER) {
         // CONSUMER CHAT
         switch (order.orderStatus) {
           case Statuses.PENDING:
@@ -562,7 +568,14 @@ class _ConversationPageState extends BaseState<ConversationPage> {
           isSender: false,
           isDeclined: false,
           onTapAction: (chatAction) {
+            if(chatAction == ChatAction.pay){
 
+            }else if(chatAction == ChatAction.decline){
+              // Get.find<AuthController>().getNonTaraCustomerInfo(mobileNUmber);
+              // Show Progress
+             Get.find<TransactionController>().paymentCompleted(trContext: TransactionContext.PAYMENT_REQUEST,payAmount:paymentSuccess.amount, status: PaymentStatus.DECLINED);
+             //hide Progress
+            }
           },
         );
       }else{
@@ -630,15 +643,17 @@ class _ConversationPageState extends BaseState<ConversationPage> {
   void consumerAcceptDeclineOrderPayment(ChatAction chatAction) async {
     if (chatAction == ChatAction.pay) {
       // update Order with Pay Accepted
-      customerOrder.status = Statuses.PAID;
+      var orderRequest = controller.getOrderRequestFromOrderResponse(customerOrder);
+      orderRequest.status = Statuses.PAID;
       print(customerOrder.toJson().toString());
-      var response = await controller.updateOrder(customerOrder);
+      var response = await controller.updateOrder(orderRequest);
       print("Order Status PAID and Updated");
     } else if (chatAction == ChatAction.decline) {
+      var orderRequest = controller.getOrderRequestFromOrderResponse(customerOrder);
       // update Order with Pay Decline
-      customerOrder.status = Statuses.ORDER_PAYMENT_DECLINED;
+      orderRequest.status = Statuses.ORDER_PAYMENT_DECLINED;
       print(customerOrder.toJson().toString());
-      var response = await controller.updateOrder(customerOrder);
+      var response = await controller.updateOrder(orderRequest);
       print("Order Status ORDER_PAYMENT_DECLINED and Updated");
     }
   }

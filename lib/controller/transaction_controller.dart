@@ -18,6 +18,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/helpers/base_request_helper.dart';
 import 'package:tara_app/common/helpers/crypto_helper.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/common/helpers/get_helper.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/controller/auth_controller.dart';
@@ -194,7 +195,7 @@ class TransactionController extends GetxController {
   Future<Either<Failure, BaseResponse>> paymentCompleted(
       {TransactionContext trContext,
       ToAddressResponse toAddress,
-      num payAmount}) async {
+      num payAmount,PaymentStatus status = PaymentStatus.SUCCESS}) async {
     var fromData = FromDataBean(
         fromContactNumber:
             Get.find<AuthController>().user.value.customerProfile.mobileNumber,
@@ -238,7 +239,7 @@ class TransactionController extends GetxController {
         paid: true,
         transactionType: "paid",
         subType: "Grocery",
-        status: "Success",
+        status: describeEnum(status),
         transactionDate: DateTime.now().toIso8601String(),
         toType: null);
     // showProgress.value = true;
@@ -255,7 +256,6 @@ class TransactionController extends GetxController {
     showProgress.value = false;
     return responseDa;
   }
-
   void getOtpForTransfer({bool isFromResendOtp = false}) async {
     //validate empty state here for the text fields
 

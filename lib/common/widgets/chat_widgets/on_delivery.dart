@@ -12,6 +12,7 @@ import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/order_update_controller.dart';
 import 'package:tara_app/models/chat/order.dart' as ChatOrder;
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
@@ -116,8 +117,7 @@ class _OnDeliveryState extends BaseState<OnDelivery> {
                                                     (l) => print(l.message),
                                                     (r) => {
                                                       print("Got the order Info"),
-                                                      r.status = Statuses.DELIVERED,
-                                                      orderController.updateOrder(r)
+                                                      updateOrderStatus(r)
                                                 });
 
 
@@ -200,10 +200,14 @@ class _OnDeliveryState extends BaseState<OnDelivery> {
       margin: EdgeInsets.only(bottom: 10.0),
     );
   }
+  updateOrderStatus(OrderResponse orderResponse){
+    var r = orderController.getOrderRequestFromOrderResponse(orderResponse);
+    r.status = Statuses.DELIVERED;
+    orderController.updateOrder(r);
 
+  }
   @override
   BuildContext getContext() {
-    // TODO: implement getContext
     return context;
   }
 }

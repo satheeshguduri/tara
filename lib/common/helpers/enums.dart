@@ -11,3 +11,9 @@ enum ChatAction{
   pay,
   none
 }
+enum PaymentStatus{
+  INITIATED,
+  SUCCESS,
+  DECLINED,
+  FAILED
+}

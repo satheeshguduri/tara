@@ -16,6 +16,7 @@ import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/Merchant/see_all_orders_screen.dart';
@@ -423,7 +424,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
   BuildContext getContext() {
     return context;
   }
-  List<order.Order> filteredList = [];
+  List<OrderResponse> filteredList = [];
   Widget getBottomView(){
     if(isTapOnIndex1){
       filteredList = controller.orderList.where((order) => order.status == Statuses.PENDING).toList();
@@ -596,7 +597,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
     );
   }
   
-  String getOrderItems(order.Order orderTemp){
+  String getOrderItems(OrderResponse orderTemp){
     var itemsStr = "";
     for(OrderItems item in orderTemp.items){
       itemsStr += item.name + ",";

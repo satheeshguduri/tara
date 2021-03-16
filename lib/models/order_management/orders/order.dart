@@ -11,7 +11,7 @@ import 'order_items.dart';
 
 part 'order.g.dart';
 @JsonSerializable(explicitToJson: true)
-class Order{
+class OrderModel{
   String orderId;
   Store storeId;
   Catalogue catalogueId;
@@ -29,7 +29,7 @@ class Order{
   JsonbOrderExtra order_extra;
 //  MessageType messageType;
 
-  Order(
+  OrderModel(
   {this.orderId,
       this.storeId,
       this.catalogueId,
@@ -47,7 +47,7 @@ class Order{
       this.order_extra,});
 //  this.messageType
 
-factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
-Map<String, dynamic> toJson() => _$OrderToJson(this);
+factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
+Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 
 }

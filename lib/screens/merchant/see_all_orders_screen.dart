@@ -14,6 +14,7 @@ import 'package:tara_app/common/widgets/base_widgets.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -34,7 +35,7 @@ class SeeAllOrdersScreen extends StatefulWidget {
 
 class _SeeAllOrdersScreenState extends BaseState<SeeAllOrdersScreen> {
 
-  List<order.Order> filteredList = [];
+  List<OrderResponse> filteredList = [];
   bool isTapOnIndex1 = true;
   bool isTapOnIndex2 = false;
   bool isTapOnIndex3 = false;
@@ -455,7 +456,7 @@ class _SeeAllOrdersScreenState extends BaseState<SeeAllOrdersScreen> {
       ),
     );
   }
-  String getOrderItems(order.Order orderTemp){
+  String getOrderItems(OrderResponse orderTemp){
     var itemsStr = "";
     for(OrderItems item in orderTemp.items){
       itemsStr += item.name + ",";

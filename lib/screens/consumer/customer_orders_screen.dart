@@ -27,7 +27,7 @@ class CustomerOrdersScreen extends StatefulWidget {
 }
 
 class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
-  List<order.Order> orderList = [],filteredList=[];
+  List<order.OrderModel> orderList = [],filteredList=[];
   bool isTapOnIndex1 = true;
   bool isTapOnIndex2 = false;
   bool isTapOnIndex3 = false;
@@ -68,7 +68,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
          if (snapshot.connectionState == ConnectionState.done) {
            // If the Future is complete, display the preview.
            if (snapshot.hasData) {
-             Either<Failure, List<order.Order>> orders = snapshot.data;
+             Either<Failure, List<order.OrderModel>> orders = snapshot.data;
              orders.fold((l) => Get.defaultDialog(content: Text(l.message)), (
                  r) => orderList = r);
              return getBottomView();
@@ -261,7 +261,7 @@ class CustomerOrdersScreenState extends BaseState<CustomerOrdersScreen> {
     });
   }
 
-  String getOrderItems(order.Order orderTemp){
+  String getOrderItems(order.OrderModel orderTemp){
     var itemsStr = "";
     for(OrderItems item in orderTemp.items){
       itemsStr += item.name + ",";

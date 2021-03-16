@@ -26,12 +26,12 @@ class CartController extends GetxController {
     return result;
   }
 
-String getCartItemsTotalAmount() {
+double getCartItemsTotalAmount() {
   double totalAmount=0;
   for(int i=0;i<cartItems.length;i++){
     totalAmount = totalAmount+cartItems[i].orderQuantity*cartItems[i].price??0;
   }
-  return totalAmount.toString();
+  return totalAmount;
 }
 
 

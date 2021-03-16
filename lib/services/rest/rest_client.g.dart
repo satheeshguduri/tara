@@ -267,7 +267,7 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<Order> createOrder(token, order) async {
+  Future<OrderModel> createOrder(token, order) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(order, 'order');
     const _extra = <String, dynamic>{};
@@ -284,12 +284,12 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Order.fromJson(_result.data);
+    final value = OrderModel.fromJson(_result.data);
     return value;
   }
 
   @override
-  Future<Order> updateOrder(token, order, orderId) async {
+  Future<OrderModel> updateOrder(token, order, orderId) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(order, 'order');
     ArgumentError.checkNotNull(orderId, 'orderId');
@@ -307,12 +307,12 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Order.fromJson(_result.data);
+    final value = OrderModel.fromJson(_result.data);
     return value;
   }
 
   @override
-  Future<Order> getOrderByOrderId(token, orderId) async {
+  Future<OrderModel> getOrderByOrderId(token, orderId) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(orderId, 'orderId');
     const _extra = <String, dynamic>{};
@@ -327,7 +327,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Order.fromJson(_result.data);
+    final value = OrderModel.fromJson(_result.data);
     return value;
   }
 

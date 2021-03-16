@@ -16,6 +16,7 @@ import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/order_management/orders/order.dart'
     as OrderModel;
 import 'package:tara_app/models/order_management/orders/order_items.dart';
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -24,26 +25,20 @@ import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
-class ReviewAndConfirm extends StatefulWidget {
-  Function callBackToConfirmOrder;
-  String orderId;
-  ReviewAndConfirm({Key key, this.callBackToConfirmOrder, this.orderId})
+class MerchantReviewAndConfirmScreen extends StatefulWidget {
+  final Function callBackToConfirmOrder;
+  final  orderId;
+  MerchantReviewAndConfirmScreen({Key key, this.callBackToConfirmOrder, this.orderId})
       : super(key: key);
   @override
-  _ReviewAndConfirmState createState() => _ReviewAndConfirmState();
+  _MerchantReviewAndConfirmScreenState createState() => _MerchantReviewAndConfirmScreenState();
 }
 
-class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
+class _MerchantReviewAndConfirmScreenState extends BaseState<MerchantReviewAndConfirmScreen> {
 
-  OrderModel.Order order;
+  OrderResponse orderResponse;
   OrderUpdateController controller = OrderUpdateController();
   FocusNode deliveryFocusNode = FocusNode();
-
-  @override
-  void init() {
-    // TODO: implement init
-    super.init();
-  }
 
   @override
   BuildContext getContext() {
@@ -67,16 +62,16 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
   }
 
   FutureBuilder getOrdersFuture() {
-    return FutureBuilder<Either<Failure, OrderModel.Order>>(
+    return FutureBuilder<Either<Failure, OrderResponse>>(
       future: getIt.get<OrderRepository>().getOrderByOrderId(widget.orderId),
       builder:
-          (context, AsyncSnapshot<Either<Failure, OrderModel.Order>> snapshot) {
+          (context, AsyncSnapshot<Either<Failure, OrderResponse>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the Future is complete, display the preview.
           if (snapshot.hasData) {
-            Either<Failure, OrderModel.Order> result = snapshot.data;
+            Either<Failure, OrderResponse> result = snapshot.data;
             result.fold((l) => Text("Unable to fetch the Order details"),
-                (r) => {order = r, controller.arrItems.value = order.items});
+                (r) => {orderResponse = r, controller.arrItems.value = orderResponse.items});
             return getPageContainer();
           }
           return Container();
@@ -647,14 +642,16 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14.0)))
                     .onTap(onPressed: () async {
-                  order.status = Statuses.CANCELLED;
-                  order.price = controller.getTotal();
+
 //                  order.tax = double.parse(controller.deliveryCharge.value);
-                  print(order.toJson().toString());
-                  var response = await controller.updateOrder(order);
-                  print("Order Status CANCELLED and Updated");
+//                   print(orderResponse.toJson().toString());
+
+                  var request = controller.getOrderRequestFromOrderResponse(orderResponse);
+                  request.status = Statuses.CANCELLED;
+                  request.price = controller.getTotal();
+                  var response = await controller.updateOrder(request);
                   response.fold(
-                      (l) => print(l), (r) => Navigator.pop(context, false));
+                      (l) => showToast(message:l.message), (r) => Navigator.pop(context, false));
                 }),
                 Container(
                         width: 156,
@@ -670,10 +667,11 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
                                 fontStyle: FontStyle.normal,
                                 fontSize: 14.0)))
                     .onTap(onPressed: () async {
-                  order.status = Statuses.ACCEPTED;
-                  order.price = controller.getTotal();
-                  print(order.toJson().toString());
-                  var response = await controller.updateOrder(order);
+                  var orderRequest = controller.getOrderRequestFromOrderResponse(orderResponse);
+                  orderRequest.status = Statuses.ACCEPTED;
+                  orderRequest.price = controller.getTotal();
+                  print(orderRequest.toJson().toString());
+                  var response = await controller.updateOrder(orderRequest);
                   print("Order Status ACCEPTED and Updated");
                   response.fold(
                       (l) => print(l), (r) => Navigator.pop(context, false));
@@ -718,10 +716,10 @@ class _ReviewAndConfirmState extends BaseState<ReviewAndConfirm> {
   }
 
   String getOrderAddress() {
-    if (order != null && order.deliveryAddress != null) {
-      var address = order.deliveryAddress.first;
-      return "${address.dno},${address.streetName},${address.city},${address.zipcode},${address.country}";
-    }
+    // if (order != null && order.deliveryAddress != null) {
+    //   var address = order?.deliveryAddress?.first;
+    //   return "${address.dno},${address.streetName},${address.city},${address.zipcode},${address.country}";
+    // }
     return "show addrss here";
   }
 }

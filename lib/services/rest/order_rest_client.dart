@@ -17,8 +17,8 @@ import 'package:tara_app/models/order_management/store/store.dart';
 import 'package:tara_app/models/order_management/store/store_owner.dart';
 import 'package:tara_app/models/order_management/store/store_type_model.dart';
 import 'package:tara_app/services/config/api.dart';
-import 'package:tara_app/models/order_management/orders/create_order_req.dart';
-import 'package:tara_app/models/order_management/orders/create_order_res.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
+import 'package:tara_app/models/order_management/orders/order_response.dart';
 
 part 'order_rest_client.g.dart';
 
@@ -66,22 +66,22 @@ abstract class OrderRestClient {
 
 // Orders api's
   @POST(API.create_order)
-  Future<CreateOrderResponse> createOrder(@Header("Authorization") String token,@Body() CreateOrderRequest order);
+  Future<OrderResponse> createOrder(@Header("Authorization") String token,@Body() OrderRequest order);
 
   // @POST(API.create_order)
   // Future<Order> deleteOrder(@Header("Authorization") String token,@Body()  String orderId);
 
   @PUT(API.update_order)
-  Future<Order> updateOrder(@Header("Authorization") String token,@Body() Order order, @Path() String orderId);
+  Future<OrderResponse> updateOrder(@Header("Authorization") String token,@Body() OrderRequest order, @Path() String orderId);
 
   @GET(API.get_order)
-  Future<Order> getOrderByOrderId(@Header("Authorization") String token, @Path() String orderId);
+  Future<OrderResponse> getOrderByOrderId(@Header("Authorization") String token, @Path() String orderId);
 
   @GET(API.get_orders_consumers)
-  Future<List<Order>> getOrdersByConsumerId(@Header("Authorization") String token, @Path() int consumerId);
+  Future<List<OrderResponse>> getOrdersByConsumerId(@Header("Authorization") String token, @Path() int consumerId);
 
   @GET(API.get_orders_merchants)
-  Future<List<Order>> getOrdersByMerchantId(@Header("Authorization") String token, @Path() int merchantId);
+  Future<List<OrderResponse>> getOrdersByMerchantId(@Header("Authorization") String token, @Path() int merchantId);
 
 
   //

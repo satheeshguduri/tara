@@ -16,7 +16,7 @@ import 'package:tara_app/models/order_management/orders/order.dart' as order;
 
 abstract class ChatRepository {
   void sendMessage(TextMessage textMessage);
-  void updateOrder(order.Order order);
+  void updateOrder(order.OrderModel order);
   Query openChatRoom(String senderId, String receiverId);
 }
 
