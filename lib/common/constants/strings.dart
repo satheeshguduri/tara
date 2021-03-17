@@ -446,6 +446,20 @@ class Strings {
   static const no_transaction_history_desc  = "no_transaction_history_desc";
   static const textbased  = "textbased";
   static const cataloguebased  = "cataloguebased";
+  static const bankandemoney  = "bankandemoney";
+  static const pleaseenteraccountnumber  = "pleaseenteraccountnumber";
+  static const pleaseentervalidaccountnumber  = "pleaseentervalidaccountnumber";
+  static const enteraccountnumber  = "enteraccountnumber";
+  static const accountholdername  = "accountholdername";
+  static const pleaseaccountholdername  = "pleaseaccountholdername";
+  static const enteraccountholdername  = "enteraccountholdername";
+
+
+
+
+
+
+
 
 
 

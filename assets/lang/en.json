@@ -414,5 +414,13 @@
   "no_transaction_history_title": "No Transaction History yet",
   "no_transaction_history_desc": "You have not made any transaction yet. Your transactions including transfers, requests and payments will be listed here",
   "textbased":"Text Based",
-  "cataloguebased" : "Catalogue Based"
+  "cataloguebased" : "Catalogue Based",
+   "bankandemoney": "Bank and E-Money",
+  "pleaseenteraccountnumber": "Please Enter Account Number",
+  "pleaseentervalidaccountnumber": "Please enter a valid account number",
+  "enteraccountnumber":"Enter Account Number",
+  "accountholdername":  "Account Holder Name",
+  "pleaseaccountholdername" : "Please Enter Account Holder Name",
+  "enteraccountholdername" : "Enter Account Holder Name"
+
 }

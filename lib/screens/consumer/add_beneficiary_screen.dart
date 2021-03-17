@@ -14,7 +14,7 @@ import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/transfer/bank_details_bean.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
+import 'package:tara_app/common/constants/strings.dart';
 
 
 
@@ -135,44 +135,44 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
           children: [
             SizedBox(height: 16),
             Text(
-                "Transfer Details",//TODO
+                getTranslation(Strings.TRANSFER_DETAILS),//TODO
                 style: TextStyles.subtitle1222
             ),
             SizedBox(height: 18),
             Text(
-                "Bank and E-Money",
+                getTranslation(Strings.bankandemoney),
                 style: TextStyles.caption222
             ),
             SizedBox(height: 10),
             getListOfBanks(),
             SizedBox(height: 16),
             Text(
-                "Bank Account Number",
+               getTranslation(Strings.BANK_ACC_NO),
                 style: TextStyles.caption222
             ),
 
             SizedBox(height: 10),
             TextFormField(
               controller: txtCtrlBankAcc,
-              validator:MultiValidator([RequiredValidator(errorText: 'Please Enter Account Number'),LengthRangeValidator(min:10,max:16,errorText: 'Please enter a valid account number')]),
+              validator:MultiValidator([RequiredValidator(errorText: getTranslation(Strings.pleaseenteraccountnumber)),LengthRangeValidator(min:10,max:16,errorText: getTranslation(Strings.pleaseentervalidaccountnumber))]),
               decoration: InputDecoration(
                   border: Borders.textInputBorder,
                   disabledBorder: Borders.textInputBorder,
                   errorBorder:Borders.errorTextInputBorder,
                   focusedBorder: Borders.textInputBorder,
                   enabledBorder: Borders.textInputBorder,
-                  hintText: "Enter Account Number"
+                  hintText: getTranslation(Strings.enteraccountnumber)
               ),
             ),
             SizedBox(height: 16),
             Text(
-                "Account Holder Name",
+               getTranslation(Strings.accountholdername),
                 style: TextStyles.caption222
             ),
             SizedBox(height: 10),
             TextFormField(
               controller: txtCtrlAccHolderName,
-              validator:MultiValidator([RequiredValidator(errorText: 'Please Enter Account Holder Name')]),
+              validator:MultiValidator([RequiredValidator(errorText: getTranslation(Strings.pleaseaccountholdername))]),
               keyboardType: TextInputType.name,
               decoration: InputDecoration(
                   border: Borders.textInputBorder,
@@ -180,7 +180,7 @@ class _AddBeneficiaryScreenState extends BaseState<AddBeneficiaryScreen> {
                   errorBorder:Borders.errorTextInputBorder,
                   focusedBorder: Borders.textInputBorder,
                   enabledBorder: Borders.textInputBorder,
-                  hintText: "Enter Account Holder Name"
+                  hintText:getTranslation(Strings.enteraccountholdername)
               ),
             ),
             SizedBox(height: 16),
