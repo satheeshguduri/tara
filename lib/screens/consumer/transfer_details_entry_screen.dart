@@ -116,7 +116,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       Container(
                         margin: EdgeInsets.only(top: 4),
                         child: Text(
-                          widget.toCustomerProfile.firstName,
+                          widget?.toCustomerProfile?.firstName??"",
                           textAlign: TextAlign.left,
                           style: BaseStyles.transactionItemPersonNameTextStyle,
                         ),
@@ -579,7 +579,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
             child: getReciepentHeaderWidget()
         ),
         getPaymentToSelfWidget(),
-        getSelectBeneAccountWidget(),
+       Obx(()=> contactsController.arrRecentlyAddedContactInfo.length>0?getSelectBeneAccountWidget():Container()),
         Container( color: AppColors.primaryBackground,height: 16,),
         getAddNewAccountWidget(),
       ],
@@ -880,9 +880,9 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
 
   Widget getAccountsDropDownList() {
     uiController.selectedBenAccount.value = contactsController?.arrRecentlyAddedContactInfo[0];
-    return Obx(()=>Container(
+    return Container(
       height: 48,
-      child: DropdownButtonFormField<BeneDetailBean>(
+      child:Obx(()=> DropdownButtonFormField<BeneDetailBean>(
         decoration: removeUnderlineAndShowHint(""),
         icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,
             width: 24.0,

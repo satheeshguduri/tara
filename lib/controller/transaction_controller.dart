@@ -76,6 +76,8 @@ import 'package:tara_app/utils/locale/utils.dart';
 
 import '../injector.dart';
 import '../tara_app.dart';
+import 'package:async/async.dart';
+
 
 enum TransactionContext { PAYMENT_REQUEST, BILL_PAYMENT }
 
@@ -91,7 +93,8 @@ class TransactionController extends GetxController {
   Timer timer;
   var seconds = 300.obs;
 
-  // var opacityValue = 0.0.obs;
+  final AsyncMemoizer banksListMemorizer = AsyncMemoizer();
+
 
   TextEditingController txtCtrlTransferAmt = TextEditingController();
   double payAmount;
@@ -381,7 +384,7 @@ class TransactionController extends GetxController {
     }
   }
 
-  Future<List<BankDetailsBean>> getBanksList() async {
+  Future getBanksList() async {
     var isSessionInitiated =
         await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
     if (isSessionInitiated) {
@@ -1240,6 +1243,7 @@ class TransactionController extends GetxController {
       String name,
       String accountType = "SAVINGS",
       bool isNewUser = false}) async {
+    showProgress.value = true;
     var isSessionInitiated =
         await getIt.get<DeviceRegisterRepository>().checkAndInitiateSession();
 
@@ -1279,6 +1283,7 @@ class TransactionController extends GetxController {
           var resp2 = await getIt
               .get<TransactionRepository>()
               .mapBeneficiaryDetails(mapBeneficiaryRequest);
+          showProgress.value = false;
           if (resp2.isRight()) {
             var finalResp = resp2.getOrElse(() => null);
             if (finalResp.success) {

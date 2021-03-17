@@ -169,9 +169,11 @@ class ContactsTransferController extends GetxController{
         var response = benResponse.getOrElse(() => null);
         arrRecentlyAddedContactInfo.value = response.beneDetails;
         print(jsonEncode(arrRecentlyAddedContactInfo.value[0]));
+
         arrRecentlyAddedContactInfo.value.forEach((e) async{
          var matchedObject = totalContactsList.value.where((element){
-            return element.mobileNumber.removeAllWhitespace.contains(e.beneMobile.removeAllWhitespace);}).toList();
+           return e.beneMobile.contains(element.mobileNumber.removeAllWhitespace);}).toList();
+
          if(matchedObject?.isNotEmpty??false) {
            var objIndex = totalContactsList.value.indexOf(matchedObject[0]);
            totalContactsList.value[objIndex].registrationStatus =
