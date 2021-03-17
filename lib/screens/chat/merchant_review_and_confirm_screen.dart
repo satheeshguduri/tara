@@ -673,7 +673,7 @@ class _MerchantReviewAndConfirmScreenState extends BaseState<MerchantReviewAndCo
                   orderRequest.status = Statuses.ACCEPTED;
                   orderRequest.price = controller.getTotal();
                   print("=====Order Request======");
-                  print(orderRequest.toJson().toString());
+                  print(jsonEncode(orderRequest.toJson()));
                   var response = await controller.updateOrder(orderRequest);
                   print("Order Status ACCEPTED and Updated");
                   response.fold(

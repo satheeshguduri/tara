@@ -644,6 +644,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 
   void consumerAcceptDeclineOrderPayment(ChatAction chatAction) async {
     if (chatAction == ChatAction.pay) {
+
+      // TODO Call payment screen here
       // update Order with Pay Accepted
       var orderRequest = controller.getOrderRequestFromOrderResponse(customerOrder);
       orderRequest.status = Statuses.PAID;
