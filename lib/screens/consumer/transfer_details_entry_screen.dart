@@ -36,7 +36,8 @@ import 'package:tara_app/controller/contacts_transfer_controller.dart';
 class TransferDetailsEntryScreen extends StatefulWidget {
 
   final CustomerProfile toCustomerProfile;
-  TransferDetailsEntryScreen({Key key,this.toCustomerProfile,RequestType requestType}) : super(key: key);
+  final List<BeneDetailBean> benBanksData;
+  TransferDetailsEntryScreen({Key key,this.toCustomerProfile,RequestType requestType,this.benBanksData}) : super(key: key);
 
 
 
@@ -57,12 +58,10 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   var formKey = GlobalKey<FormState>();
 
 
-
   List<String> transTypeList = ["Others", "Others1", "Others2"];
   List<String> arrFrequency = [Strings.DAILY, Strings.MONTHLY, Strings.YEARLY];
 
   ContactsTransferController contactsController = Get.find();
-
 
 
   String frequencyType;
@@ -83,13 +82,18 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   void initState() {
     super.initState();
     uiController.getCustomerBankAccounts();
-    var user = Get.find<AuthController>().user;
-    isSelf = widget.toCustomerProfile.mobileNumber == user.value.customerProfile.mobileNumber;
+    var user = Get
+        .find<AuthController>()
+        .user;
+    isSelf = widget.toCustomerProfile.mobileNumber ==
+        user.value.customerProfile.mobileNumber;
     print(widget.toCustomerProfile.registrationStatus);
   }
+
   bool isTaraUser(CustomerProfile customerProfile) {
     return customerProfile.registrationStatus == RegistrationStatus.TARA;
   }
+
   Widget getReciepentHeaderWidget() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,16 +120,17 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       Container(
                         margin: EdgeInsets.only(top: 4),
                         child: Text(
-                          widget?.toCustomerProfile?.firstName??"",
+                          widget?.toCustomerProfile?.firstName ?? "",
                           textAlign: TextAlign.left,
                           style: BaseStyles.transactionItemPersonNameTextStyle,
                         ),
                       ),
-                      Visibility(visible:isTaraUser(widget.toCustomerProfile),child: Image.asset(
-                        Assets.tara_contacts,
-                        height: 32,
-                        width: 32,
-                      ))
+                      Visibility(visible: isTaraUser(widget.toCustomerProfile),
+                          child: Image.asset(
+                            Assets.tara_contacts,
+                            height: 32,
+                            width: 32,
+                          ))
                     ],),
                     Container(
                       margin: EdgeInsets.only(top: 4),
@@ -142,7 +147,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
             ],
           ),
         ]);
-
   }
 
   @override
@@ -186,8 +190,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         );
       }).toList();
     } else if (type == "paymentSource" || type == "bankAccount") {
-      return (uiController.mappedItems).map((
-          MappedBankAccountsBean item) {
+      return (uiController.mappedItems).map((MappedBankAccountsBean item) {
         return DropdownMenuItem<String>(
           child: getCustomItemWidget(item.bankName, item.maskedAccountNumber),
           //Text(item.bankName),
@@ -260,36 +263,22 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: () {
-      if(formKey.currentState.validate()) {
-
-        if(isSelf){
+      if (formKey.currentState.validate()) {
+        if (isSelf) {
           // if (uiController.selectedSelfAccount.value?.beneId?.isNullOrBlank??false) {
           uiController.confirmToPay(
-              // mobile: widget.customerProfile.mobileNumber,
+            // mobile: widget.customerProfile.mobileNumber,
               amount: uiController.amountController.text,
               remarks: uiController.messageController.text,
               bic: bic,
               cvv: uiController.cvvController.text,
               accountTokenId: accountTokenId,
               selfAccountId: selfAccountTokenId,
-              selectedSourceBankAccount:selectedSourceBankAccount
+              selectedSourceBankAccount: selectedSourceBankAccount
             //  beneId: 44 //getBenId(widget.beneContact)
           );
-
         }
-        else if (uiController.selectedBenAccount?.value!=null) {
-            uiController.confirmToPay(
-                mobile: widget.toCustomerProfile.mobileNumber,
-                amount: uiController.amountController.text,
-                remarks: uiController.messageController.text,
-                bic: bic,
-                cvv: uiController.cvvController.text,
-                accountTokenId: accountTokenId,
-                beneId: uiController.selectedBenAccount.value
-                    .beneId, //getBenId(widget.beneContact)
-                selectedSourceBankAccount:selectedSourceBankAccount
-            );
-          }else{
+        else if (uiController.selectedBenAccount?.value != null) {
           uiController.confirmToPay(
               mobile: widget.toCustomerProfile.mobileNumber,
               amount: uiController.amountController.text,
@@ -297,10 +286,23 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               bic: bic,
               cvv: uiController.cvvController.text,
               accountTokenId: accountTokenId,
-              selectedSourceBankAccount:selectedSourceBankAccount
+              beneId: uiController.selectedBenAccount.value
+                  .beneId,
+              //getBenId(widget.beneContact)
+              selectedSourceBankAccount: selectedSourceBankAccount
+          );
+        } else {
+          uiController.confirmToPay(
+              mobile: widget.toCustomerProfile.mobileNumber,
+              amount: uiController.amountController.text,
+              remarks: uiController.messageController.text,
+              bic: bic,
+              cvv: uiController.cvvController.text,
+              accountTokenId: accountTokenId,
+              selectedSourceBankAccount: selectedSourceBankAccount
           );
         }
-      }else{
+      } else {
         showToast(message: "Please Add a bank account");
       }
     });
@@ -579,8 +581,11 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
             child: getReciepentHeaderWidget()
         ),
         getPaymentToSelfWidget(),
-       Obx(()=> contactsController.arrRecentlyAddedContactInfo.length>0?getSelectBeneAccountWidget():Container()),
-        Container( color: AppColors.primaryBackground,height: 16,),
+        Obx(() =>
+        contactsController.arrRecentlyAddedContactInfo.length > 0
+            ? getSelectBeneAccountWidget()
+            : Container()),
+        Container(color: AppColors.primaryBackground, height: 16,),
         getAddNewAccountWidget(),
       ],
     );
@@ -680,24 +685,26 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget getMessageWidget() {
-    return  Container(
+    return Container(
       margin: EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [commonTextWidget(getTranslation(Strings.message)),messageTextField()],
+        children: [
+          commonTextWidget(getTranslation(Strings.message)),
+          messageTextField()
+        ],
       ),
     );
-
-
   }
 
   Widget messageTextField() {
-    return  Container(
+    return Container(
       height: 62,
       // margin: EdgeInsets.only(bottom: 11),
       child: TextFormField(
         controller: uiController.messageController,
-        decoration:  removeUnderlineAndShowHint(getTranslation(Strings.typeyourmessage)),
+        decoration: removeUnderlineAndShowHint(
+            getTranslation(Strings.typeyourmessage)),
         keyboardType: TextInputType.text,
         maxLines: 2,
         style: TextStyles.inputFieldOn222,
@@ -710,6 +717,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
 
 
   var selectedSourceBankAccount;
+
   Widget getPaymentSourceWidget() {
     return
       Container(
@@ -717,29 +725,33 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(getTranslation(Strings.PAYMENT_SOURCE),
-                style:TextStyles.transferDetailsHeadingTextStyle),
+                style: TextStyles.transferDetailsHeadingTextStyle),
 
             DropdownButtonFormField<MappedBankAccountsBean>(
                 decoration: removeUnderlineAndShowHint(""),
-                icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
+                icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,
+                    width: 24.0,
+                    height: 24.0),
                 style: TextStyles.inputFieldOn222,
                 isExpanded: true,
                 value: selectedSourceBankAccount,
-                items: (uiController.mappedItems)?.map((MappedBankAccountsBean item) {
+                items: (uiController.mappedItems)?.map((
+                    MappedBankAccountsBean item) {
                   bic = item.bic;
                   accountTokenId = item.accountTokenId;
                   return DropdownMenuItem<MappedBankAccountsBean>(
                     value: item,
-                    child: getCustomItemWidget(item.bankName,item.maskedAccountNumber),
-                    onTap: (){
+                    child: getCustomItemWidget(
+                        item.bankName, item.maskedAccountNumber),
+                    onTap: () {
                       FocusScope.of(context).requestFocus(FocusNode());
                       bic = item.bic;
                       accountTokenId = item.accountTokenId;
                       selectedSourceBankAccount = item;
                     },
                   );
-                })?.toList()??[],
-                onChanged: (val){
+                })?.toList() ?? [],
+                onChanged: (val) {
                   selectedSourceBankAccount = val;
                 }
 
@@ -752,8 +764,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget getPaymentToSelfWidget() {
-
-    return isSelf?
+    return isSelf ?
     Container(
       color: AppColors.primaryBackground,
       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -763,27 +774,32 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Payment To",
-              style:TextStyles.transferDetailsHeadingTextStyle),
+              style: TextStyles.transferDetailsHeadingTextStyle),
 
           DropdownButtonFormField<MappedBankAccountsBean>(
               decoration: removeUnderlineAndShowHint(""),
-              icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,width: 24.0,height: 24.0),
+              icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,
+                  width: 24.0,
+                  height: 24.0),
               style: TextStyles.inputFieldOn222,
               isExpanded: true,
-              value:(uiController.mappedItems?.isNotEmpty??false)?uiController.mappedItems[0]:null,
-              items:(uiController.mappedItems)?.map((MappedBankAccountsBean item) {
+              value: (uiController.mappedItems?.isNotEmpty ?? false)
+                  ? uiController.mappedItems[0]
+                  : null,
+              items: (uiController.mappedItems)?.map((
+                  MappedBankAccountsBean item) {
                 //   selfAccountTokenId = item.accountTokenId;
                 return DropdownMenuItem<MappedBankAccountsBean>(
-                  value:item,
-                  child: getCustomItemWidget(item.bankName,item.maskedAccountNumber),
-                  onTap: (){
+                  value: item,
+                  child: getCustomItemWidget(
+                      item.bankName, item.maskedAccountNumber),
+                  onTap: () {
                     selfAccountTokenId = item.accountTokenId;
                   },
                 );
-              })?.toList()??[],
-              onChanged: (value){
+              })?.toList() ?? [],
+              onChanged: (value) {
                 uiController.selectedSelfAccount.value = value;
-
               }
 
           ),
@@ -791,10 +807,9 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         ],
       ),
 
-    ):Container();
+    ) : Container();
     // );
   }
-
 
 
   Widget getCVVWidget() {
@@ -812,10 +827,11 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget cvvTextField() {
-    return  Container(
+    return Container(
       height: 48,
       child: TextFormField(
-        decoration:  removeUnderlineAndShowHint(getTranslation(Strings.enterthecvv)),
+        decoration: removeUnderlineAndShowHint(
+            getTranslation(Strings.enterthecvv)),
         style: TextStyles.inputFieldOn222,
         obscureText: true,
         obscuringCharacter: "*",
@@ -829,11 +845,11 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget getSelectBeneAccountWidget() {
-
-    if(widget.toCustomerProfile.registrationStatus == RegistrationStatus.BENEFICIARY){
+    if (widget.toCustomerProfile.registrationStatus ==
+        RegistrationStatus.BENEFICIARY) {
       return Container(
           color: AppColors.primaryBackground,
-          padding: EdgeInsets.only(left:16,right:16,),
+          padding: EdgeInsets.only(left: 16, right: 16,),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -844,12 +860,15 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
           )
 
       );
-    }else return Container();
+    } else
+      return Container();
   }
 
   Widget getAddNewAccountWidget() {
-
-    if(widget.toCustomerProfile.registrationStatus == RegistrationStatus.BENEFICIARY || widget.toCustomerProfile.registrationStatus == RegistrationStatus.INACTIVE){
+    if (widget.toCustomerProfile.registrationStatus ==
+        RegistrationStatus.BENEFICIARY ||
+        widget.toCustomerProfile.registrationStatus ==
+            RegistrationStatus.INACTIVE) {
       return Container(
         color: AppColors.primaryBackground,
         alignment: Alignment.center,
@@ -857,57 +876,134 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         padding: EdgeInsets.only(bottom: 16),
         child: Container(
           alignment: Alignment.center,
-          margin: EdgeInsets.only(left: 16,right: 16),
+          margin: EdgeInsets.only(left: 16, right: 16),
           padding: EdgeInsets.only(bottom: 12, top: 12),
           decoration: BoxDecoration(
 
-              border: Border.all( color: Colors.grey,),
+              border: Border.all(color: Colors.grey,),
               borderRadius: BorderRadius.all(Radius.circular(10))
           ),
 
           child: Text(" + Add New Bank Account"),
 
         ),
-      ).onTap(onPressed: (){
-
-        Get.to(AddBeneficiaryScreen(customerProfile: widget.toCustomerProfile,isNewUser: contactsController.arrRecentlyAddedContactInfo?.isEmpty??true));
+      ).onTap(onPressed: () {
+        Get.to(AddBeneficiaryScreen(customerProfile: widget.toCustomerProfile,
+            isNewUser: contactsController.arrRecentlyAddedContactInfo
+                ?.isEmpty ?? true));
       });
-
-    }else{
+    } else {
       return Container();
     }
   }
 
   Widget getAccountsDropDownList() {
-    uiController.selectedBenAccount.value = contactsController?.arrRecentlyAddedContactInfo[0];
-    return Container(
-      height: 48,
-      child:Obx(()=> DropdownButtonFormField<BeneDetailBean>(
-        decoration: removeUnderlineAndShowHint(""),
-        icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,
-            width: 24.0,
-            height: 24.0),
-        style: TextStyles.inputFieldOn222,
-        value: contactsController.arrRecentlyAddedContactInfo[0],
-        isExpanded: true,
-        onChanged: (value) {
-          uiController.selectedBenAccount.value = value;
-        },
-        items:contactsController.arrRecentlyAddedContactInfo.map((BeneDetailBean value) {
-          return DropdownMenuItem<BeneDetailBean>(
-            value: value,
-            child:  getCustomItemWidget("",value.beneAccountNo),
-            onTap: (){
-              uiController.selectedBenAccount.value = value;
-            },
-          );
-        }).toList()??[],
 
-      ),
-    ));
+    return  (getBanksList().length > widget?.benBanksData?.length)? showLatestBankData():showBankData();
+  }
+
+  List<BeneDetailBean> getBanksList() {
+    List<BeneDetailBean> list = [];
+    list =  contactsController.arrRecentlyAddedContactInfo?.value?.where((
+        element) =>
+        widget.toCustomerProfile.mobileNumber?.contains(element.beneMobile))
+        ?.toList();
+    return list??[];
+  }
+
+  Widget showBankData() {
+    if(widget.benBanksData != null) {
+      print("first if condition");
+      //  uiController.selectedBenAccount.value = contactsController?.arrRecentlyAddedContactInfo[0];
+      uiController.selectedBenAccount.value = widget.benBanksData[0];
+
+      return Container(
+        height: 48,
+        child: //Obx(()=>
+        DropdownButtonFormField<BeneDetailBean>(
+          decoration: removeUnderlineAndShowHint(""),
+          icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,
+              width: 24.0,
+              height: 24.0),
+          style: TextStyles.inputFieldOn222,
+          // value: contactsController.arrRecentlyAddedContactInfo[0],
+          value: widget.benBanksData[0],
+          isExpanded: true,
+          onChanged: (value) {
+            uiController.selectedBenAccount.value = value;
+          },
+          items: widget.benBanksData.map((BeneDetailBean value) {
+            return DropdownMenuItem<BeneDetailBean>(
+              value: value,
+              child: getCustomItemWidget("", value.beneAccountNo),
+              onTap: () {
+                uiController.selectedBenAccount.value = value;
+              },
+            );
+          }).toList() ?? [],
+
+          // items:contactsController.arrRecentlyAddedContactInfo.map((BeneDetailBean value) {
+          //   return DropdownMenuItem<BeneDetailBean>(
+          //     value: value,
+          //     child:  getCustomItemWidget("",value.beneAccountNo),
+          //     onTap: (){
+          //       uiController.selectedBenAccount.value = value;
+          //     },
+          //   );
+          // }).toList()??[],
+
+        ),
+        // )
+      );
+    }else{
+      return Container();
+    }
+  }
+
+  Widget showLatestBankData() {
+    print("first else condition");
+    uiController.selectedBenAccount.value =
+    contactsController?.arrRecentlyAddedContactInfo[0];
+    return Container(
+        height: 48,
+        child: Obx(() =>
+            DropdownButtonFormField<BeneDetailBean>(
+              decoration: removeUnderlineAndShowHint(""),
+              icon: getSvgImage(imagePath: Assets.assets_icon_a_arrow_down,
+                  width: 24.0,
+                  height: 24.0),
+              style: TextStyles.inputFieldOn222,
+              value: contactsController.arrRecentlyAddedContactInfo[0],
+              isExpanded: true,
+              onChanged: (value) {
+                uiController.selectedBenAccount.value = value;
+              },
+              //  items:contactsController.arrRecentlyAddedContactInfo.map((BeneDetailBean value) {
+              //   return DropdownMenuItem<BeneDetailBean>(
+              //     value: value,
+              //     child:  getCustomItemWidget("",value.beneAccountNo),
+              //     onTap: (){
+              //       uiController.selectedBenAccount.value = value;
+              //     },
+              //   );
+              // }).toList()??[],
+
+              items: getBanksList().map((BeneDetailBean value) {
+                return DropdownMenuItem<BeneDetailBean>(
+                  value: value,
+                  child: getCustomItemWidget("", value.beneAccountNo),
+                  onTap: () {
+                    uiController.selectedBenAccount.value = value;
+                  },
+                );
+              }).toList() ?? [],
+
+
+            ),
+        )
+    );
   }
 }
-
 class PaymentSource {
   String image;
   String bankName;

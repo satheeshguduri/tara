@@ -19,6 +19,8 @@ import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/transfer_details_entry_screen.dart';
+import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
+
 
 class BeneficiariesContactsListScreen extends StatefulWidget {
   final RequestType requestType;
@@ -171,23 +173,23 @@ class BeneficiariesContactsListScreenState
               fillColor: Colors.white,
               enabledBorder: UnderlineInputBorder(
                   borderSide:
-                      BorderSide(color: Colors.transparent, width: 0.1)),
+                  BorderSide(color: Colors.transparent, width: 0.1)),
               hintText: getTranslation(Strings.SEARCH_CONTACT),
               hintStyle: BaseStyles.hintTextStyle,
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent)),
               suffixIcon: Padding(
-                      padding: EdgeInsets.all(6.0),
-                      child: getSvgImage(
-                          imagePath: Assets.close_icon,
-                          width: 24.0,
-                          height: 24.0,
-                          color: (contactsController.searchText != null &&
-                                  contactsController.searchText
-                                      .toString()
-                                      .isNotEmpty)
-                              ? Colors.black54
-                              : Colors.transparent))
+                  padding: EdgeInsets.all(6.0),
+                  child: getSvgImage(
+                      imagePath: Assets.close_icon,
+                      width: 24.0,
+                      height: 24.0,
+                      color: (contactsController.searchText != null &&
+                          contactsController.searchText
+                              .toString()
+                              .isNotEmpty)
+                          ? Colors.black54
+                          : Colors.transparent))
                   .onTap(
                 onPressed: () {
                   contactsController.searchText.value = "";
@@ -272,7 +274,7 @@ class BeneficiariesContactsListScreenState
             widget.requestType == RequestType.CHAT) {
           var tempAccountResponse = await Get.find<AuthController>()
               .createTempAccount(RegistrationStatus.BENEFICIARY,
-                  correctedPhoneNumber.phoneNumber);
+              correctedPhoneNumber.phoneNumber);
           if (tempAccountResponse != null) {
             customerProfile = tempAccountResponse.customerProfile;
           }
@@ -303,18 +305,32 @@ class BeneficiariesContactsListScreenState
   }
 
   handleNonTaraFlow(CustomerProfile customerProfile) async {
+    List<BeneDetailBean> benBanksData = contactsController
+        .arrRecentlyAddedContactInfo?.value
+        ?.where((element) =>
+        customerProfile.mobileNumber?.contains(element.beneMobile))
+        ?.toList();
     if (customerProfile.registrationStatus == RegistrationStatus.BENEFICIARY) {
       // dint find the user in tara
-      contactsController.arrRecentlyAddedContactInfo.value = contactsController
-          .arrRecentlyAddedContactInfo?.value
-          ?.where((element) =>
-              customerProfile.mobileNumber?.contains(element.beneMobile))
-          ?.toList();
+      // contactsController.arrRecentlyAddedContactInfo.value = contactsController
+      //     .arrRecentlyAddedContactInfo?.value
+      //     ?.where((element) =>
+      //         customerProfile.mobileNumber?.contains(element.beneMobile))
+      //     ?.toList();
+
+      Get.to(TransferDetailsEntryScreen(
+        toCustomerProfile: customerProfile,
+        requestType: widget.requestType,
+        benBanksData: benBanksData??[] ,
+      ));
+    }else{
+      Get.to(TransferDetailsEntryScreen(
+        toCustomerProfile: customerProfile,
+        requestType: widget.requestType,
+        benBanksData: benBanksData??[] ,
+      ));
     }
-    Get.to(TransferDetailsEntryScreen(
-      toCustomerProfile: customerProfile,
-      requestType: widget.requestType,
-    ));
+
   }
 
   errorTitleTextWidget() {
@@ -339,7 +355,7 @@ class BeneficiariesContactsListScreenState
             child: Align(
               alignment: Alignment.centerLeft,
               child:
-                  Text(heading, style: BaseStyles.backAccountHeaderTextStyle),
+              Text(heading, style: BaseStyles.backAccountHeaderTextStyle),
             )),
         // (contactsController.searchText
         //     .toString()
@@ -378,7 +394,7 @@ class BeneficiariesContactsListScreenState
               .toString());
       Get.to(TransferDetailsEntryScreen(
           toCustomerProfile:
-              Get.find<AuthController>().user.value.customerProfile));
+          Get.find<AuthController>().user.value.customerProfile));
     });
   }
 
