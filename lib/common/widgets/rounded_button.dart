@@ -89,6 +89,8 @@ class _RoundedButtonState extends BaseState<RoundedButton> {
   }
 
   @override
-  BuildContext getContext() => context;
-
+  BuildContext getContext() {
+    // TODO: implement getContext
+    context;
+  }
 }

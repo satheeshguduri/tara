@@ -10,34 +10,34 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
-import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/services/error/failure.dart';
 
-abstract class UserLocalDataStore {
+abstract class UserLocalDataStore{
   Future setUser(AuthResponse authResponse);
   void clear();
   bool isLoggedIn();
   Future<AuthResponse> getUser();
 }
 
-class UserLocalDataStoreImpl implements UserLocalDataStore {
-  static const String USR_KEY = "USER";
+class UserLocalDataStoreImpl implements UserLocalDataStore{
+
+   static const String USR_KEY= "USER";
 
   GetStorage storage;
   UserLocalDataStoreImpl(this.storage);
 
   @override
-  void clear() async {
-    await storage.remove(USR_KEY);
+  void clear() async{
+      await storage.remove(USR_KEY);
   }
 
   @override
-  Future<AuthResponse> getUser() async {
-    if (storage.hasData(USR_KEY)) {
+  Future<AuthResponse> getUser() async{
+    if(storage.hasData(USR_KEY)) {
       var data = await storage.read(USR_KEY);
       return AuthResponse.fromJson(data);
-    } else {
-      return Future.value(AuthResponse());
+    }else{
+      Future.value(AuthResponse());
     }
     //   return Right(AuthResponse.fromJson(data));
     // }else{
@@ -48,15 +48,15 @@ class UserLocalDataStoreImpl implements UserLocalDataStore {
 
   @override
   bool isLoggedIn() {
-    return storage?.hasData(USR_KEY) ?? false;
+   return storage?.hasData(USR_KEY)??false;
   }
 
   @override
-  Future setUser(AuthResponse authResponse) async {
-    Get.put<AuthResponse>(authResponse);
-    var controller = Get.find<AuthController>();
-    controller.user.value = authResponse;
-    await storage.write(USR_KEY, authResponse.toJson());
-  }
+  Future setUser(AuthResponse authResponse) async{
+      Get.put<AuthResponse>(authResponse);
+      var controller = Get.find<AuthController>();
+      controller.user.value = authResponse;
+      await storage.write(USR_KEY, authResponse.toJson());
 
+  }
 }
