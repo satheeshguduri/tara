@@ -14,9 +14,12 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/common/constants/values.dart';
 
 class MobileVerificationScreen extends StatefulWidget {
+  final bool isFromFogotPassword;
 
-  const MobileVerificationScreen({Key key,})
-      : super(key: key);
+  const MobileVerificationScreen({
+    Key key,
+    this.isFromFogotPassword = false,
+  }) : super(key: key);
 
   @override
   _MobileVerificationScreenState createState() =>
@@ -259,7 +262,8 @@ class _MobileVerificationScreenState
       ),
     ).onTap(onPressed: () {
       if (isOtpEntered) {
-        controller.validateOtp();
+        controller.validateOtp(
+            isFromForgotPassword: widget.isFromFogotPassword);
       }
     });
   }

@@ -9,6 +9,7 @@ import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/sign_in_flow_bg.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
 import 'package:tara_app/common/widgets/text_with_bottom_overlay.dart';
+import 'package:tara_app/common/widgets/underline_text.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:flutter/cupertino.dart';
@@ -224,10 +225,29 @@ class _SignInScreenState extends BaseState<SignInScreen> {
                       ),
                       controller.errorMessage.value.isEmpty
                           ? Container()
-                          : Container(margin:EdgeInsets.all(8),child: Text(
-                        getTranslation(controller.errorMessage.value),
-                        style: BaseStyles.error_text_style,
-                      ),),
+                          : Container(
+                              margin: EdgeInsets.all(8),
+                              child: Text(
+                                getTranslation(controller.errorMessage.value),
+                                style: BaseStyles.error_text_style,
+                              ),
+                            ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: UnderlineText(
+                            text: Text(
+                              "FORGOT PASSWORD",
+                              style: TextStyle(
+                                  color: AppColors.color_black_100_2_2_2,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            onTap: () =>
+                                controller.getOtp(isFromForgotPassword: true),
+                          ),
+                        ),
+                      ),
                       getContinueWidget()
                     ],
                   ),

@@ -201,8 +201,13 @@ class Assets {
       "assets/images/assets_icon_p_profile.svg";
   static const assets_icon_h_help = "assets/images/assets_icon_h_help.svg";
   static const assets_icon_p_paper = "assets/images/assets_icon_p_paper.svg";
+  static const assets_icon_l_lock_outline =
+      "assets/images/assets_icon_l_lock_outline.svg";
+
+  static const assets_bg = "assets/images/background.svg";
+  static const assets_icon_password_reset_success =
+      "assets/images/password_reset_success.svg";
   static const assets_icon_user = "assets/images/icon_tara_customer_default_profile_picture.svg";
-  static const assets_icon_l_lock_outline ="assets/images/assets_icon_l_lock_outline.svg";
   static const illustration_transfer_to_my_account ="assets/images/illustration_transfer_to_my_account.svg";
   static const assets_icon_m_minus ="assets/images/assets_icon_m_minus.svg";
   static const icon_content_add_24_px ="assets/images/icon_content_add_24_px.svg";
