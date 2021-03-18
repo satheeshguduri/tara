@@ -79,6 +79,8 @@ import '../injector.dart';
 import '../tara_app.dart';
 import 'package:async/async.dart';
 
+import 'order_update_controller.dart';
+
 
 enum TransactionContext { PAYMENT_REQUEST, BILL_PAYMENT }
 
@@ -597,7 +599,7 @@ class TransactionController extends GetxController {
                         bic: bic,
                         selectedSourceBankAccount: MappedBankAccountsBean(
                             maskedAccountNumber: maskedNumber),
-                        from: "addaccount",
+                        verificationType: VerificationType.ADD_ACCOUNT,
                       ));
 
                       //  Get.to(OTPVerificationScreen(txnId,fetchOTPResponse,retriveKeyResponse,deviceInfo,bic));
@@ -693,7 +695,7 @@ class TransactionController extends GetxController {
   Future payBill(
       {String subMerchantName,
       String merchantRef,
-      String amount1,
+      String amount1= "100",
       String remarks1,
       String bic1,
       String cvv1,
@@ -715,9 +717,9 @@ class TransactionController extends GetxController {
 
     var merchantId = PSPConfig.MERCHANT_ID;
 
-    if(orderRequest!=null){
-      merchantId = orderRequest.merchantId.toString();
-    }
+    // if(orderRequest!=null){
+    //   merchantId = orderRequest.merchantId.toString();
+    // }
     //do merchant transaction
     var isMerchantSessionInitiated = await getIt
         .get<DeviceRegisterRepository>()
@@ -864,11 +866,12 @@ class TransactionController extends GetxController {
                                 retrieveKeyResponse: retriveKeyResponse,
                                 deviceInfoBean: deviceInfo,
                                 bic: bic,
-                                from: "bills",
+                                verificationType: orderRequest!=null?VerificationType.ORDER:VerificationType.BILL,
                                 amount: double.parse(amount1),
                                 selectedSourceBankAccount:
                                     selectedSourceBankAccount,
                                 toAddress: merchantProfile,
+                                orderRequest: orderRequest,
                               ));
 
                               //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen
@@ -1075,7 +1078,7 @@ class TransactionController extends GetxController {
                                 retrieveKeyResponse: retriveKeyResponse,
                                 deviceInfoBean: deviceInfo,
                                 bic: bic,
-                                from: "transfer",
+                                verificationType: VerificationType.TRANSFER,
                                 toAddress: toAddress.customerProfile,
                                 selectedSourceBankAccount:
                                     selectedSourceBankAccount));
@@ -1146,7 +1149,8 @@ class TransactionController extends GetxController {
       String bic,
       TransactionContext transactionContext,
       num amount,
-      ToAddressResponse toAddress) async {
+      ToAddressResponse toAddress,
+      VerificationType verificationType,OrderRequest orderRequest) async {
     showProgress.value = true;
     var encValid = await CryptoHelper().encryptBankData(
         "$txnId|${otp.value}|${Random.secure()}", d.bankKi, d.publicKey);
@@ -1184,41 +1188,75 @@ class TransactionController extends GetxController {
         var trackAccountResponse = trackAccountR.getOrElse(() => null);
         print(jsonEncode(trackAccountResponse.toJson()));
         if (trackAccountResponse.success) {
-          var response = await paymentCompleted(
-              toAddress: toAddress,
-              trContext: transactionContext,
-              payAmount: payAmount);
-          if (response.isRight()) {
-            var paymentCompleteRes = trackAccountR.getOrElse(() => null);
-            if (paymentCompleteRes != null) {
-              var entry;
-              if (transactionContext == TransactionContext.PAYMENT_REQUEST) {
-                entry = ChatEntryPoint.TRANSFER;
-                Get.find<HomeController>().getTransactionsHistory();
-                Get.to(ConversationPage(
-                  entry: entry,
-                  selectedContact: ContactInfo(),
-                  custInfo: toAddress?.customerProfile,
-                ));
-                Get.put(TransactionController());
-              } else if (transactionContext ==
-                  TransactionContext.BILL_PAYMENT) {
-                entry = ChatEntryPoint.MC_PAYMENT;
-                var custInfo = CustomerProfile(
-                    firebaseId: "BillPayment", firstName: "Bill Payment");
-                Get.put(TransactionController());
-                Get.find<HomeController>().getTransactionsHistory();
-                showProgress.value = false;
-                Get.to(ConversationPage(
+          if(verificationType == VerificationType.ORDER){
+              Get.put(TransactionController());
+              Get.find<HomeController>().getTransactionsHistory();
+
+              var response = await Get.find<OrderUpdateController>().updateOrder(orderRequest);
+              showProgress.value = false;
+              print("Order Status PAID and Updated");
+              Get.back();
+              Get.back();
+              // Get.to(ConversationPage(
+              //     entry: entry,
+              //     selectedContact: ContactInfo(),
+              //     custInfo: toAddress.customerProfile));
+
+          }else{
+            var response = await paymentCompleted(
+                toAddress: toAddress,
+                trContext: transactionContext,
+                payAmount: payAmount);
+            if (response.isRight()) {
+              var paymentCompleteRes = trackAccountR.getOrElse(() => null);
+              if (paymentCompleteRes != null) {
+                var entry;
+                // if (transactionContext == TransactionContext.PAYMENT_REQUEST) {
+                if (verificationType == VerificationType.TRANSFER) {
+                  entry = ChatEntryPoint.TRANSFER;
+                  Get.find<HomeController>().getTransactionsHistory();
+                  Get.to(ConversationPage(
                     entry: entry,
                     selectedContact: ContactInfo(),
-                    custInfo: custInfo));
+                    custInfo: toAddress?.customerProfile,
+                  ));
+                  Get.put(TransactionController());
+                }
+                // else if (transactionContext == TransactionContext.BILL_PAYMENT) {
+                else if (verificationType == VerificationType.BILL) {
+                  entry = ChatEntryPoint.MC_PAYMENT;
+                  var custInfo = CustomerProfile(
+                      firebaseId: "BillPayment", firstName: "Bill Payment");
+                  Get.put(TransactionController());
+                  Get.find<HomeController>().getTransactionsHistory();
+                  showProgress.value = false;
+                  Get.to(ConversationPage(
+                      entry: entry,
+                      selectedContact: ContactInfo(),
+                      custInfo: custInfo));
+                }else if (verificationType == VerificationType.ORDER) {
+                  entry = ChatEntryPoint.ORDER;
+                  Get.put(TransactionController());
+                  Get.find<HomeController>().getTransactionsHistory();
+
+                  var response = await Get.find<OrderUpdateController>().updateOrder(orderRequest);
+                  showProgress.value = false;
+                  print("Order Status PAID and Updated");
+                  Get.back();
+                  Get.back();
+                  // Get.to(ConversationPage(
+                  //     entry: entry,
+                  //     selectedContact: ContactInfo(),
+                  //     custInfo: toAddress.customerProfile));
+                }
               }
+            } else {
+              navigateToChat(transactionContext);
+              print("transaction failed");
             }
-          } else {
-            navigateToChat(transactionContext);
-            print("transaction failed");
           }
+
+
         } else {
           showDialogWithErrorMsg("Transaction Verification failed");
         }

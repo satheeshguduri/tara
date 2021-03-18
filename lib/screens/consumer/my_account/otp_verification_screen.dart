@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,12 +7,14 @@ import 'package:tara_app/common/constants/gradients.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/constants/values.dart';
+import 'package:tara_app/common/helpers/enums.dart';
 import 'package:tara_app/common/widgets/account_info_card_row.dart';
 import 'package:tara_app/common/widgets/custom_appbar_widget.dart';
 import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/to_address_response.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
 import 'package:tara_app/models/transfer/constants/action.dart';
 import 'package:tara_app/models/transfer/constants/transaction_type.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
@@ -19,26 +23,28 @@ import 'package:tara_app/models/transfer/fetch_otp_response.dart';
 import 'package:tara_app/models/transfer/retrieve_key_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 
+
 class OTPVerificationScreen extends StatefulWidget {
   final String txnId;
   final FetchOtpResponse fetchOtpResponse;
   final RetrieveKeyResponse retrieveKeyResponse;
   final device.DeviceInfoBean deviceInfoBean;
   final String bic;
-  final String from;
+  final VerificationType verificationType;
   final num amount;
   final CustomerProfile toAddress;
   final MappedBankAccountsBean selectedSourceBankAccount;
+  final OrderRequest orderRequest;
   const OTPVerificationScreen(
       {this.txnId,
       this.fetchOtpResponse,
       this.retrieveKeyResponse,
       this.deviceInfoBean,
       this.bic,
-      this.from,
+      this.verificationType,
       this.amount,
       this.toAddress,
-      this.selectedSourceBankAccount});
+      this.selectedSourceBankAccount,this.orderRequest});
 
   @override
   OTPVerificationScreenState createState() => OTPVerificationScreenState();
@@ -99,7 +105,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
     );
   }
 
-  bool isFromAddedAccount() => widget.from == "addaccount";
+  bool isFromAddedAccount() => widget.verificationType == VerificationType.ADD_ACCOUNT;
   Widget getBorderContainer() {
     return Container(
       height: 3,
@@ -138,6 +144,9 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
     ).onTap(onPressed: () {
       if (isOtpEntered) {
         if (widget.fetchOtpResponse.otpChallengeCode != null) {
+          var toAddress = ToAddressResponse(
+              mobileNumber: widget?.toAddress?.mobileNumber,
+              customerProfile: widget.toAddress);
           if (isFromAddedAccount()) {
             controller.validateOtpAndTrackAddAccount(
                 widget.txnId,
@@ -146,10 +155,7 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                 widget.deviceInfoBean,
                 widget.bic);
             // pop();
-          } else if (widget.from == "transfer") {
-            var toAddress = ToAddressResponse(
-                mobileNumber: widget?.toAddress?.mobileNumber,
-                customerProfile: widget.toAddress);
+          } else if (widget.verificationType == VerificationType.TRANSFER) {
             // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
             controller.validateOtpAndTrackTransaction(
                 widget.txnId,
@@ -159,9 +165,10 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                 widget.bic,
                 TransactionContext.PAYMENT_REQUEST,
                 widget.amount,
-                toAddress);
+                toAddress,
+                widget.verificationType,null);
             //pop();
-          } else if (widget.from == "bills") {
+          } else if (widget.verificationType ==VerificationType.BILL) {
             // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
             controller.validateOtpAndTrackTransaction(
                 widget.txnId,
@@ -171,7 +178,23 @@ class OTPVerificationScreenState extends BaseState<OTPVerificationScreen> {
                 widget.bic,
                 TransactionContext.BILL_PAYMENT,
                 widget.amount,
-                null);
+                 null,
+                widget.verificationType,null);
+            //pop();
+          }else if (widget.verificationType == VerificationType.ORDER) {
+            print(jsonEncode(toAddress.toJson()));
+            // controller.validateOtpAndTrack(widget.txnId,widget.fetchOtpResponse,widget.retrieveKeyResponse,widget.deviceInfoBean,widget.bic);
+            controller.validateOtpAndTrackTransaction(
+                widget.txnId,
+                widget.fetchOtpResponse,
+                widget.retrieveKeyResponse,
+                widget.deviceInfoBean,
+                widget.bic,
+                TransactionContext.BILL_PAYMENT,
+                widget.amount,
+                toAddress,
+                widget.verificationType,
+                widget.orderRequest);
             //pop();
           }
         }

@@ -17,3 +17,9 @@ enum PaymentStatus{
   DECLINED,
   FAILED
 }
+enum VerificationType{
+  ORDER,
+  BILL,
+  TRANSFER,
+  ADD_ACCOUNT
+}

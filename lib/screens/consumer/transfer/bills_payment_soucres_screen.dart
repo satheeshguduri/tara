@@ -278,7 +278,7 @@ class BillsPaymentsSourcesScreenState
             // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
 
             // differentiate cart and bill payments
-            if(widget.entryPoint == AccountsEntryPoint.BILLS) {
+            if(widget.entryPoint == AccountsEntryPoint.BILLS ||  widget.entryPoint == AccountsEntryPoint.ORDERS) {
               await transferController.paymentInitiation(
                   cardId: billController.creditCardId,
                   amount: billController.creditCardAmount,
@@ -635,7 +635,7 @@ class BillsPaymentsSourcesScreenState
               Spacer(),
               Obx(() => billController.isDefaultSelected.value
                   ? Visibility(
-                      visible: widget.entryPoint == AccountsEntryPoint.BILLS,
+                      visible: widget.entryPoint == AccountsEntryPoint.BILLS ||  widget.entryPoint == AccountsEntryPoint.ORDERS,
                       child: Center(
                         child: getSvgImage(
                                 imagePath: Assets.assets_icon_c_check_solid,
@@ -690,7 +690,7 @@ class BillsPaymentsSourcesScreenState
             ),
           ),
           Obx(() => Visibility(
-                visible: widget.entryPoint == AccountsEntryPoint.BILLS,
+                visible: widget.entryPoint == AccountsEntryPoint.BILLS ||  widget.entryPoint == AccountsEntryPoint.ORDERS,
                 child: Container(
                     margin: EdgeInsets.only(
                       right: 10,
@@ -742,10 +742,11 @@ class BillsPaymentsSourcesScreenState
   );*/
   void enterMPINBottomSheet(MappedBankAccountsBean mappedBankAccountsBean) {
     Get.to(EnterCVV(
-      amount: widget.billDetailsData?.amount.toString(),
-      billsCatagoryData: widget.billDetailsData.category,
+      amount: widget.billDetailsData?.amount?.toString(),
+      billsCatagoryData: widget.billDetailsData?.category,
       mappedBankAccountsBean: mappedBankAccountsBean,
       orderRequest: widget.orderRequest,
+      merchantProfile: widget.merchantProfile,
     ));
 
   }
@@ -875,7 +876,7 @@ class BillsPaymentsSourcesScreenState
                           fontSize: 14.0)),
                 ),
                 Obx(() => Visibility(
-                      visible: widget.entryPoint == AccountsEntryPoint.BILLS,
+                      visible: widget.entryPoint == AccountsEntryPoint.BILLS ||  widget.entryPoint == AccountsEntryPoint.ORDERS,
                       child: isMatched(
                               billController.debitCardSelectedIndex.value,
                               index.toString())

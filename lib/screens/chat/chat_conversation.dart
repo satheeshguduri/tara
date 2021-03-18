@@ -650,7 +650,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     if (chatAction == ChatAction.pay) {
       var orderRequest = controller.getOrderRequestFromOrderResponse(customerOrder);
       orderRequest.status = Statuses.PAID;
-      var customerProfileResponse = await getIt.get<AuthRepository>().getCustomerInfoByFirebaseId(order.merchantId);
+      var customerProfileResponse = await getIt.get<AuthRepository>().getCustomerInfoByFirebaseId(customerOrder.order_extra.data.merchant_commid);
       if (customerProfileResponse.isRight()) {
         var data = customerProfileResponse.getOrElse(() => null);
         print("=========MERCHANT PROFILE========");
@@ -665,8 +665,8 @@ class _ConversationPageState extends BaseState<ConversationPage> {
 
 
       // print(customerOrder.toJson().toString());
-      var response = await controller.updateOrder(orderRequest);
-      print("Order Status PAID and Updated");
+      // var response = await controller.updateOrder(orderRequest);
+      // print("Order Status PAID and Updated");
     } else if (chatAction == ChatAction.decline) {
       var orderRequest = controller.getOrderRequestFromOrderResponse(customerOrder);
       // update Order with Pay Decline

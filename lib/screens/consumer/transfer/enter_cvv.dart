@@ -196,7 +196,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
         cvv1: otpPin,
         subMerchantName: widget.billsCatagoryData,
         merchantRef: "1234",
-        amount1: widget.amount,
+        amount1: "100",//TODO
         remarks1: billController.debitCardDesc,
         initiatorAccountId: widget.mappedBankAccountsBean.accountTokenId,
         selectedSourceBankAccount: widget.mappedBankAccountsBean,
