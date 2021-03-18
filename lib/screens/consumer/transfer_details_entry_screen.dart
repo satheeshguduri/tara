@@ -18,20 +18,16 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
-import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/chat_conversation.dart';
-import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
-import 'package:tara_app/screens/consumer/enter_mpin.dart';
-import 'package:tara_app/screens/consumer/transaction_detail_screen.dart';
 import 'package:tara_app/screens/consumer/transfer_details_entry_widget_controller.dart';
-import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
-import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/screens/consumer/add_beneficiary_screen.dart';
 import 'package:tara_app/controller/contacts_transfer_controller.dart';
+import 'package:tara_app/common/widgets/error_state_info_widget.dart';
+
+
 
 class TransferDetailsEntryScreen extends StatefulWidget {
 
@@ -266,17 +262,22 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
       if (formKey.currentState.validate()) {
         if (isSelf) {
           // if (uiController.selectedSelfAccount.value?.beneId?.isNullOrBlank??false) {
-          uiController.confirmToPay(
-            // mobile: widget.customerProfile.mobileNumber,
-              amount: uiController.amountController.text,
-              remarks: uiController.messageController.text,
-              bic: bic,
-              cvv: uiController.cvvController.text,
-              accountTokenId: accountTokenId,
-              selfAccountId: selfAccountTokenId,
-              selectedSourceBankAccount: selectedSourceBankAccount
-            //  beneId: 44 //getBenId(widget.beneContact)
-          );
+          if(selectedSourceBankAccount == selectedDestBankAccount){
+            transactionController.showDialogWithErrorMsg("From and To Bank should not be same");
+          }else{
+            uiController.confirmToPay(
+              // mobile: widget.customerProfile.mobileNumber,
+                amount: uiController.amountController.text,
+                remarks: uiController.messageController.text,
+                bic: bic,
+                cvv: uiController.cvvController.text,
+                accountTokenId: accountTokenId,
+                selfAccountId: selfAccountTokenId,
+                selectedSourceBankAccount: selectedSourceBankAccount
+              //  beneId: 44 //getBenId(widget.beneContact)
+            );
+          }
+
         }
         else if (uiController.selectedBenAccount?.value != null) {
           uiController.confirmToPay(
@@ -717,6 +718,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
 
 
   var selectedSourceBankAccount;
+  var selectedDestBankAccount;
 
   Widget getPaymentSourceWidget() {
     return
@@ -734,7 +736,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                     height: 24.0),
                 style: TextStyles.inputFieldOn222,
                 isExpanded: true,
-                value: selectedSourceBankAccount,
+                value: uiController.mappedItems.length>0?uiController.mappedItems[0]:selectedDestBankAccount,
                 items: (uiController.mappedItems)?.map((
                     MappedBankAccountsBean item) {
                   bic = item.bic;
@@ -747,12 +749,12 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       FocusScope.of(context).requestFocus(FocusNode());
                       bic = item.bic;
                       accountTokenId = item.accountTokenId;
-                      selectedSourceBankAccount = item;
+                      selectedDestBankAccount = item;
                     },
                   );
                 })?.toList() ?? [],
                 onChanged: (val) {
-                  selectedSourceBankAccount = val;
+                  selectedDestBankAccount = val;
                 }
 
             ),
@@ -769,7 +771,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
       color: AppColors.primaryBackground,
       padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
 
-      height: 78,
+      height: 84,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

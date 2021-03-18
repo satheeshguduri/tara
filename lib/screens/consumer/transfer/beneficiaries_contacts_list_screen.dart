@@ -376,7 +376,7 @@ class BeneficiariesContactsListScreenState
       decoration: getSelfAccoundWidgetDecoration(),
       child: Row(
         children: [
-          //getSvgImage(imagePath: Assets.illustration_transfer_to_my_account,width: 40.0,height: 40.0),
+          getSvgImage(imagePath: Assets.illustration_transfer_to_my_account,width: 40.0,height: 40.0),
           SizedBox(
             width: 8,
           ),
