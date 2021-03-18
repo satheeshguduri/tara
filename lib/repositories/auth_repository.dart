@@ -25,9 +25,8 @@ abstract class AuthRepository {
   Future<Either<Failure,BaseResponse>> updateProfile(CustomerProfile profile);
   Future<Either<Failure,CustomerProfileDetailsResponse>> getCustomerProfile(CommonRegistrationRequest profile);
   Future<Either<Failure,ToAddressResponse>>  getToAddress(String mobileNumber);
-  Future<Either<Failure,CustomerProfile>>  getNonTaraCustomerInfo(String mobileNumber);
   Future<Either<Failure,CustomerProfile>> getCustomerInfoByFirebaseId(String firebaseId);
-
+  Future<Either<Failure, SecurityToken>> resetPassword(AuthPutRequest authPutRequest);
 
 }
 

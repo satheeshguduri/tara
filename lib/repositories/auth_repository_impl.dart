@@ -4,8 +4,6 @@
 *  Created by Yakub Pasha.
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
-import 'dart:convert';
-
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/controller/auth_controller.dart';
@@ -169,6 +167,17 @@ class AuthRepositoryImpl implements AuthRepository{
       token = user.securityToken.token.tara.bearer();
       var response = await remoteDataSource.getCustomerInfoByFirebaseId(token,firebaseId);
       print(response.toString());
+      return Right(response);
+    } catch (e) {
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SecurityToken>> resetPassword(
+      AuthPutRequest authPutRequest) async {
+    try {
+      var response = await remoteDataSource.resetPassword(authPutRequest);
       return Right(response);
     }catch(e){
       return Left(Failure.fromServerError(e));

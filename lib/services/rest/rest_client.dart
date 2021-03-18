@@ -43,6 +43,9 @@ import '../config/api.dart';
   @POST(API.signup)
   Future<AuthResponse> signUp(@Body() SignUpRequest signUpRequest);
 
+  @PUT(API.signup)
+  Future<SecurityToken> resetPassword(@Body() AuthPutRequest authPutRequest);
+
   @PUT(API.update_profile)
   Future<BaseResponse> updateProfile(@Header("Authorization") String token, @Body() CustomerProfile updateProfileRequest);
 
@@ -91,16 +94,16 @@ import '../config/api.dart';
 
 // Orders api's
   @POST(API.create_order)
-  Future<OrderModel> createOrder(@Header("Authorization") String token,@Body() OrderModel order);
+  Future<Order> createOrder(@Header("Authorization") String token,@Body() Order order);
 
   // @POST(API.create_order)
   // Future<Order> deleteOrder(@Header("Authorization") String token,@Body()  String orderId);
 
   @PUT(API.update_order)
-  Future<OrderModel> updateOrder(@Header("Authorization") String token,@Body() OrderModel order, @Path() String orderId);
+  Future<Order> updateOrder(@Header("Authorization") String token,@Body() Order order, @Path() String orderId);
 
   @GET(API.get_order)
-  Future<OrderModel> getOrderByOrderId(@Header("Authorization") String token, @Path() String orderId);
+  Future<Order> getOrderByOrderId(@Header("Authorization") String token, @Path() String orderId);
 
 //  @GET(API.get_orders_consumers)
 //  Future<List<Order>> getOrdersByConsumerId(@Header("Authorization") String token, @Path() String consumerId);

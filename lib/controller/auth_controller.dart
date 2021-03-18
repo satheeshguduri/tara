@@ -17,20 +17,28 @@ import 'package:tara_app/common/helpers/helpers.dart';
 import 'package:tara_app/common/widgets/error_state_info_widget.dart';
 import 'package:tara_app/common/widgets/login_flow_widgets/account_confirmation.dart';
 import 'package:tara_app/controller/device_register_controller.dart';
+import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
+import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/flavors.dart';
+import 'package:tara_app/models/auth/auth_put_request.dart';
+import 'package:tara_app/models/auth/registration_status.dart';
+import 'package:tara_app/models/auth/security_token.dart';
+import 'package:tara_app/screens/Merchant/create_store_screen.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/screens/consumer/my_account/otp_verification_screen.dart';
+import 'package:tara_app/screens/mobile_verification_screen.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
-import 'package:tara_app/models/auth/registration_status.dart';
-import 'package:tara_app/models/auth/to_address_response.dart';
 import 'package:tara_app/models/core/base_response.dart';
 import 'package:tara_app/repositories/auth_repository.dart';
-import 'package:tara_app/screens/Merchant/create_store_screen.dart';
 import 'package:tara_app/screens/complete_profile_details.dart';
-import 'package:tara_app/screens/mobile_verification_screen.dart';
+import 'package:tara_app/screens/reset_password_screen.dart';
+import 'package:tara_app/screens/success_password_reset_dialog.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
 
 import '../injector.dart';
 
@@ -49,7 +57,7 @@ class AuthController extends GetxController {
   var user = AuthResponse().obs;
 
   Timer timer;
-  var seconds = 120.obs;
+  var seconds=120.obs;
 
   TextEditingController mobileNumberTextEditController =
       TextEditingController();
@@ -61,7 +69,10 @@ class AuthController extends GetxController {
       TextEditingController();
 
   ///on clicking on send otp
-  void getOtp({bool isFromResendOtp = false}) async {
+  void getOtp({
+    bool isFromResendOtp = false,
+    bool isFromForgotPassword = false,
+  }) async {
     //validate empty state here for the text fields
     if (isValidationSuccessInSignUp()) {
       showProgress.value = true;
@@ -73,9 +84,13 @@ class AuthController extends GetxController {
       showProgress.value = false;
       response.fold(
         (l) => print(l.message),
-        (r) => !isFromResendOtp
-            ? Get.to(MobileVerificationScreen())
-            : print(r.message),
+        (r) => isFromForgotPassword
+            ? Get.to(MobileVerificationScreen(
+                isFromFogotPassword: true,
+              ))
+            : !isFromResendOtp
+                ? Get.to(MobileVerificationScreen())
+                : print(r.message),
       );
     } else {
       //handle empty state error here
@@ -83,7 +98,7 @@ class AuthController extends GetxController {
   }
 
   ///on tapping the verify
-  void validateOtp() async {
+  void validateOtp({bool isFromForgotPassword = false}) async {
     //validate empty state here for the text fields
     if (isValidationSuccessInOtp()) {
       showProgress.value = true;
@@ -93,46 +108,46 @@ class AuthController extends GetxController {
           .get<AuthRepository>()
           .validateOtp(AuthRequestWithData(data: request));
       showProgress.value = false;
-      response.fold((l) => Get.defaultDialog(content: Text(l.message)),
-          (r) => Get.to(CompleteProfileScreen()));
+      response.fold(
+          (l) => Get.defaultDialog(content: Text(l.message)),
+          (r) => Get.to(isFromForgotPassword
+              ? ResetPasswordScreen()
+              : CompleteProfileScreen()));
     }
   }
 
-  Future<AuthResponse> createTempAccount(
-      RegistrationStatus status, String mobileNumber) async {
-    CustomerProfile customerProfile = CustomerProfile(
-        customerType: Utils().getCustomerType(), registrationStatus: status);
-    SignUpRequest request = SignUpRequest(
-      customerProfile: customerProfile,
-      mobileNumber: mobileNumber,
-    );
-    print(request.toJson());
-    Either<Failure, AuthResponse> response =
-        await getIt.get<AuthRepository>().signUp(request);
-    if (response.isRight()) {
-      var signUpResponse = response.getOrElse(() => null);
-      print(jsonEncode(signUpResponse.toJson()));
-      return signUpResponse;
-    } else {
-      print("error while creating the user");
-    }
-    return Future.value(null);
-  }
+    void createTempAccount(RegistrationStatus status,String mobileNumber) async{
+      CustomerProfile customerProfile = CustomerProfile(
+          customerType: Utils().getCustomerType(),
+          registrationStatus: RegistrationStatus.BENEFICIARY);
+      SignUpRequest request = SignUpRequest(
+          customerProfile: customerProfile,
+          mobileNumber: mobileNumber,);
+      print(request.toJson());
+      Either<Failure, AuthResponse> response =
+      await getIt.get<AuthRepository>().signUp(request);
+      if(response.isRight()){
+        var signUpResponse = response.getOrElse(() => null);
+        print(jsonEncode(signUpResponse.toJson()));
+      }else {
+        print("error while creating the user");
+      }
 
-  void login() async {
+    }
+
+     void login() async {
     //validate empty state here for the text fields
     if (isValidationSuccessInSignIn()) {
       showProgress.value = true;
-      var customerProfile =
-          CustomerProfile(customerType: Utils().getCustomerType());
+      var customerProfile = CustomerProfile(customerType: Utils().getCustomerType());
       print(customerProfile.toJson().toString());
       AuthRequest request = AuthRequest(
-          mobileNumber: mobileNumber.value,
-          password: confirmPwd.value,
-          customerProfile: customerProfile);
+          mobileNumber: mobileNumber.value, password: confirmPwd.value,customerProfile: customerProfile);
       print(jsonEncode(request.toJson()));
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().login(request);
+      showProgress.value = false;
+      print("Login response ${response}");
       response.fold(
           (l) => GetHelper().getDialog(
                   content: ErrorStateInfoWidget(
@@ -150,8 +165,40 @@ class AuthController extends GetxController {
                 else
                   {
                     await DeviceRegisterController().registerDevice(),
+                    Get.offAll(Utils().getLandingScreen()),
                   }
               });
+      // Get.to(Consumer())); //navigate to consumer home screen
+    }
+  }
+
+  void resetPassword() async {
+    //validate empty state here for the text fields
+    if (isValidatedPassword()) {
+      showProgress.value = true;
+      AuthPutRequest request = AuthPutRequest(mobileNumber.value,
+          confirmPwd.value, true, Utils().getCustomerType());
+      Either<Failure, SecurityToken> response =
+          await getIt.get<AuthRepository>().resetPassword(request);
+      showProgress.value = false;
+      response.fold(
+        (l) => GetHelper().getDialog(
+          content: ErrorStateInfoWidget(
+            desc: l.message,
+          ),
+        ),
+        (r) async => {
+          Get.dialog(
+              Dialog(
+                child: PasswordResetSuccess(),
+                insetPadding: EdgeInsets.symmetric(horizontal: Get.width * .06),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                ),
+              ),
+              barrierDismissible: true),
+        },
+      );
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }
@@ -172,28 +219,25 @@ class AuthController extends GetxController {
       Either<Failure, AuthResponse> response =
           await getIt.get<AuthRepository>().signUp(request);
       showProgress.value = false;
-      response.fold(
-          (l) => getIt.get<GetHelper>().getDialog(
-                  content: ErrorStateInfoWidget(
-                desc: l.message,
-              )),
+      response.fold((l) =>
+          getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(desc: l.message,)),
           //Get.defaultDialog(content: Text(l.message)),
-          (r) async => {
-                Get.put<AuthResponse>(r),
-                if (F.appFlavor == Flavor.MERCHANT)
-                  {Get.to(CreateStoreScreen())}
-                else
-                  {Get.to(AccountConfirmationScreen())},
-              });
+          (r) => {
+            Get.put<AuthResponse>(r),
+            if(F.appFlavor == Flavor.MERCHANT){
+              Get.to(CreateStoreScreen())
+            }else{
+              Get.to(AccountConfirmationScreen())
+            },
+
+      });
       // Get.to(Consumer())); //navigate to consumer home screen
     }
   }
-
   //updating profile info
-  void updateProfile(
-      String name, String address, String email, AuthResponse user) async {
-    showProgress.value = true;
-    CustomerProfile customerProfile = CustomerProfile(
+  void updateProfile(String name,String address,String email,AuthResponse user) async {
+        showProgress.value = true;
+        CustomerProfile customerProfile = CustomerProfile(
         id: user.customerProfile.id,
         lastName: user.customerProfile.lastName,
         mobileNumber: user.customerProfile.mobileNumber,
@@ -203,17 +247,17 @@ class AuthController extends GetxController {
         customerType: user.customerProfile.customerType,
         firebaseId: user.customerProfile.firebaseId,
         firstName: name,
-        // address: "address",
+       // address: "address",
         email: email);
-    Either<Failure, BaseResponse> response =
-        await getIt.get<AuthRepository>().updateProfile(customerProfile);
-    showProgress.value = false;
-    response.fold(
-        (l) => Get.defaultDialog(content: Text(l.message)),
-        (r) => {
-              Get.defaultDialog(content: Text(r.message)),
-            });
-  }
+      Either<Failure, BaseResponse> response = await getIt.get<AuthRepository>().updateProfile(customerProfile);
+      showProgress.value = false;
+      response.fold((l) => Get.defaultDialog(content: Text(l.message)),
+              (r) =>{
+                Get.defaultDialog(content: Text(r.message)),
+              });
+    }
+
+
 
   bool isValidationSuccessInCompleteProfile() {
     if (GetUtils.isNullOrBlank(fullName.value)) {
@@ -234,11 +278,12 @@ class AuthController extends GetxController {
     } else if (password.value != confirmPwd.value) {
       errorMessage.value = Strings.password_not_match;
       return false;
-    } else {
+    }else{
       errorMessage.value = "";
     }
     return true;
   }
+
 
   void isEnterAllTheFieldsInCompleteProfile() {
     if (!GetUtils.isNullOrBlank(fullName.value) &&
@@ -246,7 +291,7 @@ class AuthController extends GetxController {
         !GetUtils.isNullOrBlank(password.value) &&
         !GetUtils.isNullOrBlank(confirmPwd.value)) {
       isEnterAllTheFields.value = true;
-    } else {
+    }else{
       isEnterAllTheFields.value = false;
     }
   }
@@ -258,9 +303,23 @@ class AuthController extends GetxController {
     } /*else if (Validator().validateMobile(mobileNumber.value) != null) {
       errorMessage.value = Strings.invalid_number;
       return false;
-    } */
-    else if (GetUtils.isNullOrBlank(confirmPwd.value)) {
+    } */else if (GetUtils.isNullOrBlank(confirmPwd.value)) {
       errorMessage.value = Strings.enter_password;
+      return false;
+    }else{
+      errorMessage.value = "";
+    }
+    return true;
+  }
+
+  bool isValidatedPassword() {
+    if (GetUtils.isNullOrBlank(passwordTextEditController.text.trim()) ||
+        GetUtils.isNullOrBlank(confirmPasswordTextEditController.text.trim())) {
+      errorMessage.value = Strings.enter_password;
+      return false;
+    } else if (passwordTextEditController.text.trim() !=
+        confirmPasswordTextEditController.text.trim()) {
+      errorMessage.value = Strings.password_not_match;
       return false;
     } else {
       errorMessage.value = "";
@@ -275,8 +334,7 @@ class AuthController extends GetxController {
     } /*else if (Validator().validateMobile(mobileNumber.value) != null) {
       errorMessage.value = Strings.invalid_number;
       return false;
-    } */
-    else {
+    } */else{
       errorMessage.value = "";
     }
     return true;
@@ -286,28 +344,24 @@ class AuthController extends GetxController {
     if (GetUtils.isNullOrBlank(otp.value)) {
       errorMessage.value = Strings.enter_otp_code;
       return false;
-    } else if (otp.value.length < 6) {
+    }else if (otp.value.length<6) {
       errorMessage.value = Strings.invalid_otp;
       return false;
-    } else {
+    } else{
       errorMessage.value = "";
     }
     return true;
   }
 
-  Future<Either<Failure, ToAddressResponse>> getToAddressForPayment(
-      String mobileNUmber) async {
+
+
+  Future<Either<Failure, ToAddressResponse>> getToAddressForPayment(String mobileNUmber) async{
     return await getIt.get<AuthRepository>().getToAddress(mobileNUmber);
+
   }
 
-  Future<Either<Failure, CustomerProfile>> getNonTaraCustomerInfo(
-      String mobileNUmber) async {
-    return await getIt
-        .get<AuthRepository>()
-        .getNonTaraCustomerInfo(mobileNUmber);
-  }
 
-  void startTimer() {
+  void  startTimer() {
     // Set 1 second callback
     const period = const Duration(seconds: 1);
     timer = Timer.periodic(period, (timer) {
@@ -315,7 +369,9 @@ class AuthController extends GetxController {
       if (seconds.value == 0) {
         // Countdown seconds 0, cancel timer
         cancelTimer();
-      } else {
+      }
+      else
+      {
         seconds.value = seconds.value - 1;
         constructTime(seconds.value);
       }
@@ -339,6 +395,8 @@ class AuthController extends GetxController {
   String formatTime(int timeNum) {
     return timeNum < 10 ? "0" + timeNum.toString() : timeNum.toString();
   }
+
+
 
   registerDevice() {}
 }

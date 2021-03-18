@@ -157,7 +157,6 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
         floatingActionButtonLocation:
         FloatingActionButtonLocation.centerDocked,
         body: getRootScreen()
-
     );
   }
 

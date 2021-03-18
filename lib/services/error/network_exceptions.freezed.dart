@@ -802,6 +802,7 @@ class _$NotFound implements NotFound {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(reason);
 
+  @JsonKey(ignore: true)
   @override
   $NotFoundCopyWith<NotFound> get copyWith =>
       _$NotFoundCopyWithImpl<NotFound>(this, _$identity);
@@ -951,6 +952,7 @@ abstract class NotFound implements NetworkExceptions {
   const factory NotFound(String reason) = _$NotFound;
 
   String get reason;
+  @JsonKey(ignore: true)
   $NotFoundCopyWith<NotFound> get copyWith;
 }
 
@@ -2995,6 +2997,7 @@ class _$DefaultError implements DefaultError {
   int get hashCode =>
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(error);
 
+  @JsonKey(ignore: true)
   @override
   $DefaultErrorCopyWith<DefaultError> get copyWith =>
       _$DefaultErrorCopyWithImpl<DefaultError>(this, _$identity);
@@ -3144,6 +3147,7 @@ abstract class DefaultError implements NetworkExceptions {
   const factory DefaultError(String error) = _$DefaultError;
 
   String get error;
+  @JsonKey(ignore: true)
   $DefaultErrorCopyWith<DefaultError> get copyWith;
 }
 

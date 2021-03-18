@@ -14,9 +14,12 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/common/constants/values.dart';
 
 class MobileVerificationScreen extends StatefulWidget {
+  final bool isFromFogotPassword;
 
-  const MobileVerificationScreen({Key key,})
-      : super(key: key);
+  const MobileVerificationScreen({
+    Key key,
+    this.isFromFogotPassword = false,
+  }) : super(key: key);
 
   @override
   _MobileVerificationScreenState createState() =>
@@ -31,7 +34,6 @@ class _MobileVerificationScreenState
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: getRootContainer(),
     );
@@ -70,9 +72,10 @@ class _MobileVerificationScreenState
                       "assets/images/icon-5.png",
                       fit: BoxFit.none,
                     ),
-                  ).onTap(onPressed: (){
-                      controller.errorMessage.value = "";
-                      Navigator.pop(context, false); //Navigator.pop(context, false),
+                  ).onTap(onPressed: () {
+                    controller.errorMessage.value = "";
+                    Navigator.pop(
+                        context, false); //Navigator.pop(context, false),
                   }),
                 ],
               ),
@@ -101,7 +104,7 @@ class _MobileVerificationScreenState
                             Strings.mobile_verification_subtext)),
                     TextSpan(
                         style: BaseStyles.mobileNoTextStyle,
-                        text: controller.mobileNumber.value)
+                        text: " ${controller.mobileNumber.value}")
                   ]))),
               Column(
                 children: [
@@ -158,10 +161,13 @@ class _MobileVerificationScreenState
               ),
               controller.errorMessage.value.isEmpty
                   ? Container()
-                  : Container(margin:EdgeInsets.all(8),child: Text(
-                getTranslation(controller.errorMessage.value),
-                style: BaseStyles.error_text_style,
-              ),),
+                  : Container(
+                      margin: EdgeInsets.all(8),
+                      child: Text(
+                        getTranslation(controller.errorMessage.value),
+                        style: BaseStyles.error_text_style,
+                      ),
+                    ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,9 +195,13 @@ class _MobileVerificationScreenState
                           child: Column(
                             children: [
                               Text(getTranslation(Strings.resend_otp),
-                                  style: (controller.countDownTimeString.value == "00:00"&&controller.seconds.value == 0)?BaseStyles
-                                      .bottomSheetLocationChangeTextStyle:BaseStyles
-                                      .resendDefaultTextStyle,
+                                  style: (controller
+                                                  .countDownTimeString.value ==
+                                              "00:00" &&
+                                          controller.seconds.value == 0)
+                                      ? BaseStyles
+                                          .bottomSheetLocationChangeTextStyle
+                                      : BaseStyles.resendDefaultTextStyle,
                                   textAlign: TextAlign.center),
                               Container(
                                 height: 2,
@@ -203,9 +213,10 @@ class _MobileVerificationScreenState
                               ),
                             ],
                           )).onTap(onPressed: () {
-                        if (controller.mobileNumber.value.isNotEmpty && controller.countDownTimeString.value == "00:00") {
+                        if (controller.mobileNumber.value.isNotEmpty &&
+                            controller.countDownTimeString.value == "00:00") {
                           controller.startTimer();
-                          controller.getOtp(isFromResendOtp:true);
+                          controller.getOtp(isFromResendOtp: true);
                         }
                       }),
                     ),
@@ -230,7 +241,9 @@ class _MobileVerificationScreenState
               //                   <--- left side
               color: controller.errorMessage.value.isNotEmpty
                   ? Colors.pink
-                  : isOtpEntered ? Color(0xffb2f7e2) : Color(0xffb0b4c1),
+                  : isOtpEntered
+                      ? Color(0xffb2f7e2)
+                      : Color(0xffb0b4c1),
               width: 2.0,
               style: BorderStyle.solid),
         ),
@@ -259,7 +272,8 @@ class _MobileVerificationScreenState
       ),
     ).onTap(onPressed: () {
       if (isOtpEntered) {
-        controller.validateOtp();
+        controller.validateOtp(
+            isFromForgotPassword: widget.isFromFogotPassword);
       }
     });
   }
