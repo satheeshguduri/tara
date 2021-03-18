@@ -27,7 +27,7 @@ class OrderResponse {
   DateTime orderDate;
   OrderTypes orderType;
   String transactionId;
-  String merchantId;
+  num merchantId;
   JsonbOrderExtra order_extra;
 
   OrderResponse(

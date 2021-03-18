@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -26,6 +27,7 @@ import 'package:tara_app/data/user_local_data_source.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/auth/to_address_response.dart';
 import 'package:tara_app/models/chat/message_type.dart';
 import 'package:tara_app/models/chat/order.dart';
 import 'package:tara_app/models/chat/payment_success.dart';
@@ -35,6 +37,7 @@ import 'package:tara_app/models/order_management/orders/order.dart'
 import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/repositories/transaction_repository.dart';
 import 'package:tara_app/screens/Merchant/merchant_cash_deposit.dart';
 import 'package:tara_app/screens/base/base_state.dart';
@@ -43,6 +46,7 @@ import 'package:tara_app/screens/chat/send_money.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/screens/consumer/home_customer_screen.dart';
 import 'package:tara_app/screens/consumer/shop/make_an_order.dart';
+import 'package:tara_app/screens/consumer/transfer/bills_payment_soucres_screen.dart';
 import 'package:tara_app/services/config/firebase_path.dart';
 import 'package:tara_app/services/firebase/firebase_remote_service.dart';
 import 'package:tara_app/shop/shopping_home_page.dart';
@@ -510,7 +514,7 @@ class _ConversationPageState extends BaseState<ConversationPage> {
                     (l) => print(l.message),
                     (r) => {
                           customerOrder = r,
-                          consumerAcceptDeclineOrderPayment(chatAction)
+                          consumerAcceptDeclineOrderPayment(chatAction,order)
                         });
               },
             );
@@ -642,14 +646,25 @@ class _ConversationPageState extends BaseState<ConversationPage> {
     }
   }
 
-  void consumerAcceptDeclineOrderPayment(ChatAction chatAction) async {
+  void consumerAcceptDeclineOrderPayment(ChatAction chatAction, Order order) async {
     if (chatAction == ChatAction.pay) {
+      var orderRequest = controller.getOrderRequestFromOrderResponse(customerOrder);
+      orderRequest.status = Statuses.PAID;
+      var customerProfileResponse = await getIt.get<AuthRepository>().getCustomerInfoByFirebaseId(order.merchantId);
+      if (customerProfileResponse.isRight()) {
+        var data = customerProfileResponse.getOrElse(() => null);
+        print("=========MERCHANT PROFILE========");
+        print(jsonEncode(data.toJson()));
+        Get.to(BillsPaymentsSourcesScreen(orderRequest: orderRequest,
+          entryPoint: AccountsEntryPoint.ORDERS,
+          merchantProfile: data,));
+      }
 
       // TODO Call payment screen here
       // update Order with Pay Accepted
-      var orderRequest = controller.getOrderRequestFromOrderResponse(customerOrder);
-      orderRequest.status = Statuses.PAID;
-      print(customerOrder.toJson().toString());
+
+
+      // print(customerOrder.toJson().toString());
       var response = await controller.updateOrder(orderRequest);
       print("Order Status PAID and Updated");
     } else if (chatAction == ChatAction.decline) {

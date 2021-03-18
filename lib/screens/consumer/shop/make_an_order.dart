@@ -415,7 +415,7 @@ class _MakeAnOrderState extends BaseState<MakeAnOrder> {
                    orderDate: DateTime.now(),
                    orderType: OrderTypes.TEXT_BASED,
                    transactionId: null,
-                   merchantId: widget.merchantProfile.id.toString(),
+                   merchantId: widget.merchantProfile.id,
                    order_extra: JsonbOrderExtra(data: OrderExtraData(customer_commid: user.customerProfile.firebaseId,
                        merchant_commid: widget.merchantProfile.firebaseId,
                        interpret: "true")

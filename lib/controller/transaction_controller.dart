@@ -35,6 +35,7 @@ import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/mcpayment/create_card_or_pay_request.dart'
     as cards;
 import 'package:tara_app/models/mcpayment/pay_card_request.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
 import 'package:tara_app/models/transactions/payment_response.dart';
 import 'package:tara_app/models/transactions/transaction_model.dart';
 import 'package:tara_app/models/transfer/account_details_request.dart';
@@ -697,7 +698,9 @@ class TransactionController extends GetxController {
       String bic1,
       String cvv1,
       num initiatorAccountId,
-      MappedBankAccountsBean selectedSourceBankAccount}) async {
+      MappedBankAccountsBean selectedSourceBankAccount,
+        CustomerProfile merchantProfile,
+        OrderRequest orderRequest}) async {
     var customerProfile = await getCustomerProfile2();
     var deviceRegInfo =
         await getIt.get<SessionLocalDataStore>().getDeviceRegInfo();
@@ -709,11 +712,17 @@ class TransactionController extends GetxController {
     var bic =
         bic1; //bic1; // get these from Search beneficiary call by passing the mobile number to the api
     var cvvValue = cvv1;
+
+    var merchantId = PSPConfig.MERCHANT_ID;
+
+    if(orderRequest!=null){
+      merchantId = orderRequest.merchantId.toString();
+    }
     //do merchant transaction
     var isMerchantSessionInitiated = await getIt
         .get<DeviceRegisterRepository>()
         .getAppTokenMerchant(
-            CommonRegistrationRequest(merchantId: PSPConfig.MERCHANT_ID));
+            CommonRegistrationRequest(merchantId: merchantId));
 
     if (isMerchantSessionInitiated.isRight()) {
       var merchantLoginResponse =
@@ -723,6 +732,7 @@ class TransactionController extends GetxController {
       if (merchantLoginResponse?.token?.isNotEmpty ?? false) {
         var payeeInfo = PayeesBean(
           amount: amount1,
+          mobileNo: merchantProfile.mobileNumber // Added for SHOP Payment
         );
         var payerInfo = PayeesBean(
             mobileNo: customerProfile.mobileNo, appId: PSPConfig.APP_NAME);
@@ -732,7 +742,7 @@ class TransactionController extends GetxController {
             accessToken: merchantLoginResponse.token,
             payees: [payeeInfo],
             payer: payerInfo,
-            merchantId: PSPConfig.MERCHANT_ID,
+            merchantId: merchantId, //CHANGED FOR SHOP PAYMENTS
             subMerchantName: subMerchantName,
             custRefId: custRefId,
             remarks: remarks);
@@ -753,6 +763,9 @@ class TransactionController extends GetxController {
                 .get<DeviceRegisterRepository>()
                 .checkAndInitiateSession();
             if (isSessionInitiated) {
+              if(merchantProfile!=null){
+                toAddress = ToAddressResponse(mobileNumber: merchantProfile.mobileNumber,customerProfile: merchantProfile);
+              }
               await paymentInitiation(
                   amount: double.parse(amount1),
                   toAddress: toAddress,
@@ -855,6 +868,7 @@ class TransactionController extends GetxController {
                                 amount: double.parse(amount1),
                                 selectedSourceBankAccount:
                                     selectedSourceBankAccount,
+                                toAddress: merchantProfile,
                               ));
 
                               //Break the Flow here and take him to the OTP Enter Screen  // take the otp from fetchOTPResponse in the next screen

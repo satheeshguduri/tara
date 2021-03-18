@@ -24,7 +24,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(store?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/store',
         queryParameters: queryParameters,
@@ -46,7 +45,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(owner?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/owner',
         queryParameters: queryParameters,
@@ -68,7 +66,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(store?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/store',
         queryParameters: queryParameters,
@@ -130,7 +127,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(order?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/order',
         queryParameters: queryParameters,
@@ -153,7 +149,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(order?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/order/$orderId',
         queryParameters: queryParameters,
@@ -303,7 +298,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(catalogue?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/order',
         queryParameters: queryParameters,
@@ -325,7 +319,6 @@ class _OrderRestClient implements OrderRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(catalogue?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/order',
         queryParameters: queryParameters,

@@ -15,6 +15,7 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/to_address_response.dart';
 import 'package:tara_app/models/bills/bill_details_response.dart';
 import 'package:tara_app/models/mcpayment/card_data.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/consumer/my_account/connect_new_account_select_ank.dart';
@@ -24,14 +25,19 @@ import 'package:tara_app/utils/locale/utils.dart';
 enum AccountsEntryPoint {
   BILLS,
   MY_ACCOUNTS,
+  ORDERS
 }
 
 class BillsPaymentsSourcesScreen extends StatefulWidget {
   final BillDetailsData billDetailsData;
   final AccountsEntryPoint entryPoint;
+  final OrderRequest orderRequest;
+  final CustomerProfile merchantProfile;
   BillsPaymentsSourcesScreen(
       {Key key,
       this.billDetailsData,
+        this.orderRequest,
+        this.merchantProfile,
       this.entryPoint = AccountsEntryPoint.MY_ACCOUNTS})
       : super(key: key);
   @override
@@ -69,7 +75,7 @@ class BillsPaymentsSourcesScreenState
     );
   }
 
-  bool get isFromMyBills => widget.entryPoint == AccountsEntryPoint.BILLS;
+  bool get isFromMyBills => widget.entryPoint == AccountsEntryPoint.BILLS || widget.entryPoint == AccountsEntryPoint.ORDERS;
 
   Widget getContainer() {
     return Container(
@@ -157,7 +163,7 @@ class BillsPaymentsSourcesScreenState
                       Container(
                           width: Get.width * 0.7,
                           child: Text(
-                            widget.billDetailsData.productName,
+                            getProductOrMerchantName(),
                             style: TextStyle(
                                 color: AppColors.color_black_100_2_2_2,
                                 fontWeight: FontWeight.w700,
@@ -194,6 +200,28 @@ class BillsPaymentsSourcesScreenState
         ),
       ),
     );
+  }
+
+  String getProductOrMerchantName(){
+    if(widget.entryPoint == AccountsEntryPoint.BILLS){
+      return widget.billDetailsData.productName;
+    }else{
+      return widget.merchantProfile.firstName;
+    }
+  }
+  double getAmount(){
+    if(widget.entryPoint == AccountsEntryPoint.BILLS){
+      return widget.billDetailsData.amount;
+    }else{
+      return widget.orderRequest.price;
+    }
+  }
+  String getOrderId(){
+    if(widget.entryPoint == AccountsEntryPoint.BILLS){
+      return widget.billDetailsData.inquiryId.toString();
+    }else{
+      return widget.orderRequest.orderId;
+    }
   }
 
   Widget creditCardRow() {
@@ -248,16 +276,31 @@ class BillsPaymentsSourcesScreenState
             // transferController.payNow(mobileNumber: billController.mobileNumber,amount1:billController.debitCardAmount,remarks1: billController.debitCardDesc,bic1: billController.debitCardBic,cvv1: billController.debitCardCvv,initiatorAccountId1:billController.debitCardAccountId,benId1: billController.debitCardBenId);
           } else {
             // transferController.paymentInitiation(billController.creditCardId,billController.creditCardAmount, billController.creditCardDesc, billController.creditCardMaskedCardNumber);
-            await transferController.paymentInitiation(
-                cardId: billController.creditCardId,
-                amount: billController.creditCardAmount,
-                desc: billController.creditCardDesc,
-                maskAcNum: billController.creditCardMaskedCardNumber,
-                toAddress: ToAddressResponse(
-                    customerProfile:
-                        CustomerProfile(firebaseId: "BillPayment")),
-                isFromCreditCard: true,
-                trContext: TransactionContext.BILL_PAYMENT);
+
+            // differentiate cart and bill payments
+            if(widget.entryPoint == AccountsEntryPoint.BILLS) {
+              await transferController.paymentInitiation(
+                  cardId: billController.creditCardId,
+                  amount: billController.creditCardAmount,
+                  desc: billController.creditCardDesc,
+                  maskAcNum: billController.creditCardMaskedCardNumber,
+                  toAddress: ToAddressResponse(
+                      customerProfile:
+                      CustomerProfile(firebaseId: "BillPayment")),
+                  isFromCreditCard: true,
+                  trContext: TransactionContext.BILL_PAYMENT);
+            }else{
+              await transferController.paymentInitiation(
+                  cardId: billController.creditCardId,
+                  amount: billController.creditCardAmount,
+                  desc: billController.creditCardDesc,
+                  maskAcNum: billController.creditCardMaskedCardNumber,
+                  toAddress:ToAddressResponse(
+                      customerProfile:
+                      widget.merchantProfile),
+                  isFromCreditCard: true,
+                  trContext: TransactionContext.BILL_PAYMENT);
+            }
             // transferController.payViaCreditCard();
           }
         }
@@ -475,7 +518,7 @@ class BillsPaymentsSourcesScreenState
         Container(
             width: Get.width * 0.6,
             child: Text(
-              "${widget.billDetailsData.inquiryId}",
+              "${getOrderId()}",
               style: TextStyle(
                   color: AppColors.color_black_100_2_2_2,
                   fontWeight: FontWeight.w700,
@@ -498,7 +541,7 @@ class BillsPaymentsSourcesScreenState
                 fontWeight: FontWeight.w400,
                 fontSize: 14.0)),
         Text(
-          getTranslation(Strings.RP) + " " + "${widget.billDetailsData.amount}",
+          getTranslation(Strings.RP) + " " + "${getAmount()}",
           style: TextStyle(
               color: AppColors.color_black_100_2_2_2,
               fontWeight: FontWeight.w700,
@@ -699,10 +742,12 @@ class BillsPaymentsSourcesScreenState
   );*/
   void enterMPINBottomSheet(MappedBankAccountsBean mappedBankAccountsBean) {
     Get.to(EnterCVV(
-      amount: widget.billDetailsData.amount.toString(),
+      amount: widget.billDetailsData?.amount.toString(),
       billsCatagoryData: widget.billDetailsData.category,
       mappedBankAccountsBean: mappedBankAccountsBean,
+      orderRequest: widget.orderRequest,
     ));
+
   }
 
   Widget otherCardsRow() {

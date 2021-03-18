@@ -30,7 +30,7 @@ OrderRequest _$OrderRequestFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['orderDate'] as String),
     orderType: _$enumDecodeNullable(_$OrderTypesEnumMap, json['orderType']),
     transactionId: json['transactionId'] as String,
-    merchantId: json['merchantId'] as String,
+    merchantId: json['merchantId'] as num,
     data: json['data'] == null
         ? null
         : JsonbOrderExtra.fromJson(json['data'] as Map<String, dynamic>),

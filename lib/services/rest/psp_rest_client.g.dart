@@ -66,7 +66,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/issue-private-access-token',
         queryParameters: queryParameters,
@@ -87,7 +86,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(registerRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/register',
         queryParameters: queryParameters,
@@ -110,7 +108,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/track-registration',
         queryParameters: queryParameters,
@@ -132,7 +129,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<List<dynamic>>(
         'psp-umps-adaptor/umps-app/fetch-ecosystem-banklist',
         queryParameters: queryParameters,
@@ -157,7 +153,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/initiate-account-details-request-api',
         queryParameters: queryParameters,
@@ -179,7 +174,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(deleteAccountRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/initiate-delete-account-request',
         queryParameters: queryParameters,
@@ -202,7 +196,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/track-delete-account-request',
         queryParameters: queryParameters,
@@ -225,7 +218,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/track-account-details-request-api',
         queryParameters: queryParameters,
@@ -247,7 +239,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(preTransactionRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/pre-transaction-request',
         queryParameters: queryParameters,
@@ -269,7 +260,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(transactionRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/initiate-transaction-request',
         queryParameters: queryParameters,
@@ -291,7 +281,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(transactionRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-merchant/initiate-transaction-request',
         queryParameters: queryParameters,
@@ -313,7 +302,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(transactionRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/track-transaction-request',
         queryParameters: queryParameters,
@@ -355,7 +343,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(payerCollectRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/payer-collect-response',
         queryParameters: queryParameters,
@@ -418,7 +405,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRegistrationRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/customer-profile-details',
         queryParameters: queryParameters,
@@ -439,7 +425,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(validateMobileRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/validate-mobile-request',
         queryParameters: queryParameters,
@@ -460,7 +445,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(addBeneficiaryRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/add-beneficiary',
         queryParameters: queryParameters,
@@ -502,7 +486,6 @@ class _PSPRestClient implements PSPRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(mapBeneficiaryRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'psp-umps-adaptor/umps-app/map-beneficiary-detail',
         queryParameters: queryParameters,

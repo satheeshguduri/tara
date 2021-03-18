@@ -7,6 +7,8 @@ import 'package:tara_app/common/widgets/otp_text_field_widget.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/card_view.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/models/order_management/orders/order_request.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/controller/bill_controller.dart';
@@ -18,7 +20,9 @@ class EnterCVV extends StatefulWidget {
   final String  billsCatagoryData;
   final String amount;
   final MappedBankAccountsBean mappedBankAccountsBean;
-  EnterCVV({Key key, this.billsCatagoryData,this.amount,this.mappedBankAccountsBean}) : super(key: key);
+  final OrderRequest orderRequest;
+  final CustomerProfile merchantProfile;
+  EnterCVV({Key key, this.billsCatagoryData,this.amount,this.mappedBankAccountsBean,this.orderRequest,this.merchantProfile}) : super(key: key);
 
   @override
   _EnterMPINState createState() => _EnterMPINState();
@@ -186,6 +190,7 @@ class _EnterMPINState extends BaseState<EnterCVV> {
     {
       if (isOtpEntered) {
       transferController.showProgress.value = true;
+
       transferController.payBill(
         bic1: widget.mappedBankAccountsBean.bic,
         cvv1: otpPin,
@@ -194,7 +199,9 @@ class _EnterMPINState extends BaseState<EnterCVV> {
         amount1: widget.amount,
         remarks1: billController.debitCardDesc,
         initiatorAccountId: widget.mappedBankAccountsBean.accountTokenId,
-        selectedSourceBankAccount: widget.mappedBankAccountsBean
+        selectedSourceBankAccount: widget.mappedBankAccountsBean,
+        merchantProfile: widget.merchantProfile,
+        orderRequest: widget.orderRequest
       );
       Get.back();
     }

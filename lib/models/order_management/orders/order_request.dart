@@ -24,7 +24,7 @@ class OrderRequest {
   DateTime orderDate;
   OrderTypes orderType;
   String transactionId;
-  String merchantId;
+  num merchantId;
   JsonbOrderExtra data;
    JsonbOrderExtra order_extra;
 //  MessageType messageType;

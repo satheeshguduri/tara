@@ -48,7 +48,6 @@ class _McPaymentRestClient implements McPaymentRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(createCardOrPayRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/mcpayment/request/tokenization',
         queryParameters: queryParameters,
@@ -70,7 +69,6 @@ class _McPaymentRestClient implements McPaymentRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(payCardRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/mcpayment/request/payment',
         queryParameters: queryParameters,
