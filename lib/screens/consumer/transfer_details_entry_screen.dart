@@ -18,16 +18,20 @@ import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/transfer/constants/request_type.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/models/transfer/search_beneficiary_response.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
+import 'package:tara_app/screens/chat/chat_conversation.dart';
+import 'package:tara_app/screens/consumer/add_new_bank_account.dart';
 import 'package:tara_app/screens/consumer/transfer_contacts_selection_screen.dart';
+import 'package:tara_app/screens/consumer/enter_mpin.dart';
+import 'package:tara_app/screens/consumer/transaction_detail_screen.dart';
 import 'package:tara_app/screens/consumer/transfer_details_entry_widget_controller.dart';
+import 'package:tara_app/screens/merchant/merchant_cash_deposit_select_contact.dart';
+import 'package:tara_app/screens/consumer/Data.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 import 'package:tara_app/models/auth/registration_status.dart';
 import 'package:tara_app/screens/consumer/add_beneficiary_screen.dart';
 import 'package:tara_app/controller/contacts_transfer_controller.dart';
-import 'package:tara_app/common/widgets/error_state_info_widget.dart';
-
-
 
 class TransferDetailsEntryScreen extends StatefulWidget {
 
@@ -264,7 +268,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
           // if (uiController.selectedSelfAccount.value?.beneId?.isNullOrBlank??false) {
           if(selectedSourceBankAccount == selectedDestBankAccount){
             transactionController.showDialogWithErrorMsg("From and To Bank should not be same");
-          }else{
+          }else {
             uiController.confirmToPay(
               // mobile: widget.customerProfile.mobileNumber,
                 amount: uiController.amountController.text,
@@ -277,7 +281,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               //  beneId: 44 //getBenId(widget.beneContact)
             );
           }
-
         }
         else if (uiController.selectedBenAccount?.value != null) {
           uiController.confirmToPay(
@@ -736,7 +739,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                     height: 24.0),
                 style: TextStyles.inputFieldOn222,
                 isExpanded: true,
-                value: uiController.mappedItems.length>0?uiController.mappedItems[0]:selectedDestBankAccount,
+                value: selectedSourceBankAccount,
                 items: (uiController.mappedItems)?.map((
                     MappedBankAccountsBean item) {
                   bic = item.bic;
@@ -749,12 +752,12 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       FocusScope.of(context).requestFocus(FocusNode());
                       bic = item.bic;
                       accountTokenId = item.accountTokenId;
-                      selectedDestBankAccount = item;
+                      selectedSourceBankAccount = item;
                     },
                   );
                 })?.toList() ?? [],
                 onChanged: (val) {
-                  selectedDestBankAccount = val;
+                  selectedSourceBankAccount = val;
                 }
 
             ),
@@ -766,6 +769,9 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget getPaymentToSelfWidget() {
+    selectedDestBankAccount =(uiController.mappedItems?.isNotEmpty ?? false)
+        ? uiController.mappedItems[0]
+        : null;
     return isSelf ?
     Container(
       color: AppColors.primaryBackground,
@@ -785,9 +791,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                   height: 24.0),
               style: TextStyles.inputFieldOn222,
               isExpanded: true,
-              value: (uiController.mappedItems?.isNotEmpty ?? false)
-                  ? uiController.mappedItems[0]
-                  : null,
+              value:selectedDestBankAccount,
               items: (uiController.mappedItems)?.map((
                   MappedBankAccountsBean item) {
                 //   selfAccountTokenId = item.accountTokenId;
@@ -802,6 +806,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               })?.toList() ?? [],
               onChanged: (value) {
                 uiController.selectedSelfAccount.value = value;
+                selectedDestBankAccount = value;
               }
 
           ),
