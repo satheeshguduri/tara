@@ -24,6 +24,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(userRegistrationTxnRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     await _dio.request<void>(
         'umps-core/umps-sms/urn:apiver:1.0/user-registration-txn',
         queryParameters: queryParameters,
@@ -45,6 +46,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(splRegistrationRequestEnc?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'umps-core/spl-sdk/urn:apiver:1.0/user-registration',
         queryParameters: queryParameters,
@@ -65,6 +67,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'umps-core/spl-sdk/urn:apiver:1.0/retrieve-key',
         queryParameters: queryParameters,
@@ -85,6 +88,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'umps-core/spl-sdk/urn:apiver:1.0/register-card-detail',
         queryParameters: queryParameters,
@@ -105,6 +109,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'umps-core/spl-sdk/urn:apiver:1.0/confirm-account-registration',
         queryParameters: queryParameters,
@@ -125,6 +130,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'umps-core/spl-sdk/urn:apiver:1.0/fetch-otp-challenge-code',
         queryParameters: queryParameters,
@@ -145,6 +151,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'umps-core/spl-sdk/urn:apiver:1.0/refresh-otp-api',
         queryParameters: queryParameters,
@@ -165,6 +172,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'umps-core/spl-sdk/urn:apiver:1.0/validate-otp-api',
         queryParameters: queryParameters,
@@ -185,6 +193,7 @@ class _UMPSCoreRestClient implements UMPSCoreRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(commonRequest?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'umps-core/spl-sdk/urn:apiver:1.0/authorize',
         queryParameters: queryParameters,

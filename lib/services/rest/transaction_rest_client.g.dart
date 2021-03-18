@@ -24,6 +24,7 @@ class _TransactionRestClient implements TransactionRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(transactionModel?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/account',
         queryParameters: queryParameters,
@@ -47,6 +48,7 @@ class _TransactionRestClient implements TransactionRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(transactionModel?.toJson() ?? <String, dynamic>{});
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/account/$transactionId',
         queryParameters: queryParameters,

@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 import 'flavors.dart';
 import 'injector.dart';
 import 'main.dart';
-import 'screens/splash/splash_screen.dart';
-import 'tara_app.dart';
 import 'tara_app.dart';
 
 void main() async{
