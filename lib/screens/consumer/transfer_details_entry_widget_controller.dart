@@ -11,6 +11,9 @@ class TransferDetailsEntryWidgetController extends GetxController {
   var currentSelectedCategory = "Gift".obs;
   var selectedBenAccount = BeneDetailBean().obs;
   var selectedSelfAccount = MappedBankAccountsBean().obs;
+  var sourceBank = MappedBankAccountsBean().obs;
+  var destBank =  MappedBankAccountsBean().obs;
+
 
   TextEditingController amountController = TextEditingController();
   TextEditingController messageController = TextEditingController();
@@ -75,6 +78,8 @@ class TransferDetailsEntryWidgetController extends GetxController {
     CustomerProfileDetailsResponse response =
         await Get.find<TransactionController>().getCustomerProfile2();
     mappedItems.value = response.mappedBankAccounts;
+    sourceBank.value = mappedItems[0];
+    destBank.value = mappedItems[0];
   }
 
   String getAccountNumberOnly(String fullString) {

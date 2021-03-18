@@ -73,6 +73,8 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   bool isBankAccVerFailed = false;
   BankAccountContactInfo contactInfo;
 
+
+
   // Contact taraContact;
 
   @override
@@ -88,6 +90,13 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
     isSelf = widget.toCustomerProfile.mobileNumber ==
         user.value.customerProfile.mobileNumber;
     print(widget.toCustomerProfile.registrationStatus);
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() =>
+        SafeArea(
+            child: getRootContainer().withProgressIndicator(
+                showIndicator: transactionController.showProgress.value)));
   }
 
   bool isTaraUser(CustomerProfile customerProfile) {
@@ -149,13 +158,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         ]);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() =>
-        SafeArea(
-            child: getRootContainer().withProgressIndicator(
-                showIndicator: transactionController.showProgress.value)));
-  }
+
 
   dynamic _getDropDownVal(String type) {
     if (type == "transactionType") {
@@ -266,7 +269,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
       if (formKey.currentState.validate()) {
         if (isSelf) {
           // if (uiController.selectedSelfAccount.value?.beneId?.isNullOrBlank??false) {
-          if(selectedSourceBankAccount == selectedDestBankAccount){
+          if(uiController.sourceBank.value.accountTokenId == uiController.destBank.value.accountTokenId){
             transactionController.showDialogWithErrorMsg("From and To Bank should not be same");
           }else {
             uiController.confirmToPay(
@@ -277,7 +280,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                 cvv: uiController.cvvController.text,
                 accountTokenId: accountTokenId,
                 selfAccountId: selfAccountTokenId,
-                selectedSourceBankAccount: selectedSourceBankAccount
+                selectedSourceBankAccount: uiController.sourceBank.value
               //  beneId: 44 //getBenId(widget.beneContact)
             );
           }
@@ -293,7 +296,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               beneId: uiController.selectedBenAccount.value
                   .beneId,
               //getBenId(widget.beneContact)
-              selectedSourceBankAccount: selectedSourceBankAccount
+              selectedSourceBankAccount: uiController.sourceBank.value
           );
         } else {
           uiController.confirmToPay(
@@ -303,7 +306,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               bic: bic,
               cvv: uiController.cvvController.text,
               accountTokenId: accountTokenId,
-              selectedSourceBankAccount: selectedSourceBankAccount
+              selectedSourceBankAccount: uiController.sourceBank.value
           );
         }
       } else {
@@ -720,8 +723,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
 
-  var selectedSourceBankAccount;
-  var selectedDestBankAccount;
+
 
   Widget getPaymentSourceWidget() {
     return
@@ -739,10 +741,10 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                     height: 24.0),
                 style: TextStyles.inputFieldOn222,
                 isExpanded: true,
-                value: selectedSourceBankAccount,
+                value: uiController.sourceBank.value,
                 items: (uiController.mappedItems)?.map((
                     MappedBankAccountsBean item) {
-                  bic = item.bic;
+                   bic = item.bic;
                   accountTokenId = item.accountTokenId;
                   return DropdownMenuItem<MappedBankAccountsBean>(
                     value: item,
@@ -752,12 +754,12 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       FocusScope.of(context).requestFocus(FocusNode());
                       bic = item.bic;
                       accountTokenId = item.accountTokenId;
-                      selectedSourceBankAccount = item;
+                   //   selectedSourceBankAccount = item;
                     },
                   );
                 })?.toList() ?? [],
                 onChanged: (val) {
-                  selectedSourceBankAccount = val;
+                  uiController.sourceBank.value = val;
                 }
 
             ),
@@ -769,9 +771,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget getPaymentToSelfWidget() {
-    selectedDestBankAccount =(uiController.mappedItems?.isNotEmpty ?? false)
-        ? uiController.mappedItems[0]
-        : null;
     return isSelf ?
     Container(
       color: AppColors.primaryBackground,
@@ -791,7 +790,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                   height: 24.0),
               style: TextStyles.inputFieldOn222,
               isExpanded: true,
-              value:selectedDestBankAccount,
+              value:uiController.destBank.value,
               items: (uiController.mappedItems)?.map((
                   MappedBankAccountsBean item) {
                 //   selfAccountTokenId = item.accountTokenId;
@@ -801,13 +800,15 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                       item.bankName, item.maskedAccountNumber),
                   onTap: () {
                     selfAccountTokenId = item.accountTokenId;
+                  //  selectedDestBankAccount = item;
                   },
                 );
               })?.toList() ?? [],
               onChanged: (value) {
                 uiController.selectedSelfAccount.value = value;
-                selectedDestBankAccount = value;
+                uiController.destBank.value = value;
               }
+
 
           ),
           getTheDivider(),
@@ -920,7 +921,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
 
   Widget showBankData() {
     if(widget.benBanksData != null) {
-      print("first if condition");
       //  uiController.selectedBenAccount.value = contactsController?.arrRecentlyAddedContactInfo[0];
       uiController.selectedBenAccount.value = widget.benBanksData[0];
 
@@ -968,7 +968,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   }
 
   Widget showLatestBankData() {
-    print("first else condition");
     uiController.selectedBenAccount.value =
     contactsController?.arrRecentlyAddedContactInfo[0];
     return Container(
