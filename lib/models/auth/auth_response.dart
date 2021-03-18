@@ -14,12 +14,12 @@ part 'auth_response.g.dart';
 
 @JsonSerializable()
 class AuthResponse {
-   CustomerProfile customerProfile;
-   SecurityToken securityToken;
-
+  CustomerProfile customerProfile;
+  SecurityToken securityToken;
 
   AuthResponse({this.customerProfile, this.securityToken});
 
-  factory AuthResponse.fromJson(Map<String, dynamic> json) => _$AuthResponseFromJson(json);
+  factory AuthResponse.fromJson(Map<String, dynamic> json) =>
+      _$AuthResponseFromJson(json);
   Map<String, dynamic> toJson() => _$AuthResponseToJson(this);
 }

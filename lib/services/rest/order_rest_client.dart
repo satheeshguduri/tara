@@ -44,8 +44,10 @@ abstract class OrderRestClient {
   // @POST(API.create_store)
   // Future<Store> setStatus(@Header("Authorization") String token,@Body() String storeId, String status);
 
+  ///TODO removing authorization for some time
+  // Future<List<Store>> getAllStores(@Header("Authorization") String token);
   @GET(API.get_stores)
-  Future<List<Store>> getAllStores(@Header("Authorization") String token);
+  Future<List<Store>> getAllStores();
 
   @GET(API.get_store_types)
   Future<List<StoreTypeModel>> getStoreTypes(@Header("Authorization") String token);

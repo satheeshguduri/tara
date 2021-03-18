@@ -13,33 +13,35 @@ import 'package:tara_app/services/util/network_info.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/common/constants/values.dart';
 
-class StoreRepositoryImpl extends StoresRepository{
+class StoreRepositoryImpl extends StoresRepository {
   UserLocalDataStore userLocalDataSource;
   NetworkInfo networkInfo;
   OrderRestClient remoteDataSource;
   String token;
 
-  StoreRepositoryImpl(this.userLocalDataSource,this.networkInfo,this.remoteDataSource);
+  StoreRepositoryImpl(
+      this.userLocalDataSource, this.networkInfo, this.remoteDataSource);
 
   @override
-  Future<Either<Failure, Owner>> createOwner(Owner owner) async{
+  Future<Either<Failure, Owner>> createOwner(Owner owner) async {
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.createOwner(token, owner);
       return Right(response);
-    }catch(e){
+    } catch (e) {
       return Left(Failure.fromServerError(e));
     }
   }
+
   @override
-  Future<Either<Failure, Store>> createStore(Store store)  async{
+  Future<Either<Failure, Store>> createStore(Store store) async {
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
       var response = await remoteDataSource.createStore(token, store);
       return Right(response);
-    }catch(e){
+    } catch (e) {
       return Left(Failure.fromServerError(e));
     }
   }
@@ -54,20 +56,23 @@ class StoreRepositoryImpl extends StoresRepository{
   }*/
 
   @override
-  Future<Either<Failure, List<Store>>> getAllStores() async{
-    AuthResponse user = await userLocalDataSource.getUser();
-    token = user.securityToken.token.tara.bearer();
+  Future<Either<Failure, List<Store>>> getAllStores() async {
     try {
-      var response = await remoteDataSource.getAllStores(token);
+      print("token");
+      print("gettt");
+      // AuthResponse user = await userLocalDataSource.getUser();
+      // token = user.securityToken.token.tara.bearer();
+      // var response = await remoteDataSource.getAllStores(token);
+      var response = await remoteDataSource.getAllStores();
       return Right(response);
-    }catch(e){
+    } catch (e, stacktrace) {
+      print(stacktrace);
       return Left(Failure.fromServerError(e));
     }
   }
 
   @override
-  Future<Either<Failure, List<StoreTypeModel>>> getStoreTypes() async{
-
+  Future<Either<Failure, List<StoreTypeModel>>> getStoreTypes() async {
     AuthResponse user = await userLocalDataSource.getUser();
     token = user.securityToken.token.tara.bearer();
     try {
@@ -82,12 +87,11 @@ class StoreRepositoryImpl extends StoresRepository{
       Get.put(ctl);
 
       return Right(response);
-
-    }catch(e){
+    } catch (e) {
       return Left(Failure.fromServerError(e));
     }
   }
- /* @override
+  /* @override
   Future<Either<Failure, Store>> getStore(String storeId) async{
     try {
      // var response = await remoteDataSource.getStore(token, storeId);
@@ -96,7 +100,7 @@ class StoreRepositoryImpl extends StoresRepository{
      // return Left(Failure.fromServerError(e));
     }
   }*/
- /* @override
+  /* @override
   Future<Either<Failure, Store>> setStatus(String storeId, String status)async{
     try {
      // var response = await remoteDataSource.setStatus(token, storeId,status);

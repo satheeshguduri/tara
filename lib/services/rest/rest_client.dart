@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
 import 'package:tara_app/injector.dart';
+import 'package:tara_app/models/auth/auth_put_request.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
@@ -42,6 +43,9 @@ import '../config/api.dart';
 
   @POST(API.signup)
   Future<AuthResponse> signUp(@Body() SignUpRequest signUpRequest);
+
+  @PUT(API.signup)
+  Future<SecurityToken> resetPassword(@Body() AuthPutRequest authPutRequest);
 
   @PUT(API.update_profile)
   Future<BaseResponse> updateProfile(@Header("Authorization") String token, @Body() CustomerProfile updateProfileRequest);

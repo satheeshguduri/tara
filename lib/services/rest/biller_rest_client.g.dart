@@ -25,7 +25,6 @@ class _BillerRestClient implements BillerRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(billProductRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/ayopop/partner/products',
         queryParameters: queryParameters,
@@ -47,7 +46,6 @@ class _BillerRestClient implements BillerRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(billProductRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/ayopop/bill/payment',
         queryParameters: queryParameters,
@@ -69,7 +67,6 @@ class _BillerRestClient implements BillerRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(billProductRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/ayopop/bill/check',
         queryParameters: queryParameters,
@@ -91,7 +88,6 @@ class _BillerRestClient implements BillerRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(billProductRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/ayopop/bill/status',
         queryParameters: queryParameters,
@@ -113,7 +109,6 @@ class _BillerRestClient implements BillerRestClient {
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(billProductRequest?.toJson() ?? <String, dynamic>{});
-    _data.removeWhere((k, v) => v == null);
     final _result = await _dio.request<Map<String, dynamic>>(
         'v0.1/tara/erp/ayopop/partner/balance',
         queryParameters: queryParameters,
