@@ -56,6 +56,13 @@ class API {
   static const get_items_by_catalogue = "v0.1/tara/erp/item/list";
   static const get_categories = "v0.1/tara/erp/category";
   static const get_catalogues = "v0.1/tara/erp/catalogue";
+  static const favorite = "v0.1/tara/erp/item/favourite";
+
+  // Inventory related APIs
+
+  static const inventory_end = "v0.1/tara/erp/item";
+  // static const delete_products = "v0.1/tara/erp/item";
+  // static const update_product = "v0.1/tara/erp/item/246";
 
   //mc payyment
   static const create_or_pay_with_tokenized_card =

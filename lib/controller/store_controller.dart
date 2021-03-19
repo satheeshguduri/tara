@@ -1,6 +1,8 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
+import 'package:tara_app/common/widgets/snackbars.dart';
+import 'package:tara_app/models/order_management/catalogue_category/catalogue.dart';
 import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/models/order_management/store/banner_data.dart';
 import 'package:tara_app/models/order_management/store/store.dart';
@@ -19,11 +21,12 @@ import 'package:tara_app/models/order_management/catalogue_category/category.dar
 class StoreController extends GetxController{
 
   List<Store> arrStores;
+  String storeId;
   var itemsList = List<Item>().obs;
   var filteredList = List<Item>().obs;
   var bannersList = List<BannerData>().obs;
-  var categoryList =  List<Category>().obs;
-
+  var categoryList = List<Category>().obs;
+  var catalogues = List<Catalogue>().obs;
   var catalogueId = "".obs;
   var showProgress = false.obs;
 
@@ -67,7 +70,19 @@ class StoreController extends GetxController{
     print(response);
   }
 
- void getItems(String storeId) async{
+  void getCatalogue() async {
+    var response = await getIt.get<OrderRepository>().getCatalogue();
+    response.fold(
+            (l) => print(l.message),
+            (r) => {
+              catalogues.value = r,
+          print(r),
+        });
+    print(response);
+  }
+
+
+  void getItems(String storeId) async{
     var response = await getIt.get<OrderRepository>().getItemsByCatalogue(storeId);
 
     if(response.isRight()) {

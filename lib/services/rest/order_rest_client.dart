@@ -20,6 +20,8 @@ import 'package:tara_app/services/config/api.dart';
 import 'package:tara_app/models/order_management/orders/order_request.dart';
 import 'package:tara_app/models/order_management/orders/order_response.dart';
 
+import '../../models/core/base_response.dart';
+
 part 'order_rest_client.g.dart';
 
 @RestApi(baseUrl: API.ORDER_ENDPOINT)
@@ -106,6 +108,9 @@ abstract class OrderRestClient {
   @GET(API.get_categories)
   Future<List<Category>> getCategories(@Header("Authorization") String token);
 
+  @GET(API.get_catalogues)
+  Future<List<Catalogue>> getCatalogues(@Header("Authorization") String token);
+
   // @GET(API.create_order)
   // Future<Catalogue> getCatalogueById(@Header("Authorization") String token,@Body() double id);
 
@@ -122,10 +127,26 @@ abstract class OrderRestClient {
   Future<Catalogue> updateCatalogue(@Header("Authorization") String token,@Body() Catalogue catalogue);
 
 
+  ///INVENTORY MANAGEMENT
 
+  ///Adding Items to the store inventory of the merchant
+  @POST(API.inventory_end)
+  Future<AddProductsResponse> addProducts(
+      @Header("Authorization") String token, @Body() List<Item> items);
 
+  @GET(API.inventory_end)
+  Future<GetProductResponse> getProducts(@Header("Authorization") String token,
+      @Query("page") int page, @Query("size") int size);
 
+  @PUT(API.inventory_end)
+  Future<UpdateProductResponse> updateProduct(
+      @Header("Authorization") String token, @Body() List<Item> items);
 
+  @DELETE(API.inventory_end)
+  Future<DeleteProductResponse> deleteProducts(
+    @Header("Authorization") String token,
+    @Body() List<int> itemIds,
+  );
 
 
 

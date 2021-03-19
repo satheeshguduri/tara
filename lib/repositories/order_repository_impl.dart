@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/models/order_management/catalogue_category/catalogue.dart';
 import 'package:tara_app/models/order_management/catalogue_category/category.dart';
 import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/models/order_management/store/banner_data.dart';
@@ -136,6 +137,72 @@ class OrderRepositoryImpl extends OrderRepository{
       return Left(Failure.fromServerError(e));
     }
   }
+
+  // ======== inventory management ========
+  @override
+  Future<Either<Failure, AddProductsResponse>> addProduct(
+      List<Item> items) async {
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    try {
+      var response = await remoteDataSource.addProducts(token, items);
+      return Right(response);
+    } catch (e) {
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetProductResponse>> getProducts(
+      int page, int size) async {
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    try {
+      var response = await remoteDataSource.getProducts(token, page, size);
+      return Right(response);
+    } catch (e) {
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UpdateProductResponse>> updateProduct(
+      List<Item> items) async {
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    try {
+      var response = await remoteDataSource.updateProduct(token, items);
+      return Right(response);
+    } catch (e) {
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, DeleteProductResponse>> deleteProducts(
+      List<int> itemIds) async {
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    try {
+      var response = await remoteDataSource.deleteProducts(token, itemIds);
+      return Right(response);
+    } catch (e) {
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Catalogue>>> getCatalogue() async{
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    try {
+      var response = await remoteDataSource.getCatalogues(token);
+      return Right(response);
+    } catch (e) {
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
 /*
   @override
   Future<Either<Failure, order.Order>> deleteOrder(String orderId) async{

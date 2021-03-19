@@ -223,17 +223,9 @@ class Assets {
   static const assets_icon_t_trash ="assets/images/assets_icon_t_trash.svg";
 
 
-
-
-
-
-
-
-
-
-
-
-
+  static const assets_icon_p_product_photo =
+      "assets/images/assets_icon_p_product_photo.svg";
+  static const assets_icon_b_box_active = "assets/images/assets_icon_b_box_active.svg";
 
 
 }
