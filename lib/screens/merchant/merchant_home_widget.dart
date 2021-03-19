@@ -440,6 +440,7 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
           child: ListView.builder(
             primary: false,
             shrinkWrap: true,
+            padding: EdgeInsets.only(top: 8),
             physics: NeverScrollableScrollPhysics(),
             itemCount: filteredList.length,
             itemBuilder: (context,index){
@@ -500,50 +501,54 @@ class MerchantHomeWidgetState extends BaseState<MerchantHomeWidget>{
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Rectangle
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(Assets.ic_person1,height: 40,width: 40,),
-                          Container(
-                            margin: EdgeInsets.only(left: 16),
-                            child:Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // TODAY • 12:33
-                                Text(
-                                DateFormat('dd MMM yyyy • kk:mm').format(filteredList[index].orderDate),
+                    Expanded(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Image.asset(Assets.ic_person1,height: 40,width: 40,),
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 16),
+                                child:Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // TODAY • 12:33
+                                    Text(
+                                    DateFormat('dd MMM yyyy • kk:mm').format(filteredList[index].orderDate),
 //                                        "TODAY • 12:33",
-                                    style: const TextStyle(
-                                        color:  AppColors.color_black_80_2,
-                                        
-                                        fontSize: 10.0
+                                        style: const TextStyle(
+                                            color:  AppColors.color_black_80_2,
+
+                                            fontSize: 10.0
+                                        )
+                                    ),
+                                    Container(height: 6,),
+                                    getNameFuture(filteredList[index].customerId),
+                                    // Text(
+                                    //     "Andi Ruhiyat", //TODO:- Display Name Here
+                                    //     style: const TextStyle(
+                                    //         color:  AppColors.primaryText,
+                                    //         fontWeight: FontWeight.w700,
+                                    //
+                                    //         fontSize: 14.0
+                                    //     )
+                                    // ),
+                                    Container(height: 6,),
+                                    Text(
+                                        getOrderItems(filteredList[index]),
+                                        style: const TextStyle(
+                                            color:  AppColors.battleship_grey,
+                                            fontWeight: FontWeight.w400,
+
+                                            fontSize: 12.0
+                                        )
                                     )
-                                ),
-                                Container(height: 6,),
-                                getNameFuture(filteredList[index].customerId),
-                                // Text(
-                                //     "Andi Ruhiyat", //TODO:- Display Name Here
-                                //     style: const TextStyle(
-                                //         color:  AppColors.primaryText,
-                                //         fontWeight: FontWeight.w700,
-                                //         
-                                //         fontSize: 14.0
-                                //     )
-                                // ),
-                                Container(height: 6,),
-                                Text(
-                                    getOrderItems(filteredList[index]),
-                                    style: const TextStyle(
-                                        color:  AppColors.battleship_grey,
-                                        fontWeight: FontWeight.w400,
-                                        
-                                        fontSize: 12.0
-                                    )
-                                )
-                              ],
-                            ) ,
-                          ),
-                        ]),
+                                  ],
+                                ) ,
+                              ),
+                            ),
+                          ]),
+                    ),
                     Container(
                       alignment: Alignment.centerRight,
                       margin: EdgeInsets.only(right: 0),

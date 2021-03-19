@@ -16,6 +16,7 @@ import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/controller/bill_controller.dart';
 import 'package:tara_app/controller/create_store_and_owner_controller.dart';
 import 'package:tara_app/controller/home_controller.dart';
+import 'package:tara_app/controller/inventory_controller.dart';
 import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/transaction_controller.dart';
 import 'package:tara_app/controller/transaction_history_controller.dart';
@@ -105,6 +106,7 @@ Future<void> init() async {
   Get.put(OrderController());
   Get.put(StoreController());
   Get.put(BillController());
+  Get.put(InventoryController());
   Get.put(CartController());
   Get.put(HomeController());
   Get.put(ContactsTransferController());

@@ -291,6 +291,26 @@ class _OrderRestClient implements OrderRestClient {
   }
 
   @override
+  Future<List<Catalogue>> getCatalogues(token) async {
+    ArgumentError.checkNotNull(token, 'token');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<List<dynamic>>('v0.1/tara/erp/catalogue',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => Catalogue.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
   Future<Catalogue> saveCatalogue(token, catalogue) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(catalogue, 'catalogue');
@@ -329,6 +349,135 @@ class _OrderRestClient implements OrderRestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = Catalogue.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<AddProductsResponse> addProducts(token, items) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(items, 'items');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = items.map((e) => e.toJson()).toList();
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v0.1/tara/erp/item',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = AddProductsResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<GetProductResponse> getProducts(token, page, size) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(page, 'page');
+    ArgumentError.checkNotNull(size, 'size');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page, r'size': size};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v0.1/tara/erp/item',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = GetProductResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<UpdateProductResponse> updateProduct(token, items) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(items, 'items');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = items.map((e) => e.toJson()).toList();
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v0.1/tara/erp/item',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = UpdateProductResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<DeleteProductResponse> deleteProducts(token, itemIds) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(itemIds, 'itemIds');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = itemIds;
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v0.1/tara/erp/item',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'DELETE',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = DeleteProductResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<BaseResponse> favoriteItem(token, requestModel) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(requestModel, 'requestModel');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(requestModel?.toJson() ?? <String, dynamic>{});
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v0.1/tara/erp/item/favourite',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = BaseResponse.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<BaseResponse> unFavoriteItem(
+      token, catalogueId, itemId, customerId) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(catalogueId, 'catalogueId');
+    ArgumentError.checkNotNull(itemId, 'itemId');
+    ArgumentError.checkNotNull(customerId, 'customerId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'catalogueId': catalogueId,
+      r'itemId': itemId,
+      r'customerId': customerId
+    };
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        'v0.1/tara/erp/item/favourite',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'DELETE',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = BaseResponse.fromJson(_result.data);
     return value;
   }
 }

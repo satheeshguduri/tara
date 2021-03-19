@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,7 +19,9 @@ import 'package:tara_app/screens/merchant/merchant_home_widget.dart';
 import 'package:tara_app/screens/scan_qr_code.dart';
 import 'package:tara_app/utils/locale/utils.dart';
 
-  class MerchantHomeScreen extends StatefulWidget {
+import '../../common/constants/colors.dart';
+
+class MerchantHomeScreen extends StatefulWidget {
   MerchantHomeScreen({Key key, this.title}) : super(key: key);
   final String title;
 
@@ -29,21 +30,18 @@ import 'package:tara_app/utils/locale/utils.dart';
 }
 
 class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
-
   bool isTapOnIndex1 = true;
   bool isTapOnIndex2 = false;
   bool isTapOnIndex3 = false;
   int _currentIndex = 0;
 
-
   final List<Widget> _children = [
     MerchantHomeWidget(),
-    ChatInbox(),//ConversationPage(canGoBack: false,),
+    ChatInbox(), //ConversationPage(canGoBack: false,),
     ScanQRCode(),
     DashBoard(),
     SettingsScreen(),
   ];
-
 
   @override
   BuildContext getContext() {
@@ -54,6 +52,10 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
   @override
   getBottomNavigation() {
     return BottomNavigationBar(
+      selectedLabelStyle: TextStyles.labelSelectedTextStyle,
+      unselectedLabelStyle: TextStyles.labelUnSelectedTextStyle,
+      selectedItemColor: AppColors.color_black_100_2_2_2,
+      unselectedItemColor: AppColors.color_black_80_2_2_2,
       currentIndex: _currentIndex,
       onTap: (index) {
         setState(() {
@@ -125,11 +127,12 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
     Future.delayed(Duration.zero, () => showDialogIfFirstLoaded(context));
 //    Future.delayed(Duration.zero, () => showBottomSheetToCreateOwner());
     return Scaffold(
-        bottomNavigationBar:getBottomNavigation(),
+        bottomNavigationBar: getBottomNavigation(),
         floatingActionButton: FloatingActionButton(
-          elevation: 0, highlightElevation: 0,
+            elevation: 0,
+            highlightElevation: 0,
             child: Container(
-             // height: 56,
+              // height: 56,
               width: 60,
               height: 60,
               decoration: BoxDecoration(
@@ -141,27 +144,24 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
                     blurRadius: 4,
                   ),
                 ],
-                borderRadius:  Radii.border(28),
+                borderRadius: Radii.border(28),
               ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: getSvgImage(imagePath: Assets.assets_icon_s_scan),
-                ),
-             //   child:getTabImage(Assets.ic_Scan),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: getSvgImage(imagePath: Assets.assets_icon_s_scan),
+              ),
+              //   child:getTabImage(Assets.ic_Scan),
             ),
             onPressed: () {
               setState(() {
                 _currentIndex = 2;
               });
             }),
-        floatingActionButtonLocation:
-        FloatingActionButtonLocation.centerDocked,
-        body: getRootScreen()
-
-    );
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: getRootScreen());
   }
 
-  getRootScreen(){
+  getRootScreen() {
     return _children[_currentIndex];
   }
 
@@ -169,11 +169,10 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String savedDateStr = prefs.getString('myTimestampKey');
     bool isFirstTimeInaDay = prefs.getBool('isFirstTimeInaDay');
-    if (savedDateStr!=null)
-    {
-      var todayDateStr = Utils().getStringFromDate(DateTime.now(),"yyyy-MM-dd");// DateTime.fromMillisecondsSinceEpoch(timestamp);
-      if (savedDateStr!=todayDateStr)
-      {
+    if (savedDateStr != null) {
+      var todayDateStr = Utils().getStringFromDate(DateTime.now(),
+          "yyyy-MM-dd"); // DateTime.fromMillisecondsSinceEpoch(timestamp);
+      if (savedDateStr != todayDateStr) {
         isFirstTimeInaDay = false;
       }
     }
@@ -184,17 +183,18 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
         builder: (BuildContext context) {
           // return object of type Dialog
           return AlertDialog(
-            title:  Text("Settle Balance"),
-            content:  Text("Please make sure to settle the previous day balances and continue"),
+            title: Text("Settle Balance"),
+            content: Text(
+                "Please make sure to settle the previous day balances and continue"),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
-               FlatButton(
-                child:  Text("Ok"),
-
+              FlatButton(
+                child: Text("Ok"),
                 onPressed: () {
                   // Close the dialog
                   pop();
-                  String date = Utils().getStringFromDate(DateTime.now(),"yyyy-MM-dd");
+                  String date =
+                      Utils().getStringFromDate(DateTime.now(), "yyyy-MM-dd");
                   prefs.setString('myTimestampKey', date);
                   prefs.setBool('isFirstTimeInaDay', true);
                 },
@@ -206,7 +206,7 @@ class MerchantHomeScreenState extends BaseState<MerchantHomeScreen> {
     }
   }
 
- /* showBottomSheetToCreateOwner() async {
+  /* showBottomSheetToCreateOwner() async {
     bool isCreatedOwner = await Utils().getPrefBoolValue(SharedPreferencesStrings.isCreatedOwner);
     if (!isCreatedOwner)
     {
