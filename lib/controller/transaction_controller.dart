@@ -999,8 +999,15 @@ class TransactionController extends GetxController {
             print(
                 "=====================Transaction Resposne======================");
             print(jsonEncode(initiateTransactionResponse.toJson()));
+            var toAddress ;//= await getCustomerInfo(toMobileNumber);
             if (initiateTransactionResponse.success) {
-              var toAddress = await getCustomerInfo(toMobileNumber);
+              if(selfAccountTokenId!=0){
+                var custProfile = Get.find<AuthController>().user.value.customerProfile;
+                toAddress = ToAddressResponse( mobileNumber: custProfile?.mobileNumber,customerProfile: custProfile);
+              }else{
+                toAddress = await getCustomerInfo(toMobileNumber);
+              }
+
               if (toAddress != null) {
                 await paymentInitiation(
                     amount: double.parse(amount1),

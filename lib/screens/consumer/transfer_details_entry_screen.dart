@@ -801,7 +801,6 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
                   child: getCustomItemWidget(
                       item.bankName, item.maskedAccountNumber),
                   onTap: () {
-                    selfAccountTokenId = item.accountTokenId;
                   //  selectedDestBankAccount = item;
                   },
                 );
@@ -809,6 +808,7 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
               onChanged: (value) {
                 uiController.selectedSelfAccount.value = value;
                 uiController.destBank.value = value;
+                selfAccountTokenId = value.accountTokenId;
               }
 
 

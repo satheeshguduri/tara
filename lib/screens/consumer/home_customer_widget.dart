@@ -502,7 +502,7 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
                   }
                   else if (title == Strings.bills)
                   {
-                     Get.to(BillsPaymentScreen());
+                     Get.to(BillsSeeAllScreen());
                   }
                   else if (title == Strings.TRANSACTIONS)
                   {
@@ -581,7 +581,9 @@ class _HomeCustomerWidgetState extends BaseState<HomeCustomerWidget> {
           ),
         ).onTap(onPressed: (){
           //Get.to(ConnectNewAccountSelectBank());
-          Get.to(MyAccountsSeeAllScreen());
+          // Get.to(MyAccountsSeeAllScreen());
+          Get.to(BillsPaymentsSourcesScreen());
+
         }),
         SizedBox(width: 8,)
       ],

@@ -57,6 +57,7 @@ class ShopCategoryDetailsScreenState extends BaseState<ShopCategoryDetailsScreen
     // TODO: implement initState
     super.initState();
     storeController.showProgress.value = true;
+    storeController.itemsList.removeWhere((e) => e.category.isEmpty);
     storeController.filteredList.value = storeController.itemsList.where((element) => element.category[0].id==widget.categoryId).toList();
     storeController.showProgress.value = false;
 

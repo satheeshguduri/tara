@@ -14,13 +14,13 @@ import 'package:tara_app/screens/consumer/pulsa_and_paketdata_listviews.dart';
 import '../../common/constants/values.dart';
 
 
-class BillsPaymentScreen extends StatefulWidget {
-  BillsPaymentScreen({Key key}) : super(key: key);
+class BillsSeeAllScreen extends StatefulWidget {
+  BillsSeeAllScreen({Key key}) : super(key: key);
   @override
-  BillsPaymentScreenState createState() => BillsPaymentScreenState();
+  BillsSeeAllScreenState createState() => BillsSeeAllScreenState();
 }
 
-class BillsPaymentScreenState extends BaseState<BillsPaymentScreen>{
+class BillsSeeAllScreenState extends BaseState<BillsSeeAllScreen>{
 
   var prePaidTitleArray = ["Pulsa\nPacket Data","PLN\nPrepaid", "Internet", "E-Money","Voucher\nGame"];
   var prePaidIconsArray = [Assets.MOBILE_ICON,Assets.INTERNET_ICON, Assets.PLN_ICON, Assets.BJPS_ICON,Assets.MOBILE_ICON,Assets.MOBILE_ICON];

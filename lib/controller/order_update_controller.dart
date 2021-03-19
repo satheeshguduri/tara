@@ -74,7 +74,7 @@ class OrderUpdateController extends GetxController{
     createOrderRequest.orderDate = order.orderDate;//TODO
     createOrderRequest.merchantId = order.merchantId;//TODO
     createOrderRequest.orderType = order.orderType;//TODO
-
+    createOrderRequest.price = order.price;
     return createOrderRequest;
   }
 

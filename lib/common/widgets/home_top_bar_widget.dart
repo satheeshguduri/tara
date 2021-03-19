@@ -17,6 +17,7 @@ import 'package:tara_app/screens/Merchant/merchant_cash_deposit_select_contact.d
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/screens/chat/chat_conversation.dart';
 import 'package:tara_app/screens/consumer/Data.dart';
+import 'package:tara_app/screens/consumer/bills_see_all_screen.dart';
 import 'package:tara_app/screens/consumer/shop/shop_landing_screen.dart';
 import 'package:tara_app/screens/consumer/transfer/beneficiaries_contacts_list_screen.dart';
 import 'package:tara_app/screens/notification_screen.dart';
@@ -250,7 +251,9 @@ class _HomeTopBarState extends BaseState<HomeTopBar> {
               buttonText: getTranslation(Strings.bills),
               //image: Assets.ic_payment,
               svgImage: Assets.assets_icon_p_payment,
-              onPressed: () {},
+              onPressed: () {
+                  Get.to(BillsSeeAllScreen());
+              },
             ),
             RoundedButton(
               buttonText: getTranslation(Strings.purchase),
