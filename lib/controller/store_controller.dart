@@ -71,14 +71,11 @@ class StoreController extends GetxController{
   }
 
   void getCatalogue() async {
-    var response = await getIt.get<OrderRepository>().getBanners("41825412");
-    if (response.isRight()) {
-      response.getOrElse(() => null);
-    }
+    var response = await getIt.get<OrderRepository>().getCatalogue();
     response.fold(
             (l) => print(l.message),
             (r) => {
-          bannersList.value = r,
+              catalogues.value = r,
           print(r),
         });
     print(response);

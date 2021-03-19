@@ -191,6 +191,18 @@ class OrderRepositoryImpl extends OrderRepository{
     }
   }
 
+  @override
+  Future<Either<Failure, List<Catalogue>>> getCatalogue() async{
+    AuthResponse user = await userLocalDataSource.getUser();
+    token = user.securityToken.token.tara.bearer();
+    try {
+      var response = await remoteDataSource.getCatalogues(token);
+      return Right(response);
+    } catch (e) {
+      return Left(Failure.fromServerError(e));
+    }
+  }
+
 /*
   @override
   Future<Either<Failure, order.Order>> deleteOrder(String orderId) async{

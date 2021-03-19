@@ -108,6 +108,9 @@ abstract class OrderRestClient {
   @GET(API.get_categories)
   Future<List<Category>> getCategories(@Header("Authorization") String token);
 
+  @GET(API.get_catalogues)
+  Future<List<Catalogue>> getCatalogues(@Header("Authorization") String token);
+
   // @GET(API.create_order)
   // Future<Catalogue> getCatalogueById(@Header("Authorization") String token,@Body() double id);
 

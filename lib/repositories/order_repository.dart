@@ -33,7 +33,7 @@ abstract class OrderRepository {
   Future<Either<Failure, DeleteProductResponse>> deleteProducts(
       List<int> itemIds);
 
-// Future<Either<Failure,List<Catalogue>>> getCatalogue();
+  Future<Either<Failure,List<Catalogue>>> getCatalogue();
   /* Future<Either<Failure,order.Order>> deleteOrder(String orderId);
   Future<Either<Failure,order.Order>> findOrderByMerchantId(String merchantId);
   Future<Either<Failure,order.Order>> findByTransactionId(String transactionId);*/
