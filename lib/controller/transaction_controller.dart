@@ -684,11 +684,17 @@ class TransactionController extends GetxController {
           print(jsonEncode(trackAccountResponse.toJson()));
           await Get.find<HomeController>().getMyAccounts();
           Get.offAll(Utils().getLandingScreen());
+        }else {
+          showProgress.value = false;
+          showDialogWithErrorMsg("Falied to track the transaction");
         }
       } else {
         showProgress.value = false;
         showDialogWithErrorMsg("Invalid OTP");
       }
+    }else {
+      showProgress.value = false;
+      showDialogWithErrorMsg("OTP validation Unknown Error");
     }
   }
 

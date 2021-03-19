@@ -31,9 +31,17 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends BaseState<DashBoard> {
   AuthResponse user = Get.find<AuthController>().user.value;
-
-  // in case of any tile addition on dashboard just add a new item here
   List<TileItem> dashBoardOptions = [
+    TileItem(Strings.profile, Assets.assets_icon_p_profile, ProfileEdit()),
+    TileItem(Strings.notification_settings, Assets.assets_icon_n_notification,
+        NotificationSettings()),
+    TileItem(Strings.MY_ACCOUNTS, Assets.assets_icon_a_accounts_active,
+        BillsPaymentsSourcesScreen()),
+    TileItem(Strings.my_orders, Assets.assets_icon_c_cart, MyOrderScreen()),
+    TileItem(Strings.help_support, Assets.assets_icon_h_help, Placeholder()),
+  ];
+  // in case of any tile addition on dashboard just add a new item here
+ /* List<TileItem> dashBoardOptions = [
     TileItem(Strings.profile, Assets.assets_icon_p_profile, ProfileEdit()),
     TileItem(Strings.notification_settings, Assets.assets_icon_n_notification,
         ProfileEdit()),
@@ -41,7 +49,7 @@ class _DashBoardState extends BaseState<DashBoard> {
         ProfileEdit()),
     TileItem(Strings.my_orders, Assets.assets_icon_c_cart, ProfileEdit()),
     TileItem(Strings.help_support, Assets.assets_icon_h_help, ProfileEdit()),
-  ];
+  ];*/
 
   // List<String> dashBoardOptions = [
   //   Strings.profile,
