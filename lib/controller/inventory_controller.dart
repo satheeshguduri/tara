@@ -72,11 +72,11 @@ class InventoryController extends GetxController {
 
   //Add products to the merchant inventory
   addProducts() async {
-    StoreController storeController = Get.find<StoreController>();
+    // StoreController storeController = Get.find<StoreController>();
 
     //set the catalogue for every item
-    items.value =
-        items.map((i) => i..catalogue = storeController.catalogues).toList();
+    // items.value =
+    //     items.map((i) => i..catalogue = storeController.catalogues).toList();
 
     showProgress.value = true;
     Either<Failure, AddProductsResponse> response =

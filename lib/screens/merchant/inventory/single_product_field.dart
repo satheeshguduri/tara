@@ -12,6 +12,7 @@ import 'package:tara_app/models/order_management/item/item.dart';
 import 'package:tara_app/screens/base/base_state.dart';
 import 'package:tara_app/services/util/image_picker_helper.dart';
 
+import '../../../models/order_management/catalogue_category/catalogue.dart';
 import 'choose_category_sheet.dart';
 
 ///TODO left single item validation
@@ -117,52 +118,51 @@ class _SingleProductFieldState extends BaseState<SingleProductField> {
 
   _buildUploadImgContainer() {
     return Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.light_grey_bg_color, width: 1)),
-        padding: EdgeInsets.only(bottom: 12, left: 8, right: 8, top: 6),
-        child: Row(
-          children: [
-            Container(
-                width: 112,
-                height: 114,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      bottom: 0,
-                      child: isImageSelected
-                          ? _buildImageView()
-                          : _buildEmptyImageView(),
-                    ),
-                    if (isImageSelected) buildCrossIcon()
-                  ],
-                )),
-            SizedBox(
-              width: 5,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Upload product photo",
-                  style: TextStyles.subtitle1222,
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  constraints: BoxConstraints(maxWidth: 156),
-                  child: Text(
-                    "Minimum photo size is 120 x 120 px",
-                    style: BaseStyles.sentOtpTimeTextStyle
-                        .copyWith(fontWeight: FontWeight.normal),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: AppColors.light_grey_bg_color, width: 1)),
+      padding: EdgeInsets.only(bottom: 12, left: 8, right: 8, top: 6),
+      child: Row(
+        children: [
+          Container(
+              width: 112,
+              height: 114,
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: 0,
+                    child: isImageSelected
+                        ? _buildImageView()
+                        : _buildEmptyImageView(),
                   ),
+                  if (isImageSelected) buildCrossIcon()
+                ],
+              )),
+          SizedBox(
+            width: 5,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Upload product photo",
+                style: TextStyles.subtitle1222,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Container(
+                constraints: BoxConstraints(maxWidth: 156),
+                child: Text(
+                  "Minimum photo size is 120 x 120 px",
+                  style: BaseStyles.sentOtpTimeTextStyle
+                      .copyWith(fontWeight: FontWeight.normal),
                 ),
-              ],
-            )
-          ],
-        ),
-
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -312,8 +312,13 @@ class _SingleProductFieldState extends BaseState<SingleProductField> {
         borderRadius: BorderRadius.circular(8),
       ),
     );
-    if (lc != null)
+    if (lc != null) {
+      widget.tempItem.catalogue = [
+        Catalogue.fromJson({"id": 237, "name": "Catalogue Demo Test"})
+      ];
+      widget.tempItem.category = lc;
       categoryController.text = lc.map((e) => e.name).toList().join(', ');
+    }
   }
 
   uploadImage() {
