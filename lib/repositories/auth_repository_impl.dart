@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:tara_app/controller/auth_controller.dart';
 import 'package:tara_app/data/session_local_data_source.dart';
 import 'package:tara_app/data/user_local_data_source.dart';
+import 'package:tara_app/models/auth/auth_put_request.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
@@ -28,6 +29,7 @@ import 'package:tara_app/models/auth/to_address_response.dart';
 
 
 import '../injector.dart';
+import '../models/auth/security_token.dart';
 
 class AuthRepositoryImpl implements AuthRepository{
   UserLocalDataStore userLocalDataSource;
@@ -188,5 +190,16 @@ class AuthRepositoryImpl implements AuthRepository{
     }
   }
 
+
+  @override
+  Future<Either<Failure, SecurityToken>> resetPassword(
+      AuthPutRequest authPutRequest) async {
+    try {
+      var response = await remoteDataSource.resetPassword(authPutRequest);
+      return Right(response);
+    } catch (e) {
+      return Left(Failure.fromServerError(e));
+    }
+  }
 
 }

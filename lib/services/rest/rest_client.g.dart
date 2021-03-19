@@ -95,6 +95,25 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<SecurityToken> resetPassword(authPutRequest) async {
+    ArgumentError.checkNotNull(authPutRequest, 'authPutRequest');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(authPutRequest?.toJson() ?? <String, dynamic>{});
+    final _result = await _dio.request<Map<String, dynamic>>('v1/tara/auth',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'PUT',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SecurityToken.fromJson(_result.data);
+    return value;
+  }
+
+  @override
   Future<BaseResponse> updateProfile(token, updateProfileRequest) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(updateProfileRequest, 'updateProfileRequest');

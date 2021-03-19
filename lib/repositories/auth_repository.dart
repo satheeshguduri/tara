@@ -5,6 +5,7 @@
 *  Copyright © 2020 Tara.id. All rights reserved.
 */
 import 'package:dartz/dartz.dart';
+import 'package:tara_app/models/auth/auth_put_request.dart';
 import 'package:tara_app/models/auth/auth_request.dart';
 import 'package:tara_app/models/auth/customer_profile.dart';
 import 'package:tara_app/models/auth/auth_response.dart';
@@ -13,6 +14,8 @@ import 'package:tara_app/models/core/device/common_registration_request.dart';
 import 'package:tara_app/models/transfer/customer_profile_details_response.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/models/auth/to_address_response.dart';
+
+import '../models/auth/security_token.dart';
 
 
 abstract class AuthRepository {
@@ -27,7 +30,7 @@ abstract class AuthRepository {
   Future<Either<Failure,ToAddressResponse>>  getToAddress(String mobileNumber);
   Future<Either<Failure,CustomerProfile>>  getNonTaraCustomerInfo(String mobileNumber);
   Future<Either<Failure,CustomerProfile>> getCustomerInfoByFirebaseId(String firebaseId);
-
+  Future<Either<Failure, SecurityToken>> resetPassword(AuthPutRequest authPutRequest);
 
 }
 
