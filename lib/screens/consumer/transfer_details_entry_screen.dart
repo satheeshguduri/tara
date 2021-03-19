@@ -266,6 +266,8 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
         style: BaseStyles.addNewBankAccount,
       ),
     ).onTap(onPressed: () {
+      FocusScope.of(context).requestFocus(FocusNode());
+      hideKeyboard();
       if (formKey.currentState.validate()) {
         if (isSelf) {
           // if (uiController.selectedSelfAccount.value?.beneId?.isNullOrBlank??false) {

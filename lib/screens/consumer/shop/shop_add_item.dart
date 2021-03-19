@@ -181,13 +181,18 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
           ),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(8)),
-              color: controller.nameTextController.value.text.isEmpty
-                  ? Color(0xffe9ecef)
-                  : Color(0xffb2f7e2)),
-          //(
-          // nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)
-          // ?Color(0xffb2f7e2):Color(0xffe9ecef)
-          // ),
+              // color: controller.nameTextController.value.text.isEmpty
+              //     ? Color(0xffe9ecef)
+              //     : Color(0xffb2f7e2)
+
+
+           color:(controller.nameTextController.value.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null)
+            ?Color(0xffb2f7e2):Color(0xffe9ecef)
+
+
+          ),
+
+
           alignment: Alignment.center,
           child: Text(getTranslation(Strings.save_item),
               textAlign: TextAlign.center,
@@ -196,10 +201,8 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
               ),
         ).onTap(onPressed: () {
           if (controller.nameTextController.value.text.isNotEmpty) {
-            print("on tap working");
             //  if (nameTextController.text.toString().isNotEmpty&&qntyTextController.text.toString().isNotEmpty && pcs != null){
             if (widget.editItem != null) {
-              print("first condition");
               // update item
               var item = controller.items
                   .where((element) => element.name == widget.editItem.name)
@@ -208,15 +211,15 @@ class _ShopAddItemState extends BaseState<ShopAddItem> {
               item.quantity = int.parse(qntyTextController.text);
               item.metric = pcs;
             } else {
-              print("second condition");
               var item = OrderItems();
               item.name = controller.nameTextController.value.text;
-              // item.quantity = int.parse(qntyTextController.text);
-              item.quantity = 100;
+               item.quantity = int.parse(qntyTextController.text);
+            //  item.quantity = 100;
               item.metric = pcs;
               controller.items.add(item);
             }
             widget.saveItem();
+            controller.nameTextController.value.text="";
             Get.back();
           } else {}
           // }
