@@ -102,8 +102,10 @@ class _ChatOrderPaidState extends BaseState<ChatOrderPaid> {
                                         Container(
                                           margin: EdgeInsets.only(top: 4),
                                           child: Text(
-                                              widget.order?.orderId??"TS1001",
-                                              style:BaseStyles.mobileNoTextStyle
+                                              widget.order?.orderId??"NA",
+                                              style:BaseStyles.mobileNoTextStyle,
+                                              maxLines: 1,
+
                                           ),
                                         )
                                       ],

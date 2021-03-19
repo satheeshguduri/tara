@@ -4,12 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/order_management/orders/order_items.dart';
-import 'package:tara_app/models/order_management/orders/order.dart' as order;
 import 'package:tara_app/models/order_management/orders/order_request.dart';
 import 'package:tara_app/models/order_management/orders/order_response.dart';
-import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/services/error/failure.dart';
+
 
 
 class OrderUpdateController extends GetxController{
@@ -36,7 +35,7 @@ class OrderUpdateController extends GetxController{
    var total = 0.0;
    for(int i = 0; i < arrItems.length; i++){
      var orderItem = arrItems[i];
-     total += orderItem.price;
+     total += orderItem.price*orderItem.quantity;
    }
    return total;
   }

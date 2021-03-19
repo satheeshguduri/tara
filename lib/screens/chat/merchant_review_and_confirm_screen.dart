@@ -10,9 +10,7 @@ import 'package:tara_app/common/constants/radii.dart';
 import 'package:tara_app/common/constants/strings.dart';
 import 'package:tara_app/common/constants/styles.dart';
 import 'package:tara_app/common/widgets/base_widgets.dart';
-import 'package:tara_app/common/widgets/chat_widgets/items_order_widget.dart';
 import 'package:tara_app/common/widgets/text_field_widget.dart';
-import 'package:tara_app/controller/order_controller.dart';
 import 'package:tara_app/controller/order_update_controller.dart';
 import 'package:tara_app/injector.dart';
 import 'package:tara_app/models/order_management/orders/order.dart'
@@ -22,10 +20,17 @@ import 'package:tara_app/models/order_management/orders/order_response.dart';
 import 'package:tara_app/models/order_management/orders/statuses.dart';
 import 'package:tara_app/repositories/order_repository.dart';
 import 'package:tara_app/screens/base/base_state.dart';
-import 'package:tara_app/screens/chat/review_and_deliver.dart';
 import 'package:tara_app/services/error/failure.dart';
 import 'package:tara_app/common/constants/values.dart';
 import 'package:tara_app/utils/locale/utils.dart';
+import 'package:tara_app/repositories/auth_repository.dart';
+import 'package:tara_app/models/auth/customer_profile.dart';
+import 'package:tara_app/common/widgets/error_state_info_widget.dart';
+import 'package:tara_app/common/helpers/get_helper.dart';
+
+
+
+
 
 class MerchantReviewAndConfirmScreen extends StatefulWidget {
   final Function callBackToConfirmOrder;
@@ -41,6 +46,8 @@ class _MerchantReviewAndConfirmScreenState extends BaseState<MerchantReviewAndCo
   OrderResponse orderResponse;
   OrderUpdateController controller = OrderUpdateController();
   FocusNode deliveryFocusNode = FocusNode();
+  Either<Failure,CustomerProfile> snapData;
+
 
   @override
   BuildContext getContext() {
@@ -380,74 +387,96 @@ class _MerchantReviewAndConfirmScreenState extends BaseState<MerchantReviewAndCo
   }
 
   Widget getDeliveryInfoWidget() {
-    return Container(
-      color: AppColors.primaryBackground,
-      margin: EdgeInsets.only(bottom: 8, top: 8),
-      padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-          child: Text(getTranslation(Strings.delivery_info),
-              style: BaseStyles.reviewAndConfirmHeaderTextStyle),
-        ),
-        Container(
-          height: 16,
-        ),
-        Text(getTranslation(Strings.RECIPIENT),
-            style: const TextStyle(
-                color:  Color(0xff889aac),
-                fontWeight: FontWeight.w500,
-                fontStyle: FontStyle.normal,
-                fontSize: 12.0)),
-        Container(
-          margin: EdgeInsets.only(top: 8, bottom: 8),
-          child: Text("Andi Ruhiyat",
-              style: const TextStyle(
-                  color: AppColors.header_top_bar_color,
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0)),
-        ),
-        Container(
-          height: 16,
-        ),
-        Text(getTranslation(Strings.PHONE_NUMBER),
-            style: const TextStyle(
-                color: Color(0xff889aac),
-                fontWeight: FontWeight.w500,
-                fontStyle: FontStyle.normal,
-                fontSize: 12.0)),
-        Container(
-          margin: EdgeInsets.only(top: 8, bottom: 8),
-          child: Text("082212345678",
-              style: const TextStyle(
-                  color: AppColors.header_top_bar_color,
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0)),
-        ),
-        Container(
-          height: 16,
-        ),
-        Text(getTranslation(Strings.address),
-            style: const TextStyle(
-                color: Color(0xff889aac),
-                fontWeight: FontWeight.w500,
-                fontStyle: FontStyle.normal,
-                fontSize: 12.0)),
-        Container(
-          margin: EdgeInsets.only(top: 8, bottom: 8),
-          child: Text(getOrderAddress(),
-              style: const TextStyle(
-                  color: AppColors.header_top_bar_color,
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0)),
-        ),
-        Container(
-          height: 16,
-        ),
-      ]),
-    );
+     return FutureBuilder(
+        future: getSnapData(),
+       builder: (context, snapshot) {
+       if (snapshot.connectionState == ConnectionState.done) {
+             if (snapshot.hasData) {
+               Either<Failure,CustomerProfile> response = snapshot.data;
+               if (response.isRight()) {
+                 CustomerProfile profile = response.getOrElse(() => null);
+                 return Container(
+                   color: AppColors.primaryBackground,
+                   margin: EdgeInsets.only(bottom: 8, top: 8),
+                   padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                   child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start, children: [
+                     Container(
+                       child: Text(getTranslation(Strings.delivery_info),
+                           style: BaseStyles.reviewAndConfirmHeaderTextStyle),
+                     ),
+                     Container(
+                       height: 16,
+                     ),
+                     Text(getTranslation(Strings.RECIPIENT),
+                         style: const TextStyle(
+                             color: Color(0xff889aac),
+                             fontWeight: FontWeight.w500,
+                             fontStyle: FontStyle.normal,
+                             fontSize: 12.0)),
+                     Container(
+                       margin: EdgeInsets.only(top: 8, bottom: 8),
+                       child: Text(
+                         //"Andi Ruhiyat",
+                           profile?.firstName ?? "",
+                           style: const TextStyle(
+                               color: AppColors.header_top_bar_color,
+                               fontWeight: FontWeight.w400,
+                               fontStyle: FontStyle.normal,
+                               fontSize: 14.0)),
+                     ),
+                     Container(
+                       height: 16,
+                     ),
+                     Text(getTranslation(Strings.PHONE_NUMBER),
+                         style: const TextStyle(
+                             color: Color(0xff889aac),
+                             fontWeight: FontWeight.w500,
+                             fontStyle: FontStyle.normal,
+                             fontSize: 12.0)),
+                     Container(
+                       margin: EdgeInsets.only(top: 8, bottom: 8),
+                       child: Text(
+                         //"082212345678",
+                           profile?.mobileNumber ?? "000",
+                           style: const TextStyle(
+                               color: AppColors.header_top_bar_color,
+                               fontWeight: FontWeight.w400,
+                               fontStyle: FontStyle.normal,
+                               fontSize: 14.0)),
+                     ),
+                     Container(
+                       height: 16,
+                     ),
+                     Text(getTranslation(Strings.address),
+                         style: const TextStyle(
+                             color: Color(0xff889aac),
+                             fontWeight: FontWeight.w500,
+                             fontStyle: FontStyle.normal,
+                             fontSize: 12.0)),
+                     Container(
+                       margin: EdgeInsets.only(top: 8, bottom: 8),
+                       child: Text(getOrderAddress(),
+                           style: const TextStyle(
+                               color: AppColors.header_top_bar_color,
+                               fontWeight: FontWeight.w400,
+                               fontStyle: FontStyle.normal,
+                               fontSize: 14.0)),
+                     ),
+                     Container(
+                       height: 16,
+                     ),
+                   ]),
+                 );
+               }else{
+                   getIt.get<GetHelper>().getDialog(content: ErrorStateInfoWidget(desc: "Error occurred"));
+               }
+         }
+       }
+       return const Center(child: BaseWidgets.getIndicator);
+     }
+       );
+
   }
 
   Widget getDeliveryMethodWidget() {
@@ -724,5 +753,12 @@ class _MerchantReviewAndConfirmScreenState extends BaseState<MerchantReviewAndCo
     //   return "${address.dno},${address.streetName},${address.city},${address.zipcode},${address.country}";
     // }
     return "show addrss here";
+  }
+
+  Future<Either<Failure,CustomerProfile>> getSnapData() async{
+    if(snapData!=null){
+      return Future.value(snapData);
+    }
+    return await getIt.get<AuthRepository>().getCustomerInfoByFirebaseId(orderResponse.order_extra.data.customer_commid);
   }
 }
