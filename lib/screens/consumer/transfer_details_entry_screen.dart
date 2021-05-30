@@ -423,7 +423,9 @@ class TransferDetailsEntryScreenState extends BaseState<TransferDetailsEntryScre
   Widget getRootContainer() {
     return Scaffold(
       appBar: CustomAppBarWidget(
-          title: getTranslation(Strings.transfer), addNewWidgetShow: false),
+          title: getTranslation(Strings.transfer), addNewWidgetShow: false,onPressed: (){
+
+      },),
       body: SafeArea(
           child: Container(
             color: AppColors.background_color,

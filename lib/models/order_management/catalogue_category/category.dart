@@ -8,7 +8,7 @@ class Category{
    int id;
    String name;
    String imageUrl;
-   List<Item> items;
+   List<Iteorm> items;
 
    Category({this.id, this.name, this.items,this.imageUrl});
 

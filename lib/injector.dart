@@ -1,10 +1,3 @@
-/*
-*  injector.dart
-*
-*  Created by Yakub Pasha.
-*  Copyright © 2020 Tara.id. All rights reserved.
-*/
-
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
